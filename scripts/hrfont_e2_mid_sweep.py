@@ -234,7 +234,7 @@ def main() -> None:
     ckpts = resolve_ckpts(SWEEP_STEPS)
     log(f"ckpts={[s for s, _ in ckpts]}")
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     args = make_args()
     se, ce = build_encoders(args, device)
 

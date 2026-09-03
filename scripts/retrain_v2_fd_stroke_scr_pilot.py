@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path("/root/projects/hrfont")
 PY = "/root/miniforge3/envs/boogu/bin/python"
-REPO = ROOT / "code/FontDiffuser"
+REPO = ROOT / "code/ours/FontDiffuser"
 OUT = ROOT / "runs_retrain_v2/fontdiffuser"
 DATA = ROOT / "data/fontdiffuser"
 CKPT25 = OUT / "ft_cnstyle" / "global_step_25000"

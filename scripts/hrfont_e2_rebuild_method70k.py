@@ -55,7 +55,7 @@ def main():
     bank_proto = load_pt(BANK / "cache/ec_es_r96.pt")["style_proto"]
     fonts = [f for f in demo if sum(png(f, c).exists() for c in CHARS) >= 6][:4]
     log(f"fonts={fonts} gpu={os.environ.get('CUDA_VISIBLE_DEVICES')}")
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from configs.fontdiffuser import get_parser
     from src import build_unet, build_style_encoder, build_content_encoder, build_ddpm_scheduler
     args = get_parser().parse_args([])

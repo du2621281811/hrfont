@@ -225,7 +225,7 @@ def main() -> None:
     device = torch.device("cuda:0")
     log(f"Stage B init={STAGEA_CKPT} max={MAX_STEPS} gpu={os.environ.get('CUDA_VISIBLE_DEVICES')}")
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from configs.fontdiffuser import get_parser
     from src import build_content_encoder, build_ddpm_scheduler, build_style_encoder, build_unet
 

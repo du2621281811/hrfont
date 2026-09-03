@@ -166,7 +166,7 @@ def main() -> None:
     args_fd = make_args()
     set_seed(123)
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from src import build_content_encoder, build_style_encoder, build_unet
 
     ck_path = args.ckpt or resolve_stageb_ckpt()

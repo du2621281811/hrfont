@@ -18,10 +18,10 @@
 依据：
 
 - 论文：[FontDiffuser, arXiv:2312.12142](https://arxiv.org/abs/2312.12142)
-- 官方仓库：`code/FontDiffuser`
+- 官方仓库：`code/ours/FontDiffuser`
 - 官方训练入口：
-  - `code/FontDiffuser/scripts/train_phase_1.sh`
-  - `code/FontDiffuser/scripts/train_phase_2.sh`
+  - `code/ours/FontDiffuser/scripts/train_phase_1.sh`
+  - `code/ours/FontDiffuser/scripts/train_phase_2.sh`
 
 ### 官方数据
 
@@ -166,7 +166,7 @@ MCA、RSI和扩散目标没有为这两次FT做计划性结构替换。当前仓
 
 ## 8. Checkpoint命名规范
 
-官方发布目录 `code/FontDiffuser/ckpt` 只有：
+官方发布目录 `code/ours/FontDiffuser/ckpt` 只有：
 
 - `unet.pth`
 - `content_encoder.pth`

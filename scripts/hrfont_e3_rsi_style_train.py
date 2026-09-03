@@ -179,7 +179,7 @@ def main() -> None:
     }
     (OUT / "config.json").write_text(json.dumps(cfg, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from configs.fontdiffuser import get_parser
     from src import build_content_encoder, build_ddpm_scheduler, build_style_encoder, build_unet
     from src.criterion import ContentPerceptualLoss

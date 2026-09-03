@@ -6,7 +6,7 @@ alwaysApply: true
 # HR-Font 项目护栏
 
 - `PROJECT.md` 只记录当前决策、关键结果和下一步；不新增重复的 plan/status/handoff/summary 文档。
-- 根项目Git管理自研代码、规则、精简文本记录和 `provenance/`；`code/FontDiffuser` 使用其独立Git管理官方代码补丁。
+- 根项目Git管理自研代码、规则、精简文本记录和 `provenance/`；`code/ours/FontDiffuser` 使用其独立Git管理官方代码补丁。
 - 新实验开始前，两个Git仓库都必须提交且工作树干净；哈希只能用于校验，不能代替可恢复的Git提交。
 - 数据、权重和生成结果不进Git、不原地覆盖；新数据使用新版本目录，并生成一次 `provenance/datasets/*.json` 指纹。
 - 每个正式实验只自动生成一个 `provenance/runs/<id>.json`，绑定Git commit、数据指纹、初始化权重、命令和关键产物。

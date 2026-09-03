@@ -47,7 +47,7 @@ STYLE_CHAR = "永"
 P1_CHARS = list(META_U["L_p1"])
 
 sys.path.insert(0, str(ROOT / "scripts"))
-sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
 from hrfont_delta_feature import (  # noqa: E402
     alpha_topk,
     build_style_prototypes,

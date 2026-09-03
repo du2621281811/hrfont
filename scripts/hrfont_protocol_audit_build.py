@@ -137,7 +137,7 @@ def build_audit() -> dict:
     experiments = {
         "ft_cnstyle@25k": {
             "question": "官方 RSI 跨语微调基线",
-            "train_script": "scripts/retrain_v2_finetune_fontdiffuser.py → code/FontDiffuser/train.py",
+            "train_script": "scripts/retrain_v2_finetune_fontdiffuser.py → code/ours/FontDiffuser/train.py",
             "eval_script": "scripts/hrfont_e2_official_eval.py (FontDiffuserOfficialDPM)",
             "ckpt": _file_info(ck_ft / "unet.pth"),
             "metrics": {
@@ -179,7 +179,7 @@ def build_audit() -> dict:
                     role="RSI 结构分支",
                     source="Ec(style_image)",
                     render="content_encoder(style) 多尺度残差",
-                    script="code/FontDiffuser/src/model.py",
+                    script="code/ours/FontDiffuser/src/model.py",
                     size="特征空间",
                     preprocess="—",
                     train_eval="✅ eval 同 Ec(style)",

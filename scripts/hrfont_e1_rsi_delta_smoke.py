@@ -16,7 +16,7 @@ REP = ROOT / "reports/hrfont_overnight"
 BANK = ROOT / "data/hrfont/e0_bank"
 CKPT = ROOT / "runs/ft_cnstyle/global_step_25000"
 if not (CKPT / "unet.pth").exists():
-    CKPT = ROOT / "code/FontDiffuser/ckpt"
+    CKPT = ROOT / "code/ours/FontDiffuser/ckpt"
 
 
 def log(msg: str) -> None:
@@ -39,7 +39,7 @@ def load_rgb(path: Path, size: int) -> torch.Tensor:
 
 
 def main() -> None:
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from configs.fontdiffuser import get_parser
     from src import FontDiffuserModel, build_content_encoder, build_style_encoder, build_unet
 

@@ -18,7 +18,7 @@ Git 只跟踪清单与指纹；大文件用 symlink 或外盘。
 
 | 逻辑路径 | 说明 |
 |----------|------|
-| `code/FontDiffuser/ckpt/` | 官方发布三件套（+ 可选 SCR）；symlink |
+| `code/ours/FontDiffuser/ckpt/` | 官方发布三件套（+ 可选 SCR）；symlink |
 | `runs/ft_cnstyle/global_step_25000/` | `FT-CNSTYLE-25K` |
 | `runs/ft_p253_cnstyle/global_step_12000/` | 253 放大有效点 |
 | `runs/stagea_mvp/` | Stage A Control / Delta |

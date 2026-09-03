@@ -10,7 +10,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 ROOT = Path("/root/projects/hrfont")
-FD = ROOT / "code/FontDiffuser"
+FD = ROOT / "code/ours/FontDiffuser"
 DATA = FD / "data_examples/train"
 OUT = ROOT / "reports/retrain_v2/fd_official_render_audit"
 TTF_A = FD / "ttf/KaiXinSongA.ttf"

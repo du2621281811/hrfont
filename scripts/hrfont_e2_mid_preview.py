@@ -186,7 +186,7 @@ def main() -> None:
     step = int(blob.get("step", 0))
     log(f"ckpt={ck_path.name} step={step} gpu={os.environ.get('CUDA_VISIBLE_DEVICES')}")
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     args = make_args()
     unet_a, se, ce = load_stack(args, device, blob["unet"])
     unet_b, se_b, ce_b = load_stack(args, device, _load(FT / "unet.pth"))

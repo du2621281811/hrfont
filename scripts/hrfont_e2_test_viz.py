@@ -348,7 +348,7 @@ def main() -> None:
     bank_proto = load_pt(BANK / "cache/ec_es_r96.pt")["style_proto"]
     fonts = [f for f in demo8 if any(png(f, r).exists() for r in REF8)]
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     args = make_args()
     se, ce = build_encoders(args, device)
     sampler = Sampler(args, device, se, ce, train, bank_proto)

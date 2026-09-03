@@ -95,7 +95,7 @@
 **已改：**
 - `scripts/expand_retrain_v2_cn_style_pool.py` → 把 `style_cn_pool.txt` 同字体中文渲进 `chinese/`
 - `scripts/build_retrain_v2_fontdiffuser_data.py` → `StyleImage/<font>/` = 该字体全部 `chinese/*.png`（训时随机抽，不限 8）
-- `code/FontDiffuser/dataset/font_dataset.py` → 若存在 `StyleImage/`，只从中抽 style
+- `code/ours/FontDiffuser/dataset/font_dataset.py` → 若存在 `StyleImage/`，只从中抽 style
 - `scripts/retrain_v2_finetune_fontdiffuser.py` → 支持 `--run_name` / `--data_root` / `--rebuild_data`
 - **评测仍固定 1×「永」**（与旧对照一致）
 

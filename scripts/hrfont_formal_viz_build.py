@@ -273,7 +273,7 @@ class FormalViz:
 
 
 def main() -> None:
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     OUT.mkdir(parents=True, exist_ok=True)
     device = "cuda:0"
     font_ui = ui_font(11)

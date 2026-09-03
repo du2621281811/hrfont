@@ -44,7 +44,7 @@ def main() -> None:
 
     device = "cuda:0"
     args = make_args()
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from src import build_content_encoder, build_style_encoder, build_unet
     from accelerate.utils import set_seed
 

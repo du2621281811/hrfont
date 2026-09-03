@@ -229,7 +229,7 @@ def main() -> None:
     if not (CKPT / "unet.pth").exists():
         raise SystemExit(f"missing ckpt {CKPT}")
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from configs.fontdiffuser import get_parser
     from src import (
         FontDiffuserModel,

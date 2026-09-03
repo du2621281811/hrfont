@@ -16,7 +16,7 @@
       "remotes": []
     },
     {
-      "path": "code/FontDiffuser",
+      "path": "code/ours/FontDiffuser",
       "commit": "99e42b5e0e4becf95ef16b08ee2bef57462f5fc0",
       "branch": "hrfont/local-patches-20260903",
       "dirty": false,
@@ -34,13 +34,13 @@
     "tree_sha256": "2d67f6d5a2ef0009eea579f66c373876ed47d8126e9aa0392f91589914f30cd9",
     "manifest_sha256": "89978da584171f0c3f8b6e38c395a72aed0881f73bb2018b30921a0d442014fa"
   },
-  "command": "/root/miniforge3/envs/boogu/bin/python code/FontDiffuser/train.py --experience_name ft_cnstyle --output_dir runs/ft_cnstyle --data_root data/fontdiffuser --resolution 96 --style_image_size 96 --content_image_size 96 --train_batch_size 4 --max_train_steps 30000 --learning_rate 1e-05 --lr_warmup_steps 1000 --phase_1_ckpt_dir code/FontDiffuser/ckpt --mixed_precision no --ckpt_interval 5000 --log_interval 200",
+  "command": "/root/miniforge3/envs/boogu/bin/python code/ours/FontDiffuser/train.py --experience_name ft_cnstyle --output_dir runs/ft_cnstyle --data_root data/fontdiffuser --resolution 96 --style_image_size 96 --content_image_size 96 --train_batch_size 4 --max_train_steps 30000 --learning_rate 1e-05 --lr_warmup_steps 1000 --phase_1_ckpt_dir code/ours/FontDiffuser/ckpt --mixed_precision no --ckpt_interval 5000 --log_interval 200",
   "code_files": [],
   "recorded_historical_hashes": {},
   "initialization": [
     {
       "kind": "directory",
-      "root": "code/FontDiffuser/ckpt",
+      "root": "code/ours/FontDiffuser/ckpt",
       "file_count": 4,
       "total_bytes": 686600677,
       "tree_sha256": "a83ab622180a296bbe24e913b3570e2fcb0a935de384104fc559939aeca61b7a"

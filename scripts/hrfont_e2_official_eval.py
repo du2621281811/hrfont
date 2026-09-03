@@ -198,7 +198,7 @@ def alpha_mix(proto_q, bank_proto, train_fonts, ch, device):
 
 
 def build_pipe(model, device, args):
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from src import build_ddpm_scheduler
     from src.dpm_solver.pipeline_dpm_solver import FontDiffuserDPMPipeline
 
@@ -213,7 +213,7 @@ def build_pipe(model, device, args):
 
 
 def make_args():
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from configs.fontdiffuser import get_parser
 
     args = get_parser().parse_args([])
@@ -322,7 +322,7 @@ def main() -> None:
     args = make_args()
     set_seed(123)
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from src import build_content_encoder, build_style_encoder, build_unet
 
     demo8 = list(META_V2["test_fonts"])

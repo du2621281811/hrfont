@@ -28,7 +28,7 @@ import torchvision.transforms as T
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path("/root/projects/hrfont")
-FD_ROOT = ROOT / "code/FontDiffuser"
+FD_ROOT = ROOT / "code/ours/FontDiffuser"
 FD_CKPT = FD_ROOT / "ckpt"
 FONTS_KAI = ROOT / "repos/_fonts_kai"
 WIN_DROP = FONTS_KAI / "windows"

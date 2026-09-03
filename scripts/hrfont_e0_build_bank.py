@@ -258,7 +258,7 @@ def cache_encoders(train_fonts: list[str], chars: list[str], canvas: int, ckpt: 
     import torch
     from torchvision import transforms
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from configs.fontdiffuser import get_parser
     from src import build_content_encoder, build_style_encoder
 
@@ -397,7 +397,7 @@ def main() -> None:
         (OUT / "calib4.json").write_text(json.dumps(calib, ensure_ascii=False, indent=2), encoding="utf-8")
         ckpt = ROOT / "runs/ft_cnstyle/global_step_25000"
         if not (ckpt / "content_encoder.pth").exists():
-            ckpt = ROOT / "code/FontDiffuser/ckpt"
+            ckpt = ROOT / "code/ours/FontDiffuser/ckpt"
         for canvas in canvases:
             try:
                 info = cache_encoders(train_fonts, chars, canvas, ckpt, args.device)

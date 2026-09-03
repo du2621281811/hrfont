@@ -230,7 +230,7 @@ def main() -> None:
     fonts = [f for f in demo8 if any(png(f, r).exists() for r in REF8)]
     log(f"demo8 fonts={len(fonts)} gpu={os.environ.get('CUDA_VISIBLE_DEVICES')}")
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     args = make_args()
     se, ce = build_encoders(args, device)
 

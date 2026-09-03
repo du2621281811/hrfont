@@ -296,7 +296,7 @@ def main() -> None:
     timeline_steps = [EARLY_STEP, BEST_STEP, latest_step]
     log(f"fonts={fonts} timeline={timeline_steps} gpu={os.environ.get('CUDA_VISIBLE_DEVICES')}")
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     args = make_args()
     se, ce = build_encoders(args, device)
 

@@ -270,7 +270,7 @@ def main() -> None:
     if not CONTENT_DIR.is_dir():
         raise SystemExit(f"missing DejaVu ContentImage {CONTENT_DIR}")
 
-    sys.path.insert(0, str(ROOT / "code/FontDiffuser"))
+    sys.path.insert(0, str(ROOT / "code/ours/FontDiffuser"))
     from configs.fontdiffuser import get_parser
     from src import build_content_encoder, build_ddpm_scheduler, build_style_encoder, build_unet
     from src.criterion import ContentPerceptualLoss

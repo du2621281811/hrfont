@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Place FontDiffuser TargetImage fonts under code/FontDiffuser/ttf/target/.
+"""Place FontDiffuser TargetImage fonts under code/ours/FontDiffuser/ttf/target/.
 
 Official mapping (data_examples):
   FZGuanJKSJW   → 方正管峻楷书简体
@@ -15,7 +15,7 @@ import shutil
 from pathlib import Path
 
 ROOT = Path("/root/projects/hrfont")
-FD = ROOT / "code/FontDiffuser"
+FD = ROOT / "code/ours/FontDiffuser"
 OUT = FD / "ttf/target"
 SUITI = ROOT / "data/suiti_fonts_probe/随体字体集"
 FONT50 = Path("/root/data/font_50")
