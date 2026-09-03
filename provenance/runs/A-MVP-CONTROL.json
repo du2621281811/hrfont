@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "kind": "experiment",
+  "experiment_id": "A-MVP-CONTROL",
+  "created_at": "2026-09-03T01:42:48+00:00",
+  "provenance_certainty": "retro_partial",
+  "code_recoverable": false,
+  "git": [
+    {
+      "path": ".",
+      "commit": "f6bc99c1f2d66cd21fcc3c0599958e43a301d82b",
+      "branch": "main",
+      "dirty": false,
+      "dirty_paths": [],
+      "dirty_patch_sha256": null,
+      "remotes": []
+    },
+    {
+      "path": "code/FontDiffuser",
+      "commit": "99e42b5e0e4becf95ef16b08ee2bef57462f5fc0",
+      "branch": "hrfont/local-patches-20260903",
+      "dirty": false,
+      "dirty_paths": [],
+      "dirty_patch_sha256": null,
+      "remotes": [
+        "origin\thttps://github.com/yeungchenwa/FontDiffuser.git (fetch)",
+        "origin\thttps://github.com/yeungchenwa/FontDiffuser.git (push)"
+      ]
+    }
+  ],
+  "dataset": {
+    "manifest": "provenance/datasets/fontdiffuser42-cnstyle-v1.json",
+    "dataset_id": "fontdiffuser42-cnstyle-v1",
+    "tree_sha256": "2d67f6d5a2ef0009eea579f66c373876ed47d8126e9aa0392f91589914f30cd9",
+    "manifest_sha256": "89978da584171f0c3f8b6e38c395a72aed0881f73bb2018b30921a0d442014fa"
+  },
+  "command": "/root/miniforge3/envs/boogu/bin/python scripts/hrfont_stagea_mvp_train.py --arm control --gpu 3 --max-steps 10000 --output-dir runs/stagea_mvp/control_seed20260902 --save-every 500",
+  "code_files": [
+    {
+      "path": "scripts/hrfont_stagea_mvp_train.py",
+      "kind": "file",
+      "bytes": 15992,
+      "sha256": "aac92fa824630a48fb8c10073d217008baad612fbeae3c2101cea3eac859ae7a"
+    },
+    {
+      "path": "scripts/hrfont_delta_feature.py",
+      "kind": "file",
+      "bytes": 3622,
+      "sha256": "86764846c07c4afcb2821b5d8851b7a2d5e100495a3dc579d05c50d378651961"
+    },
+    {
+      "path": "scripts/hrfont_stagea_mvp_supervisor.py",
+      "kind": "file",
+      "bytes": 6830,
+      "sha256": "93bdba4fcb55ea4731532175f9bd2e1c417250e1e38e96f59401e66646fdd233"
+    }
+  ],
+  "recorded_historical_hashes": {
+    "training": "aac92fa824630a48fb8c10073d217008baad612fbeae3c2101cea3eac859ae7a",
+    "evaluator": "4d90372d31afa7ea7c77c4fac69a608e6f1a79bfe18f52e6a8f8cea2e8a5e61e"
+  },
+  "initialization": [
+    {
+      "kind": "directory",
+      "root": "runs/ft_cnstyle/global_step_25000",
+      "file_count": 4,
+      "total_bytes": 804730406,
+      "tree_sha256": "f4b760a3fc2e8f71e7ba1ae8ccdc9202695ebfd46f96b7ff380b706ce9e91a9a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "runs/stagea_mvp/control_seed20260902/config.json",
+      "kind": "file",
+      "bytes": 544,
+      "sha256": "69ccf56742f78f5d81bddadaef386882c6dfa3010074ac002deb576aa1d3a705"
+    },
+    {
+      "path": "runs/stagea_mvp/control_seed20260902/status.json",
+      "kind": "file",
+      "bytes": 192,
+      "sha256": "c8cd13e5804222913e58e786716d091165c6955f6058a3ab834c84cd13ee62ea"
+    },
+    {
+      "path": "runs/stagea_mvp/control_seed20260902/final.pt",
+      "kind": "file",
+      "bytes": 945485597,
+      "sha256": "0931ec0ac088e98b837161b09d8249c5b54a03346e79788e23d05308a242ac60"
+    },
+    {
+      "path": "runs/stagea_mvp/control_seed20260902/metrics.json",
+      "kind": "file",
+      "bytes": 92967,
+      "sha256": "aae8821895b2bde4a112c5314d5383e7123450b5f491b3597af0c86bc9dd9c36"
+    }
+  ],
+  "environment": {
+    "python": "3.10.20",
+    "platform": "Linux-5.15.0-186-generic-x86_64-with-glibc2.36",
+    "packages": {
+      "torch": "2.7.1+cu126",
+      "torchvision": "0.22.1+cu126",
+      "accelerate": "1.14.0",
+      "diffusers": "0.38.0",
+      "numpy": "2.2.6",
+      "Pillow": "12.2.0"
+    }
+  },
+  "note": "Training source is exactly recoverable and its locked SHA256 is recorded. The original full-evaluation source was later edited before root Git initialization; only its SHA256 remains, so the complete historical run is marked partial."
+}

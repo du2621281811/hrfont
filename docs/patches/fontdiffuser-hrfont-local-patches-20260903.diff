@@ -1,0 +1,607 @@
+diff --git a/configs/fontdiffuser.py b/configs/fontdiffuser.py
+index 0ed9e7f..cd316b1 100644
+--- a/configs/fontdiffuser.py
++++ b/configs/fontdiffuser.py
+@@ -42,6 +42,24 @@ def get_parser():
+     parser.add_argument("--num_neg", type=int, default=16, help="Number of negative samples.")
+     parser.add_argument("--nce_layers", type=str, default='0,1,2,3')
+     parser.add_argument("--sc_coefficient", type=float, default=0.01)
++    ## Stroke SCR replacement (get_stroke_embedding)
++    parser.add_argument(
++        "--stroke_scr",
++        action="store_true",
++        help="Use frozen stroke embedder instead of official SCR (phase_2-compatible loss).",
++    )
++    parser.add_argument(
++        "--stroke_scr_mode",
++        type=str,
++        default="infonce",
++        choices=["infonce", "cos", "style_cos"],
++        help="infonce=SCR-isomorphic; cos=1-cos(pred,gt); style_cos=1-cos(pred,style_ref).",
++    )
++    parser.add_argument(
++        "--stroke_weights",
++        type=str,
++        default="/root/projects/get_stroke_embedding/weights/stroke_embedding.pt",
++    )
+     ## train batch size
+     parser.add_argument("--train_batch_size", type=int, default=4, 
+                         help="Batch size (per device) for the training dataloader.")
+diff --git a/dataset/font_dataset.py b/dataset/font_dataset.py
+index 0622482..46914b9 100644
+--- a/dataset/font_dataset.py
++++ b/dataset/font_dataset.py
+@@ -32,16 +32,37 @@ class FontDataset(Dataset):
+ 
+     def get_path(self):
+         self.target_images = []
+-        # images with related style  
++        # images with related style
+         self.style_to_images = {}
++        self.use_cn_style_dir = False
+         target_image_dir = f"{self.root}/{self.phase}/TargetImage"
++        style_image_dir = f"{self.root}/{self.phase}/StyleImage"
++        # PROTOCOL: if StyleImage/<font>/ exists, sample style only from CN refs there.
++        use_style_dir = os.path.isdir(style_image_dir) and len(os.listdir(style_image_dir)) > 0
++        self.use_cn_style_dir = use_style_dir
+         for style in os.listdir(target_image_dir):
+-            images_related_style = []
+-            for img in os.listdir(f"{target_image_dir}/{style}"):
+-                img_path = f"{target_image_dir}/{style}/{img}"
++            style_target_dir = f"{target_image_dir}/{style}"
++            if not os.path.isdir(style_target_dir):
++                continue
++            for img in os.listdir(style_target_dir):
++                img_path = f"{style_target_dir}/{img}"
+                 self.target_images.append(img_path)
+-                images_related_style.append(img_path)
+-            self.style_to_images[style] = images_related_style
++            if use_style_dir:
++                style_src = f"{style_image_dir}/{style}"
++                images_related_style = []
++                if os.path.isdir(style_src):
++                    for img in os.listdir(style_src):
++                        images_related_style.append(f"{style_src}/{img}")
++                if not images_related_style:
++                    raise FileNotFoundError(
++                        f"CN StyleImage missing/empty for font={style}: {style_src}"
++                    )
++                self.style_to_images[style] = images_related_style
++            else:
++                images_related_style = []
++                for img in os.listdir(style_target_dir):
++                    images_related_style.append(f"{style_target_dir}/{img}")
++                self.style_to_images[style] = images_related_style
+ 
+     def __getitem__(self, index):
+         target_image_path = self.target_images[index]
+@@ -54,7 +75,10 @@ class FontDataset(Dataset):
+ 
+         # Random sample used for style image
+         images_related_style = self.style_to_images[style].copy()
+-        images_related_style.remove(target_image_path)
++        if target_image_path in images_related_style:
++            images_related_style.remove(target_image_path)
++        if not images_related_style:
++            raise RuntimeError(f"no style candidates for font={style} (cn_style={self.use_cn_style_dir})")
+         style_image_path = random.choice(images_related_style)
+         style_image = Image.open(style_image_path).convert("RGB")
+         
+diff --git a/src/build.py b/src/build.py
+index be72376..3aa3a42 100644
+--- a/src/build.py
++++ b/src/build.py
+@@ -54,6 +54,24 @@ def build_content_encoder(args):
+ 
+ 
+ def build_scr(args):
++    if getattr(args, "stroke_scr", False):
++        from src.modules.stroke_scr import StrokeSCR
++        scr = StrokeSCR(
++            weights_path=getattr(
++                args,
++                "stroke_weights",
++                "/root/projects/get_stroke_embedding/weights/stroke_embedding.pt",
++            ),
++            temperature=args.temperature,
++            mode=getattr(args, "stroke_scr_mode", "infonce"),
++            device="cpu",
++        )
++        print(
++            f"Loaded StrokeSCR mode={getattr(args, 'stroke_scr_mode', 'infonce')} "
++            f"tau={args.temperature} (replaces official SCR)",
++            flush=True,
++        )
++        return scr
+     scr = SCR(
+         temperature=args.temperature,
+         mode=args.mode,
+diff --git a/src/modules/stroke_scr.py b/src/modules/stroke_scr.py
+new file mode 100644
+index 0000000..b3b823d
+--- /dev/null
++++ b/src/modules/stroke_scr.py
+@@ -0,0 +1,100 @@
++"""Stroke-embedding drop-in for FontDiffuser SCR supervision.
++
++Frozen get_stroke_embedding embedder; InfoNCE (SCR-isomorphic) or cosine aux.
++Expects images in [-1, 1] (FD pred_original_sample_norm / target_images).
++"""
++from __future__ import annotations
++
++import sys
++from pathlib import Path
++
++import torch
++import torch.nn as nn
++import torch.nn.functional as F
++
++STROKE_ROOT = Path("/root/projects/get_stroke_embedding")
++sys.path.insert(0, str(STROKE_ROOT))
++from models import StrokeFeatureExtractor, StrokeStyleTokenAdapter  # noqa: E402
++
++
++class StrokeSCR(nn.Module):
++    def __init__(
++        self,
++        weights_path: str | Path | None = None,
++        temperature: float = 0.07,
++        mode: str = "infonce",
++        device: str = "cuda",
++    ):
++        super().__init__()
++        if mode not in ("infonce", "cos", "style_cos"):
++            raise ValueError(f"mode must be infonce|cos|style_cos, got {mode}")
++        self.mode = mode
++        self.temperature = float(temperature)
++        weights_path = Path(
++            weights_path or (STROKE_ROOT / "weights/stroke_embedding.pt")
++        )
++        self.fe = StrokeFeatureExtractor()
++        self.ad = StrokeStyleTokenAdapter()
++        try:
++            payload = torch.load(weights_path, map_location="cpu", weights_only=True)
++        except TypeError:
++            payload = torch.load(weights_path, map_location="cpu")
++        self.fe.load_state_dict(payload["stroke_feature_extractor"], strict=True)
++        self.ad.load_state_dict(payload["stroke_style_adapter"], strict=True)
++        self.fe.requires_grad_(False)
++        self.ad.requires_grad_(False)
++        self.to(device)
++        self.eval()
++
++    def embed(self, x: torch.Tensor) -> torch.Tensor:
++        """x: BCHW in [-1, 1] → B×768 L2-normalized."""
++        feats = self.fe(x.float())
++        tok = self.ad(feats).mean(dim=1)
++        return F.normalize(tok, dim=1, eps=1e-6)
++
++    def forward(
++        self,
++        sample_imgs: torch.Tensor,
++        pos_imgs: torch.Tensor,
++        neg_imgs: torch.Tensor | None = None,
++        nce_layers: str = "0",  # unused; kept for SCR call-site compat
++    ):
++        # q keeps grad; pos/neg detached at loss
++        q = self.embed(sample_imgs)
++        with torch.no_grad():
++            k_pos = self.embed(pos_imgs)
++            k_neg = None
++            if neg_imgs is not None and self.mode == "infonce":
++                # neg_imgs: B, N, C, H, W
++                b, n, c, h, w = neg_imgs.shape
++                flat = neg_imgs.reshape(b * n, c, h, w)
++                k_neg = self.embed(flat).view(b, n, -1)
++        return q, k_pos, k_neg
++
++    def calculate_nce_loss(
++        self,
++        sample_s: torch.Tensor,
++        pos_s: torch.Tensor,
++        neg_s: torch.Tensor | None,
++        sample_weight: torch.Tensor | None = None,
++    ) -> torch.Tensor:
++        """InfoNCE, or per-sample cosine (cos / style_cos). Optional sample_weight [B]."""
++        if self.mode in ("cos", "style_cos") or neg_s is None:
++            per = 1.0 - (sample_s * pos_s.detach()).sum(dim=1)
++            if sample_weight is not None:
++                w = sample_weight.float().reshape(-1)
++                denom = w.sum().clamp_min(1e-6)
++                return (per * w).sum() / denom
++            return per.mean()
++
++        # sample_s: B×D, pos_s: B×D, neg_s: B×N×D
++        q = sample_s
++        k_pos = pos_s.detach()
++        k_neg = neg_s.detach()
++        tau = max(self.temperature, 1e-6)
++        pos_logit = (q * k_pos).sum(dim=1, keepdim=True) / tau  # B×1
++        neg_logit = torch.einsum("bd,bnd->bn", q, k_neg) / tau  # B×N
++        logits = torch.cat([pos_logit, neg_logit], dim=1)  # B×(1+N)
++        # target class 0 = positive
++        labels = torch.zeros(q.shape[0], dtype=torch.long, device=q.device)
++        return F.cross_entropy(logits, labels)
+diff --git a/src/modules/unet.py b/src/modules/unet.py
+index 5d887ac..4e40e56 100644
+--- a/src/modules/unet.py
++++ b/src/modules/unet.py
+@@ -12,8 +12,10 @@ from diffusers.utils import BaseOutput, logging
+ 
+ from .embeddings import TimestepEmbedding, Timesteps
+ from .unet_blocks import (DownBlock2D,
++                          MCADownBlock2D,
+                           UNetMidMCABlock2D,
+                           UpBlock2D,
++                          StyleRSIUpBlock2D,
+                           get_down_block,
+                           get_up_block)
+ 
+@@ -180,18 +182,31 @@ class UNet(ModelMixin, ConfigMixin):
+             )
+ 
+         for block in self.down_blocks:
+-            if hasattr(block, "attentions") and block.attentions is not None:
++            if hasattr(block, "set_attention_slice"):
++                block.set_attention_slice(slice_size)
++            elif hasattr(block, "attentions") and block.attentions is not None:
+                 block.set_attention_slice(slice_size)
+ 
+-        self.mid_block.set_attention_slice(slice_size)
++        if hasattr(self.mid_block, "set_attention_slice"):
++            self.mid_block.set_attention_slice(slice_size)
+ 
+         for block in self.up_blocks:
+-            if hasattr(block, "attentions") and block.attentions is not None:
++            if hasattr(block, "set_attention_slice"):
++                block.set_attention_slice(slice_size)
++            elif hasattr(block, "attentions") and block.attentions is not None:
+                 block.set_attention_slice(slice_size)
+ 
+-    def _set_gradient_checkpointing(self, module, value=False):
+-        if isinstance(module, (DownBlock2D, UpBlock2D)):
+-            module.gradient_checkpointing = value
++    def _set_gradient_checkpointing(self, module=None, value=False, enable=None, **kwargs):
++        # Newer diffusers calls enable_gradient_checkpointing() -> _set_gradient_checkpointing(enable=True)
++        flag = enable if enable is not None else value
++        if module is None or module is self:
++            targets = list(self.down_blocks) + [self.mid_block] + list(self.up_blocks)
++            for block in targets:
++                if block is not None and hasattr(block, "gradient_checkpointing"):
++                    block.gradient_checkpointing = bool(flag)
++            return
++        if hasattr(module, "gradient_checkpointing"):
++            module.gradient_checkpointing = bool(flag)
+ 
+     def forward(
+         self,
+diff --git a/src/modules/unet_blocks.py b/src/modules/unet_blocks.py
+index b786912..15c90bc 100644
+--- a/src/modules/unet_blocks.py
++++ b/src/modules/unet_blocks.py
+@@ -190,6 +190,12 @@ class UNetMidMCABlock2D(nn.Module):
+         self.content_attentions = nn.ModuleList(content_attentions)
+         self.style_attentions = nn.ModuleList(style_attentions)
+         self.resnets = nn.ModuleList(resnets)
++        self.gradient_checkpointing = False
++
++    def set_attention_slice(self, slice_size):
++        for attn in self.style_attentions:
++            if hasattr(attn, "_set_attention_slice"):
++                attn._set_attention_slice(slice_size)
+ 
+     def forward(
+         self, 
+@@ -203,16 +209,32 @@ class UNetMidMCABlock2D(nn.Module):
+             
+             # content
+             current_content_feature = encoder_hidden_states[1][index]
+-            hidden_states = content_attn(hidden_states, current_content_feature)
+-            
+-            # t_embed
+-            hidden_states = resnet(hidden_states, temb)
+-
+-            # style
+             current_style_feature = encoder_hidden_states[0]
+             batch_size, channel, height, width = current_style_feature.shape
+             current_style_feature = current_style_feature.permute(0, 2, 3, 1).reshape(batch_size, height*width, channel)
+-            hidden_states = style_attn(hidden_states, context=current_style_feature)
++
++            if self.training and self.gradient_checkpointing:
++                def create_custom_forward(module, return_dict=None):
++                    def custom_forward(*inputs):
++                        return module(*inputs)
++                    return custom_forward
++
++                hidden_states = torch.utils.checkpoint.checkpoint(
++                    create_custom_forward(content_attn), hidden_states, current_content_feature, use_reentrant=False
++                )
++                hidden_states = torch.utils.checkpoint.checkpoint(
++                    create_custom_forward(resnet), hidden_states, temb, use_reentrant=False
++                )
++                hidden_states = torch.utils.checkpoint.checkpoint(
++                    lambda h, ctx: style_attn(h, context=ctx),
++                    hidden_states,
++                    current_style_feature,
++                    use_reentrant=False,
++                )
++            else:
++                hidden_states = content_attn(hidden_states, current_content_feature)
++                hidden_states = resnet(hidden_states, temb)
++                hidden_states = style_attn(hidden_states, context=current_style_feature)
+ 
+         return hidden_states
+ 
+@@ -304,6 +326,11 @@ class MCADownBlock2D(nn.Module):
+ 
+         self.gradient_checkpointing = False
+ 
++    def set_attention_slice(self, slice_size):
++        for attn in self.style_attentions:
++            if hasattr(attn, "_set_attention_slice"):
++                attn._set_attention_slice(slice_size)
++
+     def forward(
+         self, 
+         hidden_states, 
+@@ -315,18 +342,33 @@ class MCADownBlock2D(nn.Module):
+ 
+         for content_attn, resnet, style_attn in zip(self.content_attentions, self.resnets, self.style_attentions):
+             
+-            # content
+             current_content_feature = encoder_hidden_states[1][index]
+-            hidden_states = content_attn(hidden_states, current_content_feature)
+-            
+-            # t_embed
+-            hidden_states = resnet(hidden_states, temb)
+-
+-            # style
+             current_style_feature = encoder_hidden_states[0]
+             batch_size, channel, height, width = current_style_feature.shape
+             current_style_feature = current_style_feature.permute(0, 2, 3, 1).reshape(batch_size, height*width, channel)
+-            hidden_states = style_attn(hidden_states, context=current_style_feature)
++
++            if self.training and self.gradient_checkpointing:
++                def create_custom_forward(module):
++                    def custom_forward(*inputs):
++                        return module(*inputs)
++                    return custom_forward
++
++                hidden_states = torch.utils.checkpoint.checkpoint(
++                    create_custom_forward(content_attn), hidden_states, current_content_feature, use_reentrant=False
++                )
++                hidden_states = torch.utils.checkpoint.checkpoint(
++                    create_custom_forward(resnet), hidden_states, temb, use_reentrant=False
++                )
++                hidden_states = torch.utils.checkpoint.checkpoint(
++                    lambda h, ctx: style_attn(h, context=ctx),
++                    hidden_states,
++                    current_style_feature,
++                    use_reentrant=False,
++                )
++            else:
++                hidden_states = content_attn(hidden_states, current_content_feature)
++                hidden_states = resnet(hidden_states, temb)
++                hidden_states = style_attn(hidden_states, context=current_style_feature)
+ 
+             output_states += (hidden_states,)
+ 
+@@ -529,8 +571,6 @@ class StyleRSIUpBlock2D(nn.Module):
+         for attn in self.attentions:
+             attn._set_attention_slice(slice_size)
+ 
+-        self.gradient_checkpointing = False
+-
+     def forward(
+         self,
+         hidden_states,
+diff --git a/train.py b/train.py
+index 64d0c99..a7b2b63 100644
+--- a/train.py
++++ b/train.py
+@@ -74,10 +74,12 @@ def main():
+     style_encoder = build_style_encoder(args=args)
+     content_encoder = build_content_encoder(args=args)
+     noise_scheduler = build_ddpm_scheduler(args)
+-    if args.phase_2:
+-        unet.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/unet.pth"))
+-        style_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/style_encoder.pth"))
+-        content_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/content_encoder.pth"))
++    # Finetune: load official/phase-1 weights even without SCR phase_2.
++    if getattr(args, "phase_1_ckpt_dir", None):
++        unet.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/unet.pth", map_location="cpu"))
++        style_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/style_encoder.pth", map_location="cpu"))
++        content_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/content_encoder.pth", map_location="cpu"))
++        logger.info(f"Loaded encoder/unet weights from {args.phase_1_ckpt_dir}")
+ 
+     model = FontDiffuserModel(
+         unet=unet,
+@@ -87,11 +89,19 @@ def main():
+     # Build content perceptaual Loss
+     perceptual_loss = ContentPerceptualLoss()
+ 
+-    # Load SCR module for supervision
+-    if args.phase_2:
++    # Load SCR / StrokeSCR module for supervision
++    use_style_sup = bool(args.phase_2 or getattr(args, "stroke_scr", False))
++    if use_style_sup:
+         scr = build_scr(args=args)
+-        scr.load_state_dict(torch.load(args.scr_ckpt_path))
++        if args.phase_2 and not getattr(args, "stroke_scr", False):
++            if not args.scr_ckpt_path:
++                raise SystemExit("phase_2 requires --scr_ckpt_path (or use --stroke_scr)")
++            scr.load_state_dict(torch.load(args.scr_ckpt_path))
+         scr.requires_grad_(False)
++        # Frozen style head: must stay eval(). train() BatchNorm breaks when
++        # effective N=1 (drop / last microbatch) → ValueError on BN stats.
++        scr.eval()
++
+ 
+     # Load the datasets
+     content_transforms = transforms.Compose(
+@@ -109,6 +119,10 @@ def main():
+                            interpolation=transforms.InterpolationMode.BILINEAR),
+          transforms.ToTensor(),
+          transforms.Normalize([0.5], [0.5])])
++    need_neg = bool(use_style_sup and (
++        (getattr(args, "stroke_scr", False) and getattr(args, "stroke_scr_mode", "infonce") == "infonce")
++        or (args.phase_2 and not getattr(args, "stroke_scr", False))
++    ))
+     train_font_dataset = FontDataset(
+         args=args,
+         phase='train', 
+@@ -116,7 +130,7 @@ def main():
+             content_transforms, 
+             style_transforms, 
+             target_transforms],
+-        scr=args.phase_2)
++        scr=need_neg)
+     train_dataloader = torch.utils.data.DataLoader(
+         train_font_dataset, shuffle=True, batch_size=args.train_batch_size, collate_fn=CollateFN())
+     
+@@ -139,8 +153,8 @@ def main():
+     # Accelerate preparation
+     model, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
+         model, optimizer, train_dataloader, lr_scheduler)
+-    ## move scr module to the target deivces
+-    if args.phase_2:
++    ## move scr / stroke_scr module to the target devices
++    if use_style_sup:
+         scr = scr.to(accelerator.device)
+ 
+     # The trackers initializes automatically on the main process.
+@@ -180,6 +194,8 @@ def main():
+ 
+                 # Classifier-free training strategy
+                 context_mask = torch.bernoulli(torch.zeros(bsz) + args.drop_prob)
++                # Keep real style for stroke style_cos before CFG blanking
++                style_for_scr = style_images.detach().clone() if use_style_sup else None
+                 for i, mask_value in enumerate(context_mask):
+                     if mask_value==1:
+                         content_images[i, :, :, :] = 1
+@@ -213,18 +229,35 @@ def main():
+                         args.perceptual_coefficient * percep_loss + \
+                             args.offset_coefficient * offset_loss
+                 
+-                if args.phase_2:
+-                    neg_images = samples["neg_images"]
+-                    # sc loss
++                sc_loss = None
++                if use_style_sup:
++                    scr.eval()  # re-assert every step (BN-safe; frozen head)
++                    stroke_mode = getattr(args, "stroke_scr_mode", "infonce") if getattr(args, "stroke_scr", False) else None
++                    # style_cos: pull E(x0_hat) toward E(style condition); else toward GT (official SCR / cos)
++                    if stroke_mode == "style_cos":
++                        pos_imgs = style_for_scr
++                    else:
++                        pos_imgs = target_images
++                    neg_images = samples.get("neg_images", None)
+                     sample_style_embeddings, pos_style_embeddings, neg_style_embeddings = scr(
+-                        pred_original_sample_norm, 
+-                        target_images, 
+-                        neg_images, 
++                        pred_original_sample_norm,
++                        pos_imgs,
++                        neg_images,
+                         nce_layers=args.nce_layers)
+-                    sc_loss = scr.calculate_nce_loss(
++                    # Skip stroke loss on CFG-dropped samples (style blanked)
++                    sample_weight = None
++                    if stroke_mode == "style_cos":
++                        sample_weight = (1.0 - context_mask.to(pred_original_sample_norm.device)).float()
++                    sc_kwargs = dict(
+                         sample_s=sample_style_embeddings,
+                         pos_s=pos_style_embeddings,
+-                        neg_s=neg_style_embeddings)
++                        neg_s=neg_style_embeddings,
++                    )
++                    if getattr(args, "stroke_scr", False):
++                        sc_kwargs["sample_weight"] = sample_weight
++                    sc_loss = scr.calculate_nce_loss(**sc_kwargs)
++                    if sample_weight is not None and float(sample_weight.sum().item()) < 1e-6:
++                        sc_loss = sc_loss * 0.0
+                     loss += args.sc_coefficient * sc_loss
+ 
+                 # Gather the losses across all processes for logging (if we use distributed training).
+@@ -258,8 +291,11 @@ def main():
+                         print("Save the checkpoint on global step {}".format(global_step))
+ 
+             logs = {"step_loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
++            if use_style_sup and sc_loss is not None:
++                logs["sc"] = float(sc_loss.detach().item())
+             if global_step % args.log_interval == 0:
+-                logging.info(f"[{time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))}] Global Step {global_step} => train_loss = {loss}")
++                logging.info(f"[{time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))}] Global Step {global_step} => train_loss = {loss}" + (f" sc={logs.get('sc')}" if 'sc' in logs else ""))
++                print(f"[step {global_step}] loss={logs['step_loss']:.4f}" + (f" sc={logs['sc']:.4f}" if 'sc' in logs else ""), flush=True)
+             progress_bar.set_postfix(**logs)
+             
+             # Quit
+diff --git a/utils.py b/utils.py
+index d3c0c9f..7c9c4ea 100644
+--- a/utils.py
++++ b/utils.py
+@@ -2,14 +2,20 @@ import os
+ import cv2
+ import yaml
+ import copy
+-import pygame
+ import numpy as np
+-from PIL import Image
++from PIL import Image, ImageDraw, ImageFont
+ from fontTools.ttLib import TTFont
+ 
+ import torch
+ import torchvision.transforms as transforms
+ 
++try:
++    import pygame
++    _HAS_PYGAME = True
++except Exception:
++    pygame = None
++    _HAS_PYGAME = False
++
+ def save_args_to_yaml(args, output_file):
+     # Convert args namespace to a dictionary
+     args_dict = vars(args)
+@@ -92,17 +98,35 @@ def is_char_in_font(font_path, char):
+ 
+ 
+ def load_ttf(ttf_path, fsize=128):
+-    pygame.init()
+-
+-    font = pygame.freetype.Font(ttf_path, size=fsize)
+-    return font
++    if _HAS_PYGAME:
++        pygame.init()
++        return pygame.freetype.Font(ttf_path, size=fsize)
++    # Pillow fallback (no pygame / offline installs)
++    return {"path": ttf_path, "fsize": fsize, "backend": "pil"}
+ 
+ 
+ def ttf2im(font, char, fsize=128):
+-    
++    if isinstance(font, dict) and font.get("backend") == "pil":
++        ttf_path = font["path"]
++        fsize = font.get("fsize", fsize)
++        img = Image.new("L", (fsize, fsize), 255)
++        draw = ImageDraw.Draw(img)
++        try:
++            pil_font = ImageFont.truetype(ttf_path, fsize)
++        except Exception:
++            print("No glyph for char {}".format(char))
++            return
++        bbox = draw.textbbox((0, 0), char, font=pil_font)
++        w, h = bbox[2] - bbox[0], bbox[3] - bbox[1]
++        if w <= 0 or h <= 0:
++            print("No glyph for char {}".format(char))
++            return
++        draw.text(((fsize - w) // 2 - bbox[0], (fsize - h) // 2 - bbox[1]), char, font=pil_font, fill=0)
++        return img.convert("RGB")
++
+     try:
+         surface, _ = font.render(char)
+-    except:
++    except Exception:
+         print("No glyph for char {}".format(char))
+         return
+     bg = np.full((fsize, fsize), 255)

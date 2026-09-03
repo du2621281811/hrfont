@@ -1,0 +1,19 @@
+---
+description: HR-Font ICLR 2027 项目管理、实验复现与防误改护栏
+alwaysApply: true
+---
+
+# HR-Font 项目护栏
+
+- `PROJECT.md` 只记录当前决策、关键结果和下一步；不新增重复的 plan/status/handoff/summary 文档。
+- 根项目Git管理自研代码、规则、精简文本记录和 `provenance/`；`code/FontDiffuser` 使用其独立Git管理官方代码补丁。
+- 新实验开始前，两个Git仓库都必须提交且工作树干净；哈希只能用于校验，不能代替可恢复的Git提交。
+- 数据、权重和生成结果不进Git、不原地覆盖；新数据使用新版本目录，并生成一次 `provenance/datasets/*.json` 指纹。
+- 每个正式实验只自动生成一个 `provenance/runs/<id>.json`，绑定Git commit、数据指纹、初始化权重、命令和关键产物。
+- 已绑定历史 metrics/checkpoint 的脚本、数据和报告默认只读；新实验使用新run ID和目录。
+- 正式训练保留预定里程碑checkpoint及固定视觉probe；禁止只覆盖 `last.pt` 后声称有中间证据。
+- 开训前锁定数据清单、参考图预算、初始化、可训参数、训练步数、seed、评测协议和通过标准。
+- 控制实验必须同数据、同初始化、同预算、同 seed；一次只改变一个目标变量。
+- 训练字体做 leave-one-out；校准字体与 Demo-8 不得进入训练或字体库。
+- 未经用户明确指令，不启动长训练、Stage B、256 分辨率或扩展消融。
+- 修改前检查目标文件是否属于历史结果链；修改后做最小验证并记录实际状态，不把计划写成已完成。

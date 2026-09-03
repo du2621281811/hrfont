@@ -1,0 +1,505 @@
+{
+  "t": "2026-08-31 14:41:01",
+  "principle": "主表 L1 以 metrics JSON 时间戳为准；本文件描述绑定到当时 ckpt + 日志；现行脚本若晚于评测仅用于复现说明",
+  "script_drift_warning": true,
+  "experiments": {
+    "ft_cnstyle@25k": {
+      "question": "官方 RSI 跨语微调基线",
+      "train_script": "scripts/retrain_v2_finetune_fontdiffuser.py → code/FontDiffuser/train.py",
+      "eval_script": "scripts/hrfont_e2_official_eval.py (FontDiffuserOfficialDPM)",
+      "ckpt": {
+        "path": "runs/ft_cnstyle/global_step_25000/unet.pth",
+        "exists": true,
+        "mtime": "2026-08-07 05:11:50",
+        "sha256_16": "c6b51ae76f1d682d",
+        "bytes": 315101159
+      },
+      "metrics": {
+        "L1_mean": 0.08103297780015979,
+        "n": 976,
+        "t": "2026-08-28 06:02:09",
+        "json": "reports/hrfont_overnight/formal_eval/metrics_step_80000.json"
+      },
+      "train_inputs": [
+        {
+          "role": "Content",
+          "source": "data/fontdiffuser/train/ContentImage/uXXXX.jpg",
+          "render": "build_retrain_v2_dataset: DejaVu binary-search @128 灰度 → jpg RGB",
+          "script": "scripts/build_retrain_v2_dataset.py + build_retrain_v2_fontdiffuser_data.py",
+          "size": "128 源图 → FontDataset Resize(96)",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ eval 为 live @96 RGB（算法同，分辨率/色彩空间不同）",
+          "detail": ""
+        },
+        {
+          "role": "Style",
+          "source": "data/.../StyleImage/<font>/<font>+uXXXX.jpg",
+          "render": "同字体中文池全量 PNG→jpg（非仅 ref8）",
+          "script": "scripts/build_retrain_v2_fontdiffuser_data.py",
+          "size": "128→96",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ eval 固定 live「永」",
+          "detail": "FontDataset 随机采样同字体任一汉字"
+        },
+        {
+          "role": "Target",
+          "source": "data/.../TargetImage/<font>/<font>+uXXXX.jpg",
+          "render": "训练字体英文 GT @128 灰度→jpg",
+          "script": "scripts/build_retrain_v2_fontdiffuser_data.py",
+          "size": "128→96",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "—",
+          "detail": ""
+        },
+        {
+          "role": "RSI 结构分支",
+          "source": "Ec(style_image)",
+          "render": "content_encoder(style) 多尺度残差",
+          "script": "code/FontDiffuser/src/model.py",
+          "size": "特征空间",
+          "preprocess": "—",
+          "train_vs_eval": "✅ eval 同 Ec(style)",
+          "detail": "官方 FontDiffuser RSI；无 Δ"
+        },
+        {
+          "role": "Δ / Support",
+          "source": "—",
+          "render": "—",
+          "script": "—",
+          "size": "—",
+          "preprocess": "—",
+          "train_vs_eval": "—",
+          "detail": ""
+        }
+      ],
+      "eval_inputs": [
+        {
+          "role": "Content",
+          "source": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf + 字符 c",
+          "render": "binary-search 最大字号 + 居中（14 iter, margin 8px）",
+          "script": "scripts/hrfont_e2_official_eval.render",
+          "size": "96×96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ 训练用预渲 ContentImage（见下）",
+          "detail": "P1 全字符；seed=123"
+        },
+        {
+          "role": "Style",
+          "source": "Demo-8 测试字体 TTF +「永」",
+          "render": "同上 render()",
+          "script": "scripts/hrfont_e2_official_eval.render",
+          "size": "96×96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ 训练 style 来源不同（见各实验 train）",
+          "detail": "1-shot 固定「永」；STYLE_CHAR 来自 data/retrain_v2/meta.json"
+        },
+        {
+          "role": "GT（L1）",
+          "source": "data/unified_v1/renders/128/gt_latin/<font>/<char>.png",
+          "render": "build_retrain_v2_dataset @128 L 灰度",
+          "script": "scripts/build_retrain_v2_dataset.render",
+          "size": "128→96 bilinear（to_arr）",
+          "preprocess": "灰度 /255",
+          "train_vs_eval": "— 仅评测",
+          "detail": "bank r96 fallback 若缺失"
+        },
+        {
+          "role": "RSI 结构分支",
+          "source": "Ec(live style「永」)",
+          "render": "FontDiffuserOfficialDPM.forward",
+          "script": "scripts/hrfont_e2_official_eval.py",
+          "size": "特征空间",
+          "preprocess": "—",
+          "train_vs_eval": "⚠️ 与 train 同公式，style 图来源不同",
+          "detail": ""
+        }
+      ]
+    },
+    "stageA_formal@80k": {
+      "question": "RSI 改接 Δ = Ec(α混库) − Ec(content)",
+      "train_script": "scripts/hrfont_e2_stageA96_formal_train.py",
+      "eval_script": "scripts/hrfont_e2_official_eval.py (FontDiffuserDeltaDPM)",
+      "ckpt": {
+        "path": "runs/e2_stageA96_formal/step_80000.pt",
+        "exists": true,
+        "mtime": "2026-08-28 04:46:09",
+        "sha256_16": "2ad266ff010cbff3",
+        "bytes": 945502169
+      },
+      "metrics": {
+        "L1_mean": 0.08697917782103373,
+        "n": 976,
+        "t": "2026-08-28 06:02:09",
+        "step": 80000,
+        "json": "reports/hrfont_overnight/formal_eval/metrics_step_80000.json"
+      },
+      "train_inputs": [
+        {
+          "role": "Content",
+          "source": "ContentImage/uXXXX.jpg（与 ft 同源）",
+          "render": "预渲 DejaVu @128→96",
+          "script": "StageAFormalSet.content_cache",
+          "size": "96",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ eval live DejaVu @96",
+          "detail": ""
+        },
+        {
+          "role": "Style",
+          "source": "data/hrfont/e0_bank/r96/<font>/uXXXX.png",
+          "render": "render_fit ~8% 边距",
+          "script": "scripts/hrfont_e0_build_bank.render_fit",
+          "size": "96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ eval live「永」",
+          "detail": "随机 ref8 之一；非 1-shot 固定"
+        },
+        {
+          "role": "Target",
+          "source": "bank r96 同字体同字 PNG",
+          "render": "render_fit",
+          "script": "hrfont_e0_build_bank",
+          "size": "96",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5); target_01 denorm for VGG",
+          "train_vs_eval": "—",
+          "detail": ""
+        },
+        {
+          "role": "Δ",
+          "source": "bank r96 top-3 训练字体同字 PNG 像素加权混",
+          "render": "α=softmax(cos(proto)/τ) τ=0.07 M=3；像素 mix 后 Ec 作差",
+          "script": "StageAFormalSet._alpha + train forward",
+          "size": "96 RGB tensor",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5) on mix PNG",
+          "train_vs_eval": "⚠️ eval 同 α 逻辑；bank 为 render_fit 非 live",
+          "detail": "dropout 25% zero delta_res"
+        },
+        {
+          "role": "RSI 结构分支",
+          "source": "Ec(Δ_img) − Ec(content)",
+          "render": "delta_res = mix_res − content_res",
+          "script": "hrfont_e2_stageA96_formal_train.py",
+          "size": "特征差",
+          "preprocess": "—",
+          "train_vs_eval": "✅ eval FontDiffuserDeltaDPM 同式",
+          "detail": ""
+        }
+      ],
+      "eval_inputs": [
+        {
+          "role": "Content",
+          "source": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf + 字符 c",
+          "render": "binary-search 最大字号 + 居中（14 iter, margin 8px）",
+          "script": "scripts/hrfont_e2_official_eval.render",
+          "size": "96×96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ 训练用预渲 ContentImage（见下）",
+          "detail": "P1 全字符；seed=123"
+        },
+        {
+          "role": "Style",
+          "source": "Demo-8 测试字体 TTF +「永」",
+          "render": "同上 render()",
+          "script": "scripts/hrfont_e2_official_eval.render",
+          "size": "96×96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ 训练 style 来源不同（见各实验 train）",
+          "detail": "1-shot 固定「永」；STYLE_CHAR 来自 data/retrain_v2/meta.json"
+        },
+        {
+          "role": "GT（L1）",
+          "source": "data/unified_v1/renders/128/gt_latin/<font>/<char>.png",
+          "render": "build_retrain_v2_dataset @128 L 灰度",
+          "script": "scripts/build_retrain_v2_dataset.render",
+          "size": "128→96 bilinear（to_arr）",
+          "preprocess": "灰度 /255",
+          "train_vs_eval": "— 仅评测",
+          "detail": "bank r96 fallback 若缺失"
+        },
+        {
+          "role": "Δ",
+          "source": "alpha_mix(proto, bank, train, c)",
+          "render": "测试字体 proto 不在 cache 时用 ref8 现场 Ec 均值",
+          "script": "hrfont_e2_official_eval.alpha_mix",
+          "size": "96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "⚠️ 像素混 bank PNG；与 train 同 α",
+          "detail": ""
+        },
+        {
+          "role": "RSI 结构分支",
+          "source": "Ec(Δ) − Ec(content)",
+          "render": "FontDiffuserDeltaDPM._hidden",
+          "script": "hrfont_e2_official_eval.py",
+          "size": "特征差",
+          "preprocess": "—",
+          "train_vs_eval": "✅",
+          "detail": ""
+        }
+      ]
+    },
+    "stageB_support@25k": {
+      "question": "冻 UNet，训 SupportAdapter + gap-gated support",
+      "train_script": "scripts/hrfont_e2_stageB96_train.py",
+      "eval_script": "scripts/hrfont_e2_stageB_official_eval.py",
+      "ckpt": {
+        "path": "runs/e2_stageB96/step_25000.pt",
+        "exists": true,
+        "mtime": "2026-08-28 19:58:01",
+        "sha256_16": "6a00ea3a48a0c25d",
+        "bytes": 336482935
+      },
+      "metrics": {
+        "L1_mean": 0.09638821916951947,
+        "n": 976,
+        "n_with_support": 952,
+        "t": "2026-08-29 02:07:08",
+        "step": 25000,
+        "json": "reports/hrfont_overnight/formal_eval/metrics_stageB_25000.json"
+      },
+      "train_inputs": [
+        {
+          "role": "Content/Style/Target/Δ",
+          "source": "同 Stage A formal",
+          "render": "同 StageAFormalSet / StageBSet",
+          "script": "hrfont_e2_stageB96_train.py StageBSet",
+          "size": "96",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "同 A 的 train 列",
+          "detail": ""
+        },
+        {
+          "role": "Support",
+          "source": "pick_support → bank r96 支撑字图",
+          "render": "gap≥0.35 → MMR top-3 q × α 字体混",
+          "script": "scripts/hrfont_support_utils.pick_support",
+          "size": "96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5) → pool_ec → SupportAdapter",
+          "train_vs_eval": "⚠️ eval 需 font_proto=proto（8/29 前 bug 致 support=0）",
+          "detail": "train 20% drop support"
+        }
+      ],
+      "eval_inputs": [
+        {
+          "role": "Content",
+          "source": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf + 字符 c",
+          "render": "binary-search 最大字号 + 居中（14 iter, margin 8px）",
+          "script": "scripts/hrfont_e2_official_eval.render",
+          "size": "96×96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ 训练用预渲 ContentImage（见下）",
+          "detail": "P1 全字符；seed=123"
+        },
+        {
+          "role": "Style",
+          "source": "Demo-8 测试字体 TTF +「永」",
+          "render": "同上 render()",
+          "script": "scripts/hrfont_e2_official_eval.render",
+          "size": "96×96 RGB",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "❌ 训练 style 来源不同（见各实验 train）",
+          "detail": "1-shot 固定「永」；STYLE_CHAR 来自 data/retrain_v2/meta.json"
+        },
+        {
+          "role": "GT（L1）",
+          "source": "data/unified_v1/renders/128/gt_latin/<font>/<char>.png",
+          "render": "build_retrain_v2_dataset @128 L 灰度",
+          "script": "scripts/build_retrain_v2_dataset.render",
+          "size": "128→96 bilinear（to_arr）",
+          "preprocess": "灰度 /255",
+          "train_vs_eval": "— 仅评测",
+          "detail": "bank r96 fallback 若缺失"
+        },
+        {
+          "role": "Δ",
+          "source": "同 Stage A eval",
+          "render": "alpha_mix + set_cond",
+          "script": "hrfont_e2_stageB_official_eval.py",
+          "size": "96",
+          "preprocess": "Resize(96) → ToTensor → Normalize(mean=0.5, std=0.5)",
+          "train_vs_eval": "✅ 同 A",
+          "detail": ""
+        },
+        {
+          "role": "Support",
+          "source": "pick_support(..., font_proto=proto)",
+          "render": "SupportAdapter → concat style_hidden",
+          "script": "hrfont_e2_stageB_official_eval.py + hrfont_support_utils",
+          "size": "token",
+          "preprocess": "pool_ec",
+          "train_vs_eval": "✅ 有效 run 952/976",
+          "detail": ""
+        }
+      ]
+    },
+    "dropout_ablation@10k": {
+      "question": "仅改 dropout，10k 步趋势（非主表）",
+      "train_script": "scripts/hrfont_e2_dropout_ablation_train.py",
+      "eval_script": "scripts/hrfont_e2_official_eval.py --ckpt ablation --skip-ft",
+      "metrics_source": "reports/hrfont_overnight/dropout_ablation/eval_*.json",
+      "note": "勿与 R0@80k 比绝对 L1；ft 行来自 metrics_step_80000 缓存",
+      "train_inputs": "同 stageA_formal@80k，仅 DROP_CFG/DROP_DELTA/drop_mode 不同",
+      "eval_inputs": "同 stageA eval 协议"
+    },
+    "formal_viz": {
+      "question": "GT|ft|A|B 可视化",
+      "script": "scripts/hrfont_formal_viz_build.py",
+      "metrics": {
+        "t": "2026-08-31 12:20:40",
+        "protocol": "Demo-8 × AaR8 · DejaVu · 1-shot永 · DPM20 CFG7.5",
+        "n_cells": 32,
+        "seconds": 204.1,
+        "files": [
+          "viz_overview.png",
+          "viz_callouts.png"
+        ]
+      },
+      "eval_inputs": "与 official eval 相同（DejaVu live、1-shot永、DPM20、CFG7.5）",
+      "chars": "AaR8 子集（32 格）非全 P1"
+    },
+    "e3_rsi_style@10k": {
+      "question": "对照：同 formal 数据/步数，RSI 仍接 Ec(style) 而非 Δ",
+      "train_script": "scripts/hrfont_e3_rsi_style_train.py",
+      "eval_script": "scripts/hrfont_e2_official_eval.py --rsi-style",
+      "ckpt": {
+        "path": "runs/e3_rsi_style_control/step_10000.pt",
+        "exists": true,
+        "mtime": "2026-08-31 14:22:48",
+        "sha256_16": "45663c85fd0bdfd8",
+        "bytes": 315155935
+      },
+      "metrics_json": "reports/hrfont_overnight/formal_eval/metrics_e3_10000.json",
+      "train_inputs": "同 Stage A（Content/Style/Target bank）；RSI=Ec(style) 官方接线",
+      "eval_inputs": "同 ft official（无 Δ）；FontDiffuserOfficialDPM",
+      "status": "pending until metrics_e3_10000.json exists"
+    }
+  },
+  "train_eval_gaps": [
+    {
+      "item": "Content",
+      "train": "ContentImage 预渲 DejaVu @128 灰度→jpg→Resize96",
+      "eval": "live DejaVu binary-search @96 RGB",
+      "impact": "domain gap；ft/A/B 训练一致、eval 一致，互相公平"
+    },
+    {
+      "item": "Style",
+      "train": "A/B: bank render_fit 随机 ref8；ft: 随机 CN 池",
+      "eval": "live 测试字体「永」",
+      "impact": "train/eval style 分布不同；三方法 eval 相同"
+    },
+    {
+      "item": "Bank / Δ 混图",
+      "train": "render_fit ~8% 边距",
+      "eval": "同 bank PNG；非 live 渲染",
+      "impact": "Δ 输入与 live content/style 不一致（设计如此）"
+    },
+    {
+      "item": "Target/GT",
+      "train": "bank 或 TargetImage @128",
+      "eval": "gt_latin @128→96",
+      "impact": "L1 对齐 unified_v1 GT"
+    }
+  ],
+  "version_bindings": [
+    {
+      "name": "official_eval",
+      "path": "scripts/hrfont_e2_official_eval.py",
+      "exists": true,
+      "mtime": "2026-08-31 12:55:38",
+      "sha256_16": "57ebd27b49e38cce",
+      "bytes": 18279,
+      "eval_recorded_at": "2026-08-28 06:02:09",
+      "script_newer_than_eval": true,
+      "note": "⚠️ 当前脚本晚于该次评测；主表数字以 metrics JSON 为准，勿用现行脚本反推当时配置"
+    },
+    {
+      "name": "stageB_eval",
+      "path": "scripts/hrfont_e2_stageB_official_eval.py",
+      "exists": true,
+      "mtime": "2026-08-31 12:46:39",
+      "sha256_16": "368262fa1ebcb24b",
+      "bytes": 10686,
+      "eval_recorded_at": "2026-08-29 02:07:08",
+      "script_newer_than_eval": true,
+      "note": "⚠️ 当前脚本晚于该次评测；主表数字以 metrics JSON 为准，勿用现行脚本反推当时配置"
+    },
+    {
+      "name": "support_utils",
+      "path": "scripts/hrfont_support_utils.py",
+      "exists": true,
+      "mtime": "2026-08-31 12:46:33",
+      "sha256_16": "b27f00478a1cb3b2",
+      "bytes": 5473,
+      "eval_recorded_at": "2026-08-29 02:07:08",
+      "script_newer_than_eval": true,
+      "note": "⚠️ 当前脚本晚于该次评测；主表数字以 metrics JSON 为准，勿用现行脚本反推当时配置"
+    },
+    {
+      "name": "formal_viz",
+      "path": "scripts/hrfont_formal_viz_build.py",
+      "exists": true,
+      "mtime": "2026-08-31 12:46:41",
+      "sha256_16": "2c24098c16b01248",
+      "bytes": 13067,
+      "eval_recorded_at": "2026-08-31 12:20:40",
+      "script_newer_than_eval": true,
+      "note": "⚠️ 当前脚本晚于该次评测；主表数字以 metrics JSON 为准，勿用现行脚本反推当时配置"
+    },
+    {
+      "name": "stageA_train",
+      "path": "scripts/hrfont_e2_stageA96_formal_train.py",
+      "exists": true,
+      "mtime": "2026-08-31 12:45:30",
+      "sha256_16": "d689b271d7f4f5e3",
+      "bytes": 18314,
+      "eval_recorded_at": "2026-08-26 01:10:28",
+      "script_newer_than_eval": true,
+      "note": "⚠️ 当前脚本晚于该次评测；主表数字以 metrics JSON 为准，勿用现行脚本反推当时配置"
+    },
+    {
+      "name": "stageB_train",
+      "path": "scripts/hrfont_e2_stageB96_train.py",
+      "exists": true,
+      "mtime": "2026-08-31 12:46:34",
+      "sha256_16": "858a01223116fb98",
+      "bytes": 13144,
+      "eval_recorded_at": "2026-08-28 19:58:00",
+      "script_newer_than_eval": true,
+      "note": "⚠️ 当前脚本晚于该次评测；主表数字以 metrics JSON 为准，勿用现行脚本反推当时配置"
+    }
+  ],
+  "invalid_results": [
+    {
+      "t": "2026-08-29 01:10:04",
+      "experiment": "stageB@25k",
+      "L1": 0.0879,
+      "n_with_support": 0,
+      "reason": "pick_support 未传 font_proto；测试字体不在 style_proto cache",
+      "superseded_by": "metrics_stageB_25000.json @ 2026-08-29 02:07:08",
+      "log": "reports/hrfont_overnight/eval_stageB.log"
+    }
+  ],
+  "checkpoints": {
+    "ft@25k": {
+      "path": "runs/ft_cnstyle/global_step_25000/unet.pth",
+      "exists": true,
+      "mtime": "2026-08-07 05:11:50",
+      "sha256_16": "c6b51ae76f1d682d",
+      "bytes": 315101159
+    },
+    "stageA@80k": {
+      "path": "runs/e2_stageA96_formal/step_80000.pt",
+      "exists": true,
+      "mtime": "2026-08-28 04:46:09",
+      "sha256_16": "2ad266ff010cbff3",
+      "bytes": 945502169
+    },
+    "stageB@25k": {
+      "path": "runs/e2_stageB96/step_25000.pt",
+      "exists": true,
+      "mtime": "2026-08-28 19:58:01",
+      "sha256_16": "6a00ea3a48a0c25d",
+      "bytes": 336482935
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "demo_fonts": [
+    "FZCuanBZBKSJW.TTF",
+    "FZLingFKSJW-B.TTF",
+    "FZFengYKSJ.TTF",
+    "FZDouNTJW_Te.TTF",
+    "FZHuoYYJW-T.TTF",
+    "FZJingYLLTJW.TTF",
+    "FZHanWZKJW.TTF",
+    "FZChuangHJW_DB.TTF"
+  ],
+  "ref8": [
+    "永",
+    "和",
+    "书",
+    "风",
+    "骨",
+    "韵",
+    "天",
+    "地"
+  ],
+  "L_core": "ABCDEFGHIJKLMNOPQRSTUVWXYZagqrs",
+  "L_accent": "àáèéêìíòóùúü",
+  "note": "CN style refs -> Latin content; GT = Chinese font built-in Latin",
+  "L_p1": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~àáèéêìíòóùúüāēěīōūǎǐǒǔǖǘǚǜǹ",
+  "L_p2": "あいうえおかきくけこさしすせそアイウエオカキクケコサシスセソㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐ",
+  "L_p1_n": 122,
+  "L_p2_n": 42,
+  "n_tasks_p1": 976,
+  "n_tasks_p2": 336,
+  "eval_note": "P1=ASCII95+accents(with GT); P2=kana/zhuyin; no fullwidth split"
+}

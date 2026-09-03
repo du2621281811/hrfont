@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "kind": "experiment",
+  "experiment_id": "A-MVP-DELTA",
+  "created_at": "2026-09-03T01:43:41+00:00",
+  "provenance_certainty": "retro_partial",
+  "code_recoverable": false,
+  "git": [
+    {
+      "path": ".",
+      "commit": "af0b14f7e37d12544c5bd353f7876b4e74c116ef",
+      "branch": "main",
+      "dirty": false,
+      "dirty_paths": [],
+      "dirty_patch_sha256": null,
+      "remotes": []
+    },
+    {
+      "path": "code/FontDiffuser",
+      "commit": "99e42b5e0e4becf95ef16b08ee2bef57462f5fc0",
+      "branch": "hrfont/local-patches-20260903",
+      "dirty": false,
+      "dirty_paths": [],
+      "dirty_patch_sha256": null,
+      "remotes": [
+        "origin\thttps://github.com/yeungchenwa/FontDiffuser.git (fetch)",
+        "origin\thttps://github.com/yeungchenwa/FontDiffuser.git (push)"
+      ]
+    }
+  ],
+  "dataset": {
+    "manifest": "provenance/datasets/fontdiffuser42-cnstyle-v1.json",
+    "dataset_id": "fontdiffuser42-cnstyle-v1",
+    "tree_sha256": "2d67f6d5a2ef0009eea579f66c373876ed47d8126e9aa0392f91589914f30cd9",
+    "manifest_sha256": "89978da584171f0c3f8b6e38c395a72aed0881f73bb2018b30921a0d442014fa"
+  },
+  "command": "/root/miniforge3/envs/boogu/bin/python scripts/hrfont_stagea_mvp_train.py --arm delta --gpu 2 --max-steps 10000 --output-dir runs/stagea_mvp/delta_seed20260902 --save-every 500",
+  "code_files": [
+    {
+      "path": "scripts/hrfont_stagea_mvp_train.py",
+      "kind": "file",
+      "bytes": 15992,
+      "sha256": "aac92fa824630a48fb8c10073d217008baad612fbeae3c2101cea3eac859ae7a"
+    },
+    {
+      "path": "scripts/hrfont_delta_feature.py",
+      "kind": "file",
+      "bytes": 3622,
+      "sha256": "86764846c07c4afcb2821b5d8851b7a2d5e100495a3dc579d05c50d378651961"
+    },
+    {
+      "path": "scripts/hrfont_stagea_mvp_supervisor.py",
+      "kind": "file",
+      "bytes": 6830,
+      "sha256": "93bdba4fcb55ea4731532175f9bd2e1c417250e1e38e96f59401e66646fdd233"
+    }
+  ],
+  "recorded_historical_hashes": {
+    "training": "aac92fa824630a48fb8c10073d217008baad612fbeae3c2101cea3eac859ae7a",
+    "delta_feature": "86764846c07c4afcb2821b5d8851b7a2d5e100495a3dc579d05c50d378651961",
+    "evaluator": "e91240fa05db691b0fa3a34fd1048a3152ebe467905219abd2c800a238db2191",
+    "comparison": "c973681ed1f409286efb951194a69f90cd02ef0b597cccdcc4bb770c851739a4"
+  },
+  "initialization": [
+    {
+      "kind": "directory",
+      "root": "runs/ft_cnstyle/global_step_25000",
+      "file_count": 4,
+      "total_bytes": 804730406,
+      "tree_sha256": "f4b760a3fc2e8f71e7ba1ae8ccdc9202695ebfd46f96b7ff380b706ce9e91a9a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "runs/stagea_mvp/delta_seed20260902/config.json",
+      "kind": "file",
+      "bytes": 536,
+      "sha256": "0a494a02507561041bf9b0531b94509d377ac2f4f831600533730d991d4e865c"
+    },
+    {
+      "path": "runs/stagea_mvp/delta_seed20260902/status.json",
+      "kind": "file",
+      "bytes": 190,
+      "sha256": "e82a93b4d45a0e7b39b1e7fe134142117364bc32692fe76f61a088e73dd35a6d"
+    },
+    {
+      "path": "runs/stagea_mvp/delta_seed20260902/final.pt",
+      "kind": "file",
+      "bytes": 945485597,
+      "sha256": "390e31106eb689a19684efcdd96c4b23fdc6ae238001de3cd0d98279e12574e8"
+    },
+    {
+      "path": "runs/stagea_mvp/delta_seed20260902/metrics.json",
+      "kind": "file",
+      "bytes": 92914,
+      "sha256": "99d601b4b0c37ca3a1e45e42decf7a493cbf14116d4253c336d923bd290a962e"
+    },
+    {
+      "path": "runs/stagea_mvp/comparison.json",
+      "kind": "file",
+      "bytes": 2537,
+      "sha256": "1643fa844f33ce3423af1b4513fbc9fce8a06993daab3b2fc133ae7a795ee2e3"
+    }
+  ],
+  "environment": {
+    "python": "3.10.20",
+    "platform": "Linux-5.15.0-186-generic-x86_64-with-glibc2.36",
+    "packages": {
+      "torch": "2.7.1+cu126",
+      "torchvision": "0.22.1+cu126",
+      "accelerate": "1.14.0",
+      "diffusers": "0.38.0",
+      "numpy": "2.2.6",
+      "Pillow": "12.2.0"
+    }
+  },
+  "note": "Training and Delta feature source are exactly recoverable and locked hashes are recorded. The final evaluator included the no-donor fallback but was edited again before root Git initialization; its SHA256 is retained, so the complete historical run is marked partial."
+}

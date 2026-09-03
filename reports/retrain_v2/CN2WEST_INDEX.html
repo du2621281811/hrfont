@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>中→西实验索引</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap');
+:root{--ink:#12151a;--muted:#5c6570;--paper:#eef1f4;--line:#d5dbe3;--accent:#1f4a6f;--good:#1f6f6a;--bad:#9b2f2f;--warn:#8a5a12;--panel:#fff}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:16px/1.55 "Source Sans 3",system-ui,sans-serif;
+  background:linear-gradient(180deg,#e8edf2 0%,var(--paper) 35%,#e4e8ec 100%);min-height:100vh}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:980px;margin:0 auto;padding:28px 20px 72px}
+.topnav{font-size:13px;color:var(--muted);margin-bottom:14px;display:flex;flex-wrap:wrap;gap:12px}
+h1{font-family:"Noto Serif SC",serif;font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 8px}
+.lead{color:var(--muted);max-width:44rem;margin:0 0 20px}
+.verdict{padding:14px 16px;border-left:3px solid var(--bad);background:rgba(255,255,255,.8);margin:18px 0 28px;max-width:44rem}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;padding:2px 8px;border-radius:2px;margin-right:6px}
+.tag.done{background:#e6f2f1;color:var(--good)}.tag.nogo{background:#f5e8e8;color:var(--bad)}
+h2{font-family:"Noto Serif SC",serif;font-size:1.15rem;margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.hint{color:var(--muted);font-size:14px;margin:0 0 12px}
+ul.tree{list-style:none;padding:0;margin:0}
+ul.tree ul{margin:4px 0 8px 12px;padding-left:14px;border-left:2px solid var(--line)}
+li.node{margin:6px 0}
+li.node>.row{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+li.node .title{font-weight:600}
+li.node .meta{color:var(--muted);font-size:13px}
+a.card{display:block;padding:12px 14px;margin:8px 0;background:var(--panel);border:1px solid var(--line);
+  color:inherit;border-radius:2px;transition:border-color .15s,transform .15s}
+a.card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+a.card.pri{border-left:4px solid var(--accent)}
+a.card .s{color:var(--muted);font-size:13px;margin-top:4px}
+table.num{width:100%;border-collapse:collapse;background:var(--panel);font-size:13px;margin:10px 0}
+table.num th,table.num td{border:1px solid var(--line);padding:7px 9px;text-align:center}
+table.num th{background:rgba(18,21,26,.04);font-weight:600}
+table.num td.l{text-align:left}
+table.num .best{color:var(--good);font-weight:700}
+.foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+</style></head><body><div class="wrap">
+<nav class="topnav">
+  <a href="MENTOR_HUB.html">← Mentor Hub</a>
+  <a href="EXPERIMENT_RESULTS_DIGEST.md">实验总览</a>
+  <a href="index.html">中→中选型</a>
+  <a href="CN2WEST_INDEX.md">本页 Markdown</a>
+</nav>
+
+<h1>中→西实验索引</h1>
+<p class="lead">中文参考 → 拉丁/假名生成 · Demo-8 · P1/P2 · 主指标 L1↓ SSIM↑<br>
+<span class="tag done">已结案</span> 08-14 后主线切至 <a href="index.html">中→中字库扩写</a></p>
+
+<div class="verdict">
+  <b>总裁决：</b>八方法横比 <b>GAR ft_p253</b> 最优（P1 L1 0.070 / SSIM 0.670）；
+  FD cnstyle 可用；LF 失败；GAR/FD <b>stroke 两线均 NO-GO</b>。
+  文字详表 → <a href="RETRAIN_V2_SUMMARY.md">RETRAIN_V2_SUMMARY.md</a>
+</div>
+
+<h2>L0 · 协议与文字</h2>
+<p class="hint">不依赖聊天记录，先看这三份。</p>
+<a class="card pri" href="RETRAIN_V2_SUMMARY.md"><b>RETRAIN_V2_SUMMARY.md</b><span class="s">主表 · 八方法数字 · GAR 阶梯 · FD cnstyle</span></a>
+<a class="card" href="PROTOCOL.md"><b>PROTOCOL.md</b><span class="s">任务定义 · 各方法输入差异 · 评测口径</span></a>
+<a class="card" href="STROKE_EXPERIMENTS_ANALYSIS.md"><b>STROKE_EXPERIMENTS_ANALYSIS.md</b><span class="s">GAR stroke aux + FD stroke-SCR 终裁</span></a>
+
+<h2>L1 · 主实验：八方法横比</h2>
+<table class="num">
+<tr><th class="l">方法</th><th>P1 L1↓</th><th>P1 SSIM↑</th><th>P2 SSIM↑</th><th>备注</th></tr>
+<tr><td class="l best">GAR ft_p253</td><td class="best">0.070</td><td class="best">0.670</td><td class="best">0.617</td><td>主推</td></tr>
+<tr><td class="l">MX ft</td><td>0.087</td><td>0.633</td><td>0.485</td><td>次强</td></tr>
+<tr><td class="l">FCA / GAS / MF</td><td>~0.078</td><td>~0.62</td><td>~0.50</td><td>自训 GAN</td></tr>
+<tr><td class="l">FontDiffuser cnstyle</td><td>0.083</td><td>0.607</td><td>0.579</td><td>@42 25k</td></tr>
+<tr><td class="l">LF</td><td>0.138</td><td>0.298</td><td>0.106</td><td>失败</td></tr>
+</table>
+<a class="card pri" href="compare_report/"><b>compare_report/</b><span class="s">★ 推荐 · 指标汇总 + Demo-8 每字 GT|8方法并排</span></a>
+<a class="card pri" href="gallery.html"><b>gallery.html</b><span class="s">全量交互图库 · 按字体/字符筛选</span></a>
+<a class="card" href="wiki_pack/explorer.html"><b>explorer.html</b><span class="s">输入→输出故事板（需 runs/data 可访问）</span></a>
+
+<h2>L1 · GAR 训练阶梯</h2>
+<ul class="tree">
+<li class="node"><div class="row"><span class="title">官方零样本</span><span class="meta">P1 L1 0.127</span></div></li>
+<li class="node"><div class="row"><span class="title">P0 · 42 字 LoRA</span><span class="meta">P1 L1 0.088</span></div>
+  <a class="card" href="gar_p0_train/">gar_p0_train/ · 训练曲线</a>
+</li>
+<li class="node"><div class="row"><span class="title">ft_p253 · 253 字 LoRA ★</span><span class="meta">P1 L1 0.070</span></div>
+  <a class="card pri" href="gar_p253/">gar_p253/ · 过夜报告 + Demo-8 表</a>
+  <a class="card" href="gar_p253_train/">gar_p253_train/ · 训练过程</a>
+  <a class="card" href="gar_p0_randref_train/">gar_p0_randref_train/ · 随机 ref 对照（历史）</a>
+</li>
+</ul>
+
+<h2>L1 · FontDiffuser CN-style</h2>
+<ul class="tree">
+<li class="node"><div class="row"><span class="title">cnstyle@42 · 25k（主表）</span><span class="meta">P1 0.083/0.607</span></div></li>
+<li class="node"><div class="row"><span class="title">p253 cnstyle@12k（放大）</span><span class="meta">P1 0.081/0.616</span></div>
+  <a class="card pri" href="fd_epoch_gallery/">fd_epoch_gallery/ · 多 step 测试图</a>
+</li>
+</ul>
+
+<h2>L1 · Stroke 补风格 <span class="tag nogo">NO-GO</span></h2>
+<ul class="tree">
+<li class="node"><div class="row"><span class="title">GAR stroke aux λ=0.05</span><span class="meta">ΔP1 SSIM −0.030</span></div>
+  <a class="card" href="gar_stroke_preview/gallery/">gar_stroke_preview/gallery/</a>
+  <a class="card" href="gar_stroke_live.html">gar_stroke_live.html</a>
+  <a class="card" href="STROKE_FAST_PILOT.md">STROKE_FAST_PILOT.md</a>
+</li>
+<li class="node"><div class="row"><span class="title">FD stroke-SCR InfoNCE</span><span class="meta">ΔP1 SSIM −0.020 · 自 cnstyle@25k</span></div>
+  <a class="card pri" href="stroke_verdict/">stroke_verdict/ · 红绿 ΔSSIM 终裁</a>
+  <a class="card" href="fd_stroke_scr_preview/gallery/">fd_stroke_scr_preview/gallery/</a>
+  <a class="card" href="fd_stroke_scr_live.html">fd_stroke_scr_live.html</a>
+  <a class="card" href="FD_STROKE_SCR_PLAN.md">FD_STROKE_SCR_PLAN.md</a>
+</li>
+</ul>
+
+<h2>L1 · 渲染 / 协议探针（跨语 GAR/FD）</h2>
+<p class="hint">问「渲法/ content 错配伤不伤」— 非八方法主表，但是选型依据。</p>
+<a class="card" href="gar_official_style_reproduce/">gar_official_style_reproduce/ · 官方 PNG vs 自渲</a>
+<a class="card pri" href="gar_toy_a_fixed48/">gar_toy_a_fixed48/ · 固定48 vs 搜参64（玩具 4 字体）</a>
+<a class="card pri" href="designer_cn2cn_demo8_a_cs_render/">designer_cn2cn_demo8_a_cs_render/ · Demo-8 fixed48 vs CS</a>
+<a class="card" href="gar_content_font_sweep/">gar_content_font_sweep/ · GAR content 字体 sweep</a>
+<a class="card" href="fd_content_font_sweep/">fd_content_font_sweep/ · FD content 字体 sweep</a>
+<a class="card" href="fd_official_content_match/">fd_official_content_match/ · FD 官方 content 对齐</a>
+<a class="card" href="designer_probe_easy/">designer_probe_easy/ · 风格难度 × content 探针</a>
+
+<h2>L2 · 未纳入本索引</h2>
+<p class="hint">这些属于后阶段或混合协议，勿与中→西主表横比。</p>
+<ul class="tree">
+<li class="node"><span class="meta">中→中：</span> <a href="index.html">index.html</a> · E9/E10/fix12/P1b · <a href="WIKI_EXPERIMENT_SUMMARY.md">WIKI_EXPERIMENT_SUMMARY.md</a></li>
+<li class="node"><span class="meta">Native256：</span> <a href="native256_walkaway/">native256_walkaway/</a></li>
+<li class="node"><span class="meta">官方论文指标（混 ckpt）：</span> <a href="official_paper_metrics/">official_paper_metrics/</a></li>
+<li class="node"><span class="meta">未完成：</span> MX/LF 协议重训 Wave B</li>
+</ul>
+
+<p class="foot">索引页 · 路径 <code>reports/retrain_v2/CN2WEST_INDEX.html</code> · 与盘同步，不依赖 Cursor 会话</p>
+</div></body></html>

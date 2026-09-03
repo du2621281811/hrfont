@@ -1,0 +1,24 @@
+# HR-Font root — track code, docs, provenance, selected reports.
+# Heavy artifacts stay outside Git (symlink on this machine).
+
+/data/fontdiffuser/
+/data/fontdiffuser_p253/
+/data/font/
+/data/hrfont_bank/
+/runs/
+/code/FontDiffuser/ckpt/
+/logs/
+
+# Nested FontDiffuser is its own git repo (push fork separately).
+# Track patch exports under docs/patches/ instead of vendoring the whole tree in parent history.
+/code/FontDiffuser/
+
+**/__pycache__/
+**/*.py[cod]
+**/.DS_Store
+**/.ipynb_checkpoints/
+*.tmp
+*.log
+*.pt
+*.pth
+*.zip

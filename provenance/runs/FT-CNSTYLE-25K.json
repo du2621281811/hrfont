@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "kind": "experiment",
+  "experiment_id": "FT-CNSTYLE-25K",
+  "created_at": "2026-09-03T01:41:51+00:00",
+  "provenance_certainty": "retro_partial",
+  "code_recoverable": false,
+  "git": [
+    {
+      "path": ".",
+      "commit": "35ee8d15612306ad8453d9d694ae8b1862b896c4",
+      "branch": "main",
+      "dirty": false,
+      "dirty_paths": [],
+      "dirty_patch_sha256": null,
+      "remotes": []
+    },
+    {
+      "path": "code/FontDiffuser",
+      "commit": "99e42b5e0e4becf95ef16b08ee2bef57462f5fc0",
+      "branch": "hrfont/local-patches-20260903",
+      "dirty": false,
+      "dirty_paths": [],
+      "dirty_patch_sha256": null,
+      "remotes": [
+        "origin\thttps://github.com/yeungchenwa/FontDiffuser.git (fetch)",
+        "origin\thttps://github.com/yeungchenwa/FontDiffuser.git (push)"
+      ]
+    }
+  ],
+  "dataset": {
+    "manifest": "provenance/datasets/fontdiffuser42-cnstyle-v1.json",
+    "dataset_id": "fontdiffuser42-cnstyle-v1",
+    "tree_sha256": "2d67f6d5a2ef0009eea579f66c373876ed47d8126e9aa0392f91589914f30cd9",
+    "manifest_sha256": "89978da584171f0c3f8b6e38c395a72aed0881f73bb2018b30921a0d442014fa"
+  },
+  "command": "/root/miniforge3/envs/boogu/bin/python code/FontDiffuser/train.py --experience_name ft_cnstyle --output_dir runs/ft_cnstyle --data_root data/fontdiffuser --resolution 96 --style_image_size 96 --content_image_size 96 --train_batch_size 4 --max_train_steps 30000 --learning_rate 1e-05 --lr_warmup_steps 1000 --phase_1_ckpt_dir code/FontDiffuser/ckpt --mixed_precision no --ckpt_interval 5000 --log_interval 200",
+  "code_files": [],
+  "recorded_historical_hashes": {},
+  "initialization": [
+    {
+      "kind": "directory",
+      "root": "code/FontDiffuser/ckpt",
+      "file_count": 4,
+      "total_bytes": 686600677,
+      "tree_sha256": "a83ab622180a296bbe24e913b3570e2fcb0a935de384104fc559939aeca61b7a"
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "directory",
+      "root": "runs/ft_cnstyle/global_step_25000",
+      "file_count": 4,
+      "total_bytes": 804730406,
+      "tree_sha256": "f4b760a3fc2e8f71e7ba1ae8ccdc9202695ebfd46f96b7ff380b706ce9e91a9a"
+    },
+    {
+      "path": "runs/ft_cnstyle/ft_cnstyle_config.yaml",
+      "kind": "file",
+      "bytes": 1363,
+      "sha256": "6bd917d35d5b673315edf4d77209046d0a877edc82152c455e4124171b57d989"
+    },
+    {
+      "path": "runs/ft_cnstyle/train_stdout.log",
+      "kind": "file",
+      "bytes": 6205366,
+      "sha256": "f60a9351619eb6a52138b5e64f881444e4510b45dcfe6146a95b50a34440c972"
+    }
+  ],
+  "environment": {
+    "python": "3.10.20",
+    "platform": "Linux-5.15.0-186-generic-x86_64-with-glibc2.36",
+    "packages": {
+      "torch": "2.7.1+cu126",
+      "torchvision": "0.22.1+cu126",
+      "accelerate": "1.14.0",
+      "diffusers": "0.38.0",
+      "numpy": "2.2.6",
+      "Pillow": "12.2.0"
+    }
+  },
+  "note": "Retroactive record. Data, command, config and checkpoint are verifiable; the exact uncommitted FontDiffuser source state used on 2026-08-07 was never committed and cannot be reconstructed exactly. Current Git commits are the recovery baseline, not the training commit."
+}

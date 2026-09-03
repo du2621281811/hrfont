@@ -1,0 +1,38 @@
+{
+  "phase": "stage_b",
+  "eval_done": [80000],
+  "milestones": [10000, 25000, 50000, 70000, 80000],
+  "max_steps": 80000,
+  "current_step": 80000,
+  "final_step": 80000,
+  "train_alive": false,
+  "keepalive_alive": false,
+  "best_eval": {
+    "step": 80000,
+    "ft_l1": 0.08103297780015979,
+    "stageA_l1": 0.08697917782103373,
+    "delta": -0.00594620002087394
+  },
+  "eval_history": [
+    {
+      "step": 80000,
+      "ft_l1": 0.08103297780015979,
+      "stageA_l1": 0.08697917782103373,
+      "delta": -0.00594620002087394
+    }
+  ],
+  "stage_b_plan": {
+    "stageA_ckpt": "/root/projects/hrfont/runs/e2_stageA96_formal/step_80000.pt",
+    "ft_l1": 0.08103297780015979,
+    "stageA_l1": 0.08697917782103373,
+    "delta": -0.00594620002087394,
+    "max_steps": 25000,
+    "reason": "Stage A 接近 ft (0.0870 vs 0.0810, +7.3%) → 标准 Stage B 25k"
+  },
+  "stage_b_max": 25000,
+  "stage_b_step": 1113,
+  "stage_b_train_alive": false,
+  "stage_b_keepalive_alive": false,
+  "t": "2026-08-28 21:35:00",
+  "note": "Stage B managed by hrfont_overnight_orchestrator.sh"
+}

@@ -1,0 +1,242 @@
+{
+  "train": {
+    "fonts": 42,
+    "english_png_total": 6846,
+    "english_png_mean": 163.0,
+    "fonts_with_missing": 42,
+    "missing_by_font": {
+      "FZCCHJW": [
+        "U+0020"
+      ],
+      "FZGLJW": [
+        "U+0020"
+      ],
+      "FZJZJW": [
+        "U+0020"
+      ],
+      "FZCHYJW": [
+        "U+0020"
+      ],
+      "FZHZGBJW": [
+        "U+0020"
+      ],
+      "FZLuXTJW": [
+        "U+0020"
+      ],
+      "FZHCJW": [
+        "U+0020"
+      ],
+      "FZPTYJW": [
+        "U+0020"
+      ],
+      "FZJLJW": [
+        "U+0020"
+      ],
+      "FZCQJW": [
+        "U+0020"
+      ],
+      "FZKANGJW": [
+        "U+0020"
+      ],
+      "FZDuHJW_Cu": [
+        "U+0020"
+      ],
+      "FZTJLSJW": [
+        "U+0020"
+      ],
+      "FZBaoHTJW_Da": [
+        "U+0020"
+      ],
+      "FZDongGSJW-L": [
+        "U+0020"
+      ],
+      "FZPWJW": [
+        "U+0020"
+      ],
+      "FZWBJW": [
+        "U+0020"
+      ],
+      "FZLongKSKSJW": [
+        "U+0020"
+      ],
+      "FZQKBYSJW": [
+        "U+0020"
+      ],
+      "FZShuiYJW": [
+        "U+0020"
+      ],
+      "FZRuiZHJW": [
+        "U+0020"
+      ],
+      "FZTieXHJW_Zhong": [
+        "U+0020"
+      ],
+      "FZMiFXSJW": [
+        "U+0020"
+      ],
+      "FZWenZMXCJW": [
+        "U+0020"
+      ],
+      "FZYTJW": [
+        "U+0020"
+      ],
+      "FZYDCHJW": [
+        "U+0020"
+      ],
+      "FZXiXSLSJW": [
+        "U+0020"
+      ],
+      "FZYanSJW": [
+        "U+0020"
+      ],
+      "FZXingHeiJW-R": [
+        "U+0020"
+      ],
+      "FZYiSJW_Xian": [
+        "U+0020"
+      ],
+      "FZYongKTJ": [
+        "U+0020"
+      ],
+      "FZZDHJW": [
+        "U+0020"
+      ],
+      "TSTanHJW-R": [
+        "U+0020"
+      ],
+      "FZYaSSJW-M": [
+        "U+0020"
+      ],
+      "FZZhaoJSJSJW": [
+        "U+0020"
+      ],
+      "FZZHJW": [
+        "U+0020"
+      ],
+      "FZquanfuti": [
+        "U+0020"
+      ],
+      "FZZJ-ZWJBTJW": [
+        "U+0020"
+      ],
+      "FZZhongYSJW_Zhong": [
+        "U+0020"
+      ],
+      "FZShiSTJW-M": [
+        "U+0020"
+      ],
+      "FZMingMTJW-EB": [
+        "U+0020"
+      ],
+      "FZMingMTJW-M": [
+        "U+0020"
+      ]
+    }
+  },
+  "test_unknown_style": {
+    "fonts": 8,
+    "english_png_total": 1304,
+    "english_png_mean": 163.0,
+    "fonts_with_missing": 8,
+    "missing_by_font": {
+      "FZFengYKSJ": [
+        "U+0020"
+      ],
+      "FZDouNTJW_Te": [
+        "U+0020"
+      ],
+      "FZChuangHJW_DB": [
+        "U+0020"
+      ],
+      "FZCuanBZBKSJW": [
+        "U+0020"
+      ],
+      "FZHanWZKJW": [
+        "U+0020"
+      ],
+      "FZJingYLLTJW": [
+        "U+0020"
+      ],
+      "FZLingFKSJW-B": [
+        "U+0020"
+      ],
+      "FZHuoYYJW-T": [
+        "U+0020"
+      ]
+    }
+  },
+  "source": {
+    "train": 172,
+    "test_unknown_style": 172
+  },
+  "meta": {
+    "size": 128,
+    "english_chars_n": 164,
+    "p1_n": 122,
+    "p2_n": 42,
+    "style_refs": [
+      "永",
+      "和",
+      "书",
+      "风",
+      "骨",
+      "韵",
+      "天",
+      "地"
+    ],
+    "train_fonts": [
+      "FZBaoHTJW_Da",
+      "FZCCHJW",
+      "FZCHYJW",
+      "FZCQJW",
+      "FZDongGSJW-L",
+      "FZDuHJW_Cu",
+      "FZGLJW",
+      "FZHCJW",
+      "FZHZGBJW",
+      "FZJLJW",
+      "FZJZJW",
+      "FZKANGJW",
+      "FZLongKSKSJW",
+      "FZLuXTJW",
+      "FZMiFXSJW",
+      "FZMingMTJW-EB",
+      "FZMingMTJW-M",
+      "FZPTYJW",
+      "FZPWJW",
+      "FZQKBYSJW",
+      "FZRuiZHJW",
+      "FZShiSTJW-M",
+      "FZShuiYJW",
+      "FZTJLSJW",
+      "FZTieXHJW_Zhong",
+      "FZWBJW",
+      "FZWenZMXCJW",
+      "FZXiXSLSJW",
+      "FZXingHeiJW-R",
+      "FZYDCHJW",
+      "FZYTJW",
+      "FZYaSSJW-M",
+      "FZYanSJW",
+      "FZYiSJW_Xian",
+      "FZYongKTJ",
+      "FZZDHJW",
+      "FZZHJW",
+      "FZZJ-ZWJBTJW",
+      "FZZhaoJSJSJW",
+      "FZZhongYSJW_Zhong",
+      "FZquanfuti",
+      "TSTanHJW-R"
+    ],
+    "test_fonts": [
+      "FZChuangHJW_DB",
+      "FZCuanBZBKSJW",
+      "FZDouNTJW_Te",
+      "FZFengYKSJ",
+      "FZHanWZKJW",
+      "FZHuoYYJW-T",
+      "FZJingYLLTJW",
+      "FZLingFKSJW-B"
+    ]
+  }
+}
