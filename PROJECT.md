@@ -64,8 +64,8 @@
 
 ## 版本与恢复
 
-- 根项目Git管理自研代码、规则、台账和机器来源清单；旧报告已在首个基线提交中归档，之后不跟踪动态状态文件。
-- `code/ours/FontDiffuser` 独立Git分支 `hrfont/local-patches-20260903` 保存本地补丁，当前恢复基线为 `99e42b5`。
+- 根项目 Git 管理自研代码、规则、台账与精选报告；大数据/权重不进 Git。
+- FontDiffuser：**单仓双目录** — `code/official/FontDiffuser/`（上游干净）与 `code/ours/FontDiffuser/`（含补丁）；差异见 `docs/patches/`。
 - 数据指纹：`provenance/datasets/fontdiffuser42-cnstyle-v1.json`；实验来源：`provenance/runs/`。
 - `FT-CNSTYLE-25K` 标记为 `retro_partial`：数据、命令、配置和权重可验证，但2026-08-07未提交的源码状态无法精确恢复。
 - Stage A训练源码可恢复；评测脚本是在根Git建立前修改的，仅保留当时SHA256，因此两臂来源清单也诚实标记为 `retro_partial`。
