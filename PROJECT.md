@@ -47,6 +47,58 @@
 
 ---
 
+## 数据集准备：cn2west v2 渲染协议 A–F
+
+261 个方正字体 × 295 target + 338 style 字符，train/val/test = 237/16/8。  
+字符集：`manifests/charset_cn2west_v2_planned.json`；字体拆分：`manifests/pipeline_v2_*_stems_v2.txt`。  
+ContentImage 统一使用 Noto Sans CJK Regular，按各协议对应逻辑渲染。
+
+### 协议规格
+
+| 协议 | 画布 | 字号策略 | 居中 | 缩放 | 输出 | 脚本 |
+|------|------|----------|------|------|------|------|
+| **A** | 96×96 | 逐字体固定：搜最大 fs 使全部字的 textbbox w,h ≤ 84 | textbbox 居中 | 无 | RGB PNG | `build_cn2west_v2_proto_abc.py --proto A` |
+| **B** | 96×96 | 逐字体 height-fit：搜最大 fs 使全部字的 textbbox h ≤ 84；宽溢出则逐字缩小 | textbbox 居中 | 无 | RGB PNG | `build_cn2west_v2_proto_abc.py --proto B` |
+| **C** | 128→96 | 固定 fsize=128 | textbbox 居中 @ 128×128 | BILINEAR → 96×96 | RGB PNG | `build_cn2west_v2_proto_abc.py --proto C` |
+| **D** | 96×96 | 逐字逐字形：二分搜最大 fs 使 textbbox w,h ≤ 88（margin=8px） | textbbox 居中 | 无 | RGB PNG | `build_cn2west_v2_proto_df.py --proto D` |
+| **F** | 96×96 | 逐字逐字形：二分搜最大 fs 使 ink margin ≈ 8px（8% canvas） | textbbox 居中 | 无 | RGB PNG | `build_cn2west_v2_proto_df.py --proto F` |
+
+**关键区别**：
+- A/B 是**逐字体**统一字号（所有字符共享一个 font size），D/F 是**逐字符**独立搜索最大字号。
+- D 用 `textbbox`（逻辑边界框，含 bearings）约束，F 用 `ink bbox`（实际墨迹像素）约束。
+- C 是唯一做缩放的方案，字填充率最高但可能有抗锯齿模糊。
+
+### 数据集 ID
+
+| 协议 | 目录名 |
+|------|--------|
+| A | `fontdiffuser-p253-t295-s338-cn2west-v2` |
+| B | `fontdiffuser-p253-t295-s338-cn2west-v2b-hfit` |
+| C | `fontdiffuser-p253-t295-s338-cn2west-v2c-official128` |
+| D | `fontdiffuser-p253-t295-s338-cn2west-v2d-perglyph-max96` |
+| F | `fontdiffuser-p253-t295-s338-cn2west-v2f-perglyph-fit96` |
+
+### 合作者重建
+
+```bash
+# A/B/C（约 15-30 分钟）
+python scripts/build_cn2west_v2_proto_abc.py --proto all --workers 16
+
+# D/F（约 5-10 分钟）
+python scripts/build_cn2west_v2_proto_df.py --proto both --workers 16
+
+# Review 网页（约 1 分钟）
+python scripts/build_cn2west_v2_protocol_review.py
+python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2west_v2_abc_review/
+```
+
+### QA Review
+
+- 入口页：`data/render_qa_hub.html`
+- 五协议对比 Review：`data/cn2west_v2_abc_review/index.html`（按自动筛选排序，支持 A/B/C/D/F 切换）
+
+---
+
 ## 归档：Stage A MVP（2026-09）
 
 - 结论：`INCONCLUSIVE`；ΔL1 改善 0.00155 < 0.002；不进 Stage B。
