@@ -7,10 +7,8 @@
 /runs/
 /logs/
 
-# Review page rendered images (large, regenerable)
-/data/cn2west_v2_abc_review/proto_DF_compare/
+# Review page large regenerable assets (keep bbox_explain + proto_DF_compare in Git)
 /data/cn2west_v2_abc_review/proto_DF_script_review/
-/data/cn2west_v2_abc_review/bbox_explain/
 /data/cn2west_v2_abc_review/screen_v2b/
 
 # Never commit model weights (even if someone places them under code/).

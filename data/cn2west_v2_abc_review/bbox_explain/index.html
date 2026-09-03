@@ -1,0 +1,19 @@
+<!doctype html><meta charset=utf-8><title>逻辑框 vs 墨迹框</title>
+<style>body{font:15px/1.5 system-ui;max-width:1200px;margin:24px auto;padding:0 16px}
+img{max-width:100%;border:1px solid #ddd;margin:12px 0;display:block}
+.r{color:#dc2828}.b{color:#1e78dc}.y{color:#b8860b}</style>
+<h1>逻辑框 vs 墨迹像素框</h1>
+<p><span class=r>红=逻辑框 textbbox</span>（D用来卡字号）·
+<span class=b>蓝=墨迹像素框</span>（F用来量边距）·
+<span class=y>黄= D 允许的最大区（96−8）</span></p>
+<h2>为啥看起来没顶满 96？</h2>
+<ol>
+<li>更早的教学图用了<strong>固定字号</strong>，不是搜最大。</li>
+<li>即便 D「搜最大」，也故意留 <strong>8px</strong>，红框最多贴到黄线，不会贴画布外框。</li>
+<li>F 更不是最大化，目标是墨迹边距 ≈ <strong>8%</strong>（约 7.7px），所以通常比 D 更空。</li>
+<li>像仙阵「永」：字模本身小，搜到最大号后墨迹仍只占一小块——这不是没搜满。</li>
+</ol>
+<img src="why_not_full_96_teach.png" alt="teach"/>
+<img src="why_not_full_96.png" alt="grid"/>
+<img src="logic_vs_ink_zoom.png"/>
+<img src="logic_vs_ink_grid.png"/>

@@ -34,8 +34,30 @@ PROBES = [
 SEV_RANK = {"drop": 0, "review": 1, "ok": 2}
 
 
+def _yong_h_from_font_row(proto: str, row: dict) -> float | None:
+    if proto == "A":
+        return row.get("yong_h_ratio")
+    yong = row.get("yong")
+    if isinstance(yong, dict):
+        return yong.get("h")
+    return None
+
+
+def load_proto_yong() -> dict[str, dict[str, float | None]]:
+    """stem -> {A: yong_h, B: yong_h, ...} from each dataset summary.json."""
+    by_proto: dict[str, dict[str, float | None]] = {}
+    for proto, did in DS.items():
+        p = ROOT / "data" / did / "summary.json"
+        if not p.exists():
+            continue
+        rows = json.loads(p.read_text(encoding="utf-8")).get("fonts", [])
+        by_proto[proto] = {r["stem"]: _yong_h_from_font_row(proto, r) for r in rows}
+    return by_proto
+
+
 def build_fonts_json() -> dict:
     screen = json.loads(SCREEN.read_text(encoding="utf-8"))
+    proto_yong = load_proto_yong()
     fonts = list(screen["fonts"])
     fonts.sort(
         key=lambda r: (
@@ -82,6 +104,7 @@ def build_fonts_json() -> dict:
                 "severity": f["severity"],
                 "reasons": f.get("reasons") or [],
                 "yong_h": f.get("yong_h"),
+                "proto_yong": {p: proto_yong.get(p, {}).get(f["stem"]) for p in DS},
                 "disp": f.get("disp"),
                 "ratio_bo_han": f.get("ratio_bo_han"),
                 "ratio_la_han": f.get("ratio_la_han"),
@@ -135,7 +158,7 @@ main{overflow:auto;padding:12px 16px 48px}
 <body>
 <header>
   <h1>CN2WEST v2 · A–F 协议 Review</h1>
-  <div class="meta">直接读<strong>已渲染数据集</strong> PNG · 探针示意 / 可展开全字 · J/K 换字体 · 勾选丢弃本地保存</div>
+  <div class="meta">直接读<strong>已渲染数据集</strong> PNG · 探针示意 / 可展开全字 · J/K 换字体 · 勾选丢弃本地保存 · <strong>筛选/色散基于 B 协议</strong> · 永H 按各协议分别显示</div>
   <div class="toolbar">
     <input type="search" id="q" placeholder="搜 stem / 名" style="min-width:160px"/>
     <select id="split"><option value="all">全部 split</option><option value="train">train</option><option value="val">val</option><option value="test">test</option></select>
@@ -160,6 +183,16 @@ const protoOn=new Set(['A','B','C','D','F']);
 const pct=v=>v==null?'—':Math.round(v*100)+'%';
 const f2=v=>v==null?'—':Number(v).toFixed(2);
 
+function protoYongLine(f, protos){
+  const ps=(protos||['A','B','C','D','F']).filter(p=>f.proto_yong&&f.proto_yong[p]!=null);
+  if(!ps.length) return '永H —';
+  return ps.map(p=>`${p}${pct(f.proto_yong[p])}`).join(' · ');
+}
+function protoYongDetail(f){
+  const py=f.proto_yong||{};
+  return ['A','B','C','D','F'].map(p=>py[p]!=null?`永H(${p})=${pct(py[p])}`:null).filter(Boolean).join(' · ');
+}
+
 function imgUrl(proto,split,stem,role,cp){
   const root='../'+DATA.datasets[proto]+'/'+split+'/';
   if(role==='style') return root+'StyleImage/'+stem+'/'+stem+'+'+cp+'.png';
@@ -177,7 +210,7 @@ function renderProtoChips(){
   document.querySelectorAll('[data-proto]').forEach(b=>b.onclick=()=>{
     const p=b.dataset.proto;
     if(protoOn.has(p)){protoOn.delete(p);b.classList.remove('on');}else{protoOn.add(p);b.classList.add('on');}
-    if(cur>=0) renderDetail();
+    if(cur>=0){renderDetail();}else{renderList();}
   });
 }
 
@@ -199,7 +232,7 @@ function renderList(){
   document.getElementById('fontList').innerHTML=filtered.map((f,i)=>`
     <li data-i="${i}" class="${cur===i?'active':''}">
       <div><span class="badge ${f.severity}">${f.severity}</span><span class="stem">${f.stem}</span>${drops[f.stem]?' 🗑':''}</div>
-      <div class="sub">${f.split} · ${f.name||''} · 永${pct(f.yong_h)} · 色散${f2(f.disp)}</div>
+      <div class="sub">${f.split} · ${f.name||''} · ${protoYongLine(f,[...protoOn].sort())} · 色散(B)${f2(f.disp)}</div>
     </li>`).join('');
   document.querySelectorAll('#fontList li').forEach(li=>li.onclick=()=>selectFont(+li.dataset.i));
 }
@@ -228,7 +261,7 @@ function renderDetail(){
   document.getElementById('main').innerHTML=`
     <div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px;margin-bottom:10px">
       <h2 style="margin:0 0 4px"><span class="badge ${f.severity}">${f.severity}</span> ${f.stem} <span style="font-weight:400;color:var(--muted)">${f.name||''} · ${f.split}</span></h2>
-      <div style="color:var(--muted);font-size:12px">${(f.reasons||[]).join(' · ')||'未打标'} · 永H(B)=${pct(f.yong_h)} · 色散=${f2(f.disp)}</div>
+      <div style="color:var(--muted);font-size:12px">${(f.reasons||[]).join(' · ')||'未打标（B 筛查）'} · ${protoYongDetail(f)} · 色散(B)=${f2(f.disp)}</div>
       <div style="margin-top:8px"><label><input type="checkbox" id="dropCb" ${drops[f.stem]?'checked':''}/> 丢弃</label>
       <button id="btnPrev">← K</button> <button id="btnNext">J →</button></div>
     </div>${secs}`;
