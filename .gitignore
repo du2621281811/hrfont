@@ -1,16 +1,17 @@
 # HR-Font root — one clone for collaborators.
 
 # Heavy artifacts stay outside Git (dirs or local symlinks).
-/data/fontdiffuser
-/data/fontdiffuser/
-/data/fontdiffuser_p253
-/data/fontdiffuser_p253/
+/data/fontdiffuser*
 /data/font
-/data/font/
 /data/hrfont_bank
-/data/hrfont_bank/
 /runs/
 /logs/
+
+# Review page rendered images (large, regenerable)
+/data/cn2west_v2_abc_review/proto_DF_compare/
+/data/cn2west_v2_abc_review/proto_DF_script_review/
+/data/cn2west_v2_abc_review/bbox_explain/
+/data/cn2west_v2_abc_review/screen_v2b/
 
 # Never commit model weights (even if someone places them under code/).
 **/ckpt/

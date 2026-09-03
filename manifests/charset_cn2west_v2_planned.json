@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "dataset_plan_id": "fontdiffuser-p253-t295-s338-cn2west-v2",
+  "status": "planned",
+  "target": {
+    "ascii_digits": "0123456789",
+    "ascii_letters": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    "latin_ext_letters": "àáèéêíòóùúüāēěīńňōūǎǐǒǔǖǘǚǜ",
+    "hiragana": "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをん",
+    "katakana": "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ",
+    "bopomofo": "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ"
+  },
+  "target_n": {
+    "ascii_digits": 10,
+    "ascii_letters": 52,
+    "latin_ext_letters": 27,
+    "hiragana": 83,
+    "katakana": 86,
+    "bopomofo": 37
+  },
+  "target_total": 295,
+  "target_string": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzàáèéêíòóùúüāēěīńňōūǎǐǒǔǖǘǚǜぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ",
+  "style_han_338": "一三上下不与世业东两个中为主丽么之乐也书了事二于云些亲人什从他以们会但低住体作你使侯信候借假偏健兄光兜全公共关其内军冬冷凝出分创利到制刻前剧力功动努勇勤化北医十南去又友发只可史右合同名后向和咳喉因团国土在地坚城夏外多大天失头奋女她好如妹始姐子学它宇安宙定实家富寒对将小少就展山工左已市师希平年并幸庄应店康开弊弟强当很得心快性恭息情惜想意感慕慢慧戏成我战所手技把持据捷探改放政敢数文新方无日旧时明星春是智暖暗最月有朋望木未本机村束来树校样桥梦楚歌正此步母民水永没法活浅深清温火点然爱父物现理生用由电男画界白的相看真着知短石福秋种科空第等繁红经结绿网美老者而能自舞船艺花草荣药蓝行衣被西要见词诗诚话说谊谐败起路车过近还这进远造道那部都里重金铁铜银错长问间雨雪面革音韵风飞食骨高黄黑",
+  "style_n": 338,
+  "style_ref8_subset": "永和书风骨韵天地",
+  "eval_style_default": "永",
+  "exclusions": [
+    "space",
+    "ascii_punct",
+    "latin_ext_symbols",
+    "U+00EC ì render-unstable"
+  ],
+  "train_fonts_manifest": "manifests/pipeline_v2_train_stems_253.txt",
+  "test_fonts": "Demo-8"
+}

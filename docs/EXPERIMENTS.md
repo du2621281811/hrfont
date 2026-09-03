@@ -30,3 +30,5 @@
 ## 数据与权重
 
 训练 JPG 与 `.pt` **不进 Git**。见 `docs/DATA_AND_WEIGHTS.md`。
+
+字库语种浏览 / 数据集勾选工具：`reports/charset_picker/`（`python scripts/serve_charset_picker.py` → http://127.0.0.1:8766/）。

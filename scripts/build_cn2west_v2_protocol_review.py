@@ -1,0 +1,273 @@
+#!/usr/bin/env python3
+"""Regenerate protocol review SPA (fonts.json + index.html).
+
+Reads pre-rendered dataset PNGs only — no on-the-fly rendering.
+Supports A/B/C/D/F with probe or full-char mode in browser.
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path("/root/projects/hrfont")
+OUT = ROOT / "data/cn2west_v2_abc_review"
+SCREEN = ROOT / "data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/qa/screen/screen_report.json"
+CHARSET = json.loads((ROOT / "manifests/charset_cn2west_v2_planned.json").read_text(encoding="utf-8"))
+
+DS = {
+    "A": "fontdiffuser-p253-t295-s338-cn2west-v2",
+    "B": "fontdiffuser-p253-t295-s338-cn2west-v2b-hfit",
+    "C": "fontdiffuser-p253-t295-s338-cn2west-v2c-official128",
+    "D": "fontdiffuser-p253-t295-s338-cn2west-v2d-perglyph-max96",
+    "F": "fontdiffuser-p253-t295-s338-cn2west-v2f-perglyph-fit96",
+}
+
+PROBES = [
+    ("style_han", "Style 汉字", "style", "永和书风骨韵天地繁慕慧健"),
+    ("ascii_letters", "ASCII 字母", "target", "AaBbGgQqWwMm"),
+    ("ascii_digits", "ASCII 数字", "target", "0123456789"),
+    ("latin_ext_letters", "拉丁扩展", "target", "àéêüāēǎǐǒǔǖǘ"),
+    ("hiragana", "平假名", "target", "あいうえおかがきぎぱぽ"),
+    ("katakana", "片假名", "target", "アイウエオカガキギジヴ"),
+    ("bopomofo", "注音", "target", "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐ"),
+]
+SEV_RANK = {"drop": 0, "review": 1, "ok": 2}
+
+
+def build_fonts_json() -> dict:
+    screen = json.loads(SCREEN.read_text(encoding="utf-8"))
+    fonts = list(screen["fonts"])
+    fonts.sort(
+        key=lambda r: (
+            SEV_RANK.get(r["severity"], 9),
+            -(r["disp"] or 0),
+            r["yong_h"] if r["yong_h"] is not None else 1.0,
+            r["stem"],
+        )
+    )
+    probes = []
+    full = []
+    for key, label, role, sample in PROBES:
+        all_chars = list(CHARSET["style_han_338"] if key == "style_han" else CHARSET["target"][key])
+        probes.append({"id": key, "label": label, "role": role, "n_full": len(all_chars), "chars": [{"ch": c, "cp": f"u{ord(c):04X}"} for c in sample]})
+        full.append({"id": key, "label": label, "role": role, "chars": [{"ch": c, "cp": f"u{ord(c):04X}"} for c in all_chars]})
+
+    ds_status = {}
+    for k, did in DS.items():
+        p = ROOT / "data" / did / "summary.json"
+        ds_status[k] = {"id": did, "ready": p.exists(), "summary": json.loads(p.read_text())["qa"]["counts"] if p.exists() else None}
+
+    return {
+        "title": "CN2WEST v2 · A–F 协议 Review",
+        "mode_default": "probe",
+        "datasets": DS,
+        "datasets_status": ds_status,
+        "summary": screen["summary"],
+        "thresholds": screen["thresholds"],
+        "probes": probes,
+        "categories_full": full,
+        "protocols": {
+            "A": "宽高进框·每字体一号·原生96",
+            "B": "按高定号·每字体一号·原生96",
+            "C": "官方128→BILINEAR96",
+            "D": "逐字逻辑框最大·原生96",
+            "F": "逐字墨迹边距≈8%·原生96",
+        },
+        "fonts": [
+            {
+                "i": i,
+                "split": f["split"],
+                "stem": f["stem"],
+                "name": f.get("name") or "",
+                "severity": f["severity"],
+                "reasons": f.get("reasons") or [],
+                "yong_h": f.get("yong_h"),
+                "disp": f.get("disp"),
+                "ratio_bo_han": f.get("ratio_bo_han"),
+                "ratio_la_han": f.get("ratio_la_han"),
+                "size": f.get("size"),
+                "med": f.get("med"),
+            }
+            for i, f in enumerate(fonts)
+        ],
+    }
+
+
+HTML = r"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CN2WEST v2 · A–F Review</title>
+<style>
+:root{--bg:#eef1f5;--panel:#fff;--line:#d5dbe3;--muted:#5c6570;--drop:#8b1e1e;--review:#8a5a00;--ok:#2f5d3a;--accent:#1f4a6f}
+*{box-sizing:border-box} html,body{height:100%;margin:0}
+body{font:13px/1.4 system-ui,sans-serif;background:var(--bg);color:#1a1a1a;display:flex;flex-direction:column}
+header{flex:0 0 auto;background:#fff;border-bottom:1px solid var(--line);padding:10px 14px}
+h1{margin:0;font-size:1.05rem} .meta{color:var(--muted);font-size:12px;margin-top:2px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+input,select,button,.chip{padding:5px 9px;border:1px solid var(--line);border-radius:4px;font:inherit;background:#fff;cursor:pointer}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chip.on{background:#e8eef5;border-color:#9db4cc}
+.chip.off{opacity:.45}
+.layout{flex:1;min-height:0;display:grid;grid-template-columns:300px 1fr}
+aside{background:var(--panel);border-right:1px solid var(--line);overflow:auto}
+#fontList{list-style:none;margin:0;padding:0}
+#fontList li{padding:8px 10px;border-bottom:1px solid #eef1f5;cursor:pointer}
+#fontList li:hover{background:#f5f7fa} #fontList li.active{background:#e8eef5}
+.stem{font-weight:600;font-family:ui-monospace,monospace;font-size:12px}
+.sub{color:var(--muted);font-size:11px;margin-top:2px}
+.badge{display:inline-block;font-size:10px;padding:0 6px;border-radius:3px;margin-right:4px}
+.badge.drop{background:#fde8e8;color:var(--drop)} .badge.review{background:#fff3d6;color:var(--review)} .badge.ok{background:#e8f2ea;color:var(--ok)}
+main{overflow:auto;padding:12px 16px 48px}
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin:10px 0}
+.sec h3{margin:0 0 8px;font-size:13px}
+.sec h3 span{color:var(--muted);font-weight:400;font-size:11px}
+.proto-lab{display:grid;grid-template-columns:36px 1fr;gap:6px;align-items:center;margin:4px 0}
+.proto-lab b{font-size:11px;color:var(--muted);text-align:right}
+.strip{display:flex;flex-wrap:wrap;gap:3px}
+.strip figure{margin:0;width:56px;text-align:center}
+.strip img{width:56px;height:56px;image-rendering:pixelated;border:1px solid #e0e4ea;background:#fff;display:block}
+.strip figcaption{font-size:10px;color:#444;margin-top:1px}
+.warn{color:#a30;font-size:12px;margin:8px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>CN2WEST v2 · A–F 协议 Review</h1>
+  <div class="meta">直接读<strong>已渲染数据集</strong> PNG · 探针示意 / 可展开全字 · J/K 换字体 · 勾选丢弃本地保存</div>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="搜 stem / 名" style="min-width:160px"/>
+    <select id="split"><option value="all">全部 split</option><option value="train">train</option><option value="val">val</option><option value="test">test</option></select>
+    <button type="button" class="chip on" data-sev="drop">建议丢</button>
+    <button type="button" class="chip on" data-sev="review">再看</button>
+    <button type="button" class="chip on" data-sev="ok">正常</button>
+    <span id="protoChips"></span>
+    <label><input type="checkbox" id="fullMode"/> 展开全字</label>
+    <span id="progress"></span>
+    <button type="button" class="primary" id="btnExport">导出丢弃</button>
+  </div>
+</header>
+<div class="layout">
+  <aside><ul id="fontList"></ul></aside>
+  <main id="main">从左侧选字体</main>
+</div>
+<script>
+const DROP_KEY='hrfont_v2_abcde_review_drop_v1';
+let DATA=null, filtered=[], cur=-1;
+const sevOn=new Set(['drop','review','ok']);
+const protoOn=new Set(['A','B','C','D','F']);
+const pct=v=>v==null?'—':Math.round(v*100)+'%';
+const f2=v=>v==null?'—':Number(v).toFixed(2);
+
+function imgUrl(proto,split,stem,role,cp){
+  const root='../'+DATA.datasets[proto]+'/'+split+'/';
+  if(role==='style') return root+'StyleImage/'+stem+'/'+stem+'+'+cp+'.png';
+  return root+'TargetImage/'+stem+'/'+stem+'+'+cp+'.png';
+}
+function loadDrops(){try{return JSON.parse(localStorage.getItem(DROP_KEY)||'{}')}catch(e){return{}};}
+function saveDrops(o){localStorage.setItem(DROP_KEY,JSON.stringify(o));}
+
+function renderProtoChips(){
+  document.getElementById('protoChips').innerHTML=['A','B','C','D','F'].map(p=>{
+    const ready=DATA.datasets_status[p]?.ready;
+    const on=protoOn.has(p);
+    return `<button type="button" class="chip ${on?'on':''} ${ready?'':'off'}" data-proto="${p}" title="${DATA.protocols[p]||''}">${p}${ready?'':'⚠'}</button>`;
+  }).join('');
+  document.querySelectorAll('[data-proto]').forEach(b=>b.onclick=()=>{
+    const p=b.dataset.proto;
+    if(protoOn.has(p)){protoOn.delete(p);b.classList.remove('on');}else{protoOn.add(p);b.classList.add('on');}
+    if(cur>=0) renderDetail();
+  });
+}
+
+function applyFilter(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  const split=document.getElementById('split').value;
+  filtered=DATA.fonts.filter(f=>{
+    if(!sevOn.has(f.severity)) return false;
+    if(split!=='all' && f.split!==split) return false;
+    if(q && !(f.stem.toLowerCase().includes(q)||(f.name||'').toLowerCase().includes(q))) return false;
+    return true;
+  });
+  renderList();
+  const drops=loadDrops();
+  document.getElementById('progress').textContent=`显示 ${filtered.length}/${DATA.fonts.length} · 勾选丢 ${Object.values(drops).filter(Boolean).length}`;
+}
+function renderList(){
+  const drops=loadDrops();
+  document.getElementById('fontList').innerHTML=filtered.map((f,i)=>`
+    <li data-i="${i}" class="${cur===i?'active':''}">
+      <div><span class="badge ${f.severity}">${f.severity}</span><span class="stem">${f.stem}</span>${drops[f.stem]?' 🗑':''}</div>
+      <div class="sub">${f.split} · ${f.name||''} · 永${pct(f.yong_h)} · 色散${f2(f.disp)}</div>
+    </li>`).join('');
+  document.querySelectorAll('#fontList li').forEach(li=>li.onclick=()=>selectFont(+li.dataset.i));
+}
+function selectFont(i){
+  if(i<0||i>=filtered.length) return;
+  cur=i; renderList(); renderDetail();
+  document.getElementById('main').scrollTop=0;
+}
+function stripHTML(proto,f,role,chars){
+  if(!DATA.datasets_status[proto]?.ready) return `<div class="proto-lab"><b>${proto}</b><span class="warn">数据集未就绪</span></div>`;
+  return `<div class="proto-lab"><b>${proto}</b><div class="strip">${chars.map(c=>
+    `<figure><img loading="lazy" src="${imgUrl(proto,f.split,f.stem,role,c.cp)}" alt=""/><figcaption>${c.ch}</figcaption></figure>`
+  ).join('')}</div></div>`;
+}
+function renderDetail(){
+  const f=filtered[cur];
+  const drops=loadDrops();
+  const full=document.getElementById('fullMode').checked;
+  const cats=full?DATA.categories_full:DATA.probes;
+  const protos=[...protoOn].sort();
+  let secs='';
+  for(const cat of cats){
+    const rows=protos.map(p=>stripHTML(p,f,cat.role,cat.chars)).join('');
+    secs+=`<section class="sec"><h3>${cat.label} <span>${full?cat.chars.length+'字':'示意 '+cat.chars.length}</span></h3>${rows}</section>`;
+  }
+  document.getElementById('main').innerHTML=`
+    <div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px;margin-bottom:10px">
+      <h2 style="margin:0 0 4px"><span class="badge ${f.severity}">${f.severity}</span> ${f.stem} <span style="font-weight:400;color:var(--muted)">${f.name||''} · ${f.split}</span></h2>
+      <div style="color:var(--muted);font-size:12px">${(f.reasons||[]).join(' · ')||'未打标'} · 永H(B)=${pct(f.yong_h)} · 色散=${f2(f.disp)}</div>
+      <div style="margin-top:8px"><label><input type="checkbox" id="dropCb" ${drops[f.stem]?'checked':''}/> 丢弃</label>
+      <button id="btnPrev">← K</button> <button id="btnNext">J →</button></div>
+    </div>${secs}`;
+  document.getElementById('dropCb').onchange=e=>{const o=loadDrops();o[f.stem]=e.target.checked;saveDrops(o);applyFilter();};
+  document.getElementById('btnPrev').onclick=()=>selectFont(cur-1);
+  document.getElementById('btnNext').onclick=()=>selectFont(cur+1);
+}
+document.querySelectorAll('.chip[data-sev]').forEach(ch=>ch.onclick=()=>{
+  const s=ch.dataset.sev;
+  if(sevOn.has(s)){sevOn.delete(s);ch.classList.remove('on');}else{sevOn.add(s);ch.classList.add('on');}
+  cur=-1;applyFilter();
+});
+document.getElementById('q').oninput=()=>{cur=-1;applyFilter();};
+document.getElementById('split').onchange=()=>{cur=-1;applyFilter();};
+document.getElementById('fullMode').onchange=()=>{if(cur>=0)renderDetail();};
+document.getElementById('btnExport').onclick=()=>{
+  const stems=Object.keys(loadDrops()).filter(k=>loadDrops()[k]).sort();
+  const blob=new Blob([JSON.stringify({action:'drop_fonts',n_drop:stems.length,stems,exported_at:new Date().toISOString()},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='v2_abcde_drop.json';a.click();
+};
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+  if(e.key==='j'||e.key==='J'){e.preventDefault();selectFont(cur+1);}
+  if(e.key==='k'||e.key==='K'){e.preventDefault();selectFont(cur-1);}
+});
+fetch('fonts.json').then(r=>r.json()).then(d=>{DATA=d;renderProtoChips();applyFilter();if(filtered.length)selectFont(0);});
+</script>
+</body>
+</html>
+"""
+
+
+def main() -> None:
+    OUT.mkdir(parents=True, exist_ok=True)
+    payload = build_fonts_json()
+    (OUT / "fonts.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    (OUT / "index.html").write_text(HTML, encoding="utf-8")
+    print(json.dumps({k: payload["datasets_status"][k]["ready"] for k in "ABCDF"}, indent=2))
+
+
+if __name__ == "__main__":
+    main()

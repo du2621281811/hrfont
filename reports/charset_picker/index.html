@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>HR-Font · 字库语种有无与数据集勾选</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+SC:wght@600;700&display=swap');
+:root{
+  --ink:#1a1f24; --muted:#66707a; --line:#d8dee6; --paper:#f3f5f7;
+  --panel:#fff; --accent:#1e4d6b; --accent-soft:#e8f1f6;
+  --style:#6b4a1e; --style-soft:#f6efe8; --good:#1f6b52; --bad:#8f2f2f;
+  --tile:76px; --radius:4px;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:14.5px/1.45 "DM Sans",system-ui,sans-serif;
+  background:radial-gradient(1100px 480px at 8% -8%,#dfe8ef,transparent 55%),var(--paper)}
+button,select,input{font:inherit}button{cursor:pointer}
+.app{display:grid;grid-template-columns:250px minmax(0,1fr) 310px;min-height:100vh}
+@media(max-width:1100px){.app{grid-template-columns:1fr}}
+.side,.tray{background:rgba(255,255,255,.88);border-right:1px solid var(--line);padding:14px;overflow:auto}
+.tray{border-right:0;border-left:1px solid var(--line)}
+.main{padding:16px 18px 40px;min-width:0}
+.brand{font-family:"Noto Serif SC",serif;font-size:1.28rem;margin:0 0 4px}
+.sub{color:var(--muted);font-size:12.5px;margin:0 0 12px}
+.sec{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.search{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
+.font-list{display:flex;flex-direction:column;gap:4px;max-height:52vh;overflow:auto}
+.font-item{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:center;padding:7px 8px;border:1px solid transparent;border-radius:var(--radius);background:transparent;text-align:left;color:inherit}
+.font-item:hover{background:#fff;border-color:var(--line)}
+.font-item.active{background:var(--accent-soft);border-color:#b7cedb}
+.font-item .name{font-weight:600;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.font-item .tag{font-size:10px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--muted)}
+.pill.on{background:var(--accent-soft);color:var(--accent);border-color:#b7cedb}
+.pill.bad{background:#f8eaea;color:var(--bad);border-color:#e3bcbc}
+.pill.good{background:#e7f3ee;color:var(--good);border-color:#b7d8c8}
+.pill.style{background:var(--style-soft);color:var(--style);border-color:#e0d0b8}
+.callout{background:#fff;border:1px solid var(--line);border-left:3px solid var(--accent);padding:10px 12px;margin:0 0 12px;font-size:13px;color:var(--muted)}
+.callout b{color:var(--ink)}
+.cov-table{width:100%;border-collapse:collapse;background:#fff;font-size:12.5px;margin:0 0 14px}
+.cov-table th,.cov-table td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+.cov-table th{background:rgba(18,21,26,.04);font-weight:600}
+.cov-table td.l{text-align:left}
+.cov-table .miss{color:var(--bad);font-weight:700}
+.cov-table .ok{color:var(--good);font-weight:600}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;position:sticky;top:0;z-index:5;padding:8px 0 10px;background:linear-gradient(180deg,rgba(243,245,247,.97) 70%,transparent)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{border:1px solid var(--line);background:#fff;padding:7px 11px;border-radius:999px;font-weight:600;font-size:12.5px}
+.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tab.disabled{opacity:.55}
+.tab .n{opacity:.7;margin-left:4px;font-weight:500}
+.actions{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+.btn{border:1px solid var(--line);background:#fff;padding:7px 11px;border-radius:var(--radius);font-weight:600;font-size:12.5px}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.ghost{background:transparent}
+.hint{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+.font-cov{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));gap:8px}
+.tile{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:6px;display:flex;flex-direction:column;gap:4px}
+.tile.selected{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.tile.selected.style-role{border-color:var(--style);box-shadow:inset 0 0 0 1px var(--style)}
+.tile .chk{position:absolute;top:6px;left:6px;width:15px;height:15px;accent-color:var(--accent)}
+.tile img,.tile .ph{width:100%;aspect-ratio:1;object-fit:contain;background:#fafbfc;border:1px solid #eef1f4;border-radius:2px}
+.tile .ph{display:grid;place-items:center;font-family:"Noto Serif SC",serif;font-size:1.55rem}
+.tile .meta{display:flex;justify-content:space-between;gap:4px}
+.tile .ch{font-weight:700;font-family:"Noto Serif SC",serif;font-size:13px}
+.tile .cp{font-size:10px;color:var(--muted)}
+.tile.dim{opacity:.45}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:10px}
+.stat .v{font-size:1.3rem;font-weight:700}
+.stat .l{font-size:11px;color:var(--muted)}
+.block{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;margin-bottom:10px}
+.block h3{margin:0 0 8px;font-size:13px}
+.export-box{width:100%;min-height:130px;resize:vertical;font:11.5px/1.4 ui-monospace,Menlo,monospace;border:1px solid var(--line);border-radius:var(--radius);padding:8px;background:#fbfcfd}
+.empty{padding:36px 12px;color:var(--muted);text-align:center;background:#fff;border:1px dashed var(--line);border-radius:var(--radius)}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 14px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;z-index:20}
+.toast.show{opacity:1}
+.note{font-size:12px;color:var(--muted);margin:0;padding-left:18px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <h1 class="brand">语种 · 勾选</h1>
+    <p class="sub">与 cmap 实测同一套分类</p>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <span class="pill on" id="pillFont">—</span>
+      <span class="pill" id="pillSplit">—</span>
+    </div>
+    <input class="search" id="fontSearch" placeholder="搜索字体…" spellcheck="false"/>
+    <div class="sec">训练字体入选</div>
+    <div style="display:flex;gap:6px;margin-bottom:6px">
+      <button class="btn ghost" id="selAllFonts" type="button">全选训</button>
+      <button class="btn ghost" id="selNoneFonts" type="button">清空训</button>
+    </div>
+    <div class="font-list" id="fontList"></div>
+  </aside>
+
+  <main class="main">
+    <div class="callout" id="taxonomyNote"></div>
+
+    <div class="sec" style="margin-top:0">253 字库 · 各类「有多少款有」</div>
+    <table class="cov-table" id="bankTable">
+      <thead>
+        <tr>
+          <th class="l">语种分类</th>
+          <th>有此类的字体</th>
+          <th>没有</th>
+          <th>中位码位数</th>
+          <th>数据集角色</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="sec">当前字体 · cmap 有无</div>
+    <div class="font-cov" id="fontCov"></div>
+
+    <div class="toolbar">
+      <div class="tabs" id="tabs"></div>
+      <div class="actions">
+        <button class="btn" id="selGroup" type="button">本组全选</button>
+        <button class="btn" id="clrGroup" type="button">本组清空</button>
+        <button class="btn" id="invertGroup" type="button">本组反选</button>
+      </div>
+    </div>
+    <p class="hint" id="groupHint"></p>
+    <div id="gridWrap"><div class="grid" id="grid"></div></div>
+  </main>
+
+  <aside class="tray">
+    <div class="stats">
+      <div class="stat"><div class="v" id="nTarget">0</div><div class="l">Target 已勾</div></div>
+      <div class="stat"><div class="v" id="nStyle">0</div><div class="l">Style 已勾</div></div>
+      <div class="stat"><div class="v" id="nFonts">0</div><div class="l">训练字体</div></div>
+      <div class="stat"><div class="v" id="nPairs">0</div><div class="l">粗算 Target 对</div></div>
+    </div>
+    <div class="block">
+      <h3>预设</h3>
+      <select class="search" id="preset" style="margin-bottom:6px"></select>
+      <button class="btn primary" id="applyPreset" type="button" style="width:100%">应用预设</button>
+    </div>
+    <div class="block">
+      <h3>读法</h3>
+      <ul class="note" id="notes"></ul>
+    </div>
+    <div class="block">
+      <h3>导出</h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <button class="btn primary" id="btnExport" type="button">刷新</button>
+        <button class="btn" id="btnCopy" type="button">复制</button>
+        <button class="btn" id="btnDownload" type="button">下载</button>
+      </div>
+      <textarea class="export-box" id="exportBox" readonly></textarea>
+    </div>
+  </aside>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const STORE_KEY = "hrfont.charset_picker.v2";
+let catalog=null;
+let state={font:null,group:"latin_ascii",selectedTarget:new Set(),selectedStyle:new Set(),includedFonts:new Set()};
+
+function toast(m){const el=document.getElementById("toast");el.textContent=m;el.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove("show"),1600)}
+function currentFont(){return catalog.fonts.find(f=>f.stem===state.font)}
+function charsInGroup(gid){return catalog.chars.filter(c=>c.group===gid)}
+function imgUrl(font,ch){return `${ch.role==="style"?font.cn_dir:font.en_dir}/${ch.file}`}
+function isSelected(ch){return (ch.role==="target"?state.selectedTarget:state.selectedStyle).has(ch.cp)}
+function setSelected(ch,on){const s=ch.role==="target"?state.selectedTarget:state.selectedStyle;on?s.add(ch.cp):s.delete(ch.cp)}
+
+function saveLocal(){localStorage.setItem(STORE_KEY,JSON.stringify({font:state.font,group:state.group,selectedTarget:[...state.selectedTarget],selectedStyle:[...state.selectedStyle],includedFonts:[...state.includedFonts]}))}
+function loadLocal(){try{const p=JSON.parse(localStorage.getItem(STORE_KEY)||"null");if(!p)return false;if(p.font)state.font=p.font;if(p.group)state.group=p.group;if(p.selectedTarget)state.selectedTarget=new Set(p.selectedTarget);if(p.selectedStyle)state.selectedStyle=new Set(p.selectedStyle);if(p.includedFonts)state.includedFonts=new Set(p.includedFonts);return true}catch{return false}}
+
+function roleLabel(role){
+  if(role==="target") return "Target";
+  if(role==="style") return "Style";
+  return "未纳入协议";
+}
+
+function renderBankTable(){
+  const tb=document.querySelector("#bankTable tbody");
+  tb.innerHTML="";
+  for(const r of catalog.bank_coverage){
+    const tr=document.createElement("tr");
+    const miss=r.fonts_without>0;
+    tr.innerHTML=`<td class="l"><b>${r.label}</b></td>
+      <td class="${miss?"":"ok"}">${r.fonts_with}/253（${r.pct_fonts_with}%）</td>
+      <td class="${miss?"miss":""}">${r.fonts_without}</td>
+      <td>${r.count_median}</td>
+      <td>${roleLabel(r.role)}${r.dataset_selectable?"":" · 不可勾选"}</td>`;
+    tb.appendChild(tr);
+  }
+}
+
+function renderFontCov(){
+  const box=document.getElementById("fontCov");
+  const f=currentFont();
+  box.innerHTML="";
+  if(!f||!f.has){
+    box.innerHTML=`<span class="pill">Demo-8 / 无 cmap 统计（仅训练 253 有逐库统计）</span>`;
+    return;
+  }
+  for(const g of catalog.groups){
+    if(!(g.id in f.has)) continue;
+    const has=f.has[g.id];
+    const n=f.counts?f.counts[g.id]:0;
+    const span=document.createElement("span");
+    span.className="pill "+(has?"good":"bad");
+    span.textContent=`${g.label.split(" ")[0]} ${has?"有":"无"} · ${n}`;
+    span.title=`${g.label}: cmap ${n} 码位；判定阈值见 catalog`;
+    box.appendChild(span);
+  }
+  const tot=document.createElement("span");
+  tot.className="pill on";
+  tot.textContent=`cmap 总计 ${f.cmap_total}`;
+  box.appendChild(tot);
+}
+
+function buildExport(){
+  const target=catalog.chars.filter(c=>c.role==="target"&&state.selectedTarget.has(c.cp));
+  const style=catalog.chars.filter(c=>c.role==="style"&&state.selectedStyle.has(c.cp));
+  const fonts=catalog.fonts.filter(f=>state.includedFonts.has(f.stem)&&f.split==="train");
+  const by={}; for(const c of target) by[c.group]=(by[c.group]||0)+1;
+  return {
+    schema_version:2,
+    kind:"charset_picker_selection",
+    created_at:new Date().toISOString(),
+    taxonomy:"aligned_with_cmap_script_mix",
+    fonts:{train:fonts.map(f=>f.stem),n_train:fonts.length,test_holdout:catalog.fonts.filter(f=>f.split==="test").map(f=>f.stem)},
+    target:{n:target.length,by_group:by,chars:target.map(c=>c.ch).join(""),codepoints:target.map(c=>c.cp)},
+    style:{n:style.length,chars:style.map(c=>c.ch).join(""),codepoints:style.map(c=>c.cp)},
+    estimate:{target_pairs:fonts.length*target.length,style_images:fonts.length*style.length},
+    bank_coverage_snapshot:catalog.bank_coverage.map(r=>({id:r.id,fonts_with:r.fonts_with,fonts_without:r.fonts_without})),
+  };
+}
+
+function updateStats(){
+  const nT=state.selectedTarget.size,nS=state.selectedStyle.size;
+  const nF=[...state.includedFonts].filter(s=>{const f=catalog.fonts.find(x=>x.stem===s);return f&&f.split==="train"}).length;
+  document.getElementById("nTarget").textContent=nT;
+  document.getElementById("nStyle").textContent=nS;
+  document.getElementById("nFonts").textContent=nF;
+  document.getElementById("nPairs").textContent=(nF*nT).toLocaleString();
+  document.getElementById("exportBox").value=JSON.stringify(buildExport(),null,2);
+  saveLocal();
+}
+
+function renderFonts(){
+  const q=document.getElementById("fontSearch").value.trim().toLowerCase();
+  const box=document.getElementById("fontList"); box.innerHTML="";
+  for(const f of catalog.fonts){
+    if(q&&!f.stem.toLowerCase().includes(q)) continue;
+    const btn=document.createElement("button"); btn.type="button";
+    btn.className="font-item"+(f.stem===state.font?" active":"");
+    const hangulMiss=f.has && f.has.hangul===false;
+    btn.innerHTML=`<input type="checkbox" ${state.includedFonts.has(f.stem)?"checked":""} ${f.split==="test"?"disabled":""}/>
+      <span class="name" title="${f.stem}">${f.stem}</span>
+      <span class="tag">${f.split==="train"?(hangulMiss?"训·无韩":"训"):"测"}</span>`;
+    const cb=btn.querySelector("input");
+    cb.addEventListener("click",e=>{e.stopPropagation();if(f.split==="test")return;cb.checked?state.includedFonts.add(f.stem):state.includedFonts.delete(f.stem);updateStats()});
+    btn.addEventListener("click",()=>{state.font=f.stem;document.getElementById("pillFont").textContent=f.stem;document.getElementById("pillSplit").textContent=f.split==="train"?"训练池":"Demo-8";document.getElementById("pillSplit").className="pill "+(f.split==="test"?"style":"on");renderFonts();renderFontCov();renderGrid()});
+    box.appendChild(btn);
+  }
+}
+
+function renderTabs(){
+  const tabs=document.getElementById("tabs"); tabs.innerHTML="";
+  for(const g of catalog.groups){
+    const n=charsInGroup(g.id).length;
+    const sel=charsInGroup(g.id).filter(isSelected).length;
+    const b=document.createElement("button"); b.type="button";
+    b.className="tab"+(state.group===g.id?" active":"")+(g.dataset_selectable?"":" disabled");
+    b.innerHTML=`${g.label.split(" ")[0]}<span class="n">${g.dataset_selectable?`${sel}/${n||"—"}`:(g.id==="hangul"?"0库":"未渲")}</span>`;
+    b.addEventListener("click",()=>{state.group=g.id;renderTabs();renderGrid()});
+    tabs.appendChild(b);
+  }
+}
+
+function renderGrid(){
+  const g=catalog.groups.find(x=>x.id===state.group);
+  const font=currentFont();
+  const wrap=document.getElementById("gridWrap");
+  document.getElementById("groupHint").textContent=g?`${g.label} · ${g.hint}`:"";
+  renderTabs();
+
+  if(!g.dataset_selectable){
+    const bank=catalog.bank_coverage.find(x=>x.id===g.id);
+    wrap.innerHTML=`<div class="empty">
+      <p><b>${g.label}</b>：${g.hint}</p>
+      <p>字库层面：${bank?`${bank.fonts_with}/253 有，${bank.fonts_without} 没有；中位码位 ${bank.count_median}`:"—"}</p>
+      <p>数据集层面：当前协议未渲染此类，故<strong>不能勾选进训练字表</strong>。</p>
+    </div>`;
+    updateStats(); return;
+  }
+
+  const list=charsInGroup(g.id);
+  if(!list.length){
+    wrap.innerHTML=`<div class="empty">本组无已渲染候选字</div>`; updateStats(); return;
+  }
+  wrap.innerHTML=`<div class="grid" id="grid"></div>`;
+  const box=document.getElementById("grid");
+  for(const ch of list){
+    const on=isSelected(ch);
+    const tile=document.createElement("label");
+    tile.className="tile"+(on?" selected":"")+(ch.role==="style"?" style-role":"")+(ch.note==="no_gt_often"?" dim":"");
+    const src=imgUrl(font,ch);
+    tile.innerHTML=`<input class="chk" type="checkbox" ${on?"checked":""}/>
+      <img loading="lazy" alt="${ch.ch}" src="${src}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"/>
+      <div class="ph" style="display:none">${ch.ch}</div>
+      <div class="meta"><span class="ch">${ch.ch===" "?"␠":ch.ch}</span><span class="cp">${ch.cp.replace("U+","")}</span></div>`;
+    tile.querySelector("input").addEventListener("change",e=>{setSelected(ch,e.target.checked);tile.classList.toggle("selected",e.target.checked);renderTabs();updateStats()});
+    box.appendChild(tile);
+  }
+  updateStats();
+}
+
+function applyPreset(id){
+  const pr=catalog.presets[id]; if(!pr)return;
+  state.selectedTarget=new Set(pr.target_cps||[]);
+  state.selectedStyle=new Set(pr.style_cps||[]);
+  if(pr.fonts==="train_default") state.includedFonts=new Set(catalog.fonts.filter(f=>f.default_include).map(f=>f.stem));
+  renderFonts(); renderFontCov(); renderGrid(); toast("已应用："+pr.label);
+}
+
+function refreshAll(){renderBankTable();renderFonts();renderFontCov();renderGrid();updateStats()}
+
+async function boot(){
+  const res=await fetch("catalog.json");
+  if(!res.ok) throw new Error("无法加载 catalog.json");
+  catalog=await res.json();
+  document.getElementById("taxonomyNote").innerHTML=`<b>分类对齐说明：</b>${catalog.taxonomy_note}`;
+  document.getElementById("notes").innerHTML=catalog.notes.map(n=>`<li>${n}</li>`).join("");
+  const sel=document.getElementById("preset");
+  for(const [id,pr] of Object.entries(catalog.presets)){const o=document.createElement("option");o.value=id;o.textContent=pr.label;sel.appendChild(o)}
+  const restored=loadLocal();
+  if(!state.font) state.font=catalog.fonts.find(f=>f.split==="train").stem;
+  if(!restored){
+    const pr=catalog.presets.current_protocol;
+    state.selectedTarget=new Set(pr.target_cps); state.selectedStyle=new Set(pr.style_cps);
+    state.includedFonts=new Set(catalog.fonts.filter(f=>f.default_include).map(f=>f.stem));
+  }else if(!state.includedFonts.size){
+    state.includedFonts=new Set(catalog.fonts.filter(f=>f.default_include).map(f=>f.stem));
+  }
+  document.getElementById("pillFont").textContent=state.font;
+  const f=currentFont();
+  document.getElementById("pillSplit").textContent=f?.split==="train"?"训练池":"Demo-8";
+  refreshAll();
+
+  document.getElementById("fontSearch").addEventListener("input",renderFonts);
+  document.getElementById("selAllFonts").onclick=()=>{catalog.fonts.filter(f=>f.split==="train").forEach(f=>state.includedFonts.add(f.stem));renderFonts();updateStats()};
+  document.getElementById("selNoneFonts").onclick=()=>{state.includedFonts.clear();renderFonts();updateStats()};
+  document.getElementById("selGroup").onclick=()=>{const g=catalog.groups.find(x=>x.id===state.group);if(!g?.dataset_selectable)return toast("本组不可勾选");charsInGroup(state.group).forEach(c=>setSelected(c,true));renderGrid()};
+  document.getElementById("clrGroup").onclick=()=>{charsInGroup(state.group).forEach(c=>setSelected(c,false));renderGrid()};
+  document.getElementById("invertGroup").onclick=()=>{const g=catalog.groups.find(x=>x.id===state.group);if(!g?.dataset_selectable)return;charsInGroup(state.group).forEach(c=>setSelected(c,!isSelected(c)));renderGrid()};
+  document.getElementById("applyPreset").onclick=()=>applyPreset(sel.value);
+  document.getElementById("btnExport").onclick=()=>{updateStats();toast("已刷新")};
+  document.getElementById("btnCopy").onclick=async()=>{updateStats();await navigator.clipboard.writeText(document.getElementById("exportBox").value);toast("已复制")};
+  document.getElementById("btnDownload").onclick=()=>{updateStats();const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([document.getElementById("exportBox").value],{type:"application/json"}));a.download=`charset_selection_${Date.now()}.json`;a.click()};
+}
+boot().catch(e=>{document.body.innerHTML=`<div style="padding:40px;font-family:sans-serif"><h1>加载失败</h1><p>${e.message}</p><pre>cd reports/charset_picker && python -m http.server 8766</pre></div>`});
+</script>
+</body>
+</html>
