@@ -37,4 +37,6 @@
 | QA Hub | `data/render_qa_hub.html`（`python -m http.server 8777 --directory data/`） |
 | A–H 协议 Review | `data/cn2west_v2_abc_review/` |
 | A 墨量预览 | `data/cn2west_v2_abc_review/proto_A_ink/` |
+| R0 ink 审查 | `data/cn2west_v2_abc_review/proto_A_ink/review.html` |
+| Ink 阈值提案 | `reports/R0_INK_GATE_PROPOSAL.md`（待 PI） |
 | 字库语种浏览 | `reports/charset_picker/`（`python scripts/serve_charset_picker.py` → :8766） |

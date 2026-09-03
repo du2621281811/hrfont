@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>R0 · A ink_ratio 审查</title>
+<style>
+:root{--bg:#eef1f5;--panel:#fff;--line:#d5dbe3;--muted:#5c6570;--warn:#8a4b08;--bad:#8b1a1a}
+*{box-sizing:border-box} html,body{height:100%;margin:0}
+body{font:13px/1.45 system-ui,sans-serif;background:var(--bg);color:#1a1a1a;display:flex;flex-direction:column}
+header{flex:0 0 auto;background:#fff;border-bottom:1px solid var(--line);padding:10px 14px}
+h1{margin:0;font-size:1.1rem} .meta{color:var(--muted);font-size:12px;margin-top:2px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+input,select,button{padding:5px 9px;border:1px solid var(--line);border-radius:4px;font:inherit;background:#fff}
+.layout{flex:1;min-height:0;display:grid;grid-template-columns:380px 1fr}
+aside{background:var(--panel);border-right:1px solid var(--line);overflow:auto}
+#fontList{list-style:none;margin:0;padding:0}
+#fontList li{padding:8px 10px;border-bottom:1px solid #eef1f5;cursor:pointer}
+#fontList li:hover{background:#f5f7fa} #fontList li.active{background:#e8eef5}
+#fontList li.cand{border-left:3px solid #c47a12}
+.stem{font-weight:600;font-family:ui-monospace,monospace;font-size:12px}
+.sub{color:var(--muted);font-size:11px;margin-top:2px}
+main{overflow:auto;padding:14px}
+.badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:11px;margin-left:4px}
+.badge.cand{background:#fff3cd;color:var(--warn)}
+.badge.ok{background:#e8f5e9;color:#1b5e20}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin-top:10px}
+.cell{background:#fff;border:1px solid var(--line);padding:4px;text-align:center}
+.cell img{width:64px;height:64px;image-rendering:pixelated;background:#fff}
+.cell .lab{font-size:11px;color:var(--muted);margin-top:2px}
+.dec{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0;padding:10px;background:#fff;border:1px solid var(--line)}
+.dec label{cursor:pointer}
+pre{background:#fff;border:1px solid var(--line);padding:10px;overflow:auto;font-size:11px}
+.note{color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>R0 · 协议 A · ink_ratio 人工审查（pass / drop / rerender）</h1>
+  <div class="meta" id="meta"></div>
+  <div class="toolbar">
+    <label>显示
+      <select id="filter">
+        <option value="candidates">审查候选（自动标记）</option>
+        <option value="abs020">mean_bbox &lt; 20%</option>
+        <option value="all">全部字体</option>
+        <option value="decided">已决策</option>
+        <option value="undecided">未决策</option>
+      </select>
+    </label>
+    <input id="q" type="search" placeholder="搜索 stem…" style="min-width:160px"/>
+    <button type="button" id="btnExport">导出 decisions JSONL</button>
+    <button type="button" id="btnSaveLocal">写入本机 localStorage</button>
+    <span class="note" id="stats"></span>
+  </div>
+</header>
+<div class="layout">
+  <aside><ul id="fontList"></ul></aside>
+  <main id="main"><p class="note">加载 ink_ratio_rank.json…</p></main>
+</div>
+<script>
+const PROBES = ["永","和","书","Aa","Gg","Ww","Mm","0","1","i","l","ㄅ","あ","ア"];
+let DATA = null;
+let decisions = {}; // stem -> {review_decision, reviewer, reviewed_at, reason}
+
+function imgUrl(stem, split, ch){
+  const cp = "u" + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,"0");
+  const role = (ch === "永" || /[\u4e00-\u9fff]/.test(ch) && !"AaGgWwMm01il".includes(ch))
+    ? ((ch.length===1 && ch.charCodeAt(0)>0x3000) ? "StyleImage" : "TargetImage")
+    : "TargetImage";
+  // Prefer Style for CJK style set, Target for latin/digits; both exist for 永 under Style+Target pools
+  const sub = /[\u4e00-\u9fff\u3040-\u30ff\u3100-\u312f]/.test(ch) ? "StyleImage" : "TargetImage";
+  // 永 is in style_han; ASCII in target
+  const folder = /[\u4e00-\u9fff]/.test(ch) || /[\u3040-\u30ff\u3100-\u312f]/.test(ch) ? "StyleImage" : "TargetImage";
+  // Actually target set includes CJK too in this dataset layout: TargetImage has target chars, StyleImage has style_han.
+  // Use Target for Latin/digits; Style for 永 and kana/bopo probes that are style; fallback both.
+  let use = folder;
+  if ("永和书".includes(ch)) use = "StyleImage";
+  else if (/[A-Za-z0-9]/.test(ch)) use = "TargetImage";
+  else use = "StyleImage";
+  return `../../fontdiffuser-p253-t295-s338-cn2west-v2/${split}/${use}/${stem}/${stem}+${cp}.png`;
+}
+
+function loadLocal(){
+  try { decisions = JSON.parse(localStorage.getItem("hrfont_ink_review_v1")||"{}") || {}; }
+  catch(e){ decisions = {}; }
+}
+
+function saveLocal(){
+  localStorage.setItem("hrfont_ink_review_v1", JSON.stringify(decisions));
+  alert("已写入 localStorage（导出 JSONL 才算正式回写）");
+}
+
+function filtered(){
+  const mode = document.getElementById("filter").value;
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  return DATA.fonts.filter(f => {
+    if (q && !f.stem.toLowerCase().includes(q)) return false;
+    const d = (decisions[f.stem]||{}).review_decision || f.review_decision || "";
+    if (mode === "candidates") return f.review_candidate;
+    if (mode === "abs020") return f.mean_ink_ratio < 0.20;
+    if (mode === "decided") return !!d;
+    if (mode === "undecided") return !d;
+    return true;
+  });
+}
+
+function renderList(){
+  const ul = document.getElementById("fontList");
+  const rows = filtered();
+  document.getElementById("stats").textContent =
+    `显示 ${rows.length} / ${DATA.fonts.length} · 候选 ${DATA.summary.n_review_candidates} · mean_bbox<20% ${DATA.summary.n_mean_bbox_lt_020}`;
+  ul.innerHTML = rows.map(f => {
+    const d = (decisions[f.stem]||{}).review_decision || "";
+    const badge = f.review_candidate ? `<span class="badge cand">候选</span>` : `<span class="badge ok">ok</span>`;
+    return `<li class="${f.review_candidate?"cand":""}" data-stem="${f.stem}">
+      <div class="stem">#${f.rank} ${f.stem}${badge}${d?` [${d}]`:""}</div>
+      <div class="sub">${f.split} · mean_bbox ${(100*f.mean_ink_ratio).toFixed(1)}% · fill ${(100*f.mean_ink_pixel_ratio).toFixed(2)}% · ${f.suggested_action||"—"}</div>
+    </li>`;
+  }).join("");
+  ul.querySelectorAll("li").forEach(li => li.onclick = () => showFont(li.dataset.stem));
+  if (rows[0]) showFont(rows[0].stem);
+}
+
+function showFont(stem){
+  const f = DATA.fonts.find(x => x.stem === stem);
+  if (!f) return;
+  document.querySelectorAll("#fontList li").forEach(li => li.classList.toggle("active", li.dataset.stem===stem));
+  const d = decisions[stem] || {};
+  const cur = d.review_decision || "";
+  const main = document.getElementById("main");
+  const flags = (f.auto_flags||[]).join(", ") || "—";
+  main.innerHTML = `
+    <h2 style="margin:0 0 6px;font-family:ui-monospace,monospace">${f.stem}</h2>
+    <div class="note">rank=${f.rank} · split=${f.split} · fs_A=${f.fs_A} · tall=${f.tall_ch}/${f.max_h} · wide=${f.wide_ch}/${f.max_w}</div>
+    <div class="note">mean_ink_ratio(bbox)=<b>${(100*f.mean_ink_ratio).toFixed(2)}%</b>
+      · p5/p50/p95=${(100*f.ink_ratio_p5).toFixed(1)}/${(100*f.ink_ratio_p50).toFixed(1)}/${(100*f.ink_ratio_p95).toFixed(1)}%
+      · pixel_fill=${(100*f.mean_ink_pixel_ratio).toFixed(3)}%
+      · touch=${f.touch_edge} · empty=${f.n_empty}
+      · B-screen=${f.auto_screen_severity||"—"}</div>
+    <div class="note">auto_flags: ${flags} · suggested: <b>${f.suggested_action||"—"}</b></div>
+    <div class="dec">
+      <span>决策：</span>
+      ${["pass","drop","rerender"].map(v =>
+        `<label><input type="radio" name="dec" value="${v}" ${cur===v?"checked":""}/> ${v}</label>`
+      ).join("")}
+      <input id="reviewer" placeholder="reviewer" value="${d.reviewer||""}" style="width:120px"/>
+      <input id="reason" placeholder="reason code / 备注" value="${d.reason||""}" style="min-width:220px"/>
+      <button type="button" id="btnApply">应用</button>
+    </div>
+    <div class="grid" id="probeGrid"></div>
+    <p class="note">探针图读 A 盘 PNG；缺图则裂图（cmap/空）。</p>`;
+  const grid = document.getElementById("probeGrid");
+  grid.innerHTML = PROBES.map(ch => {
+    const url = imgUrl(stem, f.split, ch);
+    return `<div class="cell"><img src="${url}" alt="${ch}" loading="lazy"/><div class="lab">${ch}</div></div>`;
+  }).join("");
+  document.getElementById("btnApply").onclick = () => {
+    const sel = document.querySelector('input[name="dec"]:checked');
+    if (!sel) { alert("请选择 pass/drop/rerender"); return; }
+    decisions[stem] = {
+      review_decision: sel.value,
+      reviewer: document.getElementById("reviewer").value.trim() || "anonymous",
+      reviewed_at: new Date().toISOString(),
+      reason: document.getElementById("reason").value.trim(),
+      mean_ink_ratio: f.mean_ink_ratio,
+      suggested_action: f.suggested_action,
+    };
+    saveLocalSilent();
+    renderList();
+    showFont(stem);
+  };
+}
+
+function saveLocalSilent(){
+  localStorage.setItem("hrfont_ink_review_v1", JSON.stringify(decisions));
+}
+
+function exportJsonl(){
+  const lines = Object.entries(decisions).map(([stem, d]) => JSON.stringify({
+    dataset: DATA.dataset,
+    dataset_sha256_hint: DATA.hashes?.ink_ratio_rank_json || "",
+    stem,
+    ...d,
+  }));
+  const blob = new Blob([lines.join("\n")+(lines.length?"\n":"")], {type:"text/plain"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "ink_review_decisions_export.jsonl";
+  a.click();
+}
+
+async function main(){
+  loadLocal();
+  const r = await fetch("./ink_ratio_rank.json");
+  DATA = await r.json();
+  document.getElementById("meta").textContent =
+    `${DATA.dataset} · T=${DATA.ink_threshold} · 主指标=${DATA.primary_metric} · 草案阈值 mean_bbox<${DATA.draft_thresholds.absolute_mean_bbox} · generated ${DATA.generated_at}`;
+  document.getElementById("filter").onchange = renderList;
+  document.getElementById("q").oninput = renderList;
+  document.getElementById("btnExport").onclick = exportJsonl;
+  document.getElementById("btnSaveLocal").onclick = saveLocal;
+  renderList();
+}
+main();
+</script>
+</body>
+</html>

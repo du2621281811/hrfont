@@ -7,19 +7,19 @@
 
 ## 当前状态
 
-- **阶段**：新基模微调设计（`cn2west_ft_v2`），**尚未开训**。
-- **方向已定**：从 `code/official` 派生最小补丁变体；不在 `code/ours` 上继续堆功能。
-- **暂停**：Stage B、RS-Gap、Support、4/8-shot、256、完整 Plan v2。
+- **阶段**：**R0**（协议 A + ink-ratio 人工审查门），**尚未开训**。
+- **训练协议已定**：仅 **A**（96×96，margin 6，inner≤84，逐字体固定 fs，textbbox，无 resize）。B/C/D/F/H 只作对比，不进训练。
+- **目标数据 ID**：`fontdiffuser-p261-t295-s338-cn2west-v2a-r1-<manifest8>`（当前盘目录仍名 p253；261=237/16/8）。
+- **方向已定**：FT-v2 从官方 P1 在 A/train 上微调；从 `code/official` 派生最小补丁；不在 `code/ours` 堆功能。
+- **暂停**：Stage B、RS-Gap、Support、4/8-shot、256；未收到明确开训指令前不开长训。
 - **历史**：Stage A MVP = `INCONCLUSIVE`；`FT-CNSTYLE-25K` / `FT-P253` 为旧证据（部分 `retro_partial`）。
 
-## 下一步（待确认后执行）
+## 下一步（R0 → 开训前）
 
-1. 建立 `code/variants/cn2west_ft_v2/`（StyleImage + 官方 ckpt 加载 + resume/路径；无 SCR）。
-2. 重建版本化数据 `fontdiffuser-p251-ref8-cn2west-v2`（去掉 2 个残缺字体；Style 池与字体清单写死指纹）。
-3. 登记 dataset provenance；LR 消融 → 主曲线；内部 val + Demo-8 仅终评。
-4. 每次开训：`pm_preflight` → 干净 Git → `provenance/runs/<id>.json` → 结论回填本文件。
-
-未确认四项设计选择（251 字体、ref8、内部 val、LR 双轨+步数）前，不开长训练。
+1. **PI 确认** ink 字体门阈值（草案：`mean_ink_ratio`/`mean_bbox` **&lt; 0.20**）→ [`reports/R0_INK_GATE_PROPOSAL.md`](reports/R0_INK_GATE_PROPOSAL.md)。
+2. 完成 `pass/drop/rerender` 双人审查；回写 `ink_review_decisions.jsonl`；冻结 `ink_gate_calibration.json`。
+3. 发布正式 p261 manifest（仅 pass；`excluded_fonts[]`）；登记 provenance。
+4. 建立 `code/variants/cn2west_ft_v2/` → preflight → 开训（另令）。
 
 ## 实现边界
 
@@ -35,7 +35,7 @@
 | `FT-CNSTYLE-25K` | `retro_partial` | 42 字体历史 FT |
 | `FT-P253-CNSTYLE-12K` | legacy，provenance 缺失 | 253 字体；Style 池存疑 |
 | `A-MVP-CONTROL` / `A-MVP-DELTA` | 完成，`INCONCLUSIVE` | Stage A 因果早筛 |
-| `FT-P251-REF8-CN2WEST-V2` | planned | 新基模（待确认） |
+| `FT-P261-A-CN2WEST-V2` | planned | R0 后正式 A 盘 FT-v2（待审查冻结） |
 
 完整表见 `provenance/REGISTRY.md`。
 
@@ -101,12 +101,15 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 ### QA Review
 
 - 入口页：`data/render_qa_hub.html`
-- 协议对比 Review：`data/cn2west_v2_abc_review/index.html`（A/B/C/D/F/H 切换；筛选基于 B；永字高度按协议分别显示）
-- A 墨量分布预览：`data/cn2west_v2_abc_review/proto_A_ink/`（全量 `max(ink_h,ink_w)/96` 分档；字体按 median 墨量排序）
+- 协议对比 Review：`data/cn2west_v2_abc_review/index.html`（A/B/C/D/F/H 切换；旧 B 筛查仅对照）
+- **R0 主审查**：`data/cn2west_v2_abc_review/proto_A_ink/review.html`（`ink_ratio_rank` · pass/drop/rerender）
+  - 重建：`python scripts/build_cn2west_v2_ink_ratio_rank.py`
+- A 墨量预览：`data/cn2west_v2_abc_review/proto_A_ink/`（边长 / **框面积** 可切换排序）
   - 重建：`python scripts/build_cn2west_v2_proto_a_ink_preview.py`
-- A vs H 对比：`data/cn2west_v2_abc_review/proto_AH_compare/`（逻辑框 vs 墨迹框定号）
+- A vs H 对比：`data/cn2west_v2_abc_review/proto_AH_compare/`
 
-**A 墨量摘要（已扫描 165,213 张）**：median≈75%；主体 70–85%（约 63%）；Style 汉字 median≈78%，ASCII 字母≈63%；极小墨量（&lt;25%）约 0.18%，主要来自个别纤细字体。
+**A 墨量摘要（165,213 张）**：边长 median≈75%；**框面积** median≈48%、字形 p5≈19.9%。字体 `mean_bbox`：median≈47.9%，train P5≈31.0%。  
+**草案字体门 `mean_bbox < 20%`**：命中 **1** 字 `FZXianZTJW`（train，≈7.6%）→ 建议 drop；连同 B-screen 对照共 **14** 个审查候选。阈值提案见 `reports/R0_INK_GATE_PROPOSAL.md`（**未冻结**）。
 
 ---
 
@@ -123,3 +126,4 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-03：单仓双目录 `code/official` + `code/ours`；推送 GitHub `hrfont`。
 - 2026-09-03：固化项目管理：`docs/PROJECT_MANAGEMENT.md`、`provenance/REGISTRY.md`、`code/variants/`、`scripts/pm_preflight.py`；台账转向新基模设计阶段。
 - 2026-09-04：补齐渲染协议 A–H 规格与重建脚本；修复 D/F 字号搜索上界；新增协议 H（A 的墨迹框版）；A 全量墨量分布预览页。
+- 2026-09-04：台账对齐 R0；正式 `ink_ratio_rank` + pass/drop/rerender；提案字体门 mean_bbox&lt;20%（待 PI）。
