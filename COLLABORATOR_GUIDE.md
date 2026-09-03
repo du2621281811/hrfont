@@ -187,7 +187,8 @@ MCA、RSI和扩散目标没有为这两次FT做计划性结构替换。当前仓
 - 42字体数据指纹：`provenance/datasets/fontdiffuser42-cnstyle-v1.json`
 - 42字体25k来源：`provenance/runs/FT-CNSTYLE-25K.json`
 - Stage A来源：`provenance/runs/A-MVP-CONTROL.json`、`A-MVP-DELTA.json`
-- 根项目Git：管理自研脚本、台账和来源记录。
-- FontDiffuser本地补丁Git：分支 `hrfont/local-patches-20260903`，恢复基线 `99e42b5`。
+- 根项目Git：管理自研脚本、台账、报告与 **双份 FontDiffuser 树**。
+- 官方干净：`code/official/FontDiffuser/`；我们的补丁版：`code/ours/FontDiffuser/`；全文 diff：`docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff`。
+- 防误用说明：`docs/EXPERIMENTS.md`、`code/README.md`。
 
 历史FT发生在根项目Git建立之前。数据、命令、配置和权重可以校验，但当时未提交的源码不能逐字节恢复，来源等级标记为 `retro_partial`。
