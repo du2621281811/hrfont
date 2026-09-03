@@ -19,3 +19,7 @@ alwaysApply: true
 - 未经用户明确指令，不启动长训练、Stage B、256 或扩展消融。
 - 修改前检查是否属于历史结果链；修改后做最小验证并记录实际状态，不把计划写成已完成。
 - 新实验 ID 先查 `provenance/REGISTRY.md`，禁止复用已存在 ID。
+- A 是新实验唯一渲染协议：p261=237/16/8，96×96 原生 RGB PNG、无 resize；新 dataset ID 必须用 `fontdiffuser-p261-t295-s338-cn2west-v2a-r1-<manifest8>`，禁止沿用 p253。
+- 训练期 ink 过滤阈值由 Cursor 提案、PI 决策后写 config；优先用 bbox 高度比或预注册窄字豁免，提案必须附按 script×char 的过滤分布。全角色、Delta/Support候选及 matched 臂共用同一 per-(font,char) 表；阈值、表 hash、每 split 过滤统计进 provenance。
+- E12 评测器代码只放 `scripts/eval_framework/`；正式指标必须先过 T1–T4。GT 仅称 positive control，不称“天花板”。
+- Delta 接入破坏实验必须把每层张量重缩放到正确 Delta 的 RMS（eps=1e-8，scale clip=[.25,4]）；越界样本排除并报告，禁止用能量差伪造接入结论。

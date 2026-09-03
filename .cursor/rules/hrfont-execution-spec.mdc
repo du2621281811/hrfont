@@ -1,0 +1,86 @@
+---
+description: HR-Font cn2west v2 唯一执行规格（Cursor 必读）
+alwaysApply: true
+---
+
+# HR-Font cn2west v2 执行规格
+
+权威执行计划：`reports/EXPERIMENT_PLAN_CN2WEST_V2.md`。本文件只作 Cursor 速查；冲突时以该计划及 PI 后续书面决策为准。
+
+## 1. 冻结决策
+
+- D-A：A 是唯一训练/评测渲染协议；96×96、margin=6、inner≤84、逐字体统一 fs、633 字符共同定 fs、RGB PNG、无缩放。
+- D-FT：FT-v2 从 official P1 在 A/train237 重训；旧 `ft_cnstyle@25k` 仅 `legacy-domain` 参考，不作新实验初始化或 matched 证据。
+- D-CFG：YAML 唯一真源，CLI 仅 schema 内 override；resolved canonical JSON + SHA-256 锁定运行。
+- 数据：261=237 train+16 val+8 test；target295/style338；ID=`fontdiffuser-p261-t295-s338-cn2west-v2a-r1-<manifest8>`；ref8=`永和书风骨韵天地`；Content=Noto Sans CJK Regular；B0=FZKTJW（均按 A 重渲染）。
+- 全局：AdamW betas=(.9,.999),wd=.01,eps=1e-8；effective batch=4；fp16；clip=1；gradient checkpointing=false；EMA=false；CFG joint drop=.10；delta/support drop=.25/.20；seeds=3407/3408/3409；DPM-Solver++ order2/20 steps/CFG7.5；paired noise。
+- 训练：E1=100k,lr=1e-5,linear,warmup5k（5e-5 仅 seed3407@20k 预热轨）；E2/E2b/E2c/E2d=80k,1x4,lr=1e-5,warmup2k；E5/E5b=25k,1x4,lr=1e-5,warmup1k。
+- loss：diffusion MSE + .01 perceptual + .5 offset；SCR 臂另加 .01 SCR（temperature=.07,num_neg=16,nce_layers=[0,1,2,3]）。
+- checkpoint：每1k lightweight；每5k full milestone+val；保留全部5k、best、最近5个1k；keepalive=60s；每 optimizer step 后查 STOP。
+
+## 2. 数据契约
+
+- A 协议：对每字体在 target295+style338 全633字符上寻找同一最大字号，使每字 `textbbox` 的 w,h≤84；在96×96白底居中渲染 RGB PNG；禁止 resize、JPG、128输入及混用旧 A/B/cache/alpha/gap/B0。
+- 目录/manifest 必须声明 p261 与 split=237/16/8；dataset ID 严格为 `fontdiffuser-p261-t295-s338-cn2west-v2a-r1-<manifest8>`，不得继续使用 p253。
+- Content：Noto Sans CJK Regular 的 A-target295；Style/ref8：当前字体 A-style338，训练确定性采样，评测固定 ref8；Target/GT：当前字体同字符 A-target295，GT 仅 positive control；Delta 库：仅 train237，目标字体 leave-one-out；Support：图不来自目标字体，`q!=c` 且 q 非当前 style ref。
+- 所有读取：RGB PNG；先断言原生尺寸恰为96×96；仅 `ToTensor()`→`Normalize([0.5],[0.5])`，禁止 `Resize`。
+
+## 3. 训练期 ink 过滤
+
+- 新决策：训练样本按 ink-box 占画布比例过滤；具体指标/阈值由执行者（Cursor）提出，PI 决策后才写入 config，未获 PI 决策不得擅自冻结。
+- 对象/粒度：优先从 R0 QA 的 ink bbox 统计导出 per-(font,char) 预计算表；dataloader 只读表过滤，禁止每 epoch 重算。表须覆盖 Content/Style/Target/GT、Delta 库字与 Support 候选的同一契约。
+- 陷阱：A 下同字体共享字号，`i/l/1/一/标点` 等细窄合法字形 bbox 面积比天然小；单一面积阈值会系统性误删。默认优先提议 `ink_bbox_height/96`，或对预注册窄字集合豁免；若仍提面积比，必须论证误删控制。
+- 阈值提案必须附过滤字符分布报告：按 script×char 列出过滤数/率及 top 受影响字符，并展示窄字、数字、标点；PI 审批后记录 metric、threshold、豁免表及理由。
+- 一致性铁律：同一阈值与同一过滤表全链路生效；Style/Target/Delta库/Support候选/Content 均按同规则；matched 臂共享完全相同过滤表。threshold、table SHA-256、R0 QA source SHA 必须进入 config/provenance。
+- 每 split 强制输出过滤前后样本数、过滤数、比例，并按 role/script/char 分解；零过滤也必须输出。过滤后 split/leave-one-out/候选池不足须 fail closed。
+
+## 4. 配置系统要点
+
+- YAML schema 核心域：`schema_version,experiment,data,model.delta,model.support,model.scr,train,eval,retrieval,ink_filter,provenance`；至少含 dataset/config/model/code SHA、A/p261/96/no-resize、Content/B0、seed与RNG、freeze plan、drop、checkpoint/keepalive/STOP。
+- 优先级：base YAML < experiment YAML < `--set`；未知键、类型错误、TBD/null、缺 SHA 均 fail closed。加载后递归只读。
+- canonical JSON：UTF-8、键排序、无运行时路径/时间戳；SHA-256。保存 input/resolved YAML、canonical JSON、SHA；resume 时 config SHA 必须一致，仅可改 `resume_from/stop_file`。
+- matched YAML 以结构化 diff 校验白名单。E2b 相对 E2 仅可改 `experiment.id,model.rsi_source=official,model.delta.enabled=false,init.new_layer=null`；E2d 相对配对臂仅可改 SCR 字段。其余 matched 项及 random draws 必须相同；delta disabled 也消费同一 RNG draw。
+
+## 5. 实验卡速查
+
+- R0 / A+p261+ink QA / split与TTF inventory / A渲染、全633 QA、原子发布 / dataset manifest+SHA、ink表 / 计划§4 R0。
+- E0 / alpha、cache、RS-gap与检索校准 / R0 / M3,tau.07,K3,theta.25,gamma.35,lambda.70 / frozen cache+`retrieval_calibration.yaml` SHA / §4 E0。
+- E1 FT-v2 / 新训练域基线 / R0+official P1 / 100k、全训UNet+Ec+Es、SCR off / 三seed milestones+best / §4 E1。
+- E2/E2b/E2c / Delta-RSI 因果 matched / E1 / E2=Delta、E2b=official RSI继续训、E2c=P1冷启 / 80k三seed / §4 E2/E2b/E2c。
+- E2d / SCR matched / E2与E2b / 只开SCR / 两组80k三seed / §4 E2d。
+- E3/E4 / 主对比与gap机制 / E0/E1/E2/E12 / test8×295、mixed effects+bootstrap / 主表与gap统计 / §4 E3/E4。
+- E5/E5b/E6 / Support adapter与主结果 / E0+E2或E2d / A全冻、仅adapter、25k / matched test与gap收益 / §4 E5/E5b/E6。
+- E7/E8/E9/E10 / Support消融、ref干预、Delta接入破坏、CN→CN / 见拓扑 / 破坏张量RMS对齐 / 消融与定位报告 / §4 E7–E10。
+- E11/E12 / 人评与独立评测器 / E3/E6、外部字体 / 分层人评、phi_s2+T1–T4 / 人评统计与只读评测 / §4 E11/E12。
+
+## 6. 评测框架速查
+
+- E12 代码唯一位置：`scripts/eval_framework/`；评测实现不得散落到 variant 或旧脚本。正式使用前必须通过 T1 跨脚本一致性、T2 family AUC≥.90、T3 GT ID-CLS≥.90、T4 wrong-ref 显著下降；未过则指标不得进入主结论。
+- 三轴：Identity（ID-CLS/OCR）、Style（phi_s2 SC-R/SC-Gap/Rank@1）、Quality（coverage/LPIPS）；phi_s2 与方案编码器隔离，阈值只在 calib16/外部字体冻结。
+- GT 仅作 `positive control`/校准参照；禁止称“天花板”、禁止把像素贴近单一 GT 当优化目标或唯一正确答案。
+
+## 7. 铁律
+
+- matched set=同数据与过滤表、同初始化、steps/effective batch/lr/scheduler/warmup、seed、batch manifest/order、CFG/Delta/Support/SCR draws、预算；一次只改白名单变量。
+- 保存/恢复 Python、NumPy、Torch CPU/CUDA RNG、DataLoader generator、worker seed、sampler cursor、AMP scaler、optimizer、scheduler；worker seed=`seed+1000*epoch+worker_id`。
+- 不覆盖历史目录/last-only证据；输出目录已存在即拒绝；新实验必须新 run ID，先查 registry；official/ours 只读；新代码只进 `code/variants/<id>/`。
+- preflight 必过：Git clean/commit、variant与run/provenance ID唯一、schema无TBD、A+p261、261=237+16+8、96/no-resize/RGB PNG、Content/B0、matched diff、R0 ink gate、输出不存在、RNG resume。
+- 训练前重新计算并核对每个角色 dataset SHA 与 config/model/code SHA；任一不一致立即停止。
+- Delta 破坏实验：spatial shuffle/channel-mean/magnitude-only/wrong-char/wrong-style 必须逐层重缩放到正确 Delta 的 RMS，`eps=1e-8`、scale clip=[.25,4]；越界样本排除并报告。
+
+## 8. 术语表
+
+- FT-v2/E1：official P1→A/train237 的100k全参数微调新基线；不是旧 `ft_cnstyle`。
+- E2：E1 best 初始化，Ec/Es冻，Delta→RSI zero-init，训UNet+offset的Stage A。
+- E2b：与E2 matched 的 FT-continue；official RSI、Delta disabled但消费draw。
+- E2c：official P1冷启的Stage A，其余同E2。
+- E2d：E2或E2b的SCR matched版本，只改变SCR开关/固定参数。
+- E5：E2 best初始化，Stage A全冻，仅训SupportAdapter 25k的Stage B。
+- E5b：E2D-A-SCR best初始化的Stage B；SCR=.01且仅adapter可更新。
+- E8：ref-set干预（ref8、ref8+口日、ref8+随机2字），无训练。
+- E9：Delta接入位置比较与破坏/定位实验，所有破坏做RMS控制。
+- E12：独立phi_s2/ID-CLS评测器及T1–T4自测；代码位于`scripts/eval_framework/`。
+- legacy-domain：旧渲染/旧42字体的`ft_cnstyle@25k`，只作单列参考。
+- calib16：从train237固定、只用于阈值/检索/gap校准的16字体，不是val。
+- val16：独立验证字体，用于checkpoint与轨选择，不调测试阈值。
+- test8：Demo-8最终测试字体，禁止训练、候选池、调参和指标开发。

@@ -1,0 +1,13 @@
+schema_version: 2
+experiment: {id: E12-MEMBERSHIP-S3407}
+data:
+  cache_dir: /path/to/external_font_cache
+  query_chars: [A, B, C, D, E, F, G, H]
+  ref_chars: [永, 和, 书, 风, 骨, 韵, 天, 地]
+  split_ratios: [0.7, 0.15, 0.15]
+  split_seed: 3407
+model: {phi_checkpoint: /path/to/phi/best.pt, in_channels: 3, feature_dim: 512, hidden_dim: 256}
+train: {epochs: 30, max_steps: 0, episodes: 10000, batch_size: 32, lr: 0.0001, weight_decay: 0.01, seed: 3407, device: auto, smoke_mode: false}
+eval: {episodes: 2000}
+calibration: {method: temperature}
+output: {dir: runs/e12_membership_s3407}

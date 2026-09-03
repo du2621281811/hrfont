@@ -1,0 +1,12 @@
+schema_version: 2
+experiment: {id: E12-SELF-TESTS}
+data:
+  cache_dir: /path/to/external_font_cache
+  ref_chars: [永, 和, 书, 风, 骨, 韵, 天, 地]
+  query_chars: [A, B, C, D, E, F, G, H]
+  split_ratios: [0.7, 0.15, 0.15]
+  split_seed: 3407
+model: {phi_checkpoint: /path/to/phi/best.pt, id_checkpoint: /path/to/id/best.pt, in_channels: 3, feature_dim: 512}
+train: {device: auto}
+gates: {t1_median: 0.6, t2_auc: 0.9, t3_accuracy: 0.9, t4_mean_drop: 0.02, t4_paired_t: 1.96, relaxed: false}
+output: {dir: runs/e12_self_tests}

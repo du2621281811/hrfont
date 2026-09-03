@@ -1,0 +1,11 @@
+schema_version: 2
+experiment: {id: E12-IDCLS-S3407}
+data:
+  cache_dir: /path/to/external_font_cache
+  chars: [A, B, C, D, E, F, G, H, a, b, c, d, e, f, g, h]
+  split_ratios: [0.7, 0.15, 0.15]
+  split_seed: 3407
+  workers: 8
+model: {in_channels: 3, feature_dim: 512}
+train: {epochs: 50, max_steps: 0, batch_size: 64, lr: 0.0003, betas: [0.9, 0.999], weight_decay: 0.01, eps: 0.00000001, warmup_epochs: 5, warmup_steps: -1, label_smoothing: 0.05, grad_clip: 1.0, checkpoint_every: 1000, seed: 3407, device: auto}
+output: {dir: runs/e12_id_cls_s3407}
