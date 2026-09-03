@@ -1,9 +1,13 @@
 # HR-Font root — one clone for collaborators.
 
-# Heavy artifacts stay outside Git (symlink on this machine).
+# Heavy artifacts stay outside Git (dirs or local symlinks).
+/data/fontdiffuser
 /data/fontdiffuser/
+/data/fontdiffuser_p253
 /data/fontdiffuser_p253/
+/data/font
 /data/font/
+/data/hrfont_bank
 /data/hrfont_bank/
 /runs/
 /logs/

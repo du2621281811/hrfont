@@ -5,39 +5,40 @@ ICLR 2027：**中文 few-shot 风格 → 生成拉丁 / 假名**。
 
 ## 合作者从这里开始
 
-1. [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) — 实验、结果、**防把补丁当官方**
-2. [`code/README.md`](code/README.md) — **`official/` vs `ours/` 两个目录**
-3. [`PROJECT.md`](PROJECT.md) — 当前状态与 Stage A 结论
-4. [`COLLABORATOR_GUIDE.md`](COLLABORATOR_GUIDE.md) — 官方设置 / 我们的 FT / 渲染 / Loss
-5. [`docs/DATA_AND_WEIGHTS.md`](docs/DATA_AND_WEIGHTS.md) — 本机数据与权重（不进 Git）
+1. [`PROJECT.md`](PROJECT.md) — **当前状态**（唯一台账）
+2. [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) — 进度 / 版本 / Git / 追溯
+3. [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) — 实验 ID 与结果入口
+4. [`code/README.md`](code/README.md) — `official` / `ours` / `variants`
+5. [`COLLABORATOR_GUIDE.md`](COLLABORATOR_GUIDE.md) — 协议 / Loss / 历史 FT
+6. [`docs/DATA_AND_WEIGHTS.md`](docs/DATA_AND_WEIGHTS.md) — 本机数据与权重
 
-## 官方代码 vs 我们的改动（单仓内物理隔离）
+## 代码树（单仓物理隔离）
 
 ```text
 code/
-  official/FontDiffuser/   ← 官方干净（不要改、不要当训练入口）
-  ours/FontDiffuser/       ← 官方 + 我们的补丁（脚本默认指向这里）
+  official/FontDiffuser/     ← 官方干净（只读）
+  ours/FontDiffuser/         ← 历史补丁（旧实验；只读）
+  variants/<id>/FontDiffuser ← 新实验最小补丁（从 official 派生）
 ```
 
 ```bash
 diff -ru code/official/FontDiffuser code/ours/FontDiffuser --exclude ckpt --exclude '*.txt'
+python scripts/pm_preflight.py   # 开训前检查
 ```
 
-补丁全文：[`docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff`](docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff)
+历史补丁：[`docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff`](docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff)
 
 ## 目录结构
 
 ```text
 hrfont/
   PROJECT.md / COLLABORATOR_GUIDE.md / README.md
-  scripts/                 # 自研实验入口
-  code/official/…          # 官方 FD
-  code/ours/…              # 我们的 FD
-  docs/                    # 说明 + patches
-  provenance/              # 实验指纹
-  reports/                 # 结果页
-  manifests/ data/ meta    # 清单；大数据 symlink
-  runs/                    # 权重视 symlink（不进 Git）
+  scripts/                 # 自研入口 + pm_preflight / provenance
+  code/official|ours|variants/
+  docs/                    # 管理规则 + patches
+  provenance/              # REGISTRY + datasets/runs 指纹
+  reports/ manifests/
+  data/ runs/              # 本机 symlink，不进 Git
 ```
 
 ## GitHub

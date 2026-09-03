@@ -6,17 +6,17 @@
 
 | 层 | 位置 | 是什么 |
 |----|------|--------|
-| **官方源码** | `code/official/FontDiffuser/` | 上游 `main` 快照（`UPSTREAM_PIN.txt`） |
-| **我们对官方的补丁** | `code/ours/FontDiffuser/` | 同一上游 + 补丁；相对 official 仅 8 个文件级差异 |
+| **官方源码** | `code/official/FontDiffuser/` | 上游快照（只读） |
+| **历史补丁** | `code/ours/FontDiffuser/` | 旧实验线恢复版（默认只读） |
+| **新实验变体** | `code/variants/<id>/` | 从 official 派生的最小补丁 |
 | **自研实验代码** | `scripts/`、`reports/`、`provenance/` | 不在官方仓库里 |
 
-**不会**再用「同一个文件夹靠切分支」区分官方/补丁，避免误检出错。
+**不会**用「切分支」区分官方/补丁。新工作进 `variants/`，见 [`PROJECT_MANAGEMENT.md`](PROJECT_MANAGEMENT.md)。
 
-查看补丁：
+查看历史补丁：
 
 ```bash
 diff -ru code/official/FontDiffuser code/ours/FontDiffuser --exclude ckpt --exclude '*.txt'
-# 或
 less docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff
 ```
 
@@ -33,6 +33,6 @@ less docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff
 
 ## 4. 不要称为「官方」的
 
-- `code/ours/**`
+- `code/ours/**`、`code/variants/**`
 - `scripts/**`
 - 自建跨语数据、Stage A/B 结果、Stroke-SCR / overnight 等
