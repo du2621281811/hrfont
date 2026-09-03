@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="zh-CN"><meta charset="utf-8"/><title>A vs H</title>
+<style>body{font:15px/1.5 system-ui;max-width:1100px;margin:24px auto;padding:0 16px}
+.s{color:#555} img{max-width:100%;border:1px solid #ddd;background:#fff}
+code{background:#f3f3f3;padding:1px 4px}</style>
+<h1>A（逻辑框）vs H（墨迹像素框）</h1>
+<p class="s">红框 = FreeType/Pillow <code>textbbox</code>（逻辑/轮廓度量框）· 蓝框 = 渲染后非白像素框</p>
+<p>同一字体同一字号下，逻辑框通常 ≥ 墨迹框（含 bearing / 空白）。H 用墨迹进 84px 内框，所以字号可以 ≥ A。</p>
+<p><img src="overview_AH.png"/></p>
+<h2>FZBaiZBYTJW</h2><p class="s">A fs=81 · H fs=81</p><p><img src="FZBaiZBYTJW_AH.png"/></p>
+<h2>FZXianZTJW</h2><p class="s">A fs=84 · H fs=97</p><p><img src="FZXianZTJW_AH.png"/></p>
+<h2>FZBangSKLTJW</h2><p class="s">A fs=76 · H fs=78</p><p><img src="FZBangSKLTJW_AH.png"/></p>
+<h2>FZCaoQBLSJW</h2><p class="s">A fs=83 · H fs=85</p><p><img src="FZCaoQBLSJW_AH.png"/></p>
+</html>

@@ -1,0 +1,895 @@
+{
+  "timing_633": {
+    "textbbox_s": 0.105,
+    "getmask_s": 0.366,
+    "pixel_scan_s": 0.534
+  },
+  "n_same_size": 82,
+  "n_fonts": 261,
+  "top_delta": [
+    {
+      "stem": "FZXianZTJW",
+      "A": 84,
+      "H": 97,
+      "d": 13
+    },
+    {
+      "stem": "FZQiuDYRHJW",
+      "A": 84,
+      "H": 97,
+      "d": 13
+    },
+    {
+      "stem": "FZXinRTJW-EB",
+      "A": 73,
+      "H": 85,
+      "d": 12
+    },
+    {
+      "stem": "FZLangKFTJW3",
+      "A": 75,
+      "H": 85,
+      "d": 10
+    },
+    {
+      "stem": "FZBenMZZZHJW",
+      "A": 74,
+      "H": 84,
+      "d": 10
+    },
+    {
+      "stem": "FZShenTJHHTJW",
+      "A": 84,
+      "H": 93,
+      "d": 9
+    },
+    {
+      "stem": "FZJingQSTJW_Cu",
+      "A": 82,
+      "H": 91,
+      "d": 9
+    },
+    {
+      "stem": "FZBenMWYJW",
+      "A": 83,
+      "H": 92,
+      "d": 9
+    },
+    {
+      "stem": "FZYiHTJW-EB",
+      "A": 83,
+      "H": 91,
+      "d": 8
+    },
+    {
+      "stem": "FZLongKSKSJW",
+      "A": 73,
+      "H": 81,
+      "d": 8
+    },
+    {
+      "stem": "FZYunLTJW",
+      "A": 84,
+      "H": 91,
+      "d": 7
+    },
+    {
+      "stem": "FZMingMTJW-EB",
+      "A": 84,
+      "H": 91,
+      "d": 7
+    },
+    {
+      "stem": "FZLangKBTJW1",
+      "A": 80,
+      "H": 87,
+      "d": 7
+    },
+    {
+      "stem": "FZYongKTJ",
+      "A": 84,
+      "H": 90,
+      "d": 6
+    },
+    {
+      "stem": "FZShuLTJW-H",
+      "A": 78,
+      "H": 84,
+      "d": 6
+    }
+  ],
+  "samples": [
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "永",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        81,
+        78
+      ],
+      "A_ink": [
+        77,
+        77
+      ],
+      "H_logic": [
+        81,
+        78
+      ],
+      "H_ink": [
+        77,
+        77
+      ]
+    },
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "和",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        81,
+        78
+      ],
+      "A_ink": [
+        75,
+        77
+      ],
+      "H_logic": [
+        81,
+        78
+      ],
+      "H_ink": [
+        75,
+        77
+      ]
+    },
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "书",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        81,
+        81
+      ],
+      "A_ink": [
+        66,
+        80
+      ],
+      "H_logic": [
+        81,
+        81
+      ],
+      "H_ink": [
+        66,
+        80
+      ]
+    },
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "A",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        60,
+        69
+      ],
+      "A_ink": [
+        56,
+        69
+      ],
+      "H_logic": [
+        60,
+        69
+      ],
+      "H_ink": [
+        56,
+        69
+      ]
+    },
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "W",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        74,
+        65
+      ],
+      "A_ink": [
+        71,
+        65
+      ],
+      "H_logic": [
+        74,
+        65
+      ],
+      "H_ink": [
+        71,
+        65
+      ]
+    },
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "g",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        39,
+        58
+      ],
+      "A_ink": [
+        33,
+        58
+      ],
+      "H_logic": [
+        39,
+        58
+      ],
+      "H_ink": [
+        33,
+        58
+      ]
+    },
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "j",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        36,
+        67
+      ],
+      "A_ink": [
+        33,
+        67
+      ],
+      "H_logic": [
+        36,
+        67
+      ],
+      "H_ink": [
+        33,
+        67
+      ]
+    },
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "ㄅ",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        81,
+        65
+      ],
+      "A_ink": [
+        59,
+        65
+      ],
+      "H_logic": [
+        81,
+        65
+      ],
+      "H_ink": [
+        59,
+        65
+      ]
+    },
+    {
+      "stem": "FZBaiZBYTJW",
+      "ch": "あ",
+      "A_fs": 81,
+      "H_fs": 81,
+      "A_logic": [
+        81,
+        72
+      ],
+      "A_ink": [
+        58,
+        71
+      ],
+      "H_logic": [
+        81,
+        72
+      ],
+      "H_ink": [
+        58,
+        71
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "永",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        29,
+        20
+      ],
+      "A_ink": [
+        23,
+        20
+      ],
+      "H_logic": [
+        34,
+        23
+      ],
+      "H_ink": [
+        27,
+        23
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "和",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        32,
+        23
+      ],
+      "A_ink": [
+        27,
+        23
+      ],
+      "H_logic": [
+        37,
+        27
+      ],
+      "H_ink": [
+        31,
+        27
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "书",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        23,
+        23
+      ],
+      "A_ink": [
+        17,
+        23
+      ],
+      "H_logic": [
+        26,
+        27
+      ],
+      "H_ink": [
+        20,
+        27
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "A",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        16,
+        17
+      ],
+      "A_ink": [
+        14,
+        17
+      ],
+      "H_logic": [
+        19,
+        19
+      ],
+      "H_ink": [
+        16,
+        19
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "W",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        19,
+        17
+      ],
+      "A_ink": [
+        17,
+        17
+      ],
+      "H_logic": [
+        22,
+        19
+      ],
+      "H_ink": [
+        20,
+        19
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "g",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        16,
+        20
+      ],
+      "A_ink": [
+        13,
+        20
+      ],
+      "H_logic": [
+        18,
+        23
+      ],
+      "H_ink": [
+        16,
+        23
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "j",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        8,
+        24
+      ],
+      "A_ink": [
+        7,
+        24
+      ],
+      "H_logic": [
+        10,
+        27
+      ],
+      "H_ink": [
+        8,
+        27
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "ㄅ",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        84,
+        75
+      ],
+      "A_ink": [
+        58,
+        73
+      ],
+      "H_logic": [
+        97,
+        86
+      ],
+      "H_ink": [
+        67,
+        84
+      ]
+    },
+    {
+      "stem": "FZXianZTJW",
+      "ch": "あ",
+      "A_fs": 84,
+      "H_fs": 97,
+      "A_logic": [
+        32,
+        26
+      ],
+      "A_ink": [
+        27,
+        26
+      ],
+      "H_logic": [
+        37,
+        30
+      ],
+      "H_ink": [
+        31,
+        30
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "永",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        76,
+        70
+      ],
+      "A_ink": [
+        70,
+        69
+      ],
+      "H_logic": [
+        78,
+        72
+      ],
+      "H_ink": [
+        71,
+        71
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "和",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        76,
+        70
+      ],
+      "A_ink": [
+        70,
+        68
+      ],
+      "H_logic": [
+        78,
+        72
+      ],
+      "H_ink": [
+        71,
+        70
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "书",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        76,
+        71
+      ],
+      "A_ink": [
+        59,
+        70
+      ],
+      "H_logic": [
+        78,
+        74
+      ],
+      "H_ink": [
+        61,
+        73
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "A",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        62,
+        63
+      ],
+      "A_ink": [
+        60,
+        63
+      ],
+      "H_logic": [
+        64,
+        66
+      ],
+      "H_ink": [
+        62,
+        66
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "W",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        84,
+        62
+      ],
+      "A_ink": [
+        82,
+        62
+      ],
+      "H_logic": [
+        86,
+        65
+      ],
+      "H_ink": [
+        84,
+        65
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "g",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        46,
+        61
+      ],
+      "A_ink": [
+        43,
+        61
+      ],
+      "H_logic": [
+        47,
+        64
+      ],
+      "H_ink": [
+        44,
+        64
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "j",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        36,
+        76
+      ],
+      "A_ink": [
+        34,
+        76
+      ],
+      "H_logic": [
+        37,
+        80
+      ],
+      "H_ink": [
+        35,
+        80
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "ㄅ",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        76,
+        64
+      ],
+      "A_ink": [
+        52,
+        64
+      ],
+      "H_logic": [
+        78,
+        65
+      ],
+      "H_ink": [
+        53,
+        65
+      ]
+    },
+    {
+      "stem": "FZBangSKLTJW",
+      "ch": "あ",
+      "A_fs": 76,
+      "H_fs": 78,
+      "A_logic": [
+        76,
+        65
+      ],
+      "A_ink": [
+        61,
+        65
+      ],
+      "H_logic": [
+        78,
+        66
+      ],
+      "H_ink": [
+        62,
+        66
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "永",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        83,
+        50
+      ],
+      "A_ink": [
+        71,
+        44
+      ],
+      "H_logic": [
+        85,
+        52
+      ],
+      "H_ink": [
+        73,
+        46
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "和",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        83,
+        51
+      ],
+      "A_ink": [
+        69,
+        42
+      ],
+      "H_logic": [
+        85,
+        52
+      ],
+      "H_ink": [
+        71,
+        43
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "书",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        83,
+        52
+      ],
+      "A_ink": [
+        51,
+        47
+      ],
+      "H_logic": [
+        85,
+        53
+      ],
+      "H_ink": [
+        52,
+        49
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "A",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        53,
+        45
+      ],
+      "A_ink": [
+        49,
+        32
+      ],
+      "H_logic": [
+        54,
+        46
+      ],
+      "H_ink": [
+        50,
+        32
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "W",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        72,
+        45
+      ],
+      "A_ink": [
+        68,
+        32
+      ],
+      "H_logic": [
+        73,
+        46
+      ],
+      "H_ink": [
+        70,
+        32
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "g",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        39,
+        35
+      ],
+      "A_ink": [
+        30,
+        33
+      ],
+      "H_logic": [
+        40,
+        36
+      ],
+      "H_ink": [
+        31,
+        34
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "j",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        26,
+        45
+      ],
+      "A_ink": [
+        20,
+        43
+      ],
+      "H_logic": [
+        27,
+        46
+      ],
+      "H_ink": [
+        20,
+        44
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "ㄅ",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        83,
+        52
+      ],
+      "A_ink": [
+        53,
+        42
+      ],
+      "H_logic": [
+        85,
+        53
+      ],
+      "H_ink": [
+        55,
+        42
+      ]
+    },
+    {
+      "stem": "FZCaoQBLSJW",
+      "ch": "あ",
+      "A_fs": 83,
+      "H_fs": 85,
+      "A_logic": [
+        83,
+        52
+      ],
+      "A_ink": [
+        53,
+        42
+      ],
+      "H_logic": [
+        85,
+        53
+      ],
+      "H_ink": [
+        53,
+        42
+      ]
+    }
+  ]
+}

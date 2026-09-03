@@ -2,7 +2,7 @@
 """Regenerate protocol review SPA (fonts.json + index.html).
 
 Reads pre-rendered dataset PNGs only — no on-the-fly rendering.
-Supports A/B/C/D/F with probe or full-char mode in browser.
+Supports A/B/C/D/F/H with probe or full-char mode in browser.
 """
 from __future__ import annotations
 
@@ -20,7 +20,10 @@ DS = {
     "C": "fontdiffuser-p253-t295-s338-cn2west-v2c-official128",
     "D": "fontdiffuser-p253-t295-s338-cn2west-v2d-perglyph-max96",
     "F": "fontdiffuser-p253-t295-s338-cn2west-v2f-perglyph-fit96",
+    "H": "fontdiffuser-p253-t295-s338-cn2west-v2h-inkfit",
 }
+
+PROTO_ORDER = ["A", "B", "C", "D", "F", "H"]
 
 PROBES = [
     ("style_han", "Style 汉字", "style", "永和书风骨韵天地繁慕慧健"),
@@ -80,7 +83,7 @@ def build_fonts_json() -> dict:
         ds_status[k] = {"id": did, "ready": p.exists(), "summary": json.loads(p.read_text())["qa"]["counts"] if p.exists() else None}
 
     return {
-        "title": "CN2WEST v2 · A–F 协议 Review",
+        "title": "CN2WEST v2 · A–H 协议 Review",
         "mode_default": "probe",
         "datasets": DS,
         "datasets_status": ds_status,
@@ -94,6 +97,7 @@ def build_fonts_json() -> dict:
             "C": "官方128→BILINEAR96",
             "D": "逐字逻辑框最大·原生96",
             "F": "逐字墨迹边距≈8%·原生96",
+            "H": "墨迹进框·每字体一号·原生96（A 的像素框版）",
         },
         "fonts": [
             {
@@ -121,7 +125,7 @@ HTML = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>CN2WEST v2 · A–F Review</title>
+<title>CN2WEST v2 · A–H Review</title>
 <style>
 :root{--bg:#eef1f5;--panel:#fff;--line:#d5dbe3;--muted:#5c6570;--drop:#8b1e1e;--review:#8a5a00;--ok:#2f5d3a;--accent:#1f4a6f}
 *{box-sizing:border-box} html,body{height:100%;margin:0}
@@ -157,7 +161,7 @@ main{overflow:auto;padding:12px 16px 48px}
 </head>
 <body>
 <header>
-  <h1>CN2WEST v2 · A–F 协议 Review</h1>
+  <h1>CN2WEST v2 · A–H 协议 Review</h1>
   <div class="meta">直接读<strong>已渲染数据集</strong> PNG · 探针示意 / 可展开全字 · J/K 换字体 · 勾选丢弃本地保存 · <strong>筛选/色散基于 B 协议</strong> · 永H 按各协议分别显示</div>
   <div class="toolbar">
     <input type="search" id="q" placeholder="搜 stem / 名" style="min-width:160px"/>
@@ -179,18 +183,18 @@ main{overflow:auto;padding:12px 16px 48px}
 const DROP_KEY='hrfont_v2_abcde_review_drop_v1';
 let DATA=null, filtered=[], cur=-1;
 const sevOn=new Set(['drop','review','ok']);
-const protoOn=new Set(['A','B','C','D','F']);
+const protoOn=new Set(['A','B','C','D','F','H']);
 const pct=v=>v==null?'—':Math.round(v*100)+'%';
 const f2=v=>v==null?'—':Number(v).toFixed(2);
 
 function protoYongLine(f, protos){
-  const ps=(protos||['A','B','C','D','F']).filter(p=>f.proto_yong&&f.proto_yong[p]!=null);
+  const ps=(protos||['A','B','C','D','F','H']).filter(p=>f.proto_yong&&f.proto_yong[p]!=null);
   if(!ps.length) return '永H —';
   return ps.map(p=>`${p}${pct(f.proto_yong[p])}`).join(' · ');
 }
 function protoYongDetail(f){
   const py=f.proto_yong||{};
-  return ['A','B','C','D','F'].map(p=>py[p]!=null?`永H(${p})=${pct(py[p])}`:null).filter(Boolean).join(' · ');
+  return ['A','B','C','D','F','H'].map(p=>py[p]!=null?`永H(${p})=${pct(py[p])}`:null).filter(Boolean).join(' · ');
 }
 
 function imgUrl(proto,split,stem,role,cp){
@@ -202,7 +206,7 @@ function loadDrops(){try{return JSON.parse(localStorage.getItem(DROP_KEY)||'{}')
 function saveDrops(o){localStorage.setItem(DROP_KEY,JSON.stringify(o));}
 
 function renderProtoChips(){
-  document.getElementById('protoChips').innerHTML=['A','B','C','D','F'].map(p=>{
+  document.getElementById('protoChips').innerHTML=['A','B','C','D','F','H'].map(p=>{
     const ready=DATA.datasets_status[p]?.ready;
     const on=protoOn.has(p);
     return `<button type="button" class="chip ${on?'on':''} ${ready?'':'off'}" data-proto="${p}" title="${DATA.protocols[p]||''}">${p}${ready?'':'⚠'}</button>`;
@@ -299,7 +303,7 @@ def main() -> None:
     payload = build_fonts_json()
     (OUT / "fonts.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     (OUT / "index.html").write_text(HTML, encoding="utf-8")
-    print(json.dumps({k: payload["datasets_status"][k]["ready"] for k in "ABCDF"}, indent=2))
+    print(json.dumps({k: payload["datasets_status"][k]["ready"] for k in PROTO_ORDER}, indent=2))
 
 
 if __name__ == "__main__":

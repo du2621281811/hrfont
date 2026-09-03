@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>协议 A · 墨量分布预览</title>
+<style>
+:root{--bg:#eef1f5;--panel:#fff;--line:#d5dbe3;--muted:#5c6570;--accent:#1f4a6f}
+*{box-sizing:border-box} html,body{height:100%;margin:0}
+body{font:13px/1.4 system-ui,sans-serif;background:var(--bg);color:#1a1a1a;display:flex;flex-direction:column}
+header{flex:0 0 auto;background:#fff;border-bottom:1px solid var(--line);padding:10px 14px}
+h1{margin:0;font-size:1.1rem} .meta{color:var(--muted);font-size:12px;margin-top:2px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+input,select,button{padding:5px 9px;border:1px solid var(--line);border-radius:4px;font:inherit;background:#fff}
+.layout{flex:1;min-height:0;display:grid;grid-template-columns:320px 1fr}
+aside{background:var(--panel);border-right:1px solid var(--line);overflow:auto}
+#fontList{list-style:none;margin:0;padding:0}
+#fontList li{padding:8px 10px;border-bottom:1px solid #eef1f5;cursor:pointer}
+#fontList li:hover{background:#f5f7fa} #fontList li.active{background:#e8eef5}
+.stem{font-weight:600;font-family:ui-monospace,monospace;font-size:12px}
+.sub{color:var(--muted);font-size:11px;margin-top:2px}
+main{overflow:auto;padding:12px 16px 48px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;margin-bottom:12px}
+.bar{display:flex;height:18px;border-radius:3px;overflow:hidden;border:1px solid var(--line);margin:8px 0}
+.bar span{display:block;height:100%;font-size:10px;color:#fff;text-align:center;line-height:18px}
+.bin-empty{background:#9aa3ad}.bin-tiny{background:#c0392b}.bin-small{background:#d68910}
+.bin-mid{background:#2980b9}.bin-large{background:#27ae60}.bin-full{background:#1a7a4c}
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table th,.table td{border:1px solid var(--line);padding:4px 6px;text-align:left}
+.strip{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.strip figure{margin:0;width:64px;text-align:center}
+.strip img{width:64px;height:64px;image-rendering:pixelated;border:1px solid #e0e4ea;background:#fff;display:block}
+.strip figcaption{font-size:10px;color:#444;margin-top:1px}
+.badge{display:inline-block;font-size:10px;padding:0 5px;border-radius:3px;background:#eef1f5;margin-right:4px}
+.sec h3{margin:0 0 6px;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>协议 A · 墨量分布与预览</h1>
+  <div class="meta">墨量 = max(墨迹高,墨迹宽)/96 · 字体按 median 墨量升序 · 图片直接读 A 数据集 PNG</div>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="搜 stem" style="min-width:160px"/>
+    <select id="split"><option value="all">全部 split</option><option value="train">train</option><option value="val">val</option><option value="test">test</option></select>
+    <select id="sort">
+      <option value="median_asc">median 墨量 ↑</option>
+      <option value="median_desc">median 墨量 ↓</option>
+      <option value="yong_asc">永字墨量 ↑</option>
+      <option value="yong_desc">永字墨量 ↓</option>
+    </select>
+    <span id="progress"></span>
+  </div>
+</header>
+<div class="layout">
+  <aside><ul id="fontList"></ul></aside>
+  <main id="main">加载中…</main>
+</div>
+<script>
+const pct=v=>v==null?'—':Math.round(v*100)+'%';
+const f2=v=>v==null?'—':Number(v).toFixed(2);
+let DATA=null, filtered=[], cur=-1;
+const BIN_COLOR={empty:'bin-empty',tiny:'bin-tiny',small:'bin-small',mid:'bin-mid',large:'bin-large',full:'bin-full'};
+
+function imgUrl(f, role, cp){
+  const root='../../fontdiffuser-p253-t295-s338-cn2west-v2/'+f.split+'/';
+  const dir=role==='style'?'StyleImage':'TargetImage';
+  return root+dir+'/'+f.stem+'/'+f.stem+'+'+cp+'.png';
+}
+function cp(ch){return 'u'+ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');}
+
+function overviewHTML(){
+  const g=DATA.global, bins=DATA.bins;
+  const bar=bins.map(b=>{
+    const w=Math.max(b.pct,0.4);
+    return `<span class="${BIN_COLOR[b.id]}" style="width:${w}%" title="${b.label}: ${b.n}">${b.pct>=4?b.pct+'%':''}</span>`;
+  }).join('');
+  const binRows=bins.map(b=>`
+    <tr><td><b>${b.label}</b></td><td>${b.n.toLocaleString()}</td><td>${b.pct}%</td>
+    <td><div class="strip">${b.examples.map(e=>
+      `<figure><img loading="lazy" src="${imgUrl(e,e.role,e.cp)}" alt=""/><figcaption>${e.ch}<br/>${pct(e.max)}</figcaption></figure>`
+    ).join('')}</div></td></tr>`).join('');
+  const catRows=DATA.by_category.map(c=>
+    `<tr><td>${c.cat}</td><td>${c.n.toLocaleString()}</td><td>${pct(c.median)}</td><td>${pct(c.p5)}</td><td>${pct(c.p95)}</td></tr>`
+  ).join('');
+  return `<div class="card">
+    <h2 style="margin:0 0 6px">全局墨量分布（${DATA.n_glyphs.toLocaleString()} 张 / ${DATA.n_fonts} 字体）</h2>
+    <div class="meta">min ${pct(g.min)} · p5 ${pct(g.p5)} · median ${pct(g.median)} · p95 ${pct(g.p95)} · max ${pct(g.max)} · mean ${pct(g.mean)}</div>
+    <div class="bar">${bar}</div>
+    <table class="table"><thead><tr><th>分档</th><th>数量</th><th>占比</th><th>示例字（跨字体）</th></tr></thead>
+    <tbody>${binRows}</tbody></table>
+  </div>
+  <div class="card">
+    <h2 style="margin:0 0 6px">按语种/类别 median 墨量</h2>
+    <table class="table"><thead><tr><th>类别</th><th>样本量</th><th>median</th><th>p5</th><th>p95</th></tr></thead>
+    <tbody>${catRows}</tbody></table>
+  </div>
+  <div class="card"><b>点左侧字体</b>查看该字体探针与最小/最大墨量字（已按墨量排序）。</div>`;
+}
+
+function applyFilter(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  const split=document.getElementById('split').value;
+  const sort=document.getElementById('sort').value;
+  filtered=DATA.fonts.filter(f=>{
+    if(split!=='all' && f.split!==split) return false;
+    if(q && !f.stem.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const key=sort.startsWith('yong')?'yong_max':'median_max';
+  const desc=sort.endsWith('desc');
+  filtered.sort((a,b)=>{
+    const av=a[key], bv=b[key];
+    if(av==null&&bv==null) return a.stem.localeCompare(b.stem);
+    if(av==null) return 1; if(bv==null) return -1;
+    return desc? bv-av : av-bv;
+  });
+  renderList();
+  document.getElementById('progress').textContent=`显示 ${filtered.length}/${DATA.fonts.length}`;
+  if(cur<0) document.getElementById('main').innerHTML=overviewHTML();
+}
+function renderList(){
+  document.getElementById('fontList').innerHTML=filtered.map((f,i)=>`
+    <li data-i="${i}" class="${cur===i?'active':''}">
+      <div><span class="stem">${f.stem}</span></div>
+      <div class="sub">${f.split} · med ${pct(f.median_max)} · 永 ${pct(f.yong_max)} · p5–p95 ${pct(f.p5_max)}–${pct(f.p95_max)}</div>
+    </li>`).join('');
+  document.querySelectorAll('#fontList li').forEach(li=>li.onclick=()=>selectFont(+li.dataset.i));
+}
+function selectFont(i){
+  if(i<0||i>=filtered.length) return;
+  cur=i; renderList(); renderDetail();
+  document.getElementById('main').scrollTop=0;
+}
+function strip(f, items, title){
+  return `<section class="sec card"><h3>${title}</h3><div class="strip">${items.map(s=>{
+    const role=s.role||(DATA.probes.style_han.includes(s.ch)?'style':'target');
+    const c=s.cp||cp(s.ch);
+    const lab=s.max!=null?pct(s.max):(s.ch||'');
+    return `<figure><img loading="lazy" src="${imgUrl(f,role,c)}" alt=""/><figcaption>${s.ch||''}<br/>${lab}</figcaption></figure>`;
+  }).join('')}</div></section>`;
+}
+function renderDetail(){
+  const f=filtered[cur];
+  const probes=[];
+  for(const [cat,chars] of Object.entries(DATA.probes)){
+    probes.push(strip(f, chars.map(ch=>({ch, role:cat==='style_han'?'style':'target'})), `探针 · ${cat}`));
+  }
+  const small=f.smallest.map(s=>({...s}));
+  const large=f.largest.map(s=>({...s}));
+  document.getElementById('main').innerHTML=`
+    <div class="card">
+      <h2 style="margin:0 0 4px">${f.stem} <span class="badge">${f.split}</span></h2>
+      <div class="meta">median ${pct(f.median_max)} · 永 ${pct(f.yong_max)} (h=${pct(f.yong_h)}) · p5 ${pct(f.p5_max)} · p95 ${pct(f.p95_max)} · empty ${f.n_empty}/${f.n}</div>
+      <div class="meta" style="margin-top:4px">类别 median：${Object.entries(f.cat_median||{}).map(([k,v])=>k+' '+pct(v)).join(' · ')}</div>
+      <div style="margin-top:8px"><button id="btnPrev">←</button> <button id="btnNext">→</button>
+      <button id="btnOverview" style="margin-left:8px">总览</button></div>
+    </div>
+    ${strip(f, small, '本字体墨量最小')}
+    ${strip(f, large, '本字体墨量最大')}
+    ${probes.join('')}`;
+  document.getElementById('btnPrev').onclick=()=>selectFont(cur-1);
+  document.getElementById('btnNext').onclick=()=>selectFont(cur+1);
+  document.getElementById('btnOverview').onclick=()=>{cur=-1;renderList();document.getElementById('main').innerHTML=overviewHTML();};
+}
+document.getElementById('q').oninput=()=>{cur=-1;applyFilter();};
+document.getElementById('split').onchange=()=>{cur=-1;applyFilter();};
+document.getElementById('sort').onchange=()=>{cur=-1;applyFilter();};
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+  if(e.key==='j'||e.key==='J') selectFont(cur+1);
+  if(e.key==='k'||e.key==='K') selectFont(cur-1);
+});
+fetch('ink_report.json').then(r=>r.json()).then(d=>{DATA=d;applyFilter();});
+</script>
+</body>
+</html>

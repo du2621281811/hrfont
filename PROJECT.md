@@ -47,7 +47,7 @@
 
 ---
 
-## 数据集准备：cn2west v2 渲染协议 A–F
+## 数据集准备：cn2west v2 渲染协议 A–H
 
 261 个方正字体 × 295 target + 338 style 字符，train/val/test = 237/16/8。  
 字符集：`manifests/charset_cn2west_v2_planned.json`；字体拆分：`manifests/pipeline_v2_*_stems_v2.txt`。  
@@ -62,10 +62,12 @@ ContentImage 统一使用 Noto Sans CJK Regular，按各协议对应逻辑渲染
 | **C** | 128→96 | 固定 fsize=128 | textbbox 居中 @ 128×128 | BILINEAR → 96×96 | RGB PNG | `build_cn2west_v2_proto_abc.py --proto C` |
 | **D** | 96×96 | 逐字逐字形：二分搜最大 fs 使 textbbox w,h ≤ 88（margin=8px） | textbbox 居中 | 无 | RGB PNG | `build_cn2west_v2_proto_df.py --proto D` |
 | **F** | 96×96 | 逐字逐字形：二分搜最大 fs 使 ink margin ≈ 8px（8% canvas） | textbbox 居中 | 无 | RGB PNG | `build_cn2west_v2_proto_df.py --proto F` |
+| **H** | 96×96 | 同 A（逐字体一号、内框 84），但用**墨迹像素框**搜最大 fs | textbbox 居中 | 无 | RGB PNG | `build_cn2west_v2_proto_h.py` |
 
 **关键区别**：
-- A/B 是**逐字体**统一字号（所有字符共享一个 font size），D/F 是**逐字符**独立搜索最大字号。
-- D 用 `textbbox`（逻辑边界框，含 bearings）约束，F 用 `ink bbox`（实际墨迹像素）约束。
+- A/B/H 是**逐字体**统一字号（所有字符共享一个 font size），D/F 是**逐字符**独立搜索最大字号。
+- A 用 `textbbox`（逻辑边界框）约束字号，H 用 `ink bbox`（实际墨迹像素）约束字号，其余与 A 相同。
+- D 用 `textbbox` 约束，F 用 `ink bbox` 约束。
 - C 是唯一做缩放的方案，字填充率最高但可能有抗锯齿模糊。
 
 ### 数据集 ID
@@ -77,6 +79,7 @@ ContentImage 统一使用 Noto Sans CJK Regular，按各协议对应逻辑渲染
 | C | `fontdiffuser-p253-t295-s338-cn2west-v2c-official128` |
 | D | `fontdiffuser-p253-t295-s338-cn2west-v2d-perglyph-max96` |
 | F | `fontdiffuser-p253-t295-s338-cn2west-v2f-perglyph-fit96` |
+| H | `fontdiffuser-p253-t295-s338-cn2west-v2h-inkfit` |
 
 ### 合作者重建
 
@@ -87,6 +90,9 @@ python scripts/build_cn2west_v2_proto_abc.py --proto all --workers 16
 # D/F（约 5-10 分钟）
 python scripts/build_cn2west_v2_proto_df.py --proto both --workers 16
 
+# H（A 的墨迹框版，约 10-20 分钟）
+python scripts/build_cn2west_v2_proto_h.py --workers 16
+
 # Review 网页（约 1 分钟）
 python scripts/build_cn2west_v2_protocol_review.py
 python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2west_v2_abc_review/
@@ -95,7 +101,12 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 ### QA Review
 
 - 入口页：`data/render_qa_hub.html`
-- 五协议对比 Review：`data/cn2west_v2_abc_review/index.html`（按自动筛选排序，支持 A/B/C/D/F 切换）
+- 协议对比 Review：`data/cn2west_v2_abc_review/index.html`（A/B/C/D/F/H 切换；筛选基于 B；永字高度按协议分别显示）
+- A 墨量分布预览：`data/cn2west_v2_abc_review/proto_A_ink/`（全量 `max(ink_h,ink_w)/96` 分档；字体按 median 墨量排序）
+  - 重建：`python scripts/build_cn2west_v2_proto_a_ink_preview.py`
+- A vs H 对比：`data/cn2west_v2_abc_review/proto_AH_compare/`（逻辑框 vs 墨迹框定号）
+
+**A 墨量摘要（已扫描 165,213 张）**：median≈75%；主体 70–85%（约 63%）；Style 汉字 median≈78%，ASCII 字母≈63%；极小墨量（&lt;25%）约 0.18%，主要来自个别纤细字体。
 
 ---
 
@@ -111,3 +122,4 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-03：Stage A 完成 → `INCONCLUSIVE`；建根 Git 与补丁提交；迁入 `/root/projects/hrfont`。
 - 2026-09-03：单仓双目录 `code/official` + `code/ours`；推送 GitHub `hrfont`。
 - 2026-09-03：固化项目管理：`docs/PROJECT_MANAGEMENT.md`、`provenance/REGISTRY.md`、`code/variants/`、`scripts/pm_preflight.py`；台账转向新基模设计阶段。
+- 2026-09-04：补齐渲染协议 A–H 规格与重建脚本；修复 D/F 字号搜索上界；新增协议 H（A 的墨迹框版）；A 全量墨量分布预览页。

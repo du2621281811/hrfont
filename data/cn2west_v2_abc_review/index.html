@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>CN2WEST v2 · A–F Review</title>
+<title>CN2WEST v2 · A–H Review</title>
 <style>
 :root{--bg:#eef1f5;--panel:#fff;--line:#d5dbe3;--muted:#5c6570;--drop:#8b1e1e;--review:#8a5a00;--ok:#2f5d3a;--accent:#1f4a6f}
 *{box-sizing:border-box} html,body{height:100%;margin:0}
@@ -39,7 +39,7 @@ main{overflow:auto;padding:12px 16px 48px}
 </head>
 <body>
 <header>
-  <h1>CN2WEST v2 · A–F 协议 Review</h1>
+  <h1>CN2WEST v2 · A–H 协议 Review</h1>
   <div class="meta">直接读<strong>已渲染数据集</strong> PNG · 探针示意 / 可展开全字 · J/K 换字体 · 勾选丢弃本地保存 · <strong>筛选/色散基于 B 协议</strong> · 永H 按各协议分别显示</div>
   <div class="toolbar">
     <input type="search" id="q" placeholder="搜 stem / 名" style="min-width:160px"/>
@@ -61,18 +61,18 @@ main{overflow:auto;padding:12px 16px 48px}
 const DROP_KEY='hrfont_v2_abcde_review_drop_v1';
 let DATA=null, filtered=[], cur=-1;
 const sevOn=new Set(['drop','review','ok']);
-const protoOn=new Set(['A','B','C','D','F']);
+const protoOn=new Set(['A','B','C','D','F','H']);
 const pct=v=>v==null?'—':Math.round(v*100)+'%';
 const f2=v=>v==null?'—':Number(v).toFixed(2);
 
 function protoYongLine(f, protos){
-  const ps=(protos||['A','B','C','D','F']).filter(p=>f.proto_yong&&f.proto_yong[p]!=null);
+  const ps=(protos||['A','B','C','D','F','H']).filter(p=>f.proto_yong&&f.proto_yong[p]!=null);
   if(!ps.length) return '永H —';
   return ps.map(p=>`${p}${pct(f.proto_yong[p])}`).join(' · ');
 }
 function protoYongDetail(f){
   const py=f.proto_yong||{};
-  return ['A','B','C','D','F'].map(p=>py[p]!=null?`永H(${p})=${pct(py[p])}`:null).filter(Boolean).join(' · ');
+  return ['A','B','C','D','F','H'].map(p=>py[p]!=null?`永H(${p})=${pct(py[p])}`:null).filter(Boolean).join(' · ');
 }
 
 function imgUrl(proto,split,stem,role,cp){
@@ -84,7 +84,7 @@ function loadDrops(){try{return JSON.parse(localStorage.getItem(DROP_KEY)||'{}')
 function saveDrops(o){localStorage.setItem(DROP_KEY,JSON.stringify(o));}
 
 function renderProtoChips(){
-  document.getElementById('protoChips').innerHTML=['A','B','C','D','F'].map(p=>{
+  document.getElementById('protoChips').innerHTML=['A','B','C','D','F','H'].map(p=>{
     const ready=DATA.datasets_status[p]?.ready;
     const on=protoOn.has(p);
     return `<button type="button" class="chip ${on?'on':''} ${ready?'':'off'}" data-proto="${p}" title="${DATA.protocols[p]||''}">${p}${ready?'':'⚠'}</button>`;

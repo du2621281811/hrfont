@@ -13,17 +13,25 @@ a{color:#1f4a6f} h1{font-size:1.4rem} .card{display:block;border:1px solid #d5db
 </head>
 <body>
 <h1>CN2WEST v2 渲染检查入口</h1>
-<p class="s">A/B/C 为 v2 候选 · D/F 逐字渲染对照（原生96）</p>
+<p class="s">A/B/C/H 为逐字体一号 · D/F 为逐字独立定号 · 均为原生 96（C 为 128→96）</p>
 <p class="note">启动本地服务：<code>python -m http.server 8777 --directory data/</code> → 打开 <code>http://127.0.0.1:8777/render_qa_hub.html</code><br/>
 重建 Review 页：<code>python scripts/build_cn2west_v2_protocol_review.py</code></p>
 
+<a class="card" href="cn2west_v2_abc_review/proto_A_ink/">
+  <b>协议 A · 墨量分布与按墨量预览</b>
+  <div class="s">全量 ink max(h,w)/96 分档统计 · 字体按 median 墨量排序 · 各档示例字</div>
+</a>
 <a class="card" href="cn2west_v2_abc_review/">
-  <b>A–F 协议 Review（主入口）</b>
-  <div class="s">直接读已渲染 PNG · A/B/C/D/F 可切换 · 探针/全字 · 永H 按协议分别显示</div>
+  <b>A–H 协议 Review（主入口）</b>
+  <div class="s">直接读已渲染 PNG · A/B/C/D/F/H 可切换 · 探针/全字 · 永H 按协议分别显示</div>
 </a>
 <a class="card" href="fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/qa/screen/index.html">
   <b>B 盘字体筛查 · 勾选丢留</b>
   <div class="s">自动筛查 drop/review/ok · 导出丢弃列表</div>
+</a>
+<a class="card" href="cn2west_v2_abc_review/proto_AH_compare/">
+  <b>A vs H（逻辑框 vs 墨迹框定号）</b>
+  <div class="s">同一字体一号 · H 用像素墨迹进 84px · 红=逻辑框 蓝=墨迹框</div>
 </a>
 <a class="card" href="cn2west_v2_abc_review/bbox_explain/">
   <b>逻辑框 vs 墨迹框说明</b>
