@@ -5,10 +5,13 @@ ICLR 2027 方向：**中文 few-shot 风格 → 生成拉丁 / 假名**。
 
 ## 合作者从这里开始
 
-1. [`docs/OFFICIAL_VS_OURS.md`](docs/OFFICIAL_VS_OURS.md) — **官方源码 vs 我们的补丁 vs 自研实验**（必读）
-2. [`PROJECT.md`](PROJECT.md) — 当前状态、Stage A 结论、下一步
-3. [`COLLABORATOR_GUIDE.md`](COLLABORATOR_GUIDE.md) — 官方训练设置、我们的 42/253 FT、渲染与 Loss
-4. [`docs/DATA_AND_WEIGHTS.md`](docs/DATA_AND_WEIGHTS.md) — 数据 / 权重本机路径（默认不进 Git）
+> **警告：** 只打开 `hrfont` 仓 ≠ 拥有 FontDiffuser 源码。官方与补丁在独立仓 [`fontdiffuser-hrfont`](https://github.com/du2621281811/fontdiffuser-hrfont)；该仓默认分支 **`main` = 官方干净**，补丁在 `hrfont/local-patches-20260903`。请先读 [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md)。
+
+1. [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) — **实验清单 + 结果入口 + 防误用铁律**（必读）
+2. [`docs/OFFICIAL_VS_OURS.md`](docs/OFFICIAL_VS_OURS.md) — 官方 / 补丁 / 自研三层边界
+3. [`PROJECT.md`](PROJECT.md) — 当前状态、Stage A 结论、下一步
+4. [`COLLABORATOR_GUIDE.md`](COLLABORATOR_GUIDE.md) — 官方训练设置、我们的 42/253 FT、渲染与 Loss
+5. [`docs/DATA_AND_WEIGHTS.md`](docs/DATA_AND_WEIGHTS.md) — 数据 / 权重本机路径（默认不进 Git）
 
 ## 目录结构
 
@@ -39,7 +42,7 @@ git diff main...HEAD --stat
 ```
 
 - 官方干净：`main` @ `7b28ce9`（= `yeungchenwa/FontDiffuser`）
-- 我们的补丁：`hrfont/local-patches-20260903` @ `99e42b5`
+- 我们的补丁：`hrfont/local-patches-20260903` @ `4a47351`（与早期本地 `99e42b5` 同内容；以 GitHub fork 为准）
 
 ## 本机数据与权重
 

@@ -7,7 +7,7 @@
 | 层 | 位置 | 是什么 |
 |----|------|--------|
 | **官方源码** | `code/FontDiffuser` 分支 `main` @ `7b28ce9` | 与上游 [yeungchenwa/FontDiffuser](https://github.com/yeungchenwa/FontDiffuser) 一致 |
-| **我们对官方仓的补丁** | 同仓分支 `hrfont/local-patches-20260903` @ `99e42b5` | 相对 `main` 的 **1 个 commit**（8 文件） |
+| **我们对官方仓的补丁** | 同仓分支 `hrfont/local-patches-20260903` @ `4a47351`（GitHub fork；旧本地标签 `99e42b5` 内容等价） | 相对 `main` 的 **1 个 commit**（8 文件） |
 | **自研实验代码** | `scripts/`、`PROJECT.md`、`reports/`、`provenance/` | **不在**上游仓库里 |
 
 查看补丁（任选）：
