@@ -2,6 +2,7 @@
 
 > 唯一内部入口。计划、状态、决策和结果只更新本文件；已有报告视为历史证据，不再新增同类计划文档。
 > 工作区：`/root/projects/hrfont`（从 `font_crosslingual` 抽出的中→西专用仓）。
+> 实验/结果速查与防误用：[`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md)。
 > 官方 vs 我们：[`docs/OFFICIAL_VS_OURS.md`](docs/OFFICIAL_VS_OURS.md)。
 > 合作者了解官方设置、数据、渲染、Loss和历史FT来源时，统一阅读 [`COLLABORATOR_GUIDE.md`](COLLABORATOR_GUIDE.md)。
 
