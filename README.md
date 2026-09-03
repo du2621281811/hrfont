@@ -45,6 +45,17 @@ git diff main...HEAD --stat
 
 训练 JPG 与 `.pt` **不进 Git**。在本机通过 symlink 指向原路径；详见 `docs/DATA_AND_WEIGHTS.md`。
 
+
+## GitHub（private）
+
+- 实验仓：https://github.com/du2621281811/hrfont
+- FontDiffuser fork：https://github.com/du2621281811/fontdiffuser-hrfont
+  - 官方：`main`
+  - 我们的补丁：`hrfont/local-patches-20260903`
+  - Compare：https://github.com/du2621281811/fontdiffuser-hrfont/compare/main...hrfont/local-patches-20260903
+
+本机 `code/FontDiffuser` 已 clone 该 fork；`ckpt/` 仍为本机 symlink，不进 Git。
+
 ## 环境
 
 - Python：`/root/miniforge3/envs/boogu`
