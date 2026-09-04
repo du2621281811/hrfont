@@ -23,7 +23,7 @@
 | `FT-CNSTYLE-25K` | 42 字体 CN→西，25k | `provenance/runs/…`；`reports/retrain_v2/FD_CNSTYLE_RESULTS.json` | `code/ours`（历史） |
 | `FT-P253-CNSTYLE-12K` | 253 字体，12k | 同上；Style 池存疑 | `code/ours`（历史） |
 | `A-MVP-CONTROL` / `DELTA` | Stage A，`INCONCLUSIVE` | `PROJECT.md`；`provenance/runs/A-MVP-*.json` | 脚本 + `ours` 权重树 |
-| `E1-FTV2-A-S3407` | A 协议 FT-v2，228/16/16，seed3407，100k | `PROJECT.md`（进行中）；训完补 provenance | **`code/variants/cn2west_ft_v2`** |
+| `E1-FTV2-A-S3407` | A 协议 FT-v2，228/16/16，seed3407，100k | `PROJECT.md`（已完成 100k）；`provenance/runs/E1-FTV2-A-S3407.json`；正式评测待补 | **`code/variants/cn2west_ft_v2`** |
 | `FT-P251-REF8-CN2WEST-V2` | 旧 planned 名（已由 E1/p260 取代） | TBD | **`code/variants/cn2west_ft_v2`** |
 
 官方超参 / Loss / 渲染：`COLLABORATOR_GUIDE.md`。

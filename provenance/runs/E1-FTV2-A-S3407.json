@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "experiment",
+  "experiment_id": "E1-FTV2-A-S3407",
+  "created_at": "2026-09-04T04:00:02.983315+00:00",
+  "provenance_certainty": "exact_pending_dataset_fingerprint",
+  "status": "completed",
+  "global_step": 100000,
+  "max_train_steps": 100000,
+  "variant": "cn2west_ft_v2",
+  "config": "configs/e1_ft_v2_a_s3407.yaml",
+  "patch": "docs/patches/cn2west_ft_v2.diff",
+  "data_root": "data/fontdiffuser-p253-t295-s338-cn2west-v2",
+  "split": "manifests/split_v3_228_16_16.json",
+  "split_counts": [
+    228,
+    16,
+    16
+  ],
+  "excluded_fonts": [
+    "FZXianZTJW"
+  ],
+  "init": "code/official/FontDiffuser/ckpt (P1)",
+  "train": {
+    "seed": 3407,
+    "batch_size": 8,
+    "grad_accum": 1,
+    "lr": 1e-05,
+    "warmup": 5000,
+    "scheduler": "linear",
+    "fp16": true,
+    "scr": false,
+    "drop_prob": 0.1,
+    "perceptual": 0.01,
+    "offset": 0.5,
+    "resolution": 96,
+    "resize": false,
+    "gpu": 3
+  },
+  "val_loss_best": {
+    "step": 98000,
+    "loss": 0.02976388869554562,
+    "n": 4720,
+    "tag": "step98000_last"
+  },
+  "artifacts": {
+    "run_dir": "runs/E1-FTV2-A-S3407/",
+    "dashboard_snapshot": "reports/e1_ft_v2_dashboard/",
+    "note": "weights/logs under runs/ are gitignored; collaborator review: reports/REVIEW_E1_R0_20260904.md"
+  },
+  "git_note": "fill commit SHA after this provenance commit",
+  "TODO": [
+    "dataset tree SHA for formal p260 id",
+    "full E3-style metrics beyond dashboard probes",
+    "address REVIEW_E1_R0_20260904 high-risk gaps post-freeze"
+  ],
+  "val_loss_best_formal": {
+    "step": 100000,
+    "loss": 0.02978713931279036,
+    "n": 4720,
+    "tag": "step100000"
+  },
+  "dashboard_snapshot_note": "{\"source\":\"runs/E1-FTV2-A-S3407/viz\",\"published_utc\":\"2026-09-04T03:59:55.585725+00:00\"}"
+}

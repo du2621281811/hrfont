@@ -7,25 +7,26 @@
 
 ## 当前状态
 
-- **阶段**：**E1 满训进行中**（`E1-FTV2-A-S3407`，watchdog 托管，约 **92k / 100k**）。
+- **阶段**：**E1 满训已完成**（`E1-FTV2-A-S3407`，**100000/100000**；`DONE.json` 已写出）。
 - **训练协议已定**：仅 **A**；池 **260=228/16/16**；drop `FZXianZTJW`。
 - **E1 冻结**：seed **3407 only**；**GPU3**；**bs=8 / accum=1**；100k；lr=1e-5；warmup=5k；fp16；SCR off。
 - **入口**：`configs/e1_ft_v2_a_s3407.yaml` · `scripts/launch_cn2west_ft_v2_e1.py` · `code/variants/cn2west_ft_v2/`
-- **看板**：训练机实时 http://127.0.0.1:8777/e1_ft_v2_dashboard/；合作者看 Git 快照 `reports/e1_ft_v2_dashboard/`（`bash scripts/publish_e1_dashboard.sh` 后推送）。
+- **看板**：合作者 Git 快照 `reports/e1_ft_v2_dashboard/`；训练机实时 `data/e1_ft_v2_dashboard`→`runs/.../viz`。
 - **冒烟**：`runs/smoke-E1-FTV2-*` 20 step @ bs=8 **已通过**。
 
 ## 下一步
 
-1. 等 E1 到 100k → 写 `provenance/runs/E1-FTV2-A-S3407.json` + 回填结论
-2. （可选）清僵尸显存后再议 `bs=16` 复现实验
-3. 正式 p260 manifest/SHA 可并行补登记
+1. 正式评测（E3 指标轴，不只看板 4 字）；完善 provenance 数据指纹 SHA
+2. 回应协作审查 `reports/REVIEW_E1_R0_20260904.md` 高风险缺口（训后修，不改已冻结 E1 超参）
+3. 正式 p260 数据指纹 manifest/SHA
+4. （可选）清僵尸显存后再议 `bs=16` 复现
 
 ## 实现边界
 
 - 新实验用新入口、新 run ID、新数据版本目录；不覆盖历史 metrics/ckpt。
 - `code/official` 与 `code/ours` 冻结只读；新逻辑只进 `code/variants/<id>/`。
 - 数据/权重不进 Git；本机用 symlink。
-- 未收到明确开训指令前，不启动长训练或扩展实验。
+- 新实验仍须明确指令；E1 已完成，后续评测/修复另开任务。
 
 ## 实验登记（摘要）
 
@@ -34,7 +35,8 @@
 | `FT-CNSTYLE-25K` | `retro_partial` | 42 字体历史 FT |
 | `FT-P253-CNSTYLE-12K` | legacy，provenance 缺失 | 253 字体；Style 池存疑 |
 | `A-MVP-CONTROL` / `A-MVP-DELTA` | 完成，`INCONCLUSIVE` | Stage A 因果早筛 |
-| `FT-P260-A-CN2WEST-V2` | planned | R0 后正式 A 盘 FT-v2（228/16/16） |
+| `E1-FTV2-A-S3407` | **completed 100k** | A 协议 FT-v2；看板快照已发布；正式评测待补 |
+| `FT-P260-A-CN2WEST-V2` | planned formal ID | 同 E1 数据协议；指纹待发 |
 
 完整表见 `provenance/REGISTRY.md`。
 
@@ -132,3 +134,4 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-04：PI 冻结 ink 门（drop FZXianZTJW）；重划 **228/16/16**；A–H 盘目录已同步；目标 ID 改为 p260。
 - 2026-09-04：落地 `cn2west_ft_v2` + E1 满训（`E1-FTV2-A-S3407`）；训练看板（train/val loss + Pred 对比）。
 - 2026-09-04：PI 决策（人工确认）：① 当前 E1（bs=8、seed 3407 only、无训练期 ink 过滤）**验收通过**，非 protocol deviation；② **eff batch=8×1 为后续全部实验的 matched 标准**（E2/E2b/E2c/E2d/E5 同用）；③ train/val/test 拆分沿用 split_v3_228_16_16，全链路防泄漏；④ **协议 H 已弃用**（人工验证后），仅 A 为唯一训练/评测协议。
+- 2026-09-04：E1 满训完成 100k；刷新看板快照；收协作审查 `REVIEW_E1_R0_20260904`。
