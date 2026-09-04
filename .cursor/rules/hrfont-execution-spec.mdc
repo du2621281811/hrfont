@@ -14,22 +14,29 @@ alwaysApply: true
 - D-CFG：YAML 唯一真源，CLI 仅 schema 内 override；resolved canonical JSON + SHA-256 锁定运行。
 - 数据（PI 2026-09-04 覆盖原 237/16/8）：**260=228 train+16 val+16 test**（drop `FZXianZTJW`）；清单 `manifests/pipeline_v3_*_stems.txt` / `split_v3_228_16_16.json`；target295/style338；正式 ID 待发 `fontdiffuser-p260-t295-s338-cn2west-v2a-r1-<manifest8>`（盘上目录暂仍名 p253）；ref8=`永和书风骨韵天地`；Content=Noto Sans CJK Regular；B₀=Noto ContentImage（与 Content 同一渲染：Δ 减数=Ec(Content)，Identity 与 Δ 共享同一张中性图；合作者 2026-09-04 决策）。
 - 全局：AdamW betas=(.9,.999),wd=.01,eps=1e-8；**effective batch=8×1（PI 决策，全部后续实验统一）**；fp16；clip=1；gradient checkpointing=false；EMA=false；CFG joint drop=.10；delta/support drop=.25/.20；seeds=3407/3408/3409（E1 为 PI 批准的 3407-only 例外）；DPM-Solver++ order2/20 steps/CFG7.5；paired noise。
-- 训练：E1=100k,lr=1e-5,linear,warmup5k（已跑完/收尾中；5e-5 预热轨弃用）；E2/E2b/E2c/E2d=80k,8x1,lr=1e-5,warmup2k；E5/E5b=25k,8x1,lr=1e-5,warmup1k。
+- 训练：E1=100k,lr=1e-5,linear,warmup5k（已完成；5e-5 预热轨弃用）；E1c/E2/E2b/E2c/E2d=80k,8x1,lr=1e-5,warmup2k；E5/E5b=25k,8x1,lr=1e-5,warmup1k。
 - loss：diffusion MSE + .01 perceptual + .5 offset；SCR 臂另加 .01 SCR（temperature=.07,num_neg=16,nce_layers=[0,1,2,3]）。
 - checkpoint：每1k lightweight；每5k full milestone+val；保留全部5k、best、最近5个1k；keepalive=60s；每 optimizer step 后查 STOP。
 
-## 1.5 对齐审查决策（2026-09-04，REVIEW_ALIGNMENT_20260904，PI 全按推荐）
+## 1.5 对齐审查决策（2026-09-04，REVIEW_ALIGNMENT_20260904）
 
-- D-A1：Es cache 的 es_checkpoint_sha256 必须等于 init ckpt 的 style_encoder SHA，启动 fail-closed。
-- D-A2：五份主文档 + patch + VARIANT 已 mass-update（本次）。
-- D-A3：E2b 定义为 E2 的 matched official-RSI control；「同头≠同 forward」（n-shot pooled style condition 不同于 E1 spatial map）。
-- D-A4：style condition 精确定义=逐张 Es 向量归一化 pooled→对 R 平均→1 token。
-- D-A5：best 资格：0/5k milestone 仅诊断，10k 起参与 best 选择；两臂一致。
-- D-A6：α 空邻域 fail-fast（训练中空率必须为 0，否则中止并重定 ε）。
+- D-A1：Es cache 的 encoder SHA 必须等于 init ckpt 的 style_encoder SHA，启动 fail-closed（2026-09-05 扩到 Ec cache）。
+- D-A2：五份主文档 + patch + VARIANT 已 mass-update。
+- D-A3：E2b 定义为 E2 的 matched official-RSI control（同 n-shot style）；**不是** E1 续训。E1 续训见 §1.6 E1c。
+- D-A4：**已作废**，由 §1.6 的 9-token 空间均值覆盖。
+- D-A5：best 资格：0/5k milestone 仅诊断，10k 起参与 best 选择；E1c/E2/E2b 一致。
+- D-A6：**已作废** 空邻域 fail-fast/重定 ε；由 §1.6 必取 top-K 覆盖。
 - D-A7：V1 rank 移出 gate（仅报告）；negative 配对用 other 字体奇数半字均值；test 行 pairwise_auc 允许 null。
-- D-A8：E2c=P1 cold-system：P1 init 配 P1 query/cache retrieval space。
+- D-A8：E2c=P1 cold-system：P1 init 配 P1 query/cache；附录，非 matched。
 - D-A9：推理 CFG streams 分离：style/content uncond 保留 structure；Δ 由 Δ-drop 单独控制。
 - D-A10：proto manifest 升 schema：字段 `prototype_per_char`（per-char 矩阵），无外部 consumer 直接升级。
+
+## 1.6 PI 决策（2026-09-05，`reports/PI_DECISIONS_20260905.md`）
+
+- **三臂：** E1c = 原 E1 前向再训 80k（1-shot、9-token `style_emd`、官方 `Ec(style)`）；E2b = n-shot 9-token 空间均值 + 官方 `Ec(R[0])`；E2 = 与 E2b 同 style + Δ。主对照 E2 vs E2b；E1c 是「不改 RSI」基线。
+- **α：** `mode=topk`，K=10，τ=0.07；同字 cosine 平均后对 top-K softmax。禁止 ε 截空。空邻域不是方法语义。n 上限=8。K=3 仅附录消融。
+- **cache-only：** 训练/推理禁止在线 Es/Ec。Es spatial 260×338；Ec target 228×295 + Content×295 + Ec style 260×338。SHA 绑对应 encoder。
+- **style token：** n 张 `style_emd` `[1024,3,3]` 逐元素平均 → 9 token。禁止 pooled 1-token。
 
 ## 2. 数据契约
 
@@ -52,15 +59,16 @@ alwaysApply: true
 - YAML schema 核心域：`schema_version,experiment,data,model.delta,model.support,model.scr,train,eval,retrieval,ink_filter,provenance`；至少含 dataset/config/model/code SHA、A/p260/96/no-resize、Content/B0、seed与RNG、freeze plan、drop、checkpoint/keepalive/STOP。
 - 优先级：base YAML < experiment YAML < `--set`；未知键、类型错误、TBD/null、缺 SHA 均 fail closed。加载后递归只读。
 - canonical JSON：UTF-8、键排序、无运行时路径/时间戳；SHA-256。保存 input/resolved YAML、canonical JSON、SHA；resume 时 config SHA 必须一致，仅可改 `resume_from/stop_file`。
-- matched YAML 以结构化 diff 校验白名单。E2b 相对 E2 仅可改 `experiment.id,model.rsi_source=official,model.delta.enabled=false,init.new_layer=null`；E2d 相对配对臂仅可改 SCR 字段。其余 matched 项及 random draws 必须相同；delta disabled 也消费同一 RNG draw。
+- matched YAML 以结构化 diff 校验白名单。E2b 相对 E2 仅可改 `experiment.id,model.rsi_source=official,model.delta.enabled=false,init.new_layer=null`；E2d 相对配对臂仅可改 SCR 字段。E1c **不是** E2 的 matched 臂（允许 style 1-shot 与 variant=`cn2west_ft_v2`）。其余 E2/E2b matched 项及 random draws 必须相同；delta disabled 也消费同一 RNG draw。
 
 ## 5. 实验卡速查
 
 - R0 / A+p260+ink QA / split与TTF inventory / A渲染、全633 QA、原子发布 / dataset manifest+SHA、ink表 / 计划§4 R0。
-- E0 / alpha、cache、RS-gap与检索校准 / **推迟到 E5 前**；必须用 E1 final 冻结 Es/Ec 重建（旧「E0 在 E1 前、用官方 P1 encoder」的顺序作废）；M3,tau.07,K3,theta.25,gamma.35,lambda.70 / frozen cache+`retrieval_calibration.yaml` SHA / §4 E0。E2 不依赖 E0：α 原型与 Δ 的 Ec 特征用 E1 final 冻结 encoder 在线算。
+- E0 / RS-gap 与 support 检索校准 / **推迟到 E5 前**；用 E1@100k 冻结 Es/Ec 的离线 cache（禁止在线算）。旧「E0 在 E1 前、用官方 P1 encoder」作废。
 - E1 FT-v2 / 新训练域基线 / R0+official P1 / 100k、全训UNet+Ec+Es、SCR off / **已完成 100k**（val best 98k=0.02976，100k=0.02979；provenance `E1-FTV2-A-S3407.json`）/ §4 E1。
-- E2/E2b/E2c / Delta-RSI 因果 matched / E1 / E2=Delta、E2b=official RSI继续训、E2c=P1冷启 / 80k三seed / §4 E2/E2b/E2c。**PI 决策：先 seed 3407 only（与 E1 同 seed）；数据与 E1 同管线；α=ref8/R 同字 cosine 平均（per-char 平均，合作者对齐）后 softmax/τ 全池加权 + ε/K_max 截断（默认 τ=.07/ε=.01/K_max=10；topk 为消融开关）；Δ=α 加权同字 Ec 特征 − Ec(Content)（feature-mix 禁止像素混；B₀=Noto ContentImage）；开发初始化固定 E1@100k（合作者决策）；不加 zero-init gate（接受 offset 头轻度过渡期，保持单通路归因）。**
-- **n-shot 协议（PI 2026-09-04）**：episode=(目标字体, ref 集 R)。训练：R 从当前字体 338 池随机抽 n 字符，n~Uniform{1..8}；评测：R 固定 n（主协议 n=8，与外部方法对齐；n∈{1,2,4,8} 稳健性消融进附录）。同一 R 对齐消费：style 条件=mean-pool(Es(R))、α query=同 R 的 Es 同字 cosine 平均、gap/support 同 R。推理 CFG：style/content uncond 保留 structure，Δ 由 Δ-drop 单独控制（D-A9）。Es 缓存扩为 228×338 per-(font,char) 表（离线预计算）。E2b matched 臂 RSI 结构源规则：取 R 第一字符过 Ec（写进 matched YAML 白名单）。CFG：style drop=向量置零，Δ drop 独立 .25，streams 分离。
+- E1c / 原 E1 前向再训 80k / E1@100k、冻 Es/Ec、1-shot 9-token、官方 RSI / 配置 `configs/e1c_ft_continue_s3407.yaml` / **不是** E2 matched 臂。
+- E2/E2b/E2c / Delta-RSI 因果组 / E1@100k / E2=Δ、E2b=同 n-shot 的官方 RSI、E2c=P1 冷系统附录 / 80k，先 seed 3407 / α=同字 cosine 平均后 **top-10 softmax（τ=.07）**；Δ=α 加权同字 Ec − Ec(Content)；无 zero-init gate；**cache-only**。
+- **n-shot（仅 E2/E2b，上限 8）**：训 n~Uniform{1..8}，评测固定 8（`永和书风骨韵天地`）。同一 R：style= n 张 `style_emd` 空间均值（9 token）；α=同 R 逐字 cosine 平均后 top-10；E2b 结构源=`Ec(R[0])`。CFG：style/content uncond 保留 structure，Δ-drop 独立 .25（D-A9）。
 - E2d / SCR matched / E2与E2b / 只开SCR / 两组80k三seed / §4 E2d。
 - E3/E4 / 主对比与gap机制 / E0/E1/E2/E12 / test16×295、mixed effects+bootstrap / 主表与gap统计 / §4 E3/E4。
 - E5/E5b/E6 / Support adapter与主结果 / E0+E2或E2d / A全冻、仅adapter、25k / matched test与gap收益 / §4 E5/E5b/E6。
@@ -85,9 +93,10 @@ alwaysApply: true
 ## 8. 术语表
 
 - FT-v2/E1：official P1→A/train228 的100k全参数微调新基线；不是旧 `ft_cnstyle`。
-- E2：E1@100k 初始化，Ec/Es冻，复用 E1 offset 头（无 gate、无新增参数），训UNet+offset的Stage A。
-- E2b：与E2 matched 的 FT-continue；official RSI、Delta disabled但消费draw。
-- E2c：official P1冷启的Stage A，其余同E2。
+- E1c：E1@100k 再训 80k，保持 E1 前向（1-shot 9-token、官方 Ec(style)），冻 Es/Ec。
+- E2：E1@100k 初始化，Ec/Es冻，n-shot 9-token，Δ→RSI，复用 E1 offset 头（无 gate），训UNet+offset。
+- E2b：与E2 matched；n-shot 9-token 相同，official RSI=`Ec(R[0])`，Delta disabled但消费draw。
+- E2c：official P1冷启的Stage A + P1 cache，附录敏感性，非 matched。
 - E2d：E2或E2b的SCR matched版本，只改变SCR开关/固定参数。
 - E5：E2 best初始化，Stage A全冻，仅训SupportAdapter 25k的Stage B。
 - E5b：E2D-A-SCR best初始化的Stage B；SCR=.01且仅adapter可更新。

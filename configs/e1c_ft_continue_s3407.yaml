@@ -1,11 +1,13 @@
 schema_version: 1
-# PI 2026-09-05: matched to E2 except rsi_source=official / delta.enabled=false.
+# PI 2026-09-05 P1: true E1-continue baseline (same 80k, original RSI + 1-shot 9-token).
+# Not matched to E2/E2b n-shot; only matched on init/freeze/steps/batch/seed.
 experiment:
-  id: E2B-FT-CONTINUE-S3407
+  id: E1C-FT-CONTINUE-S3407
   stage: A
-  variant: cn2west_stage_a
+  variant: cn2west_ft_v2
+  note: original E1 forward; do not route through Stage-A n-shot
 init:
-  checkpoint: runs/E1-FTV2-A-S3407/global_step_100000  # 开发初始化固定 E1@100k（合作者决策）
+  checkpoint: runs/E1-FTV2-A-S3407/global_step_100000
   new_layer: null
 data:
   protocol: A
@@ -25,23 +27,15 @@ model:
   freeze_encoders: true
   train: [unet, offset_heads]
   encoder_runtime: cache_only
-  style_condition: mean_spatial_3x3
+  style_condition: spatial_3x3
   style_tokens: 9
   delta:
     enabled: false
-    feature_mix: true
-    tau: 0.07
-    eps_alpha: 1.0e-6
-    k_max: 10
-    k_top: 10
-    mode: topk
-    leave_one_out: true
-    drop: 0.25
   nshot:
     min_n: 1
-    max_n: 8
+    max_n: 1
     train_sampling: uniform_without_replacement
-    eval_refs: [永, 和, 书, 风, 骨, 韵, 天, 地]
+    eval_refs: null  # E1 eval also 1-shot; do not force ref8 here
 train:
   seed: 3407
   steps: 80000
@@ -71,7 +65,6 @@ checkpoint:
 eval:
   every_steps: 5000
   best_eligible_from_step: 10000
-  refs: [永, 和, 书, 风, 骨, 韵, 天, 地]
   inference_steps: 20
   guidance_scale: 7.5
   solver: dpm_solver_pp

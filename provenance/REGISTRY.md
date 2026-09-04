@@ -17,7 +17,7 @@
 |----|------|---------------|------|
 | `official` | `code/official/FontDiffuser/` | — | frozen 只读 |
 | `ours-legacy` | `code/ours/FontDiffuser/` | `docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff` | frozen 历史恢复 |
-| `cn2west_ft_v2` | `code/variants/cn2west_ft_v2/` | `docs/patches/cn2west_ft_v2.diff` | **active**（E1 已完成 100k） |
+| `cn2west_stage_a` | `code/variants/cn2west_stage_a/` | `docs/patches/cn2west_stage_a.diff` | **active**（E2/E2b；代码尚未对齐 2026-09-05 口径） |
 
 ## Experiments / Runs
 
@@ -28,4 +28,7 @@
 | `A-MVP-CONTROL` | `provenance/runs/A-MVP-CONTROL.json` | `retro_partial` | `PROJECT.md` Stage A |
 | `A-MVP-DELTA` | `provenance/runs/A-MVP-DELTA.json` | `retro_partial` | `PROJECT.md` Stage A |
 | `E1-FTV2-A-S3407` | `provenance/runs/E1-FTV2-A-S3407.json` | **completed** 100000/100k | `PROJECT.md`；看板 `reports/e1_ft_v2_dashboard/` |
+| `E1C-FT-CONTINUE-S3407` | TBD | **planned** | `reports/PI_DECISIONS_20260905.md`；`configs/e1c_ft_continue_s3407.yaml` |
+| `E2-STAGE-A-S3407` | TBD | **planned** | `configs/e2_stage_a_s3407.yaml` |
+| `E2B-FT-CONTINUE-S3407` | TBD | **planned** | `configs/e2b_ft_continue_s3407.yaml` |
 | `FT-P260-A-CN2WEST-V2` | alias / planned formal ID | 同 E1 数据协议 | 正式 p260 指纹待发 |

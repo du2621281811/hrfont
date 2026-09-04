@@ -16,10 +16,10 @@
 
 ## 下一步
 
-1. 正式评测（E3 指标轴，不只看板 4 字）；完善 provenance 数据指纹 SHA
-2. 回应协作审查 `reports/REVIEW_E1_R0_20260904.md` 高风险缺口（训后修，不改已冻结 E1 超参）
-3. 正式 p260 数据指纹 manifest/SHA
-4. （可选）清僵尸显存后再议 `bs=16` 复现
+1. 合作者审核 [`reports/PI_DECISIONS_20260905.md`](reports/PI_DECISIONS_20260905.md)（E1c 臂、top-10 α、9-token、cache-only）
+2. 审核通过后：按 E1@100k 建 Es/Ec 离线 cache；改 Stage-A 接线；补 val/resume
+3. 并行可做：E1 正式评测、p260 数据指纹、P1 vs E1 encoder 验证（val-only）
+4. 未过门前 **不开** E2/E2b/E1c 80k
 
 ## 实现边界
 
@@ -36,6 +36,8 @@
 | `FT-P253-CNSTYLE-12K` | legacy，provenance 缺失 | 253 字体；Style 池存疑 |
 | `A-MVP-CONTROL` / `A-MVP-DELTA` | 完成，`INCONCLUSIVE` | Stage A 因果早筛 |
 | `E1-FTV2-A-S3407` | **completed 100k** | A 协议 FT-v2；看板快照已发布；正式评测待补 |
+| `E1C-FT-CONTINUE-S3407` | planned | 原 E1 前向再训 80k；不改 RSI |
+| `E2-STAGE-A-S3407` / `E2B-FT-CONTINUE-S3407` | planned | n-shot 9-token matched 对；E2=Δ，E2b=官方 RSI |
 | `FT-P260-A-CN2WEST-V2` | planned formal ID | 同 E1 数据协议；指纹待发 |
 
 完整表见 `provenance/REGISTRY.md`。
@@ -139,4 +141,4 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-04：**B₀=Noto ContentImage**（合作者决策）：Δ 减数与 Identity 输入统一为同一张 Noto 同字渲染，删除 FZKTJW 依赖；代码已改（train.py content_path）。
 - 2026-09-04：合作者对齐：α 聚合改为 ref8/R 同字 cosine 平均；开发初始化固定 E1@100k；验证脚本 V3/V5 neutral 角色改 ContentImage、val/test 隔离（gate 仅 val16+train，test16 只读报告）；决定不加 zero-init gate（offset 头过渡期轻度，单通路归因更干净）。
 - 2026-09-04：**n-shot 协议**：episode=(目标字体, ref 集 R)；训练 R 随机（n~Uniform{1..8}、内容随机 338 池），评测 R 固定 n（主协议 n=8 + n-shot 稳健性消融）；style 条件与 α 对齐消费同一 R（mean-pool Es）；Es 缓存扩 228×338；E2b RSI 取 R 首字符过 Ec。
-- 2026-09-04：E1 满训完成 100k；刷新看板快照；收协作审查 `REVIEW_E1_R0_20260904`。
+- 2026-09-05：PI 拍板（合作者审核中）：① 主对照仍 E2 vs E2b，另开 **E1c** 作为「同样 80k、不改 RSI」的 E1 续训基线；② α 主方法改为 **必取 top-10 + softmax(τ=.07)**，禁止 ε 截空；n 上限=8；③ Es/Ec **全部离线 cache**，训推禁止在线编码器；style 条件改为 n 张 `style_emd` **空间均值 9 token**（废除 1-token）。详见 `reports/PI_DECISIONS_20260905.md`。

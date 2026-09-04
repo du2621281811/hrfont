@@ -1,21 +1,42 @@
 # HR-Font cn2west v2 完整实验执行计划
 
-**版本：** v2（2026-09-04）
-**覆盖决策：** D-A / D-FT / D-CFG。本文件覆盖旧计划中 B-r2/H 决策树、从 `ft_cnstyle@25k` 热启及所有 TBD。所有新训练/评测统一使用 A 协议；旧 `ft_cnstyle@25k` 仅为 `legacy-domain` 参考行。
+**版本：** v2.1（2026-09-05 PI 覆盖）  
+**覆盖决策：** D-A / D-FT / D-CFG，以及 [`PI_DECISIONS_20260905.md`](./PI_DECISIONS_20260905.md)。  
+下文 §2–§9 仍含旧数（train237 / p261 / bs=1×4 / test8）；**冲突时以本节 + 执行规格 §1.6 为准。**
+
+## 0. 现行实验计划（2026-09-05）
+
+```text
+R0（已过） → E1@100k（已完成）
+  ├→ 离线 Es/Ec cache（E1@100k SHA 绑定；训推禁止在线编码器）
+  ├→ E1c  80k  原 E1 前向（1-shot 9-token，官方 Ec(style)）     ←「不改 RSI」基线
+  ├→ E2b  80k  n-shot 9-token 空间均值 + 官方 Ec(R[0])         ← 与 E2 matched
+  ├→ E2   80k  同 E2b style + Δ（top-10 softmax）              ← 方法臂
+  └→ E2c  附录  P1 冷启 + P1 cache（非 matched）
+E1c / E2 / E2b 过门后 → E3/E4 → E5 → …
+E12a 可与 cache/E1 评测并行
+```
+
+**主文对照：** E2 vs E2b（只改 RSI 源）。E1c 必须进主表，否则无法回答「相对继续训 E1」。E2c/E2d 附录。
+
+**冻结超参（覆盖 §3 的 1×4）：** 8×1，80k，lr=1e-5，warmup=2k，fp16，CFG=.10，Δ-drop=.25，seed 3407 先跑，best 从 10k 起。α：同字 cosine 平均 → top-10 → softmax(τ=.07)；n 上限=8。B₀=Noto ContentImage。
+
+**开跑前门：** 按 E1@100k 建齐 Es spatial + Ec 多尺度 cache；补 Stage-A 9-token / cache-only / top-K 接线、val/推理、exact resume；跑 val-only Es/Ec 验证。代码未改前不得开 80k。
 
 ## 1. 依赖拓扑与论文优先级
 
 ```text
-R0（A + ink 审查门） ─→ E0（cache / RS-gap） ─→ E1（FT-v2）
-                                                   ├→ E2（Stage A） ─→ E3/E4 ─→ E5 ─→ E6
-                                                   ├→ E2b（FT-continue matched）
-                                                   ├→ E2c（A-cold）
-                                                   └→ E2d（SCR matched）
+R0（A + ink 审查门） ─→ E1（FT-v2 @100k）
+                         ├→ E1c（原 E1 前向续训 80k）
+                         ├→ E2（Stage A Δ） ─→ E3/E4 ─→ E5 ─→ E6
+                         ├→ E2b（n-shot + official RSI matched）
+                         ├→ E2c（A-cold / P1 cache，附录）
+                         └→ E2d（SCR matched，附录）
 E12a（外部评测器） ───────────────────────────────→ E3/E4/E6/E11/E12b
 E3 + E0 ─→ E8；E2/E2b ─→ E9；E5 ─→ E7；E2/E5 ─→ E10；E3/E6 ─→ E11
 ```
 
-主文必需：R0/E0/E1、E2 vs E2b、E3/E4、E5/E6、至少一套 E2d SCR matched 排名、E8、E9 两项破坏+定位、E11、E12 自测。附录优先：E2c、完整 SCR 组、E7 全量、E9 接入全量、E10。
+主文必需：R0/E1、**E1c + E2 vs E2b**、E3/E4、E5/E6、E8、E9 两项破坏+定位、E11、E12 自测。附录优先：E2c、E2d/完整 SCR、E7 全量、E9 接入全量、E10。E0 推迟到 E5 前。
 
 ## 2. 全链路数据契约（A 唯一版本）
 
@@ -88,14 +109,16 @@ matched set 的 steps、effective batch、lr、scheduler、warmup、seed、batch
 | LR 双轨 | 预热轨只跑 seed3407：`lr=5e-5`，其余完全相同；在 20k 比较预注册 val diffusion loss、ID-CLS、style membership。若无 NaN/灾难遗忘且综合 z-score 比主轨≥0.25，则补到100k并选轨；否则停止，主轨为默认。轨选择写入 provenance，不能看 test8。 |
 | best | 以 val16 的 `0.5*ID_z+0.3*style_z-0.2*quality_error_z` 选 5k milestone；同分取更早。 |
 
-### E2 / E2b / E2c — Stage A 因果组
+### E1c / E2 / E2b / E2c — Stage A 因果组（2026-09-05 覆盖表）
 
-| 项 | E2 Stage A | E2b FT-continue matched | E2c A-cold |
-|---|---|---|---|
-| init | **E1 FT-v2 @100k**；Ec/Es 冻结；复用 E1 offset 头、无新增层（无 gate，接受轻度过渡期） | 同一 E1@100k；官方 RSI | official P1；Δ层同 E2 |
-| 完整配置 | `steps=80000,bs=1,accum=4,lr=1e-5,linear,warmup=2000,fp16,clip=1,CFG=.10,delta_drop=.25,SCR=false,seeds=3407/08/09`; 训 UNet+offset，冻 Ec/Es | **完全同左**，包括 seed、batch manifest、optimizer、drop draws；`delta.enabled=false` 但消费 draw | 同 E2；先 seed3407，资源允许补三 seed |
-| 理由 | 80k≈4.58 轮；FT-v2 已完成5.72轮，Stage A 是结构适配，不随字体数再扩到100k；5k eval早停但80k固定终点用于 matched 比较 | 排除额外训练量 | 初始化敏感性 |
-| YAML关系 | `e2b.yaml` 只允许相对 `e2.yaml` diff：`experiment.id,model.rsi_source=official,model.delta.enabled=false,init.new_layer=null`；自动 structural diff 否则 preflight fail | — | 仅 init 与 ID 不同 |
+| 项 | E1c 原 E1 续训 | E2 Stage A | E2b n-shot official RSI | E2c A-cold |
+|---|---|---|---|---|
+| 配置 | `configs/e1c_ft_continue_s3407.yaml` | `configs/e2_stage_a_s3407.yaml` | `configs/e2b_ft_continue_s3407.yaml` | 未建；附录 |
+| init | E1@100k；冻 Es/Ec | 同左 | 同左 | official P1 + P1 cache |
+| style | 1-shot，`style_emd` 3×3 → 9 token | n~U{1..8}，空间均值 → 9 token | 与 E2 相同 | 同 E2 |
+| RSI | `Ec(同一张 style 图)` | Δ = top-10 同字 Ec − Content | `Ec(R[0])` | 同 E2 |
+| 步数/batch | 80k，8×1，warmup 2k | **完全同左** + 同 seed/draws | **与 E2 matched** | 同 E2；先 3407 |
+| YAML 白名单 | 非 E2 matched（允许 1-shot / `cn2west_ft_v2`） | 基准 | 相对 E2 仅 `id / rsi_source=official / delta.enabled=false` | 仅 init 与 cache SHA |
 
 ### E2d — SCR matched
 
@@ -103,7 +126,7 @@ matched set 的 steps、effective batch、lr、scheduler、warmup、seed、batch
 
 ### E3 / E4 — 主对比与 gap 机制
 
-- **E3：** official P1、FT-v2、E2b、E2、E2d、旧 FT legacy 各用 test8×295；3 generation seeds、DPM++20/CFG7.5/paired noise。ID-CLS、OCR、φ_s2 Rank@1/membership、coverage/LPIPS；按脚本/gap。旧 FT 单列 `legacy-render`，不参与 matched 显著性。
+- **E3：** official P1、E1@100k、**E1c**、E2b、E2、（附录 E2d / 旧 FT legacy）各用 test16×295；3 generation seeds、DPM++20/CFG7.5/paired noise。旧 FT 单列 `legacy-render`，不参与 matched 显著性。
 - **E4：** 无训练；continuous gap 对各轴 error 做 mixed-effects（font/char 随机截距）、Spearman、font-cluster bootstrap 10,000 次、95% CI；tertile 由 calib16 冻结。斜率>0 且 CI 不跨0才支持机制。
 
 ### E5 / E5b / E6 — Stage B 与主结果
@@ -173,7 +196,8 @@ GPU 天按单卡串行估计；多卡只缩墙钟，不改变 matched 配置。�
 | E1 步数/LR | 100k；1e-5 主，5e-5@20k 预热轨后按 val 规则决定是否补齐 | 约5.72轮；保留更快适配而不污染 test。 |
 | Content | Noto Sans CJK Regular | 当前 A 盘事实，避免再造不一致数据域。 |
 | B₀ | Noto ContentImage | 与 Content/Identity 同一张 A 渲染（合作者 2026-09-04 决策）。 |
-| milestone | 1k轻量、5k完整+val | 兼顾早诊断、选择与存储。 |
+| milestone | 1k轻量、5k完整+val；**best 从 10k 起**（PI 2026-09-05） | 无 gate 时前 5k 视为 offset 重校准。 |
+| E1c / α / style token / cache | 见 [`PI_DECISIONS_20260905.md`](./PI_DECISIONS_20260905.md) | 三臂归因；top-10；9-token；cache-only。 |
 
 ## 8. 在跑任务、重跑与旧产物
 

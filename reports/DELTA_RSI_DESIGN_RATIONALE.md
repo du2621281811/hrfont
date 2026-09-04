@@ -86,7 +86,7 @@ Delta 则由**同一个目标字符 c** 的近邻字体特征减去中性特征�
 
 #### (a) 相似度用一张还是八张风格参考？
 
-用**八张**固定参考 `永和书风骨韵天地`，不是单张：manifest 明确把它列为 `style_ref8_subset`（[`manifests/charset_cn2west_v2_planned.json:23`](../manifests/charset_cn2west_v2_planned.json#L23)–[`25`](../manifests/charset_cn2west_v2_planned.json#L25)）。准确的当前实现语义是“八个已归一化 Es 向量与库字体的同字向量逐字 cosine、对字平均”（per-char cosine 平均，合作者对齐），而不是只取某一字，也不是八个未经说明的图像像素平均（[`scripts/hrfont_delta_v2.py:88`](../scripts/hrfont_delta_v2.py#L88)–[`95`](../scripts/hrfont_delta_v2.py#L95)）。原因是单字会受该字特有的笔画/拓扑影响而有较大估计方差，八字覆盖不同笔画与结构后，字体级 prototype 更稳；这是设计动机，不应冒充已证实结果。稳定性与 α 质量最终由 V6 的 leave-one-out neighbor cosine/top-1 mass，并结合 V1/V2 的检索和跨语系 AUC 验证（[`scripts/hrfont_validate_e1_encoders.py:202`](../scripts/hrfont_validate_e1_encoders.py#L202)–[`214`](../scripts/hrfont_validate_e1_encoders.py#L214)）。
+训练用与 style 同一组 **随机 n 张**（n∈[1,8]）；评测用固定八张 `永和书风骨韵天地`。聚合始终是「已归一化 Es 与库字体同字向量逐字 cosine、对字平均」（[`scripts/hrfont_delta_v2.py:88`](../scripts/hrfont_delta_v2.py#L88)–[`101`](../scripts/hrfont_delta_v2.py#L101)），然后 **top-10 softmax**。单字方差大是用 n>1 的动机，不是已证实结果。
 
 #### (b) 每个库字体都要另外提供八张 ref8 渲染吗？
 
@@ -98,10 +98,10 @@ Delta 则由**同一个目标字符 c** 的近邻字体特征减去中性特征�
 |---|---|---|---|---|
 | Content | Noto Sans CJK Regular 的目标字符 $c$，A 协议 96×96 RGB PNG | $E_c(C)$ → MCA/Identity；**同时是 Δ 减数** | 随 target 字符确定，不从字体池随机 | 同一固定 Content 字体与目标字符集 |
 | B₀ | **Noto ContentImage**（合作者 2026-09-04 决策） | Δ/RS-gap/Support 共用的中性结构坐标，与 Content/Identity 输入同一张图 | 固定同字，无随机采样 | 同一 B₀ 与同字规则 |
-| Style | 当前目标字体在 `StyleImage/<font>/` 中的汉字图 | $E_s(S/R)$ → UNet 风格 cross-attention；official 还将同图送 $E_c$ 给 RSI，我们的方法取消后者并改用 Δ | 从该字体 style338 目录随机取一张；与 α 的 ref8 读取独立 | 使用冻结的参考协议，不参与 Δ 库；ref8 规则见下一行 |
-| ref8 | 当前目标字体及每个 train228 库字体的 `永和书风骨韵天地` 八张既有 StyleImage | 冻结 Es → `[8,D]` → 字体 prototype/query → α；不作为八份 RSI 结构图 | 固定八字；目标训练字体作 query 时 leave-one-out | 同一固定八字；val/test 只作 query |
+| Style | 当前目标字体在 `StyleImage/<font>/` 中的汉字图 | $E_s$ 的空间图 `style_emd` 3×3 → 9 token（n 张逐元素平均）；官方还将同图送 $E_c$ 给 RSI，E2 取消后者改用 Δ | E2/E2b：338 池抽 n∈[1,8]；E1c：抽 1 张 | E2/E2b 固定 ref8；E1c 仍 1-shot |
+| R / ref8 | 与 style 同一组参考字；评测默认 `永和书风骨韵天地` | α：同字 cosine 平均后 **top-10 softmax**；不作为八份 RSI 结构图 | 训练随机 n；目标字体 leave-one-out | 固定八字；val/test 只作 query |
 | Δ 减数 | $E_c(A(Content,c))$，与 Identity 输入共享的同一张 Noto 同字渲染 | 从每层 `Σ_s α̃_s Ec(A(B_s,c))` 中减去，结果 Δ → RSI | 随 $c$ 确定；不随机 | 同一 Content、同一 $c$、同一 Ec/checkpoint 契约 |
 
 ### 实施一致性提醒
 
-方法冻结文本目前写的是 top-3 α̃（[`.cursor/rules/hrfont-execution-spec.mdc:49`](../.cursor/rules/hrfont-execution-spec.mdc#L49)），但新工具的无参默认是 `mode="soft", eps_alpha=.01, k_max=10`，`k_top=3` 只在 `mode="topk"` 时生效（[`scripts/hrfont_delta_v2.py:30`](../scripts/hrfont_delta_v2.py#L30)–[`42`](../scripts/hrfont_delta_v2.py#L42)、[`111`](../scripts/hrfont_delta_v2.py#L111)–[`123`](../scripts/hrfont_delta_v2.py#L123)）。正式实验前必须由 resolved config 明确锁定究竟是 top-3 还是稀疏 soft（最多 10），并同步公式、cache manifest 与消融命名；否则“kNN 还是 soft neighborhood”的实现会与论文口径漂移。另一个较小的文档差异是旧 §4.1 写“逐字 cosine 再平均”，而当前代码是“八向量 mean-pool 后 cosine”（[`reports/ICLR2027_HRFONT.md:60`](./ICLR2027_HRFONT.md#L60)–[`67`](./ICLR2027_HRFONT.md#L67) 对比 [`scripts/hrfont_delta_v2.py:88`](../scripts/hrfont_delta_v2.py#L88)–[`95`](../scripts/hrfont_delta_v2.py#L95)）；论文应以最终锁定实现为准。
+PI 2026-09-05 已冻结：α **必取 top-10** 再 `softmax(s/0.07)`（`mode=topk, k_top=10`）；`eps_alpha` 只作 `≤1e-6` 数值地板，**不得**把邻域截空。K=3 仅附录消融。相似度聚合为同字 cosine 再平均（[`scripts/hrfont_delta_v2.py:88`](../scripts/hrfont_delta_v2.py#L88)–[`101`](../scripts/hrfont_delta_v2.py#L101)）。当前 Stage-A 代码仍可能是 soft-ε / 1-token / 在线 Ec，以 YAML 与 [`PI_DECISIONS_20260905.md`](./PI_DECISIONS_20260905.md) 为准，代码待审核后修改。

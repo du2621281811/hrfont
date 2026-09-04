@@ -1,4 +1,5 @@
 schema_version: 1
+# PI 2026-09-05: top-10 α, 9-token mean spatial style, cache-only. Code not yet wired.
 experiment:
   id: E2-STAGE-A-S3407
   stage: A
@@ -17,19 +18,23 @@ data:
   resize: false
   content_font: NotoSansCJK-Regular
   style_pool_size: 338
-  es_cache_path: artifacts/e2/es_per_font_char_e1_100k.pt
+  es_cache_path: artifacts/e2/es_spatial_e1_100k.pt
+  ec_cache_path: artifacts/e2/ec_multiscale_e1_100k.pt
 model:
   rsi_source: delta
   freeze_encoders: true
   train: [unet, offset_heads]
+  encoder_runtime: cache_only
+  style_condition: mean_spatial_3x3
+  style_tokens: 9
   delta:
     enabled: true
     feature_mix: true
     tau: 0.07
-    eps_alpha: 0.01
+    eps_alpha: 1.0e-6
     k_max: 10
-    k_top: 3
-    mode: soft
+    k_top: 10
+    mode: topk
     leave_one_out: true
     drop: 0.25
   nshot:
@@ -65,6 +70,7 @@ checkpoint:
   save_last: true
 eval:
   every_steps: 5000
+  best_eligible_from_step: 10000
   refs: [永, 和, 书, 风, 骨, 韵, 天, 地]
   inference_steps: 20
   guidance_scale: 7.5
