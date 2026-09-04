@@ -30,10 +30,10 @@ REF8_DEFAULT = "永和书风骨韵天地"
 @dataclass(frozen=True)
 class DeltaConfig:
     tau: float = 0.07
-    mode: str = "soft"
-    eps_alpha: float = 0.01
+    mode: str = "topk"
+    eps_alpha: float = 1e-6
     k_max: int = 10
-    k_top: int = 3
+    k_top: int = 10
     rng_seed: int = 3407
 
     def __post_init__(self) -> None:
@@ -117,13 +117,12 @@ def compute_alpha(
     if cfg.mode == "soft":
         local, selected = truncate_renorm(pre_soft, cfg.eps_alpha, cfg.k_max)
     elif cfg.mode == "topk":
-        k = min(cfg.k_top, len(valid_cos))
-        if k:
-            order = sorted(range(len(valid_cos)), key=lambda i: (-float(valid_cos[i]), i))[:k]
-            selected = torch.softmax(valid_cos[order] / cfg.tau, dim=0)
-            local = order
-        else:
-            local, selected = [], valid_cos.new_empty((0,))
+        k = min(cfg.k_top, int(valid_cos.numel()))
+        if k <= 0:
+            raise RuntimeError("top-K alpha: no valid library fonts after leave-one-out")
+        order = sorted(range(len(valid_cos)), key=lambda i: (-float(valid_cos[i]), i))[:k]
+        selected = torch.softmax(valid_cos[order] / cfg.tau, dim=0)
+        local = order
     else:
         raw = (valid_cos - cfg.eps_alpha).clamp_min(0)
         local, selected = truncate_renorm(raw, 0.0, cfg.k_max)

@@ -18,8 +18,8 @@ data:
   resize: false
   content_font: NotoSansCJK-Regular
   style_pool_size: 338
-  es_cache_path: artifacts/e2/es_spatial_e1_100k.pt
-  ec_cache_path: artifacts/e2/ec_multiscale_e1_100k.pt
+  es_cache_path: artifacts/e2/es_spatial_e1_100k
+  ec_cache_path: artifacts/e2/ec_multiscale_e1_100k
 model:
   rsi_source: official
   freeze_encoders: true

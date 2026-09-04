@@ -32,6 +32,7 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
         style_images=None,
         style_features=None,
         structure_features=None,
+        content_features=None,
     ):
         if style_features is None:
             if style_images is None:
@@ -47,9 +48,11 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
         batch_size, channel, height, width = style_img_feature.shape
         style_hidden_states = style_img_feature.permute(0, 2, 3, 1).reshape(batch_size, height*width, channel)
     
-        # Get the content feature
-        content_img_feature, content_residual_features = self.content_encoder(content_images)
-        content_residual_features = list(content_residual_features) + [content_img_feature]
+        if content_features is None:
+            content_img_feature, content_residual_features = self.content_encoder(content_images)
+            content_residual_features = list(content_residual_features) + [content_img_feature]
+        else:
+            content_residual_features = content_features
         if structure_features is None:
             structure_features = [torch.zeros_like(x) for x in content_residual_features]
 

@@ -1,5 +1,5 @@
 schema_version: 1
-# PI 2026-09-05: top-10 α, 9-token mean spatial style, cache-only. Code not yet wired.
+# PI 2026-09-05: top-10 α, 9-token mean spatial style, cache-only.
 experiment:
   id: E2-STAGE-A-S3407
   stage: A
@@ -18,8 +18,8 @@ data:
   resize: false
   content_font: NotoSansCJK-Regular
   style_pool_size: 338
-  es_cache_path: artifacts/e2/es_spatial_e1_100k.pt
-  ec_cache_path: artifacts/e2/ec_multiscale_e1_100k.pt
+  es_cache_path: artifacts/e2/es_spatial_e1_100k
+  ec_cache_path: artifacts/e2/ec_multiscale_e1_100k
 model:
   rsi_source: delta
   freeze_encoders: true

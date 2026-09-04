@@ -1,11 +1,10 @@
 schema_version: 1
-# PI 2026-09-05 P1: true E1-continue baseline (same 80k, original RSI + 1-shot 9-token).
-# Not matched to E2/E2b n-shot; only matched on init/freeze/steps/batch/seed.
+# PI 2026-09-05 P1: E1-continue via Stage-A trainer (n=1, official RSI, 9-token).
 experiment:
   id: E1C-FT-CONTINUE-S3407
   stage: A
-  variant: cn2west_ft_v2
-  note: original E1 forward; do not route through Stage-A n-shot
+  variant: cn2west_stage_a
+  note: original E1 forward (1-shot spatial 9-token + Ec(style)); freeze Es/Ec
 init:
   checkpoint: runs/E1-FTV2-A-S3407/global_step_100000
   new_layer: null
@@ -20,8 +19,8 @@ data:
   resize: false
   content_font: NotoSansCJK-Regular
   style_pool_size: 338
-  es_cache_path: artifacts/e2/es_spatial_e1_100k.pt
-  ec_cache_path: artifacts/e2/ec_multiscale_e1_100k.pt
+  es_cache_path: artifacts/e2/es_spatial_e1_100k
+  ec_cache_path: artifacts/e2/ec_multiscale_e1_100k
 model:
   rsi_source: official
   freeze_encoders: true
@@ -31,11 +30,19 @@ model:
   style_tokens: 9
   delta:
     enabled: false
+    feature_mix: true
+    tau: 0.07
+    eps_alpha: 1.0e-6
+    k_max: 10
+    k_top: 10
+    mode: topk
+    leave_one_out: true
+    drop: 0.25
   nshot:
     min_n: 1
     max_n: 1
     train_sampling: uniform_without_replacement
-    eval_refs: null  # E1 eval also 1-shot; do not force ref8 here
+    eval_refs: [永]
 train:
   seed: 3407
   steps: 80000
@@ -65,6 +72,7 @@ checkpoint:
 eval:
   every_steps: 5000
   best_eligible_from_step: 10000
+  refs: [永]
   inference_steps: 20
   guidance_scale: 7.5
   solver: dpm_solver_pp

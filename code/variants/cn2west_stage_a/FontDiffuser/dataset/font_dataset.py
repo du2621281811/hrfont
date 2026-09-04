@@ -144,6 +144,7 @@ class FontDataset(Dataset):
             "nonorm_target_image": nonorm_target_image,
             "font_stem": font,
             "char_cp": content,
+            "split": self.phase,
             "ref_chars": ref_chars,
             "ref_image_paths": ref_image_paths,
         }
