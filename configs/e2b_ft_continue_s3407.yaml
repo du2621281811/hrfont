@@ -4,7 +4,7 @@ experiment:
   stage: A
   variant: cn2west_stage_a
 init:
-  checkpoint: runs/E1-FTV2-A-S3407/best
+  checkpoint: runs/E1-FTV2-A-S3407/step_100000  # 开发初始化固定 E1@100k（合作者决策）
   new_layer: null
 data:
   protocol: A

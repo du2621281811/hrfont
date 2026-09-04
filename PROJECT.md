@@ -137,5 +137,6 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-04：**E1 满训完成 100k**（val 100k=0.02979，best@98k=0.02976；provenance `E1-FTV2-A-S3407.json`，certainty=exact_pending_dataset_fingerprint）。
 - 2026-09-04：E2 决策：数据与 E1 同管线；seed 3407 only 先跑；Δ=风格侧 soft-α（默认 τ=.07/ε=.01/K_max=10，topk 为消融开关）加权同字 Ec 特征−B₀（feature-mix）；代码避免过度防御设计；E0 推迟到 E5 前并用 E1 final 冻结 Es/Ec 重建（E2 不依赖 E0）。
 - 2026-09-04：**B₀=Noto ContentImage**（合作者决策）：Δ 减数与 Identity 输入统一为同一张 Noto 同字渲染，删除 FZKTJW 依赖；代码已改（train.py content_path）。
+- 2026-09-04：合作者对齐：α 聚合改为 ref8/R 同字 cosine 平均；开发初始化固定 E1@100k；验证脚本 V3/V5 neutral 角色改 ContentImage、val/test 隔离（gate 仅 val16+train，test16 只读报告）；决定不加 zero-init gate（offset 头过渡期轻度，单通路归因更干净）。
 - 2026-09-04：**n-shot 协议**：episode=(目标字体, ref 集 R)；训练 R 随机（n~Uniform{1..8}、内容随机 338 池），评测 R 固定 n（主协议 n=8 + n-shot 稳健性消融）；style 条件与 α 对齐消费同一 R（mean-pool Es）；Es 缓存扩 228×338；E2b RSI 取 R 首字符过 Ec。
 - 2026-09-04：E1 满训完成 100k；刷新看板快照；收协作审查 `REVIEW_E1_R0_20260904`。

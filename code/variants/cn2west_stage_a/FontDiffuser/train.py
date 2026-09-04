@@ -100,7 +100,7 @@ def _structure_features(model, dataset, cache, samples, ref_rows, cfg, delta_dra
                                 rng_seed=cfg.seed)
         for font, cp, rchars, query in zip(fonts, chars, ref_chars, ref_rows):
             prototypes = torch.stack([
-                torch.stack([_cache_feature(cache, candidate, rcp) for rcp in rchars]).mean(0)
+                torch.stack([_cache_feature(cache, candidate, rcp) for rcp in rchars])
                 for candidate in library
             ]).to(device)
             exclude = library.index(font) if font in library else None

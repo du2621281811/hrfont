@@ -49,8 +49,8 @@ def median(values: list[float]) -> float:
 
 
 class RenderSet:
-    def __init__(self, root: Path, split: dict, b0_font: str, b0_dir: Path | None = None):
-        self.root, self.split, self.b0_font, self.b0_dir = root, split, b0_font, b0_dir
+    def __init__(self, root: Path, split: dict):
+        self.root, self.split = root, split
         self.where = {stem: part for part, stems in split.items() for stem in stems}
 
     @staticmethod
@@ -59,11 +59,8 @@ class RenderSet:
 
     def path(self, stem: str, ch: str, role: str) -> Path:
         cp = self.cp(ch)
-        if self.b0_dir is not None and stem == self.b0_font and role == "TargetImage":
-            options = [self.b0_dir / f"{stem}+{cp}.png", self.b0_dir / f"{cp}.png"]
-        else:
-            part = self.where.get(stem, "train")
-            options = [self.root / part / role / stem / f"{stem}+{cp}.png"]
+        part = self.where.get(stem, "train")
+        options = [self.root / part / role / stem / f"{stem}+{cp}.png"]
         for path in options:
             if path.exists():
                 return path
@@ -75,6 +72,13 @@ class RenderSet:
 
     def image(self, stem: str, ch: str, role: str = "StyleImage") -> torch.Tensor:
         return load_rgb_tensor(self.path(stem, ch, role))
+
+    def content_tensor(self, ch: str) -> torch.Tensor:
+        cp = self.cp(ch)
+        path = self.root / "train" / "ContentImage" / f"{cp}.png"
+        if not path.exists():
+            raise FileNotFoundError(f"ContentImage missing: {path}")
+        return load_rgb_tensor(path)
 
 
 class Validator:
@@ -95,7 +99,15 @@ class Validator:
         return self._style[key]
 
     def proto(self, font: str) -> torch.Tensor:
-        return F.normalize(torch.stack([self.style(font, ch) for ch in self.ref8]).mean(0), dim=0)
+        # per-char [n, D], L2-normalized per char (matches compute_alpha contract)
+        return torch.stack([self.style(font, ch) for ch in self.ref8])
+
+    @torch.no_grad()
+    def content_neutral(self, ch: str) -> list[torch.Tensor]:
+        # Ec features of the Noto ContentImage (B0 = Content per collaborator decision)
+        x = self.r.content_tensor(ch).to(self.device, self.dtype)
+        return [F.normalize(v.float().flatten(1), dim=1).squeeze(0).cpu()
+                for v in _ec_features(self.ec(x))]
 
     @torch.no_grad()
     def content(self, font: str, ch: str, role: str = "TargetImage") -> list[torch.Tensor]:
@@ -107,17 +119,14 @@ class Validator:
         return self._content[key]
 
     def v1(self, library: list[str], eval_fonts: list[str], val_fonts: list[str]) -> dict:
-        # Gallery includes library plus eval identities; otherwise unseen f has no self rank.
+        # Gallery = train library + eval identities; per-char cosine mean over full ref8.
         gallery = sorted(set(library + eval_fonts))
-        gp = torch.stack([
-            (F.normalize(torch.stack([self.style(f, ch) for ch in self.ref8[1::2]]).mean(0), dim=0)
-             if f in eval_fonts else self.proto(f)) for f in gallery
-        ])
+        gp = torch.stack([self.proto(f) for f in gallery])  # [G, 8, D]
         ranks, pos, neg = [], [], []
         for font in eval_fonts:
             qchars = [self.style(font, ch) for ch in self.ref8]
-            q = F.normalize(torch.stack(qchars[::2]).mean(0), dim=0)
-            scores = gp @ q
+            q = torch.stack(qchars)  # [8, D]
+            scores = torch.einsum("gd,fgd->fg", q, gp).mean(dim=1)
             order = sorted(range(len(gallery)), key=lambda i: (-float(scores[i]), gallery[i]))
             ranks.append(order.index(gallery.index(font)) + 1)
             if font in val_fonts:
@@ -130,7 +139,7 @@ class Validator:
         return {"median_rank": median(ranks), "r_at_1": sum(r <= 1 for r in ranks) / len(ranks),
                 "r_at_3": sum(r <= 3 for r in ranks) / len(ranks),
                 "r_at_5": sum(r <= 5 for r in ranks) / len(ranks),
-                "pairwise_auc": auc(pos, neg), "ranks": ranks,
+                "pairwise_auc": (auc(pos, neg) if pos and neg else None), "ranks": ranks,
                 "gallery_note": "train library plus eval self identities; queries use disjoint ref8 halves"}
 
     def v2(self, eval_fonts: list[str]) -> dict:
@@ -148,7 +157,7 @@ class Validator:
 
     def v3(self, eval_fonts: list[str]) -> dict:
         chars = sorted(set(self.chars))
-        base = torch.stack([self.content(self.r.b0_font, c)[-1] for c in chars])
+        base = torch.stack([self.content_neutral(c)[-1] for c in chars])
         correct, confusions = 0, Counter()
         for font in eval_fonts:
             for ch in chars:
@@ -183,13 +192,13 @@ class Validator:
             refs = torch.stack([self.style(font, c) for c in self.ref8])
             idx, weights, meta = compute_alpha(refs, libp, None, self.cfg)
             neighbors = [self.r.image(library[i], char) for i in idx]
-            neutral = self.r.image(self.r.b0_font, char, "TargetImage")
+            neutral = self.r.content_tensor(char)
             delta = feature_delta(self.ec, neighbors, weights, neutral)
             magnitudes.append(0.0 if delta is None else finite_mean([
                 float(x.float().flatten(1).norm(dim=1).mean()) for x in delta]))
             distances.append(1.0 - meta["max_cosine"])
             active.append(meta["n_active"]); entropy.append(meta["entropy"])
-        neutral = self.r.image(self.r.b0_font, char, "TargetImage")
+        neutral = self.r.content_tensor(char)
         zero = feature_delta(self.ec, [neutral], torch.ones(1), neutral)
         zero_max = max(float(x.abs().max()) for x in zero)
         pair = torch.tensor([magnitudes, distances])
@@ -239,29 +248,37 @@ def load_real_encoders(variant_path: Path, ckpt_dir: Path):
     return es, ec, {"content_encoder": sha256_file(ec_path), "style_encoder": sha256_file(es_path)}
 
 
-def run_battery(es, ec, root: Path, split: dict, ref8: str, chars: str, b0_font: str,
-                b0_dir: Path | None, device: str, precision: str, cfg: DeltaConfig) -> dict:
+def run_battery(es, ec, root: Path, split: dict, ref8: str, chars: str,
+                device: str, precision: str, cfg: DeltaConfig) -> dict:
     dtype = torch.float16 if precision == "fp16" else torch.float32
     if device == "cpu" and dtype == torch.float16:
         raise ValueError("fp16 validation requires CUDA")
-    validator = Validator(es, ec, RenderSet(root, split, b0_font, b0_dir), ref8, chars,
+    validator = Validator(es, ec, RenderSet(root, split), ref8, chars,
                           torch.device(device), dtype, cfg)
-    library, eval_fonts = split["train"], split["val"] + split["test"]
-    tests = {
-        "V1_style_retrieval": validator.v1(library, eval_fonts, split["val"]),
-        "V2_cross_script": validator.v2(eval_fonts),
-        "V3_content_identity": validator.v3(eval_fonts),
-        "V4_content_invariance": validator.v4(eval_fonts),
-        "V5_delta_sanity": validator.v5(library, eval_fonts),
-        "V6_alpha_quality": validator.v6(library),
-    }
+    library = split["train"]
+
+    def battery(eval_fonts):
+        return {
+            "V1_style_retrieval": validator.v1(library, eval_fonts, split["val"]),
+            "V2_cross_script": validator.v2(eval_fonts),
+            "V3_content_identity": validator.v3(eval_fonts),
+            "V4_content_invariance": validator.v4(eval_fonts),
+            "V5_delta_sanity": validator.v5(library, eval_fonts),
+        }
+
+    # val/test 隔离：gate 只由 val16（+train 的 V6）决定；test16 仅只读报告。
+    gates = battery(split["val"])
+    gates["V6_alpha_quality"] = validator.v6(library)
+    test_report = battery(split["test"])
     return {"config": {"data_root": str(root), "split": split, "ref8": ref8,
-                       "target_chars": chars, "b0_font": b0_font, "precision": precision,
-                       "delta": cfg.to_dict()}, "tests": tests}
+                       "target_chars": chars, "precision": precision,
+                       "delta": cfg.to_dict()},
+            "gates": gates, "test_report": test_report,
+            "isolation_note": "gates computed on val16/train228 only; test16 rows are report-only"}
 
 
 def print_summary(results: dict, smoke: bool = False) -> bool:
-    t = results["tests"]
+    t = results["gates"]
     rows = [
         ("V1", t["V1_style_retrieval"]["pairwise_auc"], .50 if smoke else .80, ">="),
         ("V2", t["V2_cross_script"]["auc"], .40 if smoke else .75, ">="),
@@ -290,7 +307,7 @@ def run_smoke(output: Path) -> bool:
     stems = [f"font{i}" for i in range(6)]
     paths = [base_paths[i % 4] for i in range(6)]
     split = {"train": stems[:2], "val": stems[2:4], "test": stems[4:]}
-    ref8, chars, b0 = "永和书风骨韵天地", "永A和B书C", stems[0]
+    ref8, chars = "永和书风骨韵天地", "永A和B书C"
     with tempfile.TemporaryDirectory(prefix="hrfont-e1-smoke-") as tmp:
         root = Path(tmp)
         for part, part_fonts in split.items():
@@ -300,7 +317,10 @@ def run_smoke(output: Path) -> bool:
                     font_path = paths[stems.index(stem)]
                     for ch in sorted(set(ref8 + chars)):
                         write_png(d / f"{stem}+u{ord(ch):04X}.png", render_glyph(ch, font_path, stems.index(stem) * 12))
-        results = run_battery(DummyEs(), DummyEc(), root, split, ref8, chars, b0, None,
+        cdir = root / "train" / "ContentImage"; cdir.mkdir(parents=True)
+        for ch in sorted(set(ref8 + chars)):
+            write_png(cdir / f"u{ord(ch):04X}.png", render_glyph(ch, paths[0], 0))
+        results = run_battery(DummyEs(), DummyEc(), root, split, ref8, chars,
                               "cpu", "fp32", DeltaConfig(eps_alpha=0.0, k_max=2))
         results["checkpoint_sha256"] = {"content_encoder": "dummy", "style_encoder": "dummy"}
         output.write_text(json.dumps(results, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
@@ -319,8 +339,6 @@ def main() -> None:
     p.add_argument("--split", type=Path)
     p.add_argument("--charset", type=Path, default=Path("manifests/charset_cn2west_v2_planned.json"))
     p.add_argument("--ref8", default="永和书风骨韵天地")
-    p.add_argument("--b0_font", default="FZKTJW")
-    p.add_argument("--b0-dir", type=Path)
     p.add_argument("--device", default="cuda")
     p.add_argument("--precision", choices=("fp32", "fp16"), default="fp32")
     p.add_argument("--output", type=Path, default=Path("/tmp/hrfont_e1_encoder_validation.json"))
@@ -342,8 +360,8 @@ def main() -> None:
             p.error("--ckpt_dir is required unless --dummy")
         es, ec, shas = load_real_encoders(args.variant_path.resolve(), args.ckpt_dir)
     cfg = DeltaConfig(tau=args.tau, eps_alpha=args.eps_alpha, k_max=args.k_max)
-    results = run_battery(es, ec, args.data_root, split, args.ref8, chars, args.b0_font,
-                          args.b0_dir, args.device, args.precision, cfg)
+    results = run_battery(es, ec, args.data_root, split, args.ref8, chars,
+                          args.device, args.precision, cfg)
     results["checkpoint_sha256"] = shas
     args.output.write_text(json.dumps(results, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     print_summary(results)

@@ -85,14 +85,20 @@ def compute_alpha(
 ) -> tuple[list[int], torch.Tensor, dict]:
     """Compute a sparse, normalized neighborhood over candidate prototypes.
 
-    ``ref8_feats`` are the target font's eight normalized Es vectors.  Their
-    normalized mean is compared with the already mean-pooled, normalized
-    ``proto_feats``.  Exclusion is applied before every weighting mode.
+    ``ref8_feats`` are the target font's n normalized Es vectors ([n, D], one
+    per ref char); ``proto_feats`` are the per-char normalized Es vectors of
+    each candidate font ([N, n, D], same chars).  Aggregation = per-char
+    cosine averaged over the n chars (collaborator-agreed; matches the design
+    doc formula), then soft/topk/threshold neighborhood selection.  Exclusion
+    is applied before every weighting mode.
     """
-    if ref8_feats.ndim != 2 or proto_feats.ndim != 2:
-        raise ValueError("features must be matrices")
-    query = F.normalize(ref8_feats.float().mean(0, keepdim=True), dim=1)
-    cos = cosine_matrix(query, proto_feats).squeeze(0)
+    if ref8_feats.ndim != 2 or proto_feats.ndim != 3:
+        raise ValueError("ref8_feats must be [n,D] and proto_feats [N,n,D]")
+    if proto_feats.shape[1] != ref8_feats.shape[0]:
+        raise ValueError("char count mismatch between refs and prototypes")
+    q = F.normalize(ref8_feats.float(), dim=1)
+    p = F.normalize(proto_feats.float(), dim=2)
+    cos = torch.einsum("nd,fnd->fn", q, p).mean(dim=1)
     valid = torch.ones(len(cos), dtype=torch.bool, device=cos.device)
     if exclude_idx is not None:
         if not 0 <= exclude_idx < len(cos):
@@ -234,7 +240,7 @@ def build_style_prototypes(
                 hashes.append({"char": ch, "sha256": None})
             vector = _style_vector(es(image.to(device))).float()
             vectors.append(F.normalize(vector, dim=1).squeeze(0).cpu())
-        proto = F.normalize(torch.stack(vectors).mean(0), dim=0)
+        proto = torch.stack(vectors)  # [n, D] per-char, L2-normalized
         prototypes[stem] = proto
         records.append({"stem": stem, "prototype": proto.tolist(), "ref8_pngs": hashes})
     manifest = {"font_stems": sorted(prototypes), "ref8": ref8,
@@ -300,9 +306,9 @@ def run_smoke() -> None:
     for font in chosen:
         rows = [F.normalize(_style_vector(es(render_glyph(ch, font))), dim=1).squeeze(0) for ch in ref]
         feats.append(torch.stack(rows))
-    protos = torch.stack([F.normalize(x.mean(0), dim=0) for x in feats])
+    protos = torch.stack(feats)  # [4, n, D] per-char
     # Six candidates are required by the smoke contract.
-    protos = torch.cat([protos, F.normalize(torch.randn(2, protos.shape[1]), dim=1)])
+    protos = torch.cat([protos, F.normalize(torch.randn(2, protos.shape[1], protos.shape[2]), dim=2)])
     idx, weights, _ = compute_alpha(feats[0], protos, 0, DeltaConfig(eps_alpha=0, k_max=10))
     assert 0 not in idx and len(idx) == 5 and torch.allclose(weights.sum(), torch.tensor(1.0))
     isolated = torch.tensor([.97, .005, .005, .005, .005, .01])
