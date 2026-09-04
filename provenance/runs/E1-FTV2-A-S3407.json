@@ -48,7 +48,7 @@
     "dashboard_snapshot": "reports/e1_ft_v2_dashboard/",
     "note": "weights/logs under runs/ are gitignored; collaborator review: reports/REVIEW_E1_R0_20260904.md"
   },
-  "git_note": "fill commit SHA after this provenance commit",
+  "git_note": "main @ e91965cf05bd21b44b9ebb8ac3ea6d14cbc9e682 (this provenance commit)",
   "TODO": [
     "dataset tree SHA for formal p260 id",
     "full E3-style metrics beyond dashboard probes",
@@ -60,5 +60,6 @@
     "n": 4720,
     "tag": "step100000"
   },
-  "dashboard_snapshot_note": "{\"source\":\"runs/E1-FTV2-A-S3407/viz\",\"published_utc\":\"2026-09-04T03:59:55.585725+00:00\"}"
+  "dashboard_snapshot_note": "{\"source\":\"runs/E1-FTV2-A-S3407/viz\",\"published_utc\":\"2026-09-04T03:59:55.585725+00:00\"}",
+  "git_commit": "e91965cf05bd21b44b9ebb8ac3ea6d14cbc9e682"
 }
