@@ -1,2 +1,2 @@
-VARIANT=cn2west_ft_v2
-PARENT=code/official/FontDiffuser
+VARIANT=cn2west_stage_a
+PARENT=code/variants/cn2west_ft_v2

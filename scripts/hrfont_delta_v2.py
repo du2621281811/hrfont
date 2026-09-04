@@ -242,7 +242,7 @@ def build_style_prototypes(
             vectors.append(F.normalize(vector, dim=1).squeeze(0).cpu())
         proto = torch.stack(vectors)  # [n, D] per-char, L2-normalized
         prototypes[stem] = proto
-        records.append({"stem": stem, "prototype": proto.tolist(), "ref8_pngs": hashes})
+        records.append({"stem": stem, "prototype_per_char": proto.tolist(), "n_chars": len(ref8), "ref8_pngs": hashes})
     manifest = {"font_stems": sorted(prototypes), "ref8": ref8,
                 "es_ckpt_sha256": es_ckpt_sha, "fonts": records}
     return prototypes, manifest

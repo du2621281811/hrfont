@@ -4,7 +4,7 @@ experiment:
   stage: A
   variant: cn2west_stage_a
 init:
-  checkpoint: runs/E1-FTV2-A-S3407/step_100000  # 开发初始化固定 E1@100k（合作者决策）
+  checkpoint: runs/E1-FTV2-A-S3407/global_step_100000  # 开发初始化固定 E1@100k（合作者决策）
   new_layer: null
 data:
   protocol: A
@@ -17,7 +17,7 @@ data:
   resize: false
   content_font: NotoSansCJK-Regular
   style_pool_size: 338
-  es_cache_path: artifacts/e2/es_per_font_char_e1_best.pt
+  es_cache_path: artifacts/e2/es_per_font_char_e1_100k.pt
 model:
   rsi_source: official
   freeze_encoders: true

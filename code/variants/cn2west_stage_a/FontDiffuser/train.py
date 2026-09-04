@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 import shutil
 import subprocess
@@ -73,6 +74,30 @@ class _FeatureLookup(nn.Module):
         return self.final[i:i + 1], [x[i:i + 1] for x in self.residuals]
 
 
+def _sha256_file(path: str) -> str:
+    digest = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _verify_cache_es_sha(args):
+    """D-A1: Es cache 的 encoder 必须与 init ckpt 的 style_encoder 逐字节一致。"""
+    manifest_path = str(args.es_cache_path) + ".manifest.json"
+    if not os.path.exists(manifest_path):
+        raise RuntimeError(f"D-A1: Es cache manifest 缺失 {manifest_path}")
+    with open(manifest_path, encoding="utf-8") as f:
+        manifest = json.load(f)
+    cache_sha = manifest.get("es_checkpoint_sha256")
+    if not cache_sha:
+        raise RuntimeError(f"D-A1: manifest 无 es_checkpoint_sha256: {manifest_path}")
+    init_sha = _sha256_file(os.path.join(args.phase_1_ckpt_dir, "style_encoder.pth"))
+    if init_sha != cache_sha:
+        raise RuntimeError(
+            f"D-A1: Es cache SHA {cache_sha[:12]}... != init Es SHA {init_sha[:12]}...，请用 E1@100k 重建 cache")
+
+
 def _cache_feature(cache: dict, font: str, cp: str) -> torch.Tensor:
     key = (font, cp)
     if key not in cache:
@@ -105,6 +130,8 @@ def _structure_features(model, dataset, cache, samples, ref_rows, cfg, delta_dra
             ]).to(device)
             exclude = library.index(font) if font in library else None
             indices, weights, _ = compute_alpha(query, prototypes, exclude, alpha_cfg)
+            if indices.numel() == 0:
+                raise RuntimeError(f"D-A6: empty alpha neighborhood font={font} char={cp}; retune eps_alpha")
             neighbor_paths = [dataset.target_path(library[i], cp) for i in indices]
             # B0 = Noto ContentImage (same render as the Identity/MCA input).
             neutral_path = dataset.content_path(cp)
@@ -224,6 +251,7 @@ def main():
     cache = torch.load(args.es_cache_path, map_location="cpu", weights_only=False)
     if isinstance(cache, dict) and "features" in cache:
         cache = cache["features"]
+    _verify_cache_es_sha(args)
 
     model, optimizer, loader, scheduler = accelerator.prepare(model, optimizer, loader, scheduler)
     raw = accelerator.unwrap_model(model)

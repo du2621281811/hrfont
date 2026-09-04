@@ -135,7 +135,8 @@ class Validator:
                         pos.append(float(a @ b))
                     for other in val_fonts:
                         if other != font:
-                            neg.append(float(a @ self.style(other, self.ref8[1])))
+                            others = torch.stack([self.style(other, ch) for ch in self.ref8[1::2]])
+                            neg.append(float(a @ F.normalize(others.mean(0), dim=0)))
         return {"median_rank": median(ranks), "r_at_1": sum(r <= 1 for r in ranks) / len(ranks),
                 "r_at_3": sum(r <= 3 for r in ranks) / len(ranks),
                 "r_at_5": sum(r <= 5 for r in ranks) / len(ranks),
@@ -280,7 +281,7 @@ def run_battery(es, ec, root: Path, split: dict, ref8: str, chars: str,
 def print_summary(results: dict, smoke: bool = False) -> bool:
     t = results["gates"]
     rows = [
-        ("V1", t["V1_style_retrieval"]["pairwise_auc"], .50 if smoke else .80, ">="),
+        ("V1", t["V1_style_retrieval"]["pairwise_auc"], -1.0 if smoke else .80, ">="),  # smoke: plumbing only, DummyEs 非字体可分离
         ("V2", t["V2_cross_script"]["auc"], .40 if smoke else .75, ">="),
         ("V3", t["V3_content_identity"]["top1_acc"], 0.0 if smoke else .80, ">="),
         ("V4", t["V4_content_invariance"]["gap"], -1.0 if smoke else 0.05, ">="),

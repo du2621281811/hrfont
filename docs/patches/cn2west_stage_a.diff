@@ -1,6 +1,6 @@
-diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py code/variants/cn2west_stage_a/FontDiffuser/configs/fontdiffuser.py
+diff -ru code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py code/variants/cn2west_stage_a/FontDiffuser/configs/fontdiffuser.py
 --- code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py	2026-09-04 11:25:35
-+++ code/variants/cn2west_stage_a/FontDiffuser/configs/fontdiffuser.py	2026-09-04 17:38:38
++++ code/variants/cn2west_stage_a/FontDiffuser/configs/fontdiffuser.py	2026-09-04 18:04:59
 @@ -4,7 +4,7 @@
  def get_parser():
      parser = argparse.ArgumentParser(description="Training config for FontDiffuser.")
@@ -10,7 +10,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py c
      parser.add_argument("--experience_name", type=str, default="fontdiffuer_training")
      parser.add_argument("--data_root", type=str, default=None, 
                          help="The font dataset root path.",)
-@@ -30,6 +30,22 @@
+@@ -30,6 +30,21 @@
                          help="The channels of the fisrt layer output of content encoder.",)
      parser.add_argument("--style_start_channel", type=int, default=64, 
                          help="The channels of the fisrt layer output of content encoder.",)
@@ -25,7 +25,6 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py c
 +    parser.add_argument("--nshot_max", type=int, default=8)
 +    parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
 +    parser.add_argument("--es_cache_path", type=str, default="artifacts/e2/es_per_font_char_e1_best.pt")
-+    parser.add_argument("--b0_font", type=str, default="FZKTJW")
 +    parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
 +    parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
 +    parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)
@@ -33,7 +32,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py c
      
      # Training
      parser.add_argument("--phase_2", action="store_true", help="Training in phase 2 using SCR module.")
-@@ -43,15 +59,15 @@
+@@ -43,15 +58,15 @@
      parser.add_argument("--nce_layers", type=str, default='0,1,2,3')
      parser.add_argument("--sc_coefficient", type=float, default=0.01)
      ## train batch size
@@ -52,7 +51,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py c
      parser.add_argument("--resume_from", type=str, default=None,
                          help="Resume from a checkpoint dir (global_step_* or last_state) with trainer_state.pt.")
      parser.add_argument("--state_interval", type=int, default=1000,
-@@ -60,14 +76,14 @@
+@@ -60,14 +75,14 @@
                          help="Number of updates steps to accumulate before performing a backward/update pass.",)
      parser.add_argument("--log_interval", type=int, default=100, help="The log interval of training.")
      ## learning rate
@@ -69,7 +68,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py c
                          help="Number of steps for the warmup in the lr scheduler.")
      ## classifier-free
      parser.add_argument("--drop_prob", type=float, default=0.1, help="The uncondition training drop out probability.")
-@@ -80,7 +96,7 @@
+@@ -80,7 +95,7 @@
      parser.add_argument("--adam_epsilon", type=float, default=1e-08, help="Epsilon value for the Adam optimizer")
      parser.add_argument("--max_grad_norm", default=1.0, type=float, help="Max gradient norm.")
      
@@ -78,9 +77,9 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py c
                          help="Whether to use mixed precision. Choose between fp16 and bf16 (bfloat16). Bf16 requires \
                              PyTorch >= 1.10. and an Nvidia Ampere GPU.")
      
-diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py code/variants/cn2west_stage_a/FontDiffuser/dataset/font_dataset.py
+diff -ru code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py code/variants/cn2west_stage_a/FontDiffuser/dataset/font_dataset.py
 --- code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py	2026-09-04 11:25:35
-+++ code/variants/cn2west_stage_a/FontDiffuser/dataset/font_dataset.py	2026-09-04 17:35:47
++++ code/variants/cn2west_stage_a/FontDiffuser/dataset/font_dataset.py	2026-09-04 18:04:31
 @@ -1,5 +1,6 @@
 -import os
 +import json
@@ -105,7 +104,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py c
          if self.scr:
              self.num_neg = args.num_neg
  
-@@ -41,80 +47,109 @@
+@@ -41,80 +47,115 @@
  
      def get_path(self):
          self.target_images = []
@@ -191,6 +190,12 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py c
 +            raise FileNotFoundError(f"ContentImage missing: {path}")
 +        return Image.open(path).convert("RGB")
 +
++    def content_path(self, content_cp: str) -> str:
++        path = self.root / self.phase / "ContentImage" / f"{content_cp}.png"
++        if not path.exists():
++            raise FileNotFoundError(f"ContentImage missing: {path}")
++        return str(path)
++
 +    def target_path(self, font: str, content_cp: str) -> str:
 +        try:
 +            return str(self.target_by_font_char[font][content_cp])
@@ -256,7 +261,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py c
              neg_images = None
              for i, neg_name in enumerate(choose_neg_names):
 Only in code/variants/cn2west_stage_a/FontDiffuser: launch_e2.py
-diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/model.py code/variants/cn2west_stage_a/FontDiffuser/src/model.py
+diff -ru code/variants/cn2west_ft_v2/FontDiffuser/src/model.py code/variants/cn2west_stage_a/FontDiffuser/src/model.py
 --- code/variants/cn2west_ft_v2/FontDiffuser/src/model.py	2026-09-04 11:25:35
 +++ code/variants/cn2west_stage_a/FontDiffuser/src/model.py	2026-09-04 17:39:17
 @@ -27,29 +27,39 @@
@@ -344,7 +349,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/model.py code/variant
              content_encoder_downsample_size=content_encoder_downsample_size,
          )
          noise_pred = out[0]
-diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet.py code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet.py
+diff -ru code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet.py code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet.py
 --- code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet.py	2026-09-04 11:25:35
 +++ code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet.py	2026-09-04 17:29:40
 @@ -198,6 +198,7 @@
@@ -364,7 +369,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet.py code/
                      encoder_hidden_states=encoder_hidden_states[2],
                  )
                  offset_out_sum += offset_out
-diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet_blocks.py code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet_blocks.py
+diff -ru code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet_blocks.py code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet_blocks.py
 --- code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet_blocks.py	2026-09-04 11:25:35
 +++ code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet_blocks.py	2026-09-04 17:29:40
 @@ -535,14 +535,14 @@
@@ -393,16 +398,17 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet_blocks.p
              offset = offset.contiguous()
              # offset sum
              offset_sum = torch.mean(torch.abs(offset))
-diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn2west_stage_a/FontDiffuser/train.py
+diff -ru code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn2west_stage_a/FontDiffuser/train.py
 --- code/variants/cn2west_ft_v2/FontDiffuser/train.py	2026-09-04 11:25:35
-+++ code/variants/cn2west_stage_a/FontDiffuser/train.py	2026-09-04 17:42:06
-@@ -1,383 +1,308 @@
++++ code/variants/cn2west_stage_a/FontDiffuser/train.py	2026-09-04 18:49:24
+@@ -1,383 +1,334 @@
 -import os
 +#!/usr/bin/env python3
 +"""Train HR-Font E2 Stage A with online feature-mix delta."""
 +from __future__ import annotations
 +
 +import hashlib
++import json
  import math
 -import time
 -import logging
@@ -589,11 +595,12 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn
 -        filename=f"{args.output_dir}/fontdiffuser_training.log",
 -        datefmt="%m/%d/%Y %H:%M:%S",
 -        level=logging.INFO)
-+def _cache_feature(cache: dict, font: str, cp: str) -> torch.Tensor:
-+    key = (font, cp)
-+    if key not in cache:
-+        raise KeyError(f"Es cache missing {key}")
-+    return cache[key].float()
++def _sha256_file(path: str) -> str:
++    digest = hashlib.sha256()
++    with open(path, "rb") as f:
++        for chunk in iter(lambda: f.read(1 << 20), b""):
++            digest.update(chunk)
++    return digest.hexdigest()
  
 -    # Ser training seed
 -    if args.seed is not None:
@@ -611,63 +618,39 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn
 -        style_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/style_encoder.pth", map_location="cpu"))
 -        content_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/content_encoder.pth", map_location="cpu"))
 -        logger.info(f"Loaded P1 weights from {args.phase_1_ckpt_dir}")
-+@torch.no_grad()
-+def _structure_features(model, dataset, cache, samples, ref_rows, cfg, delta_draw, device):
-+    fonts = samples["font_stem"]
-+    chars = samples["char_cp"]
-+    ref_chars = samples["ref_chars"]
-+    ref_paths = samples["ref_image_paths"]
-+    library = sorted(dataset.target_by_font_char)
-+    b0_font = cfg.b0_font
-+    if b0_font == "FZKTJW" and b0_font not in dataset.target_by_font_char:
-+        b0_font = "FZFXKTJW"  # split_v3 physical stem for the FZKTJW font.
++def _verify_cache_es_sha(args):
++    """D-A1: Es cache 的 encoder 必须与 init ckpt 的 style_encoder 逐字节一致。"""
++    manifest_path = str(args.es_cache_path) + ".manifest.json"
++    if not os.path.exists(manifest_path):
++        raise RuntimeError(f"D-A1: Es cache manifest 缺失 {manifest_path}")
++    with open(manifest_path, encoding="utf-8") as f:
++        manifest = json.load(f)
++    cache_sha = manifest.get("es_checkpoint_sha256")
++    if not cache_sha:
++        raise RuntimeError(f"D-A1: manifest 无 es_checkpoint_sha256: {manifest_path}")
++    init_sha = _sha256_file(os.path.join(args.phase_1_ckpt_dir, "style_encoder.pth"))
++    if init_sha != cache_sha:
++        raise RuntimeError(
++            f"D-A1: Es cache SHA {cache_sha[:12]}... != init Es SHA {init_sha[:12]}...，请用 E1@100k 重建 cache")
  
 -    model = FontDiffuserModel(
 -        unet=unet,
 -        style_encoder=style_encoder,
 -        content_encoder=content_encoder)
-+    plans = []
-+    all_paths = []
-+    if cfg.rsi_source == "official":
-+        for refs in ref_paths:
-+            plans.append((refs[0],))
-+            all_paths.append(refs[0])
-+    elif cfg.delta_enabled:
-+        alpha_cfg = DeltaConfig(tau=cfg.delta_tau, eps_alpha=cfg.delta_eps_alpha,
-+                                k_max=cfg.delta_k_max, mode=cfg.delta_mode,
-+                                rng_seed=cfg.seed)
-+        for font, cp, rchars, query in zip(fonts, chars, ref_chars, ref_rows):
-+            prototypes = torch.stack([
-+                torch.stack([_cache_feature(cache, candidate, rcp) for rcp in rchars]).mean(0)
-+                for candidate in library
-+            ]).to(device)
-+            exclude = library.index(font) if font in library else None
-+            indices, weights, _ = compute_alpha(query, prototypes, exclude, alpha_cfg)
-+            neighbor_paths = [dataset.target_path(library[i], cp) for i in indices]
-+            neutral_path = dataset.target_path(b0_font, cp)
-+            plans.append((neighbor_paths, weights, neutral_path))
-+            all_paths.extend(neighbor_paths)
-+            all_paths.append(neutral_path)
-+    else:
-+        return None
  
 -    # Build content perceptaual Loss
 -    perceptual_loss = ContentPerceptualLoss()
-+    paths, images = _load_unique(all_paths, cfg.resolution, device)
-+    final, residuals = model.content_encoder(images)
-+    residuals = list(residuals)
-+    lookup = _FeatureLookup(final, residuals)
-+    path_index = {path: i for i, path in enumerate(paths)}
-+    keys = [torch.tensor([[i]], device=device) for i in range(len(paths))]
++def _cache_feature(cache: dict, font: str, cp: str) -> torch.Tensor:
++    key = (font, cp)
++    if key not in cache:
++        raise KeyError(f"Es cache missing {key}")
++    return cache[key].float()
  
 -    # Load SCR module for supervision
 -    if args.phase_2:
 -        scr = build_scr(args=args)
 -        scr.load_state_dict(torch.load(args.scr_ckpt_path))
 -        scr.requires_grad_(False)
-+    if cfg.rsi_source == "official":
-+        return [torch.cat([x[path_index[p]:path_index[p] + 1] for (p,) in plans])
-+                for x in residuals + [final]]
  
 -    # A-protocol: native 96 PNG — ToTensor + Normalize only (no Resize).
 -    def _assert_native_size(img):
@@ -676,19 +659,13 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn
 -        if (w, h) != (exp, exp):
 -            raise ValueError(f"expected native {exp}x{exp}, got {img.size}")
 -        return img
-+    example = residuals + [final]
-+    sample_features = []
-+    for dropped, (neighbors, weights, neutral) in zip(delta_draw, plans):
-+        if bool(dropped) or not neighbors:
-+            sample_features.append([torch.zeros_like(x[:1]) for x in example])
-+            continue
-+        sample_features.append(feature_delta(
-+            lookup,
-+            [keys[path_index[p]] for p in neighbors],
-+            weights,
-+            keys[path_index[neutral]],
-+        ))
-+    return [torch.cat([row[scale] for row in sample_features]) for scale in range(len(example))]
++@torch.no_grad()
++def _structure_features(model, dataset, cache, samples, ref_rows, cfg, delta_draw, device):
++    fonts = samples["font_stem"]
++    chars = samples["char_cp"]
++    ref_chars = samples["ref_chars"]
++    ref_paths = samples["ref_image_paths"]
++    library = sorted(dataset.target_by_font_char)
  
 -    content_transforms = transforms.Compose(
 -        [_assert_native_size,
@@ -728,6 +705,33 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn
 -        optimizer=optimizer,
 -        num_warmup_steps=args.lr_warmup_steps * args.gradient_accumulation_steps,
 -        num_training_steps=args.max_train_steps * args.gradient_accumulation_steps,)
++    plans = []
++    all_paths = []
++    if cfg.rsi_source == "official":
++        for refs in ref_paths:
++            plans.append((refs[0],))
++            all_paths.append(refs[0])
++    elif cfg.delta_enabled:
++        alpha_cfg = DeltaConfig(tau=cfg.delta_tau, eps_alpha=cfg.delta_eps_alpha,
++                                k_max=cfg.delta_k_max, mode=cfg.delta_mode,
++                                rng_seed=cfg.seed)
++        for font, cp, rchars, query in zip(fonts, chars, ref_chars, ref_rows):
++            prototypes = torch.stack([
++                torch.stack([_cache_feature(cache, candidate, rcp) for rcp in rchars])
++                for candidate in library
++            ]).to(device)
++            exclude = library.index(font) if font in library else None
++            indices, weights, _ = compute_alpha(query, prototypes, exclude, alpha_cfg)
++            if indices.numel() == 0:
++                raise RuntimeError(f"D-A6: empty alpha neighborhood font={font} char={cp}; retune eps_alpha")
++            neighbor_paths = [dataset.target_path(library[i], cp) for i in indices]
++            # B0 = Noto ContentImage (same render as the Identity/MCA input).
++            neutral_path = dataset.content_path(cp)
++            plans.append((neighbor_paths, weights, neutral_path))
++            all_paths.extend(neighbor_paths)
++            all_paths.append(neutral_path)
++    else:
++        return None
  
 -    # Accelerate preparation
 -    model, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
@@ -735,14 +739,12 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn
 -    ## move scr module to the target deivces
 -    if args.phase_2:
 -        scr = scr.to(accelerator.device)
-+def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int):
-+    directory.mkdir(parents=True, exist_ok=True)
-+    torch.save(model.unet.state_dict(), directory / "unet.pth")
-+    torch.save(model.style_encoder.state_dict(), directory / "style_encoder.pth")
-+    torch.save(model.content_encoder.state_dict(), directory / "content_encoder.pth")
-+    torch.save({}, directory / "delta_layers.pth")  # Direct Ec features need no adapter.
-+    torch.save({"step": step, "optimizer": optimizer.state_dict(),
-+                "scheduler": scheduler.state_dict()}, directory / "trainer_state.pt")
++    paths, images = _load_unique(all_paths, cfg.resolution, device)
++    final, residuals = model.content_encoder(images)
++    residuals = list(residuals)
++    lookup = _FeatureLookup(final, residuals)
++    path_index = {path: i for i, path in enumerate(paths)}
++    keys = [torch.tensor([[i]], device=device) for i in range(len(paths))]
  
 -    # Resolve resume (crash recovery / watchdog) — same hyperparams, no degradation.
 -    resume_dir = getattr(args, "resume_from", None) or None
@@ -755,8 +757,36 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn
 -        global_step = _load_trainable_ckpt(raw, resume_dir, optimizer, lr_scheduler)
 -        logger.info(f"Resumed from {resume_dir} at global_step={global_step}")
 -        print(f"Resumed from {resume_dir} at global_step={global_step}", flush=True)
++    if cfg.rsi_source == "official":
++        return [torch.cat([x[path_index[p]:path_index[p] + 1] for (p,) in plans])
++                for x in residuals + [final]]
  
 -    # The trackers initializes automatically on the main process.
++    example = residuals + [final]
++    sample_features = []
++    for dropped, (neighbors, weights, neutral) in zip(delta_draw, plans):
++        if bool(dropped) or not neighbors:
++            sample_features.append([torch.zeros_like(x[:1]) for x in example])
++            continue
++        sample_features.append(feature_delta(
++            lookup,
++            [keys[path_index[p]] for p in neighbors],
++            weights,
++            keys[path_index[neutral]],
++        ))
++    return [torch.cat([row[scale] for row in sample_features]) for scale in range(len(example))]
++
++
++def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int):
++    directory.mkdir(parents=True, exist_ok=True)
++    torch.save(model.unet.state_dict(), directory / "unet.pth")
++    torch.save(model.style_encoder.state_dict(), directory / "style_encoder.pth")
++    torch.save(model.content_encoder.state_dict(), directory / "content_encoder.pth")
++    torch.save({}, directory / "delta_layers.pth")  # Direct Ec features need no adapter.
++    torch.save({"step": step, "optimizer": optimizer.state_dict(),
++                "scheduler": scheduler.state_dict()}, directory / "trainer_state.pt")
++
++
 +def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None) -> int:
 +    model.unet.load_state_dict(torch.load(directory / "unet.pth", map_location="cpu"))
 +    model.style_encoder.load_state_dict(torch.load(directory / "style_encoder.pth", map_location="cpu"))
@@ -843,6 +873,7 @@ diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn
 +    cache = torch.load(args.es_cache_path, map_location="cpu", weights_only=False)
 +    if isinstance(cache, dict) and "features" in cache:
 +        cache = cache["features"]
++    _verify_cache_es_sha(args)
 +
 +    model, optimizer, loader, scheduler = accelerator.prepare(model, optimizer, loader, scheduler)
 +    raw = accelerator.unwrap_model(model)

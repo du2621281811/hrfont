@@ -27,7 +27,7 @@ E3 + E0 ─→ E8；E2/E2b ─→ E9；E5 ─→ E7；E2/E5 ─→ E10；E3/E6 �
 | Style / ref8 | 当前字体的 A-style 图；训练在 338 字符内确定性采样；评测固定 ref8=`永和书风骨韵天地`，manifest 已给出 [charset_cn2west_v2_planned.json:25](/Users/xiaoweiliang/projects/hrfont/manifests/charset_cn2west_v2_planned.json:25)。 |
 | Target / GT | 当前字体、同目标字符的 A-target 图；GT 只作 positive control。 |
 | α/Δ 库 | 仅 train237；训练目标字体 leave-one-out；val/test 永不入池。对同一字符 (c)，`Δ=Σα_s Ec(A(B_s,c))−Ec(A(B₀,c))`。 |
-| B₀ | **FZKTJW 固定**，但重新用 A 渲染；它作为 Δ 减数、RS-gap、support neutral 的共同坐标系。沿用已定义的单一中性结构底，避免同时改变算法语义 [HRFONT_TRAIN_PLAN_V2.md:15](/Users/xiaoweiliang/projects/hrfont/reports/hrfont_overnight/HRFONT_TRAIN_PLAN_V2.md:15)。 |
+| B₀ | **Noto ContentImage**（与 Content/Identity 同一张 A 渲染）；Δ 减数、RS-gap、support neutral 共用坐标系（合作者 2026-09-04 决策）。 |
 | Support q | `q≠c`、q 不等于当前 style ref；图不来自目标字体。默认 hybrid 候选：先 `ref8∪donors18`，不足再 `P1∪donors18`；top-K=3。 |
 | Eval | test8×295；同 ref8/Content/GT/noise；按脚本和冻结 gap tertile 报告。 |
 | 预处理 | 读 RGB PNG，断言 96×96；**不 Resize**；`ToTensor()`；`Normalize([0.5],[0.5])`。官方当前会 resize 后归一化 [train.py:97](/Users/xiaoweiliang/projects/hrfont/code/official/FontDiffuser/train.py:97)，variant 要移除 Resize。 |
@@ -92,7 +92,7 @@ matched set 的 steps、effective batch、lr、scheduler、warmup、seed、batch
 
 | 项 | E2 Stage A | E2b FT-continue matched | E2c A-cold |
 |---|---|---|---|
-| init | **E1 FT-v2 best**；Ec/Es 冻结；Δ→RSI 新接入层零初始化，使 step0 等价无Δ | 同一 E1 best；官方 RSI | official P1；Δ层同 E2 |
+| init | **E1 FT-v2 @100k**；Ec/Es 冻结；复用 E1 offset 头、无新增层（无 gate，接受轻度过渡期） | 同一 E1@100k；官方 RSI | official P1；Δ层同 E2 |
 | 完整配置 | `steps=80000,bs=1,accum=4,lr=1e-5,linear,warmup=2000,fp16,clip=1,CFG=.10,delta_drop=.25,SCR=false,seeds=3407/08/09`; 训 UNet+offset，冻 Ec/Es | **完全同左**，包括 seed、batch manifest、optimizer、drop draws；`delta.enabled=false` 但消费 draw | 同 E2；先 seed3407，资源允许补三 seed |
 | 理由 | 80k≈4.58 轮；FT-v2 已完成5.72轮，Stage A 是结构适配，不随字体数再扩到100k；5k eval早停但80k固定终点用于 matched 比较 | 排除额外训练量 | 初始化敏感性 |
 | YAML关系 | `e2b.yaml` 只允许相对 `e2.yaml` diff：`experiment.id,model.rsi_source=official,model.delta.enabled=false,init.new_layer=null`；自动 structural diff 否则 preflight fail | — | 仅 init 与 ID 不同 |
@@ -133,7 +133,7 @@ YAML 为唯一真源，加载后递归转 dot-access 只读对象；CLI 用 `--s
 ```yaml
 schema_version: 2
 experiment: {id: E2-STAGEA-A-S3407, parent: E1-FTV2-A-S3407}
-data: {dataset_id: fontdiffuser-p261-t295-s338-cn2west-v2a-r1-HASH, dataset_sha256: HASH, protocol: A, canvas: 96, resize: false, content_font: NotoSansCJK-Regular, b0_font: FZKTJW, ref8: 永和书风骨韵天地}
+data: {dataset_id: fontdiffuser-p261-t295-s338-cn2west-v2a-r1-HASH, dataset_sha256: HASH, protocol: A, canvas: 96, resize: false, content_font: NotoSansCJK-Regular, b0_font: Noto ContentImage, ref8: 永和书风骨韵天地}
 model: {base: official_p1, rsi_source: delta, delta: {enabled: true, drop: 0.25, init: zero}, support: {enabled: false}, scr: {enabled: false, weight: 0.01}}
 train: {steps: 80000, batch_size: 1, accumulation: 4, lr: 1.0e-5, scheduler: linear, warmup_steps: 2000, optimizer: adamw, betas: [0.9, 0.999], weight_decay: 0.01, eps: 1.0e-8, fp16: true, grad_clip: 1.0, cfg_joint_drop: 0.10, ema: false, seed: 3407}
 eval: {every_steps: 5000, sampler: dpmsolver++, inference_steps: 20, guidance_scale: 7.5, paired_noise: true}
@@ -143,7 +143,7 @@ provenance: {git_sha: AUTO, variant: REQUIRED, config_sha256: AUTO, dataset_sha2
 
 优先级：base YAML < experiment YAML < CLI override；启动前输出 canonical JSON（UTF-8、键排序、无路径时间戳）并 SHA-256。每 run 保存 `config.input.yaml`、`config.resolved.yaml`、`config.canonical.json`、`config.sha256`；provenance 写 config/dataset/model/code SHA、完整 CLI 和环境。resume 必须 config SHA 相同，唯一允许 override 是 `resume_from/stop_file`。
 
-`pm_preflight.py` 当前实际检查 root Git clean [pm_preflight.py:41](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:41)、official/ours tree 与 marker [pm_preflight.py:50](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:50)、必要文档 [pm_preflight.py:60](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:60)、variant [pm_preflight.py:73](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:73)、experiment ID/run/provenance 唯一 [pm_preflight.py:84](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:84)。配置 wrapper 还必须在调用它之前检查：schema、无 TBD/null、A/p261、261=237+16+8、dataset/config/model SHA、96无resize、Content=Noto、B₀=FZKTJW、matched diff allowlist、seed/RNG resume、输出目录不存在、R0 ink gate=pass。
+`pm_preflight.py` 当前实际检查 root Git clean [pm_preflight.py:41](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:41)、official/ours tree 与 marker [pm_preflight.py:50](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:50)、必要文档 [pm_preflight.py:60](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:60)、variant [pm_preflight.py:73](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:73)、experiment ID/run/provenance 唯一 [pm_preflight.py:84](/Users/xiaoweiliang/projects/hrfont/scripts/pm_preflight.py:84)。配置 wrapper 还必须在调用它之前检查：schema、无 TBD/null、A/p261、261=237+16+8、dataset/config/model SHA、96无resize、Content=Noto、B₀=Noto ContentImage、matched diff allowlist、seed/RNG resume、输出目录不存在、R0 ink gate=pass。
 
 ## 6. 时间线（9/18 摘要、9/25 全文）
 
@@ -172,7 +172,7 @@ GPU 天按单卡串行估计；多卡只缩墙钟，不改变 matched 配置。�
 | 内部 val | val16；另从 train237 固定 calib16 | val 选 checkpoint，calib 只调阈值，test8 不调参。 |
 | E1 步数/LR | 100k；1e-5 主，5e-5@20k 预热轨后按 val 规则决定是否补齐 | 约5.72轮；保留更快适配而不污染 test。 |
 | Content | Noto Sans CJK Regular | 当前 A 盘事实，避免再造不一致数据域。 |
-| B₀ | FZKTJW，重新 A 渲染 | 保持 Δ/RS-gap/support 共用坐标语义。 |
+| B₀ | Noto ContentImage | 与 Content/Identity 同一张 A 渲染（合作者 2026-09-04 决策）。 |
 | milestone | 1k轻量、5k完整+val | 兼顾早诊断、选择与存储。 |
 
 ## 8. 在跑任务、重跑与旧产物

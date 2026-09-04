@@ -103,10 +103,11 @@ def _install_scr_dependency_stubs(torch):
 
 
 def model_test():
+    global STUBBED
     import torch
     import torch.nn.functional as F
 
-    stubbed = _install_diffusers_stub(torch)
+    STUBBED = _install_diffusers_stub(torch)
     _install_scr_dependency_stubs(torch)
     sys.path.insert(0, str(VARIANT))
     from src import FontDiffuserModel, build_content_encoder, build_style_encoder, build_unet
@@ -148,7 +149,7 @@ def model_test():
     assert delta_out[0].shape == official_out[0].shape == noisy.shape
     assert torch.isfinite(delta_out[0]).all() and torch.isfinite(official_out[0]).all()
     assert torch.isfinite(delta_out[1]).all() and torch.isfinite(official_out[1]).all()
-    suffix = " (diffusers compatibility stub)" if stubbed else ""
+    suffix = " (diffusers compatibility stub)" if STUBBED else ""
     print(f"delta + official forward: PASS{suffix}")
 
     model.style_encoder.requires_grad_(False).eval()
@@ -173,7 +174,7 @@ def main() -> int:
             model_test()
         except (ImportError, ModuleNotFoundError) as exc:
             print(f"model smoke: SKIP ({exc})")
-        print("E2 smoke: PASS")
+        print("E2 smoke: PASS" + (" (stub mode: model checks partial)" if globals().get("STUBBED") else ""))
         return 0
     except Exception as exc:
         print(f"E2 smoke: FAIL ({type(exc).__name__}: {exc})")

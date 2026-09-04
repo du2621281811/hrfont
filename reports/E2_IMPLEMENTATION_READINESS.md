@@ -55,8 +55,8 @@
 ### C. Delta 库、α 与 Support 数据流
 
 1. **先定义角色：**Style/ref8 用目标字体 A-style338 经冻结 `Es` 得 query；α prototype 是 train228 各候选字体的冻结 `Es(ref8)`；Delta bank 是同一 train228 候选字体、目标字符 `c` 的 A-target295；neutral 是固定 B0 的同字符 A 图。目标字体属于 train 时必须 leave-one-out；val/test 永远只作 query，不进 prototype/bank。Stage A 不消费 Support 图，Support 规则与 cache 可由 E0 同时产出供 E5，但不要把 Support 接进 E2 batch。
-2. **谁建、何时建：**E0 owner 在 E1 final best 冻结后，用该 best 的 **Es** 建 ref8 prototype 表并冻结 `alpha/prototype manifest + tensor SHA`；同时冻结 train228/calib16 的 retrieval calibration。E2 训练 owner 在开跑前校验 encoder SHA、split SHA、B0 SHA、prototype SHA。E1 best 未定之前可写代码/测试假 tensor，但不能冻结正式 α 表。
-3. **推荐混合方式：**α/候选选择可读 E0 冻结的 Es prototype/cache；`Ec(A(B_s,c))` 与 `Ec(A(B0,c))` 推荐在训练时由冻结 Ec 在线编码，再逐尺度 feature-mix，保证精确匹配当前 encoder 与 augmentation-free A 图。不要读取旧 E0 glyph/feature cache，也不要先做像素混合。若为速度缓存 Ec，多尺度 cache 必须在 E1 best 冻结后重建，键含 `(encoder_sha, split_sha, font, char, role)`，float32 生成并记录 dtype/shape/SHA；在线与缓存路径需逐层 `allclose` smoke 后才能切换。
+2. **谁建、何时建：**E0 owner 在 E1 final（@100k）冻结后，用该 ckpt 的 **Es** 建 ref8 prototype 表并冻结 `alpha/prototype manifest + tensor SHA`；同时冻结 train228/calib16 的 retrieval calibration。E2 训练 owner 在开跑前校验 encoder SHA、split SHA、B0 SHA、prototype SHA。E1@100k 冻结之前可写代码/测试假 tensor，但不能冻结正式 α 表。
+3. **推荐混合方式：**α/候选选择可读 E0 冻结的 Es prototype/cache；`Ec(A(B_s,c))` 与 `Ec(A(B0,c))` 推荐在训练时由冻结 Ec 在线编码，再逐尺度 feature-mix，保证精确匹配当前 encoder 与 augmentation-free A 图。不要读取旧 E0 glyph/feature cache，也不要先做像素混合。若为速度缓存 Ec，多尺度 cache 必须在 E1@100k 冻结后重建，键含 `(encoder_sha, split_sha, font, char, role)`，float32 生成并记录 dtype/shape/SHA；在线与缓存路径需逐层 `allclose` smoke 后才能切换。
 4. DataLoader batch 增加 `font_stem, char_cp, alpha_fonts, alpha_weights, bank_paths, neutral_path`（或预取 tensor），并验证每个 bank 字符等于 target 字符、候选属于 train228、leave-one-out 生效、权重有限且和为 1。α 默认值遵循 E0：`M=3,tau=.07`（plan `:73-79`），但必须读冻结 E0 artifact，不在 E2 内重新调参。
 
 ## 3.2 模型侧：真正的 feature-mix Δ→RSI
@@ -69,14 +69,14 @@
 2. 不允许 `Ec(Σα image)`，不允许把 style 汉字或单张“delta image”当 feature-mix Δ。每层记录 shape/dtype/RMS；NaN、scale 数量不一致、字符错配立即失败。
 3. Delta-drop 使用独立、可恢复 RNG stream，以样本为粒度把整个多尺度 Δ 同时置零，概率 `.25`；E2b 即使 `delta.enabled=false` 也消费完全相同 draw（exec-spec `:42,64-65`）。CFG joint drop `.10` 与 Δ-drop 独立；记录二者 mask 以便 matched checksum。
 
-### B. RSI 接线与 zero-init
+### B. RSI 接线（复用 E1 offset 头，无 zero-init gate）
 
 需要修改新 variant 的三个关键点；不能只 monkey-patch train.py：
 
 1. `src/model.py`：当前 `FontDiffuserModel.forward()` 在 `:34-47` 先以 `Es(style_images)` 提供 style cross-attention，又把同一 style 图送入 `Ec` 得 `style_content_res_features` 作为 RSI 结构源。E2 改为 forward 显式接收/构造 `delta_features`，保留 `Es(R)` 与 `Ec(content)`，**删除 style 图进入 content encoder 的路径**；传给 UNet 的第四项改成 Δ。DPM/eval 路径 `src/model.py:88-106` 必须同步，避免 train/eval 接线不一致。
 2. `src/modules/unet.py`：当前 up path 在 `:264-285` 将 `encoder_hidden_states[3]` 作为 `style_structure_features` 传入 RSI。改为命名明确的 `delta_structure_features`（最好用结构化/keyword 参数替代 magic list index），逐 up-block 传对应尺度，并在入口断言层数/shape/device/dtype。down/MCA 仍使用正常 content features，style cross-attention 仍使用 Es 特征。
 3. `src/modules/unet_blocks.py`：official/E1 的 `StyleRSIUpBlock2D` 位于 `:423-587`；结构源由 `:545` 选层，并在 `:553-561` 送入 `OffsetRefStrucInter` 后用于 DCN。改名为 neutral 的 `structure_features`/`delta_feature`，维持尺度索引语义并加入 shape 断言。`OffsetRefStrucInter` 定义实际位于 `src/modules/attention.py:266-332`：其最终 offset 投影是 `proj_out`（`:298-330`）。**将新增 Δ adapter 或 offset 末端初始化为零**（weight/bias 全零），保证 E1 权重加载后 step0 的新 Δ 增量为零；不要把整个已训练 E1 RSI 无条件清零。推荐残差形式 `offset = offset_e1_or_base + zero_init(delta_adapter(...))`，并用 E2b/off 路径验证 step0 等价。若设计为完全替换 official structure 源，则需明确 base offset 的定义，smoke 必须证明 `Δ=0` 与注册的 no-Δ 基线在容差内一致。
-4. `src/build.py:8-35` 增加显式 `rsi_source={delta,official}`、delta adapter channel/scale 配置；checkpoint loader 以 strict allowlist 处理唯一新增参数，并输出 missing/unexpected keys。E2b 保持 official RSI；E2 使用 delta；两者从同一 E1 best 初始化并保存初始化参数哈希。
+4. `src/build.py:8-35` 增加显式 `rsi_source={delta,official}`；Δ 与 Ec(S) 同构直接进 RSI，**无新增参数、无 zero-init gate**；checkpoint loader 以 strict 检查确认无新增参数，并输出 missing/unexpected keys。E2b 保持 official RSI；E2 使用 delta；两者从同一 E1@100k 初始化并保存初始化参数哈希。
 
 ### C. freeze 与优化器审计
 
@@ -137,7 +137,7 @@
 1. **数据 smoke：**manifest 精确 228/16/16、零泄漏、excluded fail-fast、全部角色 PNG/RGB/native96、bank 仅 train228、leave-one-out、同字符、B0 存在。
 2. **feature-mix 单测：**人工小 tensor 验证逐候选编码→逐尺度加权→减 neutral；α one-hot、α sum=1、候选顺序置换不改变结果；在线与 cache（若启用）逐层一致。
 3. **接线 smoke：**hook `OffsetRefStrucInter` 输入，证明收到的是 Δ 而非 `Ec(style)`；style 图只进入 Es；content identity 仍进入 MCA。记录每层 shape/RMS。
-4. **零点 smoke：**同一 E1 init、相同 `x_t/t/content/style/noise` 下，`Δ=0` 的 E2 输出与注册的 no-Δ 基线 `≈` 一致；zero-init 新层参数和输出为零。容差在 fp32/fp16 分别预注册。
+4. **零点 smoke（仅诊断）：**同一 E1 init、相同 `x_t/t/content/style/noise` 下，`Δ=0` 的 E2 输出与注册的 no-Δ 基线 `≈` 一致；offset 头复用 E1 权重无新增层，此项只用于观察早期过渡期。容差在 fp32/fp16 分别预注册。
 5. **响应 smoke：**给非零 Δ 与受控扰动（符号翻转/空间 shuffle）后，确认 offset/noise output 有有限、非零响应；只扰动 Δ 时 Es style feature 不变。该 smoke 证明接线活着，不作为效果结论。
 6. **freeze/resume/matched smoke：**一次 backward 后 Ec/Es 无 grad且 SHA 不变；中断恢复 checksum 通过；E2/E2b YAML allowlist 和前 N random draws 相同。
 7. **评测：**每 5k 在固定 val16×295 上评测，`n=4720`，固定 ref/pair/noise manifest；保存 loss 与预注册 identity/style/quality 指标、配置/模型/评测代码 SHA。test16 不参与 checkpoint 或超参选择。
@@ -149,10 +149,10 @@
 | 0 | R0 正式发布 + E1 跑至100k并完成 §1.2 收尾 | 关键路径起点；R0 发布与 E1 尾段可并行 | p260/split/tree SHA；E1 DONE、100k val、best、provenance |
 | 1 | E0 改为 train228，生成 Es prototypes/α calibration、gap/cache | 依赖 E1 final best SHA；不得读 legacy meta或 val/test | prototype/retrieval config/cache manifest + SHA，leave-one-out/preflight 通过 |
 | 2 | 新建 `cn2west_stage_a`、schema/YAML、manifest防线、Δ/RSI、freeze、exact resume、运维 | **可与 E0 并行开发**：先用 synthetic α/feature fixtures；正式 artifact 接入等待阶段1 | 单测、lint/import、config/matched preflight 全过 |
-| 3 | smoke（数据、feature-mix、零点、响应、freeze、resume、matched） | 需要候选 E1 best；涉及正式 α 的集成 smoke 需要 E0 | §3.4 全绿并生成机器可读报告/SHA |
+| 3 | smoke（数据、feature-mix、零点、响应、freeze、resume、matched） | 需要 E1@100k；涉及正式 α 的集成 smoke 需要 E0 | §3.4 全绿并生成机器可读报告/SHA |
 | 4 | E2/E2b seed3407 早筛，再补 3408/3409，固定80k | 依赖阶段0–3；同 seed 的 E2/E2b 可在不同 GPU 并行但必须同 frozen manifests | 每 seed 80k full+val+DONE；matched audit；best/provenance |
 
-执行上的关键区别：**E2 代码开发不必等待 E0；正式 E2 训练必须等待 E1 best 和正式 α prototype artifact。** 若采用 Ec 在线算，E0 不必预先生成多尺度 Ec cache，但仍必须先完成 Es prototype/α 校准与其 SHA；若 α 也在线临时重算而不冻结，则不具备 matched/reproducible 条件，不得开 80k。
+执行上的关键区别：**E2 代码开发不必等待 E0；正式 E2 训练必须等待 E1@100k 和正式 α prototype artifact（Es cache SHA 与 init Es SHA 强绑定，D-A1）。** 若采用 Ec 在线算，E0 不必预先生成多尺度 Ec cache，但仍必须先完成 Es prototype/α 校准与其 SHA；若 α 也在线临时重算而不冻结，则不具备 matched/reproducible 条件，不得开 80k。
 
 # 5. 风险与待 PI 拍板（极短清单）
 
@@ -171,6 +171,6 @@
 
 **E2 现状：**没有符合当前 CN2West-v2 规范的 E2 config、variant 或正式 script；现存 `hrfont_e2_*` 属旧线，不能直接复用。
 
-**实现 top 要点：**从 E1 base 新建 `cn2west_stage_a`；loader 读取 final split 并对 extra/missing/excluded/泄漏 fail-fast；E0 用 E1 final Es 冻结 train228 α prototypes，Ec feature-mix 推荐在线算；逐候选 Ec→逐尺度 α 混合→减 B0，替换 RSI 的 `Ec(style)` 结构源并 zero-init 新增 Δ 接入；冻 Ec/Es、训 UNet+offset；配置固定 80k、8×1、1e-5、warmup2k、fp16、CFG .10、Δ-drop .25；开跑前补 scaler+sampler cursor 等 exact resume、STOP/heartbeat/milestone、matched YAML diff 和 Δ=0/扰动 smoke。
+**实现 top 要点：**从 E1 base 新建 `cn2west_stage_a`；loader 读取 final split 并对 extra/missing/excluded/泄漏 fail-fast；E0 用 E1 final Es 冻结 train228 α prototypes，Ec feature-mix 推荐在线算；逐候选 Ec→逐尺度 α 混合→减 B0，替换 RSI 的 `Ec(style)` 结构源（复用 E1 offset 头，无新增层）；冻 Ec/Es、训 UNet+offset；配置固定 80k、8×1、1e-5、warmup2k、fp16、CFG .10、Δ-drop .25；开跑前补 scaler+sampler cursor 等 exact resume、STOP/heartbeat/milestone、matched YAML diff 和 Δ=0/扰动 smoke。
 
 **待拍板：**E2 是否延续 no-ink-filter（建议是）、是否三 seed（建议是）、是否从 E1 base 派生（建议是）、E0 只冻结 α 还是同时强制 Ec cache（建议 α 必需、Ec 在线）。

@@ -1,5 +1,7 @@
 # HR-Font：合作者说明（唯一正文）
 
+> ⚠️ **已过时提示**：本设计稿的实验编排（ft_cnstyle→StageA/B 初始化链、top-3 硬截断）已被《EXPERIMENT_PLAN_CN2WEST_V2.md》与 `.cursor/rules/hrfont-execution-spec.mdc` 取代：E1 FT-v2@100k（A/228/16/16）→ E2 Stage-A（soft-α Δ-RSI，E1@100k 初始化，复用 offset 头）。执行一律以 exec-spec 为准。
+
 **短名：** HR-Font（对外正式名后定）  
 **会议：** ICLR 2027（摘要约 9/18，全文约 9/25）  
 **日期：** 2026-08-23  
@@ -127,12 +129,12 @@ gap 大则打开支撑。**主图：横轴 gap，纵轴（开支撑 − 关支�
 | 字体原型 | \(e_s=\frac1m\sum_k E_s(I(B_s,r_k))\)，\(r=\)`永和书风骨韵天地` | 测试时用户 \(R\) 与各 \(e_s\) 比；训练时用该字体同一 8 字 |
 | 相似度 | 逐字 cosine 再平均，再 softmax | 即 4.1 的 \(W\) |
 | \(\tau_\alpha\) | **0.07** | 与对比学习常用温度一致；偏尖则只信最近邻，偏钝则混得散 |
-| \(M\) | **3** | 混进 Δ 的套数；top-3 重新归一化 |
-| 是否设 α 下限 | **否** | 永远用 top-3，不因「不够像」拒识 |
+| 邻域 | **soft 全池** | softmax(cos/τ) 加权 + ε/K_max 截断；top-3 为消融开关 |
+| α 空邻域 | **fail-fast** | 空率必须为 0，否则训练中止（D-A6） |
 
 **变体（实验里比一次，不当第二套方法）：** 先在 \(\{e_s\}\) 上 K-Means，\(K=12\)，每簇取 medoid，再只在这 12 套上算 α。这是 CF-Font 式 spanning basis。默认仍是 42 套 kNN。
 
-**实现：** 离线渲 \(\mathcal{P}\times\{8\text{ 参考}\times\text{P1 全表}\}\)；缓存 \(E_s\)、\(E_c\)。推理只做 8×42 次 style cosine + top-3 读图。
+**实现：** 离线渲 \(\mathcal{P}\times\{8\text{ 参考}\times\text{P1 全表}\}\)；缓存 \(E_s\)、\(E_c\)。推理只做 8×42 次同字 cosine 平均 + soft 加权读图。
 
 #### 4.5.2 选带着 \(c\) 该学知识的完整字
 
@@ -171,10 +173,10 @@ q_{t+1}=\arg\max_{q\notin\{c\}\cup Q_t}\Big[\lambda\,\mathrm{cover}(q)-(1-\lambd
 
 对每个目标字 \(c\)：
 
-1. 用 8 个中文 \(R\) 算 α，取 top-3 库字体，混同字 Δ。Δ **始终开**。  
+1. 用 8 个中文 \(R\) 算 α（同字 cosine 平均 + soft 加权），混同字 Δ。Δ **始终开**。  
 2. 在 \(B_0\) 上算 \(\mathrm{gap}(c,R)\)。  
 3. 若 \(\mathrm{gap}<\gamma\)：Support 为空（前向与阶段 A 相同）。  
-4. 若 \(\mathrm{gap}\ge\gamma\)：按 `cover` + MMR 取 \(\mathrm{cover}\ge\theta\) 的 top-\(K\)，从 top-3 库取图，进 Support。
+4. 若 \(\mathrm{gap}\ge\gamma\)：按 `cover` + MMR 取 \(\mathrm{cover}\ge\theta\) 的 top-\(K\)，从 α 加权库取图，进 Support。
 
 \(\theta,\gamma,\lambda\) 在 **训练字体里再划 4 套校准字体**（仍不是 Demo-8）上扫，锁写对最高的一组再测 Demo-8。提案 0.25 / 0.35 / 0.7 只是起点。
 
@@ -315,7 +317,7 @@ RSI（代码里 `StyleRSIUpBlock2D` + `OffsetRefStrucInter`）在 **UNet 上采�
 | 后来的 CN→CN FD★abs18000 | 中文扩写，另一条线 | 任务不是 CN→拉丁 |
 
 所以：**跨语 SFT 做过；改接线 + Δ 的阶段 A 没做过。**  
-`ft_cnstyle` 两件事：表里的「官方接线跨语微调」对照行；阶段 A 初始化时 **UNet 与两个 encoder 从 25k 接着用**，RSI 偏移头 / Δ 接入层按新输入重开。不要从官方 Phase 1 再冷启一遍跨语。
+`ft_cnstyle` 两件事：表里的「官方接线跨语微调」对照行；阶段 A 初始化：**UNet 与两个 encoder 从 E1 FT-v2@100k 接着用**，RSI 偏移头复用 E1 权重（无新增层，PI 2026-09-04）。
 
 ### 6.1 主线：A 然后 B
 
@@ -334,7 +336,7 @@ ft_cnstyle @25k（官方接线、已跨语）
 
 | | |
 |--|--|
-| 初始化 | `ft_cnstyle` 的 UNet + 两个 encoder；Δ 接入 / RSI 偏移头按新输入初始化 |
+| 初始化 | E1 FT-v2@100k 的 UNet + 两个 encoder；复用 E1 offset 头 |
 | 数据 | \(R\)=中文，\(C\)=中性拉丁，GT=该字体拉丁；库同字图算 α、Δ；无支撑 |
 | 冻 | 两个 encoder。UNet 解冻 |
 | 损失 | 噪声 MSE；随机丢 \(R\)、丢 Δ（20–30%） |
@@ -374,7 +376,7 @@ ft_cnstyle @25k（官方接线、已跨语）
 |----|--------|------|------|------|
 | E0 | 渲池 **96+256**、剔假拉丁、缓存 \(E_s/E_c\)（96 先、256 后）、冻 gap 字表；划 4 套校准字体 | 检索可复现；256 数据跟上 | Demo-8 不进池 | 2 天（今晨起跑） |
 | E1 | 按第 5 节改接线（96）；同一套补丁用于 256 UNet | 形变源改成 Δ | 96 能训；256 前向能通 | 2 天 |
-| E2 | 阶段 A 96（从 `ft_cnstyle` 热启） | 96 底座 | 无 Δ 更差；风格好于官方零样本 | 3 天 |
+| E2 | 阶段 A 96（从 E1 FT-v2@100k 热启） | 96 底座 | 无 Δ 更差；风格好于官方零样本 | 3 天 |
 | E2-256 | 阶段 A 256：96 encoder 拓扑 + 256 UNet 热启（hybrid，不走已失败的 native-256 冷加深） | 高分辨率底座 | 写对不崩；风格不差于 96 放大 | 接在 E2 冒烟后，约 3 天 |
 | E3 | A vs 无 Δ vs `ft_cnstyle` vs 官方零样本 vs「RSI 仍看汉字」（96 主表；256 附录同表） | 形变源 | 看 Δ 的接线应优于仍看汉字 | 含 E2 评 |
 | E4 | gap 分层 | 缺口可测 | 高 gap 更差 | 0.5 天 |
