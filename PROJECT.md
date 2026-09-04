@@ -16,10 +16,9 @@
 
 ## 下一步
 
-1. 合作者审核 [`reports/PI_DECISIONS_20260905.md`](reports/PI_DECISIONS_20260905.md)（E1c 臂、top-10 α、9-token、cache-only）
-2. 审核通过后：按 E1@100k 建 Es/Ec 离线 cache；改 Stage-A 接线；补 val/resume
-3. 并行可做：E1 正式评测、p260 数据指纹、P1 vs E1 encoder 验证（val-only）
-4. 未过门前 **不开** E2/E2b/E1c 80k
+1. 按 [`reports/EXECUTION_PLAN_STAGE_A_20260905.md`](reports/EXECUTION_PLAN_STAGE_A_20260905.md) 执行：G0 预检 → cache + 接线并行 → G2/G3 smoke → 三臂 80k
+2. 合作者确认该计划中的 3 个实现选择（E1c 并入 Stage-A 训练器；Ec style 全量 cache；三卡同日启动）
+3. 未过 G3 **不开** E2/E2b/E1c 80k；E12a / E1 评测 / p260 SHA 可并行
 
 ## 实现边界
 
