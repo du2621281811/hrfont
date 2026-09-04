@@ -38,6 +38,20 @@ alwaysApply: true
 - **cache-only：** 训练/推理禁止在线 Es/Ec。Es spatial 260×338；Ec target 228×295 + Content×295 + Ec style 260×338。SHA 绑对应 encoder。
 - **style token：** n 张 `style_emd` `[1024,3,3]` 逐元素平均 → 9 token。禁止 pooled 1-token。
 
+## 1.7 计划审查决策（2026-09-05，REVIEW_PLAN_20260905；PI 已批准：设计有条件通过，全按推荐）
+
+- **批准状态**：P1/P2/P3 方向通过；正式 80k 开跑前必须先过 `EXECUTION_PLAN_STAGE_A_20260905.md` 的 G0–G5 + 两个代码级阻断修复（见下）。
+- D-P1：E1c 定名 **frozen-encoder 1-shot official-RSI matched arm**（不称「true E1-continue」）；三臂共用 cache/CFG/source-drop core。
+- D-P2：**统一 `source_drop=.25`**——E2 的 Δ 与 E2b/E1c 的 official source 消费同一 mask（修复当前 E2 Δ-drop vs E2b 无 drop 的混杂）；joint CFG 置零整个 9-token style map + 全部 MCA content scales、保留 structure；三臂同实现、独立可恢复 RNG。
+- D-P3：三臂共享 **ordered-R eval manifest**；E1c 固定用 `R[0]=永`（1-shot 严格嵌套于 ref8）；`eval_refs=null` 作废。
+- D-P4：α 论文定位 =「**Es 相对排序 top-K、无绝对阈值、同时承担 routing + weighting**；低相似邻居被采用须披露」。
+- D-P5：训练保留 n~Uniform{1..8}；**预注册按 n 的诊断**（s10-s11 边界稳定性 / Jaccard / turnover / effective-N）；K∈{3,10} 附录消融；不设动态 fallback。
+- D-P6：Ec cache **只存实际消费尺度**（约 64 GiB payload）；α pooled 单存 fp32；逐层 + 端到端 parity gate 证明语义等价。
+- D-P7：正式 benchmark **绝对 cache-only**；新字体先走 cache-build 预处理 stage；生成时不在线编码。
+- D-P8：**固定 80k 为主比较**、best≥10k 次要；seed 3407 先行，matched 结论补 3408/3409。
+- D-P9：E2/E2b 均 `new_layer=null`，复用同一 E1 offset head；禁止只给 E2 加 adapter。
+- **代码级阻断（修后方可开 80k）**：① E2 的 Δ-drop 与 E2b 官方源无 drop 构成混杂（D-P2 修复）；② launcher/parser 必须接线 `k_top`（YAML 已写 10，运行时仍回落默认 3）。
+
 ## 2. 数据契约
 
 - A 协议：对每字体在 target295+style338 全633字符上寻找同一最大字号，使每字 `textbbox` 的 w,h≤84；在96×96白底居中渲染 RGB PNG；禁止 resize、JPG、128输入及混用旧 A/B/cache/alpha/gap/B0。
