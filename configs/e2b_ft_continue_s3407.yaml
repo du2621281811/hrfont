@@ -1,0 +1,73 @@
+schema_version: 1
+experiment:
+  id: E2B-FT-CONTINUE-S3407
+  stage: A
+  variant: cn2west_stage_a
+init:
+  checkpoint: runs/E1-FTV2-A-S3407/best
+  new_layer: null
+data:
+  protocol: A
+  root: data/fontdiffuser-p253-t295-s338-cn2west-v2
+  split_manifest: manifests/split_v3_228_16_16.json
+  split: [228, 16, 16]
+  excluded: [FZXianZTJW]
+  image_size: 96
+  format: RGB_PNG
+  resize: false
+  content_font: NotoSansCJK-Regular
+  b0_font: FZKTJW
+  style_pool_size: 338
+  es_cache_path: artifacts/e2/es_per_font_char_e1_best.pt
+model:
+  rsi_source: official
+  freeze_encoders: true
+  train: [unet, offset_heads]
+  delta:
+    enabled: false
+    feature_mix: true
+    tau: 0.07
+    eps_alpha: 0.01
+    k_max: 10
+    k_top: 3
+    mode: soft
+    leave_one_out: true
+    drop: 0.25
+  nshot:
+    min_n: 1
+    max_n: 8
+    train_sampling: uniform_without_replacement
+    eval_refs: [永, 和, 书, 风, 骨, 韵, 天, 地]
+train:
+  seed: 3407
+  steps: 80000
+  batch_size: 8
+  accumulation: 1
+  effective_batch: 8
+  optimizer: AdamW
+  lr: 1.0e-5
+  betas: [0.9, 0.999]
+  weight_decay: 0.01
+  epsilon: 1.0e-8
+  scheduler: linear
+  warmup_steps: 2000
+  mixed_precision: fp16
+  max_grad_norm: 1.0
+  gradient_checkpointing: false
+  ema: false
+  cfg_joint_drop: 0.10
+  scr: false
+loss:
+  diffusion_mse: 1.0
+  perceptual: 0.01
+  offset: 0.5
+checkpoint:
+  every_steps: 5000
+  save_last: true
+eval:
+  every_steps: 5000
+  refs: [永, 和, 书, 风, 骨, 韵, 天, 地]
+  inference_steps: 20
+  guidance_scale: 7.5
+  solver: dpm_solver_pp
+  order: 2

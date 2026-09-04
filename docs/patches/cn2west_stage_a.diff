@@ -1,0 +1,1028 @@
+diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py code/variants/cn2west_stage_a/FontDiffuser/configs/fontdiffuser.py
+--- code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py	2026-09-04 11:25:35
++++ code/variants/cn2west_stage_a/FontDiffuser/configs/fontdiffuser.py	2026-09-04 17:38:38
+@@ -4,7 +4,7 @@
+ def get_parser():
+     parser = argparse.ArgumentParser(description="Training config for FontDiffuser.")
+     ################# Experience #################
+-    parser.add_argument("--seed", type=int, default=123, help="A seed for reproducible training.")
++    parser.add_argument("--seed", type=int, default=3407, help="A seed for reproducible training.")
+     parser.add_argument("--experience_name", type=str, default="fontdiffuer_training")
+     parser.add_argument("--data_root", type=str, default=None, 
+                         help="The font dataset root path.",)
+@@ -30,6 +30,22 @@
+                         help="The channels of the fisrt layer output of content encoder.",)
+     parser.add_argument("--style_start_channel", type=int, default=64, 
+                         help="The channels of the fisrt layer output of content encoder.",)
++    parser.add_argument("--rsi_source", choices=("delta", "official"), default="delta")
++    parser.add_argument("--delta_enabled", action=argparse.BooleanOptionalAction, default=True)
++    parser.add_argument("--delta_tau", type=float, default=0.07)
++    parser.add_argument("--delta_eps_alpha", type=float, default=0.01)
++    parser.add_argument("--delta_k_max", type=int, default=10)
++    parser.add_argument("--delta_mode", choices=("soft", "topk", "threshold"), default="soft")
++    parser.add_argument("--delta_drop", type=float, default=0.25)
++    parser.add_argument("--nshot_min", type=int, default=1)
++    parser.add_argument("--nshot_max", type=int, default=8)
++    parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
++    parser.add_argument("--es_cache_path", type=str, default="artifacts/e2/es_per_font_char_e1_best.pt")
++    parser.add_argument("--b0_font", type=str, default="FZKTJW")
++    parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
++    parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
++    parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)
++    parser.add_argument("--config_path", type=str, default=None)
+     
+     # Training
+     parser.add_argument("--phase_2", action="store_true", help="Training in phase 2 using SCR module.")
+@@ -43,15 +59,15 @@
+     parser.add_argument("--nce_layers", type=str, default='0,1,2,3')
+     parser.add_argument("--sc_coefficient", type=float, default=0.01)
+     ## train batch size
+-    parser.add_argument("--train_batch_size", type=int, default=4, 
++    parser.add_argument("--train_batch_size", type=int, default=8, 
+                         help="Batch size (per device) for the training dataloader.")
+     ## loss coefficient
+     parser.add_argument("--perceptual_coefficient", type=float, default=0.01)
+     parser.add_argument("--offset_coefficient", type=float, default=0.5)
+     ## step
+-    parser.add_argument("--max_train_steps", type=int, default=440000, 
++    parser.add_argument("--max_train_steps", type=int, default=80000, 
+                         help="Total number of training steps to perform.  If provided, overrides num_train_epochs.",)
+-    parser.add_argument("--ckpt_interval", type=int,default=40000, help="The step begin to validate.")
++    parser.add_argument("--ckpt_interval", type=int,default=5000, help="The checkpoint interval.")
+     parser.add_argument("--resume_from", type=str, default=None,
+                         help="Resume from a checkpoint dir (global_step_* or last_state) with trainer_state.pt.")
+     parser.add_argument("--state_interval", type=int, default=1000,
+@@ -60,14 +76,14 @@
+                         help="Number of updates steps to accumulate before performing a backward/update pass.",)
+     parser.add_argument("--log_interval", type=int, default=100, help="The log interval of training.")
+     ## learning rate
+-    parser.add_argument("--learning_rate", type=float, default=1e-4, 
++    parser.add_argument("--learning_rate", type=float, default=1e-5, 
+                         help="Initial learning rate (after the potential warmup period) to use.")
+     parser.add_argument("--scale_lr", action="store_true", default=False, 
+                         help="Scale the learning rate by the number of GPUs, gradient accumulation steps, and batch size.")
+     parser.add_argument("--lr_scheduler", type=str, default="linear", 
+                         help="The scheduler type to use. Choose between 'linear', 'cosine', \
+                             'cosine_with_restarts', 'polynomial', 'constant', 'constant_with_warmup'")
+-    parser.add_argument("--lr_warmup_steps", type=int, default=10000, 
++    parser.add_argument("--lr_warmup_steps", type=int, default=2000, 
+                         help="Number of steps for the warmup in the lr scheduler.")
+     ## classifier-free
+     parser.add_argument("--drop_prob", type=float, default=0.1, help="The uncondition training drop out probability.")
+@@ -80,7 +96,7 @@
+     parser.add_argument("--adam_epsilon", type=float, default=1e-08, help="Epsilon value for the Adam optimizer")
+     parser.add_argument("--max_grad_norm", default=1.0, type=float, help="Max gradient norm.")
+     
+-    parser.add_argument("--mixed_precision", type=str, default="no", choices=["no", "fp16", "bf16"], 
++    parser.add_argument("--mixed_precision", type=str, default="fp16", choices=["no", "fp16", "bf16"], 
+                         help="Whether to use mixed precision. Choose between fp16 and bf16 (bfloat16). Bf16 requires \
+                             PyTorch >= 1.10. and an Nvidia Ampere GPU.")
+     
+diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py code/variants/cn2west_stage_a/FontDiffuser/dataset/font_dataset.py
+--- code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py	2026-09-04 11:25:35
++++ code/variants/cn2west_stage_a/FontDiffuser/dataset/font_dataset.py	2026-09-04 17:35:47
+@@ -1,5 +1,6 @@
+-import os
++import json
+ import random
++from pathlib import Path
+ from PIL import Image
+ 
+ import torch
+@@ -29,9 +30,14 @@
+ 
+     def __init__(self, args, phase, transforms=None, scr=False):
+         super().__init__()
+-        self.root = args.data_root
++        self.root = Path(args.data_root)
+         self.phase = phase
+         self.scr = scr
++        self.nshot_min = args.nshot_min
++        self.nshot_max = args.nshot_max
++        self.eval_refs = list(args.eval_refs)
++        self.split_manifest = Path(args.split_manifest)
++        self.excluded = set(args.excluded)
+         if self.scr:
+             self.num_neg = args.num_neg
+ 
+@@ -41,80 +47,109 @@
+ 
+     def get_path(self):
+         self.target_images = []
+-        self.style_to_images = {}
+-        target_image_dir = f"{self.root}/{self.phase}/TargetImage"
+-        style_image_dir = f"{self.root}/{self.phase}/StyleImage"
+-        if not os.path.isdir(style_image_dir):
++        self.target_by_font_char = {}
++        self.style_by_font_char = {}
++        target_image_dir = self.root / self.phase / "TargetImage"
++        style_image_dir = self.root / self.phase / "StyleImage"
++        if not style_image_dir.is_dir():
+             raise FileNotFoundError(f"StyleImage required: {style_image_dir}")
+ 
+-        for style in sorted(os.listdir(target_image_dir)):
+-            style_target_dir = f"{target_image_dir}/{style}"
+-            if not os.path.isdir(style_target_dir):
+-                continue
+-            for img in sorted(os.listdir(style_target_dir)):
+-                if not img.lower().endswith(".png"):
+-                    continue
+-                self.target_images.append(f"{style_target_dir}/{img}")
++        manifest = json.loads(self.split_manifest.read_text(encoding="utf-8"))
++        expected = set(manifest["stems"][self.phase])
++        physical = {p.name for p in target_image_dir.iterdir() if p.is_dir()}
++        physical_style = {p.name for p in style_image_dir.iterdir() if p.is_dir()}
++        if physical != expected or physical_style != expected or physical & self.excluded:
++            raise RuntimeError(
++                f"split manifest mismatch for {self.phase}: "
++                f"missing={sorted(expected - physical)} extra={sorted(physical - expected)} "
++                f"style_missing={sorted(expected - physical_style)} "
++                f"style_extra={sorted(physical_style - expected)} "
++                f"excluded={sorted(physical & self.excluded)}"
++            )
+ 
+-            style_src = f"{style_image_dir}/{style}"
+-            images_related_style = []
+-            if os.path.isdir(style_src):
+-                for img in sorted(os.listdir(style_src)):
+-                    if img.lower().endswith(".png"):
+-                        images_related_style.append(f"{style_src}/{img}")
+-            if not images_related_style:
+-                raise FileNotFoundError(
+-                    f"CN StyleImage missing/empty for font={style}: {style_src}"
+-                )
+-            self.style_to_images[style] = images_related_style
++        for font in sorted(physical):
++            target_map = self._char_map(target_image_dir / font, font)
++            style_map = self._char_map(style_image_dir / font, font)
++            if not style_map:
++                raise FileNotFoundError(f"StyleImage missing/empty for font={font}")
++            self.target_by_font_char[font] = target_map
++            self.style_by_font_char[font] = style_map
++            self.target_images.extend(str(target_map[cp]) for cp in sorted(target_map))
+ 
+         if not self.target_images:
+             raise RuntimeError(f"no TargetImage PNGs under {target_image_dir}")
+ 
+     @staticmethod
+-    def _open_content(root, phase, content_cp: str) -> Image.Image:
+-        base = f"{root}/{phase}/ContentImage/{content_cp}"
+-        for ext in (".png", ".jpg", ".jpeg"):
+-            path = base + ext
+-            if os.path.isfile(path):
+-                return Image.open(path).convert("RGB")
+-        raise FileNotFoundError(f"ContentImage missing for {content_cp} under {root}/{phase}/ContentImage")
++    def _char_map(directory: Path, font: str) -> dict[str, Path]:
++        if not directory.is_dir():
++            return {}
++        result = {}
++        for path in sorted(directory.iterdir()):
++            if path.suffix.lower() != ".png":
++                continue
++            prefix = f"{font}+"
++            if not path.stem.startswith(prefix):
++                continue
++            result[path.stem[len(prefix):]] = path
++        return result
+ 
++    def _open_content(self, content_cp: str) -> Image.Image:
++        path = self.root / self.phase / "ContentImage" / f"{content_cp}.png"
++        if not path.is_file():
++            raise FileNotFoundError(f"ContentImage missing: {path}")
++        return Image.open(path).convert("RGB")
++
++    def target_path(self, font: str, content_cp: str) -> str:
++        try:
++            return str(self.target_by_font_char[font][content_cp])
++        except KeyError as exc:
++            raise FileNotFoundError(f"TargetImage missing for {font}+{content_cp}") from exc
++
+     def __getitem__(self, index):
+         target_image_path = self.target_images[index]
+-        target_image_name = target_image_path.split("/")[-1]
+-        style, content = target_image_name.split(".")[0].split("+")
++        target_path = Path(target_image_path)
++        font = target_path.parent.name
++        content = target_path.stem[len(font) + 1:]
+ 
+-        content_image = self._open_content(self.root, self.phase, content)
++        content_image = self._open_content(content)
+ 
+-        images_related_style = self.style_to_images[style]
+-        style_image_path = random.choice(images_related_style)
+-        style_image = Image.open(style_image_path).convert("RGB")
++        style_map = self.style_by_font_char[font]
++        if self.phase == "train":
++            n = random.randint(self.nshot_min, self.nshot_max)
++            ref_chars = random.sample(sorted(style_map), n)
++        else:
++            ref_chars = [f"u{ord(ch):04X}" for ch in self.eval_refs]
++            missing = [cp for cp in ref_chars if cp not in style_map]
++            if missing:
++                raise FileNotFoundError(f"fixed refs missing for {font}: {missing}")
++        ref_image_paths = [str(style_map[cp]) for cp in ref_chars]
+ 
+         target_image = Image.open(target_image_path).convert("RGB")
+         nonorm_target_image = self.nonorm_transforms(target_image)
+ 
+         if self.transforms is not None:
+             content_image = self.transforms[0](content_image)
+-            style_image = self.transforms[1](style_image)
+             target_image = self.transforms[2](target_image)
+ 
+         sample = {
+             "content_image": content_image,
+-            "style_image": style_image,
+             "target_image": target_image,
+             "target_image_path": target_image_path,
+             "nonorm_target_image": nonorm_target_image,
++            "font_stem": font,
++            "char_cp": content,
++            "ref_chars": ref_chars,
++            "ref_image_paths": ref_image_paths,
+         }
+ 
+         if self.scr:
+             # SCR not used in E1 FT-v2; kept for API compatibility with PNG paths.
+-            style_list = [s for s in self.style_to_images.keys() if s != style]
++            style_list = [s for s in self.style_by_font_char if s != font]
+             choose_neg_names = []
+             for _ in range(self.num_neg):
+                 choose_style = random.choice(style_list)
+                 choose_neg_names.append(
+-                    f"{self.root}/train/TargetImage/{choose_style}/{choose_style}+{content}.png"
++                    str(self.root / "train" / "TargetImage" / choose_style / f"{choose_style}+{content}.png")
+                 )
+             neg_images = None
+             for i, neg_name in enumerate(choose_neg_names):
+Only in code/variants/cn2west_stage_a/FontDiffuser: launch_e2.py
+diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/model.py code/variants/cn2west_stage_a/FontDiffuser/src/model.py
+--- code/variants/cn2west_ft_v2/FontDiffuser/src/model.py	2026-09-04 11:25:35
++++ code/variants/cn2west_stage_a/FontDiffuser/src/model.py	2026-09-04 17:39:17
+@@ -27,29 +27,39 @@
+         self, 
+         x_t, 
+         timesteps, 
+-        style_images,
+         content_images,
+         content_encoder_downsample_size,
++        style_images=None,
++        style_features=None,
++        structure_features=None,
+     ):
+-        style_img_feature, _, _ = self.style_encoder(style_images)
++        if style_features is None:
++            if style_images is None:
++                raise ValueError("style_images or precomputed style_features is required")
++            style_img_feature, _, _ = self.style_encoder(style_images)
++        else:
++            style_img_feature = style_features
++            if style_img_feature.ndim == 2:
++                style_img_feature = style_img_feature[:, :, None, None]
++            if style_img_feature.ndim != 4:
++                raise ValueError("style_features must be [B,C] or [B,C,H,W]")
+     
+         batch_size, channel, height, width = style_img_feature.shape
+         style_hidden_states = style_img_feature.permute(0, 2, 3, 1).reshape(batch_size, height*width, channel)
+     
+         # Get the content feature
+         content_img_feature, content_residual_features = self.content_encoder(content_images)
+-        content_residual_features.append(content_img_feature)
+-        # Get the content feature from reference image
+-        style_content_feature, style_content_res_features = self.content_encoder(style_images)
+-        style_content_res_features.append(style_content_feature)
++        content_residual_features = list(content_residual_features) + [content_img_feature]
++        if structure_features is None:
++            structure_features = [torch.zeros_like(x) for x in content_residual_features]
+ 
+-        input_hidden_states = [style_img_feature, content_residual_features, \
+-                               style_hidden_states, style_content_res_features]
++        input_hidden_states = [style_img_feature, content_residual_features, style_hidden_states]
+ 
+         out = self.unet(
+             x_t, 
+             timesteps, 
+             encoder_hidden_states=input_hidden_states,
++            structure_features=structure_features,
+             content_encoder_downsample_size=content_encoder_downsample_size,
+         )
+         noise_pred = out[0]
+@@ -84,25 +94,29 @@
+     ):
+         content_images = cond[0]
+         style_images = cond[1]
+-
+-        style_img_feature, _, style_residual_features = self.style_encoder(style_images)
++        style_img_feature = cond[2] if len(cond) > 2 else None
++        structure_features = cond[3] if len(cond) > 3 else None
++        if style_img_feature is None:
++            style_img_feature, _, _ = self.style_encoder(style_images)
++        elif style_img_feature.ndim == 2:
++            style_img_feature = style_img_feature[:, :, None, None]
+         
+         batch_size, channel, height, width = style_img_feature.shape
+         style_hidden_states = style_img_feature.permute(0, 2, 3, 1).reshape(batch_size, height*width, channel)
+         
+         # Get content feature
+         content_img_feture, content_residual_features = self.content_encoder(content_images)
+-        content_residual_features.append(content_img_feture)
+-        # Get the content feature from reference image
+-        style_content_feature, style_content_res_features = self.content_encoder(style_images)
+-        style_content_res_features.append(style_content_feature)
++        content_residual_features = list(content_residual_features) + [content_img_feture]
++        if structure_features is None:
++            structure_features = [torch.zeros_like(x) for x in content_residual_features]
+ 
+-        input_hidden_states = [style_img_feature, content_residual_features, style_hidden_states, style_content_res_features]
++        input_hidden_states = [style_img_feature, content_residual_features, style_hidden_states]
+ 
+         out = self.unet(
+             x_t, 
+             timesteps, 
+             encoder_hidden_states=input_hidden_states,
++            structure_features=structure_features,
+             content_encoder_downsample_size=content_encoder_downsample_size,
+         )
+         noise_pred = out[0]
+diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet.py code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet.py
+--- code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet.py	2026-09-04 11:25:35
++++ code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet.py	2026-09-04 17:29:40
+@@ -198,6 +198,7 @@
+         sample: torch.FloatTensor,
+         timestep: Union[torch.Tensor, float, int],
+         encoder_hidden_states: torch.Tensor,
++        structure_features=None,
+         content_encoder_downsample_size: int = 4,
+         return_dict: bool = False,
+     ) -> Union[UNetOutput, Tuple]:
+@@ -279,7 +280,7 @@
+                     hidden_states=sample,
+                     temb=emb,
+                     res_hidden_states_tuple=res_samples,
+-                    style_structure_features=encoder_hidden_states[3],
++                    structure_features=structure_features,
+                     encoder_hidden_states=encoder_hidden_states[2],
+                 )
+                 offset_out_sum += offset_out
+diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet_blocks.py code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet_blocks.py
+--- code/variants/cn2west_ft_v2/FontDiffuser/src/modules/unet_blocks.py	2026-09-04 11:25:35
++++ code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet_blocks.py	2026-09-04 17:29:40
+@@ -535,14 +535,14 @@
+         self,
+         hidden_states,
+         res_hidden_states_tuple,
+-        style_structure_features,
++        structure_features,
+         temb=None,
+         encoder_hidden_states=None,
+         upsample_size=None,
+     ):
+         total_offset = 0
+ 
+-        style_content_feat = style_structure_features[-self.upblock_index-2]
++        structure_feat = structure_features[-self.upblock_index-2]
+ 
+         for i, (sc_inter_offset, dcn_deform, resnet, attn) in \
+             enumerate(zip(self.sc_interpreter_offsets, self.dcn_deforms, self.resnets, self.attentions)):
+@@ -551,7 +551,7 @@
+             res_hidden_states_tuple = res_hidden_states_tuple[:-1]
+             
+             # Skip Style Content Interpreter by DCN
+-            offset = sc_inter_offset(res_hidden_states, style_content_feat)
++            offset = sc_inter_offset(res_hidden_states, structure_feat)
+             offset = offset.contiguous()
+             # offset sum
+             offset_sum = torch.mean(torch.abs(offset))
+diff -ru --ex code/variants/cn2west_ft_v2/FontDiffuser/train.py code/variants/cn2west_stage_a/FontDiffuser/train.py
+--- code/variants/cn2west_ft_v2/FontDiffuser/train.py	2026-09-04 11:25:35
++++ code/variants/cn2west_stage_a/FontDiffuser/train.py	2026-09-04 17:42:06
+@@ -1,383 +1,308 @@
+-import os
++#!/usr/bin/env python3
++"""Train HR-Font E2 Stage A with online feature-mix delta."""
++from __future__ import annotations
++
++import hashlib
+ import math
+-import time
+-import logging
+-import glob
++import shutil
++import subprocess
++import sys
+ from pathlib import Path
+-from tqdm.auto import tqdm
+ 
+ import torch
++import torch.nn as nn
+ import torch.nn.functional as F
+-from torchvision import transforms
+-
++from PIL import Image
+ from accelerate import Accelerator
+-from accelerate.logging import get_logger
+ from accelerate.utils import set_seed
+ from diffusers.optimization import get_scheduler
++from torchvision import transforms
++from tqdm.auto import tqdm
+ 
+-from dataset.font_dataset import FontDataset
+-from dataset.collate_fn import CollateFN
++REPO = Path(__file__).resolve().parents[4]
++sys.path.insert(0, str(REPO))
++from scripts.hrfont_delta_v2 import DeltaConfig, compute_alpha, feature_delta
++
+ from configs.fontdiffuser import get_parser
+-from src import (FontDiffuserModel,
+-                 ContentPerceptualLoss,
+-                 build_unet,
+-                 build_style_encoder,
+-                 build_content_encoder,
+-                 build_ddpm_scheduler,
+-                 build_scr)
+-from utils import (save_args_to_yaml,
+-                   x0_from_epsilon, 
+-                   reNormalize_img, 
+-                   normalize_mean_std)
++from dataset.collate_fn import CollateFN
++from dataset.font_dataset import FontDataset
++from src import (ContentPerceptualLoss, FontDiffuserModel, build_content_encoder,
++                 build_ddpm_scheduler, build_style_encoder, build_unet)
++from utils import normalize_mean_std, reNormalize_img, save_args_to_yaml, x0_from_epsilon
+ 
+ 
+-logger = get_logger(__name__)
+-
+ def get_args():
+-    parser = get_parser()
+-    args = parser.parse_args()
+-    env_local_rank = int(os.environ.get("LOCAL_RANK", -1))
+-    if env_local_rank != -1 and env_local_rank != args.local_rank:
+-        args.local_rank = env_local_rank
+-    style_image_size = args.style_image_size
+-    content_image_size = args.content_image_size
+-    args.style_image_size = (style_image_size, style_image_size)
+-    args.content_image_size = (content_image_size, content_image_size)
+-
++    args = get_parser().parse_args()
++    args.style_image_size = (args.style_image_size, args.style_image_size)
++    args.content_image_size = (args.content_image_size, args.content_image_size)
+     return args
+ 
+ 
+-def _find_latest_resume(output_dir: str) -> str | None:
+-    """Prefer last_state/, else highest global_step_* with trainer_state.pt."""
+-    last = Path(output_dir) / "last_state" / "trainer_state.pt"
+-    if last.is_file():
+-        return str(last.parent)
+-    cands = []
+-    for p in Path(output_dir).glob("global_step_*"):
+-        if (p / "trainer_state.pt").is_file() and (p / "unet.pth").is_file():
+-            try:
+-                step = int(p.name.split("_")[-1])
+-            except ValueError:
+-                continue
+-            cands.append((step, str(p)))
+-    if not cands:
+-        return None
+-    cands.sort()
+-    return cands[-1][1]
++def _load_image(path: str, resolution: int) -> torch.Tensor:
++    image = Image.open(path).convert("RGB")
++    if image.size != (resolution, resolution):
++        raise ValueError(f"expected native {resolution}x{resolution}: {path} ({image.size})")
++    return transforms.functional.normalize(transforms.functional.to_tensor(image), [0.5], [0.5])
+ 
+ 
+-def _save_trainable_ckpt(model, save_dir: str, optimizer, lr_scheduler, global_step, scaler=None):
+-    os.makedirs(save_dir, exist_ok=True)
+-    torch.save(model.unet.state_dict(), f"{save_dir}/unet.pth")
+-    torch.save(model.style_encoder.state_dict(), f"{save_dir}/style_encoder.pth")
+-    torch.save(model.content_encoder.state_dict(), f"{save_dir}/content_encoder.pth")
+-    state = {
+-        "global_step": global_step,
+-        "optimizer": optimizer.state_dict(),
+-        "lr_scheduler": lr_scheduler.state_dict(),
+-        "torch_rng": torch.get_rng_state(),
+-        "cuda_rng": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None,
+-        "numpy_seed_state": None,
+-    }
+-    try:
+-        import numpy as np
+-        state["numpy_seed_state"] = np.random.get_state()
+-    except Exception:
+-        pass
+-    try:
+-        import random as py_random
+-        state["python_rng"] = py_random.getstate()
+-    except Exception:
+-        pass
+-    if scaler is not None:
+-        state["scaler"] = scaler.state_dict()
+-    torch.save(state, f"{save_dir}/trainer_state.pt")
++def _load_unique(paths: list[str], resolution: int, device) -> tuple[list[str], torch.Tensor]:
++    unique = list(dict.fromkeys(paths))
++    return unique, torch.stack([_load_image(p, resolution) for p in unique]).to(device)
+ 
+ 
+-def _load_trainable_ckpt(model, resume_dir: str, optimizer, lr_scheduler, scaler=None):
+-    model.unet.load_state_dict(torch.load(f"{resume_dir}/unet.pth", map_location="cpu"))
+-    model.style_encoder.load_state_dict(torch.load(f"{resume_dir}/style_encoder.pth", map_location="cpu"))
+-    model.content_encoder.load_state_dict(torch.load(f"{resume_dir}/content_encoder.pth", map_location="cpu"))
+-    state_path = f"{resume_dir}/trainer_state.pt"
+-    global_step = 0
+-    if os.path.isfile(state_path):
+-        state = torch.load(state_path, map_location="cpu", weights_only=False)
+-        global_step = int(state.get("global_step", 0))
+-        if "optimizer" in state:
+-            optimizer.load_state_dict(state["optimizer"])
+-        if "lr_scheduler" in state:
+-            lr_scheduler.load_state_dict(state["lr_scheduler"])
+-        if scaler is not None and "scaler" in state:
+-            scaler.load_state_dict(state["scaler"])
+-        if state.get("torch_rng") is not None:
+-            torch.set_rng_state(state["torch_rng"])
+-        if state.get("cuda_rng") is not None and torch.cuda.is_available():
+-            torch.cuda.set_rng_state_all(state["cuda_rng"])
+-        if state.get("numpy_seed_state") is not None:
+-            import numpy as np
+-            np.random.set_state(state["numpy_seed_state"])
+-        if state.get("python_rng") is not None:
+-            import random as py_random
+-            py_random.setstate(state["python_rng"])
+-    return global_step
++@torch.no_grad()
++def _style_conditions(model, ref_paths: list[list[str]], resolution: int, device):
++    paths, images = _load_unique([p for refs in ref_paths for p in refs], resolution, device)
++    _, pooled, _ = model.style_encoder(images)
++    pooled = F.normalize(pooled.float(), dim=1)
++    by_path = {path: pooled[i] for i, path in enumerate(paths)}
++    per_ref = [torch.stack([by_path[p] for p in refs]) for refs in ref_paths]
++    return torch.stack([rows.mean(0) for rows in per_ref]), per_ref
+ 
+ 
+-def main():
++class _FeatureLookup(nn.Module):
++    """Expose one already-batched Ec pass through feature_delta's encoder contract."""
+ 
+-    args = get_args()
++    def __init__(self, final: torch.Tensor, residuals: list[torch.Tensor]):
++        super().__init__()
++        self.final = final
++        self.residuals = residuals
+ 
+-    logging_dir = f"{args.output_dir}/{args.logging_dir}"
++    def forward(self, index):
++        i = int(index.reshape(-1)[0])
++        return self.final[i:i + 1], [x[i:i + 1] for x in self.residuals]
+ 
+-    accelerator = Accelerator(
+-        gradient_accumulation_steps=args.gradient_accumulation_steps,
+-        mixed_precision=args.mixed_precision,
+-        log_with=args.report_to,
+-        project_dir=logging_dir)
+ 
+-    if accelerator.is_main_process:
+-        os.makedirs(args.output_dir, exist_ok=True)
+-    
+-    logging.basicConfig(
+-        filename=f"{args.output_dir}/fontdiffuser_training.log",
+-        datefmt="%m/%d/%Y %H:%M:%S",
+-        level=logging.INFO)
++def _cache_feature(cache: dict, font: str, cp: str) -> torch.Tensor:
++    key = (font, cp)
++    if key not in cache:
++        raise KeyError(f"Es cache missing {key}")
++    return cache[key].float()
+ 
+-    # Ser training seed
+-    if args.seed is not None:
+-        set_seed(args.seed)
+ 
+-    # Load model and noise_scheduler
+-    unet = build_unet(args=args)
+-    style_encoder = build_style_encoder(args=args)
+-    content_encoder = build_content_encoder(args=args)
+-    noise_scheduler = build_ddpm_scheduler(args)
+-    # cn2west_ft_v2: always load official/P1 weights when phase_1_ckpt_dir is set
+-    # (independent of phase_2 / SCR).
+-    if getattr(args, "phase_1_ckpt_dir", None):
+-        unet.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/unet.pth", map_location="cpu"))
+-        style_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/style_encoder.pth", map_location="cpu"))
+-        content_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/content_encoder.pth", map_location="cpu"))
+-        logger.info(f"Loaded P1 weights from {args.phase_1_ckpt_dir}")
++@torch.no_grad()
++def _structure_features(model, dataset, cache, samples, ref_rows, cfg, delta_draw, device):
++    fonts = samples["font_stem"]
++    chars = samples["char_cp"]
++    ref_chars = samples["ref_chars"]
++    ref_paths = samples["ref_image_paths"]
++    library = sorted(dataset.target_by_font_char)
++    b0_font = cfg.b0_font
++    if b0_font == "FZKTJW" and b0_font not in dataset.target_by_font_char:
++        b0_font = "FZFXKTJW"  # split_v3 physical stem for the FZKTJW font.
+ 
+-    model = FontDiffuserModel(
+-        unet=unet,
+-        style_encoder=style_encoder,
+-        content_encoder=content_encoder)
++    plans = []
++    all_paths = []
++    if cfg.rsi_source == "official":
++        for refs in ref_paths:
++            plans.append((refs[0],))
++            all_paths.append(refs[0])
++    elif cfg.delta_enabled:
++        alpha_cfg = DeltaConfig(tau=cfg.delta_tau, eps_alpha=cfg.delta_eps_alpha,
++                                k_max=cfg.delta_k_max, mode=cfg.delta_mode,
++                                rng_seed=cfg.seed)
++        for font, cp, rchars, query in zip(fonts, chars, ref_chars, ref_rows):
++            prototypes = torch.stack([
++                torch.stack([_cache_feature(cache, candidate, rcp) for rcp in rchars]).mean(0)
++                for candidate in library
++            ]).to(device)
++            exclude = library.index(font) if font in library else None
++            indices, weights, _ = compute_alpha(query, prototypes, exclude, alpha_cfg)
++            neighbor_paths = [dataset.target_path(library[i], cp) for i in indices]
++            neutral_path = dataset.target_path(b0_font, cp)
++            plans.append((neighbor_paths, weights, neutral_path))
++            all_paths.extend(neighbor_paths)
++            all_paths.append(neutral_path)
++    else:
++        return None
+ 
+-    # Build content perceptaual Loss
+-    perceptual_loss = ContentPerceptualLoss()
++    paths, images = _load_unique(all_paths, cfg.resolution, device)
++    final, residuals = model.content_encoder(images)
++    residuals = list(residuals)
++    lookup = _FeatureLookup(final, residuals)
++    path_index = {path: i for i, path in enumerate(paths)}
++    keys = [torch.tensor([[i]], device=device) for i in range(len(paths))]
+ 
+-    # Load SCR module for supervision
+-    if args.phase_2:
+-        scr = build_scr(args=args)
+-        scr.load_state_dict(torch.load(args.scr_ckpt_path))
+-        scr.requires_grad_(False)
++    if cfg.rsi_source == "official":
++        return [torch.cat([x[path_index[p]:path_index[p] + 1] for (p,) in plans])
++                for x in residuals + [final]]
+ 
+-    # A-protocol: native 96 PNG — ToTensor + Normalize only (no Resize).
+-    def _assert_native_size(img):
+-        w, h = img.size
+-        exp = args.resolution if isinstance(args.resolution, int) else args.resolution[0]
+-        if (w, h) != (exp, exp):
+-            raise ValueError(f"expected native {exp}x{exp}, got {img.size}")
+-        return img
++    example = residuals + [final]
++    sample_features = []
++    for dropped, (neighbors, weights, neutral) in zip(delta_draw, plans):
++        if bool(dropped) or not neighbors:
++            sample_features.append([torch.zeros_like(x[:1]) for x in example])
++            continue
++        sample_features.append(feature_delta(
++            lookup,
++            [keys[path_index[p]] for p in neighbors],
++            weights,
++            keys[path_index[neutral]],
++        ))
++    return [torch.cat([row[scale] for row in sample_features]) for scale in range(len(example))]
+ 
+-    content_transforms = transforms.Compose(
+-        [_assert_native_size,
+-         transforms.ToTensor(),
+-         transforms.Normalize([0.5], [0.5])])
+-    style_transforms = transforms.Compose(
+-        [_assert_native_size,
+-         transforms.ToTensor(),
+-         transforms.Normalize([0.5], [0.5])])
+-    target_transforms = transforms.Compose(
+-        [_assert_native_size,
+-         transforms.ToTensor(),
+-         transforms.Normalize([0.5], [0.5])])
+-    train_font_dataset = FontDataset(
+-        args=args,
+-        phase='train', 
+-        transforms=[
+-            content_transforms, 
+-            style_transforms, 
+-            target_transforms],
+-        scr=args.phase_2)
+-    train_dataloader = torch.utils.data.DataLoader(
+-        train_font_dataset, shuffle=True, batch_size=args.train_batch_size, collate_fn=CollateFN())
+-    
+-    # Build optimizer and learning rate
+-    if args.scale_lr:
+-        args.learning_rate = (
+-            args.learning_rate * args.gradient_accumulation_steps * args.train_batch_size * accelerator.num_processes)
+-    optimizer = torch.optim.AdamW(
+-        model.parameters(),
+-        lr=args.learning_rate,
+-        betas=(args.adam_beta1, args.adam_beta2),
+-        weight_decay=args.adam_weight_decay,
+-        eps=args.adam_epsilon)
+-    lr_scheduler = get_scheduler(
+-        args.lr_scheduler,
+-        optimizer=optimizer,
+-        num_warmup_steps=args.lr_warmup_steps * args.gradient_accumulation_steps,
+-        num_training_steps=args.max_train_steps * args.gradient_accumulation_steps,)
+ 
+-    # Accelerate preparation
+-    model, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
+-        model, optimizer, train_dataloader, lr_scheduler)
+-    ## move scr module to the target deivces
+-    if args.phase_2:
+-        scr = scr.to(accelerator.device)
++def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int):
++    directory.mkdir(parents=True, exist_ok=True)
++    torch.save(model.unet.state_dict(), directory / "unet.pth")
++    torch.save(model.style_encoder.state_dict(), directory / "style_encoder.pth")
++    torch.save(model.content_encoder.state_dict(), directory / "content_encoder.pth")
++    torch.save({}, directory / "delta_layers.pth")  # Direct Ec features need no adapter.
++    torch.save({"step": step, "optimizer": optimizer.state_dict(),
++                "scheduler": scheduler.state_dict()}, directory / "trainer_state.pt")
+ 
+-    # Resolve resume (crash recovery / watchdog) — same hyperparams, no degradation.
+-    resume_dir = getattr(args, "resume_from", None) or None
+-    if resume_dir in (None, "", "auto"):
+-        resume_dir = _find_latest_resume(args.output_dir)
+-    global_step = 0
+-    if resume_dir:
+-        # unwrap for attribute access after prepare
+-        raw = accelerator.unwrap_model(model)
+-        global_step = _load_trainable_ckpt(raw, resume_dir, optimizer, lr_scheduler)
+-        logger.info(f"Resumed from {resume_dir} at global_step={global_step}")
+-        print(f"Resumed from {resume_dir} at global_step={global_step}", flush=True)
+ 
+-    # The trackers initializes automatically on the main process.
++def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None) -> int:
++    model.unet.load_state_dict(torch.load(directory / "unet.pth", map_location="cpu"))
++    model.style_encoder.load_state_dict(torch.load(directory / "style_encoder.pth", map_location="cpu"))
++    model.content_encoder.load_state_dict(torch.load(directory / "content_encoder.pth", map_location="cpu"))
++    state_path = directory / "trainer_state.pt"
++    if not state_path.is_file():
++        return 0
++    state = torch.load(state_path, map_location="cpu", weights_only=False)
++    if optimizer is not None:
++        optimizer.load_state_dict(state["optimizer"])
++    if scheduler is not None:
++        scheduler.load_state_dict(state["scheduler"])
++    return int(state.get("step", state.get("global_step", 0)))
++
++
++def _record_config(args):
++    out = Path(args.output_dir)
++    save_args_to_yaml(args, out / f"{args.experience_name}_config.yaml")
++    if args.config_path:
++        copied = out / "input_config.yaml"
++        shutil.copy2(args.config_path, copied)
++        digest = hashlib.sha256(copied.read_bytes()).hexdigest()
++    else:
++        digest = "none"
++    sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, check=True,
++                         capture_output=True, text=True).stdout.strip()
++    (out / "run_note.txt").write_text(f"git_sha={sha} config_sha256={digest}\n", encoding="utf-8")
++
++
++def main():
++    args = get_args()
++    accelerator = Accelerator(gradient_accumulation_steps=args.gradient_accumulation_steps,
++                              mixed_precision=args.mixed_precision,
++                              log_with=args.report_to,
++                              project_dir=str(Path(args.output_dir) / args.logging_dir))
++    if args.seed is not None:
++        set_seed(args.seed)
+     if accelerator.is_main_process:
+-        accelerator.init_trackers(args.experience_name)
+-        save_args_to_yaml(args=args, output_file=f"{args.output_dir}/{args.experience_name}_config.yaml")
++        Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+ 
+-    # Only show the progress bar once on each machine.
+-    progress_bar = tqdm(range(args.max_train_steps), disable=not accelerator.is_local_main_process, initial=global_step)
+-    progress_bar.set_description("Steps")
++    model = FontDiffuserModel(unet=build_unet(args),
++                              style_encoder=build_style_encoder(args),
++                              content_encoder=build_content_encoder(args))
++    if args.phase_1_ckpt_dir:
++        _load_checkpoint(model, Path(args.phase_1_ckpt_dir))
++    if args.freeze_encoders:
++        model.style_encoder.requires_grad_(False).eval()
++        model.content_encoder.requires_grad_(False).eval()
+ 
+-    # Convert to the training epoch
+-    num_update_steps_per_epoch = math.ceil(len(train_dataloader) / args.gradient_accumulation_steps)
+-    num_train_epochs = math.ceil(args.max_train_steps / num_update_steps_per_epoch)
+-    state_interval = int(getattr(args, "state_interval", 1000) or 1000)
++    trainable = [p for p in model.parameters() if p.requires_grad]
++    optimizer = torch.optim.AdamW(trainable, lr=args.learning_rate,
++                                  betas=(args.adam_beta1, args.adam_beta2),
++                                  weight_decay=args.adam_weight_decay,
++                                  eps=args.adam_epsilon)
++    scheduler = get_scheduler(args.lr_scheduler, optimizer=optimizer,
++                              num_warmup_steps=args.lr_warmup_steps,
++                              num_training_steps=args.max_train_steps)
++    noise_scheduler = build_ddpm_scheduler(args)
++    perceptual_loss = ContentPerceptualLoss()
+ 
+-    for epoch in range(num_train_epochs):
+-        train_loss = 0.0
+-        for step, samples in enumerate(train_dataloader):
++    def native(image):
++        if image.size != (args.resolution, args.resolution):
++            raise ValueError(f"expected native {args.resolution}x{args.resolution}, got {image.size}")
++        return image
++
++    normalized = transforms.Compose([native, transforms.ToTensor(),
++                                     transforms.Normalize([0.5], [0.5])])
++    dataset = FontDataset(args, "train", [normalized, normalized, normalized], scr=False)
++    loader = torch.utils.data.DataLoader(dataset, shuffle=True,
++                                         batch_size=args.train_batch_size,
++                                         collate_fn=CollateFN())
++    cache = torch.load(args.es_cache_path, map_location="cpu", weights_only=False)
++    if isinstance(cache, dict) and "features" in cache:
++        cache = cache["features"]
++
++    model, optimizer, loader, scheduler = accelerator.prepare(model, optimizer, loader, scheduler)
++    raw = accelerator.unwrap_model(model)
++    global_step = _load_checkpoint(raw, Path(args.resume_from), optimizer, scheduler) \
++        if args.resume_from else 0
++    if accelerator.is_main_process:
++        accelerator.init_trackers(args.experience_name)
++        _record_config(args)
++
++    progress = tqdm(range(args.max_train_steps), initial=global_step,
++                    disable=not accelerator.is_local_main_process)
++    epochs = math.ceil(args.max_train_steps / max(1, len(loader)))
++    for _ in range(epochs):
++        for samples in loader:
+             if global_step >= args.max_train_steps:
+                 break
+             model.train()
+-            content_images = samples["content_image"]
+-            style_images = samples["style_image"]
+-            target_images = samples["target_image"]
+-            nonorm_target_images = samples["nonorm_target_image"]
+-            
++            raw.style_encoder.eval()
++            raw.content_encoder.eval()
++            target = samples["target_image"]
++            content = samples["content_image"].clone()
++            nonorm_target = samples["nonorm_target_image"]
++            bsz = target.shape[0]
++
+             with accelerator.accumulate(model):
+-                # Sample noise that we'll add to the samples
+-                noise = torch.randn_like(target_images)
+-                bsz = target_images.shape[0]
+-                # Sample a random timestep for each image
+-                timesteps = torch.randint(0, noise_scheduler.num_train_timesteps, (bsz,), device=target_images.device)
+-                timesteps = timesteps.long()
++                with torch.no_grad():
++                    style, ref_rows = _style_conditions(raw, samples["ref_image_paths"],
++                                                        args.resolution, target.device)
++                    delta_draw = torch.rand(bsz, device=target.device) < args.delta_drop
++                    structure = _structure_features(raw, dataset, cache, samples, ref_rows,
++                                                    args, delta_draw, target.device)
++                    cfg_mask = torch.rand(bsz, device=target.device) < args.drop_prob
++                    content[cfg_mask] = 0
++                    style[cfg_mask] = 0
+ 
+-                # Add noise to the target_images according to the noise magnitude at each timestep
+-                # (this is the forward diffusion process)
+-                noisy_target_images = noise_scheduler.add_noise(target_images, noise, timesteps)
+-
+-                # Classifier-free training strategy
+-                context_mask = torch.bernoulli(torch.zeros(bsz) + args.drop_prob)
+-                for i, mask_value in enumerate(context_mask):
+-                    if mask_value==1:
+-                        content_images[i, :, :, :] = 1
+-                        style_images[i, :, :, :] = 1
+-
+-                # Predict the noise residual and compute loss
+-                noise_pred, offset_out_sum = model(
+-                    x_t=noisy_target_images, 
+-                    timesteps=timesteps, 
+-                    style_images=style_images,
+-                    content_images=content_images,
++                noise = torch.randn_like(target)
++                timesteps = torch.randint(0, noise_scheduler.num_train_timesteps,
++                                          (bsz,), device=target.device).long()
++                noisy = noise_scheduler.add_noise(target, noise, timesteps)
++                noise_pred, offset_sum = model(
++                    x_t=noisy, timesteps=timesteps, content_images=content,
++                    style_features=style, structure_features=structure,
+                     content_encoder_downsample_size=args.content_encoder_downsample_size)
+-                diff_loss = F.mse_loss(noise_pred.float(), noise.float(), reduction="mean")
+-                offset_loss = offset_out_sum / 2
+-                
+-                # output processing for content perceptual loss
+-                pred_original_sample_norm = x0_from_epsilon(
+-                    scheduler=noise_scheduler,
+-                    noise_pred=noise_pred,
+-                    x_t=noisy_target_images,
+-                    timesteps=timesteps)
+-                pred_original_sample = reNormalize_img(pred_original_sample_norm)
+-                norm_pred_ori = normalize_mean_std(pred_original_sample)
+-                norm_target_ori = normalize_mean_std(nonorm_target_images)
+-                percep_loss = perceptual_loss.calculate_loss(
+-                    generated_images=norm_pred_ori,
+-                    target_images=norm_target_ori,
+-                    device=target_images.device)
+-                
+-                loss = diff_loss + \
+-                        args.perceptual_coefficient * percep_loss + \
+-                            args.offset_coefficient * offset_loss
+-                
+-                if args.phase_2:
+-                    neg_images = samples["neg_images"]
+-                    # sc loss
+-                    sample_style_embeddings, pos_style_embeddings, neg_style_embeddings = scr(
+-                        pred_original_sample_norm, 
+-                        target_images, 
+-                        neg_images, 
+-                        nce_layers=args.nce_layers)
+-                    sc_loss = scr.calculate_nce_loss(
+-                        sample_s=sample_style_embeddings,
+-                        pos_s=pos_style_embeddings,
+-                        neg_s=neg_style_embeddings)
+-                    loss += args.sc_coefficient * sc_loss
+-
+-                # Gather the losses across all processes for logging (if we use distributed training).
+-                avg_loss = accelerator.gather(loss.repeat(args.train_batch_size)).mean()
+-                train_loss += avg_loss.item() / args.gradient_accumulation_steps
+-
+-                # Backpropagate
++                diffusion = F.mse_loss(noise_pred.float(), noise.float())
++                x0_norm = x0_from_epsilon(noise_scheduler, noise_pred, noisy, timesteps)
++                x0 = reNormalize_img(x0_norm)
++                perceptual = perceptual_loss.calculate_loss(
++                    normalize_mean_std(x0), normalize_mean_std(nonorm_target), target.device)
++                loss = diffusion + args.perceptual_coefficient * perceptual + \
++                    args.offset_coefficient * (offset_sum / 2)
+                 accelerator.backward(loss)
+                 if accelerator.sync_gradients:
+-                    accelerator.clip_grad_norm_(model.parameters(), args.max_grad_norm)
++                    accelerator.clip_grad_norm_(trainable, args.max_grad_norm)
+                 optimizer.step()
+-                lr_scheduler.step()
++                scheduler.step()
+                 optimizer.zero_grad()
+ 
+-            # Checks if the accelerator has performed an optimization step behind the scenes
+             if accelerator.sync_gradients:
+-                progress_bar.update(1)
+                 global_step += 1
+-                accelerator.log({"train_loss": train_loss}, step=global_step)
+-                train_loss = 0.0
+-
+-                if accelerator.is_main_process:
+-                    raw = accelerator.unwrap_model(model)
+-                    if global_step % args.ckpt_interval == 0:
+-                        save_dir = f"{args.output_dir}/global_step_{global_step}"
+-                        _save_trainable_ckpt(raw, save_dir, optimizer, lr_scheduler, global_step)
+-                        logging.info(f"[{time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))}] Save the checkpoint on global step {global_step}")
+-                        print("Save the checkpoint on global step {}".format(global_step), flush=True)
+-                    if state_interval > 0 and global_step % state_interval == 0:
+-                        _save_trainable_ckpt(raw, f"{args.output_dir}/last_state", optimizer, lr_scheduler, global_step)
+-                        print(f"Save last_state at global step {global_step}", flush=True)
+-
+-            logs = {"step_loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
++                progress.update(1)
++                accelerator.log({"train_loss": loss.detach().item()}, step=global_step)
++                if accelerator.is_main_process and global_step % args.ckpt_interval == 0:
++                    _save_checkpoint(raw, Path(args.output_dir) / f"global_step_{global_step}",
++                                     optimizer, scheduler, global_step)
++                    _save_checkpoint(raw, Path(args.output_dir) / "last_state",
++                                     optimizer, scheduler, global_step)
+             if global_step % args.log_interval == 0:
+-                logging.info(f"[{time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))}] Global Step {global_step} => train_loss = {loss}")
+-            progress_bar.set_postfix(**logs)
+-            
+-            # Quit
+-            if global_step >= args.max_train_steps:
+-                break
++                progress.set_postfix(loss=float(loss.detach()), lr=scheduler.get_last_lr()[0])
+         if global_step >= args.max_train_steps:
+             break
+ 
+-    # Final crash-recovery snapshot at completion
+     if accelerator.is_main_process:
+-        raw = accelerator.unwrap_model(model)
+-        _save_trainable_ckpt(raw, f"{args.output_dir}/last_state", optimizer, lr_scheduler, global_step)
+-        done = Path(args.output_dir) / "DONE.json"
+-        done.write_text(
+-            f'{{"global_step": {global_step}, "max_train_steps": {args.max_train_steps}, "status": "completed"}}\n',
+-            encoding="utf-8",
+-        )
+-        print(f"TRAINING COMPLETED at step {global_step}", flush=True)
+-
++        _save_checkpoint(raw, Path(args.output_dir) / "last_state", optimizer, scheduler, global_step)
++        (Path(args.output_dir) / "DONE.json").write_text(
++            f'{{"global_step": {global_step}, "status": "completed"}}\n', encoding="utf-8")
+     accelerator.end_training()
++
+ 
+ if __name__ == "__main__":
+     main()
