@@ -11,7 +11,7 @@
 - **训练协议已定**：仅 **A**；池 **260=228/16/16**；drop `FZXianZTJW`。
 - **E1 冻结**：seed **3407 only**；**GPU3**；**bs=8 / accum=1**；100k；lr=1e-5；warmup=5k；fp16；SCR off。
 - **入口**：`configs/e1_ft_v2_a_s3407.yaml` · `scripts/launch_cn2west_ft_v2_e1.py` · `code/variants/cn2west_ft_v2/`
-- **看板**：本机 http://127.0.0.1:8777/e1_ft_v2_dashboard/（train/val loss + 多时间步 Pred 对比；`runs/` 不进 Git）。
+- **看板**：训练机实时 http://127.0.0.1:8777/e1_ft_v2_dashboard/；合作者看 Git 快照 `reports/e1_ft_v2_dashboard/`（`bash scripts/publish_e1_dashboard.sh` 后推送）。
 - **冒烟**：`runs/smoke-E1-FTV2-*` 20 step @ bs=8 **已通过**。
 
 ## 下一步

@@ -24,3 +24,6 @@
 *.log
 *.zip
 code/**/ckpt
+
+# Live training-machine symlink into runs/viz (collaborators use reports/e1_ft_v2_dashboard)
+/data/e1_ft_v2_dashboard

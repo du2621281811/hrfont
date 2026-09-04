@@ -54,9 +54,13 @@ a{color:#1f4a6f} h1{font-size:1.4rem} .card{display:block;border:1px solid #d5db
 </a>
 
 <a class="card" href="e1_ft_v2_dashboard/">
-  <b>E1 FT-v2 训练看板</b>
-  <div class="s">loss 曲线 · val/test 样本（Content/Style/GT/Pred）· 随 checkpoint 更新</div>
+  <b>E1 FT-v2 训练看板（训练机实时）</b>
+  <div class="s">本机 symlink → runs/viz · train/val loss · 多时间步 Pred · 不进 Git</div>
 </a>
+<p class="note">合作者请看仓库内快照：<code>reports/e1_ft_v2_dashboard/</code> ·
+<code>python -m http.server 8777 --directory reports</code> →
+<a href="http://127.0.0.1:8777/e1_ft_v2_dashboard/">http://127.0.0.1:8777/e1_ft_v2_dashboard/</a>
+（或 GitHub Pages，见 Issue / PROJECT）</p>
 
 </body>
 </html>

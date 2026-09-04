@@ -41,5 +41,6 @@
 | R0 ink 审查 | `data/cn2west_v2_abc_review/proto_A_ink/review.html` |
 | Ink 阈值 | `reports/R0_INK_GATE_PROPOSAL.md`（**已冻结**） |
 | Split v3 | `manifests/split_v3_228_16_16.json`（228/16/16） |
-| E1 训练看板 | 本机 `http://127.0.0.1:8777/e1_ft_v2_dashboard/`（`runs/` 产物，不进 Git） |
+| E1 训练看板（Git 快照） | `reports/e1_ft_v2_dashboard/` · `python -m http.server 8777 --directory reports` → http://127.0.0.1:8777/e1_ft_v2_dashboard/ |
+| E1 训练看板（训练机实时） | 仅训练机：`data/e1_ft_v2_dashboard` → `runs/.../viz`（不进 Git） |
 | 字库语种浏览 | `reports/charset_picker/`（`python scripts/serve_charset_picker.py` → :8766） |
