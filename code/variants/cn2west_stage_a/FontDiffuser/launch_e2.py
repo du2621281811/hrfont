@@ -53,7 +53,12 @@ def main() -> int:
         print(f"output already completed: {output}", file=sys.stderr)
         return 0
     has_ckpt = last_state.exists() or any(output.glob("global_step_*")) if output.exists() else False
+    ignore = {"logs", "watchdog.log", "watchdog_train.log"}
     if output.exists() and not (output / "STOP").exists() and not has_ckpt:
+        leftover = [p.name for p in output.iterdir() if p.name not in ignore]
+        if leftover:
+            print(f"output exists without checkpoint (failed smoke?); remove it first: {output}", file=sys.stderr)
+            return 2
         leftover = [p.name for p in output.iterdir() if p.name not in {"logs"}]
         if leftover:
             print(f"output exists without checkpoint (failed smoke?); remove it first: {output}", file=sys.stderr)

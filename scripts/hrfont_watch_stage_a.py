@@ -62,6 +62,9 @@ def main() -> int:
         if proc.returncode == 0:
             log(watch_log, "launcher returned 0 without DONE; stop")
             return 1
+        if proc.returncode == 2:
+            log(watch_log, "launcher preflight rc=2; not retrying")
+            return 2
         tail = train_log.read_text(encoding="utf-8", errors="replace")[-8000:]
         oom = "out of memory" in tail.lower() or "CUDA out of memory" in tail
         restarts += 1
