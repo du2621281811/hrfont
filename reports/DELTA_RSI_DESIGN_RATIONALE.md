@@ -68,7 +68,7 @@ Delta 则由**同一个目标字符 c** 的近邻字体特征减去中性特征�
 
 #### (b) B₀ 是不是直接使用 Content 图？为什么保留两个中性字体？
 
-不是：`Content` 是 **Noto Sans CJK Regular** 上目标字符 $c$ 的 A 渲染，送入 $E_c(C)$ 作为 MCA/Identity 条件；`B_0` 是 **FZKTJW/FZFXKTJW** 上同一字符 $c$ 的 A 渲染，专门作为 Δ 减数，并统一 RS-gap 与 Support 的结构坐标（[`.cursor/rules/hrfont-execution-spec.mdc:15`](../.cursor/rules/hrfont-execution-spec.mdc#L15)、[`23`](../.cursor/rules/hrfont-execution-spec.mdc#L23)–[`26`](../.cursor/rules/hrfont-execution-spec.mdc#L26)）。两者都是“中性同字”，但职责不同：Content 沿 official/FT-v2 的 Noto 数据约定以保持身份输入和基线可比；B₀ 沿已冻结的 FZKTJW 结构域，使 Δ、gap、support 共用一个不随目标字体变化的原点（[`reports/EXPERIMENT_PLAN_CN2WEST_V2.md:26`](./EXPERIMENT_PLAN_CN2WEST_V2.md#L26)–[`30`](./EXPERIMENT_PLAN_CN2WEST_V2.md#L30)）。概念上可以令 `B₀=Content`，减法与零模式仍成立，并不存在理论禁忌；但这会同时更换 Δ 原点、RS-gap/support 坐标和现有 cache/SHA，不能在主实验中无痕替换，否则破坏 matched 比较。若要统一，应作为独立消融重建全链路产物，而不是把两者在论文符号或数据加载中混称为同一张图。
+不是：`Content` 是 **Noto Sans CJK Regular** 上目标字符 $c$ 的 A 渲染，送入 $E_c(C)$ 作为 MCA/Identity 条件；`B_0` 现已统一为 **Noto ContentImage**（合作者 2026-09-04 决策）：Δ 减数与 Content/Identity 输入是同一张 Noto 同字渲染，并统一 RS-gap 与 Support 的结构坐标（[`.cursor/rules/hrfont-execution-spec.mdc:15`](../.cursor/rules/hrfont-execution-spec.mdc#L15)、[`23`](../.cursor/rules/hrfont-execution-spec.mdc#L23)–[`26`](../.cursor/rules/hrfont-execution-spec.mdc#L26)）。两者都是“中性同字”，但职责不同：Content 沿 official/FT-v2 的 Noto 数据约定以保持身份输入和基线可比；B₀ 沿已冻结的 FZKTJW 结构域，使 Δ、gap、support 共用一个不随目标字体变化的原点（[`reports/EXPERIMENT_PLAN_CN2WEST_V2.md:26`](./EXPERIMENT_PLAN_CN2WEST_V2.md#L26)–[`30`](./EXPERIMENT_PLAN_CN2WEST_V2.md#L30)）。概念上可以令 `B₀=Content`，减法与零模式仍成立，并不存在理论禁忌；但这会同时更换 Δ 原点、RS-gap/support 坐标和现有 cache/SHA，不能在主实验中无痕替换，否则破坏 matched 比较。若要统一，应作为独立消融重建全链路产物，而不是把两者在论文符号或数据加载中混称为同一张图。
 
 #### (c) 风格邻居究竟按什么找？Es 不准怎么办？
 

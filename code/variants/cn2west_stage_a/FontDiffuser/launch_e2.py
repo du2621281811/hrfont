@@ -46,7 +46,7 @@ def main() -> int:
         "--experience_name", run_id, "--output_dir", str(output),
         "--data_root", str(ROOT / data["root"]),
         "--split_manifest", str(ROOT / data["split_manifest"]),
-        "--excluded", *data["excluded"], "--b0_font", data["b0_font"],
+        "--excluded", *data["excluded"],
         "--es_cache_path", str(cache), "--phase_1_ckpt_dir", str(init_dir),
         "--rsi_source", model["rsi_source"],
         "--delta_tau", str(delta["tau"]), "--delta_eps_alpha", str(delta["eps_alpha"]),

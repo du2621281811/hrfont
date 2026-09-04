@@ -41,7 +41,6 @@ def get_parser():
     parser.add_argument("--nshot_max", type=int, default=8)
     parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
     parser.add_argument("--es_cache_path", type=str, default="artifacts/e2/es_per_font_char_e1_best.pt")
-    parser.add_argument("--b0_font", type=str, default="FZKTJW")
     parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
     parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
     parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)

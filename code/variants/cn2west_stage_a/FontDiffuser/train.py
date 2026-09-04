@@ -87,9 +87,6 @@ def _structure_features(model, dataset, cache, samples, ref_rows, cfg, delta_dra
     ref_chars = samples["ref_chars"]
     ref_paths = samples["ref_image_paths"]
     library = sorted(dataset.target_by_font_char)
-    b0_font = cfg.b0_font
-    if b0_font == "FZKTJW" and b0_font not in dataset.target_by_font_char:
-        b0_font = "FZFXKTJW"  # split_v3 physical stem for the FZKTJW font.
 
     plans = []
     all_paths = []
@@ -109,7 +106,8 @@ def _structure_features(model, dataset, cache, samples, ref_rows, cfg, delta_dra
             exclude = library.index(font) if font in library else None
             indices, weights, _ = compute_alpha(query, prototypes, exclude, alpha_cfg)
             neighbor_paths = [dataset.target_path(library[i], cp) for i in indices]
-            neutral_path = dataset.target_path(b0_font, cp)
+            # B0 = Noto ContentImage (same render as the Identity/MCA input).
+            neutral_path = dataset.content_path(cp)
             plans.append((neighbor_paths, weights, neutral_path))
             all_paths.extend(neighbor_paths)
             all_paths.append(neutral_path)

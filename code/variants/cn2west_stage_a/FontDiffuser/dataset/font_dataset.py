@@ -99,6 +99,12 @@ class FontDataset(Dataset):
             raise FileNotFoundError(f"ContentImage missing: {path}")
         return Image.open(path).convert("RGB")
 
+    def content_path(self, content_cp: str) -> str:
+        path = self.root / self.phase / "ContentImage" / f"{content_cp}.png"
+        if not path.exists():
+            raise FileNotFoundError(f"ContentImage missing: {path}")
+        return str(path)
+
     def target_path(self, font: str, content_cp: str) -> str:
         try:
             return str(self.target_by_font_char[font][content_cp])

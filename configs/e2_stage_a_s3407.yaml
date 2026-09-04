@@ -16,7 +16,6 @@ data:
   format: RGB_PNG
   resize: false
   content_font: NotoSansCJK-Regular
-  b0_font: FZKTJW
   style_pool_size: 338
   es_cache_path: artifacts/e2/es_per_font_char_e1_best.pt
 model:
