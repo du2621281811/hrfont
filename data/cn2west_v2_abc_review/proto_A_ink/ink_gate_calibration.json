@@ -1,0 +1,19 @@
+{
+  "status": "frozen_by_PI",
+  "frozen_at": "2026-09-03T17:47:38.201455+00:00",
+  "primary_metric": "mean_ink_ratio=mean(ink_bbox_area/96^2)",
+  "absolute_mean_bbox": 0.2,
+  "ink_threshold_T": 250,
+  "split_id": "cn2west-v3-228-16-16",
+  "split_ratio": {
+    "train": 228,
+    "val": 16,
+    "test": 16,
+    "total": 260
+  },
+  "excluded_fonts": [
+    "FZXianZTJW"
+  ],
+  "training_glyph_area_hard_threshold": null,
+  "note": "Font gate only; no per-glyph bbox<0.20 training filter."
+}

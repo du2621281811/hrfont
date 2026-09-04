@@ -8,6 +8,8 @@
 |----|----------|------|------|
 | `fontdiffuser42-cnstyle-v1` | `provenance/datasets/fontdiffuser42-cnstyle-v1.json` | frozen | 42 字体历史盘；勿覆盖 |
 | `fontdiffuser_p253`（磁盘名） | **缺失** | legacy_untracked | summary 与磁盘 Style 计数不一致；不得直接当新基模数据 |
+| `fontdiffuser-p253-…-cn2west-v2`（磁盘名） | `manifests/split_v3_228_16_16.json` | **active_transition** | 盘上已是 **228/16/16** + excluded；正式 ID 待发 **p260** |
+| `fontdiffuser-p260-…-v2a-r1-*` | TBD | **planned** | 正式发布名；勿与旧 237/16/8 / p261 混用 |
 
 ## Code variants
 
@@ -15,7 +17,7 @@
 |----|------|---------------|------|
 | `official` | `code/official/FontDiffuser/` | — | frozen 只读 |
 | `ours-legacy` | `code/ours/FontDiffuser/` | `docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff` | frozen 历史恢复 |
-| `cn2west_ft_v2` | `code/variants/cn2west_ft_v2/` | TBD | **planned** 新基模最小补丁 |
+| `cn2west_ft_v2` | `code/variants/cn2west_ft_v2/` | `docs/patches/cn2west_ft_v2.diff` | **active**（E1 满训中） |
 
 ## Experiments / Runs
 
@@ -25,4 +27,5 @@
 | `FT-P253-CNSTYLE-12K` | **缺失** | legacy | 同上；Style 池当时版本存疑 |
 | `A-MVP-CONTROL` | `provenance/runs/A-MVP-CONTROL.json` | `retro_partial` | `PROJECT.md` Stage A |
 | `A-MVP-DELTA` | `provenance/runs/A-MVP-DELTA.json` | `retro_partial` | `PROJECT.md` Stage A |
-| `FT-P251-REF8-CN2WEST-V2` | TBD | **planned** | 新 200+ 基模（待确认后开） |
+| `E1-FTV2-A-S3407` | TBD（训完补） | **running** ~92k/100k | `PROJECT.md`；看板本机 `e1_ft_v2_dashboard/` |
+| `FT-P260-A-CN2WEST-V2` | alias / planned formal ID | 同 E1 数据协议 | 正式 p260 指纹待发 |

@@ -16,4 +16,5 @@ code/variants/   → 新实验专用最小树，从 official 派生
 
 ## 计划中的变体
 
-- `cn2west_ft_v2`：CN→West 基模微调最小补丁（StyleImage + 官方权重加载 + resume/路径护栏；**无** Stroke-SCR）。
+- `cn2west_ft_v2`：CN→West 基模微调最小补丁（StyleImage PNG、无 Resize、P1 热启、SCR off）。  
+  启动：`python scripts/launch_cn2west_ft_v2_e1.py --smoke` / `--yes`

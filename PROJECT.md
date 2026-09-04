@@ -7,19 +7,18 @@
 
 ## 当前状态
 
-- **阶段**：**R0**（协议 A + ink-ratio 人工审查门），**尚未开训**。
-- **训练协议已定**：仅 **A**（96×96，margin 6，inner≤84，逐字体固定 fs，textbbox，无 resize）。B/C/D/F/H 只作对比，不进训练。
-- **目标数据 ID**：`fontdiffuser-p261-t295-s338-cn2west-v2a-r1-<manifest8>`（当前盘目录仍名 p253；261=237/16/8）。
-- **方向已定**：FT-v2 从官方 P1 在 A/train 上微调；从 `code/official` 派生最小补丁；不在 `code/ours` 堆功能。
-- **暂停**：Stage B、RS-Gap、Support、4/8-shot、256；未收到明确开训指令前不开长训。
-- **历史**：Stage A MVP = `INCONCLUSIVE`；`FT-CNSTYLE-25K` / `FT-P253` 为旧证据（部分 `retro_partial`）。
+- **阶段**：**E1 满训进行中**（`E1-FTV2-A-S3407`，watchdog 托管，约 **92k / 100k**）。
+- **训练协议已定**：仅 **A**；池 **260=228/16/16**；drop `FZXianZTJW`。
+- **E1 冻结**：seed **3407 only**；**GPU3**；**bs=8 / accum=1**；100k；lr=1e-5；warmup=5k；fp16；SCR off。
+- **入口**：`configs/e1_ft_v2_a_s3407.yaml` · `scripts/launch_cn2west_ft_v2_e1.py` · `code/variants/cn2west_ft_v2/`
+- **看板**：本机 http://127.0.0.1:8777/e1_ft_v2_dashboard/（train/val loss + 多时间步 Pred 对比；`runs/` 不进 Git）。
+- **冒烟**：`runs/smoke-E1-FTV2-*` 20 step @ bs=8 **已通过**。
 
-## 下一步（R0 → 开训前）
+## 下一步
 
-1. **PI 确认** ink 字体门阈值（草案：`mean_ink_ratio`/`mean_bbox` **&lt; 0.20**）→ [`reports/R0_INK_GATE_PROPOSAL.md`](reports/R0_INK_GATE_PROPOSAL.md)。
-2. 完成 `pass/drop/rerender` 双人审查；回写 `ink_review_decisions.jsonl`；冻结 `ink_gate_calibration.json`。
-3. 发布正式 p261 manifest（仅 pass；`excluded_fonts[]`）；登记 provenance。
-4. 建立 `code/variants/cn2west_ft_v2/` → preflight → 开训（另令）。
+1. 等 E1 到 100k → 写 `provenance/runs/E1-FTV2-A-S3407.json` + 回填结论
+2. （可选）清僵尸显存后再议 `bs=16` 复现实验
+3. 正式 p260 manifest/SHA 可并行补登记
 
 ## 实现边界
 
@@ -35,7 +34,7 @@
 | `FT-CNSTYLE-25K` | `retro_partial` | 42 字体历史 FT |
 | `FT-P253-CNSTYLE-12K` | legacy，provenance 缺失 | 253 字体；Style 池存疑 |
 | `A-MVP-CONTROL` / `A-MVP-DELTA` | 完成，`INCONCLUSIVE` | Stage A 因果早筛 |
-| `FT-P261-A-CN2WEST-V2` | planned | R0 后正式 A 盘 FT-v2（待审查冻结） |
+| `FT-P260-A-CN2WEST-V2` | planned | R0 后正式 A 盘 FT-v2（228/16/16） |
 
 完整表见 `provenance/REGISTRY.md`。
 
@@ -49,8 +48,10 @@
 
 ## 数据集准备：cn2west v2 渲染协议 A–H
 
-261 个方正字体 × 295 target + 338 style 字符，train/val/test = 237/16/8。  
-字符集：`manifests/charset_cn2west_v2_planned.json`；字体拆分：`manifests/pipeline_v2_*_stems_v2.txt`。  
+**活跃池 260 字体**（已 drop `FZXianZTJW`）× 295 target + 338 style；**train/val/test = 228/16/16**。  
+字符集：`manifests/charset_cn2west_v2_planned.json`；  
+拆分真源：`manifests/pipeline_v3_{train,val,test}_stems.txt`（`pipeline_v2_*_stems_v2.txt` 已同步为同一内容）；  
+拆分 provenance：`manifests/split_v3_228_16_16.json`（旧 237/16/8 备份为 `*.bak_*.txt`）。  
 ContentImage 统一使用 Noto Sans CJK Regular，按各协议对应逻辑渲染。
 
 ### 协议规格
@@ -108,8 +109,9 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
   - 重建：`python scripts/build_cn2west_v2_proto_a_ink_preview.py`
 - A vs H 对比：`data/cn2west_v2_abc_review/proto_AH_compare/`
 
-**A 墨量摘要（165,213 张）**：边长 median≈75%；**框面积** median≈48%、字形 p5≈19.9%。字体 `mean_bbox`：median≈47.9%，train P5≈31.0%。  
-**草案字体门 `mean_bbox < 20%`**：命中 **1** 字 `FZXianZTJW`（train，≈7.6%）→ 建议 drop；连同 B-screen 对照共 **14** 个审查候选。阈值提案见 `reports/R0_INK_GATE_PROPOSAL.md`（**未冻结**）。
+**A 墨量摘要（165,213 张，基于重划前全量扫描）**：边长 median≈75%；**框面积** median≈48%。  
+**字体门（已冻结）**：`mean_bbox < 20%` → 仅 `FZXianZTJW` drop；其余 B-screen 对照候选 **pass**。  
+**Split（已冻结）**：228/16/16；从原 test8 起，用 seed=3407 自 train 增补 8 字进 test。详见 `reports/R0_INK_GATE_PROPOSAL.md`、`manifests/split_v3_228_16_16.json`。
 
 ---
 
@@ -126,4 +128,6 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-03：单仓双目录 `code/official` + `code/ours`；推送 GitHub `hrfont`。
 - 2026-09-03：固化项目管理：`docs/PROJECT_MANAGEMENT.md`、`provenance/REGISTRY.md`、`code/variants/`、`scripts/pm_preflight.py`；台账转向新基模设计阶段。
 - 2026-09-04：补齐渲染协议 A–H 规格与重建脚本；修复 D/F 字号搜索上界；新增协议 H（A 的墨迹框版）；A 全量墨量分布预览页。
-- 2026-09-04：台账对齐 R0；正式 `ink_ratio_rank` + pass/drop/rerender；提案字体门 mean_bbox&lt;20%（待 PI）。
+- 2026-09-04：台账对齐 R0；正式 `ink_ratio_rank` + pass/drop/rerender；提案字体门 mean_bbox&lt;20%。
+- 2026-09-04：PI 冻结 ink 门（drop FZXianZTJW）；重划 **228/16/16**；A–H 盘目录已同步；目标 ID 改为 p260。
+- 2026-09-04：落地 `cn2west_ft_v2` + E1 满训（`E1-FTV2-A-S3407`）；训练看板（train/val loss + Pred 对比）。

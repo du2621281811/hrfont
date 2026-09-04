@@ -1861,7 +1861,7 @@
   "fonts": [
     {
       "stem": "FZXianZTJW",
-      "split": "train",
+      "split": "excluded",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.23958333333333334,
@@ -4347,7 +4347,7 @@
     },
     {
       "stem": "FZBuGTJW",
-      "split": "train",
+      "split": "test",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.6770833333333334,
@@ -8641,7 +8641,7 @@
     },
     {
       "stem": "FZLiuGQKJW-L",
-      "split": "train",
+      "split": "test",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.8020833333333334,
@@ -8867,7 +8867,7 @@
     },
     {
       "stem": "FZMaWDBSJW",
-      "split": "train",
+      "split": "test",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.6979166666666666,
@@ -32823,7 +32823,7 @@
     },
     {
       "stem": "FZJingLTJW-H",
-      "split": "train",
+      "split": "test",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.7916666666666666,
@@ -38021,7 +38021,7 @@
     },
     {
       "stem": "FZFeiHHJW-H",
-      "split": "train",
+      "split": "test",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.8020833333333334,
@@ -47965,7 +47965,7 @@
     },
     {
       "stem": "FZTJLSJW",
-      "split": "train",
+      "split": "test",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.8541666666666666,
@@ -52937,7 +52937,7 @@
     },
     {
       "stem": "FZDeSHJW_515H",
-      "split": "train",
+      "split": "test",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.8125,
@@ -53841,7 +53841,7 @@
     },
     {
       "stem": "FZJianLTJW_Te",
-      "split": "train",
+      "split": "test",
       "n": 633,
       "n_empty": 0,
       "yong_max": 0.8229166666666666,
@@ -60903,5 +60903,12 @@
       "オ",
       "カ"
     ]
+  },
+  "split_id": "cn2west-v3-228-16-16",
+  "split_ratio": {
+    "train": 228,
+    "val": 16,
+    "test": 16,
+    "total": 260
   }
 }

@@ -1,0 +1,398 @@
+--- code/official/FontDiffuser/configs/fontdiffuser.py	2024-03-14 09:15:34.000000000 +0000
++++ code/variants/cn2west_ft_v2/FontDiffuser/configs/fontdiffuser.py	2026-09-04 01:15:22.279125802 +0000
+@@ -52,6 +52,10 @@
+     parser.add_argument("--max_train_steps", type=int, default=440000, 
+                         help="Total number of training steps to perform.  If provided, overrides num_train_epochs.",)
+     parser.add_argument("--ckpt_interval", type=int,default=40000, help="The step begin to validate.")
++    parser.add_argument("--resume_from", type=str, default=None,
++                        help="Resume from a checkpoint dir (global_step_* or last_state) with trainer_state.pt.")
++    parser.add_argument("--state_interval", type=int, default=1000,
++                        help="Interval to save crash-recovery last_state (weights+optimizer+RNG).")
+     parser.add_argument("--gradient_accumulation_steps", type=int, default=1, 
+                         help="Number of updates steps to accumulate before performing a backward/update pass.",)
+     parser.add_argument("--log_interval", type=int, default=100, help="The log interval of training.")
+--- code/official/FontDiffuser/dataset/font_dataset.py	2024-03-14 09:15:34.000000000 +0000
++++ code/variants/cn2west_ft_v2/FontDiffuser/dataset/font_dataset.py	2026-09-04 01:15:21.083111502 +0000
+@@ -6,17 +6,27 @@
+ from torch.utils.data import Dataset
+ import torchvision.transforms as transforms
+ 
++
+ def get_nonorm_transform(resolution):
+-    nonorm_transform =  transforms.Compose(
+-            [transforms.Resize((resolution, resolution), 
+-                               interpolation=transforms.InterpolationMode.BILINEAR), 
+-             transforms.ToTensor()])
+-    return nonorm_transform
++    """No resize — A-protocol PNGs are already resolution×resolution."""
++    def _check_and_tensor(img: Image.Image):
++        if img.size != (resolution, resolution):
++            raise ValueError(
++                f"expected native {resolution}x{resolution}, got {img.size}"
++            )
++        return transforms.functional.to_tensor(img)
++
++    return _check_and_tensor
+ 
+ 
+ class FontDataset(Dataset):
+-    """The dataset of font generation  
++    """FontDiffuser dataset patched for cn2west A-protocol.
++
++    - Target/Style/Content are RGB PNG (no JPG).
++    - ContentImage/{cp}.png where cp is the codepoint token from the target name.
++    - Style is sampled from StyleImage/<font>/ (CN style pool), not from TargetImage.
+     """
++
+     def __init__(self, args, phase, transforms=None, scr=False):
+         super().__init__()
+         self.root = args.data_root
+@@ -24,41 +34,63 @@
+         self.scr = scr
+         if self.scr:
+             self.num_neg = args.num_neg
+-        
+-        # Get Data path
++
+         self.get_path()
+         self.transforms = transforms
+         self.nonorm_transforms = get_nonorm_transform(args.resolution)
+ 
+     def get_path(self):
+         self.target_images = []
+-        # images with related style  
+         self.style_to_images = {}
+         target_image_dir = f"{self.root}/{self.phase}/TargetImage"
+-        for style in os.listdir(target_image_dir):
++        style_image_dir = f"{self.root}/{self.phase}/StyleImage"
++        if not os.path.isdir(style_image_dir):
++            raise FileNotFoundError(f"StyleImage required: {style_image_dir}")
++
++        for style in sorted(os.listdir(target_image_dir)):
++            style_target_dir = f"{target_image_dir}/{style}"
++            if not os.path.isdir(style_target_dir):
++                continue
++            for img in sorted(os.listdir(style_target_dir)):
++                if not img.lower().endswith(".png"):
++                    continue
++                self.target_images.append(f"{style_target_dir}/{img}")
++
++            style_src = f"{style_image_dir}/{style}"
+             images_related_style = []
+-            for img in os.listdir(f"{target_image_dir}/{style}"):
+-                img_path = f"{target_image_dir}/{style}/{img}"
+-                self.target_images.append(img_path)
+-                images_related_style.append(img_path)
++            if os.path.isdir(style_src):
++                for img in sorted(os.listdir(style_src)):
++                    if img.lower().endswith(".png"):
++                        images_related_style.append(f"{style_src}/{img}")
++            if not images_related_style:
++                raise FileNotFoundError(
++                    f"CN StyleImage missing/empty for font={style}: {style_src}"
++                )
+             self.style_to_images[style] = images_related_style
+ 
++        if not self.target_images:
++            raise RuntimeError(f"no TargetImage PNGs under {target_image_dir}")
++
++    @staticmethod
++    def _open_content(root, phase, content_cp: str) -> Image.Image:
++        base = f"{root}/{phase}/ContentImage/{content_cp}"
++        for ext in (".png", ".jpg", ".jpeg"):
++            path = base + ext
++            if os.path.isfile(path):
++                return Image.open(path).convert("RGB")
++        raise FileNotFoundError(f"ContentImage missing for {content_cp} under {root}/{phase}/ContentImage")
++
+     def __getitem__(self, index):
+         target_image_path = self.target_images[index]
+-        target_image_name = target_image_path.split('/')[-1]
+-        style, content = target_image_name.split('.')[0].split('+')
+-        
+-        # Read content image
+-        content_image_path = f"{self.root}/{self.phase}/ContentImage/{content}.jpg"
+-        content_image = Image.open(content_image_path).convert('RGB')
+-
+-        # Random sample used for style image
+-        images_related_style = self.style_to_images[style].copy()
+-        images_related_style.remove(target_image_path)
++        target_image_name = target_image_path.split("/")[-1]
++        style, content = target_image_name.split(".")[0].split("+")
++
++        content_image = self._open_content(self.root, self.phase, content)
++
++        images_related_style = self.style_to_images[style]
+         style_image_path = random.choice(images_related_style)
+         style_image = Image.open(style_image_path).convert("RGB")
+-        
+-        # Read target image
++
+         target_image = Image.open(target_image_path).convert("RGB")
+         nonorm_target_image = self.nonorm_transforms(target_image)
+ 
+@@ -66,28 +98,25 @@
+             content_image = self.transforms[0](content_image)
+             style_image = self.transforms[1](style_image)
+             target_image = self.transforms[2](target_image)
+-        
++
+         sample = {
+             "content_image": content_image,
+             "style_image": style_image,
+             "target_image": target_image,
+             "target_image_path": target_image_path,
+-            "nonorm_target_image": nonorm_target_image}
+-        
++            "nonorm_target_image": nonorm_target_image,
++        }
++
+         if self.scr:
+-            # Get neg image from the different style of the same content
+-            style_list = list(self.style_to_images.keys())
+-            style_index = style_list.index(style)
+-            style_list.pop(style_index)
++            # SCR not used in E1 FT-v2; kept for API compatibility with PNG paths.
++            style_list = [s for s in self.style_to_images.keys() if s != style]
+             choose_neg_names = []
+-            for i in range(self.num_neg):
++            for _ in range(self.num_neg):
+                 choose_style = random.choice(style_list)
+-                choose_index = style_list.index(choose_style)
+-                style_list.pop(choose_index)
+-                choose_neg_name = f"{self.root}/train/TargetImage/{choose_style}/{choose_style}+{content}.jpg"
+-                choose_neg_names.append(choose_neg_name)
+-
+-            # Load neg_images
++                choose_neg_names.append(
++                    f"{self.root}/train/TargetImage/{choose_style}/{choose_style}+{content}.png"
++                )
++            neg_images = None
+             for i, neg_name in enumerate(choose_neg_names):
+                 neg_image = Image.open(neg_name).convert("RGB")
+                 if self.transforms is not None:
+--- code/official/FontDiffuser/train.py	2024-03-14 09:15:34.000000000 +0000
++++ code/variants/cn2west_ft_v2/FontDiffuser/train.py	2026-09-04 01:15:21.627118007 +0000
+@@ -2,6 +2,8 @@
+ import math
+ import time
+ import logging
++import glob
++from pathlib import Path
+ from tqdm.auto import tqdm
+ 
+ import torch
+@@ -45,6 +47,81 @@
+     return args
+ 
+ 
++def _find_latest_resume(output_dir: str) -> str | None:
++    """Prefer last_state/, else highest global_step_* with trainer_state.pt."""
++    last = Path(output_dir) / "last_state" / "trainer_state.pt"
++    if last.is_file():
++        return str(last.parent)
++    cands = []
++    for p in Path(output_dir).glob("global_step_*"):
++        if (p / "trainer_state.pt").is_file() and (p / "unet.pth").is_file():
++            try:
++                step = int(p.name.split("_")[-1])
++            except ValueError:
++                continue
++            cands.append((step, str(p)))
++    if not cands:
++        return None
++    cands.sort()
++    return cands[-1][1]
++
++
++def _save_trainable_ckpt(model, save_dir: str, optimizer, lr_scheduler, global_step, scaler=None):
++    os.makedirs(save_dir, exist_ok=True)
++    torch.save(model.unet.state_dict(), f"{save_dir}/unet.pth")
++    torch.save(model.style_encoder.state_dict(), f"{save_dir}/style_encoder.pth")
++    torch.save(model.content_encoder.state_dict(), f"{save_dir}/content_encoder.pth")
++    state = {
++        "global_step": global_step,
++        "optimizer": optimizer.state_dict(),
++        "lr_scheduler": lr_scheduler.state_dict(),
++        "torch_rng": torch.get_rng_state(),
++        "cuda_rng": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None,
++        "numpy_seed_state": None,
++    }
++    try:
++        import numpy as np
++        state["numpy_seed_state"] = np.random.get_state()
++    except Exception:
++        pass
++    try:
++        import random as py_random
++        state["python_rng"] = py_random.getstate()
++    except Exception:
++        pass
++    if scaler is not None:
++        state["scaler"] = scaler.state_dict()
++    torch.save(state, f"{save_dir}/trainer_state.pt")
++
++
++def _load_trainable_ckpt(model, resume_dir: str, optimizer, lr_scheduler, scaler=None):
++    model.unet.load_state_dict(torch.load(f"{resume_dir}/unet.pth", map_location="cpu"))
++    model.style_encoder.load_state_dict(torch.load(f"{resume_dir}/style_encoder.pth", map_location="cpu"))
++    model.content_encoder.load_state_dict(torch.load(f"{resume_dir}/content_encoder.pth", map_location="cpu"))
++    state_path = f"{resume_dir}/trainer_state.pt"
++    global_step = 0
++    if os.path.isfile(state_path):
++        state = torch.load(state_path, map_location="cpu", weights_only=False)
++        global_step = int(state.get("global_step", 0))
++        if "optimizer" in state:
++            optimizer.load_state_dict(state["optimizer"])
++        if "lr_scheduler" in state:
++            lr_scheduler.load_state_dict(state["lr_scheduler"])
++        if scaler is not None and "scaler" in state:
++            scaler.load_state_dict(state["scaler"])
++        if state.get("torch_rng") is not None:
++            torch.set_rng_state(state["torch_rng"])
++        if state.get("cuda_rng") is not None and torch.cuda.is_available():
++            torch.cuda.set_rng_state_all(state["cuda_rng"])
++        if state.get("numpy_seed_state") is not None:
++            import numpy as np
++            np.random.set_state(state["numpy_seed_state"])
++        if state.get("python_rng") is not None:
++            import random as py_random
++            py_random.setstate(state["python_rng"])
++    return global_step
++
++
+ def main():
+ 
+     args = get_args()
+@@ -74,10 +151,13 @@
+     style_encoder = build_style_encoder(args=args)
+     content_encoder = build_content_encoder(args=args)
+     noise_scheduler = build_ddpm_scheduler(args)
+-    if args.phase_2:
+-        unet.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/unet.pth"))
+-        style_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/style_encoder.pth"))
+-        content_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/content_encoder.pth"))
++    # cn2west_ft_v2: always load official/P1 weights when phase_1_ckpt_dir is set
++    # (independent of phase_2 / SCR).
++    if getattr(args, "phase_1_ckpt_dir", None):
++        unet.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/unet.pth", map_location="cpu"))
++        style_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/style_encoder.pth", map_location="cpu"))
++        content_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/content_encoder.pth", map_location="cpu"))
++        logger.info(f"Loaded P1 weights from {args.phase_1_ckpt_dir}")
+ 
+     model = FontDiffuserModel(
+         unet=unet,
+@@ -93,20 +173,24 @@
+         scr.load_state_dict(torch.load(args.scr_ckpt_path))
+         scr.requires_grad_(False)
+ 
+-    # Load the datasets
++    # A-protocol: native 96 PNG — ToTensor + Normalize only (no Resize).
++    def _assert_native_size(img):
++        w, h = img.size
++        exp = args.resolution if isinstance(args.resolution, int) else args.resolution[0]
++        if (w, h) != (exp, exp):
++            raise ValueError(f"expected native {exp}x{exp}, got {img.size}")
++        return img
++
+     content_transforms = transforms.Compose(
+-        [transforms.Resize(args.content_image_size, 
+-                           interpolation=transforms.InterpolationMode.BILINEAR),
++        [_assert_native_size,
+          transforms.ToTensor(),
+          transforms.Normalize([0.5], [0.5])])
+     style_transforms = transforms.Compose(
+-        [transforms.Resize(args.style_image_size, 
+-                           interpolation=transforms.InterpolationMode.BILINEAR),
++        [_assert_native_size,
+          transforms.ToTensor(),
+          transforms.Normalize([0.5], [0.5])])
+     target_transforms = transforms.Compose(
+-        [transforms.Resize((args.resolution, args.resolution), 
+-                           interpolation=transforms.InterpolationMode.BILINEAR),
++        [_assert_native_size,
+          transforms.ToTensor(),
+          transforms.Normalize([0.5], [0.5])])
+     train_font_dataset = FontDataset(
+@@ -143,23 +227,37 @@
+     if args.phase_2:
+         scr = scr.to(accelerator.device)
+ 
++    # Resolve resume (crash recovery / watchdog) — same hyperparams, no degradation.
++    resume_dir = getattr(args, "resume_from", None) or None
++    if resume_dir in (None, "", "auto"):
++        resume_dir = _find_latest_resume(args.output_dir)
++    global_step = 0
++    if resume_dir:
++        # unwrap for attribute access after prepare
++        raw = accelerator.unwrap_model(model)
++        global_step = _load_trainable_ckpt(raw, resume_dir, optimizer, lr_scheduler)
++        logger.info(f"Resumed from {resume_dir} at global_step={global_step}")
++        print(f"Resumed from {resume_dir} at global_step={global_step}", flush=True)
++
+     # The trackers initializes automatically on the main process.
+     if accelerator.is_main_process:
+         accelerator.init_trackers(args.experience_name)
+         save_args_to_yaml(args=args, output_file=f"{args.output_dir}/{args.experience_name}_config.yaml")
+ 
+     # Only show the progress bar once on each machine.
+-    progress_bar = tqdm(range(args.max_train_steps), disable=not accelerator.is_local_main_process)
++    progress_bar = tqdm(range(args.max_train_steps), disable=not accelerator.is_local_main_process, initial=global_step)
+     progress_bar.set_description("Steps")
+ 
+     # Convert to the training epoch
+     num_update_steps_per_epoch = math.ceil(len(train_dataloader) / args.gradient_accumulation_steps)
+     num_train_epochs = math.ceil(args.max_train_steps / num_update_steps_per_epoch)
++    state_interval = int(getattr(args, "state_interval", 1000) or 1000)
+ 
+-    global_step = 0
+     for epoch in range(num_train_epochs):
+         train_loss = 0.0
+         for step, samples in enumerate(train_dataloader):
++            if global_step >= args.max_train_steps:
++                break
+             model.train()
+             content_images = samples["content_image"]
+             style_images = samples["style_image"]
+@@ -247,15 +345,15 @@
+                 train_loss = 0.0
+ 
+                 if accelerator.is_main_process:
++                    raw = accelerator.unwrap_model(model)
+                     if global_step % args.ckpt_interval == 0:
+                         save_dir = f"{args.output_dir}/global_step_{global_step}"
+-                        os.makedirs(save_dir, exist_ok=True)
+-                        torch.save(model.unet.state_dict(), f"{save_dir}/unet.pth")
+-                        torch.save(model.style_encoder.state_dict(), f"{save_dir}/style_encoder.pth")
+-                        torch.save(model.content_encoder.state_dict(), f"{save_dir}/content_encoder.pth")
+-                        torch.save(model, f"{save_dir}/total_model.pth")
++                        _save_trainable_ckpt(raw, save_dir, optimizer, lr_scheduler, global_step)
+                         logging.info(f"[{time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))}] Save the checkpoint on global step {global_step}")
+-                        print("Save the checkpoint on global step {}".format(global_step))
++                        print("Save the checkpoint on global step {}".format(global_step), flush=True)
++                    if state_interval > 0 and global_step % state_interval == 0:
++                        _save_trainable_ckpt(raw, f"{args.output_dir}/last_state", optimizer, lr_scheduler, global_step)
++                        print(f"Save last_state at global step {global_step}", flush=True)
+ 
+             logs = {"step_loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
+             if global_step % args.log_interval == 0:
+@@ -265,6 +363,19 @@
+             # Quit
+             if global_step >= args.max_train_steps:
+                 break
++        if global_step >= args.max_train_steps:
++            break
++
++    # Final crash-recovery snapshot at completion
++    if accelerator.is_main_process:
++        raw = accelerator.unwrap_model(model)
++        _save_trainable_ckpt(raw, f"{args.output_dir}/last_state", optimizer, lr_scheduler, global_step)
++        done = Path(args.output_dir) / "DONE.json"
++        done.write_text(
++            f'{{"global_step": {global_step}, "max_train_steps": {args.max_train_steps}, "status": "completed"}}\n',
++            encoding="utf-8",
++        )
++        print(f"TRAINING COMPLETED at step {global_step}", flush=True)
+ 
+     accelerator.end_training()
+ 

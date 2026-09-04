@@ -21,7 +21,7 @@ E3 + E0 ─→ E8；E2/E2b ─→ E9；E5 ─→ E7；E2/E5 ─→ E10；E3/E6 �
 
 | 角色 | 冻结值 |
 |---|---|
-| dataset | `fontdiffuser-p261-t295-s338-cn2west-v2a-r1-<manifest8>`；train/val/test=237/16/8；每字体 target295 + style338。当前 A 盘已是该数量 [fonts.json:12](/Users/xiaoweiliang/projects/hrfont/data/cn2west_v2_abc_review/fonts.json:12)，但旧名 p253 待新版本纠正。 |
+| dataset | **PI 2026-09-04**：活跃 **260=228/16/16**（drop FZXianZTJW）；清单 `manifests/split_v3_228_16_16.json`；正式 ID 待发 `fontdiffuser-p260-…-v2a-r1-<manifest8>`。原计划 261=237/16/8 已覆盖。盘上目录暂仍名 p253。 |
 | renderer | A：96×96、margin6、逐字体统一 fs、633 字符 `textbbox w,h≤84`、RGB PNG、无缩放 [build_cn2west_v2_proto_abc.py:4](/Users/xiaoweiliang/projects/hrfont/scripts/build_cn2west_v2_proto_abc.py:4) [build_cn2west_v2_proto_abc.py:82](/Users/xiaoweiliang/projects/hrfont/scripts/build_cn2west_v2_proto_abc.py:82)。 |
 | Content | **Noto Sans CJK Regular**，用 A 在 295 target 上求固定 fs 并落盘。选择 Noto 是因为现成 A 数据就是 Noto [build_cn2west_v2_proto_abc.py:12](/Users/xiaoweiliang/projects/hrfont/scripts/build_cn2west_v2_proto_abc.py:12) [build_cn2west_v2_proto_abc.py:236](/Users/xiaoweiliang/projects/hrfont/scripts/build_cn2west_v2_proto_abc.py:236)；改回 DejaVu 会破坏“所有角色同一 A 盘”，旧 FT 一致性已不再是目标。 |
 | Style / ref8 | 当前字体的 A-style 图；训练在 338 字符内确定性采样；评测固定 ref8=`永和书风骨韵天地`，manifest 已给出 [charset_cn2west_v2_planned.json:25](/Users/xiaoweiliang/projects/hrfont/manifests/charset_cn2west_v2_planned.json:25)。 |
@@ -167,7 +167,7 @@ GPU 天按单卡串行估计；多卡只缩墙钟，不改变 matched 配置。�
 | D-A | A + 全633 ink-bbox ratio 人工门 | PI 决定；已渲染，几何审查可执行。 |
 | D-FT | E1 FT-v2 从 official P1、A/train237 重训；旧 FT legacy | 消除旧42字体/旧渲染域。 |
 | D-CFG | YAML+CLI override+resolved config SHA；所有值冻结 | 可复现且 matched 可 diff。 |
-| 字体数/命名 | 261=237/16/8；新 ID p261 | 与实际 split 一致。 |
+| 字体数/命名 | **260=228/16/16**（PI）；新 ID p260；旧 261/237/16/8 作废 | 与 ink drop + 均衡 val/test 一致。 |
 | ref8 | `永和书风骨韵天地` | manifest 已定义。 |
 | 内部 val | val16；另从 train237 固定 calib16 | val 选 checkpoint，calib 只调阈值，test8 不调参。 |
 | E1 步数/LR | 100k；1e-5 主，5e-5@20k 预热轨后按 val 规则决定是否补齐 | 约5.72轮；保留更快适配而不污染 test。 |

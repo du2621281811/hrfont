@@ -3146,7 +3146,7 @@
   "fonts": [
     {
       "i": 0,
-      "split": "train",
+      "split": "excluded",
       "stem": "FZXianZTJW",
       "name": "方正仙阵体 简",
       "severity": "drop",
@@ -3245,7 +3245,7 @@
     },
     {
       "i": 3,
-      "split": "train",
+      "split": "test",
       "stem": "FZTJLSJW",
       "name": "方正铁筋隶书简体",
       "severity": "review",
@@ -5097,7 +5097,7 @@
     },
     {
       "i": 64,
-      "split": "train",
+      "split": "test",
       "stem": "FZFeiHHJW-H",
       "name": "方正飞虹黑 简",
       "severity": "ok",
@@ -5127,7 +5127,7 @@
     },
     {
       "i": 65,
-      "split": "train",
+      "split": "test",
       "stem": "FZLiuGQKJW-L",
       "name": "方正柳公权楷书 简",
       "severity": "ok",
@@ -5457,7 +5457,7 @@
     },
     {
       "i": 76,
-      "split": "train",
+      "split": "test",
       "stem": "FZDeSHJW_515H",
       "name": "方正德赛黑简体",
       "severity": "ok",
@@ -5547,7 +5547,7 @@
     },
     {
       "i": 79,
-      "split": "train",
+      "split": "test",
       "stem": "FZMaWDBSJW",
       "name": "方正马王堆帛书 简",
       "severity": "ok",
@@ -6657,7 +6657,7 @@
     },
     {
       "i": 116,
-      "split": "train",
+      "split": "test",
       "stem": "FZBuGTJW",
       "name": "方正FW布谷体 简",
       "severity": "ok",
@@ -7737,7 +7737,7 @@
     },
     {
       "i": 152,
-      "split": "train",
+      "split": "test",
       "stem": "FZJianLTJW_Te",
       "name": "方正健力体 简",
       "severity": "ok",
@@ -7857,7 +7857,7 @@
     },
     {
       "i": 156,
-      "split": "train",
+      "split": "test",
       "stem": "FZJingLTJW-H",
       "name": "方正静浪体 简",
       "severity": "ok",
@@ -11005,5 +11005,12 @@
         "bopomofo": 0.6875
       }
     }
-  ]
+  ],
+  "split_id": "cn2west-v3-228-16-16",
+  "split_ratio": {
+    "train": 228,
+    "val": 16,
+    "test": 16,
+    "total": 260
+  }
 }

@@ -25,7 +25,7 @@
   "fonts": [
     {
       "stem": "FZXianZTJW",
-      "split": "train",
+      "split": "excluded",
       "mean_ink_ratio": 0.07568522221125154,
       "ink_ratio_p5": 0.014105902777777778,
       "ink_ratio_p50": 0.04991319444444445,
@@ -52,9 +52,9 @@
       ],
       "suggested_action": "drop",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "drop",
+      "reviewer": "PI",
+      "reviewed_at": "2026-09-03T17:47:38.183884+00:00",
       "rank": 1
     },
     {
@@ -82,9 +82,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183910+00:00",
       "rank": 2
     },
     {
@@ -112,9 +112,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183915+00:00",
       "rank": 3
     },
     {
@@ -194,9 +194,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183918+00:00",
       "rank": 6
     },
     {
@@ -380,9 +380,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183935+00:00",
       "rank": 13
     },
     {
@@ -439,7 +439,7 @@
     },
     {
       "stem": "FZMaWDBSJW",
-      "split": "train",
+      "split": "test",
       "mean_ink_ratio": 0.33093812395778477,
       "ink_ratio_p5": 0.1784939236111111,
       "ink_ratio_p50": 0.3416883680555555,
@@ -699,7 +699,7 @@
     },
     {
       "stem": "FZBuGTJW",
-      "split": "train",
+      "split": "test",
       "mean_ink_ratio": 0.3501347680248376,
       "ink_ratio_p5": 0.1889105902777778,
       "ink_ratio_p50": 0.3587239583333333,
@@ -748,9 +748,9 @@
       ],
       "suggested_action": "drop",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183944+00:00",
       "rank": 27
     },
     {
@@ -934,9 +934,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183949+00:00",
       "rank": 34
     },
     {
@@ -964,9 +964,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183952+00:00",
       "rank": 35
     },
     {
@@ -994,9 +994,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183955+00:00",
       "rank": 36
     },
     {
@@ -1599,7 +1599,7 @@
     },
     {
       "stem": "FZLiuGQKJW-L",
-      "split": "train",
+      "split": "test",
       "mean_ink_ratio": 0.4054559965771458,
       "ink_ratio_p5": 0.19891493055555556,
       "ink_ratio_p50": 0.4169921875,
@@ -1700,9 +1700,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183968+00:00",
       "rank": 63
     },
     {
@@ -1834,9 +1834,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183972+00:00",
       "rank": 68
     },
     {
@@ -2020,9 +2020,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183977+00:00",
       "rank": 75
     },
     {
@@ -2469,7 +2469,7 @@
     },
     {
       "stem": "FZTJLSJW",
-      "split": "train",
+      "split": "test",
       "mean_ink_ratio": 0.4389021908460593,
       "ink_ratio_p5": 0.18980034722222222,
       "ink_ratio_p50": 0.4798177083333333,
@@ -2492,9 +2492,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183986+00:00",
       "rank": 93
     },
     {
@@ -2655,7 +2655,7 @@
     },
     {
       "stem": "FZJingLTJW-H",
-      "split": "train",
+      "split": "test",
       "mean_ink_ratio": 0.44626472128971395,
       "ink_ratio_p5": 0.26875,
       "ink_ratio_p50": 0.5030381944444444,
@@ -3276,9 +3276,9 @@
       ],
       "suggested_action": "review",
       "review_candidate": true,
-      "review_decision": "",
-      "reviewer": "",
-      "reviewed_at": "",
+      "review_decision": "pass",
+      "reviewer": "PI-policy",
+      "reviewed_at": "2026-09-03T17:47:38.183999+00:00",
       "rank": 123
     },
     {
@@ -5883,7 +5883,7 @@
     },
     {
       "stem": "FZFeiHHJW-H",
-      "split": "train",
+      "split": "test",
       "mean_ink_ratio": 0.5332591783504476,
       "ink_ratio_p5": 0.27022569444444444,
       "ink_ratio_p50": 0.5940755208333333,
@@ -6065,7 +6065,7 @@
     },
     {
       "stem": "FZDeSHJW_515H",
-      "split": "train",
+      "split": "test",
       "mean_ink_ratio": 0.5366050662629455,
       "ink_ratio_p5": 0.24327256944444445,
       "ink_ratio_p50": 0.6015625,
@@ -6559,7 +6559,7 @@
     },
     {
       "stem": "FZJianLTJW_Te",
-      "split": "train",
+      "split": "test",
       "mean_ink_ratio": 0.551734499791557,
       "ink_ratio_p5": 0.3306640625,
       "ink_ratio_p50": 0.6178385416666666,
@@ -6873,5 +6873,15 @@
   "hashes": {
     "ink_ratio_rank_json": "cd14b6c7f9f789d8797df3abe436258d0ccfafe3c3017dd640c91b907263636f",
     "ink_ratio_rank_csv": "8d5ed11cd8f1a9a6323c3ae4c776c95dcd28b89e45fb5c406757a37c0ab2c2b3"
-  }
+  },
+  "split_id": "cn2west-v3-228-16-16",
+  "split_ratio": {
+    "train": 228,
+    "val": 16,
+    "test": 16,
+    "total": 260
+  },
+  "excluded_fonts": [
+    "FZXianZTJW"
+  ]
 }
