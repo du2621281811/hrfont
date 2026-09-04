@@ -46,7 +46,7 @@ alwaysApply: true
 - R0 / A+p260+ink QA / split与TTF inventory / A渲染、全633 QA、原子发布 / dataset manifest+SHA、ink表 / 计划§4 R0。
 - E0 / alpha、cache、RS-gap与检索校准 / **推迟到 E5 前**；必须用 E1 final 冻结 Es/Ec 重建（旧「E0 在 E1 前、用官方 P1 encoder」的顺序作废）；M3,tau.07,K3,theta.25,gamma.35,lambda.70 / frozen cache+`retrieval_calibration.yaml` SHA / §4 E0。E2 不依赖 E0：α 原型与 Δ 的 Ec 特征用 E1 final 冻结 encoder 在线算。
 - E1 FT-v2 / 新训练域基线 / R0+official P1 / 100k、全训UNet+Ec+Es、SCR off / **已完成 100k**（val best 98k=0.02976，100k=0.02979；provenance `E1-FTV2-A-S3407.json`）/ §4 E1。
-- E2/E2b/E2c / Delta-RSI 因果 matched / E1 / E2=Delta、E2b=official RSI继续训、E2c=P1冷启 / 80k三seed / §4 E2/E2b/E2c。**PI 决策：先 seed 3407 only（与 E1 同 seed）；数据与 E1 同管线；Δ=风格侧 top-3 α̃ 加权同字 Ec 特征 − B₀（feature-mix 禁止像素混）；代码避免过度防御设计（只保留 manifest fail-fast、zero-init、config SHA 等必要核心）。**
+- E2/E2b/E2c / Delta-RSI 因果 matched / E1 / E2=Delta、E2b=official RSI继续训、E2c=P1冷启 / 80k三seed / §4 E2/E2b/E2c。**PI 决策：先 seed 3407 only（与 E1 同 seed）；数据与 E1 同管线；Δ=风格侧 soft-α（softmax cosine/τ 全池加权 + ε/K_max 截断，默认 τ=.07/ε=.01/K_max=10；topk 为消融开关）加权同字 Ec 特征 − B₀（feature-mix 禁止像素混）；代码避免过度防御设计（只保留 manifest fail-fast、zero-init、config SHA 等必要核心）。**
 - E2d / SCR matched / E2与E2b / 只开SCR / 两组80k三seed / §4 E2d。
 - E3/E4 / 主对比与gap机制 / E0/E1/E2/E12 / test16×295、mixed effects+bootstrap / 主表与gap统计 / §4 E3/E4。
 - E5/E5b/E6 / Support adapter与主结果 / E0+E2或E2d / A全冻、仅adapter、25k / matched test与gap收益 / §4 E5/E5b/E6。

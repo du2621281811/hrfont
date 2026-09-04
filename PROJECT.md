@@ -135,5 +135,5 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-04：落地 `cn2west_ft_v2` + E1 满训（`E1-FTV2-A-S3407`）；训练看板（train/val loss + Pred 对比）。
 - 2026-09-04：PI 决策（人工确认）：① 当前 E1（bs=8、seed 3407 only、无训练期 ink 过滤）**验收通过**，非 protocol deviation；② **eff batch=8×1 为后续全部实验的 matched 标准**（E2/E2b/E2c/E2d/E5 同用）；③ train/val/test 拆分沿用 split_v3_228_16_16，全链路防泄漏；④ **协议 H 已弃用**（人工验证后），仅 A 为唯一训练/评测协议。
 - 2026-09-04：**E1 满训完成 100k**（val 100k=0.02979，best@98k=0.02976；provenance `E1-FTV2-A-S3407.json`，certainty=exact_pending_dataset_fingerprint）。
-- 2026-09-04：E2 决策：数据与 E1 同管线；seed 3407 only 先跑；Δ=风格侧 top-3 α̃ 加权同字 Ec 特征−B₀（feature-mix）；代码避免过度防御设计；E0 推迟到 E5 前并用 E1 final 冻结 Es/Ec 重建（E2 不依赖 E0）。
+- 2026-09-04：E2 决策：数据与 E1 同管线；seed 3407 only 先跑；Δ=风格侧 soft-α（默认 τ=.07/ε=.01/K_max=10，topk 为消融开关）加权同字 Ec 特征−B₀（feature-mix）；代码避免过度防御设计；E0 推迟到 E5 前并用 E1 final 冻结 Es/Ec 重建（E2 不依赖 E0）。
 - 2026-09-04：E1 满训完成 100k；刷新看板快照；收协作审查 `REVIEW_E1_R0_20260904`。
