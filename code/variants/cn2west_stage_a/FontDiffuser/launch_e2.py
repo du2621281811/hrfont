@@ -59,10 +59,6 @@ def main() -> int:
         if leftover:
             print(f"output exists without checkpoint (failed smoke?); remove it first: {output}", file=sys.stderr)
             return 2
-        leftover = [p.name for p in output.iterdir() if p.name not in {"logs"}]
-        if leftover:
-            print(f"output exists without checkpoint (failed smoke?); remove it first: {output}", file=sys.stderr)
-            return 2
 
     eval_refs = nshot.get("eval_refs") or ["永"]
     steps = args.max_steps or train["steps"]
