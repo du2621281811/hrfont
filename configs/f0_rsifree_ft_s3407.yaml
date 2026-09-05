@@ -1,0 +1,10 @@
+# F0 RSI-free FT. D-N5: 60k early-stop candidate; plateau threshold must be frozen before launch.
+schema_version: 1
+experiment: {id: F0-RSIFREE-FT-A-S3407, variant: cn2west_f0}
+init: {checkpoint: code/official/FontDiffuser/ckpt, skip_rsi: true}
+data: {protocol: A, root: data/fontdiffuser-p253-t295-s338-cn2west-v2, split_manifest: manifests/split_v3_228_16_16.json, split: [228, 16, 16], excluded: [FZXianZTJW], image_size: 96, resize: false}
+model: {rsi_mode: none, rsi_source: none, train: [unet, content_encoder, style_encoder], scr: false, delta: {enabled: false}, support: {enabled: false}, nshot: {min_n: 1, max_n: 1, eval_refs: [永]}, style_tokens: 9}
+train: {seed: 3407, steps: 100000, batch_size: 8, accumulation: 1, effective_batch: 8, lr: 1.0e-5, scheduler: linear, warmup_steps: 5000, mixed_precision: fp16, cfg_joint_drop: 0.10}
+loss: {diffusion_mse: 1.0, perceptual: 0.01, offset: 0.0, scr: 0.0}
+checkpoint: {lightweight_every_steps: 1000, milestone_every_steps: 5000}
+eval: {every_steps: 5000, style_shot: 1, early_stop_candidate_step: 60000, plateau_rule: TBD_FREEZE_BEFORE_LAUNCH}

@@ -24,7 +24,8 @@ ROOT = Path(__file__).resolve().parents[1]
 VARIANT = ROOT / "code/variants/cn2west_stage_a/FontDiffuser"
 sys.path.insert(0, str(ROOT / "scripts"))
 from hrfont_feature_cache import (  # noqa: E402
-    EC_SHAPES, ES_POOLED, ES_SPATIAL, MemmapTable, key_ec, key_es, sha256_file,
+    COSINE_DTYPE, EC_SHAPES, ES_POOLED, ES_SPATIAL, EsCache, MemmapTable,
+    key_ec, key_es, sha256_file,
 )
 
 
@@ -236,9 +237,54 @@ def verify_ec(model, jobs, cache_dir: Path, device: str, n_check: int, seed: int
     print(f"ec verify: PASS n={len(picks)}", flush=True)
 
 
+def build_cosine_table(es_dir: Path, split: dict, out_path: Path) -> None:
+    cache = EsCache(es_dir)
+    manifest_sha = cache.manifest.get("es_checkpoint_sha256")
+    if not manifest_sha:
+        raise RuntimeError("Es manifest has no recorded es_checkpoint_sha256")
+    ckpt = Path(cache.manifest.get("ckpt_dir", "")) / "style_encoder.pth"
+    if not ckpt.is_absolute():
+        ckpt = ROOT / ckpt
+    if not ckpt.is_file() or sha256_file(ckpt) != manifest_sha:
+        raise RuntimeError("Es cache recorded SHA does not match its style_encoder checkpoint")
+    fonts = sorted(split["train"])
+    first = fonts[0]
+    chars = [key.split("|")[3] for key in cache.table.keys if key.startswith(f"es|train|{first}|")]
+    if len(fonts) != 228 or len(chars) != 338:
+        raise RuntimeError(f"cosine dimensions must be 228x338, got {len(fonts)}x{len(chars)}")
+    indices = np.asarray([[cache._row("train", font, cp) for cp in chars] for font in fonts])
+    pooled = np.asarray(cache.pooled[indices], dtype=np.float32)
+    pooled /= np.linalg.norm(pooled, axis=2, keepdims=True).clip(min=1e-12)
+    shape = (len(fonts), len(chars), len(fonts))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    table = np.memmap(out_path, dtype=COSINE_DTYPE, mode="w+", shape=shape)
+    max_error = 0.0
+    for ci in range(len(chars)):
+        cosine = pooled[:, ci] @ pooled[:, ci].T
+        stored = cosine.astype(COSINE_DTYPE)
+        table[:, ci, :] = stored
+        max_error = max(max_error, float(np.max(np.abs(cosine - stored.astype(np.float32)))))
+    table.flush()
+    meta = {
+        "version": 1, "dtype": "float16", "shape": list(shape),
+        "layout": "C[query_font,style_char,library_font]",
+        "fonts": fonts, "library_fonts": fonts, "chars": chars,
+        "font_to_row": {font: i for i, font in enumerate(fonts)},
+        "char_to_col": {cp: i for i, cp in enumerate(chars)},
+        "es_cache_sha256": sha256_file(cache.pooled_path),
+        "es_checkpoint_sha256": manifest_sha,
+        "build_params": {"normalize_dtype": "float32", "matmul_dtype": "float32"},
+        "fp32_to_fp16_max_abs_error": max_error,
+        "created_unix": int(time.time()),
+    }
+    out_path.with_suffix(out_path.suffix + ".json").write_text(
+        json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"cosine: wrote {out_path} shape={shape} max_abs_error={max_error:.8g}", flush=True)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--which", choices=("es", "ec", "both"), default="both")
+    parser.add_argument("--which", choices=("es", "ec", "both", "cosine"), default="both")
     parser.add_argument("--data-root", type=Path,
                         default=ROOT / "data/fontdiffuser-p253-t295-s338-cn2west-v2")
     parser.add_argument("--split", type=Path, default=ROOT / "manifests/split_v3_228_16_16.json")
@@ -246,6 +292,8 @@ def main() -> int:
                         default=ROOT / "runs/E1-FTV2-A-S3407/global_step_100000")
     parser.add_argument("--es-out", type=Path, default=ROOT / "artifacts/e2/es_spatial_e1_100k")
     parser.add_argument("--ec-out", type=Path, default=ROOT / "artifacts/e2/ec_multiscale_e1_100k")
+    parser.add_argument("--cosine-out", type=Path,
+                        default=ROOT / "artifacts/e2/es_cosine_e1_100k.f16")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--gpu", type=int)
     parser.add_argument("--batch-size", type=int, default=16)
@@ -255,6 +303,9 @@ def main() -> int:
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
         args.device = "cuda"
     split = load_split(args.split)
+    if args.which == "cosine":
+        build_cosine_table(args.es_out, split, args.cosine_out)
+        return 0
     extra = {
         "data_root": str(args.data_root),
         "split_manifest": str(args.split),

@@ -31,6 +31,11 @@ def get_parser():
     parser.add_argument("--style_start_channel", type=int, default=64, 
                         help="The channels of the fisrt layer output of content encoder.",)
     parser.add_argument("--rsi_source", choices=("delta", "official"), default="delta")
+    parser.add_argument("--rsi_mode", choices=("q0_inherited", "q1_roleswap"), default="q0_inherited")
+    parser.add_argument("--support_enabled", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--support_drop", type=float, default=0.20)
+    parser.add_argument("--support_k", type=int, default=3)
+    parser.add_argument("--support_theta", type=float, default=0.25)
     parser.add_argument("--delta_enabled", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--delta_tau", type=float, default=0.07)
     parser.add_argument("--delta_eps_alpha", type=float, default=0.01)
@@ -44,6 +49,9 @@ def get_parser():
     parser.add_argument("--nshot_max", type=int, default=8)
     parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
     parser.add_argument("--es_cache_path", type=str, default="artifacts/e2/es_spatial_e1_100k")
+    parser.add_argument("--cosine_table_path", type=str,
+                        default="artifacts/e2/es_cosine_e1_100k.f16")
+    parser.add_argument("--cosine_table_es_cache_sha256", type=str, default="")
     parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
     parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
     parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)

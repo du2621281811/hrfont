@@ -3,7 +3,7 @@ from torch import nn
 from torchvision.ops import DeformConv2d
 
 from .attention import (SpatialTransformer, 
-                        OffsetRefStrucInter, 
+                        OffsetRefStrucInter, OffsetInterStrucQuery,
                         ChannelAttnBlock)
 from .resnet import (Downsample2D, 
                      ResnetBlock2D, 
@@ -75,7 +75,7 @@ def get_up_block(
     upblock_index,
     resnet_groups=None,
     cross_attention_dim=None,
-    structure_feature_begin=64):
+    structure_feature_begin=64, rsi_mode="q0_inherited"):
 
     up_block_type = up_block_type[7:] if up_block_type.startswith("UNetRes") else up_block_type
     if up_block_type == "UpBlock2D":
@@ -103,7 +103,7 @@ def get_up_block(
             cross_attention_dim=cross_attention_dim,
             attn_num_head_channels=attn_num_head_channels,
             structure_feature_begin=structure_feature_begin,
-            upblock_index=upblock_index)
+            upblock_index=upblock_index, rsi_mode=rsi_mode)
     else:
         raise ValueError(f"{up_block_type} does not exist.")
 
@@ -442,6 +442,7 @@ class StyleRSIUpBlock2D(nn.Module):
         structure_feature_begin=64, 
         upblock_index=1,
         add_upsample=True,
+        rsi_mode="q0_inherited",
     ):
         super().__init__()
         resnets = []
@@ -457,8 +458,11 @@ class StyleRSIUpBlock2D(nn.Module):
             res_skip_channels = in_channels if (i == num_layers - 1) else out_channels
             resnet_in_channels = prev_output_channel if i == 0 else out_channels
             
+            if rsi_mode not in ("q0_inherited", "q1_roleswap"):
+                raise ValueError(f"unknown rsi_mode: {rsi_mode}")
+            head_cls = OffsetRefStrucInter if rsi_mode == "q0_inherited" else OffsetInterStrucQuery
             sc_interpreter_offsets.append(
-                OffsetRefStrucInter(
+                head_cls(
                     res_in_channels=res_skip_channels,
                     style_feat_in_channels=int(structure_feature_begin * 2 / upblock_index),
                     n_heads=attn_num_head_channels,

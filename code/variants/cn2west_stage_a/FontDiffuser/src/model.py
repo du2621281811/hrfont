@@ -6,6 +6,26 @@ from diffusers import ModelMixin
 from diffusers.configuration_utils import (ConfigMixin, 
                                            register_to_config)
 
+
+class SupportAdapter(nn.Module):
+    """Minimal F3 adapter: per-scale Ec exemplar features -> RSI source stream."""
+    def __init__(self, channels=(3, 64, 128, 256, 256)):
+        super().__init__()
+        self.adapters = nn.ModuleList()
+        for channel in channels:
+            block = nn.Sequential(nn.Linear(channel, channel), nn.GELU(),
+                                  nn.Linear(channel, channel), nn.LayerNorm(channel))
+            nn.init.zeros_(block[2].weight)
+            nn.init.zeros_(block[2].bias)
+            self.adapters.append(block)
+
+    def forward(self, features):
+        out = []
+        for feature, adapter in zip(features, self.adapters):
+            tokens = feature.permute(0, 2, 3, 1)
+            out.append(adapter(tokens).permute(0, 3, 1, 2))
+        return out
+
 class FontDiffuserModel(ModelMixin, ConfigMixin):
     """Forward function for FontDiffuer with content encoder \
         style encoder and unet.
@@ -17,11 +37,13 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
         unet, 
         style_encoder,
         content_encoder,
+        support_enabled=False,
     ):
         super().__init__()
         self.unet = unet
         self.style_encoder = style_encoder
         self.content_encoder = content_encoder
+        self.support_adapter = SupportAdapter() if support_enabled else None
     
     def forward(
         self, 
@@ -33,6 +55,7 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
         style_features=None,
         structure_features=None,
         content_features=None,
+        support_features=None,
     ):
         if style_features is None:
             if style_images is None:
@@ -55,6 +78,11 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
             content_residual_features = content_features
         if structure_features is None:
             structure_features = [torch.zeros_like(x) for x in content_residual_features]
+        if self.support_adapter is not None:
+            if support_features is None:
+                support_features = [torch.zeros_like(x) for x in structure_features]
+            adapted = self.support_adapter(support_features)
+            structure_features = [source + support for source, support in zip(structure_features, adapted)]
 
         input_hidden_states = [style_img_feature, content_residual_features, style_hidden_states]
 

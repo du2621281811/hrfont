@@ -20,6 +20,8 @@ data:
   style_pool_size: 338
   es_cache_path: artifacts/e2/es_spatial_e1_100k
   ec_cache_path: artifacts/e2/ec_multiscale_e1_100k
+  cosine_table_path: artifacts/e2/es_cosine_e1_100k.f16
+  cosine_table_es_cache_sha256: null  # unused by official RSI
 model:
   rsi_source: official
   freeze_encoders: true

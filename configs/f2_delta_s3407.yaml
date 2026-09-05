@@ -1,0 +1,10 @@
+# Matched to F1; source treatment is delta only.
+schema_version: 1
+experiment: {id: F2-DELTA-S3407, variant: cn2west_stage_a}
+init: {checkpoint: runs/F0-RSIFREE-FT-A-S3407/global_step_60000, new_layer: matched_seed}
+data: {protocol: A, root: data/fontdiffuser-p253-t295-s338-cn2west-v2, split_manifest: manifests/split_v3_228_16_16.json, split: [228,16,16], excluded: [FZXianZTJW], image_size: 96, resize: false, es_cache_path: artifacts/f0/es_spatial, ec_cache_path: artifacts/f0/ec_multiscale, cosine_table_path: artifacts/f0/es_cosine.f16, cosine_table_es_cache_sha256: null}
+model: {rsi_mode: q0_inherited, rsi_source: delta, freeze_encoders: true, encoder_runtime: cache_only, style_tokens: 9, delta: {enabled: true, mode: topk, tau: 0.07, eps_alpha: 1.0e-6, k_max: 10, k_top: 10, drop: 0.25}, support: {enabled: false, drop: 0.20}, nshot: {min_n: 1, max_n: 8, eval_refs: [永,和,书,风,骨,韵,天,地]}}
+train: {seed: 3407, steps: 80000, batch_size: 8, accumulation: 1, lr: 1.0e-5, scheduler: linear, warmup_steps: 2000, mixed_precision: fp16, cfg_joint_drop: 0.10}
+loss: {perceptual: 0.01, offset: 0.5}
+checkpoint: {every_steps: 1000, milestone_every_steps: 5000}
+eval: {every_steps: 5000, best_eligible_from_step: 10000}

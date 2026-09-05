@@ -22,11 +22,14 @@
 
 ## 下一步
 
-1. 盯 F0 至 100k，按预注册规则选 milestone
-2. 从 F0 milestone 重建 Es/Ec cache（E1 cache 绑 E1 encoder，不可复用）
-3. F1/F2 开跑；F3 阻塞在 support bank（旧 `data/hrfont/e0_bank` 不存在，需按新协议重建）
-4. E12：等 PI 给外部字型来源做 S3（目标 ≥25 个互不相同字型）；在此之前 E12 数字不进主结论
-5. QKV role-swap 仅 20k 预注册筛选
+> **⚠ 未裁决冲突（2026-09-06）**：远端 `5a92f5c` 的 PI 拍板「identity-safe RSI 作废，F1/F2/F3 复用官方 RSI + offset 零初始化」与本地 `c05d293` 的 identity-safe 实现同时存在。两套 F1/F2/F3 代码并存（远端在 `cn2west_stage_a` 内扩展；本地新建 `cn2west_f123_rsi`）。**开跑前必须二选一**，见 `reports/DECISION_F123_20260906.md` 与 `reports/IMPL_F0_QKV_20260905.md`。
+
+1. **主线（先效果后消融）**：F0 → F1/F2/F3 80k（QKV 暂锁 Q0 继承版）→ E12 过门后 E3/E4/E6 主评测；Q0/Q1 20k 筛选与消融（E7–E10）在主结果可见后再排
+2. 盯 F0 至 100k，按预注册规则选 milestone（`DECISION_F123_20260906.md` §2）
+3. 从 F0 milestone 重建 Es/Ec cache（E1 cache 绑 E1 encoder，不可复用）
+4. F1/F2 开跑；F3 阻塞在 support bank（`data/hrfont/e0_bank` 不存在，需按新协议重建）
+5. E12：等 PI 给外部字型来源做 S3（目标 ≥25 个互不相同字型）；在此之前 E12 数字不进主结论
+6. 旧 E2/E2b：安全 checkpoint 停止、标 non-matched pilot（D-N4）；E1c 取消
 
 ## 实现边界
 
@@ -153,6 +156,9 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-04：**B₀=Noto ContentImage**（合作者决策）：Δ 减数与 Identity 输入统一为同一张 Noto 同字渲染，删除 FZKTJW 依赖；代码已改（train.py content_path）。
 - 2026-09-04：合作者对齐：α 聚合改为 ref8/R 同字 cosine 平均；开发初始化固定 E1@100k；验证脚本 V3/V5 neutral 角色改 ContentImage、val/test 隔离（gate 仅 val16+train，test16 只读报告）；决定不加 zero-init gate（offset 头过渡期轻度，单通路归因更干净）。
 - 2026-09-04：**n-shot 协议**：episode=(目标字体, ref 集 R)；训练 R 随机（n~Uniform{1..8}、内容随机 338 池），评测 R 固定 n（主协议 n=8 + n-shot 稳健性消融）；style 条件与 α 对齐消费同一 R（mean-pool Es）；Es 缓存扩 228×338；E2b RSI 取 R 首字符过 Ec。
+- 2026-09-05：PI 拍板（合作者审核中）：① 主对照仍 E2 vs E2b，另开 **E1c** 作为「同样 80k、不改 RSI」的 E1 续训基线；② α 主方法改为 **必取 top-10 + softmax(τ=.07)**，禁止 ε 截空；n 上限=8；③ Es/Ec **全部离线 cache**，训推禁止在线编码器；style 条件改为 n 张 `style_emd` **空间均值 9 token**（废除 1-token）。详见 `reports/PI_DECISIONS_20260905.md`。
+- 2026-09-05：**计划审查有条件批准**（`reports/REVIEW_PLAN_20260905.md`，PI 全按推荐 D-P1~D-P9，落档 exec-spec §1.7）；两个代码级阻断（Δ-drop 混杂、k_top 未接线）修后方可开 80k。
+- 2026-09-05：**PI 两项精简拍板**：① QKV 筛选瘦身为 Q0 vs Q1 两臂 20k head-to-head（Q1 非劣进主方法，Q2 进附录）；② identity-safe RSI 作废——F1/F2/F3 复用官方 RSI 模块 + offset 零初始化 + 三臂同 seed DCN（震荡正常且可恢复，防御性改造反而加重归因）。E12 五项冻结，E12a 立即并行开训。
 - 2026-09-05：PI 拍板：E1c / top-10 α / cache-only 9-token。详见 `reports/PI_DECISIONS_20260905.md`。
 - 2026-09-05：计划审查有条件批准（D-P1~D-P9）；Stage A 接线后 G4 启动 E2+E2b（后确认为非 matched 诊断）。周报 [`reports/WEEKLY_20260905.md`](reports/WEEKLY_20260905.md)。
 - 2026-09-05：**主线切换为 joint 方案**（`DESIGN_E2E3_FUSION_QKV_20260905.md` / `6616836`）：F0→F1/F2/F3；E1c superseded；旧 E2/E2b 待 STOP。
@@ -160,3 +166,4 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-06：**F1/F2/F3 落地待 review**（`cn2west_f123_rsi`）。initialisation 定为 zero-init 1×1 residual conv：`skip + zero_conv(DCN(skip,offset) - skip)`，step0 逐元素等价 F0（fp32/fp16 均 0 误差），被否的 zero-offset DCN 实测偏差 5.58（`scripts/test_identity_safe_rsi.py`）。同时修掉旧 E2/E2b 的失配根因——`source_drop` 现在对 official 与 Δ 一视同仁，`support_draw` 即使 support=off 也照抽以保持 RNG 同步。
 - 2026-09-06：E12 S1/S2/S4/S5 落地。S2 最关键：`split_families` 改按**字型分组**（`NotoSansCJK-Bold` 与 `-Regular` 是同一字型），负样本改跨字型；val 只有一个字型组时从 train∪val 取负样本（不含 test，避免选 ckpt 时泄漏）。旧的 `families[(i+1)%n]` 负样本几乎总是同字型的另一个字重。
 - 2026-09-06：E12 v3 三 seed 完成。修复把失败面从"T1/T2 双败 + T3 无意义"收敛到"只剩 T2"。T2 反而比 v2 低（0.73 vs 0.87）是正确的——v2 的分数建立在字型泄漏和同字型负样本之上。per-font 诊断显示 pooled 与 per-font AUC 相同（排除标定问题），重字重 AUC≈1.00 而轻字重在随机线附近，说明编码器只学到笔画粗细，因为训练集只有 5 个字型。**S3 是唯一有效路径，需要 PI 给字型来源。**
+- 2026-09-06：**两套 F1/F2/F3 实现撞车，待裁决。** 远端 `5a92f5c` 按 PI「identity-safe 作废」在 `cn2west_stage_a` 内实现了 plain zero-init official RSI（smoke 已过）；本地 `c05d293` 在 `cn2west_f123_rsi` 实现了 zero-init 1×1 residual conv 并给出 fp32/fp16 0 误差的 parity 证据。两者代码不冲突（路径不同），但**只能有一套开跑**。裁决要点：PI 的理由是"防御性改造加重归因"，而 identity-safe 的卖点恰恰是把"用了多少 RSI"变成一个可读的标量 `rsi_gain`。

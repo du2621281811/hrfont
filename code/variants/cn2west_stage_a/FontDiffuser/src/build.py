@@ -32,7 +32,8 @@ def build_unet(args):
         channel_attn=args.channel_attn,
         content_encoder_downsample_size=args.content_encoder_downsample_size,
         content_start_channel=args.content_start_channel,
-        reduction=32)
+        reduction=32,
+        rsi_mode=getattr(args, "rsi_mode", "q0_inherited"))
     
     return unet
 

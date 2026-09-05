@@ -52,6 +52,7 @@ class UNet(ModelMixin, ConfigMixin):
         content_encoder_downsample_size: int = 4,
         content_start_channel: int = 16,
         reduction: int = 32,
+        rsi_mode: str = "q0_inherited",
     ):
         super().__init__()
 
@@ -158,6 +159,7 @@ class UNet(ModelMixin, ConfigMixin):
                 cross_attention_dim=cross_attention_dim,
                 attn_num_head_channels=attention_head_dim,
                 upblock_index=i,
+                rsi_mode=rsi_mode,
             )
             self.up_blocks.append(up_block)
             prev_output_channel = output_channel
