@@ -50,12 +50,14 @@ def glyph(proto: str, split: str, font: str, role: str, cp: str) -> Path:
 def fig_protocols() -> None:
     font = "FZBenMXYTJW_Italic"
     rows = [
-        ("StyleImage", "u6C38", "风格参考「永」"),
-        ("TargetImage", "u0041", "目标西文「A」"),
-        ("TargetImage", "u0061", "目标西文「a」"),
+        ("StyleImage", "u6C38", "中文参考「永」"),
+        ("TargetImage", "u0041", "拉丁字母「A」"),
+        ("TargetImage", "u3042", "平假名「あ」"),
+        ("TargetImage", "u30A2", "片假名「ア」"),
+        ("TargetImage", "u3105", "注音符号「ㄅ」"),
     ]
     keys = list(PROTOS)
-    fig, axes = plt.subplots(len(rows), len(keys), figsize=(11.2, 6.2))
+    fig, axes = plt.subplots(len(rows), len(keys), figsize=(11.2, 9.0))
     fig.patch.set_facecolor("white")
     for i, (role, cp, rlab) in enumerate(rows):
         for j, proto in enumerate(keys):
@@ -77,10 +79,10 @@ def fig_protocols() -> None:
                 )
             if j == 0:
                 ax.set_ylabel(rlab, fontproperties=cjk(10))
-    fig.suptitle("同一字体、各行同一字符 · 六种渲染协议", fontproperties=cjk(13, "bold"), y=0.995)
+    fig.suptitle("六种渲染协议在不同文字系统上的效果", fontproperties=cjk(13, "bold"), y=0.995)
     fig.text(
         0.5, 0.01,
-        "训练与评测已冻结协议 A（逐字体统一字号、不缩放）。H 人工检查后弃用。",
+        "每行固定同一字体与字符，仅改变渲染协议。A 保留相对字号且不插值，作为唯一训练与评测协议。",
         ha="center", fontproperties=cjk(9), color="#333",
     )
     fig.tight_layout(rect=(0.02, 0.04, 1, 0.96))
@@ -122,7 +124,7 @@ def fig_method() -> None:
     )
     ax.text(
         7, 10.82,
-        "两组都从 E1@100k 初始化；冻结 Es/Ec；n-shot 风格条件、UNet、RSI 内部与 loss 相同",
+        "两组从同一基线开始；风格条件、内容条件、生成网络、RSI 内部和训练目标均相同",
         ha="center", va="center", fontproperties=cjk(9), color="#444",
     )
 
@@ -141,13 +143,13 @@ def fig_method() -> None:
         (left_x, 9.95), box_w, 0.62, boxstyle="round,pad=0.02,rounding_size=0.08",
         facecolor="#fff4df", edgecolor="#9a6700", linewidth=1.2,
     ))
-    ax.text(left_x + box_w / 2, 10.26, "E2b · official-RSI control",
+    ax.text(left_x + box_w / 2, 10.26, "E2b · 官方 RSI 对照",
             ha="center", va="center", fontproperties=cjk(11, "bold"), color="#7a5200")
     ax.add_patch(mpatches.FancyBboxPatch(
         (right_x, 9.95), box_w, 0.62, boxstyle="round,pad=0.02,rounding_size=0.08",
         facecolor="#eaf5ee", edgecolor="#2f5d3a", linewidth=1.2,
     ))
-    ax.text(right_x + box_w / 2, 10.26, "E2 · Δ-RSI",
+    ax.text(right_x + box_w / 2, 10.26, "E2 · 目标字残差 Δ",
             ha="center", va="center", fontproperties=cjk(11, "bold"), color="#2f5d3a")
 
     for y, (name, tag) in zip(row_y, row_labels):
@@ -162,11 +164,11 @@ def fig_method() -> None:
     left_edge, right_edge = "#9a6700", "#2f5d3a"
 
     shared_rows = [
-        "R={r1,…,rn},  n∈{1,…,8}\nmean Es(R) → 9 style tokens",
-        "Noto c → Ec(c) → MCA\n提供目标字符身份与多尺度内容",
+        "1–8 张中文参考 R\nEs 特征按空间位置平均（9 个位置）",
+        "中性字体上的目标字 c → Ec(c) → 内容支路\n提供字符身份与多尺度内容",
         None,
-        "Q=结构条件，K/V=UNet skip\nCrossAttn → 18-channel offset → DCN(skip)",
-        "E1@100k · freeze Es/Ec · 80k\nLdiff + 0.01 Lperc + 0.5 Loffset",
+        "结构条件与 UNet 特征交互\n预测位移 → 形变内容特征（RSI 本身不改）",
+        "同一 E1@100k 起点 · 冻结 Es/Ec · 80k\n相同数据、生成网络与损失",
     ]
     for idx, (y, text) in enumerate(zip(row_y, shared_rows)):
         if idx == 2:
@@ -176,12 +178,12 @@ def fig_method() -> None:
 
     _box(
         ax, (left_x, row_y[2]), box_w, box_h,
-        "Ec(R[0])\n绝对参考字结构（R[0] 为首个参考字）",
+        "Ec(R[0])\n使用首个中文参考字的绝对结构",
         left_diff, edge=left_edge, fs=9.5, lw=1.5,
     )
     _box(
         ax, (right_x, row_y[2]), box_w, box_h,
-        "Δc = ΣTop10 αs Ec(Bs,c) − Ec(Noto c)\n同一目标字符的相对残差",
+        "Δc = ΣTop10 αs Ec(Bs,c) − Ec(Noto c)\n使用同一目标字符相对中性字体的变化",
         right_diff, edge=right_edge, fs=9.2, lw=1.5,
     )
 
