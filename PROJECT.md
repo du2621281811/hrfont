@@ -7,7 +7,7 @@
 
 ## 当前状态
 
-- **阶段**：**E1 满训已完成**（`E1-FTV2-A-S3407`，**100000/100000**；`DONE.json` 已写出）。
+- **阶段**：**Stage A G4 进行中**。E1 100k 已冻；E2/E2b 80k 在跑（快照 09-05 13:55：E2 **9200**、E2b **27800**）；E1c 因 GPU0/1 僵尸显存未开。周报：[`reports/WEEKLY_20260905.md`](reports/WEEKLY_20260905.md)。
 - **训练协议已定**：仅 **A**；池 **260=228/16/16**；drop `FZXianZTJW`。
 - **E1 冻结**：seed **3407 only**；**GPU3**；**bs=8 / accum=1**；100k；lr=1e-5；warmup=5k；fp16；SCR off。
 - **入口**：`configs/e1_ft_v2_a_s3407.yaml` · `scripts/launch_cn2west_ft_v2_e1.py` · `code/variants/cn2west_ft_v2/`
@@ -16,9 +16,9 @@
 
 ## 下一步
 
-1. 按 [`reports/EXECUTION_PLAN_STAGE_A_20260905.md`](reports/EXECUTION_PLAN_STAGE_A_20260905.md) 执行：G0 预检 → cache + 接线并行 → G2/G3 smoke → 三臂 80k；先修两个代码级阻断（统一 source_drop=.25、launcher 接线 k_top=10，exec-spec §1.7）
-2. 合作者确认该计划中的 3 个实现选择（E1c 并入 Stage-A 训练器；Ec style 全量 cache；三卡同日启动）
-3. 未过 G3 **不开** E2/E2b/E1c 80k；E12a / E1 评测 / p260 SHA 可并行
+1. 盯 E2/E2b 到 80k `DONE.json`（best 仅 ≥10k）；一侧 resume 后不得再称 matched
+2. E1c：等 GPU3 腾出或 PI 允许清 GPU0/1 后，同 SHA `d382247` 启动
+3. G5 provenance；E12a / E1 正式评测可并行，主表暂不用 φ_s2
 
 ## 实现边界
 
@@ -35,8 +35,9 @@
 | `FT-P253-CNSTYLE-12K` | legacy，provenance 缺失 | 253 字体；Style 池存疑 |
 | `A-MVP-CONTROL` / `A-MVP-DELTA` | 完成，`INCONCLUSIVE` | Stage A 因果早筛 |
 | `E1-FTV2-A-S3407` | **completed 100k** | A 协议 FT-v2；看板快照已发布；正式评测待补 |
-| `E1C-FT-CONTINUE-S3407` | planned | 原 E1 前向再训 80k；不改 RSI |
-| `E2-STAGE-A-S3407` / `E2B-FT-CONTINUE-S3407` | planned | n-shot 9-token matched 对；E2=Δ，E2b=官方 RSI |
+| `E1C-FT-CONTINUE-S3407` | **blocked** | G3 20-step 已过；80k 因 GPU0/1 OOM 未开 |
+| `E2-STAGE-A-S3407` | **running** | Δ 臂；快照 9200/80k；SHA `d382247` |
+| `E2B-FT-CONTINUE-S3407` | **running** | 官方 RSI 对照；快照 27800/80k；best@25k val=0.002020 |
 | `FT-P260-A-CN2WEST-V2` | planned formal ID | 同 E1 数据协议；指纹待发 |
 
 完整表见 `provenance/REGISTRY.md`。
@@ -140,5 +141,10 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-04：**B₀=Noto ContentImage**（合作者决策）：Δ 减数与 Identity 输入统一为同一张 Noto 同字渲染，删除 FZKTJW 依赖；代码已改（train.py content_path）。
 - 2026-09-04：合作者对齐：α 聚合改为 ref8/R 同字 cosine 平均；开发初始化固定 E1@100k；验证脚本 V3/V5 neutral 角色改 ContentImage、val/test 隔离（gate 仅 val16+train，test16 只读报告）；决定不加 zero-init gate（offset 头过渡期轻度，单通路归因更干净）。
 - 2026-09-04：**n-shot 协议**：episode=(目标字体, ref 集 R)；训练 R 随机（n~Uniform{1..8}、内容随机 338 池），评测 R 固定 n（主协议 n=8 + n-shot 稳健性消融）；style 条件与 α 对齐消费同一 R（mean-pool Es）；Es 缓存扩 228×338；E2b RSI 取 R 首字符过 Ec。
+<<<<<<< HEAD
 - 2026-09-05：PI 拍板（合作者审核中）：① 主对照仍 E2 vs E2b，另开 **E1c** 作为「同样 80k、不改 RSI」的 E1 续训基线；② α 主方法改为 **必取 top-10 + softmax(τ=.07)**，禁止 ε 截空；n 上限=8；③ Es/Ec **全部离线 cache**，训推禁止在线编码器；style 条件改为 n 张 `style_emd` **空间均值 9 token**（废除 1-token）。详见 `reports/PI_DECISIONS_20260905.md`。
 - 2026-09-05：**计划审查有条件批准**（`reports/REVIEW_PLAN_20260905.md`，PI 全按推荐 D-P1~D-P9，落档 exec-spec §1.7）；两个代码级阻断（Δ-drop 混杂、k_top 未接线）修后方可开 80k；Cursor 已开始按 `EXECUTION_PLAN_STAGE_A_20260905.md`（G0–G5）执行。
+=======
+- 2026-09-05：PI 拍板：E1c / top-10 α / cache-only 9-token。详见 `reports/PI_DECISIONS_20260905.md`。
+- 2026-09-05：Stage A 接线合入 `d382247`；G3 过门；G4 启动 E2+E2b；周报 [`reports/WEEKLY_20260905.md`](reports/WEEKLY_20260905.md)。
+>>>>>>> 99b5bb0 (docs: snapshot weekly report and RSI audit)

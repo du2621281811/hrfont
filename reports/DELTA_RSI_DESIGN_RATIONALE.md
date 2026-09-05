@@ -22,7 +22,7 @@
 
 ### 3. 与 CFG/unconditional 语义一致
 
-Delta-drop 时将该分支置零，模型应退化到“没有额外形变引导”的路径；offset 头复用 E1 权重、无新增参数（PI 2026-09-04 决策不加 zero-init gate，接受头对 Δ 统计的轻度过渡期），单通路归因更干净。这一零点语义清晰：`Delta=0` 表示不提供相对中性底的变化，而不是提供某个仍带字符身份的绝对结构。
+Delta-drop 时将该条件置零，语义是“不提供 Δ 信息”；offset 头复用 E1 权重、无新增参数（PI 2026-09-04 决策不加 zero-init gate，接受头对 Δ 统计的轻度过渡期），单通路归因较干净。但必须区分**条件为零**与**形变为零**：E1 offset head 的 GroupNorm affine 和多层 projection 均有非零 bias，因此 `Delta=0` 仍可能产生非零 offset，不能称为严格的 no-deformation 路径。
 
 ### 反事实：不做减法会怎样？
 
@@ -32,14 +32,14 @@ Delta-drop 时将该分支置零，模型应退化到“没有额外形变引导
 
 ### 为什么架构上匹配
 
-RSI 的 `OffsetRefStrucInter + DCN` 不是通用风格编码器；它要求结构源能与内容 skip 的空间位置建立有意义的对应，再据此预测 deformable-convolution offset。官方同语系场景用 `Ec(S)`，成立的隐含前提是 S 与 C 是同一个字符。跨语系时 R 是汉字、C 是拉丁字母，`Ec(R)` 的汉字骨架与拉丁 skip 错位；交叉注意力据此产生的 offset 没有正确的位置语义，这是官方接线跨语失败的直接机制。
+RSI 的 `OffsetRefStrucInter + DCN` 不是通用风格编码器；它以参考字 `Ec(S)` 为 Query、UNet skip 为 Key/Value，经 cross-attention 预测 deformable-convolution offset。官方训练**本来就随机选择与目标不同的参考字**，并明确用 cross-attention 处理二者的空间错位，所以不能把“异字”或“错位”本身写成实现错误。我们的动机应限定为待验证假设：同语系异字仍共享较多笔画规律，而汉字参考与拉丁目标的局部结构可迁移性可能更弱，使官方绝对参考结构不是最合适的 RSI 条件。
 
-Delta 则由**同一个目标字符 c** 的近邻字体特征减去中性特征得到。它的多尺度空间网格与 identity skip 指向相同字符部位，RSI 的交叉注意力可以在正确位置上问“这里相对中性应怎样移动”，再由 DCN 形变 skip。因此 Delta 是 RSI 结构源的合适替换；用户参考 R 的真实风格仍独立走 `Es(R)` 风格交叉注意力，不由 Delta 取代。
+Delta 则由**同一个目标字符 c** 的近邻字体特征减去中性特征得到。它把 RSI Query 改到目标字符坐标，并旨在突出“相对中性应怎样变化”；用户参考 R 的真实风格仍独立走 `Es(R)` 风格交叉注意力。该接法在架构上更接近 DG-Font 以目标字符低层特征为形变对象的几何动机，但是否优于官方参考结构必须由 E2/E2b 及受控破坏实验验证。
 
 ### 三处必须诚实保留的张力
 
 1. **Delta 并非纯 where。** 它是同字符特征差，offset 的方向和幅度本身已经包含粗粒度的“怎么变”。论文只能表述为“架构主要将 Delta 用作定位/对齐信号”，不能宣称它完全不含 what；应由 E9 接入与破坏实验验证。
-2. **尺度分布改变。** Delta 能量通常比绝对 `Ec(S)` 小，且各层分布不同。offset 复用 E1 头（无新增参数、无 zero-init gate，PI 2026-09-04 决策）；Delta-drop 保证无 Delta 时可退化。任何破坏实验都须逐层匹配正确 Delta 的 RMS，避免能量差成为混杂因素。
+2. **尺度与分布改变。** Delta 是有符号残差，而 E1 offset 头原先接收绝对 `Ec(S)`。GroupNorm 会缓解尺度差，却不会保证语义分布匹配。offset 复用 E1 头（无新增参数、无 zero-init gate）；Delta-drop 仅表示不给 Δ 条件，不保证零 offset。任何破坏实验都须逐层匹配正确 Delta 的 RMS，避免能量差成为混杂因素。
 3. **Ec 的西文字形质量未知。** 官方 Ec 在拉丁字符上的局部对应是否可靠尚未实证。E0/E9 的 wrong-char Delta、wrong-style Delta、spatial shuffle 与 magnitude-only 消融，以及 offset 定位指标，必须承担这项验证，不能仅凭架构直觉下结论。
 
 ### “Delta 适合 RSI”的预注册判定条件
@@ -54,9 +54,9 @@ Delta 则由**同一个目标字符 c** 的近邻字体特征减去中性特征�
 
 ## 论文可直接采用的表述
 
-“We construct a character-aligned residual condition by subtracting the neutral-font content features from an alpha-weighted mixture of same-character neighbor features. This removes the dominant identity component already supplied by MCA and gives zero a natural no-deformation semantics.”
+“We construct a character-aligned residual condition by subtracting the neutral-font content features from an alpha-weighted mixture of same-character neighbor features. This is intended to suppress the identity component already supplied by MCA and to represent changes relative to a shared neutral reference.”
 
-“We replace the cross-script-misaligned `Ec(R)` structure source of RSI with this same-character residual, while retaining `Es(R)` for style cross-attention. We describe Delta as primarily an alignment cue—not a pure where-only signal—and test that interpretation with RMS-controlled interventions and offset localization.”
+“Although the original RSI uses cross-attention to accommodate different reference and target characters, we hypothesize that the transferability of absolute reference structure weakens across scripts. We therefore replace `Ec(R)` with this same-character residual while retaining `Es(R)` for style cross-attention, and test the hypothesis with matched controls, RMS-controlled interventions, and offset localization.”
 
 ## Q&A 增补（2026-09-04）
 
@@ -76,7 +76,7 @@ Delta 则由**同一个目标字符 c** 的近邻字体特征减去中性特征�
 
 #### (d) 到底要不要减 B₀？不减能不能跑？
 
-主方法必须减：第一层是**身份剥离/change-only 语义**，绝对 `Ec(B_s,c)` 的主导公共量仍是字符 $c$，而身份已经由 Content→MCA 提供；减同字 B₀ 才把 RSI 条件改写为“相对中性底应怎样变”，避免与 Identity 支路重复（本文件第 15–21 行；实际 feature-mix 在 [`scripts/hrfont_delta_v2.py:151`](../scripts/hrfont_delta_v2.py#L151)–[`183`](../scripts/hrfont_delta_v2.py#L183)）。第二层是**零模式/CFG 语义**：邻居等于 B₀ 时 Δ 精确为零，Delta-drop 也可把整条分支置零并解释为“无额外形变”；当前纯函数以空权重返回 `None`（[`scripts/hrfont_delta_v2.py:159`](../scripts/hrfont_delta_v2.py#L159)–[`166`](../scripts/hrfont_delta_v2.py#L166)），E2 设计为独立 `.25` Delta-drop；offset 头复用 E1 权重、无 zero-init gate（PI 2026-09-04 决策）。第三层是**数值条件**：固定 B₀ 消掉大的同字 common-mode，使 offset 头围绕共同零点学习较小的相对量，跨字体/字符的尺度更容易校准；这不是“必然更稳定”的定理，因此仍须记录逐层 RMS（本文件第 41–43 行）。不减当然能前向运行，但 RSI 得到的是另一份绝对同字内容特征，既与 Identity 重复，又没有干净的 null 原点；本文件第 27–29 行已经把它定义为反事实，因此它只能作为 `no-neutral-subtraction` 消融，不能与 Δ 主方法同名。
+主方法减 B₀ 的第一层动机是**削弱身份公共量**：绝对 `Ec(B_s,c)` 的主导公共量仍是字符 $c$，而身份已经由 Content→MCA 提供；减同字 B₀ 将 RSI 条件改写为“相对中性底怎样变化”，旨在减少与 Identity 支路的重复（实际 feature-mix 见 [`scripts/hrfont_feature_cache.py`](../scripts/hrfont_feature_cache.py)）。第二层是**条件零点语义**：邻居特征等于 B₀ 时 Δ 精确为零，Delta-drop 也可把输入条件置零；但由于 offset head 含非零 affine/bias，这不等于 offset 或 DCN 形变为零。第三层是**数值条件**：固定 B₀ 旨在消去大的同字 common-mode，使输入成为较小的相对量；这不是“必然更稳定”或“身份已被完全去除”的定理，因此仍须记录逐层 RMS 并做消融。不减当然能前向运行，但得到的是另一份绝对同字内容特征，只能作为 `no-neutral-subtraction` 反事实。
 
 #### (e) 为什么不用 RSI 原注意力“自己学偏移”？
 
@@ -104,4 +104,4 @@ Delta 则由**同一个目标字符 c** 的近邻字体特征减去中性特征�
 
 ### 实施一致性提醒
 
-PI 2026-09-05 已冻结：α **必取 top-10** 再 `softmax(s/0.07)`（`mode=topk, k_top=10`）；`eps_alpha` 只作 `≤1e-6` 数值地板，**不得**把邻域截空。K=3 仅附录消融。相似度聚合为同字 cosine 再平均（[`scripts/hrfont_delta_v2.py:88`](../scripts/hrfont_delta_v2.py#L88)–[`101`](../scripts/hrfont_delta_v2.py#L101)）。当前 Stage-A 代码仍可能是 soft-ε / 1-token / 在线 Ec，以 YAML 与 [`PI_DECISIONS_20260905.md`](./PI_DECISIONS_20260905.md) 为准，代码待审核后修改。
+PI 2026-09-05 已冻结：α **必取 top-10** 再 `softmax(s/0.07)`（`mode=topk, k_top=10`）；`eps_alpha` 只作 `≤1e-6` 数值地板，**不得**把邻域截空。K=3 仅附录消融。相似度聚合为同字 cosine 再平均（[`scripts/hrfont_delta_v2.py`](../scripts/hrfont_delta_v2.py)）。Stage-A 已实现 top-10、9-token 与 cache-only，详细审查见 [`RSI_CORRECTNESS_REVIEW_20260905.md`](./RSI_CORRECTNESS_REVIEW_20260905.md)。
