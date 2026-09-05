@@ -103,12 +103,88 @@ def _box(ax, xy, w, h, text, facecolor, edge="#333", fs=9, lw=1.1):
     return patch
 
 
-def _arrow(ax, start, end):
+def _arrow(ax, x1, y1, x2, y2, color="#555") -> None:
     ax.annotate(
-        "", xy=end, xytext=start,
-        arrowprops=dict(arrowstyle="-|>", color="#333", lw=1.2,
-                        mutation_scale=11),
+        "", xy=(x2, y2), xytext=(x1, y1),
+        arrowprops=dict(arrowstyle="-|>", color=color, lw=1.35,
+                        mutation_scale=12, connectionstyle="arc3,rad=0"),
     )
+
+
+def fig_fd_flow() -> None:
+    """Compact FD data-flow: three lanes, one merge, one change point."""
+    fig, ax = plt.subplots(figsize=(12.2, 7.0))
+    fig.patch.set_facecolor("white")
+    ax.set_xlim(0, 12.2)
+    ax.set_ylim(0, 8.4)
+    ax.axis("off")
+
+    fig.suptitle(
+        "FontDiffuser 数据流：三路汇入；只改结构源",
+        fontproperties=cjk(14, "bold"), y=0.98,
+    )
+
+    # lane headers
+    headers = [
+        (0.4, 3.5, "#4a6fa5", "内容 · 定字"),
+        (4.2, 3.5, "#9a6700", "风格 · 定风格"),
+        (8.0, 3.8, "#8b1e1e", "结构 · 唯一切换"),
+    ]
+    for x, w, color, title in headers:
+        ax.text(x + w / 2, 7.85, title, ha="center", va="center",
+                fontproperties=cjk(11, "bold"), color=color)
+
+    # inputs / structure choices (same visual row)
+    _box(ax, (0.4, 6.45), 3.5, 1.0, "目标字 c\n（中性字体）", "#eef3f8", edge="#4a6fa5", fs=10)
+    _box(ax, (4.2, 6.45), 3.5, 1.0, "汉字参考 R\n（1–8 张）", "#fff4df", edge="#9a6700", fs=10)
+
+    ax.add_patch(mpatches.FancyBboxPatch(
+        (8.0, 6.35), 3.8, 1.2, boxstyle="round,pad=0.02,rounding_size=0.1",
+        facecolor="#fffafa", edgecolor="#8b1e1e", linewidth=1.5, linestyle="--",
+    ))
+    _box(ax, (8.1, 6.5), 1.75, 0.9, "E2b\nEc(R[0])", "#fff4df", edge="#9a6700", fs=9, lw=1.25)
+    ax.text(9.9, 6.95, "或", ha="center", va="center",
+            fontproperties=cjk(9, "bold"), color="#8b1e1e")
+    _box(ax, (10.05, 6.5), 1.65, 0.9, "E2\nΔc", "#eaf5ee", edge="#2f5d3a", fs=9, lw=1.25)
+
+    # mid modules
+    _box(ax, (0.4, 4.85), 3.5, 0.95, "Ec → MCA", "#eef3f8", edge="#4a6fa5", fs=11, lw=1.2)
+    _box(ax, (4.2, 4.85), 3.5, 0.95, "Es → 风格注意力", "#fff4df", edge="#9a6700", fs=11, lw=1.2)
+    _box(ax, (8.0, 4.85), 3.8, 0.95, "结构条件 → RSI 的 Q", "#f8f0f0", edge="#8b1e1e", fs=10.5, lw=1.25)
+
+    for x in (2.15, 5.95, 9.9):
+        _arrow(ax, x, 6.45, x, 5.8)
+
+    # merge rail
+    for x in (2.15, 5.95, 9.9):
+        ax.plot([x, x], [4.85, 4.35], color="#555", lw=1.3)
+    ax.plot([2.15, 9.9], [4.35, 4.35], color="#555", lw=1.3)
+    ax.annotate(
+        "", xy=(6.1, 4.05), xytext=(6.1, 4.35),
+        arrowprops=dict(arrowstyle="-|>", color="#555", lw=1.35, mutation_scale=12),
+    )
+
+    _box(
+        ax, (0.4, 2.15), 11.4, 1.9,
+        "UNet（不改）　MCA + 风格注意力 + x_t,t\n"
+        "RSI（不改）　Q=结构，K/V=skip → offset → DCN",
+        "#f5f6f7", edge="#444", fs=11, lw=1.3,
+    )
+    _arrow(ax, 6.1, 2.15, 6.1, 1.65)
+    _box(
+        ax, (0.4, 0.55), 11.4, 1.1,
+        "输出 noise_pred　·　损失 MSE + 感知 + mean|δ|（不改）",
+        "#eef3f8", edge="#4a6fa5", fs=10.5, lw=1.2,
+    )
+    ax.text(
+        6.1, 0.2,
+        "读法：左两路与官方相同；右路在 Ec(R[0]) 与 Δc 之间二选一。",
+        ha="center", va="center", fontproperties=cjk(8.5), color="#555",
+    )
+
+    fig.tight_layout(rect=(0.01, 0.02, 0.99, 0.96))
+    fig.savefig(OUT / "fig2_fd_flow.png", dpi=160, bbox_inches="tight")
+    plt.close(fig)
 
 
 def fig_method() -> None:
@@ -244,6 +320,7 @@ def fig_e1_examples() -> None:
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     fig_protocols()
+    fig_fd_flow()
     fig_method()
     fig_e1_examples()
     print("wrote", OUT)

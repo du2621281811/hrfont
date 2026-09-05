@@ -1,0 +1,48 @@
+# F1 — joint 主线 matched arm（PI 2026-09-05：单 seed 3407）
+experiment_id: F1-OFFRSI-A-S3407
+arm: F1
+variant: cn2west_f123_rsi
+rsi_block: StyleRSIUpBlockIdentitySafe
+isolates: "F1 vs F2 隔离 Δ source"
+init:
+  parent: runs/F0-RSIFREE-FT-A-S3407/best   # F0 milestone，跑满 100k 后按 val 选
+  new_layer: zero_conv                       # step0 与 F0 逐元素等价，parity gate 强制
+  es_cache: artifacts/f0/es_spatial_f0       # 必须由 F0 encoder 重建；禁止复用 E1 cache
+  ec_cache: artifacts/f0/ec_multiscale_f0
+data:
+  protocol: A
+  root: data/fontdiffuser-p253-t295-s338-cn2west-v2
+  split: manifests/split_v3_228_16_16.json
+  train_val_test: [228, 16, 16]
+  excluded: [FZXianZTJW]
+  reuse: "复用协议 A 渲染与 split_v3，不重渲染"
+model:
+  rsi_source: official
+  support: false
+  support_drop: 0.20
+  support_k: 8
+  freeze_encoders: true
+  encoder_runtime: cache_only
+  delta: {tau: 0.07, k_top: 10, mode: topk, leave_one_out: true}
+train:
+  seed: 3407
+  seeds_skipped: [3408, 3409]
+  steps: 80000
+  batch_size: 8
+  accumulation: 1
+  effective_batch: 8
+  lr: 1.0e-5
+  scheduler: linear
+  warmup_steps: 5000
+  fp16: true
+  cfg_joint_drop: 0.10
+  source_drop: 0.25          # 对 official 与 delta 一视同仁（旧 E2/E2b 失配点）
+  perceptual: 0.01
+  offset: 0.5
+  max_grad_norm: 1.0
+gates:
+  parity: "step0 max|Δ| == 0 vs F0 raw-skip；写 parity_gate.json"
+  matched: "F1/F2/F3 共用同一 train.py 路径；arm 与 (rsi_source, support) 不符即报错"
+launch:
+  smoke: python scripts/launch_cn2west_f123.py --arm F1 --parent runs/F0-RSIFREE-FT-A-S3407/best --smoke
+  full:  python scripts/launch_cn2west_f123.py --arm F1 --parent runs/F0-RSIFREE-FT-A-S3407/best --yes

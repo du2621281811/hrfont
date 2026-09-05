@@ -1,0 +1,17 @@
+schema_version: 2
+experiment: {id: E12-SELFTESTS-V3-S3408}
+data:
+  cache_dir: /root/projects/hrfont/artifacts/e12/cache_v3
+  ref_chars: ["永", "和", "书", "风", "骨", "韵", "天", "地"]
+  query_chars: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  split_ratios: [0.7, 0.15, 0.15]
+  split_seed: 3407
+  split_by_group: true
+model:
+  phi_checkpoint: /root/projects/hrfont/runs/e12_phi_s2_v3_s3408/best.pt
+  id_checkpoint: /root/projects/hrfont/runs/e12_id_cls_v3_s3408/best.pt
+  in_channels: 3
+  feature_dim: 512
+train: {device: cuda:0}
+gates: {t1_median: 0.6, t2_auc: 0.9, t3_accuracy: 0.9, t4_mean_drop: 0.02, t4_paired_t: 1.96, relaxed: false}
+output: {dir: /root/projects/hrfont/runs/e12_self_tests_v3_s3408}

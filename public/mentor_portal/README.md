@@ -1,12 +1,14 @@
 # HR-Font mentor portal
 
-只读静态评审入口，公开内容被服务端路由限制为：
+只读入口。审查页**直接挂载**既有 `:8777` 目录，不再提供重写摘要：
 
-- `/`：整理后的项目入口；
-- `/rendering.html`：六种渲染协议与边界框解释；
-- `/bbox/`：原始边界框技术页；
-- `/e1/`：E1 正式交互评测；
-- `/assets/`：周报精选图片。
+| 路径 | 对应原页 |
+|---|---|
+| `/cn2west_v2_abc_review/` | `http://127.0.0.1:8777/cn2west_v2_abc_review/` |
+| `/e1_formal_eval/` | `http://127.0.0.1:8777/e1_formal_eval/` |
+| `/render_qa_hub.html` | `http://127.0.0.1:8777/render_qa_hub.html` |
+| `/weekly.html` | 周报 HTML |
+| `/assets/` | 周报插图 |
 
 启动：
 
@@ -14,11 +16,4 @@
 python scripts/serve_mentor_portal.py --host 0.0.0.0 --port 19001
 ```
 
-本机检查：<http://127.0.0.1:19001/>
-
-导师内网入口（与此前 overnight 网页同一主机）：
-
-- 周报：<http://172.19.45.13:19001/weekly.html>
-- 总入口：<http://172.19.45.13:19001/>
-
-只暴露 `19000–19002`；不要把服务根目录改成项目根目录或 `data/`。
+本机优先打开 `:8777` 原地址；导师若只能访问 19000–19002，用本站同路径镜像。

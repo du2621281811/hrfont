@@ -1,0 +1,822 @@
+diff -ruN '--exclude=__pycache__' '--exclude=*.pyc' '--exclude=ZZZ_*' code/variants/cn2west_stage_a/FontDiffuser/configs/fontdiffuser.py code/variants/cn2west_f123_rsi/FontDiffuser/configs/fontdiffuser.py
+--- code/variants/cn2west_stage_a/FontDiffuser/configs/fontdiffuser.py	2026-09-05 06:00:07.972745957 +0000
++++ code/variants/cn2west_f123_rsi/FontDiffuser/configs/fontdiffuser.py	2026-09-05 16:07:42.083927007 +0000
+@@ -39,7 +39,18 @@
+     parser.add_argument("--delta_mode", choices=("soft", "topk", "threshold"), default="topk")
+     parser.add_argument("--ec_cache_path", type=str, default="artifacts/e2/ec_multiscale_e1_100k")
+     parser.add_argument("--encoder_runtime", choices=("cache_only", "online"), default="cache_only")
+-    parser.add_argument("--delta_drop", type=float, default=0.25)
++    # F1/F2/F3 matched arms. source_drop applies to WHATEVER structure source is
++    # active (official Ec or delta) -- the old delta-only drop silently un-matched
++    # the official arm against the delta arm.
++    parser.add_argument("--arm", choices=("F1", "F2", "F3"), required=True)
++    parser.add_argument("--source_drop", type=float, default=0.25)
++    parser.add_argument("--support", action=argparse.BooleanOptionalAction, default=False)
++    parser.add_argument("--support_drop", type=float, default=0.20)
++    parser.add_argument("--support_k", type=int, default=8)
++    parser.add_argument("--support_bank", type=str, default=None,
++                        help="JSON manifest {char_cp: [support_cp, ...]}; required when --support.")
++    parser.add_argument("--parity_check", action=argparse.BooleanOptionalAction, default=True,
++                        help="Assert step-0 RSI output is bit-identical to the F0 raw-skip path.")
+     parser.add_argument("--nshot_min", type=int, default=1)
+     parser.add_argument("--nshot_max", type=int, default=8)
+     parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
+diff -ruN '--exclude=__pycache__' '--exclude=*.pyc' '--exclude=ZZZ_*' code/variants/cn2west_stage_a/FontDiffuser/launch_e2.py code/variants/cn2west_f123_rsi/FontDiffuser/launch_e2.py
+--- code/variants/cn2west_stage_a/FontDiffuser/launch_e2.py	2026-09-05 06:00:08.096747482 +0000
++++ code/variants/cn2west_f123_rsi/FontDiffuser/launch_e2.py	1970-01-01 00:00:00.000000000 +0000
+@@ -1,104 +0,0 @@
+-#!/usr/bin/env python3
+-"""YAML launcher for E1c/E2/E2b Stage A (cache-only)."""
+-from __future__ import annotations
+-
+-import argparse
+-import os
+-import subprocess
+-import sys
+-from pathlib import Path
+-
+-import yaml
+-
+-ROOT = Path(__file__).resolve().parents[4]
+-
+-
+-def main() -> int:
+-    parser = argparse.ArgumentParser()
+-    parser.add_argument("--config", type=Path, default=ROOT / "configs/e2_stage_a_s3407.yaml")
+-    parser.add_argument("--gpu", type=int, default=0)
+-    parser.add_argument("--yes", action="store_true")
+-    parser.add_argument("--output-dir", type=Path)
+-    parser.add_argument("--max-steps", type=int)
+-    args = parser.parse_args()
+-    if not args.yes:
+-        print("Refusing full training without --yes; run scripts/e2_smoke_test.py first.", file=sys.stderr)
+-        return 2
+-
+-    cfg_path = args.config.resolve() if args.config.is_absolute() else (ROOT / args.config).resolve()
+-    cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8"))
+-    run_id = cfg["experiment"]["id"]
+-    data, model, train = cfg["data"], cfg["model"], cfg["train"]
+-    delta, nshot = model["delta"], model["nshot"]
+-    init_dir = ROOT / cfg["init"]["checkpoint"]
+-    es_cache = ROOT / data["es_cache_path"]
+-    ec_cache = ROOT / data["ec_cache_path"]
+-    required = [
+-        init_dir / "unet.pth", init_dir / "style_encoder.pth", init_dir / "content_encoder.pth",
+-        es_cache / "manifest.json", es_cache / "progress.json",
+-        ec_cache / "manifest.json", ec_cache / "progress.json",
+-    ]
+-    for path in required:
+-        if not path.exists():
+-            print(f"missing required artifact: {path}", file=sys.stderr)
+-            return 2
+-    for progress_path in (es_cache / "progress.json", ec_cache / "progress.json"):
+-        payload = yaml.safe_load(progress_path.read_text(encoding="utf-8"))
+-        if payload.get("done") != payload.get("total"):
+-            print(f"incomplete cache: {progress_path} {payload}", file=sys.stderr)
+-            return 2
+-    output = Path(args.output_dir) if args.output_dir else ROOT / "runs" / run_id
+-    last_state = output / "last_state"
+-    if (output / "DONE.json").exists():
+-        print(f"output already completed: {output}", file=sys.stderr)
+-        return 0
+-    has_ckpt = last_state.exists() or any(output.glob("global_step_*")) if output.exists() else False
+-    ignore = {"logs", "watchdog.log", "watchdog_train.log"}
+-    if output.exists() and not (output / "STOP").exists() and not has_ckpt:
+-        leftover = [p.name for p in output.iterdir() if p.name not in ignore]
+-        if leftover:
+-            print(f"output exists without checkpoint (failed smoke?); remove it first: {output}", file=sys.stderr)
+-            return 2
+-
+-    eval_refs = nshot.get("eval_refs") or ["永"]
+-    steps = args.max_steps or train["steps"]
+-    cmd = [
+-        sys.executable, str(Path(__file__).with_name("train.py")),
+-        "--config_path", str(cfg_path),
+-        "--experience_name", run_id, "--output_dir", str(output),
+-        "--data_root", str(ROOT / data["root"]),
+-        "--split_manifest", str(ROOT / data["split_manifest"]),
+-        "--excluded", *data["excluded"],
+-        "--es_cache_path", str(es_cache), "--ec_cache_path", str(ec_cache),
+-        "--phase_1_ckpt_dir", str(init_dir),
+-        "--rsi_source", model["rsi_source"],
+-        "--encoder_runtime", model.get("encoder_runtime", "cache_only"),
+-        "--delta_tau", str(delta["tau"]), "--delta_eps_alpha", str(delta["eps_alpha"]),
+-        "--delta_k_max", str(delta["k_max"]), "--delta_k_top", str(delta["k_top"]),
+-        "--delta_mode", delta["mode"], "--delta_drop", str(delta["drop"]),
+-        "--nshot_min", str(nshot["min_n"]), "--nshot_max", str(nshot["max_n"]),
+-        "--eval_refs", *eval_refs,
+-        "--seed", str(train["seed"]), "--max_train_steps", str(steps),
+-        "--train_batch_size", str(train["batch_size"]),
+-        "--gradient_accumulation_steps", str(train["accumulation"]),
+-        "--learning_rate", str(train["lr"]), "--lr_scheduler", train["scheduler"],
+-        "--lr_warmup_steps", str(train["warmup_steps"]), "--mixed_precision", "fp16",
+-        "--drop_prob", str(train["cfg_joint_drop"]),
+-        "--perceptual_coefficient", str(cfg["loss"]["perceptual"]),
+-        "--offset_coefficient", str(cfg["loss"]["offset"]),
+-        "--ckpt_interval", str(cfg["checkpoint"]["every_steps"]),
+-        "--state_interval", "1000",
+-    ]
+-    if last_state.exists() and (last_state / "trainer_state.pt").exists():
+-        cmd.extend(["--resume_from", str(last_state)])
+-        print(f"resuming from {last_state}", flush=True)
+-    cmd.append("--delta_enabled" if delta["enabled"] else "--no-delta_enabled")
+-    env = os.environ.copy()
+-    env["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
+-    env["PYTHONUNBUFFERED"] = "1"
+-    print("CMD", " ".join(cmd), flush=True)
+-    return subprocess.run(cmd, cwd=Path(__file__).parent, env=env).returncode
+-
+-
+-if __name__ == "__main__":
+-    raise SystemExit(main())
+diff -ruN '--exclude=__pycache__' '--exclude=*.pyc' '--exclude=ZZZ_*' code/variants/cn2west_stage_a/FontDiffuser/src/build.py code/variants/cn2west_f123_rsi/FontDiffuser/src/build.py
+--- code/variants/cn2west_stage_a/FontDiffuser/src/build.py	2026-09-04 09:56:18.523226814 +0000
++++ code/variants/cn2west_f123_rsi/FontDiffuser/src/build.py	2026-09-05 16:07:13.031562205 +0000
+@@ -17,8 +17,8 @@
+                           'MCADownBlock2D', 
+                           'DownBlock2D'),
+         up_block_types=('UpBlock2D', 
+-                        'StyleRSIUpBlock2D',
+-                        'StyleRSIUpBlock2D', 
++                        'StyleRSIUpBlockIdentitySafe',
++                        'StyleRSIUpBlockIdentitySafe', 
+                         'UpBlock2D'),
+         block_out_channels=args.unet_channels, 
+         layers_per_block=2,
+diff -ruN '--exclude=__pycache__' '--exclude=*.pyc' '--exclude=ZZZ_*' code/variants/cn2west_stage_a/FontDiffuser/src/model.py code/variants/cn2west_f123_rsi/FontDiffuser/src/model.py
+--- code/variants/cn2west_stage_a/FontDiffuser/src/model.py	2026-09-05 06:00:07.976746005 +0000
++++ code/variants/cn2west_f123_rsi/FontDiffuser/src/model.py	2026-09-05 16:07:42.083927007 +0000
+@@ -33,6 +33,7 @@
+         style_features=None,
+         structure_features=None,
+         content_features=None,
++        support_tokens=None,
+     ):
+         if style_features is None:
+             if style_images is None:
+@@ -56,6 +57,12 @@
+         if structure_features is None:
+             structure_features = [torch.zeros_like(x) for x in content_residual_features]
+ 
++        # F3: SupportAdapter tokens extend the up-path cross-attention context only.
++        # The MCA down-path still sees the unmodified style map, so F2 vs F3 differ
++        # in exactly one place.
++        if support_tokens is not None and support_tokens.numel() > 0:
++            style_hidden_states = torch.cat([style_hidden_states, support_tokens.to(style_hidden_states.dtype)], dim=1)
++
+         input_hidden_states = [style_img_feature, content_residual_features, style_hidden_states]
+ 
+         out = self.unet(
+diff -ruN '--exclude=__pycache__' '--exclude=*.pyc' '--exclude=ZZZ_*' code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet_blocks.py code/variants/cn2west_f123_rsi/FontDiffuser/src/modules/unet_blocks.py
+--- code/variants/cn2west_stage_a/FontDiffuser/src/modules/unet_blocks.py	2026-09-04 09:56:18.559227288 +0000
++++ code/variants/cn2west_f123_rsi/FontDiffuser/src/modules/unet_blocks.py	2026-09-05 16:07:12.935561000 +0000
+@@ -89,6 +89,21 @@
+             resnet_eps=resnet_eps,
+             resnet_act_fn=resnet_act_fn,
+             resnet_groups=resnet_groups)
++    elif up_block_type == "StyleRSIUpBlockIdentitySafe":
++        return StyleRSIUpBlockIdentitySafe(
++            num_layers=num_layers,
++            in_channels=in_channels,
++            out_channels=out_channels,
++            prev_output_channel=prev_output_channel,
++            temb_channels=temb_channels,
++            add_upsample=add_upsample,
++            resnet_eps=resnet_eps,
++            resnet_act_fn=resnet_act_fn,
++            resnet_groups=resnet_groups,
++            cross_attention_dim=cross_attention_dim,
++            attn_num_head_channels=attn_num_head_channels,
++            structure_feature_begin=structure_feature_begin,
++            upblock_index=upblock_index)
+     elif up_block_type == "StyleRSIUpBlock2D":
+         return StyleRSIUpBlock2D(
+             num_layers=num_layers,
+@@ -587,6 +602,194 @@
+         return hidden_states, offset_out
+ 
+ 
++
++class StyleRSIUpBlockIdentitySafe(nn.Module):
++    """RSI up block whose skip pathway is exactly identity at initialisation.
++
++        warped   = DeformConv(skip, offset)
++        skip_out = skip + zero_conv(warped - skip)
++
++    `zero_conv` is a 1x1 conv with zero weight and bias, so at step 0 the block is
++    element-wise equal to F0's `StyleUpBlockNoRSI` in any precision -- unlike a
++    zero-offset DeformConv, which still applies a learned 3x3 kernel to the skip.
++
++    `rsi_gain()` (mean |zero_conv.weight|) is a scalar read-out of how much RSI the
++    arm actually ended up using; log it instead of inferring RSI usage from metrics.
++    """
++
++    def __init__(
++        self,
++        in_channels: int,
++        out_channels: int,
++        prev_output_channel: int,
++        temb_channels: int,
++        dropout: float = 0.0,
++        num_layers: int = 1,
++        resnet_eps: float = 1e-6,
++        resnet_time_scale_shift: str = "default",
++        resnet_act_fn: str = "swish",
++        resnet_groups: int = 32,
++        resnet_pre_norm: bool = True,
++        attn_num_head_channels=1,
++        cross_attention_dim=1280,
++        attention_type="default",
++        output_scale_factor=1.0,
++        downsample_padding=1,
++        structure_feature_begin=64,
++        upblock_index=1,
++        add_upsample=True,
++    ):
++        super().__init__()
++        resnets = []
++        attentions = []
++        sc_interpreter_offsets = []
++        dcn_deforms = []
++        zero_convs = []
++
++        self.attention_type = attention_type
++        self.attn_num_head_channels = attn_num_head_channels
++        self.upblock_index = upblock_index
++        # Set False to bypass the RSI branch entirely (used by the step-0 parity gate).
++        self.rsi_enabled = True
++
++        for i in range(num_layers):
++            res_skip_channels = in_channels if (i == num_layers - 1) else out_channels
++            resnet_in_channels = prev_output_channel if i == 0 else out_channels
++
++            sc_interpreter_offsets.append(
++                OffsetRefStrucInter(
++                    res_in_channels=res_skip_channels,
++                    style_feat_in_channels=int(structure_feature_begin * 2 / upblock_index),
++                    n_heads=attn_num_head_channels,
++                    num_groups=resnet_groups,
++                )
++            )
++            dcn_deforms.append(
++                DeformConv2d(
++                    in_channels=res_skip_channels,
++                    out_channels=res_skip_channels,
++                    kernel_size=(3, 3),
++                    stride=1,
++                    padding=1,
++                    dilation=1,
++                )
++            )
++            zero_conv = nn.Conv2d(res_skip_channels, res_skip_channels, kernel_size=1)
++            nn.init.zeros_(zero_conv.weight)
++            nn.init.zeros_(zero_conv.bias)
++            zero_convs.append(zero_conv)
++
++            resnets.append(
++                ResnetBlock2D(
++                    in_channels=resnet_in_channels + res_skip_channels,
++                    out_channels=out_channels,
++                    temb_channels=temb_channels,
++                    eps=resnet_eps,
++                    groups=resnet_groups,
++                    dropout=dropout,
++                    time_embedding_norm=resnet_time_scale_shift,
++                    non_linearity=resnet_act_fn,
++                    output_scale_factor=output_scale_factor,
++                    pre_norm=resnet_pre_norm,
++                )
++            )
++            attentions.append(
++                SpatialTransformer(
++                    out_channels,
++                    attn_num_head_channels,
++                    out_channels // attn_num_head_channels,
++                    depth=1,
++                    context_dim=cross_attention_dim,
++                    num_groups=resnet_groups,
++                )
++            )
++
++        self.sc_interpreter_offsets = nn.ModuleList(sc_interpreter_offsets)
++        self.dcn_deforms = nn.ModuleList(dcn_deforms)
++        self.zero_convs = nn.ModuleList(zero_convs)
++        self.attentions = nn.ModuleList(attentions)
++        self.resnets = nn.ModuleList(resnets)
++        self.num_layers = num_layers
++
++        if add_upsample:
++            self.upsamplers = nn.ModuleList([Upsample2D(out_channels, use_conv=True, out_channels=out_channels)])
++        else:
++            self.upsamplers = None
++
++        self.gradient_checkpointing = False
++
++    def rsi_gain(self) -> float:
++        with torch.no_grad():
++            return float(torch.stack([c.weight.abs().mean() for c in self.zero_convs]).mean())
++
++    def set_attention_slice(self, slice_size):
++        if slice_size is not None and self.attn_num_head_channels % slice_size != 0:
++            raise ValueError(
++                f"Make sure slice_size {slice_size} is a divisor of "
++                f"the number of heads used in cross_attention {self.attn_num_head_channels}"
++            )
++        if slice_size is not None and slice_size > self.attn_num_head_channels:
++            raise ValueError(
++                f"Chunk_size {slice_size} has to be smaller or equal to "
++                f"the number of heads used in cross_attention {self.attn_num_head_channels}"
++            )
++        for attn in self.attentions:
++            attn._set_attention_slice(slice_size)
++        self.gradient_checkpointing = False
++
++    def forward(
++        self,
++        hidden_states,
++        res_hidden_states_tuple,
++        structure_features,
++        temb=None,
++        encoder_hidden_states=None,
++        upsample_size=None,
++    ):
++        total_offset = 0
++        structure_feat = structure_features[-self.upblock_index - 2]
++
++        for sc_inter_offset, dcn_deform, zero_conv, resnet, attn in zip(
++            self.sc_interpreter_offsets, self.dcn_deforms, self.zero_convs,
++            self.resnets, self.attentions
++        ):
++            res_hidden_states = res_hidden_states_tuple[-1]
++            res_hidden_states_tuple = res_hidden_states_tuple[:-1]
++            res_hidden_states = res_hidden_states.contiguous()
++
++            if self.rsi_enabled:
++                offset = sc_inter_offset(res_hidden_states, structure_feat).contiguous()
++                total_offset += torch.mean(torch.abs(offset))
++                warped = dcn_deform(res_hidden_states, offset)
++                res_hidden_states = res_hidden_states + zero_conv(warped - res_hidden_states)
++            else:
++                total_offset += res_hidden_states.new_zeros(())
++
++            hidden_states = torch.cat([hidden_states, res_hidden_states], dim=1)
++
++            if self.training and self.gradient_checkpointing:
++                def create_custom_forward(module):
++                    def custom_forward(*inputs):
++                        return module(*inputs)
++                    return custom_forward
++
++                hidden_states = torch.utils.checkpoint.checkpoint(create_custom_forward(resnet), hidden_states, temb)
++                hidden_states = torch.utils.checkpoint.checkpoint(
++                    create_custom_forward(attn), hidden_states, encoder_hidden_states
++                )
++            else:
++                hidden_states = resnet(hidden_states, temb)
++                hidden_states = attn(hidden_states, context=encoder_hidden_states)
++
++        if self.upsamplers is not None:
++            for upsampler in self.upsamplers:
++                hidden_states = upsampler(hidden_states, upsample_size)
++
++        offset_out = total_offset / self.num_layers
++        return hidden_states, offset_out
++
++
++
+ class UpBlock2D(nn.Module):
+     def __init__(
+         self,
+diff -ruN '--exclude=__pycache__' '--exclude=*.pyc' '--exclude=ZZZ_*' code/variants/cn2west_stage_a/FontDiffuser/train.py code/variants/cn2west_f123_rsi/FontDiffuser/train.py
+--- code/variants/cn2west_stage_a/FontDiffuser/train.py	2026-09-05 06:00:07.976746005 +0000
++++ code/variants/cn2west_f123_rsi/FontDiffuser/train.py	2026-09-05 16:19:57.681157233 +0000
+@@ -1,5 +1,13 @@
+ #!/usr/bin/env python3
+-"""Train HR-Font Stage A with cache-only Es/Ec and 9-token style."""
++"""Train HR-Font F1/F2/F3 matched arms (identity-safe RSI, cache-only Es/Ec).
++
++Arms differ in exactly one factor each:
++  F1  rsi_source=official, support=off
++  F2  rsi_source=delta,    support=off   (F1 vs F2 isolates the Delta source)
++  F3  rsi_source=delta,    support=on    (F2 vs F3 isolates Support)
++Everything else -- init, caches, source_drop, CFG drop, batch order, RNG, schedule --
++is shared code, so the arms are matched by construction rather than by convention.
++"""
+ from __future__ import annotations
+ 
+ import hashlib
+@@ -25,6 +33,7 @@
+ sys.path.insert(0, str(REPO))
+ from scripts.hrfont_delta_v2 import DeltaConfig, compute_alpha
+ from scripts.hrfont_feature_cache import EcCache, EsCache, mix_cached_delta
++from scripts.hrfont_support_adapter import SupportAdapter
+ 
+ from configs.fontdiffuser import get_parser
+ from dataset.collate_fn import CollateFN
+@@ -34,6 +43,12 @@
+ from utils import normalize_mean_std, reNormalize_img, save_args_to_yaml, x0_from_epsilon
+ 
+ 
++# (rsi_source, support) that each arm is allowed to run with.
++ARM_SPEC = {"F1": ("official", False), "F2": ("delta", False), "F3": ("delta", True)}
++# Ec multi-scale channel widths (see scripts/hrfont_feature_cache.py EC_SHAPES).
++EC_SCALE_CHANNELS = (3, 64, 128, 256, 256)
++
++
+ def get_args():
+     args = get_parser().parse_args()
+     args.style_image_size = (args.style_image_size, args.style_image_size)
+@@ -136,14 +151,23 @@
+     return [torch.cat([row[scale] for row in rows]) for scale in range(len(rows[0]))]
+ 
+ 
+-def _structure_features(es_cache, ec_cache, library: _LibraryEs, samples, queries, cfg, delta_draw, device):
++def _structure_features(es_cache, ec_cache, library: _LibraryEs, samples, queries, cfg, source_draw, device):
++    """Build the RSI structure condition, applying source_drop identically per source.
++
++    Both branches honour `source_draw`; dropping only the delta branch (as the old
++    Stage-A code did) makes the official arm see a different conditioning
++    distribution and silently breaks the F1 vs F2 comparison.
++    """
+     fonts = samples["font_stem"]
+     chars = samples["char_cp"]
+     ref_chars = samples["ref_chars"]
+     if cfg.rsi_source == "official":
+         rows = []
+-        for font, refs in zip(fonts, ref_chars):
+-            rows.append([tensor.to(device) for tensor in ec_cache.features("style", font, refs[0])])
++        for dropped, font, refs in zip(source_draw, fonts, ref_chars):
++            feats = [tensor.to(device) for tensor in ec_cache.features("style", font, refs[0])]
++            if bool(dropped):
++                feats = [torch.zeros_like(item) for item in feats]
++            rows.append(feats)
+         return [torch.cat([row[scale] for row in rows]) for scale in range(len(rows[0]))]
+     if not cfg.delta_enabled:
+         return None
+@@ -153,7 +177,7 @@
+     sample_features = []
+     example = None
+     train_fonts = library.fonts
+-    for dropped, font, cp, rchars, query in zip(delta_draw, fonts, chars, ref_chars, queries):
++    for dropped, font, cp, rchars, query in zip(source_draw, fonts, chars, ref_chars, queries):
+         prototypes = library.prototypes(rchars, device)
+         exclude = library.font_index.get(font)
+         indices, weights, _ = compute_alpha(query.to(device), prototypes, exclude, alpha_cfg)
+@@ -170,6 +194,60 @@
+     return [torch.cat([row[scale] for row in sample_features]) for scale in range(len(example))]
+ 
+ 
++def _load_support_bank(path, args) -> dict:
++    if not args.support:
++        return {}
++    if not path:
++        raise RuntimeError("--support requires --support_bank")
++    bank_path = Path(path)
++    if not bank_path.is_file():
++        bank_path = REPO / path
++    if not bank_path.is_file():
++        raise RuntimeError(f"support bank not found: {path}")
++    payload = json.loads(bank_path.read_text(encoding="utf-8"))
++    table = payload.get("support", payload)
++    if not isinstance(table, dict) or not table:
++        raise RuntimeError(f"support bank is empty or malformed: {bank_path}")
++    return {str(k): list(v) for k, v in table.items()}
++
++
++def _pool_ec(feats) -> torch.Tensor:
++    """Multi-scale Ec features -> one vector (per-scale spatial mean, concatenated)."""
++    return torch.cat([x.mean(dim=(2, 3)).reshape(-1) for x in feats], dim=0)
++
++
++def _support_tokens(ec_cache, adapter, bank, samples, support_draw, cfg, device):
++    """[B, K, context_dim] adapter tokens; None when support is off or fully dropped.
++
++    Support glyphs are the target font's OWN glyphs (Ec `style` role), so this adds
++    local evidence rather than a new font.
++    """
++    if adapter is None:
++        return None
++    rows, width = [], 0
++    for dropped, font, cp in zip(support_draw, samples["font_stem"], samples["char_cp"]):
++        if bool(dropped):
++            rows.append([])
++            continue
++        vecs = []
++        for scp in list(bank.get(cp, []))[: cfg.support_k]:
++            try:
++                feats = [x.to(device) for x in ec_cache.features("style", font, scp)]
++            except KeyError:
++                continue
++            vecs.append(_pool_ec(feats))
++        rows.append(vecs)
++        width = max(width, len(vecs))
++    if width == 0:
++        return None
++    dim = next(v[0].shape[0] for v in rows if v)
++    padded = []
++    for vecs in rows:
++        pad = [torch.zeros(dim, device=device) for _ in range(width - len(vecs))]
++        padded.append(torch.stack(vecs + pad))
++    return adapter(torch.stack(padded))
++
++
+ def _rng_state():
+     return {
+         "python": random.getstate(),
+@@ -189,12 +267,13 @@
+         torch.cuda.set_rng_state_all(state["cuda"])
+ 
+ 
+-def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int, scaler=None):
++def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int, scaler=None,
++                     adapter=None):
+     directory.mkdir(parents=True, exist_ok=True)
+     torch.save(model.unet.state_dict(), directory / "unet.pth")
+     torch.save(model.style_encoder.state_dict(), directory / "style_encoder.pth")
+     torch.save(model.content_encoder.state_dict(), directory / "content_encoder.pth")
+-    torch.save({}, directory / "delta_layers.pth")
++    torch.save(adapter.state_dict() if adapter is not None else {}, directory / "support_adapter.pth")
+     payload = {"step": step, "optimizer": optimizer.state_dict(),
+                "scheduler": scheduler.state_dict(), "rng": _rng_state()}
+     if scaler is not None:
+@@ -202,11 +281,43 @@
+     torch.save(payload, directory / "trainer_state.pt")
+ 
+ 
++def _load_parent(model, directory: Path, output_dir: Path) -> None:
++    """Init from F0 (StyleUpBlockNoRSI): load shared weights, leave RSI modules fresh.
++
++    Writes `parent_load_manifest.json` so newly created keys are auditable rather than
++    implied. Anything missing that is NOT an RSI module is a hard error.
++    """
++    unet_sd = torch.load(directory / "unet.pth", map_location="cpu")
++    missing, unexpected = model.unet.load_state_dict(unet_sd, strict=False)
++    rsi_prefixes = ("sc_interpreter_offsets", "dcn_deforms", "zero_convs")
++    new_keys = [k for k in missing if any(s in k for s in rsi_prefixes)]
++    unexplained = [k for k in missing if k not in new_keys]
++    output_dir.mkdir(parents=True, exist_ok=True)
++    (output_dir / "parent_load_manifest.json").write_text(json.dumps({
++        "parent": str(directory),
++        "new_rsi_keys": new_keys,
++        "unexplained_missing_keys": unexplained,
++        "unexpected_keys": list(unexpected),
++        "note": "F0 has no RSI modules; new_rsi_keys start fresh with zero_convs at 0.",
++    }, indent=2) + "\n", encoding="utf-8")
++    if unexplained:
++        raise RuntimeError(f"parent init missing non-RSI keys: {unexplained[:20]}")
++    if unexpected:
++        raise RuntimeError(f"parent init has unexpected keys: {list(unexpected)[:20]}")
++    model.style_encoder.load_state_dict(torch.load(directory / "style_encoder.pth", map_location="cpu"))
++    model.content_encoder.load_state_dict(torch.load(directory / "content_encoder.pth", map_location="cpu"))
++
++
+ def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None, scaler=None,
+-                     restore_rng: bool = False) -> int:
++                     restore_rng: bool = False, adapter=None) -> int:
+     model.unet.load_state_dict(torch.load(directory / "unet.pth", map_location="cpu"))
+     model.style_encoder.load_state_dict(torch.load(directory / "style_encoder.pth", map_location="cpu"))
+     model.content_encoder.load_state_dict(torch.load(directory / "content_encoder.pth", map_location="cpu"))
++    adapter_path = directory / "support_adapter.pth"
++    if adapter is not None and adapter_path.is_file():
++        payload = torch.load(adapter_path, map_location="cpu")
++        if payload:
++            adapter.load_state_dict(payload)
+     state_path = directory / "trainer_state.pt"
+     if not state_path.is_file():
+         return 0
+@@ -241,7 +352,7 @@
+ 
+ 
+ def _forward_batch(model, noise_scheduler, perceptual_loss, args, batch, style, structure,
+-                   content_feats, train: bool):
++                   content_feats, train: bool, support_tokens=None):
+     target = batch["target_image"]
+     nonorm_target = batch["nonorm_target_image"]
+     bsz = target.shape[0]
+@@ -251,6 +362,7 @@
+     noise_pred, offset_sum = model(
+         x_t=noisy, timesteps=timesteps, content_images=batch["content_image"],
+         style_features=style, structure_features=structure, content_features=content_feats,
++        support_tokens=support_tokens,
+         content_encoder_downsample_size=args.content_encoder_downsample_size)
+     diffusion = F.mse_loss(noise_pred.float(), noise.float())
+     if not train:
+@@ -264,24 +376,28 @@
+ 
+ 
+ @torch.no_grad()
+-def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args, device):
++def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args, device,
++             bank=None):
+     raw.eval()
+     losses = []
+     for samples in val_loader:
+         target = samples["target_image"].to(device)
+         samples = {**samples, "target_image": target}
+         style, queries = _style_conditions(es_cache, samples, device)
+-        delta_draw = torch.zeros(target.shape[0], dtype=torch.bool, device=device)
+-        cfg_mask = torch.zeros_like(delta_draw)
++        # Validation never drops: source, CFG and support are all fully on.
++        source_draw = torch.zeros(target.shape[0], dtype=torch.bool, device=device)
++        cfg_mask = torch.zeros_like(source_draw)
+         structure = _structure_features(es_cache, ec_cache, library, samples, queries, args,
+-                                        delta_draw, device)
++                                        source_draw, device)
+         content_feats = _content_features(ec_cache, samples, cfg_mask, device)
++        support = _support_tokens(ec_cache, getattr(raw, "support_adapter", None), bank or {},
++                                  samples, source_draw, args, device)
+         dummy = samples
+         dummy["target_image"] = target
+         dummy["content_image"] = samples["content_image"].to(device)
+         dummy["nonorm_target_image"] = samples["nonorm_target_image"].to(device)
+         loss, _ = _forward_batch(raw, noise_scheduler, None, args, dummy, style, structure,
+-                                 content_feats, train=False)
++                                 content_feats, train=False, support_tokens=support)
+         losses.append(float(loss))
+     raw.train()
+     raw.style_encoder.eval()
+@@ -289,6 +405,60 @@
+     return float(np.mean(losses)) if losses else float("nan")
+ 
+ 
++@torch.no_grad()
++def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args, device,
++                 bank, output_dir: Path):
++    """Assert the freshly-initialised RSI branch is a bit-exact no-op.
++
++    `zero_conv` makes `skip + zero_conv(warped - skip) == skip` exactly, so step 0 must
++    reproduce F0's raw-skip forward. A zero-offset DeformConv would NOT satisfy this:
++    it still convolves the skip with a learned 3x3 kernel.
++    """
++    blocks = [b for b in raw.unet.up_blocks if hasattr(b, "rsi_enabled")]
++    if not blocks:
++        raise RuntimeError("parity gate: no identity-safe RSI blocks found")
++    samples = next(iter(val_loader))
++    samples = {**samples, "target_image": samples["target_image"].to(device),
++               "content_image": samples["content_image"].to(device),
++               "nonorm_target_image": samples["nonorm_target_image"].to(device)}
++    style, queries = _style_conditions(es_cache, samples, device)
++    draw = torch.zeros(samples["target_image"].shape[0], dtype=torch.bool, device=device)
++    structure = _structure_features(es_cache, ec_cache, library, samples, queries, args, draw, device)
++    content_feats = _content_features(ec_cache, samples, draw, device)
++    support = _support_tokens(ec_cache, getattr(raw, "support_adapter", None), bank or {},
++                              samples, draw, args, device)
++    noise = torch.randn_like(samples["target_image"])
++    steps = torch.zeros(samples["target_image"].shape[0], device=device).long()
++    noisy = noise_scheduler.add_noise(samples["target_image"], noise, steps)
++
++    def run():
++        pred, _ = raw(x_t=noisy, timesteps=steps, content_images=samples["content_image"],
++                      style_features=style, structure_features=structure,
++                      content_features=content_feats, support_tokens=support,
++                      content_encoder_downsample_size=args.content_encoder_downsample_size)
++        return pred
++
++    raw.eval()
++    with_rsi = run()
++    for b in blocks:
++        b.rsi_enabled = False
++    without_rsi = run()
++    for b in blocks:
++        b.rsi_enabled = True
++    raw.train()
++    raw.style_encoder.eval()
++    raw.content_encoder.eval()
++
++    max_abs = float((with_rsi - without_rsi).abs().max())
++    gains = [b.rsi_gain() for b in blocks]
++    report = {"max_abs_diff": max_abs, "rsi_gain_at_init": gains, "n_blocks": len(blocks),
++              "passed": max_abs == 0.0}
++    (output_dir / "parity_gate.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
++    if not report["passed"]:
++        raise RuntimeError(f"parity gate failed: max_abs_diff={max_abs}")
++    print(f"parity gate OK: RSI branch is exactly identity at init (blocks={len(blocks)})", flush=True)
++
++
+ def main():
+     args = get_args()
+     accelerator = Accelerator(gradient_accumulation_steps=args.gradient_accumulation_steps,
+@@ -315,11 +485,22 @@
+     if accelerator.is_main_process:
+         print(f"library Es table {tuple(library.table.shape)} fonts={len(train_fonts)}", flush=True)
+ 
++    expected = ARM_SPEC[args.arm]
++    if (args.rsi_source, bool(args.support)) != expected:
++        raise RuntimeError(
++            f"arm {args.arm} requires rsi_source={expected[0]} support={expected[1]}, "
++            f"got rsi_source={args.rsi_source} support={bool(args.support)}")
++    bank = _load_support_bank(args.support_bank, args)
++
+     model = FontDiffuserModel(unet=build_unet(args),
+                               style_encoder=build_style_encoder(args),
+                               content_encoder=build_content_encoder(args))
++    if args.support:
++        # in_dim = concatenated per-scale means of the 5 Ec scales.
++        ec_dim = sum(EC_SCALE_CHANNELS)
++        model.support_adapter = SupportAdapter(ec_dim, args.style_start_channel * 16)
+     if args.phase_1_ckpt_dir:
+-        _load_checkpoint(model, Path(args.phase_1_ckpt_dir), restore_rng=False)
++        _load_parent(model, Path(args.phase_1_ckpt_dir), Path(args.output_dir))
+     if args.freeze_encoders:
+         model.style_encoder.requires_grad_(False).eval()
+         model.content_encoder.requires_grad_(False).eval()
+@@ -356,8 +537,12 @@
+ 
+     model, optimizer, loader, scheduler = accelerator.prepare(model, optimizer, loader, scheduler)
+     raw = accelerator.unwrap_model(model)
++    adapter = getattr(raw, "support_adapter", None)
+     global_step = _load_checkpoint(raw, Path(args.resume_from), optimizer, scheduler,
+-                                   restore_rng=True) if args.resume_from else 0
++                                   restore_rng=True, adapter=adapter) if args.resume_from else 0
++    if args.parity_check and not args.resume_from:
++        _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args,
++                     next(raw.parameters()).device, bank, Path(args.output_dir))
+     if accelerator.is_main_process:
+         accelerator.init_trackers(args.experience_name)
+         _record_config(args, es_sha, ec_sha)
+@@ -378,15 +563,22 @@
+             with accelerator.accumulate(model):
+                 with torch.no_grad():
+                     style, queries = _style_conditions(es_cache, samples, samples["target_image"].device)
+-                    delta_draw = torch.rand(bsz, device=style.device) < args.delta_drop
++                    # Draw order is fixed across arms so that a given step consumes the
++                    # same RNG in F1/F2/F3; support_draw is drawn even when support is
++                    # off, otherwise F2 and F3 would desynchronise after step 1.
++                    source_draw = torch.rand(bsz, device=style.device) < args.source_drop
++                    support_draw = torch.rand(bsz, device=style.device) < args.support_drop
+                     structure = _structure_features(es_cache, ec_cache, library, samples, queries,
+-                                                    args, delta_draw, style.device)
++                                                    args, source_draw, style.device)
+                     cfg_mask = torch.rand(bsz, device=style.device) < args.drop_prob
+                     content_feats = _content_features(ec_cache, samples, cfg_mask, style.device)
++                    support = _support_tokens(ec_cache, adapter, bank, samples, support_draw,
++                                              args, style.device)
+                     style = style.clone()
+                     style[cfg_mask] = 0
+                 loss, _ = _forward_batch(model, noise_scheduler, perceptual_loss, args, samples,
+-                                         style, structure, content_feats, train=True)
++                                         style, structure, content_feats, train=True,
++                                         support_tokens=support)
+                 accelerator.backward(loss)
+                 if accelerator.sync_gradients:
+                     accelerator.clip_grad_norm_(trainable, args.max_grad_norm)
+@@ -410,7 +602,8 @@
+                                 "chars": list(samples["char_cp"]),
+                                 "refs": list(samples["ref_chars"]),
+                                 "cfg": [bool(x) for x in cfg_mask.detach().cpu()],
+-                                "delta_draw": [bool(x) for x in delta_draw.detach().cpu()],
++                                "source_draw": [bool(x) for x in source_draw.detach().cpu()],
++                                "support_draw": [bool(x) for x in support_draw.detach().cpu()],
+                                 "loss": loss_value,
+                             }, ensure_ascii=False) + "\n")
+                     if global_step % args.log_interval == 0 or global_step <= 20:
+@@ -418,31 +611,34 @@
+                             handle.write(json.dumps({
+                                 "step": global_step, "loss": loss_value,
+                                 "lr": scheduler.get_last_lr()[0],
++                                # How much of the RSI branch the arm actually uses.
++                                "rsi_gain": [b.rsi_gain() for b in raw.unet.up_blocks
++                                             if hasattr(b, "rsi_gain")],
+                             }) + "\n")
+                         _write_heartbeat(Path(args.output_dir), status="running",
+                                          step=global_step, loss=loss_value)
+                     if global_step % args.state_interval == 0:
+                         _save_checkpoint(raw, Path(args.output_dir) / "last_state",
+-                                         optimizer, scheduler, global_step)
++                                         optimizer, scheduler, global_step, adapter=adapter)
+                 if accelerator.is_main_process and global_step % args.ckpt_interval == 0:
+                     _save_checkpoint(raw, Path(args.output_dir) / f"global_step_{global_step}",
+-                                     optimizer, scheduler, global_step)
++                                     optimizer, scheduler, global_step, adapter=adapter)
+                     _save_checkpoint(raw, Path(args.output_dir) / "last_state",
+-                                     optimizer, scheduler, global_step)
++                                     optimizer, scheduler, global_step, adapter=adapter)
+                     val_loss = _run_val(raw, es_cache, ec_cache, library, val_loader,
+-                                        noise_scheduler, args, style.device)
++                                        noise_scheduler, args, style.device, bank)
+                     eligible = global_step >= 10000
+                     if eligible and (best["val"] is None or val_loss < best["val"]):
+                         best = {"step": global_step, "val": val_loss}
+                         _save_checkpoint(raw, Path(args.output_dir) / "best",
+-                                         optimizer, scheduler, global_step)
++                                         optimizer, scheduler, global_step, adapter=adapter)
+                     (Path(args.output_dir) / "val_log.jsonl").open("a", encoding="utf-8").write(
+                         json.dumps({"step": global_step, "val_loss": val_loss, "best": best}) + "\n")
+                     accelerator.log({"val_loss": val_loss}, step=global_step)
+                 if stop_file.exists():
+                     if accelerator.is_main_process:
+                         _save_checkpoint(raw, Path(args.output_dir) / "stopped_step",
+-                                         optimizer, scheduler, global_step)
++                                         optimizer, scheduler, global_step, adapter=adapter)
+                     return
+             if global_step % args.log_interval == 0:
+                 progress.set_postfix(loss=float(loss.detach()), lr=scheduler.get_last_lr()[0])
+@@ -450,7 +646,7 @@
+             break
+ 
+     if accelerator.is_main_process:
+-        _save_checkpoint(raw, Path(args.output_dir) / "last_state", optimizer, scheduler, global_step)
++        _save_checkpoint(raw, Path(args.output_dir) / "last_state", optimizer, scheduler, global_step, adapter=adapter)
+         (Path(args.output_dir) / "DONE.json").write_text(
+             json.dumps({"global_step": global_step, "status": "completed", "best": best}) + "\n",
+             encoding="utf-8")

@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 """Serve an allowlisted, read-only mentor review portal.
 
+Mirrors :8777 data/ layout so cn2west review images resolve via ../dataset/...
+
 Routes:
-  /             curated portal pages
-  /assets/      selected weekly-report figures
-  /bbox/        rendering/bounding-box explanation
-  /e1/          E1 formal interactive evaluation
+  /                          thin index + weekly
+  /weekly.html               weekly report HTML
+  /assets/                   weekly-report figures
+  /cn2west_v2_abc_review/    same as :8777
+  /fontdiffuser-*/           protocol render datasets (image roots)
+  /e1_formal_eval/ /e1/      E1 formal eval
+  /render_qa_hub.html        QA hub
+  /bbox/                     bbox_explain alias
+  /rendering.html            → /cn2west_v2_abc_review/
 """
 from __future__ import annotations
 
@@ -18,8 +25,10 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 PORTAL = ROOT / "public" / "mentor_portal"
+DATA = ROOT / "data"
 ASSETS = ROOT / "reports" / "weekly_20260905"
-BBOX = ROOT / "data" / "cn2west_v2_abc_review" / "bbox_explain"
+REVIEW = DATA / "cn2west_v2_abc_review"
+BBOX = REVIEW / "bbox_explain"
 E1 = (
     ROOT
     / "runs"
@@ -27,6 +36,26 @@ E1 = (
     / "eval_formal"
     / "E1-formal-strat-20260904T041520Z"
 )
+QA_HUB = DATA / "render_qa_hub.html"
+
+# Top-level names under data/ that :8777 review pages may load.
+_DATA_PREFIXES = (
+    "cn2west_v2_abc_review",
+    "e1_formal_eval",
+    "e1_ft_v2_dashboard",
+    "fontdiffuser-p253-",
+    "fontdiffuser_p253",
+)
+
+
+def _is_allowed_data_path(request_path: str) -> bool:
+    rel = request_path.lstrip("/")
+    if not rel:
+        return False
+    if rel == "render_qa_hub.html":
+        return True
+    top = rel.split("/", 1)[0]
+    return any(top == p or top.startswith(p) for p in _DATA_PREFIXES)
 
 
 class MentorHandler(SimpleHTTPRequestHandler):
@@ -43,9 +72,24 @@ class MentorHandler(SimpleHTTPRequestHandler):
         self.send_error(403, "Directory listing disabled")
         return None
 
+    def do_GET(self) -> None:  # noqa: N802
+        request_path = unquote(urlsplit(self.path).path)
+        if request_path in ("/rendering.html", "/rendering"):
+            self.send_response(302)
+            self.send_header("Location", "/cn2west_v2_abc_review/")
+            self.end_headers()
+            return
+        super().do_GET()
+
     def translate_path(self, path: str) -> str:
         request_path = unquote(urlsplit(path).path)
+
+        if request_path == "/render_qa_hub.html":
+            return str(QA_HUB)
+
+        # Dedicated aliases
         routes = (
+            ("/e1_formal_eval", E1),
             ("/e1", E1),
             ("/bbox", BBOX),
             ("/assets", ASSETS),
@@ -54,6 +98,11 @@ class MentorHandler(SimpleHTTPRequestHandler):
             if request_path == prefix or request_path.startswith(prefix + "/"):
                 relative = request_path[len(prefix) :].lstrip("/")
                 return str(self._safe_target(base, relative))
+
+        # Same layout as python -m http.server --directory data/
+        # so ../fontdiffuser-... from cn2west review resolves.
+        if _is_allowed_data_path(request_path):
+            return str(self._safe_target(DATA, request_path.lstrip("/")))
 
         relative = request_path.lstrip("/") or "index.html"
         return str(self._safe_target(PORTAL, relative))
@@ -73,15 +122,20 @@ class MentorHandler(SimpleHTTPRequestHandler):
 def verify_inputs() -> None:
     required = (
         PORTAL / "index.html",
-        PORTAL / "rendering.html",
+        PORTAL / "weekly.html",
         ASSETS / "fig1_six_protocols.png",
+        REVIEW / "index.html",
         BBOX / "index.html",
-        BBOX / "logic_vs_ink_zoom.png",
         E1 / "index.html",
         E1 / "browse_index.json",
-        E1 / "VERIFY.json",
+        QA_HUB,
+        DATA / "fontdiffuser-p253-t295-s338-cn2west-v2" / "train" / "TargetImage",
     )
-    missing = [str(path) for path in required if not path.is_file()]
+    missing = []
+    for path in required:
+        if path.is_file() or path.is_dir():
+            continue
+        missing.append(str(path))
     if missing:
         raise FileNotFoundError("mentor portal inputs missing:\n" + "\n".join(missing))
 

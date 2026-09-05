@@ -1,0 +1,13 @@
+schema_version: 2
+experiment: {id: E12-IDCLS-V2-S3409}
+data:
+  cache_dir: /root/projects/hrfont/artifacts/e12/cache_v2
+  chars: [A, B, C, D, E, F, G, H, a, b, c, d, e, f, g, h]
+  split_ratios: [0.7, 0.15, 0.15]
+  split_seed: 3407
+  workers: 4
+model: {in_channels: 3, feature_dim: 512}
+train: {epochs: 50, max_steps: 5000, batch_size: 32, lr: 0.0003, betas: [0.9, 0.999], weight_decay: 0.01, eps: 0.00000001, warmup_epochs: 5, warmup_steps: -1, label_smoothing: 0.05, grad_clip: 1.0, checkpoint_every: 500, seed: 3409, device: cuda:0}
+output: {dir: /root/projects/hrfont/runs/e12_id_cls_v2_s3409}
+note: "formal cache_v2; matched split_seed=3407 across seeds"
+step_budget_note: "20-font pool => epoch*loader too short; formal uses max_steps=5000, bs32"

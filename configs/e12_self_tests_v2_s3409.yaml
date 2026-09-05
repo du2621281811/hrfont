@@ -1,0 +1,16 @@
+schema_version: 2
+experiment: {id: E12-SELFTESTS-V2-S3409}
+data:
+  cache_dir: /root/projects/hrfont/artifacts/e12/cache_v2
+  ref_chars: [永, 和, 书, 风, 骨, 韵, 天, 地]
+  query_chars: [A, B, C, D, E, F, G, H]
+  split_ratios: [0.7, 0.15, 0.15]
+  split_seed: 3407
+model:
+  phi_checkpoint: /root/projects/hrfont/runs/e12_phi_s2_v2_s3409/best.pt
+  id_checkpoint: /root/projects/hrfont/runs/e12_id_cls_v2_s3409/best.pt
+  in_channels: 3
+  feature_dim: 512
+train: {device: cuda:0}
+gates: {t1_median: 0.6, t2_auc: 0.9, t3_accuracy: 0.9, t4_mean_drop: 0.02, t4_paired_t: 1.96, relaxed: false}
+output: {dir: /root/projects/hrfont/runs/e12_self_tests_v2_s3409}

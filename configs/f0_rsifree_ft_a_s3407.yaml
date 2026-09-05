@@ -1,0 +1,36 @@
+# F0 RSI-free FT (joint mainline) — matches DESIGN/JOINT_PREP 2026-09-05
+experiment_id: F0-RSIFREE-FT-A-S3407
+variant: cn2west_f0_rsifree
+parent_init: official_P1_drop_RSI_DCN
+up_block: StyleUpBlockNoRSI
+data:
+  protocol: A
+  root: data/fontdiffuser-p253-t295-s338-cn2west-v2
+  split: manifests/split_v3_228_16_16.json
+  fonts_active: 260
+  train_val_test: [228, 16, 16]
+  excluded: [FZXianZTJW]
+  reuse: "protocol-A renders + split_v3; no re-render"
+train:
+  seed: 3407
+  seeds_skipped: [3408, 3409]
+  steps: 100000
+  early_stop_preregistered: 60000
+  batch_size: 8
+  accumulation: 1
+  effective_batch: 8
+  lr: 1.0e-5
+  scheduler: linear
+  warmup_steps: 5000
+  fp16: true
+  cfg_joint_drop: 0.10
+  scr: false
+  perceptual: 0.01
+  offset: 0.0
+  resize: false
+resource:
+  gpu: 2
+  note: "zombie VRAM; prefer GPU with most free; bs=8"
+launch:
+  smoke: python scripts/launch_cn2west_f0_rsifree.py --smoke
+  full: python scripts/launch_cn2west_f0_rsifree.py --yes

@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+"""Launch F1 / F2 / F3 matched arms from F0 on protocol-A data.
+
+The three arms share one code path; `--arm` picks the single factor that changes:
+
+  F1  rsi_source=official  support=off
+  F2  rsi_source=delta     support=off   -> F1 vs F2 isolates the Delta source
+  F3  rsi_source=delta     support=on    -> F2 vs F3 isolates Support
+
+Everything else (parent ckpt, Es/Ec caches, source_drop, CFG drop, batch order, RNG,
+steps, lr, schedule) is identical, so the arms cannot drift apart by configuration.
+
+Preconditions (all fail closed):
+  - F0 finished and a milestone selected  -> --parent
+  - Es/Ec caches rebuilt from that F0 milestone (E1 caches are NOT reusable)
+  - F3 additionally needs a support bank  -> --support_bank
+
+Example:
+  python scripts/launch_cn2west_f123.py --arm F2 --parent runs/F0-RSIFREE-FT-A-S3407/best --smoke
+  python scripts/launch_cn2west_f123.py --arm F2 --parent runs/F0-RSIFREE-FT-A-S3407/best --yes
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path("/root/projects/hrfont")
+PY = "/root/miniforge3/envs/boogu/bin/python"
+VARIANT = ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser"
+DATA = ROOT / "data/fontdiffuser-p253-t295-s338-cn2west-v2"
+RUNS = ROOT / "runs"
+SPLIT = ROOT / "manifests/split_v3_228_16_16.json"
+
+ARMS = {
+    "F1": {"rsi_source": "official", "support": False, "run_id": "F1-OFFRSI-A-S3407"},
+    "F2": {"rsi_source": "delta", "support": False, "run_id": "F2-DELTARSI-A-S3407"},
+    "F3": {"rsi_source": "delta", "support": True, "run_id": "F3-JOINT-DS-A-S3407"},
+}
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--arm", required=True, choices=sorted(ARMS))
+    ap.add_argument("--parent", required=True, help="F0 milestone dir (unet/style/content .pth)")
+    ap.add_argument("--es_cache", default="artifacts/f0/es_spatial_f0")
+    ap.add_argument("--ec_cache", default="artifacts/f0/ec_multiscale_f0")
+    ap.add_argument("--support_bank", default="artifacts/f0/support_bank.json")
+    ap.add_argument("--gpu", type=int, default=0)
+    ap.add_argument("--batch_size", type=int, default=8)
+    ap.add_argument("--gradient_accumulation_steps", type=int, default=1)
+    ap.add_argument("--max_steps", type=int, default=80_000)
+    ap.add_argument("--lr", type=float, default=1e-5)
+    ap.add_argument("--warmup", type=int, default=5000)
+    ap.add_argument("--seed", type=int, default=3407, help="PI freeze: single seed only")
+    ap.add_argument("--source_drop", type=float, default=0.25)
+    ap.add_argument("--support_drop", type=float, default=0.20)
+    ap.add_argument("--support_k", type=int, default=8)
+    ap.add_argument("--offset_coefficient", type=float, default=0.5)
+    ap.add_argument("--ckpt_interval", type=int, default=5000)
+    ap.add_argument("--state_interval", type=int, default=1000)
+    ap.add_argument("--log_interval", type=int, default=100)
+    ap.add_argument("--run_id", default=None)
+    ap.add_argument("--smoke", action="store_true", help="20-step sanity run into runs/smoke_*")
+    ap.add_argument("--yes", action="store_true", help="Required for full (non-smoke) training")
+    args = ap.parse_args()
+
+    spec = ARMS[args.arm]
+    run_id = args.run_id or spec["run_id"]
+    if args.smoke:
+        args.max_steps = 20
+        args.ckpt_interval = 20
+        args.state_interval = 20
+        run_id = f"smoke-{args.arm}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+    if not args.smoke and not args.yes:
+        print("Refusing full train without --yes (use --smoke first, or pass --yes).", file=sys.stderr)
+        return 2
+
+    def resolve(p: str) -> Path:
+        q = Path(p)
+        return q if q.is_absolute() else ROOT / p
+
+    parent = resolve(args.parent)
+    es_cache = resolve(args.es_cache)
+    ec_cache = resolve(args.ec_cache)
+
+    for name in ("unet.pth", "style_encoder.pth", "content_encoder.pth"):
+        if not (parent / name).is_file():
+            print(f"missing parent weight: {parent / name}", file=sys.stderr)
+            return 2
+    for cache in (es_cache, ec_cache):
+        if not (cache / "manifest.json").is_file():
+            print(f"missing cache manifest: {cache / 'manifest.json'}\n"
+                  f"Rebuild Es/Ec from the F0 milestone; E1 caches are bound to E1 encoders.",
+                  file=sys.stderr)
+            return 2
+    if spec["support"] and not resolve(args.support_bank).is_file():
+        print(f"arm {args.arm} needs a support bank: {resolve(args.support_bank)}", file=sys.stderr)
+        return 2
+    for sub in ("train/TargetImage", "train/StyleImage", "train/ContentImage"):
+        if not (DATA / sub).is_dir():
+            print(f"missing data: {DATA / sub}", file=sys.stderr)
+            return 2
+
+    out_dir = RUNS / run_id
+    if out_dir.exists():
+        print(f"output exists, refuse overwrite: {out_dir}", file=sys.stderr)
+        return 2
+    out_dir.mkdir(parents=True, exist_ok=False)
+
+    meta = {
+        "run_id": run_id,
+        "arm": args.arm,
+        "variant": "cn2west_f123_rsi",
+        "rsi_block": "StyleRSIUpBlockIdentitySafe",
+        "rsi_source": spec["rsi_source"],
+        "support": spec["support"],
+        "parent": str(parent),
+        "es_cache": str(es_cache),
+        "ec_cache": str(ec_cache),
+        "seed": args.seed,
+        "gpu": args.gpu,
+        "batch_size": args.batch_size,
+        "gradient_accumulation_steps": args.gradient_accumulation_steps,
+        "effective_batch": args.batch_size * args.gradient_accumulation_steps,
+        "max_steps": args.max_steps,
+        "lr": args.lr,
+        "warmup": args.warmup,
+        "source_drop": args.source_drop,
+        "support_drop": args.support_drop,
+        "offset_coefficient": args.offset_coefficient,
+        "mixed_precision": "fp16",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    (out_dir / "launch_meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
+
+    cmd = [
+        PY, str(VARIANT / "train.py"),
+        "--arm", args.arm,
+        "--rsi_source", spec["rsi_source"],
+        "--support" if spec["support"] else "--no-support",
+        "--support_drop", str(args.support_drop),
+        "--support_k", str(args.support_k),
+        "--source_drop", str(args.source_drop),
+        "--seed", str(args.seed),
+        "--experience_name", run_id,
+        "--output_dir", str(out_dir),
+        "--data_root", str(DATA),
+        "--split_manifest", str(SPLIT),
+        "--es_cache_path", str(es_cache),
+        "--ec_cache_path", str(ec_cache),
+        "--phase_1_ckpt_dir", str(parent),
+        "--resolution", "96",
+        "--style_image_size", "96",
+        "--content_image_size", "96",
+        "--train_batch_size", str(args.batch_size),
+        "--gradient_accumulation_steps", str(args.gradient_accumulation_steps),
+        "--max_train_steps", str(args.max_steps),
+        "--learning_rate", str(args.lr),
+        "--lr_scheduler", "linear",
+        "--lr_warmup_steps", str(args.warmup),
+        "--mixed_precision", "fp16",
+        "--ckpt_interval", str(args.ckpt_interval),
+        "--state_interval", str(args.state_interval),
+        "--log_interval", str(args.log_interval),
+        "--drop_prob", "0.1",
+        "--perceptual_coefficient", "0.01",
+        "--offset_coefficient", str(args.offset_coefficient),
+        "--parity_check",
+    ]
+    if spec["support"]:
+        cmd += ["--support_bank", str(resolve(args.support_bank))]
+
+    env = os.environ.copy()
+    env["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
+    env["PYTHONUNBUFFERED"] = "1"
+    print("META", json.dumps(meta, ensure_ascii=False), flush=True)
+    print("CMD", " ".join(cmd), flush=True)
+    return subprocess.run(cmd, cwd=str(VARIANT), env=env).returncode
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

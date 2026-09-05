@@ -7,18 +7,26 @@
 
 ## 当前状态
 
-- **阶段**：**Stage A G4 进行中**。E1 100k 已冻；E2/E2b 80k 在跑（快照 09-05 13:55：E2 **9200**、E2b **27800**）；E1c 因 GPU0/1 僵尸显存未开。周报：[`reports/WEEKLY_20260905.md`](reports/WEEKLY_20260905.md)。
-- **训练协议已定**：仅 **A**；池 **260=228/16/16**；drop `FZXianZTJW`。
-- **E1 冻结**：seed **3407 only**；**GPU3**；**bs=8 / accum=1**；100k；lr=1e-5；warmup=5k；fp16；SCR off。
-- **入口**：`configs/e1_ft_v2_a_s3407.yaml` · `scripts/launch_cn2west_ft_v2_e1.py` · `code/variants/cn2west_ft_v2/`
-- **看板**：合作者 Git 快照 `reports/e1_ft_v2_dashboard/`；训练机实时 `data/e1_ft_v2_dashboard`→`runs/.../viz`。
-- **冒烟**：`runs/smoke-E1-FTV2-*` 20 step @ bs=8 **已通过**。
+- **主线（2026-09-05 切换）：joint 方案** — [`reports/DESIGN_E2E3_FUSION_QKV_20260905.md`](reports/DESIGN_E2E3_FUSION_QKV_20260905.md)；准备清单 [`reports/JOINT_PREP_20260905.md`](reports/JOINT_PREP_20260905.md)。
+- **旧臂已 STOP：** E2@10500、E2b@31400（`stopped_topology_superseded`）；E1c 不启动。
+- **F0 running：** `F0-RSIFREE-FT-A-S3407`（`cn2west_f0_rsifree` / `StyleUpBlockNoRSI`，协议 A 复用，GPU2，100k，`offset=0`）。
+- **F1/F2/F3 代码就绪待 review：** `cn2west_f123_rsi` 单份代码三条臂；identity-safe RSI（zero-init 1×1 residual conv），parity 单测 fp32/fp16 均 0 误差。决策见 [`reports/DECISION_F123_20260906.md`](reports/DECISION_F123_20260906.md)。
+- **E12 修复 running：** cache_v3（104 汉字 + 52 Latin + 10 数字）；S1/S2/S4/S5 已落地，S3（扩真实字型池）暂缓。修掉字型泄漏与同字型负样本后 val AUC 0.956（v2 为失配负样本）。
+- E1@100k 锚点保留。
+
+## PI 决定（2026-09-05）
+
+- F0 **跑满 100k**，不启用 60k early-stop；步数按 `DECISION_F123_20260906.md` §2 预注册规则（val16 loss 最小）事后选。
+- F1/F2/F3 **固定单 seed 3407**，不补 3408/3409。
+- E12 做 S1/S2/S4/S5，**不做 S3**。
 
 ## 下一步
 
-1. 盯 E2/E2b 到 80k `DONE.json`（best 仅 ≥10k）；一侧 resume 后不得再称 matched
-2. E1c：等 GPU3 腾出或 PI 允许清 GPU0/1 后，同 SHA `d382247` 启动
-3. G5 provenance；E12a / E1 正式评测可并行，主表暂不用 φ_s2
+1. 盯 F0 至 100k，按预注册规则选 milestone
+2. 从 F0 milestone 重建 Es/Ec cache（E1 cache 绑 E1 encoder，不可复用）
+3. F1/F2 开跑；F3 阻塞在 support bank（旧 `data/hrfont/e0_bank` 不存在，需按新协议重建）
+4. E12 v3 三 seed 跑完后重判 T1–T4
+5. QKV role-swap 仅 20k 预注册筛选
 
 ## 实现边界
 
@@ -31,14 +39,18 @@
 
 | ID | 状态 | 说明 |
 |----|------|------|
-| `FT-CNSTYLE-25K` | `retro_partial` | 42 字体历史 FT |
-| `FT-P253-CNSTYLE-12K` | legacy，provenance 缺失 | 253 字体；Style 池存疑 |
-| `A-MVP-CONTROL` / `A-MVP-DELTA` | 完成，`INCONCLUSIVE` | Stage A 因果早筛 |
-| `E1-FTV2-A-S3407` | **completed 100k** | A 协议 FT-v2；看板快照已发布；正式评测待补 |
-| `E1C-FT-CONTINUE-S3407` | **blocked** | G3 20-step 已过；80k 因 GPU0/1 OOM 未开 |
-| `E2-STAGE-A-S3407` | **running** | Δ 臂；快照 9200/80k；SHA `d382247` |
-| `E2B-FT-CONTINUE-S3407` | **running** | 官方 RSI 对照；快照 27800/80k；best@25k val=0.002020 |
-| `FT-P260-A-CN2WEST-V2` | planned formal ID | 同 E1 数据协议；指纹待发 |
+| `E1-FTV2-A-S3407` | **completed 100k** | 主表数据域 FT 锚点 |
+| `E1C-FT-CONTINUE-S3407` | **superseded-before-launch** | joint 下不开 |
+| `E2-STAGE-A-S3407` | **stopped @10500** | `stopped_topology_superseded` |
+| `E2B-FT-CONTINUE-S3407` | **stopped @31400** | 同上 |
+| `E12-PHI-S2-S3407` | **bootstrap done** | cache_v1 小池 |
+| `E12-IDCLS-S3407` | **bootstrap done** | cache_v1 小池 |
+| `E12-*-V2-S3407/08/09` | **gate_failed** | cache_v2；字型泄漏 + 同字型负样本，见 review |
+| `E12-*-V3-S3407/08/09` | **running** | cache_v3；S1/S2/S4/S5 |
+| `F0-RSIFREE-FT-A-S3407` | **running** | RSI-free FT；协议 A，100k |
+| `F1-OFFRSI-A-S3407` | **code_ready** | official RSI source；待 F0 + cache |
+| `F2-DELTARSI-A-S3407` | **code_ready** | Δ source；与 F1 matched |
+| `F3-JOINT-DS-A-S3407` | **blocked** | 需 support bank（E0 bank 缺失） |
 
 完整表见 `provenance/REGISTRY.md`。
 
@@ -141,10 +153,9 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-04：**B₀=Noto ContentImage**（合作者决策）：Δ 减数与 Identity 输入统一为同一张 Noto 同字渲染，删除 FZKTJW 依赖；代码已改（train.py content_path）。
 - 2026-09-04：合作者对齐：α 聚合改为 ref8/R 同字 cosine 平均；开发初始化固定 E1@100k；验证脚本 V3/V5 neutral 角色改 ContentImage、val/test 隔离（gate 仅 val16+train，test16 只读报告）；决定不加 zero-init gate（offset 头过渡期轻度，单通路归因更干净）。
 - 2026-09-04：**n-shot 协议**：episode=(目标字体, ref 集 R)；训练 R 随机（n~Uniform{1..8}、内容随机 338 池），评测 R 固定 n（主协议 n=8 + n-shot 稳健性消融）；style 条件与 α 对齐消费同一 R（mean-pool Es）；Es 缓存扩 228×338；E2b RSI 取 R 首字符过 Ec。
-<<<<<<< HEAD
-- 2026-09-05：PI 拍板（合作者审核中）：① 主对照仍 E2 vs E2b，另开 **E1c** 作为「同样 80k、不改 RSI」的 E1 续训基线；② α 主方法改为 **必取 top-10 + softmax(τ=.07)**，禁止 ε 截空；n 上限=8；③ Es/Ec **全部离线 cache**，训推禁止在线编码器；style 条件改为 n 张 `style_emd` **空间均值 9 token**（废除 1-token）。详见 `reports/PI_DECISIONS_20260905.md`。
-- 2026-09-05：**计划审查有条件批准**（`reports/REVIEW_PLAN_20260905.md`，PI 全按推荐 D-P1~D-P9，落档 exec-spec §1.7）；两个代码级阻断（Δ-drop 混杂、k_top 未接线）修后方可开 80k；Cursor 已开始按 `EXECUTION_PLAN_STAGE_A_20260905.md`（G0–G5）执行。
-=======
 - 2026-09-05：PI 拍板：E1c / top-10 α / cache-only 9-token。详见 `reports/PI_DECISIONS_20260905.md`。
-- 2026-09-05：Stage A 接线合入 `d382247`；G3 过门；G4 启动 E2+E2b；周报 [`reports/WEEKLY_20260905.md`](reports/WEEKLY_20260905.md)。
->>>>>>> 99b5bb0 (docs: snapshot weekly report and RSI audit)
+- 2026-09-05：计划审查有条件批准（D-P1~D-P9）；Stage A 接线后 G4 启动 E2+E2b（后确认为非 matched 诊断）。周报 [`reports/WEEKLY_20260905.md`](reports/WEEKLY_20260905.md)。
+- 2026-09-05：**主线切换为 joint 方案**（`DESIGN_E2E3_FUSION_QKV_20260905.md` / `6616836`）：F0→F1/F2/F3；E1c superseded；旧 E2/E2b 待 STOP。
+- 2026-09-05：F0 起跑（`cn2west_f0_rsifree`，P1 minus RSI，`strict=False` 丢 174 个 RSI/DCN 键）；E12 cache_v2 三 seed 未过门。
+- 2026-09-06：**F1/F2/F3 落地待 review**（`cn2west_f123_rsi`）。initialisation 定为 zero-init 1×1 residual conv：`skip + zero_conv(DCN(skip,offset) - skip)`，step0 逐元素等价 F0（fp32/fp16 均 0 误差），被否的 zero-offset DCN 实测偏差 5.58（`scripts/test_identity_safe_rsi.py`）。同时修掉旧 E2/E2b 的失配根因——`source_drop` 现在对 official 与 Δ 一视同仁，`support_draw` 即使 support=off 也照抽以保持 RNG 同步。
+- 2026-09-06：E12 S1/S2/S4/S5 落地。S2 最关键：`split_families` 改按**字型分组**（`NotoSansCJK-Bold` 与 `-Regular` 是同一字型），负样本改跨字型；val 只有一个字型组时从 train∪val 取负样本（不含 test，避免选 ckpt 时泄漏）。旧的 `families[(i+1)%n]` 负样本几乎总是同字型的另一个字重。

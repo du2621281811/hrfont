@@ -1,0 +1,114 @@
+{
+  "generated_at": "2026-09-05T16:30:31.098763+00:00",
+  "source": "runs/ (gitignored: checkpoints and *.log stay local)",
+  "runs": [
+    {
+      "run": "F0-RSIFREE-FT-A-S3407",
+      "files": [
+        "launch_meta.json",
+        "p1_load_allowlist.json",
+        "train_loss.jsonl(839)",
+        "milestones.json"
+      ]
+    },
+    {
+      "run": "e12_id_cls_s3407",
+      "files": [
+        "curves.jsonl",
+        "val_metrics.json",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_id_cls_v2_s3407",
+      "files": [
+        "curves.jsonl",
+        "val_metrics.json",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_id_cls_v2_s3407_abort_short_20260905T085332Z",
+      "files": [
+        "curves.jsonl",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_id_cls_v2_s3408",
+      "files": [
+        "curves.jsonl",
+        "val_metrics.json",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_id_cls_v2_s3409",
+      "files": [
+        "curves.jsonl",
+        "val_metrics.json",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_phi_s2_s3407",
+      "files": [
+        "curves.jsonl",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_phi_s2_v2_s3407",
+      "files": [
+        "curves.jsonl",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_phi_s2_v2_s3407_abort_short_20260905T085332Z",
+      "files": [
+        "curves.jsonl",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_phi_s2_v2_s3408",
+      "files": [
+        "curves.jsonl",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_phi_s2_v2_s3409",
+      "files": [
+        "curves.jsonl",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_phi_s2_v3_s3407",
+      "files": [
+        "curves.jsonl",
+        "config.resolved.yaml"
+      ]
+    },
+    {
+      "run": "e12_self_tests_v2_s3407",
+      "files": [
+        "self_tests.json"
+      ]
+    },
+    {
+      "run": "e12_self_tests_v2_s3408",
+      "files": [
+        "self_tests.json"
+      ]
+    },
+    {
+      "run": "e12_self_tests_v2_s3409",
+      "files": [
+        "self_tests.json"
+      ]
+    }
+  ]
+}

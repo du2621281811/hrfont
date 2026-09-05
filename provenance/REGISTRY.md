@@ -17,7 +17,9 @@
 |----|------|---------------|------|
 | `official` | `code/official/FontDiffuser/` | — | frozen 只读 |
 | `ours-legacy` | `code/ours/FontDiffuser/` | `docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff` | frozen 历史恢复 |
-| `cn2west_stage_a` | `code/variants/cn2west_stage_a/` | `docs/patches/cn2west_stage_a.diff` | **active**（E2/E2b；代码尚未对齐 2026-09-05 口径） |
+| `cn2west_stage_a` | `code/variants/cn2west_stage_a/` | `docs/patches/cn2west_stage_a.diff` | legacy Stage-A（已 STOP） |
+| `cn2west_f0_rsifree` | `code/variants/cn2west_f0_rsifree/` | StyleUpBlockNoRSI；P1 drop RSI/DCN | **active** F0 |
+| `cn2west_f123_rsi` | `code/variants/cn2west_f123_rsi/` | StyleRSIUpBlockIdentitySafe（zero-init 1×1 residual conv）；`--arm` 三臂共用一条 code path | **code_ready** F1/F2/F3 |
 
 ## Experiments / Runs
 
@@ -28,7 +30,15 @@
 | `A-MVP-CONTROL` | `provenance/runs/A-MVP-CONTROL.json` | `retro_partial` | `PROJECT.md` Stage A |
 | `A-MVP-DELTA` | `provenance/runs/A-MVP-DELTA.json` | `retro_partial` | `PROJECT.md` Stage A |
 | `E1-FTV2-A-S3407` | `provenance/runs/E1-FTV2-A-S3407.json` | **completed** 100000/100k | `PROJECT.md`；看板 `reports/e1_ft_v2_dashboard/` |
-| `E1C-FT-CONTINUE-S3407` | TBD | **planned** | `reports/PI_DECISIONS_20260905.md`；`configs/e1c_ft_continue_s3407.yaml` |
-| `E2-STAGE-A-S3407` | TBD | **planned** | `configs/e2_stage_a_s3407.yaml` |
-| `E2B-FT-CONTINUE-S3407` | TBD | **planned** | `configs/e2b_ft_continue_s3407.yaml` |
+| `E1C-FT-CONTINUE-S3407` | TBD | **superseded-before-launch** | joint 方案；见 `DESIGN_E2E3_FUSION_QKV_20260905.md` |
+| `E2-STAGE-A-S3407` | `runs/.../STOP_PROVENANCE.json` | **stopped @10500** | `stopped_topology_superseded` |
+| `E2B-FT-CONTINUE-S3407` | `runs/.../STOP_PROVENANCE.json` | **stopped @31400** | 同上 |
+| `E12-PHI-S2-S3407` | TBD | **bootstrap done** | cache_v1 |
+| `E12-IDCLS-S3407` | TBD | **bootstrap done** | cache_v1 |
+| `E12-*-V2-S3407/08/09` | `reports/training_logs/e12_*_v2_*` | **gate_failed** | cache_v2；字型泄漏 + 同字型负样本，`reports/E12_SELFTEST_V2_REVIEW_20260905.md` |
+| `E12-*-V3-S3407/08/09` | `reports/training_logs/e12_*_v3_*` | **running** | cache_v3；S1/S2/S4/S5，`scripts/launch_e12_formal_v3.sh` |
+| `F0-RSIFREE-FT-A-S3407` | `reports/training_logs/F0-RSIFREE-FT-A-S3407/` | **running** | `configs/f0_rsifree_ft_a_s3407.yaml`；GPU2，100k |
+| `F1-OFFRSI-A-S3407` | TBD | **code_ready** | `configs/f1_offrsi_a_s3407.yaml`；待 F0 milestone + Es/Ec cache |
+| `F2-DELTARSI-A-S3407` | TBD | **code_ready** | `configs/f2_deltarsi_a_s3407.yaml`；与 F1 matched，仅换 source |
+| `F3-JOINT-DS-A-S3407` | TBD | **blocked** | `configs/f3_joint_ds_a_s3407.yaml`；缺 support bank（E0 bank 未建） |
 | `FT-P260-A-CN2WEST-V2` | alias / planned formal ID | 同 E1 数据协议 | 正式 p260 指纹待发 |

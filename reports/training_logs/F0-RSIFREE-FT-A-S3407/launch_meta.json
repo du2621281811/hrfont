@@ -1,0 +1,22 @@
+{
+  "run_id": "F0-RSIFREE-FT-A-S3407",
+  "variant": "cn2west_f0_rsifree",
+  "experiment": "F0-RSIFREE-FT",
+  "seed": 3407,
+  "gpu": 2,
+  "batch_size": 8,
+  "gradient_accumulation_steps": 1,
+  "effective_batch": 8,
+  "max_steps": 100000,
+  "lr": 1e-05,
+  "warmup": 5000,
+  "mixed_precision": "fp16",
+  "scr": false,
+  "offset_coefficient": 0.0,
+  "up_block": "StyleUpBlockNoRSI",
+  "data_root": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2",
+  "split": "/root/projects/hrfont/manifests/split_v3_228_16_16.json",
+  "phase_1_ckpt_dir": "/root/projects/hrfont/code/official/FontDiffuser/ckpt",
+  "created_at": "2026-09-05T08:50:41.377683+00:00",
+  "note": "Joint mainline F0; reuse protocol-A renders; drop RSI/DCN from P1."
+}

@@ -2,7 +2,7 @@
 """外部字体渲染缓存与 E12 数据集。字体族拆分以 manifest 的 family/stem 为单位。"""
 from __future__ import annotations
 
-import hashlib, json, random
+import hashlib, json, random, re
 from pathlib import Path
 from typing import Sequence
 
@@ -10,6 +10,28 @@ import numpy as np
 import torch
 from PIL import Image, ImageDraw, ImageFont
 from torch.utils.data import Dataset
+
+
+# Weight/style tokens that do NOT make a new typeface. NotoSansCJK-Bold and
+# NotoSansCJK-Regular are one design, so they must never straddle a split, and one
+# must never be the "wrong font" negative for the other.
+_WEIGHT_TOKENS = {
+    "thin", "extralight", "ultralight", "light", "demilight", "book", "regular",
+    "normal", "medium", "semibold", "demibold", "bold", "extrabold", "ultrabold",
+    "black", "heavy", "italic", "oblique", "roman", "r", "l", "m", "b", "h", "db", "eb",
+}
+
+
+def typeface_group(family: str) -> str:
+    """Collapse weight/style variants onto their shared typeface."""
+    parts = re.split(r"[-_]", family)
+    while len(parts) > 1 and parts[-1].lower() in _WEIGHT_TOKENS:
+        parts.pop()
+    return "-".join(parts)
+
+
+def group_of(row: dict) -> str:
+    return row.get("group") or typeface_group(row["family"])
 
 
 def sha256_file(path: str | Path) -> str:
@@ -51,7 +73,7 @@ def render_glyph(path: Path, ch: str, size: int, canvas: int = 96) -> Image.Imag
 
 def build_cache(fonts: Sequence[Path], chars: Sequence[str], cache_dir: str | Path, canvas=96, strategy="fixed_size", fixed_size=80, margin=6) -> dict:
     cache = Path(cache_dir); cache.mkdir(parents=True, exist_ok=True)
-    font_rows = [{"path": str(p), "stem": p.stem, "family": p.stem, "sha256": sha256_file(p), "id": f"{p.stem}-{sha256_file(p)[:10]}"} for p in fonts]
+    font_rows = [{"path": str(p), "stem": p.stem, "family": p.stem, "group": typeface_group(p.stem), "sha256": sha256_file(p), "id": f"{p.stem}-{sha256_file(p)[:10]}"} for p in fonts]
     spec = {"version": 1, "canvas": canvas, "strategy": strategy, "fixed_size": fixed_size, "margin": margin, "chars": list(chars), "fonts": font_rows}
     spec_sha = hashlib.sha256(json.dumps(spec, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     manifest_path = cache / "manifest.json"
@@ -64,33 +86,75 @@ def build_cache(fonts: Sequence[Path], chars: Sequence[str], cache_dir: str | Pa
         for ch in chars:
             rel = Path(row["id"]) / f"u{ord(ch):06X}.png"; target = cache / rel; target.parent.mkdir(parents=True, exist_ok=True)
             if not target.exists(): render_glyph(path, ch, size, canvas).save(target)
-            records.append({"font_id": row["id"], "family": row["family"], "stem": row["stem"], "char": ch, "path": str(rel)})
+            records.append({"font_id": row["id"], "family": row["family"], "group": row["group"], "stem": row["stem"], "char": ch, "path": str(rel)})
     result = dict(spec, cache_sha256=spec_sha, records=records)
     manifest_path.write_text(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2), encoding="utf-8")
     return result
 
 
+def as_chars(xs: Sequence) -> list[str]:
+    """YAML turns bare `0`-`9` into ints; glyph keys are always strings."""
+    return [str(x) for x in xs]
+
+
 def load_manifest(cache_dir): return json.loads((Path(cache_dir) / "manifest.json").read_text(encoding="utf-8"))
 
 
-def split_families(manifest: dict, ratios=(0.7, 0.15, 0.15), seed=3407) -> dict[str, list[str]]:
-    families = sorted({x["family"] for x in manifest["fonts"]}); rng = random.Random(seed); rng.shuffle(families)
-    n = len(families); n_train = max(1, int(n * ratios[0])); n_val = max(1, int(n * ratios[1])) if n >= 3 else 0
+def split_families(manifest: dict, ratios=(0.7, 0.15, 0.15), seed=3407, by_group: bool = True) -> dict[str, list[str]]:
+    """Split fonts into train/val/test, by typeface group unless explicitly disabled.
+
+    Splitting on raw family names lets weight variants of one typeface land on both
+    sides, which inflates held-out scores. `by_group=False` only exists to reproduce
+    pre-2026-09-06 runs.
+    """
+    rows = manifest["fonts"]
+    if by_group:
+        units = sorted({group_of(x) for x in rows})
+        members = {u: sorted(x["family"] for x in rows if group_of(x) == u) for u in units}
+    else:
+        units = sorted({x["family"] for x in rows})
+        members = {u: [u] for u in units}
+    rng = random.Random(seed); rng.shuffle(units)
+    n = len(units); n_train = max(1, int(n * ratios[0])); n_val = max(1, int(n * ratios[1])) if n >= 3 else 0
     if n_train + n_val >= n: n_train, n_val = max(1, n - 2), 1 if n >= 3 else 0
-    return {"train": families[:n_train], "val": families[n_train:n_train+n_val], "test": families[n_train+n_val:]}
+    chosen = {"train": units[:n_train], "val": units[n_train:n_train+n_val], "test": units[n_train+n_val:]}
+    return {k: sorted(f for u in v for f in members[u]) for k, v in chosen.items()}
 
 
-def assert_disjoint_splits(splits):
+def group_table(manifest: dict) -> dict[str, str]:
+    return {x["family"]: group_of(x) for x in manifest["fonts"]}
+
+
+def assert_disjoint_splits(splits, groups: dict[str, str] | None = None):
     names = list(splits)
     for i, a in enumerate(names):
         for b in names[i+1:]:
             overlap = set(splits[a]) & set(splits[b])
             if overlap: raise RuntimeError(f"font-family leakage {a}/{b}: {sorted(overlap)}")
+            if groups:
+                g = {groups[f] for f in splits[a]} & {groups[f] for f in splits[b]}
+                if g: raise RuntimeError(f"typeface-group leakage {a}/{b}: {sorted(g)}")
+
+
+def pick_negative(family: str, candidates: Sequence[str], groups: dict[str, str] | None,
+                  cross_group: bool = True) -> str | None:
+    """Deterministic negative font for `family`.
+
+    With `cross_group`, the negative comes from a different typeface, so the score is
+    not dominated by near-identical weight pairs (e.g. Medium vs Regular).
+    """
+    pool = [f for f in candidates if f != family]
+    if cross_group and groups:
+        cross = [f for f in pool if groups.get(f) != groups.get(family)]
+        pool = cross or []
+    if not pool:
+        return None
+    return pool[int(hashlib.sha256(family.encode()).hexdigest(), 16) % len(pool)]
 
 
 class GlyphDataset(Dataset):
     def __init__(self, cache_dir, families=None, chars=None, channels=3):
-        self.root = Path(cache_dir); manifest = load_manifest(cache_dir); fam = set(families or [x["family"] for x in manifest["fonts"]]); wanted = set(chars or manifest["chars"])
+        self.root = Path(cache_dir); manifest = load_manifest(cache_dir); fam = set(families or [x["family"] for x in manifest["fonts"]]); wanted = set(as_chars(chars) if chars else manifest["chars"])
         self.records = [x for x in manifest["records"] if x["family"] in fam and x["char"] in wanted]; self.channels = channels
     def __len__(self): return len(self.records)
     def __getitem__(self, index):
@@ -102,7 +166,8 @@ class GlyphDataset(Dataset):
 class CrossScriptPairDataset(Dataset):
     """每个索引固定一个 font/汉字，Latin 字符按 seed+index 均衡选取。batch 内其他字体为负。"""
     def __init__(self, cache_dir, chinese_chars, latin_chars, families=None, channels=3, seed=3407):
-        self.glyphs = GlyphDataset(cache_dir, families, list(chinese_chars)+list(latin_chars), channels); self.seed = seed
+        chinese_chars, latin_chars = as_chars(chinese_chars), as_chars(latin_chars)
+        self.glyphs = GlyphDataset(cache_dir, families, chinese_chars+latin_chars, channels); self.seed = seed
         self.by = {(r["family"], r["char"]): i for i, r in enumerate(self.glyphs.records)}; self.families = sorted({r["family"] for r in self.glyphs.records})
         self.chinese, self.latin = list(chinese_chars), list(latin_chars); self.keys = [(f, c) for f in self.families for c in self.chinese if (f,c) in self.by]
     def __len__(self): return len(self.keys)
