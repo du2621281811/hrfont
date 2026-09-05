@@ -80,14 +80,13 @@ alwaysApply: true
 - R0 / A+p260+ink QA / split与TTF inventory / A渲染、全633 QA、原子发布 / dataset manifest+SHA、ink表 / 计划§4 R0。
 - E0 / RS-gap 与 support 检索校准 / **推迟到 E5 前**；用 E1@100k 冻结 Es/Ec 的离线 cache（禁止在线算）。旧「E0 在 E1 前、用官方 P1 encoder」作废。
 - E1 FT-v2 / 新训练域基线 / R0+official P1 / 100k、全训UNet+Ec+Es、SCR off / **已完成 100k**（val best 98k=0.02976，100k=0.02979；provenance `E1-FTV2-A-S3407.json`）/ §4 E1。
-- E1c / 原 E1 前向再训 80k / E1@100k、冻 Es/Ec、1-shot 9-token、官方 RSI / 配置 `configs/e1c_ft_continue_s3407.yaml` / **不是** E2 matched 臂。
-- E2/E2b/E2c / Delta-RSI 因果组 / E1@100k / E2=Δ、E2b=同 n-shot 的官方 RSI、E2c=P1 冷系统附录 / 80k，先 seed 3407 / α=同字 cosine 平均后 **top-10 softmax（τ=.07）**；Δ=α 加权同字 Ec − Ec(Content)；无 zero-init gate；**cache-only**。
-- **n-shot（仅 E2/E2b，上限 8）**：训 n~Uniform{1..8}，评测固定 8（`永和书风骨韵天地`）。同一 R：style= n 张 `style_emd` 空间均值（9 token）；α=同 R 逐字 cosine 平均后 top-10；E2b 结构源=`Ec(R[0])`。CFG：style/content uncond 保留 structure，Δ-drop 独立 .25（D-A9）。
-- E2d / SCR matched / E2与E2b / 只开SCR / 两组80k三seed / §4 E2d。
-- E3/E4 / 主对比与gap机制 / E0/E1/E2/E12 / test16×295、mixed effects+bootstrap / 主表与gap统计 / §4 E3/E4。
-- E5/E5b/E6 / Support adapter与主结果 / E0+E2或E2d / A全冻、仅adapter、25k / matched test与gap收益 / §4 E5/E5b/E6。
-- E7/E8/E9/E10 / Support消融、ref干预、Delta接入破坏、CN→CN / 见拓扑 / 破坏张量RMS对齐 / 消融与定位报告 / §4 E7–E10。
-- E11/E12 / 人评与独立评测器 / E3/E6、外部字体 / 分层人评、phi_s2+T1–T4 / 人评统计与只读评测 / §4 E11/E12。
+- **主线拓扑（2026-09-05 定，权威总表见 `reports/ARMS_NARRATIVE_QKV_20260905.md` §1.2）**：`official P1 → E1 → F0 → F1/F2/F3`，主评测 E3/E4/E6，独立评测器 E12。9/25 必需=P1/E1/F0/F1/F2/F3/E3/E12。
+- F0 / RSI-free FT / official P1 权重**跳过 RSI 头**加载，`StyleUpBlockNoRSI`（保留 style attention、旁路 offset+DCN）/ A/train228、全训 UNet+Ec+Es / 60k 预注册可早停、100k cap / 新拓扑基线 + F1/F2/F3 唯一初始化。
+- F1/F2/F3 / F0 初始化 / F1=官方 `Ec(R[0])`、F2=top-10 Δ、F3=Δ+Support joint / 80k、先 seed 3407 / **identity-safe RSI**（残差/bypass 初始化，step0≡F0，见 D-F4/F13）；F1↔F2 隔离 Δ，F2↔F3 隔离 support。
+- **n-shot（F1/F2/F3，上限 8）**：训 n~Uniform{1..8}，评测固定 8（`永和书风骨韵天地`）。同一 R：style= n 张 `style_emd` 空间均值（9 token）；α=同 R 逐字 cosine 平均后 top-10（余弦表加速）；F1 结构源=`Ec(R[0])`。CFG：style/content uncond 保留 structure，source-drop .25 统一（D-P2）。α 训练路径已加速：fp16 余弦表 [228,338,228] + 批 topk + features_many 去重批量取数（SPEEDUP_IMPL_20260905）。
+- 旧臂处置：E1c ❌取消；旧 E2/E2b 🔄跑着但 source-drop 混杂 → 安全 checkpoint 停止、标 non-matched pilot（D-N4 待拍板）；E2c/E2d/E5/E5b ⚠️附录或被取代；E7-E10 消融在**主效果可见后**再跑（正文最低集=Δ破坏+定位）；E11 人评至少预注册核心子集。
+- QKV 20k 预注册筛选（可选，D-N1）：F0 上 Q0=继承(Q=Δ/source,K/V=skip)/Q1=role-swap/Q2=additive K/V 三臂 20k seed3407；主指标独立 φ_s2 SC-Gap + 身份/质量 non-inferiority；禁 test16；无胜者锁定继承版。
+- E0 / RS-gap 与 support 检索校准 / **提前到 F3 开训前**（joint 训练要 gap 检索）；用 F0 冻结 Es/Ec 的离线 cache。
 
 ## 6. 评测框架速查
 
