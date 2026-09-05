@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HR-Font · 渲染协议选择</title>
+  <style>
+    :root{--bg:#f4f6f8;--card:#fff;--ink:#17212b;--muted:#5f6b76;--line:#d8dee5;--accent:#245b78;--good:#276749}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,"Noto Sans SC",sans-serif}
+    main{max-width:1120px;margin:auto;padding:24px}a{color:var(--accent)}h1{font-size:26px;margin:8px 0}h2{font-size:20px;margin:28px 0 10px}
+    .muted{color:var(--muted)}.decision{border-left:4px solid var(--good);background:#eef8f2;padding:12px 14px}
+    table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line)}
+    th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#edf1f4}
+    img{display:block;max-width:100%;height:auto;margin:12px auto;background:#fff;border:1px solid var(--line)}
+    .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    .note{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px}
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="/">← 返回评审入口</a></p>
+  <h1>六种渲染协议：为什么最终选择 A</h1>
+  <p class="muted">目标不是让每个字都尽量撑满画布，而是在不同文字系统之间保留同一字体原有的相对比例，并避免缩放引入额外模糊。</p>
+
+  <table>
+    <thead><tr><th>协议</th><th>规则</th><th>观察</th><th>决定</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A</strong></td><td>每套字体统一字号；96×96 直接渲染</td><td>保留字符间相对大小，无插值</td><td><strong>采用</strong></td></tr>
+      <tr><td>B</td><td>每套字体按高度统一；过宽字符单独缩小</td><td>高度一致，但宽字符存在例外</td><td>不采用</td></tr>
+      <tr><td>C</td><td>128×128 渲染后缩放至 96×96</td><td>字形较大，边缘可能变软</td><td>不采用</td></tr>
+      <tr><td>D</td><td>每个字符按逻辑边界单独放大</td><td>画布利用率高，破坏相对大小</td><td>不采用</td></tr>
+      <tr><td>F</td><td>每个字符按实际墨迹单独撑满</td><td>填充最充分，同样破坏相对大小</td><td>不采用</td></tr>
+      <tr><td>H</td><td>每套字体按实际墨迹统一字号</td><td>人工检查未显示出相对 A 的稳定优势</td><td>弃用</td></tr>
+    </tbody>
+  </table>
+
+  <div class="decision"><strong>结论：</strong>A/B/H 属于“每套字体统一字号”，D/F 属于“每个字符独立定字号”，C 属于“渲染后缩放”。选择 A，因为它同时保留字体内部比例、避免插值，并对所有文字系统使用同一规则。</div>
+
+  <h2>跨文字系统同图比较</h2>
+  <img src="/assets/fig1_six_protocols.png" alt="六种渲染协议在不同文字系统上的比较">
+
+  <h2>逻辑框与墨迹框为什么不同</h2>
+  <div class="legend">
+    <div class="note"><strong>逻辑框 textbbox（红）</strong><p>来自字体排版度量，可能包含 bearing 和设计留白。协议 A/D 据此约束统一字号或逐字字号。</p></div>
+    <div class="note"><strong>墨迹框 ink bbox（蓝）</strong><p>只包围实际非白像素。协议 F/H 据此控制墨迹边距，但容易把设计留白也当作需要消除的空间。</p></div>
+  </div>
+  <img src="/bbox/logic_vs_ink_zoom.png" alt="逻辑边界框与墨迹边界框对比">
+  <p class="muted">字形没有贴满 96×96 不一定是错误：渲染规则主动保留安全边距，字体自身也可能包含合法留白。需要原始细节时可查看 <a href="/bbox/">边界框技术原页</a>。</p>
+</main>
+</body>
+</html>
