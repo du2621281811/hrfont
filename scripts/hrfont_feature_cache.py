@@ -17,6 +17,7 @@ EC_SHAPES = (
 )
 ES_SPATIAL = (1024, 3, 3)
 ES_POOLED = (1024,)
+COSINE_DTYPE = np.float16
 
 
 def sha256_file(path: Path) -> str:
@@ -105,6 +106,61 @@ class EsCache:
     def pooled_tensor(self, split: str, font: str, cp: str) -> torch.Tensor:
         return torch.from_numpy(np.array(self.pooled[self._row(split, font, cp)], copy=True)).float()
 
+    @property
+    def pooled_path(self) -> Path:
+        return self.table.directory / "pooled.dat"
+
+
+class CosineTable:
+    """Read-only mmap of per-query-font/per-character library cosines."""
+
+    def __init__(self, path: Path, es_cache: EsCache, expected_es_cache_sha256: str | None = None):
+        self.path = Path(path)
+        self.meta_path = self.path.with_suffix(self.path.suffix + ".json")
+        self.meta = json.loads(self.meta_path.read_text(encoding="utf-8"))
+        shape = tuple(self.meta.get("shape", ()))
+        if len(shape) != 3 or shape[0] != shape[2]:
+            raise RuntimeError(f"invalid cosine table shape: {shape}")
+        if self.meta.get("dtype") != "float16":
+            raise RuntimeError("cosine table must be float16")
+        recorded = self.meta.get("es_cache_sha256")
+        live = sha256_file(es_cache.pooled_path)
+        if not recorded or recorded != live:
+            raise RuntimeError("cosine table Es cache SHA binding mismatch")
+        if expected_es_cache_sha256 and expected_es_cache_sha256 != live:
+            raise RuntimeError("configured Es cache SHA does not match pooled.dat")
+        if self.meta.get("es_checkpoint_sha256") != es_cache.manifest.get("es_checkpoint_sha256"):
+            raise RuntimeError("cosine table Es checkpoint SHA mismatch")
+        expected_bytes = int(np.prod(shape)) * np.dtype(COSINE_DTYPE).itemsize
+        if self.path.stat().st_size != expected_bytes:
+            raise RuntimeError(f"cosine table byte size mismatch: {self.path}")
+        self.array = np.memmap(self.path, dtype=COSINE_DTYPE, mode="r", shape=shape)
+        self.fonts = list(self.meta["fonts"])
+        self.chars = list(self.meta["chars"])
+        self.font_index = {font: i for i, font in enumerate(self.fonts)}
+        self.char_index = {cp: i for i, cp in enumerate(self.chars)}
+
+    def validate_order(self, fonts: list[str], chars: list[str]) -> None:
+        if self.fonts != list(fonts) or self.meta.get("library_fonts") != list(fonts):
+            raise RuntimeError("cosine table font/library order differs from _LibraryEs")
+        if self.chars != list(chars):
+            raise RuntimeError("cosine table character order differs from Es cache")
+
+    def rows(self, fonts: list[str], ref_chars: list[list[str]]) -> torch.Tensor:
+        """Return padded-free per-sample means as [B, library] float32."""
+        means = []
+        for font, chars in zip(fonts, ref_chars):
+            frow = self.font_index[font]
+            crows = [self.char_index[cp] for cp in chars]
+            means.append(torch.from_numpy(np.array(self.array[frow, crows], copy=True)).float().mean(0))
+        return torch.stack(means)
+
+    def warm(self) -> None:
+        """Fault the small table into the OS page cache once at startup."""
+        view = self.array.reshape(-1)
+        stride = max(1, 4096 // view.dtype.itemsize)
+        _ = float(np.asarray(view[::stride], dtype=np.float32).sum())
+
 
 class EcCache:
     def __init__(self, directory: Path):
@@ -123,6 +179,23 @@ class EcCache:
             raise KeyError(key)
         row = self.table.index[key]
         return [torch.from_numpy(np.array(scale[row], copy=True)).float().unsqueeze(0) for scale in self.scales]
+
+    def features_many(self, role: str, items: list[tuple[str, str]]) -> dict[tuple[str, str], list[torch.Tensor]]:
+        """Fetch distinct ``(font, cp)`` rows with one indexed read per scale."""
+        unique = list(dict.fromkeys(items))
+        if not unique:
+            return {}
+        rows = []
+        for font, cp in unique:
+            key = key_ec(role, font, cp)
+            if key not in self.table.index:
+                raise KeyError(key)
+            rows.append(self.table.index[key])
+        batches = [torch.from_numpy(np.array(scale[rows], copy=True)).float() for scale in self.scales]
+        return {
+            item: [batch[i:i + 1] for batch in batches]
+            for i, item in enumerate(unique)
+        }
 
 
 def mix_cached_delta(neighbor_feats: list[list[torch.Tensor]], weights: torch.Tensor,

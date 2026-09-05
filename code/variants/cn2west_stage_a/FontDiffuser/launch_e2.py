@@ -33,6 +33,7 @@ def main() -> int:
     init_dir = ROOT / cfg["init"]["checkpoint"]
     es_cache = ROOT / data["es_cache_path"]
     ec_cache = ROOT / data["ec_cache_path"]
+    cosine_table = ROOT / data["cosine_table_path"]
     required = [
         init_dir / "unet.pth", init_dir / "style_encoder.pth", init_dir / "content_encoder.pth",
         es_cache / "manifest.json", es_cache / "progress.json",
@@ -70,6 +71,8 @@ def main() -> int:
         "--split_manifest", str(ROOT / data["split_manifest"]),
         "--excluded", *data["excluded"],
         "--es_cache_path", str(es_cache), "--ec_cache_path", str(ec_cache),
+        "--cosine_table_path", str(cosine_table),
+        "--cosine_table_es_cache_sha256", str(data.get("cosine_table_es_cache_sha256") or ""),
         "--phase_1_ckpt_dir", str(init_dir),
         "--rsi_source", model["rsi_source"],
         "--encoder_runtime", model.get("encoder_runtime", "cache_only"),

@@ -44,6 +44,9 @@ def get_parser():
     parser.add_argument("--nshot_max", type=int, default=8)
     parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
     parser.add_argument("--es_cache_path", type=str, default="artifacts/e2/es_spatial_e1_100k")
+    parser.add_argument("--cosine_table_path", type=str,
+                        default="artifacts/e2/es_cosine_e1_100k.f16")
+    parser.add_argument("--cosine_table_es_cache_sha256", type=str, default="")
     parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
     parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
     parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import random
 import sys
+import tempfile
 import types
 from pathlib import Path
 
@@ -16,7 +17,7 @@ VARIANT = ROOT / "code/variants/cn2west_stage_a/FontDiffuser"
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 from hrfont_delta_v2 import DeltaConfig, compute_alpha
-from hrfont_feature_cache import mix_cached_delta
+from hrfont_feature_cache import EC_SHAPES, EcCache, MemmapTable, key_ec, mix_cached_delta
 
 
 def sample_refs(seed: int, pool: list[str], count: int = 12):
@@ -57,6 +58,73 @@ def mix_delta_test():
     print("mix cached delta: PASS")
 
 
+def cosine_fp16_topk_parity_test():
+    """512 deterministic samples: old compute_alpha vs offline-fp16 score path."""
+    generator = torch.Generator().manual_seed(3407)
+    library, chars, dim, checks = 228, 338, 64, 512
+    # Es pooled.dat is fp16; both the old path and the table builder normalize
+    # those decoded values in fp32 before taking cosine similarities.
+    pooled = F.normalize(torch.randn(library, chars, dim, generator=generator).half().float(), dim=2)
+    cfg = DeltaConfig(mode="topk", k_top=10, k_max=10, tau=0.07, eps_alpha=1e-6)
+    exact, flips = 0, []
+    for sample in range(checks):
+        font = sample % library
+        nref = 1 + sample % 8
+        refs = torch.randperm(chars, generator=generator)[:nref]
+        query = pooled[font, refs]
+        prototypes = pooled[:, refs]
+        old_idx, _, _ = compute_alpha(query, prototypes, font, cfg)
+        fp32_scores = torch.einsum("nd,fnd->f", query.float(), prototypes.float()).div(nref)
+        cached_scores = fp32_scores.half().float()
+        cached_scores[font] = -torch.inf
+        new_idx = torch.topk(cached_scores, k=10, sorted=True).indices.tolist()
+        if set(old_idx) == set(new_idx):
+            exact += 1
+        elif len(flips) < 5:
+            old_only = sorted(set(old_idx) - set(new_idx))
+            new_only = sorted(set(new_idx) - set(old_idx))
+            boundary = torch.topk(fp32_scores.masked_fill(
+                torch.arange(library) == font, -torch.inf), k=11).values
+            flips.append({"sample": sample, "font": font, "old_only": old_only,
+                          "new_only": new_only, "margin_10_11": float(boundary[9] - boundary[10])})
+    rate = exact / checks
+    print(f"fp16 cosine top-10 exact-set agreement: {exact}/{checks} ({rate:.6%})")
+    if flips:
+        print(f"boundary flips (up to 5): {flips}")
+    assert rate >= 0.99, f"top-10 agreement below 99%: {rate:.6%}"
+
+
+def batched_ec_delta_parity_test():
+    """Old per-key reads and new deduplicated features_many must mix identically."""
+    with tempfile.TemporaryDirectory(prefix="hrfont-ec-parity-") as tmp:
+        directory = Path(tmp)
+        table = MemmapTable(directory)
+        keys = [key_ec("content", "", "u4E00"),
+                key_ec("target", "font-a", "u4E00"),
+                key_ec("target", "font-b", "u4E00")]
+        table.set_keys(keys)
+        rng = np.random.default_rng(3407)
+        for scale_i, shape in enumerate(EC_SHAPES):
+            array = table.open_array(f"s{scale_i}", (len(keys), *shape), "w+")
+            array[:] = rng.standard_normal(array.shape).astype(np.float16)
+        table.save_manifest({"kind": "ec", "ec_checkpoint_sha256": "synthetic"})
+        table.flush()
+        cache = EcCache(directory)
+        weights = torch.tensor([0.6, 0.4])
+        old = mix_cached_delta([
+            cache.features("target", "font-a", "u4E00"),
+            cache.features("target", "font-b", "u4E00")], weights,
+            cache.features("content", "", "u4E00"))
+        fetched = cache.features_many("target", [
+            ("font-a", "u4E00"), ("font-b", "u4E00"), ("font-a", "u4E00")])
+        neutral = cache.features_many("content", [("", "u4E00"), ("", "u4E00")])[("", "u4E00")]
+        new = mix_cached_delta([fetched[("font-a", "u4E00")],
+                                fetched[("font-b", "u4E00")]], weights, neutral)
+        assert all(torch.allclose(a, b, rtol=1e-6, atol=1e-7) for a, b in zip(old, new))
+        assert len(fetched) == 2
+    print("batched/deduplicated Ec delta parity: PASS")
+
+
 def _install_stubs(torch_mod):
     try:
         __import__("diffusers")
@@ -64,7 +132,10 @@ def _install_stubs(torch_mod):
     except ImportError:
         pass
     class ModelMixin(torch_mod.nn.Module):
-        pass
+        @property
+        def dtype(self):
+            parameter = next(self.parameters(), None)
+            return parameter.dtype if parameter is not None else torch_mod.float32
     class ConfigMixin:
         pass
     diffusers = types.ModuleType("diffusers")
@@ -160,6 +231,8 @@ def main() -> int:
         sampler_test()
         topk_alpha_test()
         mix_delta_test()
+        cosine_fp16_topk_parity_test()
+        batched_ec_delta_parity_test()
         source_import_checks()
         try:
             nine_token_forward_test()

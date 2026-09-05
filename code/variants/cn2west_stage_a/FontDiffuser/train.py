@@ -23,8 +23,7 @@ from tqdm.auto import tqdm
 
 REPO = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO))
-from scripts.hrfont_delta_v2 import DeltaConfig, compute_alpha
-from scripts.hrfont_feature_cache import EcCache, EsCache, mix_cached_delta
+from scripts.hrfont_feature_cache import CosineTable, EcCache, EsCache, mix_cached_delta
 
 from configs.fontdiffuser import get_parser
 from dataset.collate_fn import CollateFN
@@ -136,7 +135,8 @@ def _content_features(ec_cache: EcCache, samples, cfg_mask, device):
     return [torch.cat([row[scale] for row in rows]) for scale in range(len(rows[0]))]
 
 
-def _structure_features(es_cache, ec_cache, library: _LibraryEs, samples, queries, cfg, delta_draw, device):
+def _structure_features(es_cache, ec_cache, library: _LibraryEs, cosine_table: CosineTable,
+                        samples, queries, cfg, delta_draw, device):
     fonts = samples["font_stem"]
     chars = samples["char_cp"]
     ref_chars = samples["ref_chars"]
@@ -147,27 +147,68 @@ def _structure_features(es_cache, ec_cache, library: _LibraryEs, samples, querie
         return [torch.cat([row[scale] for row in rows]) for scale in range(len(rows[0]))]
     if not cfg.delta_enabled:
         return None
-    alpha_cfg = DeltaConfig(tau=cfg.delta_tau, eps_alpha=cfg.delta_eps_alpha,
-                            k_max=cfg.delta_k_max, k_top=cfg.delta_k_top,
-                            mode=cfg.delta_mode, rng_seed=cfg.seed)
-    sample_features = []
-    example = None
+    if cfg.delta_mode != "topk":
+        raise RuntimeError("offline cosine table currently requires delta_mode=topk")
     train_fonts = library.fonts
-    for dropped, font, cp, rchars, query in zip(delta_draw, fonts, chars, ref_chars, queries):
-        prototypes = library.prototypes(rchars, device)
+    score_rows = []
+    for font, rchars, query in zip(fonts, ref_chars, queries):
+        if font in cosine_table.font_index:
+            score_rows.append(cosine_table.rows([font], [rchars])[0])
+        else:  # Validation fonts are not rows of the train-font-only offline table.
+            prototypes = library.prototypes(rchars, device)
+            q = F.normalize(query.to(device).float(), dim=1)
+            p = F.normalize(prototypes.float(), dim=2)
+            score_rows.append(torch.einsum("nd,fnd->f", q, p).div_(len(rchars)).cpu())
+    scores = torch.stack(score_rows).to(device)
+    for row, font in enumerate(fonts):
         exclude = library.font_index.get(font)
-        indices, weights, _ = compute_alpha(query.to(device), prototypes, exclude, alpha_cfg)
-        if len(indices) == 0:
-            raise RuntimeError(f"empty top-K neighborhood font={font} char={cp}")
-        neighbors = [ec_cache.features("target", train_fonts[i], cp) for i in indices]
-        neighbors = [[tensor.to(device) for tensor in feats] for feats in neighbors]
-        neutral = [tensor.to(device) for tensor in ec_cache.features("content", "", cp)]
-        example = example or neutral
+        if exclude is not None:
+            scores[row, exclude] = -torch.inf
+    k = min(cfg.delta_k_top, scores.shape[1] - 1)
+    if k <= 0:
+        raise RuntimeError("top-K alpha: no valid library fonts after leave-one-out")
+    top_values, top_indices = torch.topk(scores, k=k, dim=1, largest=True, sorted=True)
+    all_weights = torch.softmax(top_values / cfg.delta_tau, dim=1)
+    if top_indices.shape[1] == 0:
+        raise RuntimeError("empty top-K neighborhood")
+
+    index_lists = top_indices.detach().cpu().tolist()
+    neighbor_items = [
+        (train_fonts[int(index)], cp)
+        for cp, indices in zip(chars, index_lists)
+        for index in indices
+    ]
+    neighbor_cpu = ec_cache.features_many("target", neighbor_items)
+    neutral_items = [("", cp) for cp in chars]
+    neutral_cpu = ec_cache.features_many("content", neutral_items)
+    unique_neighbors = list(neighbor_cpu)
+    neighbor_batches = [
+        torch.cat([neighbor_cpu[key][scale] for key in unique_neighbors]).to(device)
+        for scale in range(len(ec_cache.scales))
+    ]
+    neighbor_gpu = {
+        item: [batch[i:i + 1] for batch in neighbor_batches]
+        for i, item in enumerate(unique_neighbors)
+    }
+    unique_neutral = list(neutral_cpu)
+    neutral_batches = [
+        torch.cat([neutral_cpu[key][scale] for key in unique_neutral]).to(device)
+        for scale in range(len(ec_cache.scales))
+    ]
+    neutral_gpu = {
+        item: [batch[i:i + 1] for batch in neutral_batches]
+        for i, item in enumerate(unique_neutral)
+    }
+    sample_features = []
+    for dropped, font, cp, indices, weights in zip(
+            delta_draw, fonts, chars, index_lists, all_weights.detach().cpu()):
+        neighbors = [neighbor_gpu[(train_fonts[i], cp)] for i in indices]
+        neutral = neutral_gpu[("", cp)]
         if bool(dropped):
-            sample_features.append([torch.zeros_like(item) for item in example])
+            sample_features.append([torch.zeros_like(item) for item in neutral])
             continue
         sample_features.append(mix_cached_delta(neighbors, weights, neutral))
-    return [torch.cat([row[scale] for row in sample_features]) for scale in range(len(example))]
+    return [torch.cat([row[scale] for row in sample_features]) for scale in range(len(sample_features[0]))]
 
 
 def _rng_state():
@@ -264,7 +305,7 @@ def _forward_batch(model, noise_scheduler, perceptual_loss, args, batch, style, 
 
 
 @torch.no_grad()
-def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args, device):
+def _run_val(raw, es_cache, ec_cache, library, cosine_table, val_loader, noise_scheduler, args, device):
     raw.eval()
     losses = []
     for samples in val_loader:
@@ -273,7 +314,7 @@ def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args
         style, queries = _style_conditions(es_cache, samples, device)
         delta_draw = torch.zeros(target.shape[0], dtype=torch.bool, device=device)
         cfg_mask = torch.zeros_like(delta_draw)
-        structure = _structure_features(es_cache, ec_cache, library, samples, queries, args,
+        structure = _structure_features(es_cache, ec_cache, library, cosine_table, samples, queries, args,
                                         delta_draw, device)
         content_feats = _content_features(ec_cache, samples, cfg_mask, device)
         dummy = samples
@@ -312,6 +353,12 @@ def main():
     if accelerator.is_main_process:
         _write_heartbeat(Path(args.output_dir), status="loading_library", step=0)
     library = _LibraryEs(es_cache, train_fonts, _style_chars_from_cache(es_cache))
+    cosine_table = None
+    if args.rsi_source == "delta" and args.delta_enabled:
+        cosine_table = CosineTable(Path(args.cosine_table_path), es_cache,
+                                   args.cosine_table_es_cache_sha256 or None)
+        cosine_table.validate_order(train_fonts, list(library.char_index))
+        cosine_table.warm()
     if accelerator.is_main_process:
         print(f"library Es table {tuple(library.table.shape)} fonts={len(train_fonts)}", flush=True)
 
@@ -379,7 +426,7 @@ def main():
                 with torch.no_grad():
                     style, queries = _style_conditions(es_cache, samples, samples["target_image"].device)
                     delta_draw = torch.rand(bsz, device=style.device) < args.delta_drop
-                    structure = _structure_features(es_cache, ec_cache, library, samples, queries,
+                    structure = _structure_features(es_cache, ec_cache, library, cosine_table, samples, queries,
                                                     args, delta_draw, style.device)
                     cfg_mask = torch.rand(bsz, device=style.device) < args.drop_prob
                     content_feats = _content_features(ec_cache, samples, cfg_mask, style.device)
@@ -429,7 +476,7 @@ def main():
                                      optimizer, scheduler, global_step)
                     _save_checkpoint(raw, Path(args.output_dir) / "last_state",
                                      optimizer, scheduler, global_step)
-                    val_loss = _run_val(raw, es_cache, ec_cache, library, val_loader,
+                    val_loss = _run_val(raw, es_cache, ec_cache, library, cosine_table, val_loader,
                                         noise_scheduler, args, style.device)
                     eligible = global_step >= 10000
                     if eligible and (best["val"] is None or val_loss < best["val"]):
