@@ -16,7 +16,7 @@
 
 ## 下一步
 
-1. **主线（先效果后消融）**：F0（StyleUpBlockNoRSI）→ F1/F2/F3 80k → E12 过门后 E3/E4/E6 主评测；消融（E7-E10）在主结果可见后再排
+1. **主线（先效果后消融）**：F0（StyleUpBlockNoRSI）→ F1/F2/F3 80k（QKV 暂锁 Q0 继承版）→ E12 过门后 E3/E4/E6 主评测；Q0/Q1 20k 筛选与消融（E7-E10）都在主结果可见后再排（F3 之后）
 2. **E12 评测器尽快启动（无 F0 依赖）**：φ_s2/ID-CLS/membership 训练 + T1-T4 自测；开跑前冻结 5 项（外部字体目录、canvas/字号策略、cache 位置、membership 校准方式、T3 阈值 .90 vs .85）
 3. 旧 E2/E2b：安全 checkpoint 停止、标 non-matched pilot（D-N4）；E1c 取消
 4. 机器侧：按 SPEEDUP_IMPL_20260905 清单构建余弦表 + 真 cache，重跑 smoke 后再开 F0

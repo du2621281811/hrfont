@@ -45,7 +45,7 @@ alwaysApply: true
 - D-P2：**统一 `source_drop=.25`**——E2 的 Δ 与 E2b/E1c 的 official source 消费同一 mask（修复当前 E2 Δ-drop vs E2b 无 drop 的混杂）；joint CFG 置零整个 9-token style map + 全部 MCA content scales、保留 structure；三臂同实现、独立可恢复 RNG。
 - D-P3：三臂共享 **ordered-R eval manifest**；E1c 固定用 `R[0]=永`（1-shot 严格嵌套于 ref8）；`eval_refs=null` 作废。
 - **PI 2026-09-05 覆盖 D-F4/D-F13（identity-safe RSI 作废）**：F1/F2/F3 直接复用官方 `OffsetRefStrucInter` 结构，offset 输出零初始化 + 三臂同 seed 初始化 DCN 权重；接受引入 RSI 的短暂震荡（头小、几千步校准、best 从 10k 起不影响结论）；identity-safe 残差改造反而增加架构改动、加重归因负担。
-- **PI 2026-09-05 覆盖 D-N1（QKV 筛选瘦身）**：只做 **Q0 vs Q1 两臂 20k head-to-head**（seed3407、F0 初始化、同数据/RNG/drop）；Q1=role-swap（Q=skip、K/V=Δ），叙事更有 insight（offset 是内容网格属性）；预注册选择指标=独立 φ_s2 SC-Gap + 身份/质量 non-inferiority，禁 test16；Q1 非劣即进主方法，Q2（additive K/V）直接进附录消融不进筛选。
+- **PI 2026-09-05 覆盖 D-N1（QKV 筛选瘦身 + 顺序后移）**：Q0/Q1 两臂 20k head-to-head **移到 F3 之后、与消融同批**（PI 决策：先看主线效果）；主方法 F1/F2/F3 暂锁 **Q0（继承版）**。Q1=role-swap（Q=skip、K/V=Δ），叙事更有 insight；预注册选择指标=独立 φ_s2 SC-Gap + 身份/质量 non-inferiority，禁 test16；Q1 若胜出可作为后续版本或附录结论，Q2（additive K/V）进附录消融。
 - D-P4：α 论文定位 =「**Es 相对排序 top-K、无绝对阈值、同时承担 routing + weighting**；低相似邻居被采用须披露」。
 - D-P5：训练保留 n~Uniform{1..8}；**预注册按 n 的诊断**（s10-s11 边界稳定性 / Jaccard / turnover / effective-N）；K∈{3,10} 附录消融；不设动态 fallback。
 - D-P6：Ec cache **只存实际消费尺度**（约 64 GiB payload）；α pooled 单存 fp32；逐层 + 端到端 parity gate 证明语义等价。
@@ -87,7 +87,7 @@ alwaysApply: true
 - F1/F2/F3 / F0 初始化 / F1=官方 `Ec(R[0])`、F2=top-10 Δ、F3=Δ+Support joint / 80k、先 seed 3407 / **identity-safe RSI**（残差/bypass 初始化，step0≡F0，见 D-F4/F13）；F1↔F2 隔离 Δ，F2↔F3 隔离 support。
 - **n-shot（F1/F2/F3，上限 8）**：训 n~Uniform{1..8}，评测固定 8（`永和书风骨韵天地`）。同一 R：style= n 张 `style_emd` 空间均值（9 token）；α=同 R 逐字 cosine 平均后 top-10（余弦表加速）；F1 结构源=`Ec(R[0])`。CFG：style/content uncond 保留 structure，source-drop .25 统一（D-P2）。α 训练路径已加速：fp16 余弦表 [228,338,228] + 批 topk + features_many 去重批量取数（SPEEDUP_IMPL_20260905）。
 - 旧臂处置：E1c ❌取消；旧 E2/E2b 🔄跑着但 source-drop 混杂 → 安全 checkpoint 停止、标 non-matched pilot（D-N4 待拍板）；E2c/E2d/E5/E5b ⚠️附录或被取代；E7-E10 消融在**主效果可见后**再跑（正文最低集=Δ破坏+定位）；E11 人评至少预注册核心子集。
-- QKV 20k 预注册筛选（可选，D-N1）：F0 上 Q0=继承(Q=Δ/source,K/V=skip)/Q1=role-swap/Q2=additive K/V 三臂 20k seed3407；主指标独立 φ_s2 SC-Gap + 身份/质量 non-inferiority；禁 test16；无胜者锁定继承版。
+- QKV 20k 预注册筛选（**F3 之后、与消融同批**）：Q0 vs Q1 两臂 20k seed3407（Q0=继承 Q=Δ/source,K/V=skip；Q1=role-swap）；主指标独立 φ_s2 SC-Gap + 身份/质量 non-inferiority；禁 test16；主方法暂锁 Q0。
 - E0 / RS-gap 与 support 检索校准 / **提前到 F3 开训前**（joint 训练要 gap 检索）；用 F0 冻结 Es/Ec 的离线 cache。
 
 ## 6. 评测框架速查
