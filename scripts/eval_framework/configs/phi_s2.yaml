@@ -1,7 +1,7 @@
 schema_version: 2
 experiment: {id: E12-PHI-S2-S3407}
 data:
-  cache_dir: /path/to/external_font_cache
+  cache_dir: artifacts/e12/external_font_cache
   chinese_chars: [永, 和, 书, 风, 骨, 韵, 天, 地]
   latin_chars: [A, B, C, D, E, F, G, H, a, b, c, d, e, f, g, h]
   split_ratios: [0.7, 0.15, 0.15]

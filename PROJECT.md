@@ -145,6 +145,7 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 <<<<<<< HEAD
 - 2026-09-05：PI 拍板（合作者审核中）：① 主对照仍 E2 vs E2b，另开 **E1c** 作为「同样 80k、不改 RSI」的 E1 续训基线；② α 主方法改为 **必取 top-10 + softmax(τ=.07)**，禁止 ε 截空；n 上限=8；③ Es/Ec **全部离线 cache**，训推禁止在线编码器；style 条件改为 n 张 `style_emd` **空间均值 9 token**（废除 1-token）。详见 `reports/PI_DECISIONS_20260905.md`。
 - 2026-09-05：**计划审查有条件批准**（`reports/REVIEW_PLAN_20260905.md`，PI 全按推荐 D-P1~D-P9，落档 exec-spec §1.7）；两个代码级阻断（Δ-drop 混杂、k_top 未接线）修后方可开 80k；Cursor 已开始按 `EXECUTION_PLAN_STAGE_A_20260905.md`（G0–G5）执行。
+- 2026-09-05：**PI 两项精简拍板**：① QKV 筛选瘦身为 Q0 vs Q1 两臂 20k head-to-head（Q1 非劣进主方法，Q2 进附录）；② identity-safe RSI 作废——F1/F2/F3 复用官方 RSI 模块 + offset 零初始化 + 三臂同 seed DCN（震荡正常且可恢复，防御性改造反而加重归因）。E12 五项冻结（外部字体=Google Fonts 拉丁 ~200 族零重叠、A 协议渲染、cache 路径+SHA、temperature scaling、T3=0.90），E12a 立即并行开训。
 =======
 - 2026-09-05：PI 拍板：E1c / top-10 α / cache-only 9-token。详见 `reports/PI_DECISIONS_20260905.md`。
 - 2026-09-05：Stage A 接线合入 `d382247`；G3 过门；G4 启动 E2+E2b；周报 [`reports/WEEKLY_20260905.md`](reports/WEEKLY_20260905.md)。
