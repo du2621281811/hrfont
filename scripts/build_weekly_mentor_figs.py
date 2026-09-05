@@ -65,17 +65,19 @@ def fig_protocols() -> None:
             ax.set_xticks([])
             ax.set_yticks([])
             for spine in ax.spines.values():
-                spine.set_color("#cccccc")
+                spine.set_color("#2f5d3a" if proto == "A" else "#8b1e1e" if proto == "H" else "#cccccc")
+                spine.set_linewidth(2.0 if proto in ("A", "H") else 1.0)
             if i == 0:
-                title = f"{proto}"
-                ax.set_title(title, fontproperties=cjk(11, "bold"), pad=4)
+                title = "A（采用）" if proto == "A" else "H（弃用）" if proto == "H" else proto
+                title_color = "#2f5d3a" if proto == "A" else "#8b1e1e" if proto == "H" else "#222"
+                ax.set_title(title, fontproperties=cjk(10.5, "bold"), pad=4, color=title_color)
                 ax.text(
                     0.5, -0.08, PROTO_NOTE[proto], transform=ax.transAxes,
                     ha="center", va="top", fontproperties=cjk(7.5), color="#444",
                 )
             if j == 0:
                 ax.set_ylabel(rlab, fontproperties=cjk(10))
-    fig.suptitle("同一字体、同一字符 · 六种渲染协议", fontproperties=cjk(13, "bold"), y=0.995)
+    fig.suptitle("同一字体、各行同一字符 · 六种渲染协议", fontproperties=cjk(13, "bold"), y=0.995)
     fig.text(
         0.5, 0.01,
         "训练与评测已冻结协议 A（逐字体统一字号、不缩放）。H 人工检查后弃用。",
@@ -108,53 +110,93 @@ def _arrow(ax, start, end):
 
 
 def fig_method() -> None:
-    fig, axes = plt.subplots(1, 2, figsize=(11.4, 4.8))
+    fig, ax = plt.subplots(figsize=(13.4, 8.2))
     fig.patch.set_facecolor("white")
-    titles = ["官方 FontDiffuser：参考字结构", "本方法：目标字残差 Δ"]
-    faces = ("#f4f6f8", "#eef6f1")
-    for ax, title, bg in zip(axes, titles, faces):
-        ax.set_xlim(0, 10)
-        ax.set_ylim(0, 10)
-        ax.set_aspect("equal")
-        ax.axis("off")
-        ax.set_title(title, fontproperties=cjk(12, "bold"), pad=8)
-        ax.add_patch(mpatches.Rectangle((0.15, 0.2), 9.7, 9.4, facecolor=bg, edgecolor="none"))
+    ax.set_xlim(0, 14)
+    ax.set_ylim(0, 11.5)
+    ax.axis("off")
 
-    ax = axes[0]
-    _box(ax, (0.5, 7.6), 4.0, 1.5, "中文风格参考\n（同时送入 Es 与 Ec）", "#fff", fs=8.5)
-    _box(ax, (5.5, 7.6), 4.0, 1.5, "中性内容图\n（西文字 c）", "#fff")
-    _arrow(ax, (2.5, 7.6), (2.5, 6.35))
-    _arrow(ax, (7.5, 7.6), (7.5, 6.35))
-    _box(ax, (0.5, 4.7), 4.0, 1.5, "Ec(参考字)\n→ 结构支路 RSI", "#fff4df", edge="#9a6700")
-    _box(ax, (5.5, 4.7), 4.0, 1.5, "Ec(c)\n→ 身份支路", "#fff")
-    _box(ax, (0.5, 2.6), 9.0, 1.4, "Es(参考字) → 风格注意力", "#fff")
-    _arrow(ax, (2.5, 4.7), (3.2, 4.1))
-    _arrow(ax, (7.5, 4.7), (6.8, 4.1))
-    _arrow(ax, (5.0, 2.6), (5.0, 2.15))
-    _box(ax, (2.2, 0.5), 5.6, 1.5, "UNet 生成西文 c\nRSI 学习参考字与 c 的空间错位", "#fff4df", edge="#9a6700", fs=8.5)
-    ax.text(5, 9.55, "官方即允许异字；跨语系对应更弱是本文假设", ha="center",
-            fontproperties=cjk(7.7), color="#7a5200")
+    fig.suptitle(
+        "E2b vs E2：逐项对照（预期唯一变量 = RSI 结构源）",
+        fontproperties=cjk(15, "bold"), y=0.985,
+    )
+    ax.text(
+        7, 10.82,
+        "两组都从 E1@100k 初始化；冻结 Es/Ec；n-shot 风格条件、UNet、RSI 内部与 loss 相同",
+        ha="center", va="center", fontproperties=cjk(9), color="#444",
+    )
 
-    ax = axes[1]
-    _box(ax, (0.4, 7.6), 3.0, 1.5, "中文参考 R\n（风格）", "#fff")
-    _box(ax, (3.6, 7.6), 3.0, 1.5, "库字体上的\n同一个 c", "#fff")
-    _box(ax, (6.8, 7.6), 2.8, 1.5, "中性 c\n（Noto）", "#fff")
-    _arrow(ax, (1.9, 7.6), (1.9, 6.35))
-    _arrow(ax, (5.1, 7.6), (4.4, 6.35))
-    _arrow(ax, (8.2, 7.6), (6.8, 6.35))
-    _box(ax, (0.4, 4.7), 3.0, 1.5, "Es(R)\n风格 9 token", "#fff")
-    _box(ax, (3.6, 4.7), 6.0, 1.5, "加权混合 − 中性编码  =  Δ\n同字、相对变化", "#d9efe3", edge="#2f5d3a", fs=9)
-    _arrow(ax, (1.9, 4.7), (3.2, 3.55))
-    _arrow(ax, (6.6, 4.7), (6.6, 3.55))
-    _box(ax, (0.4, 2.5), 4.4, 1.4, "风格注意力\n（官方支路，不动）", "#fff", fs=8.5)
-    _box(ax, (5.1, 2.5), 4.5, 1.4, "RSI 结构源改为 Δ\n（模块本身不改）", "#d9efe3", edge="#2f5d3a", fs=8.5)
-    _arrow(ax, (2.6, 2.5), (4.2, 2.1))
-    _arrow(ax, (7.3, 2.5), (5.8, 2.1))
-    _box(ax, (2.2, 0.45), 5.6, 1.5, "UNet 生成西文 c\n结构与身份指向同一个字", "#d9efe3", edge="#2f5d3a")
-    ax.text(5, 9.55, "改接线，不改 RSI 内部", ha="center",
-            fontproperties=cjk(8.5), color="#2f5d3a")
+    label_x, left_x, right_x = 0.25, 2.45, 8.25
+    box_w, box_h = 5.15, 1.25
+    row_y = [8.95, 7.25, 5.55, 3.85, 2.15]
+    row_labels = [
+        ("风格条件", "共享"),
+        ("内容条件", "共享"),
+        ("RSI 结构源", "唯一预期差异"),
+        ("RSI 内部", "共享"),
+        ("训练设置", "共享"),
+    ]
 
-    fig.tight_layout()
+    ax.add_patch(mpatches.FancyBboxPatch(
+        (left_x, 9.95), box_w, 0.62, boxstyle="round,pad=0.02,rounding_size=0.08",
+        facecolor="#fff4df", edgecolor="#9a6700", linewidth=1.2,
+    ))
+    ax.text(left_x + box_w / 2, 10.26, "E2b · official-RSI control",
+            ha="center", va="center", fontproperties=cjk(11, "bold"), color="#7a5200")
+    ax.add_patch(mpatches.FancyBboxPatch(
+        (right_x, 9.95), box_w, 0.62, boxstyle="round,pad=0.02,rounding_size=0.08",
+        facecolor="#eaf5ee", edgecolor="#2f5d3a", linewidth=1.2,
+    ))
+    ax.text(right_x + box_w / 2, 10.26, "E2 · Δ-RSI",
+            ha="center", va="center", fontproperties=cjk(11, "bold"), color="#2f5d3a")
+
+    for y, (name, tag) in zip(row_y, row_labels):
+        ax.text(label_x, y + 0.73, name, ha="left", va="center",
+                fontproperties=cjk(10, "bold"), color="#222")
+        tag_color = "#8b1e1e" if "差异" in tag else "#666"
+        ax.text(label_x, y + 0.30, tag, ha="left", va="center",
+                fontproperties=cjk(7.6), color=tag_color)
+
+    shared_face = "#f5f6f7"
+    left_diff, right_diff = "#fff4df", "#eaf5ee"
+    left_edge, right_edge = "#9a6700", "#2f5d3a"
+
+    shared_rows = [
+        "R={r1,…,rn},  n∈{1,…,8}\nmean Es(R) → 9 style tokens",
+        "Noto c → Ec(c) → MCA\n提供目标字符身份与多尺度内容",
+        None,
+        "Q=结构条件，K/V=UNet skip\nCrossAttn → 18-channel offset → DCN(skip)",
+        "E1@100k · freeze Es/Ec · 80k\nLdiff + 0.01 Lperc + 0.5 Loffset",
+    ]
+    for idx, (y, text) in enumerate(zip(row_y, shared_rows)):
+        if idx == 2:
+            continue
+        _box(ax, (left_x, y), box_w, box_h, text, shared_face, edge="#777", fs=9.3, lw=1.0)
+        _box(ax, (right_x, y), box_w, box_h, text, shared_face, edge="#777", fs=9.3, lw=1.0)
+
+    _box(
+        ax, (left_x, row_y[2]), box_w, box_h,
+        "Ec(R[0])\n绝对参考字结构（R[0] 为首个参考字）",
+        left_diff, edge=left_edge, fs=9.5, lw=1.5,
+    )
+    _box(
+        ax, (right_x, row_y[2]), box_w, box_h,
+        "Δc = ΣTop10 αs Ec(Bs,c) − Ec(Noto c)\n同一目标字符的相对残差",
+        right_diff, edge=right_edge, fs=9.2, lw=1.5,
+    )
+
+    warning = (
+        "当前已启动 run 仍有第二差异：E2 对结构源做 25% drop，而 E2b 未 drop。"
+        "因此当前结果仅作 pilot；正式 matched 对照需统一 source_drop 后重跑。"
+    )
+    ax.add_patch(mpatches.FancyBboxPatch(
+        (0.3, 0.45), 13.1, 1.05, boxstyle="round,pad=0.03,rounding_size=0.08",
+        facecolor="#fdecea", edgecolor="#8b1e1e", linewidth=1.3,
+    ))
+    ax.text(6.85, 0.98, warning, ha="center", va="center",
+            fontproperties=cjk(9.2, "bold"), color="#8b1e1e", wrap=True)
+
+    fig.tight_layout(rect=(0.01, 0.01, 0.99, 0.965))
     fig.savefig(OUT / "fig2_method.png", dpi=160, bbox_inches="tight")
     plt.close(fig)
 
@@ -185,6 +227,7 @@ def fig_e1_examples() -> None:
                 spine.set_color("#cccccc")
             if i == 0:
                 ax.set_title(cols[j], fontproperties=cjk(11, "bold"), pad=6)
+        axes[i, 0].set_ylabel(f"测试例 {i + 1} · {samples[i][1]}", fontproperties=cjk(8.5))
     fig.suptitle("基线 E1（协议 A）满训后的生成示例", fontproperties=cjk(13, "bold"), y=0.995)
     fig.text(
         0.5, 0.012,
