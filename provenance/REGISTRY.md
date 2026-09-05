@@ -36,7 +36,7 @@
 | `E12-PHI-S2-S3407` | TBD | **bootstrap done** | cache_v1 |
 | `E12-IDCLS-S3407` | TBD | **bootstrap done** | cache_v1 |
 | `E12-*-V2-S3407/08/09` | `reports/training_logs/e12_*_v2_*` | **gate_failed** | cache_v2；字型泄漏 + 同字型负样本，`reports/E12_SELFTEST_V2_REVIEW_20260905.md` |
-| `E12-*-V3-S3407/08/09` | `reports/training_logs/e12_*_v3_*` | **running** | cache_v3；S1/S2/S4/S5，`scripts/launch_e12_formal_v3.sh` |
+| `E12-*-V3-S3407/08/09` | `reports/training_logs/e12_*_v3_*` | **gate_failed (T2)** | cache_v3；`reports/E12_SELFTEST_V3_REVIEW_20260906.md` |
 | `F0-RSIFREE-FT-A-S3407` | `reports/training_logs/F0-RSIFREE-FT-A-S3407/` | **running** | `configs/f0_rsifree_ft_a_s3407.yaml`；GPU2，100k |
 | `F1-OFFRSI-A-S3407` | TBD | **code_ready** | `configs/f1_offrsi_a_s3407.yaml`；待 F0 milestone + Es/Ec cache |
 | `F2-DELTARSI-A-S3407` | TBD | **code_ready** | `configs/f2_deltarsi_a_s3407.yaml`；与 F1 matched，仅换 source |

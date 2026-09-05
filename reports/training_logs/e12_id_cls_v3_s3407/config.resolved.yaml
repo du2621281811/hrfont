@@ -1,0 +1,97 @@
+data:
+  cache_dir: /root/projects/hrfont/artifacts/e12/cache_v3
+  chars:
+  - A
+  - B
+  - C
+  - D
+  - E
+  - F
+  - G
+  - H
+  - I
+  - J
+  - K
+  - L
+  - M
+  - N
+  - O
+  - P
+  - Q
+  - R
+  - S
+  - T
+  - U
+  - V
+  - W
+  - X
+  - Y
+  - Z
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  - g
+  - h
+  - i
+  - j
+  - k
+  - l
+  - m
+  - n
+  - o
+  - p
+  - q
+  - r
+  - s
+  - t
+  - u
+  - v
+  - w
+  - x
+  - y
+  - z
+  - '0'
+  - '1'
+  - '2'
+  - '3'
+  - '4'
+  - '5'
+  - '6'
+  - '7'
+  - '8'
+  - '9'
+  split_by_group: true
+  split_ratios:
+  - 0.7
+  - 0.15
+  - 0.15
+  split_seed: 3407
+  workers: 0
+experiment:
+  id: E12-IDCLS-V3-S3407
+model:
+  feature_dim: 512
+  in_channels: 3
+output:
+  dir: /root/projects/hrfont/runs/e12_id_cls_v3_s3407
+schema_version: 2
+train:
+  batch_size: 32
+  betas:
+  - 0.9
+  - 0.999
+  checkpoint_every: 250
+  device: cuda:0
+  epochs: 50
+  eps: 1.0e-08
+  grad_clip: 1.0
+  label_smoothing: 0.05
+  lr: 0.0003
+  max_steps: 3000
+  seed: 3407
+  warmup_epochs: 5
+  warmup_steps: 200
+  weight_decay: 0.01

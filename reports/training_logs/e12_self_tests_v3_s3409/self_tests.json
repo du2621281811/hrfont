@@ -1,0 +1,43 @@
+{
+  "mode": "formal",
+  "split_by_group": true,
+  "negatives": "cross_typeface",
+  "test_families": [
+    "NotoSansCJK-Black",
+    "NotoSansCJK-Bold",
+    "NotoSansCJK-DemiLight",
+    "NotoSansCJK-Light",
+    "NotoSansCJK-Medium",
+    "NotoSansCJK-Regular",
+    "NotoSansCJK-Thin",
+    "gbsn00lp"
+  ],
+  "tests": {
+    "T1": {
+      "median": 0.6403365731239319,
+      "p5": 0.34081433713436127
+    },
+    "T2": {
+      "auc": 0.7977204918861389
+    },
+    "T3": {
+      "accuracy": 0.8951612903225806
+    },
+    "T4": {
+      "mean_drop": 0.20131620016670035,
+      "paired_t": 18.750792999921135,
+      "n": 496
+    },
+    "D_within_typeface": {
+      "mean_drop": 0.12226198733814302,
+      "n": 434
+    }
+  },
+  "gates": {
+    "T1": true,
+    "T2": false,
+    "T3": false,
+    "T4": true
+  },
+  "passed": false
+}
