@@ -1,0 +1,53 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HR-Font 周报 · 2026-09-05</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--ink:#17212b;--muted:#5f6b76;--line:#d8dee5;--accent:#245b78}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,"Noto Sans SC",sans-serif}
+main{max-width:980px;margin:auto;padding:24px}
+a{color:var(--accent)} h1{font-size:28px;margin:8px 0 12px} h2{font-size:20px;margin:28px 0 10px}
+p,li{margin:8px 0} code,.math{font-family:ui-monospace,monospace;background:#eef2f5;padding:1px 5px;border-radius:4px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);margin:12px 0}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top} th{background:#edf1f4}
+pre.eq{background:#fff;border:1px solid var(--line);padding:12px;overflow:auto}
+.nav{margin-bottom:12px;color:var(--muted)}
+</style></head><body><main>
+<p class="nav"><a href="/">← 返回导师总入口</a></p>
+<h1>HR-Font 周报 · 2026-09-05</h1>
+<p><strong>任务：</strong> 给定一个新字体的少量汉字，生成该字体的拉丁字母、日文假名和注音符号。基模为 FontDiffuser（FD）。</p>
+<p><strong>本周结论：</strong> 数据渲染协议与训练集已确定，FD 微调基线 E1 已完成，目标字残差方法已接入。代码复查同时发现当前 E2/E2b 还存在一处额外差异，因此正在运行的结果只作诊断，修正后再做正式对照。</p>
+<p><strong>在线材料：</strong></p>
+<ul><li><a href="http://172.19.45.13:19001/">导师总入口</a></li><li><a href="http://172.19.45.13:19001/rendering.html">六种渲染与边界框说明</a></li><li><a href="http://172.19.45.13:19001/e1/">E1 正式交互评测</a></li></ul>
+<h2>1. 数据：六种渲染方式中选择 A</h2>
+<p>数据共 <strong>260 套字体</strong>：每套字体包含 338 个汉字风格参考，以及 295 个目标字符（数字与拉丁字母、拉丁扩展字母、平假名、片假名、注音符号）。按字体划分为 <strong>228/16/16</strong> 套训练/验证/测试集。</p>
+<table><thead><tr><th>协议</th><th>渲染方式</th><th>主要效果</th><th>决定</th></tr></thead><tbody>
+<tr><td><strong>A</strong></td><td>每套字体统一字号；96×96 直接渲染，不缩放</td><td>保留同一字体内不同字符的相对大小，边缘清晰</td><td><strong>采用</strong></td></tr>
+<tr><td><strong>B</strong></td><td>每套字体按高度统一；过宽字符单独缩小</td><td>高度较一致，但宽字符使用了例外规则</td><td>不采用</td></tr>
+<tr><td><strong>C</strong></td><td>在 128×128 渲染，再缩放到 96×96</td><td>字形较大，但插值可能使边缘变软</td><td>不采用</td></tr>
+<tr><td><strong>D</strong></td><td>每个字符单独放大到逻辑边界</td><td>画布利用率高，但破坏字符间相对大小</td><td>不采用</td></tr>
+<tr><td><strong>F</strong></td><td>每个字符按实际墨迹单独撑满</td><td>填充最充分，但同样破坏相对大小</td><td>不采用</td></tr>
+<tr><td><strong>H</strong></td><td>每套字体按实际墨迹统一字号</td><td>未显示出相对 A 的稳定优势</td><td>人工检查后弃用</td></tr>
+</tbody></table>
+<p><strong>归类与结论：</strong> A/B/H 是“每套字体统一字号”，D/F 是“每个字符单独定字号”，C 是“先大图渲染再缩放”。最终选择 <strong>A</strong>，因为它同时保持字体内部的相对比例、避免插值，并在不同文字系统上使用同一规则。</p>
+<p><img alt="六种协议在不同文字系统上的渲染对比" src="/assets/fig1_six_protocols.png" style="max-width:100%;display:block;margin:12px auto;border:1px solid #d8dee5;background:#fff"></p>
+<h2>2. 方法：让 RSI 使用目标字符自身的变化</h2>
+<p>FD 使用两张条件图：中性字体的目标字符 <span class="math">c</span> 指定“生成哪个字”，目标字体的汉字参考 <span class="math">R</span> 指定“生成什么风格”。FD 内部的 RSI 模块还会读取参考字结构，并据此预测内容特征应如何移动。</p>
+<p>FD 原本就允许参考字与目标字不同；我们关注的是，<strong>汉字参考与拉丁/假名目标之间的局部结构共享可能较弱</strong>。因此，我们保留汉字参考提供的风格，只把 RSI 的结构条件改为同一目标字符的相对变化：</p>
+<ol><li>用 1–8 张汉字参考寻找风格最相近的 10 套训练字体；</li><li>取这 10 套字体中的同一个目标字符 <span class="math">c</span>，在特征空间按相似度加权；</li><li>减去中性字体中同一个 <span class="math">c</span> 的特征，得到目标字残差</li></ol>
+<pre class="eq">\[
+\Delta_c=\sum_{s\in\mathrm{Top10}}\alpha_sE_c(B_s,c)-E_c(B_0,c).
+\]</pre>
+<p><span class="math">\Delta_c</span> 表示“相对中性字形，目标风格可能需要改变哪些局部结构”。UNet、RSI 内部和损失函数均不改，只替换 RSI 的结构条件。该假设最终由 E2 与 E2b 的严格配对实验判断。</p>
+<p><img alt="E2b 与 E2 的逐项对照" src="/assets/fig2_method.png" style="max-width:100%;display:block;margin:12px auto;border:1px solid #d8dee5;background:#fff"></p>
+<h2>3. 基线与当前进度</h2>
+<p>E1 在协议 A 上微调 FD 100k 步，已完成。下图是未见测试字体的“中性内容 / 汉字参考 / 真值 / E1 生成”。结果说明基线已经能够生成目标字符，但部分样本的局部结构和目标风格仍有偏差。</p>
+<p>在 16 套未见字体、47 个分层抽样字符上，E1 相对官方 P1 的 <strong>L1 从 0.1035 降至 0.0685，SSIM 从 0.4451 升至 0.6521，LPIPS 从 0.2726 降至 0.1516</strong>；2256 个输出文件完整性检查通过、无缺失。这些指标用于基线诊断，正式风格结论仍需独立评测。</p>
+<p><img alt="E1 测试集示例" src="/assets/fig3_e1_examples.png" style="max-width:100%;display:block;margin:12px auto;border:1px solid #d8dee5;background:#fff"></p>
+<table><thead><tr><th>实验</th><th>作用</th><th>当前状态</th></tr></thead><tbody>
+<tr><td><strong>E1</strong></td><td>FD 微调基线</td><td>100k，已完成</td></tr>
+<tr><td><strong>E1c</strong></td><td>1-shot、官方 RSI 的冻结编码器基线</td><td>因 GPU 显存占用未启动</td></tr>
+<tr><td><strong>E2b</strong></td><td>多参考风格 + 官方参考字结构 <span class="math">E_c(R[0])</span></td><td>27800/80000，诊断运行</td></tr>
+<tr><td><strong>E2</strong></td><td>与 E2b 相同，但 RSI 结构条件改为 <span class="math">\Delta_c</span></td><td>9200/80000，诊断运行</td></tr>
+</tbody></table>
+<p>代码复查发现，当前 E2 对结构条件做了 25% 随机置零，而 E2b 没有使用相同规则，所以这两条运行<strong>不能直接形成正式结论</strong>。下一步是统一该规则、通过短跑检查后重启正式 E2/E2b；现有运行保留用于排查，不覆盖。</p>
+<p>技术细节与正确性审查见 <a href="./RSI_CORRECTNESS_REVIEW_20260905.md">RSI_CORRECTNESS_REVIEW_20260905.md</a>；代码与完整记录见 <a href="https://github.com/du2621281811/hrfont">GitHub 仓库</a>。</p>
+</main></body></html>
