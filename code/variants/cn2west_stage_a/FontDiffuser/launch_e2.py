@@ -30,6 +30,9 @@ def main() -> int:
     run_id = cfg["experiment"]["id"]
     data, model, train = cfg["data"], cfg["model"], cfg["train"]
     delta, nshot = model["delta"], model["nshot"]
+    support = model.get("support", {"enabled": False, "drop": 0.20})
+    if delta["k_top"] != 10:
+        raise ValueError(f"D-P2: mainline k_top must be 10, got {delta['k_top']}")
     init_dir = ROOT / cfg["init"]["checkpoint"]
     es_cache = ROOT / data["es_cache_path"]
     ec_cache = ROOT / data["ec_cache_path"]
@@ -75,10 +78,14 @@ def main() -> int:
         "--cosine_table_es_cache_sha256", str(data.get("cosine_table_es_cache_sha256") or ""),
         "--phase_1_ckpt_dir", str(init_dir),
         "--rsi_source", model["rsi_source"],
+        "--rsi_mode", model.get("rsi_mode", "q0_inherited"),
         "--encoder_runtime", model.get("encoder_runtime", "cache_only"),
         "--delta_tau", str(delta["tau"]), "--delta_eps_alpha", str(delta["eps_alpha"]),
         "--delta_k_max", str(delta["k_max"]), "--delta_k_top", str(delta["k_top"]),
         "--delta_mode", delta["mode"], "--delta_drop", str(delta["drop"]),
+        "--support_drop", str(support.get("drop", 0.20)),
+        "--support_k", str(cfg.get("retrieval", {}).get("K", 3)),
+        "--support_theta", str(cfg.get("retrieval", {}).get("theta", 0.25)),
         "--nshot_min", str(nshot["min_n"]), "--nshot_max", str(nshot["max_n"]),
         "--eval_refs", *eval_refs,
         "--seed", str(train["seed"]), "--max_train_steps", str(steps),
@@ -96,6 +103,7 @@ def main() -> int:
         cmd.extend(["--resume_from", str(last_state)])
         print(f"resuming from {last_state}", flush=True)
     cmd.append("--delta_enabled" if delta["enabled"] else "--no-delta_enabled")
+    cmd.append("--support_enabled" if support.get("enabled", False) else "--no-support_enabled")
     env = os.environ.copy()
     env["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
     env["PYTHONUNBUFFERED"] = "1"

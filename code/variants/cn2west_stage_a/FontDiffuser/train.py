@@ -142,8 +142,9 @@ def _structure_features(es_cache, ec_cache, library: _LibraryEs, cosine_table: C
     ref_chars = samples["ref_chars"]
     if cfg.rsi_source == "official":
         rows = []
-        for font, refs in zip(fonts, ref_chars):
-            rows.append([tensor.to(device) for tensor in ec_cache.features("style", font, refs[0])])
+        for dropped, font, refs in zip(delta_draw, fonts, ref_chars):
+            features = [tensor.to(device) for tensor in ec_cache.features("style", font, refs[0])]
+            rows.append([torch.zeros_like(x) for x in features] if bool(dropped) else features)
         return [torch.cat([row[scale] for row in rows]) for scale in range(len(rows[0]))]
     if not cfg.delta_enabled:
         return None
@@ -244,8 +245,19 @@ def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int, sc
 
 
 def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None, scaler=None,
-                     restore_rng: bool = False) -> int:
-    model.unet.load_state_dict(torch.load(directory / "unet.pth", map_location="cpu"))
+                     restore_rng: bool = False, head_seed: int | None = None) -> int:
+    unet_state = torch.load(directory / "unet.pth", map_location="cpu")
+    incompatible = model.unet.load_state_dict(unet_state, strict=False)
+    missing = sorted(incompatible.missing_keys)
+    unexpected = sorted(incompatible.unexpected_keys)
+    allowed = (".sc_interpreter_offsets.", ".dcn_deforms.")
+    bad_missing = [key for key in missing if not any(part in key for part in allowed)]
+    print(f"checkpoint missing keys: {missing}", flush=True)
+    print(f"checkpoint unexpected keys: {unexpected}", flush=True)
+    if bad_missing or unexpected:
+        raise RuntimeError(f"F0 init mismatch: bad_missing={bad_missing}, unexpected={unexpected}")
+    if missing:
+        _initialize_rsi_heads(model.unet, int(head_seed if head_seed is not None else 0))
     model.style_encoder.load_state_dict(torch.load(directory / "style_encoder.pth", map_location="cpu"))
     model.content_encoder.load_state_dict(torch.load(directory / "content_encoder.pth", map_location="cpu"))
     state_path = directory / "trainer_state.pt"
@@ -261,6 +273,54 @@ def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None, sca
     if restore_rng:
         _set_rng(state.get("rng") or {})
     return int(state.get("step", state.get("global_step", 0)))
+
+
+def _initialize_rsi_heads(unet, seed: int):
+    """Matched new-head init: zero offset outputs, seeded DCN parameters."""
+    generator = torch.Generator(device="cpu").manual_seed(seed)
+    for name, parameter in unet.named_parameters():
+        if ".sc_interpreter_offsets." in f".{name}.":
+            if parameter.ndim >= 2:
+                torch.nn.init.xavier_uniform_(parameter, generator=generator)
+            else:
+                torch.nn.init.zeros_(parameter)
+    for name, module in unet.named_modules():
+        if ".sc_interpreter_offsets." in f".{name}.":
+            if hasattr(module, "proj_out"):
+                torch.nn.init.zeros_(module.proj_out.weight)
+                if module.proj_out.bias is not None:
+                    torch.nn.init.zeros_(module.proj_out.bias)
+        if ".dcn_deforms." in f".{name}." and hasattr(module, "weight"):
+            torch.nn.init.kaiming_uniform_(module.weight, a=math.sqrt(5), generator=generator)
+            if module.bias is not None:
+                fan_in, _ = torch.nn.init._calculate_fan_in_and_fan_out(module.weight)
+                bound = 1 / math.sqrt(fan_in)
+                torch.nn.init.uniform_(module.bias, -bound, bound, generator=generator)
+
+
+def _support_features(es_cache, ec_cache, library, cosine_table, samples, queries,
+                      args, support_draw, device):
+    """F3 support: mean K same-char whole-glyph Ec exemplars, gated by RS gap."""
+    if not args.support_enabled:
+        return None
+    rows = []
+    for dropped, font, cp, refs, query in zip(support_draw, samples["font_stem"],
+                                               samples["char_cp"], samples["ref_chars"], queries):
+        # Cache-only proxy for gap: reference-set mean versus aligned first reference.
+        mean_ref = F.normalize(query.float().mean(0), dim=0)
+        query_font = F.normalize(query[0].float(), dim=0)
+        gap = 1.0 - float(torch.dot(mean_ref, query_font))
+        zero = bool(dropped) or gap < args.support_theta
+        scores = cosine_table.rows([font], [refs])[0].clone()
+        exclude = library.font_index.get(font)
+        if exclude is not None:
+            scores[exclude] = -torch.inf
+        indices = torch.topk(scores, k=min(args.support_k, len(library.fonts) - 1)).indices.tolist()
+        exemplars = ec_cache.features_many("target", [(library.fonts[i], cp) for i in indices])
+        feats = [torch.stack([exemplars[(library.fonts[i], cp)][scale] for i in indices]).mean(0).to(device)
+                 for scale in range(len(ec_cache.scales))]
+        rows.append([torch.zeros_like(x) for x in feats] if zero else feats)
+    return [torch.cat([row[scale] for row in rows]) for scale in range(len(rows[0]))]
 
 
 def _record_config(args, es_sha: str, ec_sha: str):
@@ -282,7 +342,7 @@ def _record_config(args, es_sha: str, ec_sha: str):
 
 
 def _forward_batch(model, noise_scheduler, perceptual_loss, args, batch, style, structure,
-                   content_feats, train: bool):
+                   content_feats, train: bool, support=None):
     target = batch["target_image"]
     nonorm_target = batch["nonorm_target_image"]
     bsz = target.shape[0]
@@ -292,6 +352,7 @@ def _forward_batch(model, noise_scheduler, perceptual_loss, args, batch, style, 
     noise_pred, offset_sum = model(
         x_t=noisy, timesteps=timesteps, content_images=batch["content_image"],
         style_features=style, structure_features=structure, content_features=content_feats,
+        support_features=support,
         content_encoder_downsample_size=args.content_encoder_downsample_size)
     diffusion = F.mse_loss(noise_pred.float(), noise.float())
     if not train:
@@ -364,9 +425,10 @@ def main():
 
     model = FontDiffuserModel(unet=build_unet(args),
                               style_encoder=build_style_encoder(args),
-                              content_encoder=build_content_encoder(args))
+                              content_encoder=build_content_encoder(args),
+                              support_enabled=args.support_enabled)
     if args.phase_1_ckpt_dir:
-        _load_checkpoint(model, Path(args.phase_1_ckpt_dir), restore_rng=False)
+        _load_checkpoint(model, Path(args.phase_1_ckpt_dir), restore_rng=False, head_seed=args.seed)
     if args.freeze_encoders:
         model.style_encoder.requires_grad_(False).eval()
         model.content_encoder.requires_grad_(False).eval()
@@ -428,12 +490,15 @@ def main():
                     delta_draw = torch.rand(bsz, device=style.device) < args.delta_drop
                     structure = _structure_features(es_cache, ec_cache, library, cosine_table, samples, queries,
                                                     args, delta_draw, style.device)
+                    support_draw = torch.rand(bsz, device=style.device) < args.support_drop
+                    support = _support_features(es_cache, ec_cache, library, cosine_table, samples,
+                                                queries, args, support_draw, style.device)
                     cfg_mask = torch.rand(bsz, device=style.device) < args.drop_prob
                     content_feats = _content_features(ec_cache, samples, cfg_mask, style.device)
                     style = style.clone()
                     style[cfg_mask] = 0
                 loss, _ = _forward_batch(model, noise_scheduler, perceptual_loss, args, samples,
-                                         style, structure, content_feats, train=True)
+                                         style, structure, content_feats, train=True, support=support)
                 accelerator.backward(loss)
                 if accelerator.sync_gradients:
                     accelerator.clip_grad_norm_(trainable, args.max_grad_norm)

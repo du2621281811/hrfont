@@ -226,6 +226,56 @@ def source_import_checks():
     print("source import checks: PASS")
 
 
+def q1_roleswap_test():
+    _install_stubs(torch)
+    sys.path.insert(0, str(VARIANT))
+    from src.modules.attention import OffsetInterStrucQuery
+    head = OffsetInterStrucQuery(64, 64, 1, num_groups=32).eval()
+    skip = torch.randn(2, 64, 8, 8)
+    with torch.no_grad():
+        out = head(skip, torch.zeros_like(skip))
+    assert out.shape == (2, 18, 8, 8) and torch.isfinite(out).all()
+    print("Q1 role-swap zero-source: PASS")
+
+
+def f0_identity_block_test():
+    path = ROOT / "code/variants/cn2west_f0/FontDiffuser/src/modules/unet_blocks.py"
+    text = path.read_text(encoding="utf-8")
+    body = text[text.index("class StyleUpBlockNoRSI"):text.index("class UpBlock2D", text.index("class StyleUpBlockNoRSI"))]
+    assert "dcn_deform(" not in body and "sc_inter_offset(" not in body
+    assert "torch.cat([hidden_states, res_hidden_states]" in body and "attn(hidden_states" in body
+    print("F0 identity skip/static topology: PASS")
+
+
+def head_reinit_seed_test():
+    _install_stubs(torch)
+    if "accelerate" not in sys.modules:
+        accelerate = types.ModuleType("accelerate")
+        accelerate.Accelerator = type("Accelerator", (), {})
+        accelerate_utils = types.ModuleType("accelerate.utils")
+        accelerate_utils.set_seed = lambda seed: None
+        sys.modules.update({"accelerate": accelerate, "accelerate.utils": accelerate_utils})
+    if "diffusers.optimization" not in sys.modules:
+        optimization = types.ModuleType("diffusers.optimization")
+        optimization.get_scheduler = lambda *a, **k: None
+        sys.modules["diffusers.optimization"] = optimization
+    sys.modules.setdefault("pygame", types.ModuleType("pygame"))
+    sys.path.insert(0, str(VARIANT))
+    from src.modules.attention import OffsetRefStrucInter
+    from train import _initialize_rsi_heads
+    class Tiny(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.sc_interpreter_offsets = torch.nn.ModuleList([OffsetRefStrucInter(64, 64, 1)])
+            self.dcn_deforms = torch.nn.ModuleList([torch.nn.Conv2d(64, 64, 3, padding=1)])
+    a, b = Tiny(), Tiny()
+    _initialize_rsi_heads(a, 3407); _initialize_rsi_heads(b, 3407)
+    assert all(torch.equal(x, y) for x, y in zip(a.parameters(), b.parameters())
+               if x.shape == y.shape)
+    assert torch.count_nonzero(a.sc_interpreter_offsets[0].proj_out.weight) == 0
+    print("matched RSI head reinit: PASS")
+
+
 def main() -> int:
     try:
         sampler_test()
@@ -234,6 +284,9 @@ def main() -> int:
         cosine_fp16_topk_parity_test()
         batched_ec_delta_parity_test()
         source_import_checks()
+        f0_identity_block_test()
+        q1_roleswap_test()
+        head_reinit_seed_test()
         try:
             nine_token_forward_test()
         except (ImportError, ModuleNotFoundError) as exc:

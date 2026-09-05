@@ -17,8 +17,8 @@ def build_unet(args):
                           'MCADownBlock2D', 
                           'DownBlock2D'),
         up_block_types=('UpBlock2D', 
-                        'StyleRSIUpBlock2D',
-                        'StyleRSIUpBlock2D', 
+                        'StyleUpBlockNoRSI',
+                        'StyleUpBlockNoRSI', 
                         'UpBlock2D'),
         block_out_channels=args.unet_channels, 
         layers_per_block=2,
@@ -32,8 +32,7 @@ def build_unet(args):
         channel_attn=args.channel_attn,
         content_encoder_downsample_size=args.content_encoder_downsample_size,
         content_start_channel=args.content_start_channel,
-        reduction=32,
-        rsi_mode=getattr(args, "rsi_mode", "q0_inherited"))
+        reduction=32)
     
     return unet
 

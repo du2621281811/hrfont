@@ -4,7 +4,7 @@ import argparse
 def get_parser():
     parser = argparse.ArgumentParser(description="Training config for FontDiffuser.")
     ################# Experience #################
-    parser.add_argument("--seed", type=int, default=3407, help="A seed for reproducible training.")
+    parser.add_argument("--seed", type=int, default=123, help="A seed for reproducible training.")
     parser.add_argument("--experience_name", type=str, default="fontdiffuer_training")
     parser.add_argument("--data_root", type=str, default=None, 
                         help="The font dataset root path.",)
@@ -30,32 +30,6 @@ def get_parser():
                         help="The channels of the fisrt layer output of content encoder.",)
     parser.add_argument("--style_start_channel", type=int, default=64, 
                         help="The channels of the fisrt layer output of content encoder.",)
-    parser.add_argument("--rsi_source", choices=("delta", "official"), default="delta")
-    parser.add_argument("--rsi_mode", choices=("q0_inherited", "q1_roleswap"), default="q0_inherited")
-    parser.add_argument("--support_enabled", action=argparse.BooleanOptionalAction, default=False)
-    parser.add_argument("--support_drop", type=float, default=0.20)
-    parser.add_argument("--support_k", type=int, default=3)
-    parser.add_argument("--support_theta", type=float, default=0.25)
-    parser.add_argument("--delta_enabled", action=argparse.BooleanOptionalAction, default=True)
-    parser.add_argument("--delta_tau", type=float, default=0.07)
-    parser.add_argument("--delta_eps_alpha", type=float, default=0.01)
-    parser.add_argument("--delta_k_max", type=int, default=10)
-    parser.add_argument("--delta_k_top", type=int, default=10)
-    parser.add_argument("--delta_mode", choices=("soft", "topk", "threshold"), default="topk")
-    parser.add_argument("--ec_cache_path", type=str, default="artifacts/e2/ec_multiscale_e1_100k")
-    parser.add_argument("--encoder_runtime", choices=("cache_only", "online"), default="cache_only")
-    parser.add_argument("--delta_drop", type=float, default=0.25)
-    parser.add_argument("--nshot_min", type=int, default=1)
-    parser.add_argument("--nshot_max", type=int, default=8)
-    parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
-    parser.add_argument("--es_cache_path", type=str, default="artifacts/e2/es_spatial_e1_100k")
-    parser.add_argument("--cosine_table_path", type=str,
-                        default="artifacts/e2/es_cosine_e1_100k.f16")
-    parser.add_argument("--cosine_table_es_cache_sha256", type=str, default="")
-    parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
-    parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
-    parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)
-    parser.add_argument("--config_path", type=str, default=None)
     
     # Training
     parser.add_argument("--phase_2", action="store_true", help="Training in phase 2 using SCR module.")
@@ -69,15 +43,15 @@ def get_parser():
     parser.add_argument("--nce_layers", type=str, default='0,1,2,3')
     parser.add_argument("--sc_coefficient", type=float, default=0.01)
     ## train batch size
-    parser.add_argument("--train_batch_size", type=int, default=8, 
+    parser.add_argument("--train_batch_size", type=int, default=4, 
                         help="Batch size (per device) for the training dataloader.")
     ## loss coefficient
     parser.add_argument("--perceptual_coefficient", type=float, default=0.01)
     parser.add_argument("--offset_coefficient", type=float, default=0.5)
     ## step
-    parser.add_argument("--max_train_steps", type=int, default=80000, 
+    parser.add_argument("--max_train_steps", type=int, default=440000, 
                         help="Total number of training steps to perform.  If provided, overrides num_train_epochs.",)
-    parser.add_argument("--ckpt_interval", type=int,default=5000, help="The checkpoint interval.")
+    parser.add_argument("--ckpt_interval", type=int,default=40000, help="The step begin to validate.")
     parser.add_argument("--resume_from", type=str, default=None,
                         help="Resume from a checkpoint dir (global_step_* or last_state) with trainer_state.pt.")
     parser.add_argument("--state_interval", type=int, default=1000,
@@ -86,14 +60,14 @@ def get_parser():
                         help="Number of updates steps to accumulate before performing a backward/update pass.",)
     parser.add_argument("--log_interval", type=int, default=100, help="The log interval of training.")
     ## learning rate
-    parser.add_argument("--learning_rate", type=float, default=1e-5, 
+    parser.add_argument("--learning_rate", type=float, default=1e-4, 
                         help="Initial learning rate (after the potential warmup period) to use.")
     parser.add_argument("--scale_lr", action="store_true", default=False, 
                         help="Scale the learning rate by the number of GPUs, gradient accumulation steps, and batch size.")
     parser.add_argument("--lr_scheduler", type=str, default="linear", 
                         help="The scheduler type to use. Choose between 'linear', 'cosine', \
                             'cosine_with_restarts', 'polynomial', 'constant', 'constant_with_warmup'")
-    parser.add_argument("--lr_warmup_steps", type=int, default=2000, 
+    parser.add_argument("--lr_warmup_steps", type=int, default=10000, 
                         help="Number of steps for the warmup in the lr scheduler.")
     ## classifier-free
     parser.add_argument("--drop_prob", type=float, default=0.1, help="The uncondition training drop out probability.")
@@ -106,7 +80,7 @@ def get_parser():
     parser.add_argument("--adam_epsilon", type=float, default=1e-08, help="Epsilon value for the Adam optimizer")
     parser.add_argument("--max_grad_norm", default=1.0, type=float, help="Max gradient norm.")
     
-    parser.add_argument("--mixed_precision", type=str, default="fp16", choices=["no", "fp16", "bf16"], 
+    parser.add_argument("--mixed_precision", type=str, default="no", choices=["no", "fp16", "bf16"], 
                         help="Whether to use mixed precision. Choose between fp16 and bf16 (bfloat16). Bf16 requires \
                             PyTorch >= 1.10. and an Nvidia Ampere GPU.")
     

@@ -332,38 +332,6 @@ class OffsetRefStrucInter(nn.Module):
         return offset_out
 
 
-class OffsetInterStrucQuery(OffsetRefStrucInter):
-    """Q1: skip-grid queries attend to structure-source K/V tokens."""
-    def __init__(self, res_in_channels, style_feat_in_channels, n_heads,
-                 num_groups=32, dropout=0.0, gated_ff=True):
-        nn.Module.__init__(self)
-        self.style_proj_in = nn.Conv2d(style_feat_in_channels, style_feat_in_channels, 1)
-        self.gnorm_s = nn.GroupNorm(num_groups, style_feat_in_channels, eps=1e-6)
-        self.ln_s = nn.LayerNorm(style_feat_in_channels)
-        self.content_proj_in = nn.Conv2d(res_in_channels, res_in_channels, 1)
-        self.gnorm_c = nn.GroupNorm(num_groups, res_in_channels, eps=1e-6)
-        self.ln_c = nn.LayerNorm(res_in_channels)
-        self.cross_attention = CrossAttention(query_dim=res_in_channels,
-            context_dim=style_feat_in_channels, heads=n_heads, dim_head=res_in_channels, dropout=dropout)
-        self.attn_to_style = nn.Linear(res_in_channels, style_feat_in_channels)
-        self.ff = FeedForward(style_feat_in_channels, dropout=dropout, glu=gated_ff)
-        self.ln_ff = nn.LayerNorm(style_feat_in_channels)
-        self.gnorm_out = nn.GroupNorm(num_groups, style_feat_in_channels, eps=1e-6)
-        self.proj_out = nn.Conv2d(style_feat_in_channels, 18, 1)
-
-    def forward(self, res_hidden_states, style_content_hidden_states):
-        batch, c_channel, height, width = res_hidden_states.shape
-        s_channel = style_content_hidden_states.shape[1]
-        source = self.style_proj_in(self.gnorm_s(style_content_hidden_states))
-        source = self.ln_s(source.permute(0, 2, 3, 1).reshape(batch, height * width, s_channel))
-        skip = self.content_proj_in(self.gnorm_c(res_hidden_states))
-        skip = self.ln_c(skip.permute(0, 2, 3, 1).reshape(batch, height * width, c_channel))
-        hidden = self.attn_to_style(self.cross_attention(skip, context=source))
-        hidden = self.ff(self.ln_ff(hidden)) + hidden
-        hidden = hidden.permute(0, 2, 1).reshape(batch, s_channel, height, width)
-        return self.proj_out(self.gnorm_out(hidden))
-
-
 class SELayer(nn.Module):
     def __init__(self, channel, reduction=16):
         super().__init__()

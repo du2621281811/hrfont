@@ -3,7 +3,7 @@ from torch import nn
 from torchvision.ops import DeformConv2d
 
 from .attention import (SpatialTransformer, 
-                        OffsetRefStrucInter, OffsetInterStrucQuery,
+                        OffsetRefStrucInter, 
                         ChannelAttnBlock)
 from .resnet import (Downsample2D, 
                      ResnetBlock2D, 
@@ -75,7 +75,7 @@ def get_up_block(
     upblock_index,
     resnet_groups=None,
     cross_attention_dim=None,
-    structure_feature_begin=64, rsi_mode="q0_inherited"):
+    structure_feature_begin=64):
 
     up_block_type = up_block_type[7:] if up_block_type.startswith("UNetRes") else up_block_type
     if up_block_type == "UpBlock2D":
@@ -89,8 +89,8 @@ def get_up_block(
             resnet_eps=resnet_eps,
             resnet_act_fn=resnet_act_fn,
             resnet_groups=resnet_groups)
-    elif up_block_type == "StyleRSIUpBlock2D":
-        return StyleRSIUpBlock2D(
+    elif up_block_type == "StyleUpBlockNoRSI":
+        return StyleUpBlockNoRSI(
             num_layers=num_layers,
             in_channels=in_channels,
             out_channels=out_channels,
@@ -103,7 +103,7 @@ def get_up_block(
             cross_attention_dim=cross_attention_dim,
             attn_num_head_channels=attn_num_head_channels,
             structure_feature_begin=structure_feature_begin,
-            upblock_index=upblock_index, rsi_mode=rsi_mode)
+            upblock_index=upblock_index)
     else:
         raise ValueError(f"{up_block_type} does not exist.")
 
@@ -420,7 +420,8 @@ class DownBlock2D(nn.Module):
         return hidden_states, output_states
 
 
-class StyleRSIUpBlock2D(nn.Module):
+class StyleUpBlockNoRSI(nn.Module):
+    """Official style up-block with an identity skip path and no RSI/DCN parameters."""
     def __init__(
         self,
         in_channels: int,
@@ -442,13 +443,10 @@ class StyleRSIUpBlock2D(nn.Module):
         structure_feature_begin=64, 
         upblock_index=1,
         add_upsample=True,
-        rsi_mode="q0_inherited",
     ):
         super().__init__()
         resnets = []
         attentions = []
-        sc_interpreter_offsets = []
-        dcn_deforms = []
 
         self.attention_type = attention_type
         self.attn_num_head_channels = attn_num_head_channels
@@ -458,28 +456,6 @@ class StyleRSIUpBlock2D(nn.Module):
             res_skip_channels = in_channels if (i == num_layers - 1) else out_channels
             resnet_in_channels = prev_output_channel if i == 0 else out_channels
             
-            if rsi_mode not in ("q0_inherited", "q1_roleswap"):
-                raise ValueError(f"unknown rsi_mode: {rsi_mode}")
-            head_cls = OffsetRefStrucInter if rsi_mode == "q0_inherited" else OffsetInterStrucQuery
-            sc_interpreter_offsets.append(
-                head_cls(
-                    res_in_channels=res_skip_channels,
-                    style_feat_in_channels=int(structure_feature_begin * 2 / upblock_index),
-                    n_heads=attn_num_head_channels,
-                    num_groups=resnet_groups,
-                )
-            )
-            dcn_deforms.append(
-                DeformConv2d(
-                    in_channels=res_skip_channels,
-                    out_channels=res_skip_channels,
-                    kernel_size=(3, 3),
-                    stride=1,
-                    padding=1,
-                    dilation=1,
-                )
-            )
-
             resnets.append(
                 ResnetBlock2D(
                     in_channels=resnet_in_channels + res_skip_channels,
@@ -504,8 +480,6 @@ class StyleRSIUpBlock2D(nn.Module):
                     num_groups=resnet_groups,
                 )
             )
-        self.sc_interpreter_offsets = nn.ModuleList(sc_interpreter_offsets)
-        self.dcn_deforms = nn.ModuleList(dcn_deforms)
         self.attentions = nn.ModuleList(attentions)
         self.resnets = nn.ModuleList(resnets)
 
@@ -539,31 +513,19 @@ class StyleRSIUpBlock2D(nn.Module):
         self,
         hidden_states,
         res_hidden_states_tuple,
-        structure_features,
+        style_structure_features,
         temb=None,
         encoder_hidden_states=None,
         upsample_size=None,
     ):
         total_offset = 0
 
-        structure_feat = structure_features[-self.upblock_index-2]
-
-        for i, (sc_inter_offset, dcn_deform, resnet, attn) in \
-            enumerate(zip(self.sc_interpreter_offsets, self.dcn_deforms, self.resnets, self.attentions)):
+        for i, (resnet, attn) in enumerate(zip(self.resnets, self.attentions)):
             # pop res hidden states 
             res_hidden_states = res_hidden_states_tuple[-1]
             res_hidden_states_tuple = res_hidden_states_tuple[:-1]
             
-            # Skip Style Content Interpreter by DCN
-            offset = sc_inter_offset(res_hidden_states, structure_feat)
-            offset = offset.contiguous()
-            # offset sum
-            offset_sum = torch.mean(torch.abs(offset))
-            total_offset += offset_sum
-
-            res_hidden_states = res_hidden_states.contiguous()
-            res_hidden_states = dcn_deform(res_hidden_states, offset)
-            # concat as input
+            # F0: exact identity skip; concat/resnet/style-attention remain official.
             hidden_states = torch.cat([hidden_states, res_hidden_states], dim=1)
 
             if self.training and self.gradient_checkpointing:
@@ -586,7 +548,7 @@ class StyleRSIUpBlock2D(nn.Module):
             for upsampler in self.upsamplers:
                 hidden_states = upsampler(hidden_states, upsample_size)
 
-        offset_out = total_offset / self.num_layers    
+        offset_out = hidden_states.new_zeros(())
 
         return hidden_states, offset_out
 
