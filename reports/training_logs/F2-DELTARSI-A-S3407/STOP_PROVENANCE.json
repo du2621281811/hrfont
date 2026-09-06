@@ -1,0 +1,16 @@
+{
+  "status": "paused_for_f3_exclusive_cache",
+  "reason": "Plan A: serialize delta arms. F2+F3 thrash 94GB Ec mmap; F3 (joint) first, then F2, then F1.",
+  "resume_from": "runs/F2-DELTARSI-A-S3407/stopped_step",
+  "resume_after": "F3-JOINT-DS-A-S3407 DONE.json",
+  "last_heartbeat": {
+    "ts": "2026-09-06T07:18:17",
+    "status": "running",
+    "step": 6500,
+    "loss": 0.029915113002061844
+  },
+  "ts": "2026-09-06T07:21:52.259268+00:00",
+  "stopped_step": 6573,
+  "has_optimizer": true,
+  "has_rng": true
+}

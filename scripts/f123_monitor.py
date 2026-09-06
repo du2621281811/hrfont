@@ -4,8 +4,8 @@
 Training itself is local (no network). This process:
   - serves a dashboard that does not load any CDN
   - copies train_log.jsonl out of gitignored runs/ every tick
-  - auto-resumes F2/F3 from last_state if the process died (F1 stays paused
-    while STOP exists)
+  - crash-resumes F3 from last_state; chains F2 after F3 DONE, F1 after F2 DONE
+    (paused STOP files are removed only at that handoff)
 
   python scripts/f123_monitor.py --port 8787 --bind 0.0.0.0 --auto-resume
 """
@@ -54,9 +54,10 @@ ARMS = (
         "arm": "F1",
         "run_id": "F1-OFFRSI-A-S3407",
         "title": "F1 official RSI",
-        "role": "control · paused for F3",
+        "role": "control · last after F2",
         "gpu": 2,
         "auto_resume": False,
+        "resume_after": "F2",
         "max_steps": MAX_STEPS,
         "log": "logs/f1/F1-OFFRSI-A-S3407.log",
     },
@@ -64,9 +65,10 @@ ARMS = (
         "arm": "F2",
         "run_id": "F2-DELTARSI-A-S3407",
         "title": "F2 Δ-RSI",
-        "role": "isolates Δ vs F1",
+        "role": "isolates Δ vs F1 · paused until F3 DONE",
         "gpu": 3,
-        "auto_resume": True,
+        "auto_resume": False,
+        "resume_after": "F3",
         "max_steps": MAX_STEPS,
         "log": "logs/f2/F2-DELTARSI-A-S3407.log",
     },
@@ -74,7 +76,7 @@ ARMS = (
         "arm": "F3",
         "run_id": "F3-JOINT-DS-A-S3407",
         "title": "F3 Δ + Support",
-        "role": "isolates Support vs F2",
+        "role": "isolates Support vs F2 · exclusive now",
         "gpu": 2,
         "auto_resume": True,
         "max_steps": MAX_STEPS,
@@ -468,7 +470,7 @@ def collect() -> dict[str, Any]:
             "训练不依赖外网；看板本身也不加载 CDN。",
             "每 100 step 写 heartbeat，每 1000 step 覆盖 last_state，每 5000 step 写 global_step_* 并跑 val。",
             "5k 存盘+val 时心跳可能停 5–20 分钟，属正常。",
-            "F1 有 STOP，不会自动续跑。",
+            "F1 有 STOP，F2 有 STOP（等 F3 跑完再续）；F3 崩溃会从 last_state/stopped_step 续跑。",
         ],
     }
 
@@ -522,15 +524,35 @@ def _cmd_from_log(log_path: Path) -> list[str] | None:
 
 
 def _resume_target(run: Path) -> Path | None:
-    for name in ("last_state", "stopped_step"):
-        d = run / name
-        if (d / "unet.pth").is_file() and (d / "trainer_state.pt").is_file():
-            return d
+    """Prefer an explicit pause checkpoint over an older last_state overlay."""
+    stopped = run / "stopped_step"
+    if (stopped / "unet.pth").is_file() and (stopped / "trainer_state.pt").is_file():
+        return stopped
+    last = run / "last_state"
+    if (last / "unet.pth").is_file() and (last / "trainer_state.pt").is_file():
+        return last
     named = sorted(
         (p for p in run.glob("global_step_*") if (p / "unet.pth").is_file()),
         key=lambda p: int(p.name.rsplit("_", 1)[-1]),
     )
     return named[-1] if named else None
+
+
+def _arm_done(arm: str) -> bool:
+    spec = next(s for s in ARMS if s["arm"] == arm)
+    return (RUNS / spec["run_id"] / "DONE.json").is_file()
+
+
+def _want_resume(arm: dict[str, Any], spec: dict[str, Any]) -> bool:
+    """Crash-resume F3; chain F2 after F3 completes, F1 after F2 completes."""
+    after = spec.get("resume_after")
+    if after:
+        if not _arm_done(after):
+            return False
+        return arm["phase"] in ("paused", "dead")
+    if not spec.get("auto_resume"):
+        return False
+    return arm["phase"] == "dead"
 
 
 def _load_monitor_state() -> dict[str, Any]:
@@ -551,9 +573,7 @@ def maybe_resume(status: dict[str, Any], enabled: bool) -> None:
     now = time.time()
     for arm in status["arms"]:
         spec = next(s for s in ARMS if s["arm"] == arm["arm"])
-        if not spec["auto_resume"]:
-            continue
-        if arm["phase"] != "dead":
+        if not _want_resume(arm, spec):
             continue
         run = RUNS / spec["run_id"]
         hist = resumes.setdefault(spec["arm"], [])
@@ -581,6 +601,9 @@ def maybe_resume(status: dict[str, Any], enabled: bool) -> None:
             continue
         if "--resume_from" not in cmd:
             cmd = cmd + ["--resume_from", str(ckpt)]
+        stop_path = run / "STOP"
+        if stop_path.exists():
+            stop_path.unlink()
         env = os.environ.copy()
         gpu = str(spec.get("gpu") if spec.get("gpu") is not None else 0)
         meta = _load_json(run / "launch_meta.json") or {}

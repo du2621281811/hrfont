@@ -39,6 +39,6 @@
 | `E12-*-V3-S3407/08/09` | `reports/training_logs/e12_*_v3_*` | **gate_failed (T2)** | cache_v3；`reports/E12_SELFTEST_V3_REVIEW_20260906.md` |
 | `F0-RSIFREE-FT-A-S3407` | `reports/training_logs/F0-RSIFREE-FT-A-S3407/` | **completed 100k** | milestone=100k val=0.031089；`reports/F0_MILESTONE_20260906.md` |
 | `F1-OFFRSI-A-S3407` | `reports/training_logs/F1-OFFRSI-A-S3407/` | **paused ~300** | 对照；resume `stopped_step`；`DECISION_POINTS` D7 |
-| `F2-DELTARSI-A-S3407` | `reports/training_logs/F2-DELTARSI-A-S3407/` | **running ~5000/80k** | parent F0@100k；GPU3；看板 `reports/f123_dashboard/` |
-| `F3-JOINT-DS-A-S3407` | `reports/training_logs/F3-JOINT-DS-A-S3407/` | **running ~5000/80k** | Δ+同字体 support；GPU2；非 E0 bank |
+| `F2-DELTARSI-A-S3407` | `reports/training_logs/F2-DELTARSI-A-S3407/` | **paused 6573** | D9 串行；resume after F3 DONE |
+| `F3-JOINT-DS-A-S3407` | `reports/training_logs/F3-JOINT-DS-A-S3407/` | **running 13500/80k exclusive** | GPU2 99%；val@10k=0.00217（trainer，无 perceptual）；D9 |
 | `FT-P260-A-CN2WEST-V2` | alias / planned formal ID | 同 E1 数据协议 | 正式 p260 指纹待发 |

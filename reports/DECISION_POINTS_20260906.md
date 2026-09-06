@@ -74,3 +74,10 @@
 - **我做了什么**：`scripts/f123_monitor.py` 听 `:8787`，每 10s 备份 `train_log.jsonl`；F2/F3 进程消失则从 `last_state` 续跑（`--resume_from`，RNG 一并恢复）。F1 有 STOP，不自动续。试图加 16G swap，容器 overlay `swapon` 失败，未改训练进程。
 - **明确没做**：`nvidia-smi -r` 清 GPU0/1 僵尸（可能带崩正在跑的 GPU2/3）。
 - **影响**：最多丢未写入 last_state 的 <1000 step；不改配方。看板不依赖外网 CDN。
+
+### D9 — 串行化 Δ 臂：STOP F2，F3 独占 94GB Ec cache（2026-09-06 15:21）
+
+- **触发**：用户确认效率方案 A。
+- **现象**：F2+F3 并行约 1.5–1.7 s/step，GPU util 0–3%，两进程文件页 PSS 合计约 41GB / 94GB cache。
+- **我做了什么**：`STOP` F2（当时 **6573**，`stopped_step` 含 optimizer+RNG）；F3 继续独占 GPU2。监控改为：F3 崩溃才续跑；**F3 DONE 后再自动 resume F2**；**F2 DONE 后再自动 resume F1**。未改 train.py / 损失 / seed。
+- **影响**：独占后实测 GPU2 util 99%、约 1.15 s/step（双跑 1.5–1.7）。F3 从 13.5k 起剩余约 21h，好于双跑口径的 ~31h，慢于当时 0.70 s/step 的乐观估计（top-10 gather 仍在）。F2 不丢步。D4 的并行被本条覆盖；D3 仍成立。

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-06T06:33:04.755247+00:00",
+  "generated_at": "2026-09-06T09:39:26.370105+00:00",
   "source": "runs/ (gitignored: checkpoints and *.log stay local)",
   "runs": [
     {
@@ -28,7 +28,10 @@
         "launch_meta.json",
         "parent_load_manifest.json",
         "parity_gate.json",
-        "train_log.jsonl"
+        "train_log.jsonl",
+        "val_log.jsonl",
+        "STOP_PROVENANCE.json",
+        "milestones.json"
       ]
     },
     {
@@ -38,6 +41,7 @@
         "parent_load_manifest.json",
         "parity_gate.json",
         "train_log.jsonl",
+        "val_log.jsonl",
         "milestones.json"
       ]
     },
