@@ -1,0 +1,188 @@
+{
+  "min_fonts": 25,
+  "coverage_chars": "永和书风骨韵天地ABCDEFGHabcdefgh",
+  "fonts": [
+    {
+      "slug": "noto_sans_sc",
+      "source": "google/fonts",
+      "file": "noto_sans_sc/NotoSansSC[wght].ttf",
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "noto_serif_sc",
+      "source": "google/fonts",
+      "file": "noto_serif_sc/NotoSerifSC[wght].ttf",
+      "sha256": "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "zcool_xiaowei",
+      "source": "google/fonts",
+      "file": "zcool_xiaowei/ZCOOLXiaoWei-Regular.ttf",
+      "sha256": "a42b620140f493db42f741351dfbf343c0936d58588ee8004b8b2a218d997ff1",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "zcool_qingke",
+      "source": "google/fonts",
+      "file": "zcool_qingke/ZCOOLQingKeHuangYou-Regular.ttf",
+      "sha256": "54f0c0df4308cd74cd0f2fd3494ae054dbc4a1fd6fa7d71f4807eb4cdd8b4136",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "zcool_kuaile",
+      "source": "google/fonts",
+      "file": "zcool_kuaile/ZCOOLKuaiLe-Regular.ttf",
+      "sha256": "812a6fc1fe54b6d73a419245c32dfeba8aa33104d5be90d1cf6af082007cb71d",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "ma_shan_zheng",
+      "source": "google/fonts",
+      "file": "ma_shan_zheng/MaShanZheng-Regular.ttf",
+      "sha256": "6d2546bb189c732a8ca29af9e22457b152387d158aa459e4ac2ce1e51788b7fb",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "liu_jian_mao_cao",
+      "source": "google/fonts",
+      "file": "liu_jian_mao_cao/LiuJianMaoCao-Regular.ttf",
+      "sha256": "cab396b91a5b7c0b4005a35891180d06e6751f5ac261fe680aec65c1ae209033",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "long_cang",
+      "source": "google/fonts",
+      "file": "long_cang/LongCang-Regular.ttf",
+      "sha256": "e5bf2c3f24ef2327c6f136d8f73e2f9dfdf44896fdbeb35a9515f44777bb91bc",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "zhi_mang_xing",
+      "source": "google/fonts",
+      "file": "zhi_mang_xing/ZhiMangXing-Regular.ttf",
+      "sha256": "644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "lxgw_wenkai",
+      "source": "lxgw/LxgwWenKai",
+      "file": "lxgw_wenkai/LXGWWenKai-Light.ttf",
+      "sha256": "526ec70cbb0118e871d481f8179e03ff045f0e4d72d080dcca87950c4ab27cca",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "lxgw_neoxihei",
+      "source": "lxgw/LxgwNeoXiHei",
+      "file": "lxgw_neoxihei/LXGWNeoXiHei.ttf",
+      "sha256": "893cfbec604768f03785ab4f369508de68c274273359a5cadee17e2852975d5c",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "lxgw_bright",
+      "source": "lxgw/LxgwBright",
+      "file": "lxgw_bright/LXGWBrightTC-LightItalic.ttf",
+      "sha256": "d34932f0b883ef9e433d152b23dd43466970c89518e45d27313490755727da8f",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "lxgw_zhenkai",
+      "source": "lxgw/LxgwZhenKai",
+      "file": "lxgw_zhenkai/LXGWZhenKai-HanOnly-Level1.ttf",
+      "sha256": "dbb370b8d8eee594dca9af589eef6e707f686743292f51aba19793483e28d3f5",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "lxgw_neozhisong",
+      "source": "lxgw/LxgwNeoZhiSong",
+      "file": "lxgw_neozhisong/LXGWNeoZhiSong.ttf",
+      "sha256": "32b398f9c6278c4ed34f413077add2c2f3c84034d463af2b9cb98f12c4c2c6cd",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "lxgw_xihei",
+      "source": "lxgw/LxgwXiHei",
+      "file": "lxgw_xihei/LXGWXiHeiCL.ttf",
+      "sha256": "da5de5e1c742864fd41634ad12c76eeea047a135a04b7695e6ec702b0126bdcd",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "lxgw_markergothic",
+      "source": "lxgw/LxgwMarkerGothic",
+      "file": "lxgw_markergothic/LXGWMarkerGothic-Regular.ttf",
+      "sha256": "d68c863dd866f00fdd0249bb9acd60ef0ce00ac99f2b471d781b81329c9425c8",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "lxgw_wenkaigb",
+      "source": "lxgw/LxgwWenkaiGB",
+      "file": "lxgw_wenkaigb/LXGWWenKaiMonoGB-Light.ttf",
+      "sha256": "bf505b58ee5ee1e6e18c2eaa634c1fc394997b01618636fb07887c3d4c6852a4",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "smiley_sans",
+      "source": "atelier-anchor/smiley-sans",
+      "file": "smiley_sans/SmileySans-Oblique.otf",
+      "sha256": "139b5dcbe70d6d52de85a62d148784c6af4bd161e38fdb62ba0c1e7e5065fca6",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "genyo_min",
+      "source": "ButTaiwan/genyo-font",
+      "file": "genyo_min/GenYoMin2TC-H.otf",
+      "sha256": "3f694f36d8cf1bf56ae1181c9b976ff37c7d1dfa88cab4b0905538bd1ce3c0f4",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "gensen_rounded",
+      "source": "ButTaiwan/gensen-font",
+      "file": "gensen_rounded/GenSenRounded2-H.ttc",
+      "sha256": "281686dbab9ba3ea42c75c852fca6abce28081fde9d290bc9282ef2c2600e8b2",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "genwan_min",
+      "source": "ButTaiwan/genwan-font",
+      "file": "genwan_min/GenWanMin2-EL.ttc",
+      "sha256": "a0bcb6923c982a339567e245c49528abc5c46987ae2c12911e407b1ed16fbbd5",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "genryu_font",
+      "source": "ButTaiwan/genryu-font",
+      "file": "genryu_font/GenRyuMin2-R.ttc",
+      "sha256": "da2804c5085d0177023c3de31886cd244cb9fee8055c7bbfe122d0133216121b",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "genyog_font",
+      "source": "ButTaiwan/genyog-font",
+      "file": "genyog_font/GenYoGothic2TC-H.otf",
+      "sha256": "84bdfcb4021edcfdc822ae3cc43635eb161c630943bbb81c88f727f4930e270f",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "evilsung",
+      "source": "ButTaiwan/evilsung",
+      "file": "evilsung/EvilSung-Regular.ttf",
+      "sha256": "95e3319a2882826189920880cba52b95eb37b27f2269f48c06984f7497a21577",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "iansui",
+      "source": "ButTaiwan/iansui",
+      "file": "iansui/Iansui-Regular.ttf",
+      "sha256": "7f1aa62e9dcbf40d0ce41a5d3f1e5ea602e66c295778ac6fefb6b84d8ed08bd5",
+      "license": "OFL-or-free-commercial (see source repo)"
+    },
+    {
+      "slug": "yozai",
+      "source": "lxgw/yozai-font",
+      "file": "yozai/Yozai-Light.ttf",
+      "sha256": "0efc843308810c04ec394d8af27d0871ada3a9cc4860a226abde88a1bc67b3bd",
+      "license": "OFL-or-free-commercial (see source repo)"
+    }
+  ]
+}

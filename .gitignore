@@ -6,7 +6,10 @@
 /data/hrfont_bank
 /runs/
 /logs/
-/artifacts/
+/artifacts/*
+!/artifacts/e12/
+/artifacts/e12/fonts/
+/artifacts/e12/.work/
 
 # Review page large regenerable assets (keep bbox_explain + proto_DF_compare in Git)
 /data/cn2west_v2_abc_review/proto_DF_script_review/
