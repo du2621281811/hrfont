@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta http-equiv="refresh" content="20"/>
+<title>HRFont F0–F3 训练看板</title>
+<style>
+:root{--bg:#eef1f5;--card:#fff;--line:#d5dbe3;--muted:#5c6570;--ink:#1a1a1a;--accent:#1f4a6f;--ok:#2c6e49;--warn:#9a6b12;--crit:#8b2e2e;--pause:#5c6570}
+*{box-sizing:border-box} body{margin:0;font:14px/1.45 system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 18px}
+h1{margin:0;font-size:1.25rem} .meta{color:var(--muted);font-size:12px;margin-top:4px}
+main{max-width:1180px;margin:16px auto;padding:0 14px 48px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px;margin:14px 0}
+.card h2{margin:0 0 10px;font-size:1.05rem}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.stat{flex:1 1 160px;border:1px solid var(--line);padding:10px 12px;background:#f7f9fb}
+.stat .k{font-size:11px;color:var(--muted)} .stat .v{font-size:20px;font-variant-numeric:tabular-nums;margin-top:2px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+.bar{height:8px;background:#e4e9ef;position:relative;margin-top:4px}
+.bar>i{display:block;height:100%;background:var(--accent)}
+.pill{display:inline-block;padding:1px 7px;border:1px solid var(--line);font-size:11px;letter-spacing:.02em}
+.pill.ok{color:var(--ok);border-color:#b7d4c3} .pill.warn{color:var(--warn);border-color:#e4d0a0}
+.pill.crit,.pill.dead,.pill.stalled,.pill.nan{color:var(--crit);border-color:#e0b4b4}
+.pill.paused,.pill.ckpt_val{color:var(--pause)}
+.alert{border:1px solid #e4d0a0;background:#fff8e8;padding:8px 10px;margin:6px 0;font-size:13px}
+.alert.crit{border-color:#e0b4b4;background:#fbeeee}
+canvas{width:100%;height:260px;background:#fff}
+.mono{font-family:ui-monospace,monospace;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>HRFont F0–F3 训练看板</h1>
+  <div class="meta" id="hdr">加载中…</div>
+</header>
+<main>
+  <div class="row" id="kpis"></div>
+  <div id="alerts"></div>
+  <section class="card">
+    <h2>各臂状态</h2>
+    <table>
+      <thead><tr><th>臂</th><th>状态</th><th>step</th><th>loss</th><th>ETA</th><th>进程</th><th>ckpt</th></tr></thead>
+      <tbody id="arms"></tbody>
+    </table>
+  </section>
+  <section class="card">
+    <h2>Train loss（log 每 100 step）</h2>
+    <canvas id="loss" width="1100" height="260"></canvas>
+    <p class="meta">横轴 global step · 纵轴 train loss · 源：各 run 的 train_log.jsonl。F0 为 parent 参考。</p>
+  </section>
+  <section class="card">
+    <h2>RSI gain（zero-conv |w| 均值）</h2>
+    <canvas id="rsi" width="1100" height="220"></canvas>
+    <p class="meta">identity-safe 头从 0 缓慢增大属预期。实线=up block 1，虚线=up block 2。</p>
+  </section>
+  <section class="card">
+    <h2>机器</h2>
+    <table><thead><tr><th>GPU</th><th>util %</th><th>used MiB</th><th>free MiB</th><th>temp C</th></tr></thead>
+    <tbody id="gpus"></tbody></table>
+    <p class="meta" id="host"></p>
+  </section>
+  <section class="card">
+    <h2>自动续跑记录</h2>
+    <pre class="mono" id="resume">尚无</pre>
+    <p class="meta">F2/F3 进程消失且无 STOP/DONE 时，从 last_state 续跑（恢复 optimizer + RNG）。F1 有 STOP，不自动续。</p>
+  </section>
+</main>
+<script>
+const SRC = window.HRFONT_STATUS_URL || "status.json";
+const COL = {F0:"#7a8490", F1:"#1f4a6f", F2:"#c45c26", F3:"#2c6e49"};
+function pill(ph){return '<span class="pill '+ph+'">'+ph+'</span>';}
+function num(x,d){return (x==null||x!==x)?'—':Number(x).toFixed(d);}
+function drawLines(id, series, ylab){
+  const cv=document.getElementById(id); if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height, m={l:52,r:12,t:12,b:32};
+  ctx.clearRect(0,0,W,H);
+  let pts=[]; series.forEach(s=>s.pts.forEach(q=>pts.push(q)));
+  if(!pts.length){ctx.fillStyle='#5c6570';ctx.fillText('等待数据',20,20);return;}
+  const xs=pts.map(q=>q.x), ys=pts.map(q=>q.y);
+  const xmin=0, xmax=Math.max(80000, ...xs);
+  let ymin=Math.min(...ys), ymax=Math.max(...ys);
+  if(ymax<=ymin){ymax=ymin+1e-6;}
+  const ypad=(ymax-ymin)*0.08; ymin=Math.max(0,ymin-ypad); ymax=ymax+ypad;
+  const x=v=>m.l+(v-xmin)/(xmax-xmin)*(W-m.l-m.r);
+  const y=v=>m.t+(1-(v-ymin)/(ymax-ymin))*(H-m.t-m.b);
+  ctx.strokeStyle='#d5dbe3'; ctx.beginPath();
+  for(let i=0;i<=4;i++){const yy=m.t+i*(H-m.t-m.b)/4; ctx.moveTo(m.l,yy); ctx.lineTo(W-m.r,yy);}
+  ctx.stroke();
+  ctx.fillStyle='#5c6570'; ctx.font='11px system-ui';
+  ctx.fillText(ylab, 8, 14);
+  ctx.fillText(String(xmin), m.l, H-10);
+  ctx.fillText(String(xmax), W-80, H-10);
+  series.forEach(s=>{
+    if(!s.pts.length) return;
+    ctx.strokeStyle=s.color; ctx.lineWidth=1.4; ctx.setLineDash(s.dash||[]);
+    ctx.beginPath();
+    s.pts.forEach((q,i)=>{const X=x(q.x),Y=y(q.y); i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);});
+    ctx.stroke(); ctx.setLineDash([]);
+  });
+  let lx=p.l; series.forEach(s=>{
+    ctx.fillStyle=s.color; ctx.fillRect(lx,8,10,10); ctx.fillStyle='#1a1a1a';
+    ctx.fillText(s.name, lx+14, 17); lx+=ctx.measureText(s.name).width+32;
+  });
+}
+function render(S){
+  document.getElementById('hdr').innerHTML =
+    '生成 '+S.generated_at+' · 总评 <b>'+S.overall+'</b> · 监控已运行 '+S.monitor_uptime_s+'s · 每 20s 刷新 · 无 CDN';
+  const running=S.arms.filter(a=>a.phase==='running'||a.phase==='ckpt_val').length;
+  const kpis=[
+    ['总评', S.overall],
+    ['在训', running+' / 3'],
+    ['RAM 可用', num(S.host.ram_available_gb,1)+' GiB'],
+    ['swap', num(S.host.swap_used_gb,1)+' / '+num(S.host.swap_total_gb,1)+' GiB'],
+    ['磁盘剩余', num(S.host.disk_free_tb,2)+' TB'],
+  ];
+  document.getElementById('kpis').innerHTML=kpis.map(([k,v])=>
+    '<div class="stat"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>').join('');
+  document.getElementById('alerts').innerHTML=(S.alerts||[]).map(a=>
+    '<div class="alert '+(a.level||'')+'">'+a.msg+'</div>').join('');
+  document.getElementById('arms').innerHTML=S.arms.map(a=>{
+    const ck=(a.ckpt.named_steps||[]).join(', ')||'—';
+    const last=a.ckpt.has_last_state?' last_state':'';
+    const stop=a.ckpt.has_stopped_step?' stopped':'';
+    return '<tr><td><b>'+a.arm+'</b><div class="meta">'+a.role+'</div></td>'+
+      '<td>'+pill(a.phase)+'</td>'+
+      '<td class="mono">'+a.step.toLocaleString()+' / '+a.max_steps.toLocaleString()+
+      '<div class="bar"><i style="width:'+a.pct+'%"></i></div></td>'+
+      '<td class="mono">'+num(a.loss,5)+'<div class="meta">min '+num(a.min_loss,5)+'</div></td>'+
+      '<td>'+(a.eta_h==null?'—':a.eta_h+' h')+'</td>'+
+      '<td class="mono">'+(a.pid||'—')+' '+(a.proc_state||'')+
+      '<div class="meta">hb '+ (a.heartbeat_age_s==null?'—':a.heartbeat_age_s+'s')+' · rss '+num(a.rss_gb,1)+'G</div></td>'+
+      '<td class="mono">'+ck+last+stop+'</td></tr>';
+  }).join('');
+  const lossSeries=S.arms.map(a=>({name:a.arm,color:COL[a.arm]||'#333',
+    pts:(a.curve||[]).map(p=>({x:p.step,y:p.loss}))}));
+  drawLines('loss', lossSeries, 'loss');
+  const rsiSeries=[];
+  S.arms.filter(a=>a.arm!=='F0').forEach(a=>{
+    rsiSeries.push({name:a.arm+' u1', color:COL[a.arm], pts:(a.rsi||[]).map(p=>({x:p.step,y:p.up1}))});
+    rsiSeries.push({name:a.arm+' u2', color:COL[a.arm], dash:[4,3], pts:(a.rsi||[]).map(p=>({x:p.step,y:p.up2}))});
+  });
+  drawLines('rsi', rsiSeries, '|w|');
+  document.getElementById('gpus').innerHTML=(S.gpus||[]).map(g=>
+    '<tr><td>'+g.index+'</td><td>'+g.util_pct+'</td><td>'+g.mem_used_mb+'</td><td>'+g.mem_free_mb+'</td><td>'+g.temp_c+'</td></tr>'
+  ).join('');
+  document.getElementById('host').textContent =
+    'RAM '+S.host.ram_available_gb+' / '+S.host.ram_total_gb+' GiB available · swap '+
+    S.host.swap_used_gb+'/'+S.host.swap_total_gb+' · disk '+S.host.disk_used_pct+'% used';
+  const rl=S.resume_log||[];
+  document.getElementById('resume').textContent = rl.length? JSON.stringify(rl,null,2) : '尚无';
+}
+async function tick(){
+  try{
+    const r=await fetch(SRC+'?t='+Date.now(), {cache:'no-store'});
+    render(await r.json());
+  }catch(e){
+    document.getElementById('hdr').textContent='看板读取失败: '+e;
+  }
+}
+tick(); setInterval(tick, 10000);
+</script>
+</body></html>

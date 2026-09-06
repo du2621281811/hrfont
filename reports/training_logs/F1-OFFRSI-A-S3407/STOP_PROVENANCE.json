@@ -1,0 +1,12 @@
+{
+  "status": "paused_for_f3",
+  "reason": "user: usable results first, ablations can wait. F1 is official-RSI control.",
+  "resume_from": "runs/F1-OFFRSI-A-S3407/stopped_step",
+  "last_heartbeat": {
+    "ts": "2026-09-06T04:31:45",
+    "status": "running",
+    "step": 300,
+    "loss": 0.20335933566093445
+  },
+  "ts": "2026-09-06T04:35:37.829329+00:00"
+}

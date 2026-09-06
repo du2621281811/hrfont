@@ -10,7 +10,7 @@
 - **主线（2026-09-05 切换）：joint 方案** — [`reports/DESIGN_E2E3_FUSION_QKV_20260905.md`](reports/DESIGN_E2E3_FUSION_QKV_20260905.md)；准备清单 [`reports/JOINT_PREP_20260905.md`](reports/JOINT_PREP_20260905.md)。
 - **旧臂已 STOP：** E2@10500、E2b@31400（`stopped_topology_superseded`）；E1c 不启动。
 - **F0 completed 100k：** 按预注册规则选中 **100k**（val16 loss 0.031089，n=4720）。见 [`reports/F0_MILESTONE_20260906.md`](reports/F0_MILESTONE_20260906.md)。Es/Ec cache 已从该 ckpt 重建并 SHA 对齐。
-- **F1/F2 running（identity-safe RSI）：** `F1-OFFRSI-A-S3407` GPU2、`F2-DELTARSI-A-S3407` GPU3，均 80k / seed 3407 / 从 F0@100k 出发。smoke 20 步 + parity `max|Δ|=0` 已过。F3 仍阻塞在 support bank。决策见 [`reports/DECISION_F123_20260906.md`](reports/DECISION_F123_20260906.md)。
+- **F3 / F2 在训，F1 暂停：** 截至 2026-09-06 14:33 CST，F2 与 F3 均约 **5000/80k**（第一个 named ckpt + val 窗口）。F1 消融 STOP 在 ~300，`stopped_step` 可 resume。主表是 identity-safe RSI（`cn2west_f123_rsi`），不要和 `cn2west_stage_a` 官方头混表。决策 [`reports/DECISION_POINTS_20260906.md`](reports/DECISION_POINTS_20260906.md)；看板 [`reports/f123_dashboard/`](reports/f123_dashboard/)（训练机实时 `:8787`）。
 - **E12 v3 三 seed 跑完，仍 gate_failed（只剩 T2）：** T1 0.644±0.031 过、T3 0.908±0.013 过（62 类，v2 的 8 类是天花板测试）、T4 全过；T2 0.732±0.057 未过 0.90。诊断显示是判别力而非标定问题——重字重 AUC≈1.00、轻/常规字重在随机线附近，训练只有 5 个字型。**结论：卡在 S3。** 见 [`reports/E12_SELFTEST_V3_REVIEW_20260906.md`](reports/E12_SELFTEST_V3_REVIEW_20260906.md)。
 - E1@100k 锚点保留。
 
@@ -22,14 +22,15 @@
 
 ## 下一步
 
-> **⚠ 未裁决冲突（2026-09-06）**：远端 `5a92f5c` 的 PI 拍板「identity-safe RSI 作废，F1/F2/F3 复用官方 RSI + offset 零初始化」与本地 `c05d293` 的 identity-safe 实现同时存在。两套 F1/F2/F3 代码并存（远端在 `cn2west_stage_a` 内扩展；本地新建 `cn2west_f123_rsi`）。**开跑前必须二选一**，见 `reports/DECISION_F123_20260906.md` 与 `reports/IMPL_F0_QKV_20260905.md`。
+> **主表已定（D1）**：正在跑的 F1/F2/F3 是 `cn2west_f123_rsi`（identity-safe）。`cn2west_stage_a` 里的官方 RSI 零初始化仍在仓库，**不要开跑、不要和本表混用**。详见 `reports/DECISION_POINTS_20260906.md`。
 
-1. **主线（先效果后消融）**：F0 → F1/F2/F3 80k（QKV 暂锁 Q0 继承版）→ E12 过门后 E3/E4/E6 主评测；Q0/Q1 20k 筛选与消融（E7–E10）在主结果可见后再排
-2. F0 已选 100k；Es/Ec cache 已从该 ckpt 重建
-3. 盯 F1/F2 至 80k（identity-safe；本会话按「效果好且方便归因」落地，远端 `5a92f5c` 的官方 RSI 零初始化仍并存未开跑）
-4. F3 阻塞在 support bank（`data/hrfont/e0_bank` 不存在，需按新协议重建）
-5. E12：等 PI 给外部字型来源做 S3（目标 ≥25 个互不相同字型）；在此之前 E12 数字不进主结论
+1. **主线（先效果后消融）**：F0 已完成 → 盯 F3（联合）与 F2（Δ）到 80k → GPU 空闲后 resume F1 → E12 过门后 E3/E4/E6 主评测；Q0/Q1 筛选与消融排在主结果之后
+2. F0 milestone = 100k；Es/Ec cache 已从该 ckpt 重建（禁止复用 E1 cache）
+3. F1 从 `runs/F1-OFFRSI-A-S3407/stopped_step` resume（GPU0/1 僵尸显存未清，训练中不 `nvidia-smi -r`）
+4. F3 support = 同字体 style 8 字，**不是** E0 跨字检索；以后若换 E0 bank 必须新开 F3
+5. E12：等 PI 给外部字型来源做 S3（目标 ≥25 个互不相同字型）；此前 E12 数字不进主结论
 6. 旧 E2/E2b：安全 checkpoint 停止、标 non-matched pilot（D-N4）；E1c 取消
+7. 不改正在跑的配方（不打 cosine 加速、不换 warmup、不换 seed）
 
 ## 实现边界
 
@@ -51,9 +52,9 @@
 | `E12-*-V2-S3407/08/09` | **gate_failed** | cache_v2；字型泄漏 + 同字型负样本，见 review |
 | `E12-*-V3-S3407/08/09` | **gate_failed (T2)** | cache_v3；T1/T3/T4 过，T2 卡在 S3 |
 | `F0-RSIFREE-FT-A-S3407` | **completed 100k** | 选中 100k，val=0.031089；E1@100k=0.029787 |
-| `F1-OFFRSI-A-S3407` | **running** | official RSI；从 F0@100k；GPU2 |
-| `F2-DELTARSI-A-S3407` | **running** | Δ source；与 F1 matched；GPU3 |
-| `F3-JOINT-DS-A-S3407` | **blocked** | 需 support bank（E0 bank 缺失） |
+| `F1-OFFRSI-A-S3407` | **paused ~300** | 官方 RSI 对照；resume `stopped_step` |
+| `F2-DELTARSI-A-S3407` | **running ~5000/80k** | Δ source；GPU3 |
+| `F3-JOINT-DS-A-S3407` | **running ~5000/80k** | Δ+同字体 Support；GPU2 |
 
 完整表见 `provenance/REGISTRY.md`。
 
@@ -167,4 +168,5 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 2026-09-06：E12 S1/S2/S4/S5 落地。S2 最关键：`split_families` 改按**字型分组**（`NotoSansCJK-Bold` 与 `-Regular` 是同一字型），负样本改跨字型；val 只有一个字型组时从 train∪val 取负样本（不含 test，避免选 ckpt 时泄漏）。旧的 `families[(i+1)%n]` 负样本几乎总是同字型的另一个字重。
 - 2026-09-06：E12 v3 三 seed 完成。修复把失败面从"T1/T2 双败 + T3 无意义"收敛到"只剩 T2"。T2 反而比 v2 低（0.73 vs 0.87）是正确的——v2 的分数建立在字型泄漏和同字型负样本之上。per-font 诊断显示 pooled 与 per-font AUC 相同（排除标定问题），重字重 AUC≈1.00 而轻字重在随机线附近，说明编码器只学到笔画粗细，因为训练集只有 5 个字型。**S3 是唯一有效路径，需要 PI 给字型来源。**
 - 2026-09-06：**两套 F1/F2/F3 实现撞车。** 远端 `5a92f5c` 按 PI「identity-safe 作废」在 `cn2west_stage_a` 内实现了 plain zero-init official RSI；本会话按「效果好且方便归因」落地 `cn2west_f123_rsi`（zero-init 1×1 residual conv，step0 与 F0 逐元素相等）。**实际开跑的是 identity-safe。**
-- 2026-09-06：F0 满训 100k；预注册 val16 扫描选中 100k（0.031089；E1@100k=0.029787）。从该 ckpt 重建 Es/Ec cache 并 SHA 对齐。F1/F2 smoke + parity 过门后正式 80k 开跑（GPU2/GPU3）。F3 仍缺 support bank。
+- 2026-09-06：F1/F2 确认在训（首 batch RNG 对齐，parity 0）。随后按「先可用结果」暂停 F1@300，启动 F3（同字体 8 字 support bank，非 E0）。F2/F3 并行。决策点 [`reports/DECISION_POINTS_20260906.md`](reports/DECISION_POINTS_20260906.md) D1–D8。
+- 2026-09-06：训练机看板 `scripts/f123_monitor.py` `:8787`；F2/F3 崩溃从 `last_state` 自动续跑；快照 [`reports/f123_dashboard/`](reports/f123_dashboard/)。

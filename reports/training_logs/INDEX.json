@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-06T04:25:27.833879+00:00",
+  "generated_at": "2026-09-06T06:33:04.755247+00:00",
   "source": "runs/ (gitignored: checkpoints and *.log stay local)",
   "runs": [
     {
@@ -18,7 +18,8 @@
         "launch_meta.json",
         "parent_load_manifest.json",
         "parity_gate.json",
-        "train_log.jsonl"
+        "train_log.jsonl",
+        "STOP_PROVENANCE.json"
       ]
     },
     {
@@ -28,6 +29,16 @@
         "parent_load_manifest.json",
         "parity_gate.json",
         "train_log.jsonl"
+      ]
+    },
+    {
+      "run": "F3-JOINT-DS-A-S3407",
+      "files": [
+        "launch_meta.json",
+        "parent_load_manifest.json",
+        "parity_gate.json",
+        "train_log.jsonl",
+        "milestones.json"
       ]
     },
     {

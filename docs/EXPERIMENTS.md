@@ -45,4 +45,6 @@
 | Split v3 | `manifests/split_v3_228_16_16.json`（228/16/16） |
 | E1 训练看板（Git 快照） | `reports/e1_ft_v2_dashboard/` · `python -m http.server 8777 --directory reports` → http://127.0.0.1:8777/e1_ft_v2_dashboard/ |
 | E1 训练看板（训练机实时） | 仅训练机：`data/e1_ft_v2_dashboard` → `runs/.../viz`（不进 Git） |
+| F0–F3 训练看板（实时） | 训练机 `:8787`（`scripts/f123_monitor.py`，崩溃自动从 last_state 续跑 F2/F3） |
+| F0–F3 训练看板（快照） | `reports/f123_dashboard/` · 已有 `:8765` reports 服务 → `/f123_dashboard/` |
 | 字库语种浏览 | `reports/charset_picker/`（`python scripts/serve_charset_picker.py` → :8766） |
