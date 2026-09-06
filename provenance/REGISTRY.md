@@ -19,7 +19,7 @@
 | `ours-legacy` | `code/ours/FontDiffuser/` | `docs/patches/fontdiffuser-hrfont-local-patches-20260903.diff` | frozen 历史恢复 |
 | `cn2west_stage_a` | `code/variants/cn2west_stage_a/` | `docs/patches/cn2west_stage_a.diff` | legacy Stage-A（已 STOP） |
 | `cn2west_f0_rsifree` | `code/variants/cn2west_f0_rsifree/` | StyleUpBlockNoRSI；P1 drop RSI/DCN | **active** F0 |
-| `cn2west_f123_rsi` | `code/variants/cn2west_f123_rsi/` | StyleRSIUpBlockIdentitySafe（zero-init 1×1 residual conv）；`--arm` 三臂共用一条 code path | **code_ready** F1/F2/F3 |
+| `cn2west_f123_rsi` | `code/variants/cn2west_f123_rsi/` | StyleRSIUpBlockIdentitySafe（zero-init 1×1 residual conv）；`--arm` 三臂共用一条 code path | **active** F1/F2 |
 
 ## Experiments / Runs
 
@@ -37,8 +37,8 @@
 | `E12-IDCLS-S3407` | TBD | **bootstrap done** | cache_v1 |
 | `E12-*-V2-S3407/08/09` | `reports/training_logs/e12_*_v2_*` | **gate_failed** | cache_v2；字型泄漏 + 同字型负样本，`reports/E12_SELFTEST_V2_REVIEW_20260905.md` |
 | `E12-*-V3-S3407/08/09` | `reports/training_logs/e12_*_v3_*` | **gate_failed (T2)** | cache_v3；`reports/E12_SELFTEST_V3_REVIEW_20260906.md` |
-| `F0-RSIFREE-FT-A-S3407` | `reports/training_logs/F0-RSIFREE-FT-A-S3407/` | **running** | `configs/f0_rsifree_ft_a_s3407.yaml`；GPU2，100k |
-| `F1-OFFRSI-A-S3407` | TBD | **code_ready** | `configs/f1_offrsi_a_s3407.yaml`；待 F0 milestone + Es/Ec cache |
-| `F2-DELTARSI-A-S3407` | TBD | **code_ready** | `configs/f2_deltarsi_a_s3407.yaml`；与 F1 matched，仅换 source |
+| `F0-RSIFREE-FT-A-S3407` | `reports/training_logs/F0-RSIFREE-FT-A-S3407/` | **completed 100k** | milestone=100k val=0.031089；`reports/F0_MILESTONE_20260906.md` |
+| `F1-OFFRSI-A-S3407` | `reports/training_logs/F1-OFFRSI-A-S3407/` | **running** | `configs/f1_offrsi_a_s3407.yaml`；parent F0@100k；GPU2 |
+| `F2-DELTARSI-A-S3407` | `reports/training_logs/F2-DELTARSI-A-S3407/` | **running** | `configs/f2_deltarsi_a_s3407.yaml`；parent F0@100k；GPU3 |
 | `F3-JOINT-DS-A-S3407` | TBD | **blocked** | `configs/f3_joint_ds_a_s3407.yaml`；缺 support bank（E0 bank 未建） |
 | `FT-P260-A-CN2WEST-V2` | alias / planned formal ID | 同 E1 数据协议 | 正式 p260 指纹待发 |

@@ -1,0 +1,11 @@
+{
+  "rule": "min val16 diffusion loss among 5k milestones; ties -> smaller step",
+  "selected_step": 100000,
+  "selected_loss": 0.031088948088808584,
+  "endpoint_step": 100000,
+  "endpoint_loss": 0.031088948088808584,
+  "n": 4720,
+  "seed": 3407,
+  "offset_coefficient": 0.0,
+  "variant": "cn2west_f0_rsifree"
+}
