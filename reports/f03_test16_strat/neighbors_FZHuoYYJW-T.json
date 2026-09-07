@@ -1,0 +1,55 @@
+{
+  "font": "FZHuoYYJW-T",
+  "exclude": null,
+  "meta": {
+    "mode": "topk",
+    "tau": 0.07,
+    "eps_alpha": 0.01,
+    "k_max": 10,
+    "n_active": 10,
+    "entropy": 5.429301738739014,
+    "max_cosine": 0.9971447587013245
+  },
+  "neighbors": [
+    {
+      "font": "FZXinGHJW-EL",
+      "weight": 0.10058839619159698
+    },
+    {
+      "font": "FZLiYHJW-EL",
+      "weight": 0.10057736188173294
+    },
+    {
+      "font": "FZXinZYHJW_UL",
+      "weight": 0.10026171803474426
+    },
+    {
+      "font": "FZHengWHJ-L",
+      "weight": 0.10014885663986206
+    },
+    {
+      "font": "FZQingLTJW_Xian",
+      "weight": 0.10010913014411926
+    },
+    {
+      "font": "FZDongGSJW-L",
+      "weight": 0.0999983549118042
+    },
+    {
+      "font": "FZYiMSJW-T",
+      "weight": 0.09978572279214859
+    },
+    {
+      "font": "FZQingKBYSJW-EL",
+      "weight": 0.09975498914718628
+    },
+    {
+      "font": "FZTieXHJW",
+      "weight": 0.09944050014019012
+    },
+    {
+      "font": "FZVDLXinZTJW-R",
+      "weight": 0.09933499991893768
+    }
+  ]
+}

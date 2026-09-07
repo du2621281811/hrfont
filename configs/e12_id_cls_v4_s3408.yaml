@@ -1,0 +1,13 @@
+schema_version: 2
+experiment: {id: E12-IDCLS-V4-S3408}
+# S4: 62 classes on cache_v4 (26 typefaces). The 8-class A-H version was a ceiling test.
+data:
+  cache_dir: /root/projects/hrfont/artifacts/e12/cache_v4
+  chars: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  split_ratios: [0.7, 0.15, 0.15]
+  split_seed: 3407
+  split_by_group: true
+  workers: 0
+model: {in_channels: 3, feature_dim: 512}
+train: {epochs: 50, max_steps: 3000, batch_size: 32, lr: 0.0003, betas: [0.9, 0.999], weight_decay: 0.01, eps: 0.00000001, warmup_epochs: 5, warmup_steps: 200, label_smoothing: 0.05, grad_clip: 1.0, checkpoint_every: 250, seed: 3408, device: cuda:0}
+output: {dir: /root/projects/hrfont/runs/e12_id_cls_v4_s3408}

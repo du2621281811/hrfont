@@ -1,0 +1,57 @@
+{
+  "methods": {
+    "F0_100k": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "F0@100k",
+      "updated_at": "2026-09-07T03:58:58+00:00",
+      "rate_per_s": 0.826,
+      "eta_s": 14,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 911.6
+    },
+    "P1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "官方",
+      "updated_at": "2026-09-07T04:03:07+00:00",
+      "rate_per_s": 0.652,
+      "eta_s": 18,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1148.9
+    },
+    "F3_80k": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "F3@80k",
+      "updated_at": "2026-09-07T04:22:37+00:00",
+      "rate_per_s": 0.663,
+      "eta_s": 3,
+      "last": "FZTJLSJW ㄅ",
+      "elapsed_s": 1133.7
+    },
+    "F3_timeline": {
+      "phase": "done",
+      "done": 2048,
+      "skipped": 256,
+      "total": 2304,
+      "label": "F3 过程",
+      "updated_at": "2026-09-07T05:16:07+00:00",
+      "rate_per_s": 0.755,
+      "eta_s": 349,
+      "last": "75000 FZTJLSJW g",
+      "elapsed_s": 2714.8
+    }
+  },
+  "phase": "gallery_done",
+  "n_items": 752,
+  "updated_at": "2026-09-07T05:16:07+00:00",
+  "protocol": "E1-stratified test16×47 seed3407",
+  "n_metric_rows": 2256
+}

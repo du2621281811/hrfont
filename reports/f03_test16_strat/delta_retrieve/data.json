@@ -1,0 +1,779 @@
+{
+  "library_n": 228,
+  "ref8": [
+    "永",
+    "和",
+    "书",
+    "风",
+    "骨",
+    "韵",
+    "天",
+    "地"
+  ],
+  "latin": [
+    "0",
+    "8",
+    "A",
+    "G",
+    "Q",
+    "a",
+    "e",
+    "g"
+  ],
+  "k": 10,
+  "note": "检索用汉字 Es；取回的是这些训练字体的同一个西文字。",
+  "fonts": {
+    "FZBuGTJW": {
+      "exclude": null,
+      "max_cosine": 0.9971,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZZhuoQHJW",
+          "weight": 0.1006
+        },
+        {
+          "font": "FZYiBSLSJW",
+          "weight": 0.1004
+        },
+        {
+          "font": "FZFWZhuZGDSHJW",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZFWZhuZGDLHJW",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZFWZhuZLSHTJWB",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZFWZhuZiHeiH",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZFWZhuZiHeiE",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZFWTongQPOPTJW",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZDouSDYWTJW-B",
+          "weight": 0.0996
+        },
+        {
+          "font": "FZYDCHJW",
+          "weight": 0.0995
+        }
+      ]
+    },
+    "FZChuangHJW_DB": {
+      "exclude": null,
+      "max_cosine": 0.9977,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZDeSHJW_507R",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZDeSHJW_508R",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZYongKTJ",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZYouHJW_510M",
+          "weight": 0.1
+        },
+        {
+          "font": "FZYouHK_510M",
+          "weight": 0.1
+        },
+        {
+          "font": "FZYouHJW_509R",
+          "weight": 0.1
+        },
+        {
+          "font": "FZYouHK_509R",
+          "weight": 0.1
+        },
+        {
+          "font": "FZDeSHJW_509R",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZYouHJW_508R",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZYouHK_508R",
+          "weight": 0.0998
+        }
+      ]
+    },
+    "FZCuanBZBKSJW": {
+      "exclude": null,
+      "max_cosine": 0.9964,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZFWZhuZGDSHJW",
+          "weight": 0.1008
+        },
+        {
+          "font": "FZFWZhuZGDLHJW",
+          "weight": 0.1007
+        },
+        {
+          "font": "FZFWZhuZLSHTJWB",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZFWQingYLJW",
+          "weight": 0.1
+        },
+        {
+          "font": "FZZhuoQHJW",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZLiuBSLSJW",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZFWZhuZiHeiE",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZFWZhuZiHeiH",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZYiBSLSJW",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZLiQBLSJW",
+          "weight": 0.0996
+        }
+      ]
+    },
+    "FZDeSHJW_515H": {
+      "exclude": null,
+      "max_cosine": 0.9996,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZDeSHJW_514H",
+          "weight": 0.1017
+        },
+        {
+          "font": "FZCCHJW",
+          "weight": 0.101
+        },
+        {
+          "font": "FZDeSHJW_513B",
+          "weight": 0.1004
+        },
+        {
+          "font": "FZVDLJianZHJW-H",
+          "weight": 0.1004
+        },
+        {
+          "font": "FZVDLZhaoHJW-H",
+          "weight": 0.1
+        },
+        {
+          "font": "FZDengXHJW-B",
+          "weight": 0.0994
+        },
+        {
+          "font": "FZZiHJW",
+          "weight": 0.0994
+        },
+        {
+          "font": "FZYunHJW-EB",
+          "weight": 0.0993
+        },
+        {
+          "font": "FZLTHProJW_H",
+          "weight": 0.0993
+        },
+        {
+          "font": "FZDeSHJW_512B",
+          "weight": 0.0992
+        }
+      ]
+    },
+    "FZDouNTJW_Te": {
+      "exclude": null,
+      "max_cosine": 0.9976,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZChaoZTJW_EB",
+          "weight": 0.1007
+        },
+        {
+          "font": "FZLTHProJW_H",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZYooncheQWHJW-B",
+          "weight": 0.1
+        },
+        {
+          "font": "FZDeSHJW_513B",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZZhuoHJW",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZJiangYTJW_EB",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZXinZYHJW_EB",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZShiSTJW-B",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZDeSHJW_514H",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZDengXHJW-B",
+          "weight": 0.0998
+        }
+      ]
+    },
+    "FZFeiHHJW-H": {
+      "exclude": null,
+      "max_cosine": 0.9974,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZYiSJW_Te",
+          "weight": 0.1007
+        },
+        {
+          "font": "FZCQJW",
+          "weight": 0.1005
+        },
+        {
+          "font": "FZYaoDHJW",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZXueWRHJW",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZJinCTJW_Te",
+          "weight": 0.1
+        },
+        {
+          "font": "FZJingKHJW",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZLiHJW-EB",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZKuGHJW-H",
+          "weight": 0.0996
+        },
+        {
+          "font": "FZShiTSJW_Te",
+          "weight": 0.0996
+        },
+        {
+          "font": "FZVDLJianZHJW-H",
+          "weight": 0.0995
+        }
+      ]
+    },
+    "FZFengYKSJ": {
+      "exclude": null,
+      "max_cosine": 0.9963,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZChenQTJW",
+          "weight": 0.1006
+        },
+        {
+          "font": "FZFWZhuZGDSMCJW",
+          "weight": 0.1005
+        },
+        {
+          "font": "FZFWZhuZGDLMCJW",
+          "weight": 0.1005
+        },
+        {
+          "font": "FZYouYSJW-R",
+          "weight": 0.1004
+        },
+        {
+          "font": "FZOuYXKSJW",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZYanSJW",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZFeiSJW-EL",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZQingFSJW_Xi",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZQKBYSJW",
+          "weight": 0.0994
+        },
+        {
+          "font": "FZHeiFJW-L",
+          "weight": 0.0993
+        }
+      ]
+    },
+    "FZHanWZKJW": {
+      "exclude": null,
+      "max_cosine": 0.9982,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZChenQTJW",
+          "weight": 0.1021
+        },
+        {
+          "font": "FZYanZQKSJW",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZOuYXKSJW",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZYanSJW",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZWuYTJW",
+          "weight": 0.1
+        },
+        {
+          "font": "FZWeiWTJW",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZFWZhuZGDLMCJW",
+          "weight": 0.0995
+        },
+        {
+          "font": "FZFWZhuZGDSMCJW",
+          "weight": 0.0994
+        },
+        {
+          "font": "FZFWZhuZiMinchoD",
+          "weight": 0.0994
+        },
+        {
+          "font": "FZBaiZJKJW",
+          "weight": 0.0993
+        }
+      ]
+    },
+    "FZHuoYYJW-T": {
+      "exclude": null,
+      "max_cosine": 0.9971,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZXinGHJW-EL",
+          "weight": 0.1006
+        },
+        {
+          "font": "FZLiYHJW-EL",
+          "weight": 0.1006
+        },
+        {
+          "font": "FZXinZYHJW_UL",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZHengWHJ-L",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZQingLTJW_Xian",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZDongGSJW-L",
+          "weight": 0.1
+        },
+        {
+          "font": "FZYiMSJW-T",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZQingKBYSJW-EL",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZTieXHJW",
+          "weight": 0.0994
+        },
+        {
+          "font": "FZVDLXinZTJW-R",
+          "weight": 0.0993
+        }
+      ]
+    },
+    "FZJianLTJW_Te": {
+      "exclude": null,
+      "max_cosine": 0.9976,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZHeYTJW-EB",
+          "weight": 0.1004
+        },
+        {
+          "font": "FZDeSHJW_514H",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZDeSHJW_513B",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZDengXHJW-B",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZChaoZTJW_EB",
+          "weight": 0.1
+        },
+        {
+          "font": "FZHZGBJW",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZZhuoHJW",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZKuaiYTJW_Te",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZCCHJW",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZDeSHJW_512B",
+          "weight": 0.0998
+        }
+      ]
+    },
+    "FZJingLTJW-H": {
+      "exclude": null,
+      "max_cosine": 0.9983,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZBenMKYJW",
+          "weight": 0.1015
+        },
+        {
+          "font": "FZIwataFWTJW-H",
+          "weight": 0.1007
+        },
+        {
+          "font": "FZShuangQTJW_Te",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZZuanSTJW_Da",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZOneFamily-Bold",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZQiSTJW-EB",
+          "weight": 0.0996
+        },
+        {
+          "font": "FZMiaoYTJW-H",
+          "weight": 0.0995
+        },
+        {
+          "font": "FZWenHYBTJW",
+          "weight": 0.0995
+        },
+        {
+          "font": "FZRunYYSJW",
+          "weight": 0.0994
+        },
+        {
+          "font": "FZShuLTJW-H",
+          "weight": 0.0994
+        }
+      ]
+    },
+    "FZJingYLLTJW": {
+      "exclude": null,
+      "max_cosine": 0.997,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZJZJW",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZDengXHJW-B",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZChiDTJW",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZDeSHJW_514H",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZChaoZTJW_EB",
+          "weight": 0.1
+        },
+        {
+          "font": "FZLTHProJW_H",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZDeSHJW_513B",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZZhuoHJW",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZVDLZhaoHJW-H",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZYiXTJW-EB",
+          "weight": 0.0998
+        }
+      ]
+    },
+    "FZLingFKSJW-B": {
+      "exclude": null,
+      "max_cosine": 0.9968,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZWBJW",
+          "weight": 0.1006
+        },
+        {
+          "font": "FZYiBSLSJW",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZYunLTJW",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZYiHTJW-EB",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZXiXSLSJW",
+          "weight": 0.1
+        },
+        {
+          "font": "FZFWZhuZGDSHJW",
+          "weight": 0.1
+        },
+        {
+          "font": "FZFWZhuZGDLHJW",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZOuYXKSJW",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZKeSHBTJW",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZLiQBLSJW",
+          "weight": 0.0996
+        }
+      ]
+    },
+    "FZLiuGQKJW-L": {
+      "exclude": null,
+      "max_cosine": 0.9969,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZChenQTJW",
+          "weight": 0.1012
+        },
+        {
+          "font": "FZOuYXKSJW",
+          "weight": 0.1006
+        },
+        {
+          "font": "FZFWZhuZGDSMCJW",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZFWZhuZGDLMCJW",
+          "weight": 0.1003
+        },
+        {
+          "font": "FZShanCPXJW",
+          "weight": 0.1
+        },
+        {
+          "font": "FZWBJW",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZYanZQKSJW",
+          "weight": 0.0997
+        },
+        {
+          "font": "FZYanSJW",
+          "weight": 0.0995
+        },
+        {
+          "font": "FZFWQingYLJW",
+          "weight": 0.0993
+        },
+        {
+          "font": "FZHCJW",
+          "weight": 0.0992
+        }
+      ]
+    },
+    "FZMaWDBSJW": {
+      "exclude": null,
+      "max_cosine": 0.9963,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZLiQBLSJW",
+          "weight": 0.1008
+        },
+        {
+          "font": "FZLiuBSLSJW",
+          "weight": 0.1008
+        },
+        {
+          "font": "FZXiXSLSJW",
+          "weight": 0.1006
+        },
+        {
+          "font": "FZMiaoYTJW-H",
+          "weight": 0.1002
+        },
+        {
+          "font": "FZYiBSLSJW",
+          "weight": 0.1001
+        },
+        {
+          "font": "FZYunLTJW",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZFWQingYLJW",
+          "weight": 0.0995
+        },
+        {
+          "font": "FZZhuoQHJW",
+          "weight": 0.0995
+        },
+        {
+          "font": "FZYiHTJW-EB",
+          "weight": 0.0993
+        },
+        {
+          "font": "FZPanDLTJW",
+          "weight": 0.0993
+        }
+      ]
+    },
+    "FZTJLSJW": {
+      "exclude": null,
+      "max_cosine": 0.9973,
+      "entropy": 5.429,
+      "neighbors": [
+        {
+          "font": "FZQiuDYRHJW",
+          "weight": 0.1015
+        },
+        {
+          "font": "FZLiYHJW-EL",
+          "weight": 0.1007
+        },
+        {
+          "font": "FZVDLXinZTJW-R",
+          "weight": 0.1006
+        },
+        {
+          "font": "FZGDCTJW-L",
+          "weight": 0.1
+        },
+        {
+          "font": "FZXinGHJW-EL",
+          "weight": 0.1
+        },
+        {
+          "font": "FZHengWHJ-L",
+          "weight": 0.0999
+        },
+        {
+          "font": "FZPiaoCTJW",
+          "weight": 0.0998
+        },
+        {
+          "font": "FZShenTJHHTJW",
+          "weight": 0.0993
+        },
+        {
+          "font": "FZFWZhuZiHeiL",
+          "weight": 0.0992
+        },
+        {
+          "font": "FZVDLJiaoRHJW-T",
+          "weight": 0.099
+        }
+      ]
+    }
+  }
+}

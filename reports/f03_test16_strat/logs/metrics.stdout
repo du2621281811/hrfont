@@ -1,0 +1,32 @@
+/root/miniforge3/envs/boogu/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/root/miniforge3/envs/boogu/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /root/miniforge3/envs/boogu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+{
+  "P1": {
+    "n": 752,
+    "L1_mean": 0.10353848251682568,
+    "SSIM_mean": 0.44508826177154837,
+    "coverage_mean": 0.13378920679114953,
+    "LPIPS_mean": 0.272570866784279,
+    "blank_rate": 0.0
+  },
+  "F0_100k": {
+    "n": 752,
+    "L1_mean": 0.07068297107198691,
+    "SSIM_mean": 0.6440625204308394,
+    "coverage_mean": 0.13088549169806454,
+    "LPIPS_mean": 0.15726574392434448,
+    "blank_rate": 0.0
+  },
+  "F3_80k": {
+    "n": 752,
+    "L1_mean": 0.07034590398704514,
+    "SSIM_mean": 0.653570330998999,
+    "coverage_mean": 0.1347327266179078,
+    "LPIPS_mean": 0.14374969949688207,
+    "blank_rate": 0.0
+  }
+}

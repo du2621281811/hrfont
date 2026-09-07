@@ -1,0 +1,109 @@
+Skipping import of cpp extensions due to incompatible torch version. Please upgrade to torch >= 2.11.0 (found 2.7.1+cu126).
+Unable to import `torchao` Tensor objects. This may affect loading checkpoints serialized with `torchao`
+pygame 2.6.1 (SDL 2.28.4, Python 3.10.20)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+[2026-09-07T04:03:25+00:00] [F3_80k] load Es/Ec caches + LibraryEs
+/root/projects/hrfont/scripts/eval_f03_test16_strat.py:456: FutureWarning: Accessing config attribute `unet` directly via 'FontDiffuserModel' object attribute is deprecated. Please access 'unet' over 'FontDiffuserModel's config object instead, e.g. 'unet.config.unet'.
+  fd.unet.load_state_dict(torch.load(ckpt / "unet.pth", map_location="cpu", weights_only=True))
+/root/projects/hrfont/scripts/eval_f03_test16_strat.py:457: FutureWarning: Accessing config attribute `style_encoder` directly via 'FontDiffuserModel' object attribute is deprecated. Please access 'style_encoder' over 'FontDiffuserModel's config object instead, e.g. 'unet.config.style_encoder'.
+  fd.style_encoder.load_state_dict(
+/root/projects/hrfont/scripts/eval_f03_test16_strat.py:460: FutureWarning: Accessing config attribute `content_encoder` directly via 'FontDiffuserModel' object attribute is deprecated. Please access 'content_encoder' over 'FontDiffuserModel's config object instead, e.g. 'unet.config.content_encoder'.
+  fd.content_encoder.load_state_dict(
+/root/projects/hrfont/code/variants/cn2west_f123_rsi/FontDiffuser/train.py:70: FutureWarning: Accessing config attribute `style_encoder` directly via 'FontDiffuserModel' object attribute is deprecated. Please access 'style_encoder' over 'FontDiffuserModel's config object instead, e.g. 'unet.config.style_encoder'.
+  model.style_encoder.register_forward_pre_hook(hook)
+/root/projects/hrfont/code/variants/cn2west_f123_rsi/FontDiffuser/train.py:71: FutureWarning: Accessing config attribute `content_encoder` directly via 'FontDiffuserModel' object attribute is deprecated. Please access 'content_encoder' over 'FontDiffuserModel's config object instead, e.g. 'unet.config.content_encoder'.
+  model.content_encoder.register_forward_pre_hook(hook)
+/root/projects/hrfont/code/variants/cn2west_f123_rsi/FontDiffuser/src/model.py:68: FutureWarning: Accessing config attribute `unet` directly via 'FontDiffuserModel' object attribute is deprecated. Please access 'unet' over 'FontDiffuserModel's config object instead, e.g. 'unet.config.unet'.
+  out = self.unet(
+Load the down block  DownBlock2D
+Load the down block  MCADownBlock2D
+The style_attention cross attention dim in Down Block 1 layer is 1024
+The style_attention cross attention dim in Down Block 2 layer is 1024
+Load the down block  MCADownBlock2D
+The style_attention cross attention dim in Down Block 1 layer is 1024
+The style_attention cross attention dim in Down Block 2 layer is 1024
+Load the down block  DownBlock2D
+Load the up block  UpBlock2D
+Load the up block  StyleRSIUpBlockIdentitySafe
+Load the up block  StyleRSIUpBlockIdentitySafe
+Load the up block  UpBlock2D
+Param count for Ds initialized parameters: 20591296
+Get CG-GAN Style Encoder!
+Param count for Ds initialized parameters: 1187008
+Get CG-GAN Content Encoder!
+[2026-09-07T04:04:06+00:00] [F3_80k] done=10 skipped=0/752 rate=0.43/s eta=28.6m last=FZBuGTJW 9
+[2026-09-07T04:04:19+00:00] [F3_80k] done=20 skipped=0/752 rate=0.55/s eta=22.0m last=FZBuGTJW a
+[2026-09-07T04:04:32+00:00] [F3_80k] done=30 skipped=0/752 rate=0.61/s eta=19.6m last=FZBuGTJW l
+[2026-09-07T04:04:46+00:00] [F3_80k] done=40 skipped=0/752 rate=0.63/s eta=18.8m last=FZBuGTJW さ
+[2026-09-07T04:05:03+00:00] [F3_80k] done=50 skipped=0/752 rate=0.63/s eta=18.7m last=FZChuangHJW_DB 2
+[2026-09-07T04:05:16+00:00] [F3_80k] done=60 skipped=0/752 rate=0.64/s eta=17.9m last=FZChuangHJW_DB M
+[2026-09-07T04:05:31+00:00] [F3_80k] done=70 skipped=0/752 rate=0.65/s eta=17.6m last=FZChuangHJW_DB p
+[2026-09-07T04:05:46+00:00] [F3_80k] done=80 skipped=0/752 rate=0.65/s eta=17.3m last=FZChuangHJW_DB à
+[2026-09-07T04:05:59+00:00] [F3_80k] done=90 skipped=0/752 rate=0.66/s eta=16.7m last=FZChuangHJW_DB カ
+[2026-09-07T04:06:13+00:00] [F3_80k] done=100 skipped=0/752 rate=0.67/s eta=16.3m last=FZCuanBZBKSJW 5
+[2026-09-07T04:06:29+00:00] [F3_80k] done=110 skipped=0/752 rate=0.66/s eta=16.1m last=FZCuanBZBKSJW W
+[2026-09-07T04:06:43+00:00] [F3_80k] done=120 skipped=0/752 rate=0.67/s eta=15.8m last=FZCuanBZBKSJW e
+[2026-09-07T04:06:56+00:00] [F3_80k] done=130 skipped=0/752 rate=0.67/s eta=15.4m last=FZCuanBZBKSJW ā
+[2026-09-07T04:07:12+00:00] [F3_80k] done=140 skipped=0/752 rate=0.67/s eta=15.2m last=FZCuanBZBKSJW ㄆ
+[2026-09-07T04:07:29+00:00] [F3_80k] done=150 skipped=0/752 rate=0.66/s eta=15.1m last=FZDeSHJW_515H 8
+[2026-09-07T04:07:42+00:00] [F3_80k] done=160 skipped=0/752 rate=0.67/s eta=14.7m last=FZDeSHJW_515H O
+[2026-09-07T04:07:59+00:00] [F3_80k] done=170 skipped=0/752 rate=0.66/s eta=14.6m last=FZDeSHJW_515H i
+[2026-09-07T04:08:12+00:00] [F3_80k] done=180 skipped=0/752 rate=0.67/s eta=14.3m last=FZDeSHJW_515H か
+[2026-09-07T04:08:24+00:00] [F3_80k] done=190 skipped=0/752 rate=0.68/s eta=13.8m last=FZDouNTJW_Te 1
+[2026-09-07T04:08:37+00:00] [F3_80k] done=200 skipped=0/752 rate=0.68/s eta=13.5m last=FZDouNTJW_Te G
+[2026-09-07T04:08:51+00:00] [F3_80k] done=210 skipped=0/752 rate=0.68/s eta=13.2m last=FZDouNTJW_Te d
+[2026-09-07T04:09:03+00:00] [F3_80k] done=220 skipped=0/752 rate=0.69/s eta=12.9m last=FZDouNTJW_Te u
+[2026-09-07T04:09:17+00:00] [F3_80k] done=230 skipped=0/752 rate=0.69/s eta=12.6m last=FZDouNTJW_Te ア
+[2026-09-07T04:09:38+00:00] [F3_80k] done=240 skipped=0/752 rate=0.68/s eta=12.6m last=FZFeiHHJW-H 4
+[2026-09-07T04:09:50+00:00] [F3_80k] done=250 skipped=0/752 rate=0.68/s eta=12.3m last=FZFeiHHJW-H R
+[2026-09-07T04:10:02+00:00] [F3_80k] done=260 skipped=0/752 rate=0.69/s eta=12.0m last=FZFeiHHJW-H b
+[2026-09-07T04:10:18+00:00] [F3_80k] done=270 skipped=0/752 rate=0.68/s eta=11.8m last=FZFeiHHJW-H ü
+[2026-09-07T04:10:30+00:00] [F3_80k] done=280 skipped=0/752 rate=0.69/s eta=11.4m last=FZFeiHHJW-H ㄅ
+[2026-09-07T04:10:43+00:00] [F3_80k] done=290 skipped=0/752 rate=0.69/s eta=11.1m last=FZFengYKSJ 7
+[2026-09-07T04:10:59+00:00] [F3_80k] done=300 skipped=0/752 rate=0.69/s eta=11.0m last=FZFengYKSJ C
+[2026-09-07T04:11:13+00:00] [F3_80k] done=310 skipped=0/752 rate=0.69/s eta=10.7m last=FZFengYKSJ c
+[2026-09-07T04:11:25+00:00] [F3_80k] done=320 skipped=0/752 rate=0.69/s eta=10.4m last=FZFengYKSJ あ
+[2026-09-07T04:11:39+00:00] [F3_80k] done=330 skipped=0/752 rate=0.69/s eta=10.1m last=FZHanWZKJW 0
+[2026-09-07T04:11:52+00:00] [F3_80k] done=340 skipped=0/752 rate=0.69/s eta=9.9m last=FZHanWZKJW A
+[2026-09-07T04:12:06+00:00] [F3_80k] done=350 skipped=0/752 rate=0.70/s eta=9.6m last=FZHanWZKJW o
+[2026-09-07T04:12:18+00:00] [F3_80k] done=360 skipped=0/752 rate=0.70/s eta=9.4m last=FZHanWZKJW n
+[2026-09-07T04:12:33+00:00] [F3_80k] done=370 skipped=0/752 rate=0.70/s eta=9.1m last=FZHanWZKJW ん
+[2026-09-07T04:12:46+00:00] [F3_80k] done=380 skipped=0/752 rate=0.70/s eta=8.9m last=FZHuoYYJW-T 3
+[2026-09-07T04:12:58+00:00] [F3_80k] done=390 skipped=0/752 rate=0.70/s eta=8.6m last=FZHuoYYJW-T Q
+[2026-09-07T04:13:13+00:00] [F3_80k] done=400 skipped=0/752 rate=0.70/s eta=8.4m last=FZHuoYYJW-T q
+[2026-09-07T04:13:31+00:00] [F3_80k] done=410 skipped=0/752 rate=0.70/s eta=8.2m last=FZHuoYYJW-T é
+[2026-09-07T04:13:44+00:00] [F3_80k] done=420 skipped=0/752 rate=0.70/s eta=7.9m last=FZHuoYYJW-T ン
+[2026-09-07T04:13:57+00:00] [F3_80k] done=430 skipped=0/752 rate=0.70/s eta=7.7m last=FZJianLTJW_Te 6
+[2026-09-07T04:14:10+00:00] [F3_80k] done=440 skipped=0/752 rate=0.70/s eta=7.4m last=FZJianLTJW_Te B
+[2026-09-07T04:14:21+00:00] [F3_80k] done=450 skipped=0/752 rate=0.70/s eta=7.1m last=FZJianLTJW_Te g
+[2026-09-07T04:14:34+00:00] [F3_80k] done=460 skipped=0/752 rate=0.71/s eta=6.9m last=FZJianLTJW_Te ě
+[2026-09-07T04:14:54+00:00] [F3_80k] done=470 skipped=0/752 rate=0.70/s eta=6.7m last=FZJianLTJW_Te ㄚ
+[2026-09-07T04:15:13+00:00] [F3_80k] done=480 skipped=0/752 rate=0.70/s eta=6.5m last=FZJingLTJW-H 9
+[2026-09-07T04:15:29+00:00] [F3_80k] done=490 skipped=0/752 rate=0.69/s eta=6.3m last=FZJingLTJW-H a
+[2026-09-07T04:15:45+00:00] [F3_80k] done=500 skipped=0/752 rate=0.69/s eta=6.1m last=FZJingLTJW-H l
+[2026-09-07T04:15:57+00:00] [F3_80k] done=510 skipped=0/752 rate=0.70/s eta=5.8m last=FZJingLTJW-H さ
+[2026-09-07T04:16:10+00:00] [F3_80k] done=520 skipped=0/752 rate=0.70/s eta=5.6m last=FZJingYLLTJW 2
+[2026-09-07T04:16:30+00:00] [F3_80k] done=530 skipped=0/752 rate=0.69/s eta=5.4m last=FZJingYLLTJW M
+[2026-09-07T04:16:47+00:00] [F3_80k] done=540 skipped=0/752 rate=0.69/s eta=5.1m last=FZJingYLLTJW p
+[2026-09-07T04:17:00+00:00] [F3_80k] done=550 skipped=0/752 rate=0.69/s eta=4.9m last=FZJingYLLTJW à
+[2026-09-07T04:17:17+00:00] [F3_80k] done=560 skipped=0/752 rate=0.69/s eta=4.7m last=FZJingYLLTJW カ
+[2026-09-07T04:17:30+00:00] [F3_80k] done=570 skipped=0/752 rate=0.69/s eta=4.4m last=FZLingFKSJW-B 5
+[2026-09-07T04:17:44+00:00] [F3_80k] done=580 skipped=0/752 rate=0.69/s eta=4.2m last=FZLingFKSJW-B W
+[2026-09-07T04:18:04+00:00] [F3_80k] done=590 skipped=0/752 rate=0.69/s eta=3.9m last=FZLingFKSJW-B e
+[2026-09-07T04:18:19+00:00] [F3_80k] done=600 skipped=0/752 rate=0.69/s eta=3.7m last=FZLingFKSJW-B ā
+[2026-09-07T04:18:38+00:00] [F3_80k] done=610 skipped=0/752 rate=0.68/s eta=3.5m last=FZLingFKSJW-B ㄆ
+[2026-09-07T04:18:53+00:00] [F3_80k] done=620 skipped=0/752 rate=0.68/s eta=3.2m last=FZLiuGQKJW-L 8
+[2026-09-07T04:19:06+00:00] [F3_80k] done=630 skipped=0/752 rate=0.68/s eta=3.0m last=FZLiuGQKJW-L O
+[2026-09-07T04:19:21+00:00] [F3_80k] done=640 skipped=0/752 rate=0.68/s eta=2.7m last=FZLiuGQKJW-L i
+[2026-09-07T04:19:48+00:00] [F3_80k] done=650 skipped=0/752 rate=0.67/s eta=2.5m last=FZLiuGQKJW-L か
+[2026-09-07T04:20:02+00:00] [F3_80k] done=660 skipped=0/752 rate=0.67/s eta=2.3m last=FZMaWDBSJW 1
+[2026-09-07T04:20:18+00:00] [F3_80k] done=670 skipped=0/752 rate=0.67/s eta=2.0m last=FZMaWDBSJW G
+[2026-09-07T04:20:31+00:00] [F3_80k] done=680 skipped=0/752 rate=0.67/s eta=1.8m last=FZMaWDBSJW d
+[2026-09-07T04:20:43+00:00] [F3_80k] done=690 skipped=0/752 rate=0.68/s eta=1.5m last=FZMaWDBSJW u
+[2026-09-07T04:21:01+00:00] [F3_80k] done=700 skipped=0/752 rate=0.67/s eta=1.3m last=FZMaWDBSJW ア
+[2026-09-07T04:21:25+00:00] [F3_80k] done=710 skipped=0/752 rate=0.67/s eta=1.0m last=FZTJLSJW 4
+[2026-09-07T04:21:49+00:00] [F3_80k] done=720 skipped=0/752 rate=0.66/s eta=0.8m last=FZTJLSJW R
+[2026-09-07T04:22:04+00:00] [F3_80k] done=730 skipped=0/752 rate=0.66/s eta=0.6m last=FZTJLSJW b
+[2026-09-07T04:22:16+00:00] [F3_80k] done=740 skipped=0/752 rate=0.66/s eta=0.3m last=FZTJLSJW ü
+[2026-09-07T04:22:33+00:00] [F3_80k] done=750 skipped=0/752 rate=0.66/s eta=0.1m last=FZTJLSJW ㄅ
+[2026-09-07T04:22:37+00:00] [F3_80k] finished done=752 skipped=0 elapsed=1133.7s

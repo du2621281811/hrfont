@@ -18,7 +18,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-FONTS_DIR = ROOT / "artifacts" / "e12" / "fonts"
+# Do not mix with the old cache_v3 files that already live in artifacts/e12/fonts/.
+FONTS_DIR = ROOT / "artifacts" / "e12" / "fonts_s3"
 CACHE_DIR = ROOT / "artifacts" / "e12" / "external_font_cache"
 COVERAGE_CHARS = "永和书风骨韵天地ABCDEFGHabcdefgh"
 MIN_FONTS = 25
@@ -98,7 +99,7 @@ def _fetch(slug: str, kind: str, repo: str, family: str | None, dest_dir: Path) 
     if not files:
         path = _release_font(slug, repo, dest_dir)
         return path
-    for p in sorted(files, key=lambda x: x.stat().st_size, reverse=True):
+    for p in sorted(files, key=lambda x: (_face_penalty(x), -x.stat().st_size)):
         if _coverage_ok(p):
             out = dest_dir / p.name
             out.write_bytes(p.read_bytes())
@@ -150,6 +151,21 @@ def _release_font(slug: str, owner_repo: str, dest_dir: Path) -> Path | None:
         except Exception:  # noqa: BLE001
             continue
     return None
+
+
+def _face_penalty(path: Path) -> int:
+    """Prefer upright Regular over italic / mono / Han-only fallbacks."""
+    name = path.name.lower()
+    pen = 0
+    if any(tok in name for tok in ("italic", "oblique", "slant")):
+        pen += 100
+    if "mono" in name:
+        pen += 50
+    if "hanonly" in name or "han-only" in name:
+        pen += 80
+    if "regular" in name or name.endswith("-r.ttf") or name.endswith("-r.otf"):
+        pen -= 10
+    return pen
 
 
 def _coverage_ok(path: Path) -> bool:
@@ -206,15 +222,7 @@ def main() -> int:
     if ok < MIN_FONTS:
         print(f"ABORT: fewer than {MIN_FONTS} usable fonts")
         return 1
-
-    cmd = [sys.executable, str(ROOT / "scripts" / "eval_framework" / "build_cache.py"),
-           "--fonts_dir", str(FONTS_DIR), "--cache_dir", str(CACHE_DIR),
-           "--strategy", "per_font_height_fit", "--canvas", "96", "--margin", "6"]
-    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
-    print(proc.stdout.strip())
-    if proc.returncode != 0:
-        print(proc.stderr)
-        return 1
+    print(f"fonts_dir={FONTS_DIR}  (cache_v4 is built separately; not rewriting {CACHE_DIR})")
     return 0
 
 

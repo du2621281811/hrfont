@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HR-Font · 导师简报 2026-09-07</title>
+<style>
+:root{--bg:#f3f5f7;--card:#fff;--ink:#17212b;--muted:#5f6b76;--line:#d8dee5;--accent:#245b78;--ok:#276749;--warn:#8a5a12;--bad:#9b2c2c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,"Noto Sans SC","PingFang SC",sans-serif}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:22px 24px}
+header,main,footer{max-width:920px;margin:auto}
+h1{font-size:26px;margin:6px 0 8px;font-weight:650}
+h2{font-size:18px;margin:28px 0 10px}
+h3{font-size:15px;margin:16px 0 6px}
+p,li{margin:8px 0}
+.muted{color:var(--muted);font-size:13.5px}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:12.5px}
+.pill.run{color:var(--ok);border-color:#9bc6ad;background:#eef8f2}
+.pill.pause{color:var(--warn);border-color:#e4d0a0;background:#fff8e8}
+.pill.done{color:var(--accent);background:#eef4f8}
+.pill.fail{color:var(--bad);border-color:#e0b4b4;background:#fbeeee}
+.note{background:var(--card);border-left:4px solid var(--accent);padding:10px 14px;margin:14px 0}
+.warn{border-left-color:var(--warn)}
+.bad{border-left-color:var(--bad)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);margin:10px 0 16px;font-size:14.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#edf1f4;font-weight:600}
+img.fig{max-width:100%;display:block;margin:10px auto;border:1px solid var(--line);background:#fff}
+caption, .cap{color:var(--muted);font-size:12.5px;margin:0 0 14px}
+code{font-family:ui-monospace,monospace;font-size:13px;background:#eef2f5;padding:1px 5px;border-radius:4px}
+ol,ul{padding-left:1.25em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+.stat{background:var(--card);border:1px solid var(--line);padding:12px 14px}
+.stat .k{font-size:12px;color:var(--muted)} .stat .v{font-size:22px;margin-top:2px;font-variant-numeric:tabular-nums}
+footer{padding:8px 24px 36px;color:var(--muted);font-size:12px}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <span class="pill run">快照 2026-09-07 17:28 CST</span>
+  <h1>HR-Font 这几天在做什么</h1>
+  <p>给导师的一页纸：任务、方法、哪些还在跑、哪些已经有结果、以及现在<b>不能</b>下的结论。</p>
+  <p class="muted">本页自洽。全量对照、训练过程与 Δ 检索图见文末链接。</p>
+</header>
+<main>
+
+<div class="note">
+  <b>一句话。</b> 任务是：给一套新中文字体几张汉字样张，生成同一风格的拉丁字母、假名和注音。
+  官方 FontDiffuser 在「汉字风格 → 拉丁内容」上经常把字母画成汉字笔画。
+  父模型 <b>F0@100k</b> 已能写出拉丁。<b>F3@80k</b>（Δ + Support×8）终点图已采完：像素上整体略优于 F0，但拉丁大写 F0 更好，且 F3 从 5k 起就偏方。
+  评测器 E12 尚未过门，<b>还不能用分数宣称 F3 优于 F0</b>。F2（只开 Δ）正在跑，用来拆开「变方」是 Δ 还是 Support。
+</div>
+
+<div class="grid">
+  <div class="stat"><div class="k">已完成、可看终点图</div><div class="v">F3 · 80k</div><div class="muted">test16×47 已与官方 / F0 对齐采样</div></div>
+  <div class="stat"><div class="k">仍在跑</div><div class="v">F2 · 20k / 80k</div><div class="muted">独占 GPU3 · 只开 Δ、不开 Support</div></div>
+  <div class="stat"><div class="k">排队（主动暂停）</div><div class="v">F1 · 300 / 80k</div><div class="muted">官方 RSI 头对照；F2 结束后续跑</div></div>
+  <div class="stat"><div class="k">评测器</div><div class="v">E12 未过门</div><div class="muted">三随机种子均失败；暂不进入生成器打分</div></div>
+</div>
+
+<h2>1. 实验状态（现在看这一张表）</h2>
+<table>
+  <thead><tr><th>实验</th><th>要回答的问题</th><th>状态</th><th>怎么看结果</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><b>数据协议 A</b></td>
+      <td>260 套字体如何渲染成 96×96 训练图</td>
+      <td><span class="pill done">完成</span></td>
+      <td>已冻结。每套字体统一字号、直接渲染、不插值。</td>
+    </tr>
+    <tr>
+      <td><b>E1</b></td>
+      <td>官方 FD 在协议 A 上微调，能否写出目标字符</td>
+      <td><span class="pill done">完成 100k</span></td>
+      <td>能写，但风格和局部结构仍偏。未见测试字体上相对官方 P1：L1 0.104→0.069，SSIM 0.445→0.652，LPIPS 0.273→0.152。这是像素诊断，不是风格终局。</td>
+    </tr>
+    <tr>
+      <td><b>F0</b></td>
+      <td>关掉 RSI、只微调 UNet，拉丁会不会从「汉字化」里救回来</td>
+      <td><span class="pill done">完成 100k</span></td>
+      <td>会。验证集 val16 loss <b>0.031</b>（全程近似单调，选终点）。肉眼：官方常把 A/a 画成汉字；F0 写出拉丁。已作为 F1/F2/F3 的父模型。</td>
+    </tr>
+    <tr>
+      <td><b>F3</b></td>
+      <td>在 F0 上同时开「目标字残差 Δ」和「同字体 Support×8」，风格能否更像</td>
+      <td><span class="pill done">完成 80k</span></td>
+      <td>训练健康。Trainer 验证最好 <b>0.002011 @ 75k</b>，终点 80k = 0.002082；与 F0 的 0.031 <b>不可比</b>（这条验证没有 perceptual）。终点图见 §3.2。过程图见时间线：5k 起就偏方，80k 几乎没改回来。</td>
+    </tr>
+    <tr>
+      <td><b>F2</b></td>
+      <td>只开 Δ、不开 Support（对照 F3）</td>
+      <td><span class="pill run">在跑 20k / 80k</span></td>
+      <td>F3 的 DONE 写出后已自动续跑。现在没有可报告的 80k 效果；它是拆开「变方来自 Δ 还是 Support」的臂。</td>
+    </tr>
+    <tr>
+      <td><b>F1</b></td>
+      <td>官方 RSI 头 + 同样微调设定（对照 F2）</td>
+      <td><span class="pill pause">暂停 300 / 80k</span></td>
+      <td>排在 F2 之后。现在没有可报告的效果。</td>
+    </tr>
+    <tr>
+      <td><b>E12</b></td>
+      <td>独立风格评测器能不能过自检门，才能给生成器打分</td>
+      <td><span class="pill fail">3/3 种子未过门</span></td>
+      <td>T3/T4 大多能过；卡住的是 <b>T2 AUC 门限 0.90</b>（现约 0.73–0.80）。换了 26 套外部字体后 T2 略升，仍不够。在过门之前，不用它比较 F0/F3。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>2. 方法（只保留导师需要的那一层）</h2>
+<p>FontDiffuser 用两张条件图：中性字体的目标字符指定「写哪个字」，目标字体的汉字参考指定「什么风格」。内部 RSI 还会按参考字的结构去推内容特征该怎么挪。</p>
+<p>跨文字系统时，汉字局部结构对拉丁帮助可能很弱，官方模型也确实常把拉丁画成汉字。我们的改法是：<b>风格仍来自汉字参考，RSI 的结构条件改成同一目标字符相对中性字形的变化 Δ</b>。UNet 内部和损失都不改，只换 RSI 读到的结构。</p>
+<img class="fig" src="img/fig2_fd_flow.png" alt="FontDiffuser 数据流与 Δ 替换位置"/>
+<p class="cap">图：官方数据流。本轮实验只替换 RSI 的结构条件；F0 则把 RSI 整段关掉，作为「先能写出拉丁」的父模型。</p>
+<p>对照设计（同一套代码、同一随机种子 3407、同一父模型 F0@100k）：</p>
+<ul>
+  <li><b>F1</b> 官方 RSI 头（对照）</li>
+  <li><b>F2</b> 目标字残差 Δ</li>
+  <li><b>F3</b> Δ + 同字体 8 张汉字 Support（诊断：多参考能否再补风格）</li>
+</ul>
+<p>RSI 用 identity-safe 初始化：训练起点等价于「没有这块头」，权重从 0 慢慢长。这是为了保证 F1/F2/F3 的起点公平，而不是一上来就扰动 F0。</p>
+<p>F2/F3 的 Δ 检索：在<b>训练集 228 套</b>里用查询字体的 8 个汉字 Es（永和书风骨韵天地）找 Top-10，再取这些邻居字体<b>同一个目标西文字</b>的残差做加权平均。测试字体不在这 228 里。F1 不做字体检索。F3 的 Support×8 是查询字体自己的 8 个汉字，不是检索结果。</p>
+
+<h2>3. 已经能看的效果</h2>
+
+<h3>3.1 基线 E1：能写目标字，风格未完</h3>
+<img class="fig" src="img/fig3_e1_examples.png" alt="E1 未见测试字体示例：内容 / 汉字参考 / 真值 / 生成"/>
+<p class="cap">图：未见测试字体。左到右一般为中性内容、汉字风格参考、真值、E1 生成。字符对了，风格和结构仍有偏差。</p>
+
+<h3>3.2 官方 vs F0@100k vs F3@80k（终点，同一协议）</h3>
+<p>test16 × 47 字（数字 / 拉丁大小写 / 扩展 / 平假名 / 片假名 / 注音），DPM++ 20 步，CFG 7.5，<b>每条独立 <code>set_seed(3407)</code></b>。官方走 Content + Style「永」；F3 走训练条件 cache Δ + Support×8。共 2256 张。官方列的 L1/SSIM/LPIPS 与 E1 正式评测中的 P1 一致。</p>
+<table>
+  <thead><tr><th>方法</th><th>L1↓</th><th>SSIM↑</th><th>LPIPS↓</th></tr></thead>
+  <tbody>
+    <tr><td>官方 P1</td><td>0.104</td><td>0.445</td><td>0.273</td></tr>
+    <tr><td>F0@100k</td><td>0.071</td><td>0.644</td><td>0.157</td></tr>
+    <tr><td>F3@80k</td><td>0.070</td><td>0.654</td><td>0.144</td></tr>
+  </tbody>
+</table>
+<p class="cap">相对 GT 的像素诊断，不是风格主张。F3 整体略好；拉丁大写 F0 更好（L1 0.087 vs 0.094，SSIM 0.636 vs 0.610）。空白率均为 0。</p>
+<img class="fig" src="img/visual_strip.png" alt="GT / 官方 / F0@100k / F3@80k 对照条"/>
+<p class="cap">上三行较容易的黑体；中三行难例（创黑体）；下三行细黑火样云 <code>FZHuoYYJW-T</code> 的 0/G/Q。官方列经常把拉丁收成汉字笔画；F0 与 F3 都已是拉丁。不要从这一张就下「F3 更好」的结论。</p>
+<img class="fig" src="img/compare_sheet.png" alt="四套字体 × 五字符的早期对照表"/>
+<p class="cap">早期 4×5 探针（训练中途 checkpoint，不是全量）。全量 16 套 × 47 字见「分层评测」；F3 从 5k 到 80k 见「时间线」。</p>
+
+<h3>3.3 训练曲线（只说明「没崩」，不说明「更好」）</h3>
+<div class="grid">
+  <div>
+    <img class="fig" src="img/f0_val_loss.png" alt="F0 验证 loss"/>
+    <p class="cap">F0 验证 loss，选中 100k = 0.031。这条曲线可以用来选父模型。</p>
+  </div>
+  <div>
+    <img class="fig" src="img/f3_val_loss.png" alt="F3 trainer 验证 loss"/>
+    <p class="cap">F3 trainer 验证 loss，最好 0.002011 @ 75k，终点 80k = 0.002082。<b>与 F0 的 0.031 不是同一指标</b>，不能横比。</p>
+  </div>
+</div>
+<img class="fig" src="img/f3_train_loss.png" alt="F3 训练 loss"/>
+<p class="cap">F3 训练 loss 在正常波动，RSI 增益从 0 缓慢上升，符合 identity-safe 头的预期。</p>
+
+<h3>3.4 F3 为什么会变方：时间线 + Δ 检索</h3>
+<p>时间线（16 套测试字体 × 16 个跨语种字符，checkpoint 5k–80k）：F3 往往从 <b>刚过 warmup 的 5k</b> 就比 GT / F0 更方，一直到 80k 几乎不再变。这不像「训到后面才漂」。</p>
+<p>Δ 检索可以解释一条通道。检索只用汉字 Es，但灌进 RSI 的是邻居字体的<b>同一个西文字</b>。以 <code>FZHuoYYJW-T</code> 为例：Top-10 几乎全是极细/细黑体，权重约 0.10（最大余弦 0.997）；其中若干邻居的拉丁 0/G/Q 本身偏几何、偏方。Support×8 则是查询字体自己的汉字，汉字骨架也偏方。两条通道还没拆开——拆开要等 F2（只有 Δ）。</p>
+<p><a href="/f03_eval/timeline.html">打开 F3 时间线</a> · <a href="/f03_eval/delta_retrieve/">打开 Δ 检索诊断</a>（16 套测试字体可切换，默认火样云）。</p>
+
+<h2>4. 评测器 E12：为什么还不能打分</h2>
+<p>计划是：用独立的风格编码器给「生成图像不像目标字体」打分，再拿它比较 F0 / F1 / F2 / F3。它必须先通过四项自检（门限预先写死，不允许事后放宽）：</p>
+<table>
+  <thead><tr><th>种子</th><th>T1 中位 ≥0.60<br><span class="muted">同字体跨字一致</span></th><th>T2 AUC ≥0.90<br><span class="muted">跨字体可分</span></th><th>T3 准确率 ≥0.90<br><span class="muted">字体分类</span></th><th>T4 下降 ≥0.02<br><span class="muted">破坏后应掉分</span></th><th>过门</th></tr></thead>
+  <tbody>
+    <tr><td>v4 · 3407</td><td>0.729 过</td><td><b>0.791 不过</b></td><td>0.977 过</td><td>0.161 过</td><td>否</td></tr>
+    <tr><td>v4 · 3408</td><td>0.773 过</td><td><b>0.795 不过</b></td><td>0.977 过</td><td>0.194 过</td><td>否</td></tr>
+    <tr><td>v4 · 3409</td><td><b>0.533 不过</b></td><td><b>0.725 不过</b></td><td>0.977 过</td><td>0.126 过</td><td>否</td></tr>
+  </tbody>
+</table>
+<p>v4 相对更早的 v3（Noto CJK 族内），换成 26 套开源外部字体、字符集也补全了。T2 略升，但离 0.90 仍远。T3 已经很高：评测器「认得字体」不难，难的是「跨字体风格可分」不够稳。在这项过门之前，主文不引用 E12 分数。</p>
+
+<div class="note warn">
+  <b>现在不要从本页读出的结论</b>
+  <ul>
+    <li>不要说 F3 已经优于 F0。像素上整体略好、大写拉丁 F0 更好；没有过门的风格分数。F1/F2 还没到 80k。</li>
+    <li>不要把 F3 的 0.002 和 F0 的 0.031 放在一起比。</li>
+    <li>不要把 E1 / F0 / F3 的 L1/SSIM/LPIPS 当成风格主张。</li>
+    <li>「变方来自 Top-10 拉丁」目前是可复核的机制假说，要用 F2 相对 F3 来拆 Δ vs Support，还不是定论。</li>
+    <li>E2 / E2b 是更早的诊断跑，实现与现网 F123 不一致，不进入本页主张。</li>
+  </ul>
+</div>
+
+<div class="note">
+  <b>接下来（按顺序，不打断 F2）</b>
+  <ol>
+    <li>F2 到 80k，写出 DONE，再续跑 F1。</li>
+    <li>同一 test16×47 协议比较 F1 / F2 / F3，拆开 Δ、Support 与官方 RSI。</li>
+    <li>E12 的 T2 若仍过不了，风格打分方案要改，而不是放宽门限硬比生成器。</li>
+  </ol>
+</div>
+
+<h2>5. 若还想点开的页面</h2>
+<ul>
+  <li><a href="/f03_eval/">F0 / F3 测试集分层评测</a>（test16 × 47 字，官方 / F0@100k / F3@80k，已出完）</li>
+  <li><a href="/f03_eval/timeline.html">F3 从 5k 到 80k 的变化</a></li>
+  <li><a href="/f03_eval/delta_retrieve/">Δ 检索诊断</a>（左汉字依据，右取回的西文）</li>
+  <li><a href="/f3_ckpt_dashboard/">早期 4×5 探针</a>（不代表全量）</li>
+  <li>训练看板 <code>:8787</code>（实时 step / loss；本页是给导师的静态摘要）</li>
+  <li><a href="/weekly.html">上一份周报（9 月 5 日）</a> — 数据协议与 E1 更细；其中 E2/E2b 状态已过时</li>
+  <li><a href="/e1_formal_eval/">E1 正式评测浏览</a></li>
+</ul>
+</main>
+<footer>
+HR-Font mentor briefing · 2026-09-07 · 数字来自 runs/ 与 reports/f03_test16_strat 落盘文件，不是事后改写。
+</footer>
+</body>
+</html>

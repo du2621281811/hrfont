@@ -1,0 +1,65 @@
+[2026-09-07T03:43:32+00:00] [F0_100k] load /root/projects/hrfont/runs/F0-RSIFREE-FT-A-S3407/global_step_100000
+Skipping import of cpp extensions due to incompatible torch version. Please upgrade to torch >= 2.11.0 (found 2.7.1+cu126).
+Unable to import `torchao` Tensor objects. This may affect loading checkpoints serialized with `torchao`
+/root/projects/hrfont/code/variants/cn2west_f0_rsifree/FontDiffuser/src/model.py:88: FutureWarning: Accessing config attribute `style_encoder` directly via 'FontDiffuserModelDPM' object attribute is deprecated. Please access 'style_encoder' over 'FontDiffuserModelDPM's config object instead, e.g. 'unet.config.style_encoder'.
+  style_img_feature, _, style_residual_features = self.style_encoder(style_images)
+/root/projects/hrfont/code/variants/cn2west_f0_rsifree/FontDiffuser/src/model.py:94: FutureWarning: Accessing config attribute `content_encoder` directly via 'FontDiffuserModelDPM' object attribute is deprecated. Please access 'content_encoder' over 'FontDiffuserModelDPM's config object instead, e.g. 'unet.config.content_encoder'.
+  content_img_feture, content_residual_features = self.content_encoder(content_images)
+/root/projects/hrfont/code/variants/cn2west_f0_rsifree/FontDiffuser/src/model.py:97: FutureWarning: Accessing config attribute `content_encoder` directly via 'FontDiffuserModelDPM' object attribute is deprecated. Please access 'content_encoder' over 'FontDiffuserModelDPM's config object instead, e.g. 'unet.config.content_encoder'.
+  style_content_feature, style_content_res_features = self.content_encoder(style_images)
+/root/projects/hrfont/code/variants/cn2west_f0_rsifree/FontDiffuser/src/model.py:102: FutureWarning: Accessing config attribute `unet` directly via 'FontDiffuserModelDPM' object attribute is deprecated. Please access 'unet' over 'FontDiffuserModelDPM's config object instead, e.g. 'unet.config.unet'.
+  out = self.unet(
+Load the down block  DownBlock2D
+Load the down block  MCADownBlock2D
+The style_attention cross attention dim in Down Block 1 layer is 1024
+The style_attention cross attention dim in Down Block 2 layer is 1024
+Load the down block  MCADownBlock2D
+The style_attention cross attention dim in Down Block 1 layer is 1024
+The style_attention cross attention dim in Down Block 2 layer is 1024
+Load the down block  DownBlock2D
+Load the up block  UpBlock2D
+Load the up block  StyleUpBlockNoRSI
+Load the up block  StyleUpBlockNoRSI
+Load the up block  UpBlock2D
+Param count for Ds initialized parameters: 20591296
+Get CG-GAN Style Encoder!
+Param count for Ds initialized parameters: 1187008
+Get CG-GAN Content Encoder!
+[2026-09-07T03:44:08+00:00] [F0_100k] done=20 skipped=0/752 rate=0.94/s eta=12.9m last=FZBuGTJW a
+[2026-09-07T03:44:33+00:00] [F0_100k] done=40 skipped=0/752 rate=0.87/s eta=13.7m last=FZBuGTJW さ
+[2026-09-07T03:44:56+00:00] [F0_100k] done=60 skipped=0/752 rate=0.86/s eta=13.4m last=FZChuangHJW_DB M
+[2026-09-07T03:45:21+00:00] [F0_100k] done=80 skipped=0/752 rate=0.84/s eta=13.3m last=FZChuangHJW_DB à
+[2026-09-07T03:45:47+00:00] [F0_100k] done=100 skipped=0/752 rate=0.83/s eta=13.1m last=FZCuanBZBKSJW 5
+[2026-09-07T03:46:11+00:00] [F0_100k] done=120 skipped=0/752 rate=0.83/s eta=12.7m last=FZCuanBZBKSJW e
+[2026-09-07T03:46:34+00:00] [F0_100k] done=140 skipped=0/752 rate=0.83/s eta=12.2m last=FZCuanBZBKSJW ㄆ
+[2026-09-07T03:46:56+00:00] [F0_100k] done=160 skipped=0/752 rate=0.84/s eta=11.7m last=FZDeSHJW_515H O
+[2026-09-07T03:47:21+00:00] [F0_100k] done=180 skipped=0/752 rate=0.84/s eta=11.3m last=FZDeSHJW_515H か
+[2026-09-07T03:47:48+00:00] [F0_100k] done=200 skipped=0/752 rate=0.83/s eta=11.1m last=FZDouNTJW_Te G
+[2026-09-07T03:48:12+00:00] [F0_100k] done=220 skipped=0/752 rate=0.83/s eta=10.7m last=FZDouNTJW_Te u
+[2026-09-07T03:48:36+00:00] [F0_100k] done=240 skipped=0/752 rate=0.83/s eta=10.3m last=FZFeiHHJW-H 4
+[2026-09-07T03:49:01+00:00] [F0_100k] done=260 skipped=0/752 rate=0.83/s eta=9.9m last=FZFeiHHJW-H b
+[2026-09-07T03:49:25+00:00] [F0_100k] done=280 skipped=0/752 rate=0.83/s eta=9.5m last=FZFeiHHJW-H ㄅ
+[2026-09-07T03:49:50+00:00] [F0_100k] done=300 skipped=0/752 rate=0.83/s eta=9.1m last=FZFengYKSJ C
+[2026-09-07T03:50:16+00:00] [F0_100k] done=320 skipped=0/752 rate=0.82/s eta=8.8m last=FZFengYKSJ あ
+[2026-09-07T03:50:41+00:00] [F0_100k] done=340 skipped=0/752 rate=0.82/s eta=8.4m last=FZHanWZKJW A
+[2026-09-07T03:51:08+00:00] [F0_100k] done=360 skipped=0/752 rate=0.82/s eta=8.0m last=FZHanWZKJW n
+[2026-09-07T03:51:33+00:00] [F0_100k] done=380 skipped=0/752 rate=0.82/s eta=7.6m last=FZHuoYYJW-T 3
+[2026-09-07T03:51:58+00:00] [F0_100k] done=400 skipped=0/752 rate=0.81/s eta=7.2m last=FZHuoYYJW-T q
+[2026-09-07T03:52:19+00:00] [F0_100k] done=420 skipped=0/752 rate=0.82/s eta=6.8m last=FZHuoYYJW-T ン
+[2026-09-07T03:52:39+00:00] [F0_100k] done=440 skipped=0/752 rate=0.83/s eta=6.3m last=FZJianLTJW_Te B
+[2026-09-07T03:53:04+00:00] [F0_100k] done=460 skipped=0/752 rate=0.82/s eta=5.9m last=FZJianLTJW_Te ě
+[2026-09-07T03:53:29+00:00] [F0_100k] done=480 skipped=0/752 rate=0.82/s eta=5.5m last=FZJingLTJW-H 9
+[2026-09-07T03:53:55+00:00] [F0_100k] done=500 skipped=0/752 rate=0.82/s eta=5.1m last=FZJingLTJW-H l
+[2026-09-07T03:54:18+00:00] [F0_100k] done=520 skipped=0/752 rate=0.82/s eta=4.7m last=FZJingYLLTJW 2
+[2026-09-07T03:54:44+00:00] [F0_100k] done=540 skipped=0/752 rate=0.82/s eta=4.3m last=FZJingYLLTJW p
+[2026-09-07T03:55:08+00:00] [F0_100k] done=560 skipped=0/752 rate=0.82/s eta=3.9m last=FZJingYLLTJW カ
+[2026-09-07T03:55:32+00:00] [F0_100k] done=580 skipped=0/752 rate=0.82/s eta=3.5m last=FZLingFKSJW-B W
+[2026-09-07T03:55:55+00:00] [F0_100k] done=600 skipped=0/752 rate=0.82/s eta=3.1m last=FZLingFKSJW-B ā
+[2026-09-07T03:56:18+00:00] [F0_100k] done=620 skipped=0/752 rate=0.82/s eta=2.7m last=FZLiuGQKJW-L 8
+[2026-09-07T03:56:41+00:00] [F0_100k] done=640 skipped=0/752 rate=0.83/s eta=2.3m last=FZLiuGQKJW-L i
+[2026-09-07T03:57:05+00:00] [F0_100k] done=660 skipped=0/752 rate=0.83/s eta=1.9m last=FZMaWDBSJW 1
+[2026-09-07T03:57:29+00:00] [F0_100k] done=680 skipped=0/752 rate=0.83/s eta=1.5m last=FZMaWDBSJW d
+[2026-09-07T03:57:54+00:00] [F0_100k] done=700 skipped=0/752 rate=0.83/s eta=1.0m last=FZMaWDBSJW ア
+[2026-09-07T03:58:17+00:00] [F0_100k] done=720 skipped=0/752 rate=0.83/s eta=0.6m last=FZTJLSJW R
+[2026-09-07T03:58:42+00:00] [F0_100k] done=740 skipped=0/752 rate=0.83/s eta=0.2m last=FZTJLSJW ü
+[2026-09-07T03:58:58+00:00] [F0_100k] finished done=752 skipped=0 elapsed=911.6s

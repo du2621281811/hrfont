@@ -1,0 +1,109 @@
+{
+  "generated_at": "2026-09-06T12:51:37+00:00",
+  "run": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407",
+  "fonts": [
+    "FZBuGTJW",
+    "FZChuangHJW_DB",
+    "FZCuanBZBKSJW",
+    "FZDeSHJW_515H"
+  ],
+  "chars": [
+    "A",
+    "a",
+    "G",
+    "0",
+    "e"
+  ],
+  "seed": 3407,
+  "sampler": "dpmsolver++ 20 CFG7.5, cache Δ+Support, custom CFG (not stock V3 wrapper)",
+  "val": [
+    {
+      "step": 5000,
+      "val_loss": 0.0022258057745402457,
+      "best": {
+        "step": null,
+        "val": null
+      }
+    },
+    {
+      "step": 10000,
+      "val_loss": 0.0021686010907198917,
+      "best": {
+        "step": 10000,
+        "val": 0.0021686010907198917
+      }
+    },
+    {
+      "step": 15000,
+      "val_loss": 0.0021798594051703683,
+      "best": {
+        "step": 10000,
+        "val": 0.0021686010907198917
+      }
+    },
+    {
+      "step": 20000,
+      "val_loss": 0.002169425230891586,
+      "best": {
+        "step": 10000,
+        "val": 0.0021686010907198917
+      }
+    }
+  ],
+  "tags": [
+    {
+      "step": 5000,
+      "tag": "step5000",
+      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_5000"
+    },
+    {
+      "step": 10000,
+      "tag": "step10000",
+      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_10000"
+    },
+    {
+      "step": 15000,
+      "tag": "step15000",
+      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_15000"
+    },
+    {
+      "step": 20000,
+      "tag": "step20000",
+      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_20000"
+    },
+    {
+      "step": 23000,
+      "tag": "step23000_last",
+      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/last_state"
+    }
+  ],
+  "heartbeat": {
+    "ts": "2026-09-06T12:46:18",
+    "status": "running",
+    "step": 24000,
+    "loss": 0.032580941915512085
+  },
+  "note": "trainer val has no perceptual term; not comparable to F0 scan 0.031",
+  "compare": {
+    "generated_at": "2026-09-06T13:04:22+00:00",
+    "fonts": [
+      "FZBuGTJW",
+      "FZChuangHJW_DB",
+      "FZCuanBZBKSJW",
+      "FZDeSHJW_515H"
+    ],
+    "chars": [
+      "A",
+      "a",
+      "G",
+      "0",
+      "e"
+    ],
+    "official_ckpt": "/root/projects/hrfont/code/official/FontDiffuser/ckpt",
+    "f0_ckpt": "/root/projects/hrfont/runs/F0-RSIFREE-FT-A-S3407/global_step_100000",
+    "protocol": {
+      "official_f0": "image DPM: ContentImage + StyleImage(永), dpmsolver++20 CFG7.5 seed3407",
+      "f3": "cache Δ + Support×8, custom CFG, same sampler/seed"
+    }
+  }
+}

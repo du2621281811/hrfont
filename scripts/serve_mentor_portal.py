@@ -5,11 +5,14 @@ Mirrors :8777 data/ layout so cn2west review images resolve via ../dataset/...
 
 Routes:
   /                          thin index + weekly
+  /briefing/                 2026-09-07 mentor one-pager
   /weekly.html               weekly report HTML
   /assets/                   weekly-report figures
   /cn2west_v2_abc_review/    same as :8777
   /fontdiffuser-*/           protocol render datasets (image roots)
   /e1_formal_eval/ /e1/      E1 formal eval
+  /f3_ckpt_dashboard/        Official / F0 / F3 visual compare
+  /mentor_briefing_20260907/ same briefing via :8777-style path
   /render_qa_hub.html        QA hub
   /bbox/                     bbox_explain alias
   /rendering.html            → /cn2west_v2_abc_review/
@@ -27,6 +30,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PORTAL = ROOT / "public" / "mentor_portal"
 DATA = ROOT / "data"
 ASSETS = ROOT / "reports" / "weekly_20260905"
+BRIEFING = ROOT / "reports" / "mentor_briefing_20260907"
+F03 = ROOT / "reports" / "f03_test16_strat"
 REVIEW = DATA / "cn2west_v2_abc_review"
 BBOX = REVIEW / "bbox_explain"
 E1 = (
@@ -93,6 +98,11 @@ class MentorHandler(SimpleHTTPRequestHandler):
             ("/e1", E1),
             ("/bbox", BBOX),
             ("/assets", ASSETS),
+            ("/briefing", BRIEFING),
+            ("/mentor_briefing_20260907", BRIEFING),
+            ("/f3_ckpt_dashboard", ROOT / "reports" / "f3_ckpt_dashboard"),
+            ("/f03_test16_strat", F03),
+            ("/f03_eval", F03),
         )
         for prefix, base in routes:
             if request_path == prefix or request_path.startswith(prefix + "/"):
@@ -123,6 +133,8 @@ def verify_inputs() -> None:
     required = (
         PORTAL / "index.html",
         PORTAL / "weekly.html",
+        BRIEFING / "index.html",
+        F03,
         ASSETS / "fig1_six_protocols.png",
         REVIEW / "index.html",
         BBOX / "index.html",
