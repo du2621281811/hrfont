@@ -37,7 +37,7 @@ def get_parser():
     parser.add_argument("--delta_k_max", type=int, default=10)
     parser.add_argument("--delta_k_top", type=int, default=10)
     parser.add_argument("--delta_mode", choices=("soft", "topk", "threshold"), default="topk")
-    parser.add_argument("--ec_cache_path", type=str, default="artifacts/e2/ec_multiscale_e1_100k")
+    parser.add_argument("--ec_cache_path", type=str, default="artifacts/f0/ec_multiscale_f0")
     parser.add_argument("--encoder_runtime", choices=("cache_only", "online"), default="cache_only")
     # F1/F2/F3 matched arms. source_drop applies to WHATEVER structure source is
     # active (official Ec or delta) -- the old delta-only drop silently un-matched
@@ -54,7 +54,7 @@ def get_parser():
     parser.add_argument("--nshot_min", type=int, default=1)
     parser.add_argument("--nshot_max", type=int, default=8)
     parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
-    parser.add_argument("--es_cache_path", type=str, default="artifacts/e2/es_spatial_e1_100k")
+    parser.add_argument("--es_cache_path", type=str, default="artifacts/f0/es_spatial_f0")
     parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
     parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
     parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)
