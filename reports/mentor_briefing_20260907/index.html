@@ -40,23 +40,24 @@ a{color:var(--accent)}
 </head>
 <body>
 <header>
-  <span class="pill run">快照 2026-09-07 17:28 CST</span>
+  <span class="pill run">快照 2026-09-07 21:45 CST</span>
   <h1>HR-Font 这几天在做什么</h1>
-  <p>给导师的一页纸：任务、方法、哪些还在跑、哪些已经有结果、以及现在<b>不能</b>下的结论。</p>
-  <p class="muted">本页自洽。全量对照、训练过程与 Δ 检索图见文末链接。</p>
+  <p>给导师的一页纸：任务、每条臂改了什么、哪些还在跑、哪些已有结果、以及现在<b>不能</b>下的结论。</p>
+  <p class="muted">本页自洽。合作者克隆后也可看 <code>reports/collab_offline/</code> 离线总入口。</p>
 </header>
 <main>
 
 <div class="note">
   <b>一句话。</b> 任务是：给一套新中文字体几张汉字样张，生成同一风格的拉丁字母、假名和注音。
   官方 FontDiffuser 在「汉字风格 → 拉丁内容」上经常把字母画成汉字笔画。
-  父模型 <b>F0@100k</b> 已能写出拉丁。<b>F3@80k</b>（Δ + Support×8）终点图已采完：像素上整体略优于 F0，但拉丁大写 F0 更好，且 F3 从 5k 起就偏方。
-  评测器 E12 尚未过门，<b>还不能用分数宣称 F3 优于 F0</b>。F2（只开 Δ）正在跑，用来拆开「变方」是 Δ 还是 Support。
+  <b>F0</b> 把 RSI <b>整段模块从网络里拿掉</b>（不是只关 offset loss），微调后能写出拉丁，作为父模型。
+  <b>F3@80k</b>（Δ + Support×8）终点图已采：像素整体略优于 F0，拉丁大写 F0 更好，且 5k 起偏方。
+  E12 未过门，<b>不能宣称 F3 优于 F0</b>。F2（只开 Δ）在跑，用来拆「变方」。
 </div>
 
 <div class="grid">
   <div class="stat"><div class="k">已完成、可看终点图</div><div class="v">F3 · 80k</div><div class="muted">test16×47 已与官方 / F0 对齐采样</div></div>
-  <div class="stat"><div class="k">仍在跑</div><div class="v">F2 · 20k / 80k</div><div class="muted">独占 GPU3 · 只开 Δ、不开 Support</div></div>
+  <div class="stat"><div class="k">仍在跑</div><div class="v">F2 · ~23k / 80k</div><div class="muted">独占 GPU · 只开 Δ、不开 Support</div></div>
   <div class="stat"><div class="k">排队（主动暂停）</div><div class="v">F1 · 300 / 80k</div><div class="muted">官方 RSI 头对照；F2 结束后续跑</div></div>
   <div class="stat"><div class="k">评测器</div><div class="v">E12 未过门</div><div class="muted">三随机种子均失败；暂不进入生成器打分</div></div>
 </div>
@@ -79,27 +80,27 @@ a{color:var(--accent)}
     </tr>
     <tr>
       <td><b>F0</b></td>
-      <td>关掉 RSI、只微调 UNet，拉丁会不会从「汉字化」里救回来</td>
+      <td>整段去掉 RSI 模块后，拉丁还是否汉字化</td>
       <td><span class="pill done">完成 100k</span></td>
-      <td>会。验证集 val16 loss <b>0.031</b>（全程近似单调，选终点）。肉眼：官方常把 A/a 画成汉字；F0 写出拉丁。已作为 F1/F2/F3 的父模型。</td>
+      <td>会写出拉丁。val16 loss <b>0.031</b>，选终点做父模型。实现见下节：是删模块，不是只关 loss。</td>
     </tr>
     <tr>
       <td><b>F3</b></td>
-      <td>在 F0 上同时开「目标字残差 Δ」和「同字体 Support×8」，风格能否更像</td>
+      <td>在 F0 上挂 RSI，结构条件=Δ，再加同字体 Support×8</td>
       <td><span class="pill done">完成 80k</span></td>
-      <td>训练健康。Trainer 验证最好 <b>0.002011 @ 75k</b>，终点 80k = 0.002082；与 F0 的 0.031 <b>不可比</b>（这条验证没有 perceptual）。终点图见 §3.2。过程图见时间线：5k 起就偏方，80k 几乎没改回来。</td>
+      <td>Trainer 验证最好 <b>0.002011 @ 75k</b>，终点 0.002082；与 F0 的 0.031 <b>不可比</b>。终点图 §3.2；5k 起偏方。</td>
     </tr>
     <tr>
       <td><b>F2</b></td>
-      <td>只开 Δ、不开 Support（对照 F3）</td>
-      <td><span class="pill run">在跑 20k / 80k</span></td>
-      <td>F3 的 DONE 写出后已自动续跑。现在没有可报告的 80k 效果；它是拆开「变方来自 Δ 还是 Support」的臂。</td>
+      <td>同 F3 但不开 Support（只开 Δ）</td>
+      <td><span class="pill run">在跑 ~23k / 80k</span></td>
+      <td>用来拆「变方来自 Δ 还是 Support」。尚无 80k 效果可报。</td>
     </tr>
     <tr>
       <td><b>F1</b></td>
-      <td>官方 RSI 头 + 同样微调设定（对照 F2）</td>
+      <td>同 F0 设定，但 RSI 结构条件改回官方（参考汉字 Ec）</td>
       <td><span class="pill pause">暂停 300 / 80k</span></td>
-      <td>排在 F2 之后。现在没有可报告的效果。</td>
+      <td>对照「官方 RSI vs Δ」。排在 F2 之后。</td>
     </tr>
     <tr>
       <td><b>E12</b></td>
@@ -110,19 +111,46 @@ a{color:var(--accent)}
   </tbody>
 </table>
 
-<h2>2. 方法（只保留导师需要的那一层）</h2>
-<p>FontDiffuser 用两张条件图：中性字体的目标字符指定「写哪个字」，目标字体的汉字参考指定「什么风格」。内部 RSI 还会按参考字的结构去推内容特征该怎么挪。</p>
-<p>跨文字系统时，汉字局部结构对拉丁帮助可能很弱，官方模型也确实常把拉丁画成汉字。我们的改法是：<b>风格仍来自汉字参考，RSI 的结构条件改成同一目标字符相对中性字形的变化 Δ</b>。UNet 内部和损失都不改，只换 RSI 读到的结构。</p>
+<h2>2. 方法：每条臂改了什么</h2>
+<p>FontDiffuser 用两张条件图：中性字体的目标字符指定「写哪个字」，目标字体的汉字参考指定「什么风格」。官方内部还有 <b>RSI</b>：按「结构条件」去推 skip 特征该怎么形变（offset → DeformConv）。</p>
 <img class="fig" src="img/fig2_fd_flow.png" alt="FontDiffuser 数据流与 Δ 替换位置"/>
-<p class="cap">图：官方数据流。本轮实验只替换 RSI 的结构条件；F0 则把 RSI 整段关掉，作为「先能写出拉丁」的父模型。</p>
-<p>对照设计（同一套代码、同一随机种子 3407、同一父模型 F0@100k）：</p>
-<ul>
-  <li><b>F1</b> 官方 RSI 头（对照）</li>
-  <li><b>F2</b> 目标字残差 Δ</li>
-  <li><b>F3</b> Δ + 同字体 8 张汉字 Support（诊断：多参考能否再补风格）</li>
-</ul>
-<p>RSI 用 identity-safe 初始化：训练起点等价于「没有这块头」，权重从 0 慢慢长。这是为了保证 F1/F2/F3 的起点公平，而不是一上来就扰动 F0。</p>
-<p>F2/F3 的 Δ 检索：在<b>训练集 228 套</b>里用查询字体的 8 个汉字 Es（永和书风骨韵天地）找 Top-10，再取这些邻居字体<b>同一个目标西文字</b>的残差做加权平均。测试字体不在这 228 里。F1 不做字体检索。F3 的 Support×8 是查询字体自己的 8 个汉字，不是检索结果。</p>
+<p class="cap">官方数据流。跨文字时，用汉字局部结构去扭拉丁，容易把字母画成汉字笔画。</p>
+
+<table>
+  <thead><tr><th>臂</th><th>网络里有没有 RSI</th><th>RSI 读什么</th><th>Support</th><th>offset 损失</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><b>F0</b></td>
+      <td><b>没有</b>：up-block 换成 <code>StyleUpBlockNoRSI</code>，参数级删掉 offset 解释器与 DeformConv</td>
+      <td>—</td>
+      <td>无</td>
+      <td>系数 <b>0</b>（且无模块可产生 offset；不是「模块还在、只关 loss」）</td>
+    </tr>
+    <tr>
+      <td><b>F1</b></td>
+      <td>有：在 F0 上<b>新挂</b> identity-safe RSI（step 0 ≡ F0 前向）</td>
+      <td>官方：查询字体第一个汉字参考的 Ec</td>
+      <td>关</td>
+      <td>系数 0.5</td>
+    </tr>
+    <tr>
+      <td><b>F2</b></td>
+      <td>同 F1</td>
+      <td><b>Δ</b>：train228 里汉字 Es → Top-10，再取邻居<b>同一西文字</b>的残差</td>
+      <td>关</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td><b>F3</b></td>
+      <td>同 F1</td>
+      <td>同 F2 的 Δ</td>
+      <td><b>开</b>：本字体 8 个汉字（不是检索结果）</td>
+      <td>0.5</td>
+    </tr>
+  </tbody>
+</table>
+<p class="cap">共享：协议 A、seed 3407、父模型 F0@100k（F1+）、lr 1e-5、warmup 5000、batch 8、80k 步（F0 为 100k）、<code>source_drop=0.25</code>。详表见仓库 <code>reports/F123_STATUS_20260907.md</code>。</p>
+<p>UNet 主干与扩散损失形式不变；对照的是「有没有 RSI、结构条件从哪来、要不要 Support」。identity-safe：zero-conv 初始化，保证 F1/F2/F3 起点不扰动 F0。</p>
 
 <h2>3. 已经能看的效果</h2>
 
@@ -202,6 +230,8 @@ a{color:var(--accent)}
   <li><a href="/f03_eval/">F0 / F3 测试集分层评测</a>（test16 × 47 字，官方 / F0@100k / F3@80k，已出完）</li>
   <li><a href="/f03_eval/timeline.html">F3 从 5k 到 80k 的变化</a></li>
   <li><a href="/f03_eval/delta_retrieve/">Δ 检索诊断</a>（左汉字依据，右取回的西文）</li>
+  <li>仓库内离线总入口：<code>reports/collab_offline/index.html</code>（克隆后用浏览器直接打开）</li>
+  <li>配置与进度长文：<code>reports/F123_STATUS_20260907.md</code></li>
   <li><a href="/f3_ckpt_dashboard/">早期 4×5 探针</a>（不代表全量）</li>
   <li>训练看板 <code>:8787</code>（实时 step / loss；本页是给导师的静态摘要）</li>
   <li><a href="/weekly.html">上一份周报（9 月 5 日）</a> — 数据协议与 E1 更细；其中 E2/E2b 状态已过时</li>

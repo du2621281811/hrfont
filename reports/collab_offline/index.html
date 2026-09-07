@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>HR-Font · 合作者离线包</title>
+<style>
+:root{--bg:#f3f5f7;--card:#fff;--ink:#17212b;--muted:#5f6b76;--line:#d8dee5;--accent:#245b78}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Noto Sans SC",sans-serif}
+header,main,footer{max-width:920px;margin:auto;padding:22px 20px}
+h1{font-size:24px;margin:6px 0 8px}
+h2{font-size:17px;margin:22px 0 8px}
+p,li{margin:6px 0}
+.muted{color:var(--muted);font-size:13px}
+.note{background:var(--card);border-left:4px solid var(--accent);padding:10px 12px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;color:inherit;text-decoration:none}
+a.card:hover{border-color:var(--accent)}
+code{font:13px ui-monospace,monospace;background:#eef2f5;padding:1px 5px;border-radius:3px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);font-size:13.5px;margin:8px 0}
+th,td{border-bottom:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#edf1f4}
+</style>
+</head>
+<body>
+<header>
+  <p class="muted">离线 HTML · 打开本文件即可，不需要服务器</p>
+  <h1>HR-Font 合作者离线包</h1>
+  <p>克隆仓库后，用浏览器直接打开本页。下面链接都是相对路径。</p>
+</header>
+<main>
+<div class="note">
+  <b>先看什么。</b> 实验在做什么 → 导师一页纸。数字与生成图 → 分层评测。F3 为何偏方 → 时间线 + Δ 检索。臂怎么配 → <code>reports/F123_STATUS_20260907.md</code>。
+</div>
+
+<h2>看板（离线）</h2>
+<div class="grid">
+  <a class="card" href="../mentor_briefing_20260907/index.html"><b>导师一页纸</b><p class="muted">任务、F0–F3 各改了什么、终点数字、不能下的结论</p></a>
+  <a class="card" href="../f03_test16_strat/index.html"><b>test16×47 分层评测</b><p class="muted">官方 / F0@100k / F3@80k · 2256 张 + L1/SSIM/LPIPS</p></a>
+  <a class="card" href="../f03_test16_strat/timeline.html"><b>F3 训练过程</b><p class="muted">5k→80k，看变方是不是一开始就有</p></a>
+  <a class="card" href="../f03_test16_strat/delta_retrieve/index.html"><b>Δ 检索诊断</b><p class="muted">左汉字依据 · 右灌进 RSI 的西文邻居</p></a>
+  <a class="card" href="../f3_ckpt_dashboard/index.html"><b>早期 4×5 探针</b><p class="muted">训练中途；不代表全量，以分层评测为准</p></a>
+</div>
+
+<h2>文档（仓库内 Markdown）</h2>
+<table>
+  <tr><th>文件</th><th>内容</th></tr>
+  <tr><td><code>reports/F123_STATUS_20260907.md</code></td><td>F0–F3 进度、配置表、每条臂实际改了什么（含 F0≠只关 offset loss）</td></tr>
+  <tr><td><code>reports/E12_SELFTEST_V4_REVIEW_20260907.md</code></td><td>E12 v4 三种子门结果 + 与 v3 对照</td></tr>
+  <tr><td><code>reports/E12_MAC_COLLAB.md</code></td><td>在 MacBook（Apple Silicon / MPS）上复训 E12 的步骤与数据</td></tr>
+  <tr><td><code>code/variants/cn2west_f123_rsi/VARIANT.md</code></td><td>F1/F2/F3 代码变体说明</td></tr>
+  <tr><td><code>code/variants/cn2west_f0_rsifree/VARIANT.md</code></td><td>F0：整段拿掉 RSI/DCN 模块</td></tr>
+</table>
+
+<h2>当前进度（落盘快照，训练机可能更新）</h2>
+<table>
+  <tr><th>臂</th><th>状态</th><th>一句话</th></tr>
+  <tr><td>F0</td><td>完成 100k</td><td>网络里没有 RSI；offset_coefficient=0；父模型</td></tr>
+  <tr><td>F3</td><td>完成 80k</td><td>Δ + Support×8；终点图已采</td></tr>
+  <tr><td>F2</td><td>在跑（约 23k+/80k）</td><td>只开 Δ；用来拆「变方」</td></tr>
+  <tr><td>F1</td><td>暂停 300</td><td>官方 RSI 对照；等 F2 后</td></tr>
+  <tr><td>E12 v4</td><td>3/3 未过门</td><td>卡在 T2 AUC≈0.73–0.80（门限 0.90）</td></tr>
+</table>
+</main>
+<footer class="muted">HR-Font collab offline pack · 相对路径，file:// 可开</footer>
+</body>
+</html>

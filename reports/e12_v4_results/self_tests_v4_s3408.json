@@ -1,0 +1,40 @@
+{
+  "mode": "formal",
+  "split_by_group": true,
+  "negatives": "cross_typeface",
+  "test_families": [
+    "GenRyuMin2TC-R",
+    "GenYoGothic2TC-H",
+    "Iansui-Regular",
+    "LXGWNeoZhiSong",
+    "LXGWXiHeiCL"
+  ],
+  "tests": {
+    "T1": {
+      "median": 0.7725270688533783,
+      "p5": 0.49920956790447235
+    },
+    "T2": {
+      "auc": 0.7946721911430359
+    },
+    "T3": {
+      "accuracy": 0.9774193548387097
+    },
+    "T4": {
+      "mean_drop": 0.19381555179434437,
+      "paired_t": 28.020629488627403,
+      "n": 310
+    },
+    "D_within_typeface": {
+      "mean_drop": null,
+      "n": 0
+    }
+  },
+  "gates": {
+    "T1": true,
+    "T2": false,
+    "T3": true,
+    "T4": true
+  },
+  "passed": false
+}

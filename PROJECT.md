@@ -7,54 +7,35 @@
 
 ## 当前状态
 
-- **主线（2026-09-05 切换）：joint 方案** — [`reports/DESIGN_E2E3_FUSION_QKV_20260905.md`](reports/DESIGN_E2E3_FUSION_QKV_20260905.md)；准备清单 [`reports/JOINT_PREP_20260905.md`](reports/JOINT_PREP_20260905.md)。
-- **旧臂已 STOP：** E2@10500、E2b@31400（`stopped_topology_superseded`）；E1c 不启动。
-- **F0 completed 100k：** 按预注册规则选中 **100k**（val16 loss 0.031089，n=4720）。见 [`reports/F0_MILESTONE_20260906.md`](reports/F0_MILESTONE_20260906.md)。Es/Ec cache 已从该 ckpt 重建并 SHA 对齐。
-- **F3 独占在训，符合预期：** 2026-09-06 17:38 CST，F3 **13500/80k**，独占后约 **1.15 s/step**（双跑时 1.5–1.7），GPU2 util **99%**。剩余约 **21h** 到 80k（双跑口径当时还要约 31h）。F2 停在 **6573**；F1 停在 300。F3 `global_step_10000` 已落盘，trainer val 10k=0.00217（无 perceptual，不可与 F0 扫描的 0.031 直接比）。D9；看板 `:8787`。
-- **E12 v3 三 seed 跑完，仍 gate_failed（只剩 T2）：** T1 0.644±0.031 过、T3 0.908±0.013 过（62 类，v2 的 8 类是天花板测试）、T4 全过；T2 0.732±0.057 未过 0.90。诊断显示是判别力而非标定问题——重字重 AUC≈1.00、轻/常规字重在随机线附近，训练只有 5 个字型。**结论：卡在 S3。** 见 [`reports/E12_SELFTEST_V3_REVIEW_20260906.md`](reports/E12_SELFTEST_V3_REVIEW_20260906.md)。
+- **主线：** F0@100k 父模型已定；F3@80k **完成**；F2 在跑；F1 暂停 300。详表 [`reports/F123_STATUS_20260907.md`](reports/F123_STATUS_20260907.md)。
+- **合作者离线看板：** [`reports/collab_offline/index.html`](reports/collab_offline/index.html)（分层评测 / 时间线 / Δ 检索 / 导师页）。
+- **E12 v4：** 26 字型 cache_v4，三 seed **仍 gate_failed（T2）**；见 [`reports/E12_SELFTEST_V4_REVIEW_20260907.md`](reports/E12_SELFTEST_V4_REVIEW_20260907.md)。Mac 复训：[`reports/E12_MAC_COLLAB.md`](reports/E12_MAC_COLLAB.md)（`cache_v4` 已进 git，约 18 MB）。
 - E1@100k 锚点保留。
 
 ## PI 决定（2026-09-05）
 
 - F0 **跑满 100k**，不启用 60k early-stop；步数按 `DECISION_F123_20260906.md` §2 预注册规则（val16 loss 最小）事后选。
 - F1/F2/F3 **固定单 seed 3407**，不补 3408/3409。
-- E12 做 S1/S2/S4/S5，**不做 S3**。
+- E12 做 S1/S2/S4/S5；S3 外部字型池已在 v4 落地，T2 仍未过门。
 
 ## 下一步
 
-> **主表已定（D1）**：正在跑的 F1/F2/F3 是 `cn2west_f123_rsi`（identity-safe）。`cn2west_stage_a` 里的官方 RSI 零初始化仍在仓库，**不要开跑、不要和本表混用**。详见 `reports/DECISION_POINTS_20260906.md`。
+> **主表已定（D1）**：正在跑的 F1/F2/F3 是 `cn2west_f123_rsi`（identity-safe）。`cn2west_stage_a` 里的官方 RSI 零初始化仍在仓库，**不要开跑、不要和本表混用**。
 
-1. **主线**：F3 独占跑完 80k → 自动 resume F2 → 自动 resume F1 → 其后 E12/评测
-2. F0 milestone = 100k；Es/Ec cache 已从该 ckpt 重建（禁止复用 E1 cache）
-3. F2 从 `runs/F2-DELTARSI-A-S3407/stopped_step` 续；F1 从 `runs/F1-OFFRSI-A-S3407/stopped_step` 续（都等前序 DONE）
-4. F3 support = 同字体 style 8 字，**不是** E0 跨字检索；以后若换 E0 bank 必须新开 F3
-5. E12：等 PI 给外部字型来源做 S3（目标 ≥25 个互不相同字型）；此前 E12 数字不进主结论
-6. 旧 E2/E2b：安全 checkpoint 停止、标 non-matched pilot（D-N4）；E1c 取消
-7. F3 热路径仍不打 cosine/`features_many`（D3）；代码加速只在某条臂 STOP 之后再考虑
-
-## 实现边界
-
-- 新实验用新入口、新 run ID、新数据版本目录；不覆盖历史 metrics/ckpt。
-- `code/official` 与 `code/ours` 冻结只读；新逻辑只进 `code/variants/<id>/`。
-- 数据/权重不进 Git；本机用 symlink。
-- 新实验仍须明确指令；E1 已完成，后续评测/修复另开任务。
+1. **主线**：F2 → 80k → F1 → 同一 test16×47 比 F1/F2/F3
+2. E12：T2 方案仍需改；Mac 可并行复训（勿放宽门限）
+3. 旧 E2/E2b：已 STOP，不进主结论
 
 ## 实验登记（摘要）
 
 | ID | 状态 | 说明 |
 |----|------|------|
 | `E1-FTV2-A-S3407` | **completed 100k** | 主表数据域 FT 锚点 |
-| `E1C-FT-CONTINUE-S3407` | **superseded-before-launch** | joint 下不开 |
-| `E2-STAGE-A-S3407` | **stopped @10500** | `stopped_topology_superseded` |
-| `E2B-FT-CONTINUE-S3407` | **stopped @31400** | 同上 |
-| `E12-PHI-S2-S3407` | **bootstrap done** | cache_v1 小池 |
-| `E12-IDCLS-S3407` | **bootstrap done** | cache_v1 小池 |
-| `E12-*-V2-S3407/08/09` | **gate_failed** | cache_v2；字型泄漏 + 同字型负样本，见 review |
-| `E12-*-V3-S3407/08/09` | **gate_failed (T2)** | cache_v3；T1/T3/T4 过，T2 卡在 S3 |
-| `F0-RSIFREE-FT-A-S3407` | **completed 100k** | 选中 100k，val=0.031089；E1@100k=0.029787 |
-| `F1-OFFRSI-A-S3407` | **paused ~300** | 官方 RSI 对照；resume `stopped_step` |
-| `F2-DELTARSI-A-S3407` | **paused 6573** | 等 F3 DONE 后续 `stopped_step` |
-| `F3-JOINT-DS-A-S3407` | **running 13500/80k exclusive** | GPU2 99%；~1.15 s/step；ETA ~21h |
+| `F0-RSIFREE-FT-A-S3407` | **completed 100k** | **整段无 RSI**；val=0.031089 |
+| `F3-JOINT-DS-A-S3407` | **completed 80k** | Δ+Support；test16 像素已采 |
+| `F2-DELTARSI-A-S3407` | **running** | 只开 Δ |
+| `F1-OFFRSI-A-S3407` | **paused ~300** | 官方 RSI 对照 |
+| `E12-*-V4-S3407/08/09` | **gate_failed (T2)** | cache_v4；T2≈0.73–0.80 |
 
 完整表见 `provenance/REGISTRY.md`。
 

@@ -45,12 +45,19 @@ def main(argv=None):
     neg_pool=CrossScriptPairDataset(cfg.data.cache_dir,as_chars(cfg.data.chinese_chars),as_chars(cfg.data.latin_chars),sorted(set(splits["train"])|set(val_f)),cfg.model.in_channels,cfg.train.seed)
     loader=DataLoader(train,batch_size=min(cfg.train.batch_size,len(train)),shuffle=True,generator=make_generator(cfg.train.seed),num_workers=cfg.data.workers,worker_init_fn=worker_init_fn(cfg.train.seed))
     device=device_from_config(cfg); model=PhiS2(cfg.model.in_channels,cfg.model.feature_dim).to(device); opt=torch.optim.AdamW(model.parameters(),lr=cfg.train.lr,betas=tuple(cfg.train.betas),weight_decay=cfg.train.weight_decay,eps=cfg.train.eps)
-    total=cfg.train.max_steps if cfg.train.max_steps>0 else cfg.train.epochs*max(1,len(loader)); warm=cfg.train.warmup_steps if cfg.train.warmup_steps>=0 else cfg.train.warmup_epochs*max(1,len(loader)); sch=scheduler(opt,total,warm); scaler=torch.amp.GradScaler("cuda",enabled=cfg.train.fp16 and device.type=="cuda"); log=JSONLLogger(out/"curves.jsonl"); best=-1.; stale=0; patience=int(getattr(cfg.train,"early_stop_evals",0) or 0); iterator=infinite(loader)
+    total=cfg.train.max_steps if cfg.train.max_steps>0 else cfg.train.epochs*max(1,len(loader)); warm=cfg.train.warmup_steps if cfg.train.warmup_steps>=0 else cfg.train.warmup_epochs*max(1,len(loader)); sch=scheduler(opt,total,warm)
+    use_fp16 = bool(cfg.train.fp16) and device.type == "cuda"
+    scaler = torch.amp.GradScaler("cuda", enabled=True) if use_fp16 else None
+    log=JSONLLogger(out/"curves.jsonl"); best=-1.; stale=0; patience=int(getattr(cfg.train,"early_stop_evals",0) or 0); iterator=infinite(loader)
     for step in range(1,total+1):
         model.train(); a,b,_=next(iterator); a,b=a.to(device),b.to(device); opt.zero_grad(set_to_none=True)
-        with amp_context(device,cfg.train.fp16):
+        with amp_context(device, use_fp16):
             za,zb=model(a),model(b); logits=za@zb.T/cfg.train.temperature; target=torch.arange(len(a),device=device); loss=(F.cross_entropy(logits,target)+F.cross_entropy(logits.T,target))/2
-        scaler.scale(loss).backward(); scaler.unscale_(opt); torch.nn.utils.clip_grad_norm_(model.parameters(),cfg.train.grad_clip); scaler.step(opt); scaler.update(); sch.step(); log.log(step=step,loss=float(loss),lr=sch.get_last_lr()[0])
+        if scaler is not None:
+            scaler.scale(loss).backward(); scaler.unscale_(opt); torch.nn.utils.clip_grad_norm_(model.parameters(),cfg.train.grad_clip); scaler.step(opt); scaler.update()
+        else:
+            loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(),cfg.train.grad_clip); opt.step()
+        sch.step(); log.log(step=step,loss=float(loss),lr=sch.get_last_lr()[0])
         if step%cfg.train.checkpoint_every==0 or step==total:
             auc=evaluate(model,val,device,groups,by_group,neg_pool); payload={"model":model.state_dict(),"optimizer":opt.state_dict(),"scheduler":sch.state_dict(),"step":step,"config_sha256":sha,"val_auc":auc}; torch.save(payload,out/f"step_{step:06d}.pt")
             log.log(step=step,val_auc=auc)
