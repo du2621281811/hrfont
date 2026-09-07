@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HRFont F0–F3 训练看板（离线快照）</title>
+<style>
+:root{--bg:#eef1f5;--card:#fff;--line:#d5dbe3;--muted:#5c6570;--ink:#1a1a1a;--accent:#1f4a6f;--ok:#2c6e49;--warn:#9a6b12;--crit:#8b2e2e;--pause:#5c6570}
+*{box-sizing:border-box} body{margin:0;font:14px/1.45 system-ui,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 18px}
+h1{margin:0;font-size:1.25rem} .meta{color:var(--muted);font-size:12px;margin-top:4px}
+main{max-width:1180px;margin:16px auto;padding:0 14px 48px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px;margin:14px 0}
+.card h2{margin:0 0 10px;font-size:1.05rem}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.stat{flex:1 1 160px;border:1px solid var(--line);padding:10px 12px;background:#f7f9fb}
+.stat .k{font-size:11px;color:var(--muted)} .stat .v{font-size:20px;font-variant-numeric:tabular-nums;margin-top:2px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+.bar{height:8px;background:#e4e9ef;position:relative;margin-top:4px}
+.bar>i{display:block;height:100%;background:var(--accent)}
+.pill{display:inline-block;padding:1px 7px;border:1px solid var(--line);font-size:11px}
+.pill.ok,.pill.done{color:var(--ok);border-color:#b7d4c3} .pill.warn,.pill.running{color:var(--warn);border-color:#e4d0a0}
+.pill.crit{color:var(--crit);border-color:#e0b4b4}
+.pill.paused,.pill.ckpt_val{color:var(--pause)}
+.alert{border:1px solid #e4d0a0;background:#fff8e8;padding:8px 10px;margin:6px 0;font-size:13px}
+.note{border-left:4px solid var(--accent);background:#fff;padding:10px 12px;margin:10px 0;font-size:13px}
+canvas{width:100%;height:260px;background:#fff}
+.mono{font-family:ui-monospace,monospace;font-size:12px}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <h1>HRFont F0–F3 训练看板（离线快照）</h1>
+  <div class="meta" id="hdr">加载 status.json …</div>
+  <div class="meta"><a href="../index.html">← 合作者离线入口</a> · <a href="../../F123_STATUS_20260907.md">臂说明</a> · 本页不自动刷新</div>
+</header>
+<main>
+  <div class="note">
+    <b>怎么读。</b> F0 = 父模型（网络里<strong>没有</strong> RSI 模块，不是只关 offset loss）。
+    F1/F2/F3 从 F0@100k 新挂 identity-safe RSI：F1 官方结构源 · F2 只开 Δ · F3 = Δ + Support×8。
+  </div>
+  <div class="row" id="kpis"></div>
+  <div id="alerts"></div>
+  <section class="card">
+    <h2>各臂状态</h2>
+    <table>
+      <thead><tr><th>臂</th><th>状态</th><th>step</th><th>loss</th><th>ETA（快照时）</th><th>ckpt</th></tr></thead>
+      <tbody id="arms"></tbody>
+    </table>
+  </section>
+  <section class="card">
+    <h2>Train loss（每 100 step）</h2>
+    <canvas id="loss" width="1100" height="260"></canvas>
+  </section>
+  <section class="card">
+    <h2>RSI gain（zero-conv |w|）</h2>
+    <canvas id="rsi" width="1100" height="220"></canvas>
+    <p class="meta">F0 无 RSI。实线 up1，虚线 up2。</p>
+  </section>
+</main>
+<script>
+const COL={F0:"#7a8490",F1:"#1f4a6f",F2:"#c45c26",F3:"#2c6e49"};
+function pill(ph){return '<span class="pill '+ph+'">'+ph+'</span>';}
+function num(x,d){return (x==null||x!==x)?'—':Number(x).toFixed(d);}
+function drawLines(id,series,ylab){
+  const cv=document.getElementById(id),ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height,m={l:52,r:12,t:12,b:32};
+  ctx.clearRect(0,0,W,H);
+  let pts=[]; series.forEach(s=>s.pts.forEach(q=>pts.push(q)));
+  if(!pts.length){ctx.fillStyle='#5c6570';ctx.fillText('无数据',20,20);return;}
+  const xs=pts.map(q=>q.x), ys=pts.map(q=>q.y);
+  const xmin=0,xmax=Math.max(80000,...xs);
+  let ymin=Math.min(...ys),ymax=Math.max(...ys); if(ymax<=ymin)ymax=ymin+1e-6;
+  const ypad=(ymax-ymin)*0.08; ymin=Math.max(0,ymin-ypad); ymax+=ypad;
+  const x=v=>m.l+(v-xmin)/(xmax-xmin)*(W-m.l-m.r);
+  const y=v=>m.t+(1-(v-ymin)/(ymax-ymin))*(H-m.t-m.b);
+  ctx.strokeStyle='#d5dbe3';ctx.beginPath();
+  for(let i=0;i<=4;i++){const yy=m.t+i*(H-m.t-m.b)/4;ctx.moveTo(m.l,yy);ctx.lineTo(W-m.r,yy);}
+  ctx.stroke();
+  ctx.fillStyle='#5c6570';ctx.font='11px system-ui';
+  ctx.fillText(ylab,8,14); ctx.fillText(String(xmin),m.l,H-10); ctx.fillText(String(xmax),W-80,H-10);
+  series.forEach(s=>{
+    if(!s.pts.length)return;
+    ctx.strokeStyle=s.color;ctx.lineWidth=1.4;ctx.setLineDash(s.dash||[]);
+    ctx.beginPath(); s.pts.forEach((q,i)=>{const X=x(q.x),Y=y(q.y);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);});
+    ctx.stroke();ctx.setLineDash([]);
+  });
+  let lx=m.l; series.forEach(s=>{
+    ctx.fillStyle=s.color;ctx.fillRect(lx,8,10,10);ctx.fillStyle='#1a1a1a';
+    ctx.fillText(s.name,lx+14,17); lx+=ctx.measureText(s.name).width+32;
+  });
+}
+function render(S){
+  document.getElementById('hdr').innerHTML='快照 '+S.generated_at+' · 总评 <b>'+S.overall+'</b> · 离线只读';
+  const running=S.arms.filter(a=>a.phase==='running'||a.phase==='ckpt_val').length;
+  const f2=(S.arms.find(a=>a.arm==='F2')||{}).step;
+  document.getElementById('kpis').innerHTML=[
+    ['总评',S.overall],['在训',running+' / 3'],['F0','100k done'],['F3','80k done'],['F2',f2||'—']
+  ].map(([k,v])=>'<div class="stat"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>').join('');
+  document.getElementById('alerts').innerHTML=(S.alerts||[]).map(a=>'<div class="alert">'+(a.msg||a)+'</div>').join('');
+  document.getElementById('arms').innerHTML=S.arms.map(a=>{
+    const ck=(a.ckpt&&a.ckpt.named_steps||[]).join(', ')||'—';
+    return '<tr><td><b>'+a.arm+'</b><div class="meta">'+(a.role||'')+'</div></td><td>'+pill(a.phase)+'</td>'+
+      '<td class="mono">'+Number(a.step).toLocaleString()+' / '+Number(a.max_steps).toLocaleString()+
+      '<div class="bar"><i style="width:'+(a.pct||0)+'%"></i></div></td>'+
+      '<td class="mono">'+num(a.loss,5)+'</td><td>'+(a.eta_h==null?'—':a.eta_h+' h')+'</td><td class="mono">'+ck+'</td></tr>';
+  }).join('');
+  drawLines('loss', S.arms.map(a=>({name:a.arm,color:COL[a.arm]||'#333',pts:(a.curve||[]).map(p=>({x:p.step,y:p.loss}))})), 'loss');
+  const rsi=[];
+  S.arms.filter(a=>a.arm!=='F0').forEach(a=>{
+    rsi.push({name:a.arm+' u1',color:COL[a.arm],pts:(a.rsi||[]).map(p=>({x:p.step,y:p.up1}))});
+    rsi.push({name:a.arm+' u2',color:COL[a.arm],dash:[4,3],pts:(a.rsi||[]).map(p=>({x:p.step,y:p.up2}))});
+  });
+  drawLines('rsi', rsi, '|w|');
+}
+fetch('status.json').then(r=>r.json()).then(render).catch(e=>{
+  document.getElementById('hdr').textContent='读取失败: '+e+' — 请 cd reports/collab_offline && python3 -m http.server 8765';
+});
+</script>
+</body>
+</html>

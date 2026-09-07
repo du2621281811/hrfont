@@ -27,7 +27,7 @@ th{background:#edf1f4}
 <header>
   <p class="muted">离线 HTML · 打开本文件即可，不需要服务器</p>
   <h1>HR-Font 合作者离线包</h1>
-  <p>克隆仓库后，用浏览器直接打开本页。下面链接都是相对路径。</p>
+  <p>克隆仓库后用浏览器打开本页即可。训练曲线页需：<code>cd reports/collab_offline && python3 -m http.server 8765</code>。</p>
 </header>
 <main>
 <div class="note">
@@ -40,6 +40,7 @@ th{background:#edf1f4}
   <a class="card" href="../f03_test16_strat/index.html"><b>test16×47 分层评测</b><p class="muted">官方 / F0@100k / F3@80k · 2256 张 + L1/SSIM/LPIPS</p></a>
   <a class="card" href="../f03_test16_strat/timeline.html"><b>F3 训练过程</b><p class="muted">5k→80k，看变方是不是一开始就有</p></a>
   <a class="card" href="../f03_test16_strat/delta_retrieve/index.html"><b>Δ 检索诊断</b><p class="muted">左汉字依据 · 右灌进 RSI 的西文邻居</p></a>
+  <a class="card" href="f123_board/index.html"><b>F0–F3 训练曲线快照</b><p class="muted">loss / RSI gain · 读 status.json（需本地 http.server）</p></a>
   <a class="card" href="../f3_ckpt_dashboard/index.html"><b>早期 4×5 探针</b><p class="muted">训练中途；不代表全量，以分层评测为准</p></a>
 </div>
 
@@ -48,7 +49,9 @@ th{background:#edf1f4}
   <tr><th>文件</th><th>内容</th></tr>
   <tr><td><code>reports/F123_STATUS_20260907.md</code></td><td>F0–F3 进度、配置表、每条臂实际改了什么（含 F0≠只关 offset loss）</td></tr>
   <tr><td><code>reports/E12_SELFTEST_V4_REVIEW_20260907.md</code></td><td>E12 v4 三种子门结果 + 与 v3 对照</td></tr>
-  <tr><td><code>reports/E12_MAC_COLLAB.md</code></td><td>在 MacBook（Apple Silicon / MPS）上复训 E12 的步骤与数据</td></tr>
+  <tr><td><code>reports/E12_MAC_COLLAB.md</code></td><td>在 MacBook（Apple Silicon / MPS）上复训 E12；cache_v4 已在 git（~18MB）</td></tr>
+  <tr><td><code>collab_offline/training_logs/</code></td><td>F0–F3 heartbeat / train_log / val_log / DONE 快照</td></tr>
+  <tr><td><code>collab_offline/launch_meta/</code></td><td>各臂启动配置 JSON</td></tr>
   <tr><td><code>code/variants/cn2west_f123_rsi/VARIANT.md</code></td><td>F1/F2/F3 代码变体说明</td></tr>
   <tr><td><code>code/variants/cn2west_f0_rsifree/VARIANT.md</code></td><td>F0：整段拿掉 RSI/DCN 模块</td></tr>
 </table>
@@ -58,7 +61,7 @@ th{background:#edf1f4}
   <tr><th>臂</th><th>状态</th><th>一句话</th></tr>
   <tr><td>F0</td><td>完成 100k</td><td>网络里没有 RSI；offset_coefficient=0；父模型</td></tr>
   <tr><td>F3</td><td>完成 80k</td><td>Δ + Support×8；终点图已采</td></tr>
-  <tr><td>F2</td><td>在跑（约 23k+/80k）</td><td>只开 Δ；用来拆「变方」</td></tr>
+  <tr><td>F2</td><td>在跑（23700/80k）</td><td>只开 Δ；用来拆「变方」</td></tr>
   <tr><td>F1</td><td>暂停 300</td><td>官方 RSI 对照；等 F2 后</td></tr>
   <tr><td>E12 v4</td><td>3/3 未过门</td><td>卡在 T2 AUC≈0.73–0.80（门限 0.90）</td></tr>
 </table>
