@@ -7,7 +7,7 @@
 
 E12 回答「候选字形在 CN reference 语境下是否是合理的家族成员」，主输入为 `(R, P)`，GT 不进入主打分。保持单 seed=3407、外部字型池全量利用、family-aware multi-positive SupCon、membership 概率输出与人评终审。先做 ResNet18 主线，其他骨干作为便宜候选；不等待 CoAtNet 权重即可推进。
 
-训练、选模和温度校准只使用外部字体；A/260、生成方法输出及 Es/Ec 不参与这些环节。最终部署使用一个全池重训 encoder。四折中的模型是测量训练流程的临时模型，不是多 seed ensemble。
+训练、选模和温度校准只使用外部字体；A/260、生成方法输出及 Es/Ec 不参与这些环节。calib16（来自 train228）也不得用于 E12 参数拟合。最终部署使用一个全池重训 encoder。四折中的模型是测量训练流程的临时模型，不是多 seed ensemble。
 
 ## 1. 数据与 episode
 
@@ -29,6 +29,8 @@ E12 回答「候选字形在 CN reference 语境下是否是合理的家族成�
 4. 聚合四折得到 macro-family AUC。每族内正例与不同 lineage 的 wrong-ref 配对；使用全部合法 wrong-ref，先在每个 query 内等权，避免候选数多的字符获得额外权重。再对字体族等权求均值。
 5. 以族为 cluster 做 2000 次 bootstrap，seed=3407，报告 percentile 95% CI。这是字体抽样不确定性，不称为训练 seed 方差。
 
+0.90/CI≥0.85 的现实性：扩族提高精度，不自动抬升 AUC（v4 的 0.79 是 5 个固定测试族 pooled cosine 口径）。近似参考——60 族、per-family SD=0.20 时，均值 0.90 的正态 CI 下界 ≈0.849（贴门）；SD=0.10 时 ≈0.875。主均值过门不保证 CI 下界过门，先看 per-family 分布；temperature 是单调变换，不改 AUC 只改校准。
+
 流程通过后，按预注册规则（各折内部 validation 选中次数最多，平局优先 R18）确定部署架构；在全池重训一个模型。部署 temperature 由对应架构的 out-of-fold calibration 预测拟合，明确记录这是 OOF 温度迁移；另报告其在各折独立外层测试上的校准质量，不把全池拟合分数当作泛化分数。
 
 ## 3. Backbone 与训练
@@ -41,6 +43,8 @@ E12 回答「候选字形在 CN reference 语境下是否是合理的家族成�
 | D | frozen CoAtNet-font + probe | 权重许可与 A/260 overlap 核验完成后加入；未就绪记 unavailable |
 
 96×96 渲染不变。预训练骨干若需要 RGB、归一化、patch padding 或其他尺寸适配，在配置中显式记录；不要静默改变渲染数据。probe 时长先测实际吞吐，不将 15 分钟视为完整训练预算。
+
+**D 路重名警报（2026-09-08 实测）**：`external_eval/poster_font_0724/recognitionapi/backup/fontlist_5330.txt` 与 split stems 精确匹配得 train 175/228、val 10/16、**test 12/16**（如 FZChuangHJW_DB、FZCuanBZBKSJW、FZMaWDBSJW）。权重负责人须证明 checkpoint SHA→训练 manifest 零重叠并给出许可，未证明则 D 不入主评测；文件名不同不能证明 lineage 不重叠。
 
 - z = L2-normalize(f(image))；R 默认 mean pool 后归一化。attention pool 是内层 validation 候选。
 - logit `l(P|R)=z_P^T W z_R / 0.07`，主概率 `s=sigmoid(l/T)`；temperature T 只在 calibration 拟合。
@@ -76,3 +80,5 @@ v4 历史参考：cosine T2=0.791/0.795/0.725；62 类 ID T3=0.977。v5.1 的主
 依次交付：M1 数据覆盖与 lineage manifest → M2 首折 R18/候选 probe 和实际时长 → M3 四折 OOF 分数与 T1/T2/T3/T4/C1 → M4 全池部署模型及 SHA → M5 F0/F2/F3/F3b 固定样本面板与人评。
 
 本次代码修复：`train_membership.py` 将 val 校准与 test 报告分离，冻结 encoder 的 BN；小池 smoke 明示 `smoke_overlap`，正式运行不借用 test。`data.py` 修复偶数字体池的 family-label 绑定。`train_utils.py` 正确处理 AUC/AP 的同分样本。旧 self_tests.py 仍是 legacy gate，执行机按本文新增 v5.1 入口，保留旧入口用于复现。
+
+**关键决策截止（建议，需 PI 确认）**：9/10 冻结 CV/T3/GT 边界与覆盖池初审 → 9/15 E12 一次冻结 go/no-go + F3b 配置冻结 → 9/20 F1/F2 核心 80k 链 + E9 最小四格 + 盲评核心题本 → 9/23 冻结方法与全部评价参数 → 9/25 只做结果核验、统计复核、写作与复现打包。失败时减法优先：砍 D 路线、砍位置搜索/完整析因，不砍验证。
