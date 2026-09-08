@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # 主服务
+  font_recommend_service:
+    build: .
+    image: font_recommend_service_v2:latest
+    container_name: font_recommend_service_v2
+    restart: always
+    security_opt:
+      - seccomp=unconfined
+      - apparmor=unconfined
+    ports:
+      - "11005:11005"
+    environment:
+      - OPENBLAS_NUM_THREADS=1
+      - OMP_NUM_THREADS=1
+    volumes:
+      - $PWD/shared_data:/shared_data         # 与FTP共享的卷
+      - $PWD:/app/font_recommend_service   # 主服务代码目录
+    command: sh -c "cd /app/font_recommend_service && python3 -u service.py"
+    depends_on:
+      - vsftpd
+    networks:
+      - app-network
+
+  # FTP 服务
+  vsftpd:
+    image: fauria/vsftpd:latest
+    container_name: vsftpd
+    restart: always
+    ports:
+      - "20:20"
+      - "21:21"
+      - "21100-21110:21100-21110" 
+    environment:
+      - FTP_USER=ftpuser
+      - FTP_PASS=12345678
+      - PASV_ADDRESS=172.19.45.60  # 替换为服务器公网IP
+      - PASV_MIN_PORT=21100 # 容器内部的端口号
+      - PASV_MAX_PORT=21110
+      - LOG_STDOUT=YES
+      - FTP_FAKE_HOME=TRUE
+      - chroot_list_file=chroot_list
+      - local_root=shared_data
+    volumes:
+      - $PWD/home/ftpuser:/home/ftpuser        # 与主服务共享的卷
+      #- $PWD/vsftpd.conf:/etc/vsftpd/vsftpd.conf
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

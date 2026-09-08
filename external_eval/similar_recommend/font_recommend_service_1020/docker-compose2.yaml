@@ -1,0 +1,10 @@
+services:
+  font_recommend_service:
+    build: .
+    image: font_recommend_service_v2:latest
+    container_name: font_recommend_service
+    restart: always
+    volumes:
+      - $PWD:/app/font_recommend_service
+    network_mode: host
+    command: sh -c "cd /app/font_recommend_service && python3 -u service.py"

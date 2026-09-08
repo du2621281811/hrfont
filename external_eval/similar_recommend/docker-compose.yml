@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  font_recommend_manage_service:
+    build: ./font_manage_service_1020
+    image: font_recommend_manage_service_v2:latest
+    container_name: font_recommend_manage_service_v2
+    restart: always
+    ports:
+      - "11006:11006"
+    volumes:
+      - ./font_manage_service_1020:/app/font_recommend_manage_service
+      - /media/sdb3/rancai/resources:/resources
+    security_opt:
+      - seccomp:unconfined
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+    command: sh -c "cd /app/font_recommend_manage_service && python3 -u service.py --ftp_host vsftpd"
+    depends_on:
+      - vsftpd
+    networks:
+      - app-network
+
+  font_recommend_service:
+    build: ./font_recommend_service_1020
+    image: font_recommend_service_v2:latest
+    container_name: font_recommend_service_v2
+    restart: always
+    security_opt:
+      - seccomp=unconfined
+      - apparmor=unconfined
+    ports:
+      - "11005:11005"
+    environment:
+      - OPENBLAS_NUM_THREADS=1
+      - OMP_NUM_THREADS=1
+    volumes:
+      - ./font_recommend_service_1020/shared_data:/shared_data
+      - ./font_recommend_service_1020:/app/font_recommend_service
+    command: sh -c "cd /app/font_recommend_service && python3 -u service.py --host font_recommend_manage_service"
+    depends_on:
+      - font_recommend_manage_service
+      - vsftpd
+    networks:
+      - app-network
+
+  vsftpd:
+    image: fauria/vsftpd:latest
+    container_name: vsftpd
+    restart: always
+    ports:
+      - "2120:20"
+      - "2121:21"
+      - "21200-21210:21200-21210"
+    environment:
+      - FTP_USER=ftpuser
+      - FTP_PASS=12345678
+      - PASV_ADDRESS=172.19.45.60
+      - PASV_MIN_PORT=21200
+      - PASV_MAX_PORT=21210
+      - LOG_STDOUT=YES
+      - FTP_FAKE_HOME=TRUE
+      - chroot_list_file=chroot_list
+      - local_root=shared_data
+    volumes:
+      - ./font_recommend_service_1020/home/ftpuser:/home/vsftpd/ftpuser
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

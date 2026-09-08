@@ -1,0 +1,18 @@
+services:
+  font_recommend_manage_service:
+    build: .
+    image: font_recommend_manage_service_v2:latest
+    container_name: font_recommend_manage_service_v2
+    restart: always
+    ports:
+      - "11006:11006"
+    volumes:
+      - $PWD:/app/font_recommend_manage_service
+      - /media/sdb3/rancai/resources:/resources
+    security_opt:
+      - seccomp:unconfined
+    network_mode: host
+    runtime: nvidia
+    environment:
+          - NVIDIA_VISIBLE_DEVICES=3
+    command: sh -c "cd /app/font_recommend_manage_service && python3 -u service.py"

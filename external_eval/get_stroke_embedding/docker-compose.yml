@@ -1,0 +1,39 @@
+services:
+  feature_embedding_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "${EMBEDDING_API_IMAGE:-controlnet-feature-embedding-api:latest}"
+    container_name: controlnet-feature-embedding-api
+    working_dir: /app
+    command:
+      - python
+      - app.py
+      - --weights
+      - /app/weights/stroke_embedding.pt
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8899"
+      - --device
+      - cpu
+      - --stroke-mode
+      - "${STROKE_EMBED_MODE:-style_token}"
+      - --skeleton-url
+      - "${SKELETON_API_URL:-http://172.19.52.231:28000/extract_skeleton}"
+    ports:
+      - "${API_PORT:-8899}:8899"
+    environment:
+      PYTHONUNBUFFERED: "1"
+      OMP_NUM_THREADS: "${CPU_THREADS:-4}"
+      MKL_NUM_THREADS: "${CPU_THREADS:-4}"
+    volumes:
+      - "${INPUT_DATA_DIR:-./input}:/data:ro"
+    shm_size: "2gb"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8899/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
