@@ -161,7 +161,7 @@ Stage 3 的 **Go** 是 2AFC 预注册核心比较达到计划样本量、质量�
 
 修订：
 
-- **训练：全部外部字型入训练**（26 → 目标 ≥60 lineage 去重后全量使用）。
+- **训练：全部外部字型入训练**（26 → 目标 ≥60 lineage 去重后全量使用）。**单 seed（PI 2026-09-07）**：一个 encoder + 全池 CV 测 T2，训练 1-3 h/模型；不要求 3 seed 重复（组件定位；审稿需要时再补第二 seed）。
 - **测量：leave-one-family-out CV**（或 ≥15 family/fold 的分层 K-fold），T2 = 跨 fold 的 macro-family AUC + family-cluster bootstrap CI；三训练 seed × 多 split seed 分开报告。**取消「固定 5 族 test」**——那对组件是无意义的自我限制。
 - 门限口径不变（主 AUC ≥0.90、稳定性下限 ≥0.85、其余 T1/T3/T4 同前），但**测量基础从「一个 5 族固定 split」换成「全池 CV」**——这是统计效力修复，不是门限放宽。
 
