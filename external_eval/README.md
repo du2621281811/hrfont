@@ -15,7 +15,7 @@
 - **没有：** `.pth` / `.pt` 权重、大量 `.ttf` 字库、运行日志、`__pycache__`。  
   GitHub 单文件 100 MB 限制；整包约 1.2 GB，不适合进主仓库。
 
-**完整原包（含权重）** 挂在 GitHub Release（见下方链接，创建后填）。  
+**完整原包（含权重）**：[GitHub Release `external-eval-company-fonts-20260908`](https://github.com/du2621281811/hrfont/releases/tag/external-eval-company-fonts-20260908)  
 训练机本地仍保留：
 
 ```text
