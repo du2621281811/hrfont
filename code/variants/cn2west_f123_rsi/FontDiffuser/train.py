@@ -572,10 +572,13 @@ def main():
                                                     args, source_draw, style.device)
                     cfg_mask = torch.rand(bsz, device=style.device) < args.drop_prob
                     content_feats = _content_features(ec_cache, samples, cfg_mask, style.device)
-                    support = _support_tokens(ec_cache, adapter, bank, samples, support_draw,
-                                              args, style.device)
                     style = style.clone()
                     style[cfg_mask] = 0
+                # Cache features are frozen, but SupportAdapter must build an
+                # autograd graph. Calling it inside no_grad freezes its initial
+                # zero output for the entire F3 run.
+                support = _support_tokens(ec_cache, adapter, bank, samples, support_draw,
+                                          args, style.device)
                 loss, _ = _forward_batch(model, noise_scheduler, perceptual_loss, args, samples,
                                          style, structure, content_feats, train=True,
                                          support_tokens=support)

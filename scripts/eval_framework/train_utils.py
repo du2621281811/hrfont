@@ -15,12 +15,19 @@ def amp_context(device, enabled):
 def binary_auc(labels, scores):
     labels=torch.as_tensor(labels).long(); scores=torch.as_tensor(scores).float(); pos=(labels==1).sum().item(); neg=(labels==0).sum().item()
     if not pos or not neg: return float("nan")
-    order=torch.argsort(scores); ranks=torch.empty_like(order,dtype=torch.float); ranks[order]=torch.arange(1,len(scores)+1,dtype=torch.float)
+    order=torch.argsort(scores); _,counts=torch.unique_consecutive(scores[order],return_counts=True)
+    ends=counts.cumsum(0); starts=ends-counts
+    average_ranks=(starts+1+ends).float()/2
+    ranks=torch.empty_like(scores); ranks[order]=torch.repeat_interleave(average_ranks,counts)
     return float((ranks[labels==1].sum()-pos*(pos+1)/2)/(pos*neg))
 
 def pr_auc(labels, scores):
     y=torch.as_tensor(labels).float(); s=torch.as_tensor(scores); order=torch.argsort(s,descending=True); y=y[order]
-    precision=y.cumsum(0)/torch.arange(1,len(y)+1); return float((precision*y).sum()/max(1.,float(y.sum())))
+    # Non-interpolated average precision: tied scores enter at one threshold.
+    _,counts=torch.unique_consecutive(s[order],return_counts=True)
+    ends=counts.cumsum(0); tp=y.cumsum(0)[ends-1]
+    positive_increments=torch.diff(torch.cat((tp.new_zeros(1),tp)))
+    return float(((tp/ends)*positive_increments).sum()/max(1.,float(y.sum())))
 
 def ece(labels, probs, bins=10):
     y=torch.as_tensor(labels).float(); p=torch.as_tensor(probs).float(); total=0.

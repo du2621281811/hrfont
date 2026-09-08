@@ -193,8 +193,11 @@ class MembershipDataset(Dataset):
         if len(self.families)<2: raise ValueError("MembershipDataset needs >=2 families")
     def __len__(self): return self.episodes
     def __getitem__(self, i):
-        rng=random.Random(self.seed+i); ref_family=self.families[i%len(self.families)]; label=1 if i%2==0 else 0
+        # A positive/negative pair shares its reference family and query char.
+        # Using i % n ties each family to one label whenever n is even.
+        pair=i//2
+        rng=random.Random(self.seed+pair); ref_family=self.families[pair%len(self.families)]; label=1 if i%2==0 else 0
         candidates=[x for x in self.near.get(ref_family,[]) if x in self.families and x!=ref_family] or [x for x in self.families if x!=ref_family]
-        query_family=ref_family if label else candidates[rng.randrange(len(candidates))]; ch=self.query_chars[(i//2)%len(self.query_chars)]
+        query_family=ref_family if label else candidates[rng.randrange(len(candidates))]; ch=self.query_chars[(pair//len(self.families))%len(self.query_chars)]
         query,_=self.base[self.by[(query_family,ch)]]; refs=torch.stack([self.base[self.by[(ref_family,r)]][0] for r in self.ref_chars])
         return query, refs, torch.tensor(float(label)), query_family, ref_family
