@@ -31,5 +31,6 @@ Solo is about **3×** the concurrent F3b period (host I/O / cache contention, no
 - style tokens = same 9 global as F1/F2 (no local64 in this run)
 
 Canvas / 「太规整」结论：`reports/STYLE_REGULARITY_AND_CANVAS_20260909.md`  
+生成器改动 + E12 同分不变量：`reports/GENERATOR_STYLE_PLAN_20260909.md`（明天做 A1；今天只保 F1）  
 同字空间统计：`reports/samecontent_spatial_variation/`
 

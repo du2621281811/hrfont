@@ -49,6 +49,10 @@ Owner: agent (for PI review)
 ## D10 — F1 solo is ~3× faster than F1∥F3b (observation, 2026-09-09 15:05Z)
 **Observation:** After stopping stroke-bank F3b, F1 tqdm median fell from ~2.9–3.1 s/it (steps 30k–35.3k) to ~1.02 s/it (36.2k–36.8k). No batch/lr change. Matches D7 host I/O contention. Keep F1 solo until DONE; do not start topology F3b in parallel.
 
+## D11 — Generator style plan + E12 score invariant parked for tomorrow (2026-09-09 night)
+**Decision:** Do not start A1/A2 or E12 scorer fixes tonight. Tonight = F1 continuity only.
+**Parked:** `reports/GENERATOR_STYLE_PLAN_20260909.md` — A1 k-ref inference; A2-geo / A2-local after F1; E12 invariant L1(query)=0 ⇒ same logit (fix `load_rgb01` bilinear on 96×96). L1 is not an E12 training target.
+
 ## Status board
 Live: `reports/TRAINING_STATUS_F1_F3B_E12.md`
 PI locks: `reports/PI_EXEC_DECISIONS_20260909.md`
