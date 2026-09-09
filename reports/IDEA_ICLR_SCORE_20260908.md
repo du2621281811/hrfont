@@ -1,12 +1,14 @@
 # HR-Font Story / Idea：ICLR 2027 评估复审
 
-日期：2026-09-08｜核对 HEAD：`db59c5f4e51739a66b20bf56dfaebf9a7a8ecd0c`
+日期：2026-09-08｜设计依据：`db59c5f4e51739a66b20bf56dfaebf9a7a8ecd0c`｜续审核对 HEAD：`97354cc7d36fc25077e343222398f5a18e0037ae`
+
+状态：review 报告已完成；保留原稿的 idea-only 评分与主体论证，续审补充近邻边界、修订验收清单及可独立检索的参考文献。两次快照之间仅新增本报告，没有新的方法设计变更。本次不修改执行规格、不启动实验，也不将建议视为 PI 已批准决策。
 
 ## 0. 评审范围与版本口径
 
 **只评价问题选择、方法洞见、概念一致性、实验的可识别性与贡献潜力。不评价实现进度、已有结果、训练状态、代码成熟度，也不因任何实验尚未完成扣分。**下面问的是“即便按设计得到阳性结果，可以支持什么结论”，而不是“现在有没有结果”。这是与上一版 **7.8/10、Accept with Revisions** 一致的 idea-only 尺度，不是录用概率，也不是 ICLR 官方评分表。
 
-已按指定顺序阅读旧故事、两份旧评审、F3b、E12 v5.1 和执行规格指定章节。上一版 EVAL 的 Reject(now)→Borderline 混有证据快照判断，不用于本次扣分；上一版 SCORE 的 7.8 才是直接比较基准。五个历史攻击按本次任务给定顺序重新组织。
+核对依据包括旧故事、两份旧评审、F3b、E12 v5.1 和执行规格。上一版 EVAL 的 Reject(now)→Borderline 混有证据快照判断，不用于本次扣分；上一版 SCORE 的 7.8 才是直接比较基准。五个历史攻击按问题、评价尺、SOTA 声称、support 信息预算及公平性重新组织。
 
 本报告采用的语义边界：
 
@@ -43,6 +45,8 @@
 FontDiffuser 已把多尺度内容聚合和风格对比学习纳入字体生成；不能把“多尺度”或“风格建模”泛称为本项目首次提出。[W1] CF-Font 已研究内容特征融合，因此 bank 融合思想本身不足以区分 HR-Font；区别应落在条件源的目标字符对齐与中性残差构造。[W2] IP-Adapter 已提出解耦 cross-attention，因此独立注入不是单独的架构发明。[W3] 字体领域也已有全局与局部风格结合，64 个局部 token 应被定位为增强条件带宽，而非核心首创。[W4]
 
 这些先例**不等于**已经包含 HR-Font 的精确组合。它们支持“组合创新、任务驱动的条件先验”这一定位，而不支持“毫无新意”。本轮只核对上述近邻原文，不声称完成截至 2026-09-08 的穷尽性查新；也不依据未核实的相似名称给其他工作追加机制。
+
+**续审补充：CF-Font 是实质性近邻，不只是泛指 bank 融合。**其论文明确按字体级距离线性混合 basis fonts 中对应字符的内容特征。[W2] 因而“同字 + 字体相似度加权融合”也不能单独充当区别；HR-Font 更窄的差异在于参考集驱动的库选择、共同中性底残差以及将其作为 RSI 形变条件的组合。应把同库同字绝对聚合对照列为首要机制控制；该控制不是重现 CF-Font 整个系统，也不能替代 faithful CF-Font baseline。
 
 ## 2. 上一版五攻击点逐条复查
 
@@ -246,6 +250,24 @@ v5.1 显著改进的是评价流程独立性。更深的构念问题仍然存在
 
 **给作者的核心建议：不再扩大方法列表，修正两个名词，补一个关键对照。**“个体证据”改“结构条件化库先验”；“合理性概率”改“家族兼容性代理”；以同库同字绝对源对照守住 residual 的真正创新边界。
 
+## 8. 修订验收与范围控制
+
+以下是作者修订的验收合同，不是已完成实验的勾选表，也不是新实验启动授权。
+
+| 优先级 | 修订项 | 可验收交付 | 若不满足，保留什么结论 |
+|---|---|---|---|
+| 必需 | 统一 support 的证据身份 | 摘要、方法图及正文均区分目标 refs、跨库均值和旧 own-font F3；不再称跨库均值为目标个体的新观测 | 结构条件化库先验的组合增量 |
+| 必需 | 限定 E12 构念 | 同族标签、外部四折、生成域盲评和合理异族候选分别报告；membership 概率不命名为普遍合理性概率 | 家族匹配代理；效度不足时仅作诊断 |
+| 升格 residual claim 必需 | 同库同字绝对源对照 | 与 Δ 臂共享 J、α、B0/identity 输入、编码器、RSI、优化和选择预算，只比较是否减 neutral；记录源范数与归一化差异 | F1/F2 的条件源替换总效应，不宣称 residual 独立优势 |
+| 升格互补 claim 必需 | support × local 四格 | 补 local-only；预先指定指标方向、结果尺度、字体聚类区间及条件效应 | 现有 support-only→full 的条件增量，不宣称协同 |
+| 可选 | SDF / 可辨识性扩展 | 在独立诊断中检验 donor 几何分歧是否比 α entropy 更能预测不一致，再决定是否另立方法臂 | future work，不增加当前 idea 分数或主线依赖 |
+
+**绝对源对照的解释限制：**若 residual 胜出，只支持本表示、归一化与优化协议下的条件构造优势，不自动证明新的变化空间；若没有显著差异，也不等于证明两者等价，等价或非劣结论需要事先定义 margin 与相应区间检验。
+
+**对前次 SDF+C 建议的续审：**donor 分歧只能先称 bank-conditional disagreement，top-10 softmax 不是经校准的后验。库中缺少另一种合理模式时，低方差仍可能自信地错；外部 support 也不增加目标字体的观测信息。SDF 模式路由是可检验的后续提案，不是当前 F3b 已有功能。若未来引入模式条件，必须避免把与真实训练目标不相容的随机模式和单一 GT 直接配对，却仍期望模型遵循该模式；训练时模式分配、推理时模式选择及不读取测试 GT 的规则需要单独定义。
+
+续审遵循“问题优先、拆分贡献、简洁性检验”：先确认残差相对绝对源到底买到了什么，再决定是否增加新的几何表示或不确定性路由。**本报告完成，不代表这些修订已在项目内实施；评分维持 7.7/10。**
+
 ## 附：核对依据
 
 ### 本地文档
@@ -261,7 +283,9 @@ v5.1 显著改进的是评价流程独立性。更深的构念问题仍然存在
 
 ### 已核对的一手文献（仅用于近邻定位）
 
-- [W1] Yang et al. *FontDiffuser: One-Shot Font Generation via Denoising Diffusion with Multi-Scale Content Aggregation and Style Contrastive Learning*. AAAI 2024，arXiv:2312.12142。支持多尺度内容与风格学习的先例定位。 citeturn0view0
-- [W2] Wang et al. *CF-Font: Content Fusion for Few-Shot Font Generation*. CVPR 2023，1858–1867，arXiv:2303.14017。支持内容融合的先例定位，不据此认定已包含本项目精确残差构造。 citeturn0search0turn0search13
-- [W3] Ye et al. *IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models*. arXiv:2308.06721。支持解耦 cross-attention 已有先例。 citeturn0view1
-- [W4] Pan et al. *Few Shot Font Generation Via Transferring Similarity Guided Global Style and Quantization Local Style*. ICCV 2023，19506–19516。支持全局/局部风格结合已有先例，不将其与 HR-Font 的 token 构造等同。 citeturn0search4
+- [W1] Yang et al. *FontDiffuser: One-Shot Font Generation via Denoising Diffusion with Multi-Scale Content Aggregation and Style Contrastive Learning*. AAAI 2024，arXiv:2312.12142，DOI `10.48550/arXiv.2312.12142`。核对 arXiv 原始摘要及会议标注，支持多尺度内容与风格学习的先例定位。
+- [W2] Wang et al. *CF-Font: Content Fusion for Few-Shot Font Generation*. CVPR 2023，1858–1867，arXiv:2303.14017，DOI `10.48550/arXiv.2303.14017`。核对 CVF 论文页和正文引言；已包括对应字符内容特征的加权融合，不据此认定已包含本项目精确残差构造。
+- [W3] Ye et al. *IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models*. arXiv:2308.06721，DOI `10.48550/arXiv.2308.06721`。核对 arXiv 原始摘要，支持解耦 cross-attention 已有先例。
+- [W4] Pan et al. *Few Shot Font Generation Via Transferring Similarity Guided Global Style and Quantization Local Style*. ICCV 2023，CVF open-access 页码 19506–19516，arXiv:2309.00827，DOI `10.48550/arXiv.2309.00827`。核对 CVF 原始摘要，支持全局/局部风格结合已有先例，不将其与 HR-Font 的 token 构造等同。
+
+文献核对日期：2026-09-08。使用稳定题名、arXiv ID 和 DOI，避免将仅在聊天会话可解析的引用标记写入版本化报告。上述核对足以约束局部 novelty 声称，不构成全面文献综述。

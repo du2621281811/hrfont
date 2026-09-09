@@ -1,0 +1,30 @@
+{
+  "builder": "scripts/build_f3b_support_bank_topology.py",
+  "font_path": "/Users/xiaoweiliang/projects/hrfont/artifacts/e12/fonts/noto_sans_sc/NotoSansSC[wght].ttf",
+  "font_sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+  "canvas": 128,
+  "inner": 112,
+  "font_size": 112,
+  "top": 16,
+  "block_weights": {
+    "counts": 0.45,
+    "direction": 0.25,
+    "projection": 0.25,
+    "geometry": 0.05
+  },
+  "counts_scale_log1p_max": [
+    2.0794415416798357,
+    2.0794415416798357,
+    3.332204510175204,
+    3.1354942159291497
+  ],
+  "missing_glyphs": [],
+  "n_target": 295,
+  "n_han": 338,
+  "signature_table_sha256": "9ca48f3fc2890df1fd7057a82f42c0c8be9a36c9da5524117a286d998bc391ed",
+  "bank_sha256": "6cdefe7035f6e39bc2514e6aa6eb5eadf26293250a282d02001c165b738bc0c1",
+  "schema": {
+    "bank_keys": "uXXXX target cp -> list[uXXXX style cp]",
+    "compat": "train.py bank['support'][target_cp]"
+  }
+}
