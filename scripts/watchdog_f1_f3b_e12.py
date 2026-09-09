@@ -3,10 +3,13 @@
 
 Policy (frozen):
   - Never degrade batch/lr/steps/seed.
-  - Never create STOP files.
+  - Never create STOP files (except the one-shot cancel of the old stroke-bank F3b,
+    which is done out-of-band; this process must not relaunch that run).
   - Adopt already-running train PIDs; only relaunch when the process is dead
     and DONE/test_metrics is missing.
-  - Resume F1/F3b from stopped_step if present else last_state.
+  - Resume F1 from stopped_step if present else last_state.
+  - New F3b (`f3b_topology_ownfont_s3407`, topology bank, own-font Ec) launches
+    only after F1@80k is DONE. Do not resume the old stroke-bank run.
   - Survive Cursor/SSH disconnects (caller must launch with setsid/nohup).
 
 Network blips are ignored — all work is local disk + GPU.
@@ -30,7 +33,9 @@ DATA = ROOT / "data/fontdiffuser-p253-t295-s338-cn2west-v2"
 SPLIT = ROOT / "manifests/split_v3_228_16_16.json"
 ES = ROOT / "artifacts/f0/es_spatial_f0"
 EC = ROOT / "artifacts/f0/ec_multiscale_f0"
-BANK = ROOT / "artifacts/f0/support_bank_f3b_stroke.json"
+BANK = ROOT / "artifacts/f0/support_bank_f3b_topology.json"
+OLD_F3B = ROOT / "runs/f3b_joint_crossbank_s3407"
+NEW_F3B = ROOT / "runs/f3b_topology_ownfont_s3407"
 WD = ROOT / "reports/watchdog_f1_f3b_e12"
 INCIDENTS = WD / "incidents.jsonl"
 STATUS = WD / "status.json"
@@ -174,7 +179,7 @@ def f1_done() -> bool:
 
 
 def f3b_done() -> bool:
-    p = ROOT / "runs/f3b_joint_crossbank_s3407/DONE.json"
+    p = NEW_F3B / "DONE.json"
     if not p.is_file():
         return False
     try:
@@ -182,6 +187,11 @@ def f3b_done() -> bool:
         return int(d.get("global_step", 0)) >= 80000 and d.get("status") == "completed"
     except Exception:
         return False
+
+
+def old_f3b_alive() -> int | None:
+    pid = pgrep_cmd(r"train\.py --arm F3b .*f3b_joint_crossbank_s3407")
+    return pid if pid and alive(pid) else None
 
 
 def membership_done() -> bool:
@@ -242,45 +252,52 @@ def ensure_f1() -> dict:
 
 
 def ensure_f3b() -> dict:
-    run = ROOT / "runs/f3b_joint_crossbank_s3407"
+    """New topology F3b after F1; never resume the old stroke-bank run."""
+    old_pid = old_f3b_alive()
+    if old_pid:
+        return {
+            "job": "F3b",
+            "state": "waiting_old_stop",
+            "old_pid": old_pid,
+            "old_step": read_step(OLD_F3B),
+            "note": "stroke-bank F3b still alive; not relaunching it",
+        }
+    if not f1_done():
+        return {
+            "job": "F3b",
+            "state": "waiting_f1",
+            "f1_step": read_step(ROOT / "runs/F1-OFFRSI-A-S3407"),
+            "run": str(NEW_F3B),
+            "bank": str(BANK),
+        }
+    run = NEW_F3B
     if f3b_done():
         return {"job": "F3b", "state": "done", "step": read_step(run)}
     stop = run / "STOP"
     if stop.exists():
         stop.unlink()
-        log_incident("removed_stop", {"job": "F3b"})
-    pid = pgrep_cmd(r"train\.py --arm F3b .*f3b_joint_crossbank_s3407")
+        log_incident("removed_stop", {"job": "F3b", "run": str(run)})
+    pid = pgrep_cmd(r"train\.py --arm F3b .*f3b_topology_ownfont_s3407")
     if pid and alive(pid):
         return {"job": "F3b", "state": "running", "pid": pid, "step": read_step(run)}
     rd = resume_dir(run)
-    if rd is None:
-        # First launch from F0 parent (no resume).
-        cmd = [
-            PY, str(VARIANT / "train.py"),
-            "--arm", "F3b", "--rsi_source", "delta", "--support",
-            "--support_drop", "0.2", "--support_k", "8", "--source_drop", "0.25",
-            "--seed", "3407",
-            "--experience_name", "f3b_joint_crossbank_s3407",
-            "--output_dir", str(run),
-            "--support_bank", str(BANK),
-            *COMMON,
-        ]
-        pid = launch(cmd, VARIANT, gpu=0, log_path=ROOT / "logs/f3b/f3b_resume.log")
-        log_incident("launch_f3b_fresh", {"pid": pid})
-        return {"job": "F3b", "state": "launched_fresh", "pid": pid}
     cmd = [
         PY, str(VARIANT / "train.py"),
         "--arm", "F3b", "--rsi_source", "delta", "--support",
         "--support_drop", "0.2", "--support_k", "8", "--source_drop", "0.25",
         "--seed", "3407",
-        "--experience_name", "f3b_joint_crossbank_s3407",
+        "--experience_name", "f3b_topology_ownfont_s3407",
         "--output_dir", str(run),
         "--support_bank", str(BANK),
         *COMMON,
-        "--resume_from", str(rd),
     ]
-    pid = launch(cmd, VARIANT, gpu=0, log_path=ROOT / "logs/f3b/f3b_resume.log")
-    log_incident("relaunch_f3b", {"pid": pid, "resume": str(rd), "step": read_step(run)})
+    if rd is None:
+        pid = launch(cmd, VARIANT, gpu=0, log_path=ROOT / "logs/f3b/f3b_topology.log")
+        log_incident("launch_f3b_topology_fresh", {"pid": pid, "bank": str(BANK)})
+        return {"job": "F3b", "state": "launched_fresh", "pid": pid, "run": str(run)}
+    cmd = cmd + ["--resume_from", str(rd)]
+    pid = launch(cmd, VARIANT, gpu=0, log_path=ROOT / "logs/f3b/f3b_topology.log")
+    log_incident("relaunch_f3b_topology", {"pid": pid, "resume": str(rd), "step": read_step(run)})
     return {"job": "F3b", "state": "relaunched", "pid": pid, "resume": str(rd)}
 
 

@@ -2,13 +2,15 @@
 
 Locked for implementation on this machine:
 
-1. **F3b support chars**: preset CN subset + stroke-type bucket sampling (not topology top-16).
+1. **F3b support chars**: topology ranking top-16 (pinned). Stroke-bucket bank is a control only.
 2. **F3b support features**: **own-font Ec only** (option B). Cross-bank train ≠ own-font infer.
 3. **E12**: may **fit on main train228** StyleImage; narrative = same-domain protocol scorer (not open-world perfect reasonableness). **No CoAtNet**.
-4. **F1**: resume from stopped_step → 80k (started).
-5. **F3b run id**: `f3b_joint_crossbank_s3407` (name kept; features are own-font).
-6. **F3b adapter**: standard random init (not zero-init).
-7. **Schedule**: F3b launched with **80k horizon** from F0 (evaluate at 20k; can continue without reschedule).
+4. **F1**: resume from stopped_step → 80k (running; do not interrupt).
+5. **F3b run ids**:
+   - **stopped:** `f3b_joint_crossbank_s3407` (stroke-bucket, own-font) at `stopped_step` 10883.
+   - **queued after F1:** `f3b_topology_ownfont_s3407` from F0, bank `artifacts/f0/support_bank_f3b_topology.json`.
+6. **F3b adapter**: standard random init (not zero-init). Injection = up-path style attention concat, not RSI.
+7. **Schedule**: new F3b launches with **80k horizon** from F0 after F1 completes (evaluate at 20k; can continue without reschedule).
 
 Active GPUs (intent):
 - GPU2: F1

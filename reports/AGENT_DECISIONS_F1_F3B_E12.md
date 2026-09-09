@@ -40,6 +40,15 @@ Owner: agent (for PI review)
 **Decision:** Watchdog may `torch.load` trainer_state occasionally to pick resume dir; keep as-is.
 **Why:** Correctness of resume path > micro-optimizing the watchdog. Heartbeat is preferred for step display when present.
 
+## D9 — Stop stroke-bank F3b; queue topology F3b after F1 (PI 2026-09-09 evening)
+**Decision:** Checkpoint-stop `f3b_joint_crossbank_s3407` (stroke-bucket bank). Do **not** resume it. Keep F1 running to 80k. After F1 `DONE.json`, launch a **new** run `f3b_topology_ownfont_s3407` from F0 with `artifacts/f0/support_bank_f3b_topology.json`.
+**Locked protocol for the new run:** own-font Ec; topology top-16 / train \(k_s\sim U\{4..16\}\) / infer top-8; SupportAdapter concat into **up-path style attention** (not RSI); standard (non-zero) adapter init; same F2 Δ/RSI/9 global style tokens. No local-64 style tokens in this run (would confound F2 vs F3b).
+**Why:** User confirmed own-font + current injection; topology bank is the pinned char scheme. Old stroke-bank run is the wrong treatment.
+**Artifacts:** old `stopped_step` kept; watchdog states `waiting_f1` then GPU0 launch.
+
+## D10 — F1 solo is ~3× faster than F1∥F3b (observation, 2026-09-09 15:05Z)
+**Observation:** After stopping stroke-bank F3b, F1 tqdm median fell from ~2.9–3.1 s/it (steps 30k–35.3k) to ~1.02 s/it (36.2k–36.8k). No batch/lr change. Matches D7 host I/O contention. Keep F1 solo until DONE; do not start topology F3b in parallel.
+
 ## Status board
 Live: `reports/TRAINING_STATUS_F1_F3B_E12.md`
 PI locks: `reports/PI_EXEC_DECISIONS_20260909.md`
