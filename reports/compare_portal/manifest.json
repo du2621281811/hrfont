@@ -1,0 +1,137 @@
+{
+  "generated_at": "2026-09-09T02:40:29.452384+00:00",
+  "protocol": {
+    "n_fonts": 16,
+    "chars_n": 47,
+    "seed": 3407,
+    "sampler": "dpmsolver++ 20 CFG7.5 order2 multistep",
+    "split": "test"
+  },
+  "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. E1 merged from formal strat (same protocol A / seed 3407); P1 byte-identical to f03 P1.",
+  "metrics_rows": [
+    {
+      "id": "P1",
+      "label": "官方 P1",
+      "n": 752,
+      "L1": 0.10353848251682568,
+      "SSIM": 0.44508826177154837,
+      "LPIPS": 0.272570866784279
+    },
+    {
+      "id": "E1_100k",
+      "label": "E1 官方RSI@100k",
+      "n": 752,
+      "L1": 0.06851664289926238,
+      "SSIM": 0.6520757053661695,
+      "LPIPS": 0.15163089346234745
+    },
+    {
+      "id": "F0_100k",
+      "label": "F0 无RSI@100k",
+      "n": 752,
+      "L1": 0.07068297107198691,
+      "SSIM": 0.6440625204308394,
+      "LPIPS": 0.15726574392434448
+    },
+    {
+      "id": "F2_75000",
+      "label": "F2 Delta@75k",
+      "n": 752,
+      "L1": 0.07069026419590722,
+      "SSIM": 0.6502702635189053,
+      "LPIPS": 0.1454766027485714
+    },
+    {
+      "id": "F3_80k",
+      "label": "F3 legacy Support@80k",
+      "n": 752,
+      "L1": 0.07034590398704514,
+      "SSIM": 0.653570330998999,
+      "LPIPS": 0.14374969949688207
+    }
+  ],
+  "methods_status": [
+    {
+      "id": "P1",
+      "name": "P1 官方零样本",
+      "role": "baseline",
+      "eval": "752 full",
+      "portal": "ready",
+      "train": "n/a"
+    },
+    {
+      "id": "E1_100k",
+      "name": "E1 官方结构+RSI FT",
+      "role": "official RSI fine-tune",
+      "eval": "752 full",
+      "portal": "ready",
+      "train": "DONE 100k"
+    },
+    {
+      "id": "F0_100k",
+      "name": "F0 去掉 RSI",
+      "role": "vs E1: drop RSI",
+      "eval": "752 full",
+      "portal": "ready",
+      "train": "DONE 100k"
+    },
+    {
+      "id": "F1",
+      "name": "F1 Official RSI on F0",
+      "role": "vs F0: add official RSI",
+      "eval": "pending",
+      "portal": "queued",
+      "train": {
+        "ts": "2026-09-09T02:37:47",
+        "status": "running",
+        "step": 25700,
+        "loss": 0.011016687378287315
+      }
+    },
+    {
+      "id": "F2_75000",
+      "name": "F2 Delta RSI",
+      "role": "vs F1: Delta source",
+      "eval": "752 @75k",
+      "portal": "ready",
+      "train": "DONE 80k"
+    },
+    {
+      "id": "F3_80k",
+      "name": "F3 legacy Support",
+      "role": "hist Support ≠ F3b",
+      "eval": "752 full",
+      "portal": "ready_legacy",
+      "train": "DONE"
+    },
+    {
+      "id": "F3b",
+      "name": "F3b own-font stroke",
+      "role": "vs F2: Support",
+      "eval": "pending",
+      "portal": "queued",
+      "train": {
+        "ts": "2026-09-09T02:29:25",
+        "status": "running",
+        "step": 9300,
+        "loss": 0.011742726899683475
+      }
+    }
+  ],
+  "e12": {
+    "phi_best_auc": 0.9009,
+    "phi_early_stop": 2250,
+    "membership_test_roc": 0.9366185069084167,
+    "membership_test_pr": 0.9165433645248413,
+    "temperature": 2.249297618865967
+  },
+  "links": {
+    "pi_briefing": "http://127.0.0.1:8769/PI_BRIEFING_20260909.html",
+    "glyph_board": "http://127.0.0.1:8767/",
+    "timeline_f2": "http://127.0.0.1:8767/timeline_f2.html",
+    "e12_eye": "http://127.0.0.1:8766/standalone.html",
+    "e1_dashboard": "../e1_ft_v2_dashboard/index.html",
+    "design_doc": "../COMPARE_PORTAL_DESIGN_20260909.md",
+    "results_compare": "../RESULTS_COMPARE_20260907.html"
+  }
+}

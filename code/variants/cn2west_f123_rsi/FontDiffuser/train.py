@@ -44,7 +44,12 @@ from utils import normalize_mean_std, reNormalize_img, save_args_to_yaml, x0_fro
 
 
 # (rsi_source, support) that each arm is allowed to run with.
-ARM_SPEC = {"F1": ("official", False), "F2": ("delta", False), "F3": ("delta", True)}
+ARM_SPEC = {
+    "F1": ("official", False),
+    "F2": ("delta", False),
+    "F3": ("delta", True),
+    "F3b": ("delta", True),
+}
 # Ec multi-scale channel widths (see scripts/hrfont_feature_cache.py EC_SHAPES).
 EC_SCALE_CHANNELS = (3, 64, 128, 256, 256)
 
@@ -208,7 +213,13 @@ def _load_support_bank(path, args) -> dict:
     table = payload.get("support", payload)
     if not isinstance(table, dict) or not table:
         raise RuntimeError(f"support bank is empty or malformed: {bank_path}")
-    return {str(k): list(v) for k, v in table.items()}
+    meta = {
+        "mode": payload.get("mode", "fixed"),
+        "sample_random_train": bool(payload.get("sample_random_train", False)),
+        "k_train_min": int(payload.get("k_train_min", args.support_k)),
+        "k_train_max": int(payload.get("k_train_max", args.support_k)),
+    }
+    return {"table": {str(k): list(v) for k, v in table.items()}, "meta": meta}
 
 
 def _pool_ec(feats) -> torch.Tensor:
@@ -216,26 +227,88 @@ def _pool_ec(feats) -> torch.Tensor:
     return torch.cat([x.mean(dim=(2, 3)).reshape(-1) for x in feats], dim=0)
 
 
-def _support_tokens(ec_cache, adapter, bank, samples, support_draw, cfg, device):
+# Host-side pooled Ec vectors for support gather. Values are CPU float32 [D].
+# Science-identical to per-step features()+mean; avoids re-faulting 94G mmap rows.
+_SUPPORT_POOL_CACHE: dict[tuple[str, str], torch.Tensor] = {}
+
+
+def _pooled_style_cached(ec_cache, font: str, scp: str) -> torch.Tensor | None:
+    key = (str(font), str(scp))
+    hit = _SUPPORT_POOL_CACHE.get(key)
+    if hit is not None:
+        return hit
+    try:
+        feats = ec_cache.features("style", font, scp)
+    except KeyError:
+        return None
+    vec = _pool_ec(feats).detach().cpu().contiguous()
+    _SUPPORT_POOL_CACHE[key] = vec
+    return vec
+
+
+def _prewarm_support_pool(ec_cache, bank, fonts: list[str]) -> int:
+    """Fault unique (font, support_cp) pooled rows once. Returns entries cached."""
+    if not isinstance(bank, dict) or "table" not in bank:
+        return 0
+    scps = sorted({str(scp) for pool in bank["table"].values() for scp in pool})
+    if not scps or not fonts:
+        return 0
+    before = len(_SUPPORT_POOL_CACHE)
+    # Batch by font to keep memmap row indices somewhat local.
+    for font in fonts:
+        items = [(font, scp) for scp in scps]
+        try:
+            bundled = ec_cache.features_many("style", items)
+        except KeyError:
+            for font2, scp in items:
+                _pooled_style_cached(ec_cache, font2, scp)
+            continue
+        for (font2, scp), feats in bundled.items():
+            key = (str(font2), str(scp))
+            if key not in _SUPPORT_POOL_CACHE:
+                _SUPPORT_POOL_CACHE[key] = _pool_ec(feats).detach().cpu().contiguous()
+    return len(_SUPPORT_POOL_CACHE) - before
+
+
+def _support_tokens(ec_cache, adapter, bank, samples, support_draw, cfg, device, train: bool = True):
     """[B, K, context_dim] adapter tokens; None when support is off or fully dropped.
 
-    Support glyphs are the target font's OWN glyphs (Ec `style` role), so this adds
-    local evidence rather than a new font.
+    Support glyphs are the target font's OWN glyphs (Ec `style` role) — F3/F3b option B.
+    F3b banks may sample a random subset of the preset stroke pool during training.
     """
     if adapter is None:
         return None
+    if isinstance(bank, dict) and "table" in bank:
+        table = bank["table"]
+        meta = bank.get("meta") or {}
+    else:
+        table = bank or {}
+        meta = {}
+    sample_random = bool(meta.get("sample_random_train")) and train and getattr(cfg, "arm", "") == "F3b"
+    k_min = int(meta.get("k_train_min", cfg.support_k))
+    k_max = int(meta.get("k_train_max", cfg.support_k))
     rows, width = [], 0
     for dropped, font, cp in zip(support_draw, samples["font_stem"], samples["char_cp"]):
         if bool(dropped):
             rows.append([])
             continue
+        pool = list(table.get(cp, []))
+        if sample_random and pool:
+            k = int(torch.randint(k_min, k_max + 1, (1,)).item()) if k_max > k_min else cfg.support_k
+            k = max(1, min(k, len(pool)))
+            # Independent of shared training RNG stream: use a local generator seeded
+            # from (seed, font, cp) would be ideal; for speed use torch randperm here
+            # after support_draw was already consumed from the shared stream.
+            idx = torch.randperm(len(pool))[:k].tolist()
+            chosen = [pool[i] for i in idx]
+        else:
+            chosen = pool[: cfg.support_k]
         vecs = []
-        for scp in list(bank.get(cp, []))[: cfg.support_k]:
-            try:
-                feats = [x.to(device) for x in ec_cache.features("style", font, scp)]
-            except KeyError:
+        for scp in chosen:
+            vec = _pooled_style_cached(ec_cache, font, scp)
+            if vec is None:
                 continue
-            vecs.append(_pool_ec(feats))
+            vecs.append(vec.to(device, non_blocking=True))
         rows.append(vecs)
         width = max(width, len(vecs))
     if width == 0:
@@ -391,7 +464,7 @@ def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args
                                         source_draw, device)
         content_feats = _content_features(ec_cache, samples, cfg_mask, device)
         support = _support_tokens(ec_cache, getattr(raw, "support_adapter", None), bank or {},
-                                  samples, source_draw, args, device)
+                                  samples, source_draw, args, device, train=False)
         dummy = samples
         dummy["target_image"] = target
         dummy["content_image"] = samples["content_image"].to(device)
@@ -426,7 +499,7 @@ def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, 
     structure = _structure_features(es_cache, ec_cache, library, samples, queries, args, draw, device)
     content_feats = _content_features(ec_cache, samples, draw, device)
     support = _support_tokens(ec_cache, getattr(raw, "support_adapter", None), bank or {},
-                              samples, draw, args, device)
+                              samples, draw, args, device, train=False)
     noise = torch.randn_like(samples["target_image"])
     steps = torch.zeros(samples["target_image"].shape[0], device=device).long()
     noisy = noise_scheduler.add_noise(samples["target_image"], noise, steps)
@@ -491,6 +564,10 @@ def main():
             f"arm {args.arm} requires rsi_source={expected[0]} support={expected[1]}, "
             f"got rsi_source={args.rsi_source} support={bool(args.support)}")
     bank = _load_support_bank(args.support_bank, args)
+    if args.support and args.arm == "F3b" and accelerator.is_main_process:
+        _write_heartbeat(Path(args.output_dir), status="prewarm_support_pool", step=0)
+        n_warm = _prewarm_support_pool(ec_cache, bank, train_fonts)
+        print(f"F3b support pool prewarmed entries=+{n_warm} total={len(_SUPPORT_POOL_CACHE)}", flush=True)
 
     model = FontDiffuserModel(unet=build_unet(args),
                               style_encoder=build_style_encoder(args),
@@ -498,7 +575,10 @@ def main():
     if args.support:
         # in_dim = concatenated per-scale means of the 5 Ec scales.
         ec_dim = sum(EC_SCALE_CHANNELS)
-        model.support_adapter = SupportAdapter(ec_dim, args.style_start_channel * 16)
+        # F3b: standard init (PI). Legacy F3 keeps zero-init final Linear.
+        model.support_adapter = SupportAdapter(
+            ec_dim, args.style_start_channel * 16, zero_init=(args.arm != "F3b")
+        )
     if args.phase_1_ckpt_dir:
         _load_parent(model, Path(args.phase_1_ckpt_dir), Path(args.output_dir))
     if args.freeze_encoders:
@@ -578,7 +658,7 @@ def main():
                 # autograd graph. Calling it inside no_grad freezes its initial
                 # zero output for the entire F3 run.
                 support = _support_tokens(ec_cache, adapter, bank, samples, support_draw,
-                                          args, style.device)
+                                          args, style.device, train=True)
                 loss, _ = _forward_batch(model, noise_scheduler, perceptual_loss, args, samples,
                                          style, structure, content_feats, train=True,
                                          support_tokens=support)

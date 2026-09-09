@@ -88,6 +88,11 @@
       "label": "F3@80k",
       "kind": "f3",
       "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_80000"
+    },
+    "F2_75000": {
+      "label": "F2@75k",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_75000"
     }
   }
 }

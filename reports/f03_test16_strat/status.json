@@ -47,11 +47,122 @@
       "eta_s": 349,
       "last": "75000 FZTJLSJW g",
       "elapsed_s": 2714.8
+    },
+    "F2_timeline": {
+      "phase": "loading",
+      "done": 0,
+      "skipped": 0,
+      "total": 2304,
+      "label": "F2 过程",
+      "updated_at": "2026-09-08T10:30:03+00:00"
+    },
+    "F2_timeline_0of3": {
+      "phase": "done",
+      "done": 864,
+      "skipped": 0,
+      "total": 864,
+      "label": "F2 过程:F2_timeline_0of3",
+      "stems": [
+        "FZBuGTJW",
+        "FZDeSHJW_515H",
+        "FZFengYKSJ",
+        "FZJianLTJW_Te",
+        "FZLingFKSJW-B",
+        "FZTJLSJW"
+      ],
+      "steps": [
+        5000,
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        70000,
+        75000
+      ],
+      "updated_at": "2026-09-08T10:58:34+00:00",
+      "rate_per_s": 0.898,
+      "eta_s": 4,
+      "last": "75000 FZTJLSJW さ",
+      "elapsed_s": 961.0
+    },
+    "F2_timeline_1of3": {
+      "phase": "done",
+      "done": 720,
+      "skipped": 0,
+      "total": 720,
+      "label": "F2 过程:F2_timeline_1of3",
+      "stems": [
+        "FZChuangHJW_DB",
+        "FZDouNTJW_Te",
+        "FZHanWZKJW",
+        "FZJingLTJW-H",
+        "FZLiuGQKJW-L"
+      ],
+      "steps": [
+        5000,
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        70000,
+        75000
+      ],
+      "updated_at": "2026-09-08T10:58:09+00:00",
+      "rate_per_s": 0.769,
+      "eta_s": 0,
+      "last": "75000 FZLiuGQKJW-L ㄚ",
+      "elapsed_s": 936.4
+    },
+    "F2_timeline_2of3": {
+      "phase": "done",
+      "done": 720,
+      "skipped": 0,
+      "total": 720,
+      "label": "F2 过程:F2_timeline_2of3",
+      "stems": [
+        "FZCuanBZBKSJW",
+        "FZFeiHHJW-H",
+        "FZHuoYYJW-T",
+        "FZJingYLLTJW",
+        "FZMaWDBSJW"
+      ],
+      "steps": [
+        5000,
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        70000,
+        75000
+      ],
+      "updated_at": "2026-09-08T10:58:14+00:00",
+      "rate_per_s": 0.797,
+      "eta_s": 0,
+      "last": "75000 FZMaWDBSJW ㄚ",
+      "elapsed_s": 904.2
+    },
+    "F2_75000": {
+      "phase": "done",
+      "done": 186,
+      "skipped": 96,
+      "total": 282,
+      "label": "F2@75k",
+      "updated_at": "2026-09-08T11:06:40+00:00",
+      "rate_per_s": 0.469,
+      "eta_s": 46,
+      "last": "FZTJLSJW b",
+      "elapsed_s": 401.9
     }
   },
   "phase": "gallery_done",
   "n_items": 752,
-  "updated_at": "2026-09-07T05:16:07+00:00",
+  "updated_at": "2026-09-08T11:09:18+00:00",
   "protocol": "E1-stratified test16×47 seed3407",
-  "n_metric_rows": 2256
+  "n_metric_rows": 3008
 }

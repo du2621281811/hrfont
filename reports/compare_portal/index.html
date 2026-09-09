@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HR-Font Compare Portal</title>
+<style>
+  :root {
+    --bg: #e7ece8;
+    --bg-grid: rgba(20, 40, 32, 0.06);
+    --ink: #121a16;
+    --muted: #4a5a52;
+    --panel: #f5f8f6;
+    --line: #c5d0c8;
+    --accent: #1b6b4a;
+    --accent-2: #8a4b12;
+    --warn: #7a3b12;
+    --ok: #1b6b4a;
+    --queued: #5a6570;
+    --mono: "IBM Plex Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    --sans: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif;
+    --display: "Futura", "Avenir Next", "Century Gothic", var(--sans);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--sans);
+    background:
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0 / 24px 24px,
+      var(--bg);
+    min-height: 100vh;
+  }
+  header {
+    padding: 2.2rem 2rem 1.2rem;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--panel) 88%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  header .brand {
+    font-family: var(--display);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    margin: 0;
+  }
+  header .lede {
+    max-width: 52rem;
+    margin: 0.6rem 0 0;
+    color: var(--muted);
+    line-height: 1.45;
+    font-size: 1.02rem;
+  }
+  nav.tabs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    padding: 0.8rem 2rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  nav.tabs button {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    padding: 0.45rem 0.85rem;
+    font: inherit;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  nav.tabs button[aria-selected="true"] {
+    background: var(--ink);
+    color: var(--panel);
+    border-color: var(--ink);
+  }
+  main { padding: 1.4rem 2rem 3rem; max-width: 1200px; }
+  section { display: none; }
+  section.active { display: block; }
+  h2 {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 0.8rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 0.9rem 1rem;
+    min-height: 7.5rem;
+  }
+  .card .id { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+  .card .name { font-weight: 650; margin: 0.2rem 0; }
+  .card .role { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid var(--line);
+  }
+  .pill.ready { border-color: var(--ok); color: var(--ok); }
+  .pill.queued { border-color: var(--queued); color: var(--queued); }
+  .pill.legacy { border-color: var(--warn); color: var(--warn); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--panel);
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 0.55rem 0.65rem;
+    text-align: right;
+  }
+  th:first-child, td:first-child { text-align: left; }
+  th { background: color-mix(in srgb, var(--bg) 70%, var(--panel)); font-weight: 600; }
+  .best { color: var(--accent); font-weight: 650; }
+  .links a {
+    display: inline-block;
+    margin: 0.25rem 0.6rem 0.25rem 0;
+    color: var(--accent);
+  }
+  .callout {
+    border-left: 3px solid var(--accent-2);
+    background: var(--panel);
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    color: var(--muted);
+  }
+  .preset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.6rem 0 1rem;
+  }
+  .preset button {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    border: 1px dashed var(--line);
+    background: var(--panel);
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+  }
+  .preset button:hover { border-style: solid; border-color: var(--accent); }
+  .two {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 1rem;
+  }
+  @media (max-width: 860px) {
+    .two { grid-template-columns: 1fr; }
+    header, main, nav.tabs { padding-left: 1rem; padding-right: 1rem; }
+  }
+  code { font-family: var(--mono); font-size: 0.86em; }
+  ul.scope { line-height: 1.55; color: var(--muted); }
+  footer {
+    padding: 1rem 2rem 2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="brand">HR-Font Compare</p>
+  <p class="lede">
+    统一口径下对比生成方法（P1 / F0 / F1 / F2 / F3 legacy / F3b）与 E12 风格判分。
+    像素指标相对 GT 仅为诊断；主科学对比预设：F0↔F1（RSI）、F1↔F2（Delta）、F2↔F3b（Support）。
+    <br/><a href="PI_BRIEFING_20260909.html"><b>打开导师汇报（白话说明）→</b></a>
+  </p>
+</header>
+<nav class="tabs" role="tablist">
+  <button type="button" data-tab="overview" aria-selected="true">总览 Overview</button>
+  <button type="button" data-tab="glyph">字形对比 Glyph Lab</button>
+  <button type="button" data-tab="timeline">时间线 Timeline</button>
+  <button type="button" data-tab="e12">风格 / E12</button>
+  <button type="button" data-tab="protocol">评测范围 Protocol</button>
+</nav>
+<main>
+  <section id="overview" class="active">
+    <h2>方法状态</h2>
+    <div class="grid" id="status-grid"></div>
+    <div class="callout" id="caveat"></div>
+    <div class="two" style="margin-top:1.2rem">
+      <div>
+        <h2>主协议指标（仅已入库全量 / 标注 n）</h2>
+        <table id="metrics-table">
+          <thead>
+            <tr><th>方法</th><th>n</th><th>L1 ↓</th><th>SSIM ↑</th><th>LPIPS ↓</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div>
+        <h2>对照预设</h2>
+        <div class="preset">
+          <button type="button" data-preset="e1f0">E1 | F0（去RSI）</button>
+          <button type="button" data-preset="rsi">RSI：F0 | F1</button>
+          <button type="button" data-preset="delta">Delta：F1 | F2</button>
+          <button type="button" data-preset="support">Support：F2 | F3b</button>
+          <button type="button" data-preset="legacy">Legacy：F3 | F3b</button>
+        </div>
+        <p id="preset-note" class="lede" style="margin:0;font-size:0.95rem"></p>
+        <h2 style="margin-top:1.4rem">深链</h2>
+        <div class="links" id="links"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="glyph">
+    <h2>字形对比 Lab</h2>
+    <p class="lede" style="margin-top:0">
+      交互浏览复用已上线的 test16 看板（并排 pred / GT）。本门户后续会把「多选方法 + Diff 热力 + Hard cases」收进同页；
+      当前请用下方入口，按 font×char 对比已有 P1 / F0 / F2@75k / F3@80k。
+    </p>
+    <div class="preset">
+      <a class="links" id="glyph-open" href="http://127.0.0.1:8767/" target="_blank" rel="noopener">打开 Glyph Board (:8767)</a>
+    </div>
+    <ul class="scope">
+      <li><strong>Strip</strong>：GT + 多方法缩略图 + 脚注 L1/SSIM</li>
+      <li><strong>Diff</strong>：选基准方法，对其余做差图（规划中）</li>
+      <li><strong>Hard cases</strong>：按配对有利差排序 top-K（规划中，数据已有 metrics_items）</li>
+      <li><strong>Script 过滤</strong>：Lu / Ll / 其他（与 RESULTS_COMPARE 分组一致）</li>
+    </ul>
+  </section>
+
+  <section id="timeline">
+    <h2>训练中途时间线</h2>
+    <p class="lede" style="margin-top:0">
+      协议 B：固定子集（现 F2/F3 mid 多为 n=256），用于看形态随 step 变化；<strong>不可与 n=752 主表混读</strong>。
+    </p>
+    <div class="links">
+      <a href="http://127.0.0.1:8767/timeline_f2.html" target="_blank" rel="noopener">F2 timeline</a>
+      <a href="http://127.0.0.1:8767/timeline.html" target="_blank" rel="noopener">通用 timeline</a>
+      <a href="../f3_ckpt_dashboard/index.html" target="_blank" rel="noopener">F3 legacy ckpt dashboard</a>
+    </div>
+    <ul class="scope">
+      <li>已有：F2 5k–75k、F3 5k–80k 抽检图</li>
+      <li>排队：F1 @20k/25k、F3b @20k（PI：先评 20k）</li>
+    </ul>
+  </section>
+
+  <section id="e12">
+    <h2>风格判分 E12（与生成器分栏）</h2>
+    <div class="grid" id="e12-grid"></div>
+    <div class="links" style="margin-top:1rem">
+      <a href="http://127.0.0.1:8766/standalone.html" target="_blank" rel="noopener">E12 eye probe</a>
+      <a href="http://127.0.0.1:8766/e12_mistakes_collage.png" target="_blank" rel="noopener">错例 collage</a>
+    </div>
+    <div class="callout">E12 分数不与 L1/SSIM/LPIPS 加权成「总分」。GT 像素诊断 ≠ 论文风格 claim。</div>
+  </section>
+
+  <section id="protocol">
+    <h2>评测范围（所有生成方法必须对齐）</h2>
+    <ul class="scope" id="protocol-list"></ul>
+    <h2>网页工作区</h2>
+    <ul class="scope">
+      <li><strong>A 总览</strong>：状态条 + 主表 + 对照预设</li>
+      <li><strong>B Glyph Lab</strong>：同字多方法并排 / Diff / Hard cases</li>
+      <li><strong>C Timeline</strong>：同方法不同 step</li>
+      <li><strong>D E12</strong>：φ / membership / 眼测</li>
+      <li><strong>E Protocol</strong>：口径与 caveat</li>
+    </ul>
+    <p class="lede">完整设计说明：<a href="../COMPARE_PORTAL_DESIGN_20260909.md">COMPARE_PORTAL_DESIGN_20260909.md</a></p>
+  </section>
+</main>
+<footer>
+  Compare Portal · static hub · refresh <code>manifest.json</code> after new evals ·
+  design 2026-09-09
+</footer>
+<script>
+async function main() {
+  const res = await fetch('./manifest.json');
+  const m = await res.json();
+  document.getElementById('caveat').textContent = m.caveat || '';
+
+  const grid = document.getElementById('status-grid');
+  for (const s of m.methods_status) {
+    const pill =
+      s.portal === 'ready' ? 'ready' :
+      s.portal === 'ready_legacy' ? 'legacy' : 'queued';
+    const pillText =
+      s.portal === 'ready' ? 'READY' :
+      s.portal === 'ready_legacy' ? 'LEGACY' : 'QUEUED';
+    let train = s.train;
+    if (train && typeof train === 'object') {
+      train = `${train.status} @${train.step}`;
+    }
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <div class="id">${s.id}</div>
+      <div class="name">${s.name}</div>
+      <div class="role">${s.role}</div>
+      <span class="pill ${pill}">${pillText}</span>
+      <div class="role" style="margin-top:0.45rem">eval: ${s.eval}<br/>train: ${train}</div>`;
+    grid.appendChild(el);
+  }
+
+  const tbody = document.querySelector('#metrics-table tbody');
+  const rows = m.metrics_rows || [];
+  const best = {
+    L1: Math.min(...rows.map(r => r.L1).filter(x => x != null)),
+    SSIM: Math.max(...rows.map(r => r.SSIM).filter(x => x != null)),
+    LPIPS: Math.min(...rows.map(r => r.LPIPS).filter(x => x != null)),
+  };
+  for (const r of rows) {
+    const tr = document.createElement('tr');
+    const fmt = (x, k) => {
+      if (x == null) return '—';
+      const cls = (Math.abs(x - best[k]) < 1e-12) ? ' class="best"' : '';
+      return `<td${cls}>${x.toFixed(4)}</td>`;
+    };
+    tr.innerHTML = `<td>${r.id} <span style="color:var(--muted)">${r.label || ''}</span></td>
+      <td>${r.n ?? '—'}</td>${fmt(r.L1,'L1')}${fmt(r.SSIM,'SSIM')}${fmt(r.LPIPS,'LPIPS')}`;
+    tbody.appendChild(tr);
+  }
+
+  const links = document.getElementById('links');
+  const L = m.links || {};
+  for (const [k, href] of Object.entries(L)) {
+    const a = document.createElement('a');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = k;
+    links.appendChild(a);
+  }
+
+  const e12 = m.e12 || {};
+  const eg = document.getElementById('e12-grid');
+  const e12cards = [
+    ['φ best val AUC', e12.phi_best_auc != null ? e12.phi_best_auc.toFixed(4) : '—'],
+    ['φ early-stop step', e12.phi_early_stop ?? '—'],
+    ['membership test ROC', e12.membership_test_roc != null ? e12.membership_test_roc.toFixed(4) : '—'],
+    ['membership test PR', e12.membership_test_pr != null ? e12.membership_test_pr.toFixed(4) : '—'],
+    ['temperature', e12.temperature != null ? e12.temperature.toFixed(3) : '—'],
+  ];
+  for (const [name, val] of e12cards) {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `<div class="id">E12</div><div class="name">${name}</div><div class="role" style="font-family:var(--mono);font-size:1.2rem;color:var(--ink)">${val}</div>`;
+    eg.appendChild(el);
+  }
+
+  const p = m.protocol || {};
+  document.getElementById('protocol-list').innerHTML = `
+    <li>Split: <code>${p.split}</code> · fonts=${p.n_fonts} · chars=${p.chars_n} · n=${(p.n_fonts||0)*(p.chars_n||0)}</li>
+    <li>Seed: <code>${p.seed}</code>（per-item set_seed，方法间配对）</li>
+    <li>Sampler: <code>${p.sampler}</code></li>
+    <li>Style: ref8 首可用，优先「永」</li>
+    <li>主指标: L1↓ / SSIM↑ / LPIPS↓ vs GT（诊断）</li>
+    <li>中间抽检: 每 5k/10k ckpt，子集须标注 n（≠752 时禁止混表）</li>
+    <li>F3 legacy ≠ F3b（bank / adapter 协议不同）</li>`;
+
+  const notes = {
+    e1f0: '同数据协议 A：E1=官方结构保留 RSI 微调 100k；F0=去掉 RSI/DCN 后微调 100k。主表已并列。',
+    rsi: '对照 RSI：现可看 E1（官方结构+RSI FT）vs F0（去掉 RSI）。F1（在 F0 上挂回官方 RSI）评测入库后可与 F0 再配对。',
+    delta: '对照 Delta：F2_75000 已可与未来的 F1_80k 配对；当前可用 F2 时间线观察 Delta 臂形态。',
+    support: '主科学对照 Support：F2 vs F3b（own-font + stroke）。F3b 建议先 20k mid，再 80k 全量。',
+    legacy: '仅历史参考：F3_80k vs F3b。页面将 F3 标为 LEGACY，避免写成同一方法。',
+  };
+  document.querySelectorAll('.preset button[data-preset]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('preset-note').textContent = notes[btn.dataset.preset] || '';
+    });
+  });
+  document.getElementById('preset-note').textContent = notes.support;
+
+  document.querySelectorAll('nav.tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', 'false'));
+      btn.setAttribute('aria-selected', 'true');
+      document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+}
+main().catch(err => {
+  document.body.insertAdjacentHTML('afterbegin',
+    `<pre style="padding:1rem;color:#7a3b12">Failed to load manifest.json: ${err}</pre>`);
+});
+</script>
+</body>
+</html>

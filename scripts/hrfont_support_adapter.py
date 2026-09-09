@@ -8,7 +8,7 @@ import torch.nn as nn
 class SupportAdapter(nn.Module):
     """Maps pooled Ec features (D) -> cross-attention tokens (context_dim)."""
 
-    def __init__(self, in_dim: int, context_dim: int, hidden: int | None = None):
+    def __init__(self, in_dim: int, context_dim: int, hidden: int | None = None, zero_init: bool = True):
         super().__init__()
         h = hidden or max(in_dim, context_dim)
         self.net = nn.Sequential(
@@ -17,8 +17,11 @@ class SupportAdapter(nn.Module):
             nn.Linear(h, context_dim),
             nn.LayerNorm(context_dim),
         )
-        nn.init.zeros_(self.net[-2].weight)
-        nn.init.zeros_(self.net[-2].bias)
+        if zero_init:
+            # Legacy F3: identity-safe start (also froze learning when grads were missing).
+            nn.init.zeros_(self.net[-2].weight)
+            nn.init.zeros_(self.net[-2].bias)
+        # F3b: leave default Linear init (PI: no defensive zero-init).
 
     def forward(self, support_feats: torch.Tensor) -> torch.Tensor:
         """support_feats: (B, N, in_dim) -> (B, N, context_dim)"""

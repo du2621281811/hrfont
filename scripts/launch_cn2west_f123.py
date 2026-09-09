@@ -40,6 +40,12 @@ ARMS = {
     "F1": {"rsi_source": "official", "support": False, "run_id": "F1-OFFRSI-A-S3407"},
     "F2": {"rsi_source": "delta", "support": False, "run_id": "F2-DELTARSI-A-S3407"},
     "F3": {"rsi_source": "delta", "support": True, "run_id": "F3-JOINT-DS-A-S3407"},
+    "F3b": {
+        "rsi_source": "delta",
+        "support": True,
+        "run_id": "f3b_joint_crossbank_s3407",
+        "support_bank": "artifacts/f0/support_bank_f3b_stroke.json",
+    },
 }
 
 
@@ -98,8 +104,8 @@ def main() -> int:
                   f"Rebuild Es/Ec from the F0 milestone; E1 caches are bound to E1 encoders.",
                   file=sys.stderr)
             return 2
-    if spec["support"] and not resolve(args.support_bank).is_file():
-        print(f"arm {args.arm} needs a support bank: {resolve(args.support_bank)}", file=sys.stderr)
+    if spec["support"] and not resolve(spec.get("support_bank") or args.support_bank).is_file():
+        print(f"arm {args.arm} needs a support bank: {resolve(spec.get('support_bank') or args.support_bank)}", file=sys.stderr)
         return 2
     for sub in ("train/TargetImage", "train/StyleImage", "train/ContentImage"):
         if not (DATA / sub).is_dir():
@@ -173,7 +179,10 @@ def main() -> int:
         "--parity_check",
     ]
     if spec["support"]:
-        cmd += ["--support_bank", str(resolve(args.support_bank))]
+        bank_path = spec.get("support_bank") or args.support_bank
+        cmd += ["--support_bank", str(resolve(bank_path))]
+        meta["support_bank"] = str(resolve(bank_path))
+        meta["support_mode"] = "f3b_preset_stroke_ownfont" if args.arm == "F3b" else "f3_fixed_ref8"
 
     env = os.environ.copy()
     env["CUDA_VISIBLE_DEVICES"] = str(args.gpu)

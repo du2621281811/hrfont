@@ -1,0 +1,13 @@
+schema_version: 2
+experiment: {id: E12-MEMBERSHIP-V51-TRAIN228-S3407}
+data:
+  cache_dir: /root/projects/hrfont/artifacts/e12/cache_train228_v51
+  query_chars: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"]
+  ref_chars: ["永","和","书","风","骨","韵","天","地"]
+  split_ratios: [0.7, 0.15, 0.15]
+  split_seed: 3407
+model: {phi_checkpoint: /root/projects/hrfont/runs/e12_phi_s2_v51_train228_s3407/best.pt, in_channels: 3, feature_dim: 512, hidden_dim: 256}
+train: {epochs: 30, max_steps: 0, episodes: 20000, batch_size: 32, lr: 0.0001, weight_decay: 0.01, seed: 3407, device: cuda:0, smoke_mode: false}
+eval: {episodes: 4000}
+calibration: {method: temperature}
+output: {dir: /root/projects/hrfont/runs/e12_membership_v51_train228_s3407}

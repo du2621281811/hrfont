@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>HR-Font 实验汇报 · 给导师 · 2026-09-09</title>
+<style>
+  :root {
+    --bg: #f3f1ec;
+    --ink: #1c1a17;
+    --muted: #5c574e;
+    --line: #d4cfc4;
+    --card: #fffcf7;
+    --ok: #1f6b45;
+    --warn: #8a5a12;
+    --bad: #9b2c2c;
+    --accent: #245a78;
+    --mono: "IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace;
+    --sans: "Source Han Sans SC", "Noto Sans SC", "PingFang SC", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font: 15px/1.55 var(--sans);
+    background:
+      radial-gradient(900px 420px at 10% -10%, #e7efe8 0%, transparent 55%),
+      radial-gradient(700px 380px at 100% 0%, #ebe4d8 0%, transparent 50%),
+      var(--bg);
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 28px 22px 64px; }
+  header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+  h1 {
+    margin: 0 0 6px;
+    font-size: clamp(1.55rem, 2.6vw, 2rem);
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+  }
+  .meta { color: var(--muted); font-size: 13px; }
+  h2 {
+    margin: 28px 0 10px;
+    font-size: 1.15rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 10px;
+  }
+  h3 { margin: 16px 0 8px; font-size: 1rem; }
+  p { margin: 8px 0; }
+  .lede {
+    font-size: 1.05rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    border-radius: 4px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin: 12px 0;
+  }
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+    font-size: 13.5px;
+    background: var(--card);
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 7px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #efeae1; color: var(--muted); font-weight: 600; font-size: 12px; }
+  td.num, th.num { text-align: right; }
+  .ok { color: var(--ok); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad { color: var(--bad); font-weight: 600; }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 7px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--muted);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  ul, ol { margin: 8px 0; padding-left: 1.25rem; }
+  li { margin: 4px 0; }
+  .tree {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    background: #1c1a17;
+    color: #f2eee6;
+    padding: 14px 16px;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+  .foot {
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12.5px;
+  }
+  a { color: var(--accent); }
+  .callout {
+    border-left: 4px solid var(--warn);
+    background: #fff8eb;
+    border: 1px solid #e6d4a8;
+    border-left-width: 4px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    font-size: 13.5px;
+  }
+  .goodbox {
+    border-left: 4px solid var(--ok);
+    background: #eef7f1;
+    border: 1px solid #b7d4c2;
+    border-left-width: 4px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    font-size: 13.5px;
+  }
+  .two-col li strong { display: inline; }
+  .small { font-size: 12.5px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <h1>跨语系字体生成实验汇报</h1>
+  <p class="meta">给导师阅读的独立说明 · 2026-09-09 · 项目 HR-Font / FontDiffuser 改造 · ICLR 2027 方向<br/>
+  若 :8769 打不开，用：<a href="http://127.0.0.1:8767/PI_BRIEFING_20260909.html">:8767 同页</a> ·
+  <a href="http://127.0.0.1:8768/PI_BRIEFING_20260909.html">:8768 同页</a> ·
+  或直接打开本机文件 <code>reports/PI_BRIEFING_20260909.html</code></p>
+</header>
+
+<p class="lede">
+  <strong>目标一句话：</strong>在「只给目标字体的若干汉字参考图」的条件下，生成该字体的数字、拉丁字母、假名、注音等非汉字字形，并检验改进是否真的提高了<strong>风格一致性</strong>（而不只是像素更像真值）。
+</p>
+
+<h2>1. 任务与数据（所有实验共用）</h2>
+<div class="card">
+  <ul>
+    <li><strong>数据：</strong>260 套字体；按字体划分为训练 228 / 验证 16 / 测试 16。</li>
+    <li><strong>每套字体：</strong>338 个汉字可作为风格参考；295 个目标字符（数字、拉丁、扩展拉丁、平假名、片假名、注音）。</li>
+    <li><strong>输入：</strong>内容图（要写哪个字）+ 目标字体的风格参考图；输出一张 96×96 字形图。</li>
+    <li><strong>当前主评测集：</strong>测试 16 套字体 × 分层抽取的 47 个字符 = <strong>752</strong> 个样本；生成随机种子固定为 3407；采样器 DPM-Solver++，20 步，引导强度 7.5。</li>
+  </ul>
+  <p class="small">像素指标（L1 / SSIM / LPIPS）相对真值，只作诊断。论文主张的「风格像不像」要靠独立风格评测器与人工对照，不能只看像素分。</p>
+</div>
+
+<h2>2. 实验在比什么（消融逻辑）</h2>
+<p>我们把「官方结构迁移模块」拆开，做成可对照的一组实验。名字是内部编号，下表用全称说明。</p>
+<pre class="tree">官方零样本基线
+   │
+   ├─► 同数据微调（保留官方结构迁移）          ← 官方微调基线
+   │
+   └─► 去掉结构迁移后再微调                    ← 无结构迁移基线
+            │
+            ├─► 加回「官方版」结构迁移           ← 官方结构迁移臂（训练中）
+            ├─► 换成「近邻残差」结构迁移         ← 近邻残差臂（已训完）
+            └─► 近邻残差 + 额外支持特征          ← 支持特征臂（旧版已评；新版训练中）</pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>内部编号</th>
+      <th>请这样理解</th>
+      <th>相对谁、改了什么</th>
+      <th>状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>P1</td>
+      <td>官方预训练模型，零样本直接测</td>
+      <td>对照起点（未在本数据上微调）</td>
+      <td><span class="ok">已评测</span></td>
+    </tr>
+    <tr>
+      <td>E1</td>
+      <td>官方网络 + 官方结构迁移，在本数据微调 10 万步</td>
+      <td>相对 P1：同结构、同数据微调</td>
+      <td><span class="ok">已评测 @10万步</span></td>
+    </tr>
+    <tr>
+      <td>F0</td>
+      <td>去掉结构迁移模块后再微调 10 万步</td>
+      <td>相对 E1：只去掉结构迁移</td>
+      <td><span class="ok">已评测 @10万步</span></td>
+    </tr>
+    <tr>
+      <td>F1</td>
+      <td>在 F0 上加回官方结构迁移，训到 8 万步</td>
+      <td>相对 F0：加官方结构迁移</td>
+      <td><span class="warn">训练中 ~2.6万/8万</span></td>
+    </tr>
+    <tr>
+      <td>F2</td>
+      <td>用「风格近邻库字体」加权残差，代替官方结构来源</td>
+      <td>相对 F1：换结构信息来源（近邻残差）</td>
+      <td><span class="ok">已训完 8万步</span>；主表目前是 <strong>7.5万步</strong> 全量评测</td>
+    </tr>
+    <tr>
+      <td>F3（旧版）</td>
+      <td>F2 + 目标字体汉字支持特征（旧协议）</td>
+      <td>相对 F2：多一条支持通道</td>
+      <td><span class="ok">已评测 @8万步</span>；标为<strong>旧版</strong>，勿与新版混读</td>
+    </tr>
+    <tr>
+      <td>F3b（新版）</td>
+      <td>重新设计的支持特征：仅用目标字体自身编码；笔画分桶抽样</td>
+      <td>相对 F2：规范后的支持特征</td>
+      <td><span class="warn">训练中 ~0.9万/8万</span>；计划 2万步先评一次</td>
+    </tr>
+    <tr>
+      <td>风格评测器</td>
+      <td>独立训练的风格编码器 + 同族/异族判别（不参与生成训练）</td>
+      <td>回答「风格是否一致」，不替代生成像素分</td>
+      <td><span class="ok">本轮已训完</span>（见第 6 节）</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. 推理条件是否一致？</h2>
+<div class="goodbox">
+  <strong>一致、可并排对比的部分：</strong>同一测试 16 字体、同一 47 字符、同一真值、同一随机种子 3407、同一采样器设置、同一内容图。方法之间是完全配对的。
+</div>
+<div class="callout">
+  <strong>故意不同、读表时必须知道的部分：</strong>
+  <ul>
+    <li>网络结构 / 条件化路径不同（这正是实验要隔离的处理）。</li>
+    <li>检查点步数：官方微调与无结构迁移是 10 万步；近邻残差主表目前是 <strong>7.5 万步</strong>（8 万步已训完但未刷全量主表）；旧版支持特征是 8 万步。</li>
+    <li>评测时看到的风格参考图张数不同（见下节）——官方微调三线是 1 张，近邻残差线是固定 8 张。</li>
+  </ul>
+</div>
+
+<h2>4. 风格参考图：评测几张？训练随机还是固定？</h2>
+<p>风格参考来自该字体的汉字池。评测协议优先使用固定八字「永和书风骨韵天地」；但「喂进图像管线」与「近邻残差管线」用法不同。</p>
+<table>
+  <thead>
+    <tr>
+      <th>实验</th>
+      <th>评测时目标字体参考</th>
+      <th>训练时风格参考</th>
+      <th>额外通道</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>官方零样本 / 官方微调 / 无结构迁移<br/><span class="small">P1 · E1 · F0</span></td>
+      <td><strong>1 张</strong>固定图（八字中首个有图，通常是「永」）</td>
+      <td>官方微调与无结构迁移：每步从 338 汉字池<strong>随机抽 1 张</strong></td>
+      <td>官方微调保留官方结构迁移；无结构迁移则关掉</td>
+    </tr>
+    <tr>
+      <td>近邻残差<br/><span class="small">F2</span></td>
+      <td><strong>8 张</strong>固定「永和书风骨韵天地」</td>
+      <td>每步随机抽 <strong>n = 1～8</strong> 张；验证用固定八字</td>
+      <td>用参考算风格相似度，在训练字体库中取同字符近邻并加权</td>
+    </tr>
+    <tr>
+      <td>旧版支持特征<br/><span class="small">F3</span></td>
+      <td>同样 <strong>8 张</strong>固定八字</td>
+      <td>同近邻残差（n = 1～8）</td>
+      <td>再经支持模块；当前旧版支持字表<strong>就是这八个字</strong>（多通路编码，不是再多 8 个不同字）</td>
+    </tr>
+    <tr>
+      <td>新版支持特征<br/><span class="small">F3b</span></td>
+      <td>训练完成后按同一评测协议评（尚未出全表）</td>
+      <td>同近邻残差的多参考设置</td>
+      <td>仅目标字体自身特征；笔画分桶抽样（已锁定）</td>
+    </tr>
+  </tbody>
+</table>
+<p class="small">因此：近邻残差线与官方微调线在「评测可见参考图张数」上不完全对等（8 vs 1）。比较官方微调 ↔ 无结构迁移是公平的 1-shot；比较近邻残差 ↔ 旧版支持特征是同为 8 参考下的增量。</p>
+
+<h2>5. 当前主结果（测试 752，诊断像素指标）</h2>
+<table>
+  <thead>
+    <tr>
+      <th>方法</th>
+      <th class="num">L1 ↓</th>
+      <th class="num">SSIM ↑</th>
+      <th class="num">LPIPS ↓</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>官方零样本</td>
+      <td class="num">0.1035</td>
+      <td class="num">0.4451</td>
+      <td class="num">0.2726</td>
+      <td>最差像素诊断（预期内）</td>
+    </tr>
+    <tr>
+      <td>官方微调 @10万步</td>
+      <td class="num"><strong>0.0685</strong></td>
+      <td class="num"><strong>0.6521</strong></td>
+      <td class="num">0.1516</td>
+      <td>L1/SSIM 目前最好</td>
+    </tr>
+    <tr>
+      <td>无结构迁移 @10万步</td>
+      <td class="num">0.0707</td>
+      <td class="num">0.6441</td>
+      <td class="num">0.1573</td>
+      <td>略弱于官方微调</td>
+    </tr>
+    <tr>
+      <td>近邻残差 @7.5万步</td>
+      <td class="num">0.0707</td>
+      <td class="num">0.6503</td>
+      <td class="num">0.1455</td>
+      <td>步数未对齐 8万/10万</td>
+    </tr>
+    <tr>
+      <td>旧版支持特征 @8万步</td>
+      <td class="num">0.0703</td>
+      <td class="num">0.6536</td>
+      <td class="num"><strong>0.1437</strong></td>
+      <td>LPIPS 略优；勿当成新版结论</td>
+    </tr>
+  </tbody>
+</table>
+<div class="grid2">
+  <div class="card">
+    <h3>目前能看出的</h3>
+    <ul class="two-col">
+      <li>本数据微调后，像素诊断相对零样本有大幅改善。</li>
+      <li>去掉结构迁移后略变差 → 结构迁移在本协议下<strong>有一点</strong>像素贡献，但幅度不大。</li>
+      <li>近邻残差 / 旧版支持相对无结构迁移，LPIPS 略好；与官方微调接近，尚未形成压倒性优势。</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>现在不能下的结论</h3>
+    <ul>
+      <li>不能说「我们的方法风格已优于官方微调」——缺对齐步数的全量评测 + 风格评测器正式对比 + 人工。</li>
+      <li>不能把旧版支持特征成绩写成新版成绩。</li>
+      <li>单一种子、像素指标，不能外推跨种子泛化。</li>
+    </ul>
+  </div>
+</div>
+
+<h2>6. 风格评测器（本轮）</h2>
+<div class="card">
+  <p>用途：在「给定字体参考 → 判断查询字形是否同族」的协议上打分，作为生成器之外的风格一致性工具。</p>
+  <ul>
+    <li>风格编码器：验证 AUC 约 <strong>0.901</strong>（早停于 2250 步）。</li>
+    <li>同族判别头：测试 ROC 约 <strong>0.937</strong>，PR 约 <strong>0.917</strong>。</li>
+    <li>叙事边界：同数据域协议下的评分器，不是开放世界字体鉴定器。</li>
+  </ul>
+</div>
+
+<h2>7. 训练进度（写报告时快照）</h2>
+<table>
+  <thead>
+    <tr><th>任务</th><th>进度</th><th>说明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>官方结构迁移臂（F1）</td><td class="warn">~2.6万 / 8万步</td><td>从无结构迁移权重续训；完成后按同一 752 协议评测</td></tr>
+    <tr><td>新版支持特征（F3b）</td><td class="warn">~0.9万 / 8万步</td><td>计划 2万步做一次中期评测，可继续训满</td></tr>
+    <tr><td>近邻残差 8万步全量主表</td><td class="warn">待刷</td><td>权重已有；主对比表仍显示 7.5万步</td></tr>
+    <tr><td>崩溃自动续跑</td><td class="ok">已挂守护进程</td><td>训练中断会尝试自动恢复</td></tr>
+  </tbody>
+</table>
+
+<h2>8. 建议导师怎么读图</h2>
+<ol>
+  <li><strong>先看字形对照板</strong>（并排五列）：同一字符、同一字体下，零样本 → 官方微调 → 无结构迁移 → 近邻残差 → 旧版支持。<br/>
+    地址：<a href="http://127.0.0.1:8767/">http://127.0.0.1:8767/</a></li>
+  <li><strong>再看指标总览门户</strong>：<a href="http://127.0.0.1:8768/">http://127.0.0.1:8768/</a></li>
+  <li>风格评测器眼测页：<a href="http://127.0.0.1:8766/">http://127.0.0.1:8766/</a></li>
+</ol>
+<p class="small">若在本机浏览器打开本文件，上述链接指向实验机本地服务；远程请用对应端口转发。</p>
+
+<h2>9. 下一步（最小必要）</h2>
+<ol>
+  <li>官方结构迁移臂训完 → 同协议评测，补齐「无结构迁移 ↔ 官方结构迁移」。</li>
+  <li>近邻残差刷 <strong>8万步</strong> 全量 752，与旧版支持特征对齐步数。</li>
+  <li>新版支持特征在 2万步 / 8万步评测；旧版只作历史对照。</li>
+  <li>用风格评测器做方法间正式对比；需要时再上设计师盲测。</li>
+</ol>
+
+<div class="foot">
+  本页为导师汇报用独立摘要，数字来自主评测看板与训练心跳（约 2026-09-09 上午）。更细的工程日志不在此展开。<br/>
+  文件位置：<code>reports/PI_BRIEFING_20260909.html</code>
+</div>
+</main>
+</body>
+</html>

@@ -1,10 +1,10 @@
 {
-  "computed_at": "2026-09-07T04:23:25+00:00",
-  "n_total": 2256,
-  "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. E12 still gated.",
+  "computed_at": "2026-09-09T02:39:16+00:00",
+  "n_total": 3760,
+  "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. E1 merged from formal strat (same protocol A / seed 3407); P1 byte-identical to f03 P1.",
   "methods": {
     "P1": {
-      "label": "官方",
+      "label": "官方 P1",
       "overall": {
         "n": 752,
         "L1_mean": 0.10353848251682568,
@@ -72,8 +72,69 @@
         }
       }
     },
+    "E1_100k": {
+      "label": "E1 官方RSI@100k",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.06851664289926238,
+        "SSIM_mean": 0.6520757053661695,
+        "coverage_mean": 0.12881404795545218,
+        "LPIPS_mean": 0.15163089346234745,
+        "blank_rate": 0.0
+      },
+      "by_bucket": {
+        "digit": {
+          "n": 160,
+          "L1_mean": 0.062309928727336227,
+          "SSIM_mean": 0.6651534234173596,
+          "coverage_mean": 0.11440361870659717,
+          "LPIPS_mean": 0.1595493648899719,
+          "blank_rate": 0.0
+        },
+        "latin_upper": {
+          "n": 144,
+          "L1_mean": 0.0865880940368192,
+          "SSIM_mean": 0.6379787115794089,
+          "coverage_mean": 0.16335193021797847,
+          "LPIPS_mean": 0.16358817097110054,
+          "blank_rate": 0.0
+        },
+        "latin_lower": {
+          "n": 288,
+          "L1_mean": 0.056100106387425006,
+          "SSIM_mean": 0.6698490905109793,
+          "coverage_mean": 0.10945901752989971,
+          "LPIPS_mean": 0.1418075757974293,
+          "blank_rate": 0.0
+        },
+        "hiragana": {
+          "n": 64,
+          "L1_mean": 0.09003723924979568,
+          "SSIM_mean": 0.6297686968464404,
+          "coverage_mean": 0.17600165473090273,
+          "LPIPS_mean": 0.1444968500873074,
+          "blank_rate": 0.0
+        },
+        "katakana": {
+          "n": 48,
+          "L1_mean": 0.07868720455250393,
+          "SSIM_mean": 0.5962996658248206,
+          "coverage_mean": 0.1328351056134259,
+          "LPIPS_mean": 0.16291690291836858,
+          "blank_rate": 0.0
+        },
+        "bopomofo": {
+          "n": 48,
+          "L1_mean": 0.07062586567675073,
+          "SSIM_mean": 0.6296526999212801,
+          "coverage_mean": 0.12242748119212961,
+          "LPIPS_mean": 0.14653011054421464,
+          "blank_rate": 0.0
+        }
+      }
+    },
     "F0_100k": {
-      "label": "F0@100k",
+      "label": "F0 无RSI@100k",
       "overall": {
         "n": 752,
         "L1_mean": 0.07068297107198691,
@@ -141,8 +202,77 @@
         }
       }
     },
+    "F2_75000": {
+      "label": "F2 Delta@75k",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.07069026419590722,
+        "SSIM_mean": 0.6502702635189053,
+        "coverage_mean": 0.13533745082557602,
+        "LPIPS_mean": 0.1454766027485714,
+        "blank_rate": 0.0
+      },
+      "by_bucket": {
+        "digit": {
+          "n": 160,
+          "L1_mean": 0.0642241082387045,
+          "SSIM_mean": 0.6584672794211656,
+          "coverage_mean": 0.1212070041232639,
+          "LPIPS_mean": 0.14902957355370744,
+          "blank_rate": 0.0
+        },
+        "latin_upper": {
+          "n": 144,
+          "L1_mean": 0.09449435849415345,
+          "SSIM_mean": 0.6019083352714207,
+          "coverage_mean": 0.17502772955246915,
+          "LPIPS_mean": 0.15600032184738666,
+          "blank_rate": 0.0
+        },
+        "latin_lower": {
+          "n": 208,
+          "L1_mean": 0.05054680992795441,
+          "SSIM_mean": 0.7056123503985313,
+          "coverage_mean": 0.1074620434361646,
+          "LPIPS_mean": 0.13399499207914162,
+          "blank_rate": 0.0
+        },
+        "latin_ext": {
+          "n": 80,
+          "L1_mean": 0.0635752703761682,
+          "SSIM_mean": 0.6599805099889636,
+          "coverage_mean": 0.12299804687500004,
+          "LPIPS_mean": 0.13719112961553037,
+          "blank_rate": 0.0
+        },
+        "hiragana": {
+          "n": 64,
+          "L1_mean": 0.09331298019969836,
+          "SSIM_mean": 0.6160702428314835,
+          "coverage_mean": 0.1836971706814236,
+          "LPIPS_mean": 0.1428510015248321,
+          "blank_rate": 0.0
+        },
+        "katakana": {
+          "n": 48,
+          "L1_mean": 0.08320314126710097,
+          "SSIM_mean": 0.5750321739663681,
+          "coverage_mean": 0.1406815140335648,
+          "LPIPS_mean": 0.16142652044072747,
+          "blank_rate": 0.0
+        },
+        "bopomofo": {
+          "n": 48,
+          "L1_mean": 0.07730196094295631,
+          "SSIM_mean": 0.6328713251277804,
+          "coverage_mean": 0.13490351924189817,
+          "LPIPS_mean": 0.1531758614970992,
+          "blank_rate": 0.0
+        }
+      }
+    },
     "F3_80k": {
-      "label": "F3@80k",
+      "label": "F3 legacy Support@80k",
       "overall": {
         "n": 752,
         "L1_mean": 0.07034590398704514,

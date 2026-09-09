@@ -70,10 +70,19 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F3-JOINT-DS-A-S3407/global_step_80000",
     },
+    "F2_75000": {
+        "label": "F2@75k",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_75000",
+    },
 }
 F3_VARIANT = ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser"
 F3_RUN = ROOT / "runs/F3-JOINT-DS-A-S3407"
+F2_RUN = ROOT / "runs/F2-DELTARSI-A-S3407"
 TIMELINE_STEPS = [5000, 10000, 20000, 30000, 40000, 50000, 60000, 75000, 80000]
+# F2 not finished 80k yet; timeline uses whichever named ckpts exist under F2_RUN.
+F2_TIMELINE_CANDIDATES = [5000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 75000]
 # All 16 test fonts; 16 chars covering every script so 9 steps stay readable.
 TIMELINE_CHARS = list("08AGQaegàěあさアンㄅㄚ")
 
@@ -588,6 +597,190 @@ def f3_mid(step: int) -> str:
     return "F3_80k" if step == 80000 else f"F3_{step}"
 
 
+def f2_mid(step: int) -> str:
+    return f"F2_{step}" if step != 75000 else "F2_75000"
+
+
+def f2_timeline_steps() -> list[int]:
+    out = []
+    for step in F2_TIMELINE_CANDIDATES:
+        ckpt = F2_RUN / f"global_step_{step}"
+        if (ckpt / "unet.pth").is_file():
+            out.append(step)
+    return out
+
+
+def generate_f2(device: str, stems: list[str], overwrite: bool) -> None:
+    """Full stratified F2 mid checkpoint: Δ only, no Support (matches train --no-support)."""
+    import torch
+    from accelerate.utils import set_seed
+
+    mid = "F2_75000"
+    n_total = len(stems) * len(STRATIFIED)
+    update_status(
+        {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": "F2@75k"}
+    )
+    variant = METHODS[mid]["variant"]
+    ckpt = METHODS[mid]["ckpt"]
+    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(variant))
+    os.chdir(variant)
+    import train as T
+    from scripts.hrfont_feature_cache import EcCache, EsCache
+    from src.build import (
+        build_content_encoder,
+        build_ddpm_scheduler,
+        build_style_encoder,
+        build_unet,
+    )
+    from src.dpm_solver.dpm_solver_pytorch import DPM_Solver, NoiseScheduleVP
+    from src.model import FontDiffuserModel
+
+    log(mid, "load Es/Ec caches + LibraryEs (F2: delta, no support)")
+    es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
+    ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
+    split = json.loads(SPLIT.read_text(encoding="utf-8"))
+    train_fonts = sorted(split["stems"]["train"])
+    library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
+    cfg = SimpleNamespace(
+        rsi_source="delta",
+        delta_enabled=True,
+        delta_tau=0.07,
+        delta_eps_alpha=0.01,
+        delta_k_max=10,
+        delta_k_top=10,
+        delta_mode="topk",
+        seed=SEED,
+        support=False,
+        support_k=0,
+        style_start_channel=64,
+    )
+    args = SimpleNamespace(
+        resolution=96,
+        unet_channels=(64, 128, 256, 512),
+        style_image_size=(96, 96),
+        content_image_size=(96, 96),
+        content_encoder_downsample_size=3,
+        channel_attn=True,
+        content_start_channel=64,
+        style_start_channel=64,
+        beta_scheduler="scaled_linear",
+    )
+    fd = FontDiffuserModel(
+        unet=build_unet(args),
+        style_encoder=build_style_encoder(args),
+        content_encoder=build_content_encoder(args),
+    )
+    fd.unet.load_state_dict(torch.load(ckpt / "unet.pth", map_location="cpu", weights_only=True))
+    fd.style_encoder.load_state_dict(
+        torch.load(ckpt / "style_encoder.pth", map_location="cpu", weights_only=True)
+    )
+    fd.content_encoder.load_state_dict(
+        torch.load(ckpt / "content_encoder.pth", map_location="cpu", weights_only=True)
+    )
+    T._ban_encoder_forward(fd)
+    device_t = torch.device(device)
+    fd.to(device_t).eval()
+    model = make_dpm_adapter(fd, torch).to(device_t).eval()
+    scheduler = build_ddpm_scheduler(args)
+    noise_schedule = NoiseScheduleVP(schedule="discrete", betas=scheduler.betas)
+    keep = torch.zeros(1, dtype=torch.bool, device=device_t)
+
+    def pack_one(font: str, ch: str):
+        samples = {
+            "split": ["test"],
+            "font_stem": [font],
+            "char_cp": [cp_of(ch)],
+            "ref_chars": [[f"u{ord(c):04X}" for c in "永和书风骨韵天地"]],
+        }
+        style, queries = T._style_conditions(es, samples, device_t)
+        structure = T._structure_features(es, ec, library, samples, queries, cfg, keep, device_t)
+        content = T._content_features(ec, samples, keep, device_t)
+        return {"style": style, "structure": structure, "content": content}
+
+    def sample_one(packed):
+        set_seed(SEED)
+        img = torch.zeros(1, 3, 96, 96, device=device_t)
+        style = packed["style"]
+        structure = packed["structure"]
+        content = packed["content"]
+        cond = [img, img, style, structure, content, None]
+        uncond = [
+            torch.ones_like(img),
+            torch.ones_like(img),
+            torch.zeros_like(style),
+            [torch.zeros_like(x) for x in structure],
+            [torch.zeros_like(x) for x in content],
+            None,
+        ]
+
+        def get_t_input(t_continuous):
+            return (t_continuous - 1.0 / noise_schedule.total_N) * 1000.0
+
+        def model_fn(x, t_continuous):
+            x_in = torch.cat([x, x], dim=0)
+            t_in = torch.cat([t_continuous, t_continuous], dim=0)
+            noise_uncond, noise = model(
+                x_in,
+                get_t_input(t_in),
+                cat_cond(uncond, cond),
+                content_encoder_downsample_size=3,
+                version="V3",
+            ).chunk(2)
+            return noise_uncond + 7.5 * (noise - noise_uncond)
+
+        solver = DPM_Solver(model_fn=model_fn, noise_schedule=noise_schedule, algorithm_type="dpmsolver++")
+        x = torch.randn(1, 3, 96, 96, device=device_t)
+        with torch.no_grad():
+            x = solver.sample(x=x, steps=20, order=2, skip_type="time_uniform", method="multistep")
+        x = (x / 2 + 0.5).clamp(0, 1)[0].detach().cpu().permute(1, 2, 0).numpy()
+        return Image.fromarray((x * 255).round().astype("uint8"))
+
+    done = skipped = 0
+    t0 = time.time()
+    update_status({"method": mid, "phase": "running", "done": 0, "skipped": 0, "total": n_total})
+    for stem in stems:
+        style_p = pick_style_path(stem)
+        for ch in STRATIFIED:
+            out_p = pred_path(mid, stem, ch)
+            out_p.parent.mkdir(parents=True, exist_ok=True)
+            if out_p.is_file() and not overwrite:
+                skipped += 1
+                continue
+            pred = sample_one(pack_one(stem, ch))
+            pred.save(out_p)
+            write_sidecar(mid, stem, ch, style_p)
+            done += 1
+            if (done + skipped) % 20 == 0:
+                rate = done / max(1e-6, time.time() - t0)
+                eta = (n_total - done - skipped) / max(rate, 1e-6)
+                update_status(
+                    {
+                        "method": mid,
+                        "phase": "running",
+                        "done": done,
+                        "skipped": skipped,
+                        "total": n_total,
+                        "rate_per_s": round(rate, 3),
+                        "eta_s": int(eta),
+                        "last": f"{stem} {ch}",
+                    }
+                )
+                log(mid, f"done={done} skipped={skipped}/{n_total} rate={rate:.2f}/s eta={eta/60:.1f}m last={stem} {ch}")
+    elapsed = time.time() - t0
+    update_status(
+        {
+            "method": mid,
+            "phase": "done",
+            "done": done,
+            "skipped": skipped,
+            "total": n_total,
+            "elapsed_s": round(elapsed, 1),
+        }
+    )
+    log(mid, f"finished done={done} skipped={skipped} elapsed={elapsed:.1f}s")
+
+
 def generate_f3_timeline(device: str, overwrite: bool) -> None:
     """Sample F3 named ckpts. Conditions come from frozen F0 caches (shared across steps)."""
     import torch
@@ -872,14 +1065,350 @@ tick(); setInterval(tick, 8000);
     print("wrote", OUT / "timeline.html", "items", len(items))
 
 
+def generate_f2_timeline(
+    device: str,
+    overwrite: bool,
+    stems: list[str] | None = None,
+    steps: list[int] | None = None,
+    status_key: str = "F2_timeline",
+) -> None:
+    """Sample F2 named ckpts with train-matched Δ conditions (no Support).
+
+    Font/step sharding is result-safe: each (font,char,step) calls set_seed(3407).
+    """
+    import torch
+    from accelerate.utils import set_seed
+
+    steps = list(steps) if steps is not None else f2_timeline_steps()
+    if not steps:
+        raise SystemExit(f"no F2 checkpoints under {F2_RUN}")
+    stems = list(stems) if stems is not None else fonts()
+    chars = TIMELINE_CHARS
+    n_total = len(stems) * len(chars) * len(steps)
+    update_status(
+        {
+            "method": status_key,
+            "phase": "loading",
+            "done": 0,
+            "skipped": 0,
+            "total": n_total,
+            "label": f"F2 过程:{status_key}",
+            "stems": stems,
+            "steps": steps,
+        }
+    )
+    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(F3_VARIANT))
+    os.chdir(F3_VARIANT)
+    import train as T
+    from scripts.hrfont_feature_cache import EcCache, EsCache
+    from src.build import (
+        build_content_encoder,
+        build_ddpm_scheduler,
+        build_style_encoder,
+        build_unet,
+    )
+    from src.dpm_solver.dpm_solver_pytorch import DPM_Solver, NoiseScheduleVP
+    from src.model import FontDiffuserModel
+
+    log(status_key, f"load Es/Ec caches; steps={steps} stems={len(stems)}")
+    es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
+    ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
+    split = json.loads(SPLIT.read_text(encoding="utf-8"))
+    train_fonts = sorted(split["stems"]["train"])
+    library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
+    cfg = SimpleNamespace(
+        rsi_source="delta",
+        delta_enabled=True,
+        delta_tau=0.07,
+        delta_eps_alpha=0.01,
+        delta_k_max=10,
+        delta_k_top=10,
+        delta_mode="topk",
+        seed=SEED,
+        support=False,
+        support_k=0,
+        style_start_channel=64,
+    )
+    args = SimpleNamespace(
+        resolution=96,
+        unet_channels=(64, 128, 256, 512),
+        style_image_size=(96, 96),
+        content_image_size=(96, 96),
+        content_encoder_downsample_size=3,
+        channel_attn=True,
+        content_start_channel=64,
+        style_start_channel=64,
+        beta_scheduler="scaled_linear",
+    )
+    device_t = torch.device(device)
+    fd = FontDiffuserModel(
+        unet=build_unet(args),
+        style_encoder=build_style_encoder(args),
+        content_encoder=build_content_encoder(args),
+    )
+    T._ban_encoder_forward(fd)
+    fd.to(device_t).eval()
+    model = make_dpm_adapter(fd, torch).to(device_t).eval()
+    scheduler = build_ddpm_scheduler(args)
+    noise_schedule = NoiseScheduleVP(schedule="discrete", betas=scheduler.betas)
+    keep = torch.zeros(1, dtype=torch.bool, device=device_t)
+
+    def pack_one(font: str, ch: str):
+        samples = {
+            "split": ["test"],
+            "font_stem": [font],
+            "char_cp": [cp_of(ch)],
+            "ref_chars": [[f"u{ord(c):04X}" for c in "永和书风骨韵天地"]],
+        }
+        style, queries = T._style_conditions(es, samples, device_t)
+        structure = T._structure_features(es, ec, library, samples, queries, cfg, keep, device_t)
+        content = T._content_features(ec, samples, keep, device_t)
+        return {"style": style, "structure": structure, "content": content}
+
+    log(status_key, f"precompute conditions fonts={len(stems)} chars={len(chars)}")
+    packed_map = {}
+    for stem in stems:
+        for ch in chars:
+            packed_map[(stem, ch)] = pack_one(stem, ch)
+
+    done = skipped = 0
+    t0 = time.time()
+    for step in steps:
+        mid = f2_mid(step)
+        ckpt = F2_RUN / f"global_step_{step}"
+        log(status_key, f"load {ckpt}")
+        fd.unet.load_state_dict(torch.load(ckpt / "unet.pth", map_location="cpu", weights_only=True))
+        fd.style_encoder.load_state_dict(
+            torch.load(ckpt / "style_encoder.pth", map_location="cpu", weights_only=True)
+        )
+        fd.content_encoder.load_state_dict(
+            torch.load(ckpt / "content_encoder.pth", map_location="cpu", weights_only=True)
+        )
+        fd.to(device_t).eval()
+
+        def sample_one(p):
+            set_seed(SEED)
+            img = torch.zeros(1, 3, 96, 96, device=device_t)
+            cond = [img, img, p["style"], p["structure"], p["content"], None]
+            uncond = [
+                torch.ones_like(img),
+                torch.ones_like(img),
+                torch.zeros_like(p["style"]),
+                [torch.zeros_like(x) for x in p["structure"]],
+                [torch.zeros_like(x) for x in p["content"]],
+                None,
+            ]
+
+            def get_t_input(t_continuous):
+                return (t_continuous - 1.0 / noise_schedule.total_N) * 1000.0
+
+            def model_fn(x, t_continuous):
+                x_in = torch.cat([x, x], dim=0)
+                t_in = torch.cat([t_continuous, t_continuous], dim=0)
+                noise_uncond, noise = model(
+                    x_in,
+                    get_t_input(t_in),
+                    cat_cond(uncond, cond),
+                    content_encoder_downsample_size=3,
+                    version="V3",
+                ).chunk(2)
+                return noise_uncond + 7.5 * (noise - noise_uncond)
+
+            solver = DPM_Solver(model_fn=model_fn, noise_schedule=noise_schedule, algorithm_type="dpmsolver++")
+            x = torch.randn(1, 3, 96, 96, device=device_t)
+            with torch.no_grad():
+                x = solver.sample(x=x, steps=20, order=2, skip_type="time_uniform", method="multistep")
+            x = (x / 2 + 0.5).clamp(0, 1)[0].detach().cpu().permute(1, 2, 0).numpy()
+            return Image.fromarray((x * 255).round().astype("uint8"))
+
+        for stem in stems:
+            style_p = pick_style_path(stem)
+            for ch in chars:
+                out_p = pred_path(mid, stem, ch)
+                out_p.parent.mkdir(parents=True, exist_ok=True)
+                if out_p.is_file() and not overwrite:
+                    skipped += 1
+                    continue
+                pred = sample_one(packed_map[(stem, ch)])
+                pred.save(out_p)
+                write_sidecar(mid, stem, ch, style_p)
+                done += 1
+                if (done + skipped) % 20 == 0:
+                    rate = done / max(1e-6, time.time() - t0)
+                    eta = (n_total - done - skipped) / max(rate, 1e-6)
+                    update_status(
+                        {
+                            "method": status_key,
+                            "phase": "running",
+                            "done": done,
+                            "skipped": skipped,
+                            "total": n_total,
+                            "rate_per_s": round(rate, 3),
+                            "eta_s": int(eta),
+                            "last": f"{step} {stem} {ch}",
+                        }
+                    )
+                    log(
+                        status_key,
+                        f"step={step} done={done} skipped={skipped}/{n_total} rate={rate:.2f}/s eta={eta/60:.1f}m",
+                    )
+    elapsed = time.time() - t0
+    update_status(
+        {
+            "method": status_key,
+            "phase": "done",
+            "done": done,
+            "skipped": skipped,
+            "total": n_total,
+            "elapsed_s": round(elapsed, 1),
+        }
+    )
+    log(status_key, f"finished done={done} skipped={skipped} elapsed={elapsed:.1f}s")
+    write_f2_timeline_html()
+
+
+def write_f2_timeline_html() -> None:
+    steps = f2_timeline_steps()
+    mids = [f2_mid(s) for s in steps]
+    items = []
+    for stem in fonts():
+        for ch in TIMELINE_CHARS:
+            preds = {
+                f2_mid(s): f"preds/{f2_mid(s)}/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png" for s in steps
+            }
+            items.append(
+                {
+                    "font": stem,
+                    "char": ch,
+                    "cp": cp_of(ch),
+                    "bucket": script_bucket(ch),
+                    "content": f"refs/content/{cp_of(ch)}.png",
+                    "style": f"refs/style/{stem}.png",
+                    "gt": f"refs/gt/{stem}+{cp_of(ch)}.png",
+                    "f0": f"preds/F0_100k/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png",
+                    "f3": f"preds/F3_80k/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png",
+                    "preds": preds,
+                }
+            )
+    payload = {
+        "fonts": fonts(),
+        "chars": TIMELINE_CHARS,
+        "steps": steps,
+        "mids": mids,
+        "items": items,
+        "note": "mid-train F2; 80k not included until DONE",
+    }
+    html = f"""<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="refresh" content="25"/>
+<title>F2 训练过程 · test16</title>
+<style>
+:root{{--bg:#eef1f5;--card:#fff;--line:#d5dbe3;--muted:#5c6570;--ink:#1a1a1a;--accent:#1f4a6f}}
+*{{box-sizing:border-box}} body{{margin:0;font:14px/1.45 system-ui,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--ink)}}
+header{{background:var(--card);border-bottom:1px solid var(--line);padding:14px 18px}}
+h1{{margin:0;font-size:1.2rem}} .meta{{color:var(--muted);font-size:12px;margin-top:4px}}
+main{{max-width:1500px;margin:16px auto;padding:0 14px 48px}}
+.note{{background:#fff8e8;border:1px solid #e6d7a8;padding:8px 10px;margin:10px 0;font-size:12px}}
+select{{padding:6px 8px;border:1px solid var(--line);background:#fff;margin-right:6px}}
+.grid{{overflow-x:auto}}
+table.g th,table.g td{{border:1px solid var(--line);padding:3px;text-align:center;vertical-align:bottom;font-size:11px;color:var(--muted)}}
+table.g img{{width:72px;height:72px;image-rendering:pixelated;display:block;background:#fff}}
+table.g td.ch{{font:700 15px/1.2 ui-serif,serif;color:var(--ink)}}
+a{{color:var(--accent)}}
+pre{{white-space:pre-wrap}}
+</style></head><body>
+<header>
+  <h1>F2 从 5k 到 75k 的变化（中间结果）</h1>
+  <div class="meta">协议同 F3 时间线：test16 × 16 跨语种字 · DPM++20 / CFG7.5 / seed 3407 · <a href="./">终点评测</a> · <a href="timeline.html">F3 过程</a></div>
+</header>
+<main>
+<div class="note">左列为 GT / F0@100k / F3@80k 对照；其后每一列是 F2 checkpoint。条件是 <b>cache Δ only</b>（无 Support），与训练 <code>--no-support</code> 一致。75k 是当前续训前最后落盘点；80k 完成后可再补一列。像素观感诊断，不是风格终局。</div>
+<section><pre id="prog" class="meta">读取进度…</pre></section>
+<p>
+  <label>字体 <select id="font"></select></label>
+  <label>语种 <select id="bucket"><option value="">全部</option></select></label>
+</p>
+<div class="grid" id="sheet"></div>
+</main>
+<script>
+const DATA = {json.dumps(payload, ensure_ascii=False)};
+const BNAME = {{digit:'数字', latin_upper:'拉丁大写', latin_lower:'拉丁小写', latin_ext:'拉丁扩展', hiragana:'平假名', katakana:'片假名', bopomofo:'注音'}};
+const fontSel = document.getElementById('font');
+const bucketSel = document.getElementById('bucket');
+DATA.fonts.forEach(f => {{ const o=document.createElement('option'); o.value=f; o.textContent=f; fontSel.appendChild(o); }});
+[...new Set(DATA.items.map(i=>i.bucket))].forEach(b => {{ const o=document.createElement('option'); o.value=b; o.textContent=BNAME[b]||b; bucketSel.appendChild(o); }});
+function render(){{
+  const font=fontSel.value, bucket=bucketSel.value;
+  const items=DATA.items.filter(it=>it.font===font && (!bucket || it.bucket===bucket));
+  const heads=['字','Content','GT','F0@100k','F3@80k'].concat(DATA.steps.map(s=>'F2@'+(s/1000)+'k'));
+  let h='<table class="g"><thead><tr>'+heads.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>';
+  for (const it of items){{
+    h += '<tr><td class="ch">'+it.char+'</td>';
+    h += '<td><img src="'+it.content+'"/></td><td><img src="'+it.gt+'"/></td><td><img src="'+it.f0+'"/></td><td><img src="'+it.f3+'" onerror="this.style.opacity=.2"/></td>';
+    for (const mid of DATA.mids){{
+      h += '<td><img src="'+it.preds[mid]+'" onerror="this.style.opacity=.2"/></td>';
+    }}
+    h += '</tr>';
+  }}
+  document.getElementById('sheet').innerHTML = h+'</tbody></table>';
+}}
+fontSel.onchange=render; bucketSel.onchange=render; render();
+async function tick(){{
+  try {{
+    const s = await (await fetch('status.json?t='+Date.now(),{{cache:'no-store'}})).json();
+    const ms = s.methods||{{}};
+    const keys = Object.keys(ms).filter(k => k==='F2_timeline' || k.startsWith('F2_timeline_'));
+    let t = '';
+    if (!keys.length) t = 'waiting…';
+    for (const k of keys){{
+      const v = ms[k]||{{}};
+      const tot=v.total||0, d=(v.done||0)+(v.skipped||0);
+      const pct = tot? Math.round(100*d/tot):0;
+      t += k+' '+(v.phase||'')+' '+d+'/'+tot+' ('+pct+'%)';
+      if (v.eta_s) t += ' ETA '+Math.round(v.eta_s/60)+'m';
+      if (v.last) t += ' '+v.last;
+      t += '\\n';
+    }}
+    document.getElementById('prog').textContent = t;
+  }} catch(e) {{ document.getElementById('prog').textContent = String(e); }}
+}}
+tick(); setInterval(tick, 8000);
+</script>
+</body></html>
+"""
+    (OUT / "timeline_f2.html").write_text(html, encoding="utf-8")
+    print("wrote", OUT / "timeline_f2.html", "items", len(items), "steps", steps)
+
+
 def cmd_timeline(args: argparse.Namespace) -> None:
     refuse_f2_gpu()
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "logs").mkdir(exist_ok=True)
-    write_timeline_html()
-    if args.html_only:
-        return
-    generate_f3_timeline(args.device, args.overwrite)
+    arm = getattr(args, "arm", "F3").upper()
+    if arm == "F2":
+        write_f2_timeline_html()
+        if args.html_only:
+            return
+        stems = shard_list(fonts(), args.shard)
+        steps = f2_timeline_steps()
+        if getattr(args, "steps", None):
+            want = {int(x) for x in args.steps.split(",") if x.strip()}
+            steps = [s for s in steps if s in want]
+        status_key = f"F2_timeline_{args.shard.replace('/', 'of')}"
+        generate_f2_timeline(
+            args.device,
+            args.overwrite,
+            stems=stems,
+            steps=steps,
+            status_key=status_key,
+        )
+    else:
+        write_timeline_html()
+        if args.html_only:
+            return
+        generate_f3_timeline(args.device, args.overwrite)
 
 
 def cmd_generate(args: argparse.Namespace) -> None:
@@ -902,8 +1431,11 @@ def cmd_generate(args: argparse.Namespace) -> None:
     (OUT / "PROTOCOL.json").write_text(json.dumps(protocol, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     update_status({"protocol": "E1-stratified test16×47 seed3407", "phase": "generate"})
     mid = args.method
-    if METHODS[mid]["kind"] == "f3":
+    kind = METHODS[mid]["kind"]
+    if kind == "f3":
         generate_f3(args.device, stems, args.overwrite)
+    elif kind == "f2":
+        generate_f2(args.device, stems, args.overwrite)
     else:
         generate_image_method(mid, args.device, stems, args.overwrite)
 
@@ -1072,20 +1604,21 @@ def write_html(payload: dict) -> None:
     rows = []
     methods = payload["methods"]
     mids = [m["id"] for m in methods]
+    label_of = {m["id"]: m["label"] for m in methods}
     if metrics.get("methods"):
         rows.append("<table><thead><tr><th>方法</th><th>n</th><th>L1↓</th><th>SSIM↑</th><th>LPIPS↓</th></tr></thead><tbody>")
         for mid in mids:
             o = metrics["methods"].get(mid, {}).get("overall", {})
             rows.append(
                 "<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
-                    METHODS[mid]["label"], o.get("n"),
+                    label_of.get(mid, mid), o.get("n"),
                     _fmt(o.get("L1_mean")), _fmt(o.get("SSIM_mean")), _fmt(o.get("LPIPS_mean")),
                 )
             )
         rows.append("</tbody></table>")
         rows.append("<h3>按语种</h3><table><thead><tr><th>语种</th>")
         for mid in mids:
-            rows.append(f"<th>{METHODS[mid]['label']} L1</th><th>SSIM</th>")
+            rows.append(f"<th>{label_of.get(mid, mid)} L1</th><th>SSIM</th>")
         rows.append("</tr></thead><tbody>")
         for b in BUCKET_ORDER:
             cells = [b]
@@ -1100,7 +1633,7 @@ def write_html(payload: dict) -> None:
 <html lang="zh-CN"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta http-equiv="refresh" content="20"/>
-<title>F0 / F3 · test16 × 47 分层评测</title>
+<title>P1 / E1 / F0 / F2 / F3 · test16 × 47</title>
 <style>
 :root{{--bg:#eef1f5;--card:#fff;--line:#d5dbe3;--muted:#5c6570;--ink:#1a1a1a;--accent:#1f4a6f}}
 *{{box-sizing:border-box}} body{{margin:0;font:14px/1.45 system-ui,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--ink)}}
@@ -1121,12 +1654,14 @@ select{{padding:6px 8px;border:1px solid var(--line);background:#fff;margin-righ
 .pill{{display:inline-block;border:1px solid var(--line);padding:1px 8px;font-size:12px;margin-right:6px}}
 </style></head><body>
 <header>
-  <h1>官方 · F0@100k · F3@80k　测试集分层评测</h1>
-  <div class="meta">test16 套字体 × 47 个分层字符（数字 / 拉丁大小写 / 拉丁扩展 / 平假名 / 片假名 / 注音）· DPM++20 CFG7.5 seed3407 · 与 E1 正式评测同一口径</div>
+  <h1>P1 · E1@100k · F0@100k · F2@75k · F3@80k　测试集分层评测</h1>
+  <div class="meta">test16 × 47 · DPM++20 CFG7.5 seed3407 · 同协议 A。列序：官方零样本 → 官方RSI微调(E1) → 去RSI(F0) → Delta(F2) → Support legacy(F3)</div>
 </header>
 <main>
-<div class="note">这是补全后的代表性格。旧看板 4 字体 × AaG0e 只是训练中途探针，请以本页为准。像素指标相对 GT，不是风格终局；E12 仍未过门。验证集不在这里（val 只用于选 checkpoint）。<br/><b><a href="delta_retrieve/">Δ 检索诊断（汉字依据 vs 取回的西文）→</a></b>
-<br/><b><a href="timeline.html">看 F3 从 5k 到 80k 的变化过程 →</a></b></div>
+<div class="note">像素指标相对 GT，仅为诊断。E1 自 formal strat 并入（与本页 P1 字节一致）。F1 / F3b 待训完再评。<br/><b><a href="http://127.0.0.1:8768/">Compare Portal →</a></b>
+<br/><b><a href="delta_retrieve/">Δ 检索诊断 →</a></b>
+<br/><b><a href="timeline.html">F3 时间线 →</a></b>
+<br/><b><a href="timeline_f2.html">F2 时间线 →</a></b></div>
 <section class="card" id="progress"><h2>出图进度</h2><pre id="prog" class="meta">读取 status.json …</pre></section>
 <section class="card"><h2>诊断指标（相对 GT）</h2>{metric_html or "<p class='meta'>指标将在三路出图完成后计算。</p>"}
 <p class="cap">L1 越低、SSIM 越高、LPIPS 越低通常越贴近像素真值。跨文字风格主张仍要等独立评测器。</p>
@@ -1139,7 +1674,7 @@ select{{padding:6px 8px;border:1px solid var(--line);background:#fff;margin-righ
   </p>
   <div class="grid" id="sheet"></div>
 </section>
-<p class="cap">F3 走训练条件：cache Δ + 同字体 Support×8，不是再跑官方图像 RSI。官方与 F0 走 Content + Style「永」。每张图独立 set_seed(3407)，分卡/分字体不改变结果。</p>
+<p class="cap">F2 走 cache Δ（无 Support）；F3 走 cache Δ + 同字体 Support×8。官方与 F0 走 Content + Style「永」。每张图独立 set_seed(3407)，分卡/分字体不改变结果。F2@75k 是中间落盘，非最终 80k。</p>
 </main>
 <script>
 const DATA = {json.dumps({"fonts": payload["fonts"], "chars": payload["chars"], "buckets": payload["buckets"], "methods": payload["methods"], "items": payload["items"]}, ensure_ascii=False)};
@@ -1210,7 +1745,10 @@ def main() -> None:
     p = sub.add_parser("progress-page")
     p.set_defaults(func=cmd_gallery)
     t = sub.add_parser("timeline")
+    t.add_argument("--arm", choices=["F2", "F3", "f2", "f3"], default="F3")
     t.add_argument("--device", default="cuda:0")
+    t.add_argument("--shard", default="0/1", help="font shard i/n; result-safe with per-item seed")
+    t.add_argument("--steps", default="", help="optional comma steps e.g. 5000,10000")
     t.add_argument("--overwrite", action="store_true")
     t.add_argument("--html-only", action="store_true")
     t.set_defaults(func=cmd_timeline)
