@@ -1557,7 +1557,16 @@ def copy_refs() -> None:
 
 
 def cmd_gallery(_args: argparse.Namespace) -> None:
+    """Refresh browse_index refs; prefer fair-axes HTML rebuild (keeps E1 if present)."""
     copy_refs()
+    # Prefer dedicated rebuild: preserves E1 columns + Mode A/B/C UI.
+    rebuild = ROOT / "scripts/rebuild_glyph_board_fair_axes.py"
+    if rebuild.is_file() and (OUT / "browse_index.json").is_file():
+        import runpy
+
+        runpy.run_path(str(rebuild), run_name="__main__")
+        update_status({"phase": "gallery_done", "ui": "fair_axes_v1"})
+        return
     metrics = {}
     mp = OUT / "metrics_summary.json"
     if mp.is_file():

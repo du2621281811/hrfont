@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>方法图画图说明书 · 给 GPT / 绘图模型</title>
+<style>
+  :root {
+    --bg: #f6f3ee;
+    --card: #fffdf9;
+    --ink: #1a1814;
+    --muted: #5a554c;
+    --line: #d2cbc0;
+    --keep: #3d5a45;
+    --keep-bg: #e8f0ea;
+    --new: #8a4b12;
+    --new-bg: #f8ebe0;
+    --drop: #7a3030;
+    --drop-bg: #f7e8e8;
+    --accent: #245a78;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: "Noto Sans SC", "PingFang SC", "Source Han Sans SC", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font: 14.5px/1.5 var(--sans);
+    background: var(--bg);
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 22px 18px 56px; }
+  h1 { margin: 0 0 4px; font-size: 1.45rem; line-height: 1.25; }
+  h2 {
+    margin: 22px 0 8px;
+    font-size: 1.05rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 8px;
+  }
+  h3 { margin: 12px 0 6px; font-size: 0.98rem; }
+  .meta { color: var(--muted); font-size: 12.5px; margin-bottom: 14px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin: 10px 0;
+  }
+  .prompt {
+    background: #1a1814;
+    color: #f3efe7;
+    font-family: var(--mono);
+    font-size: 12.2px;
+    line-height: 1.45;
+    padding: 14px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    overflow-x: auto;
+  }
+  .btnrow { margin: 8px 0 0; }
+  button {
+    border: 1px solid var(--line);
+    background: #fff;
+    padding: 6px 10px;
+    font: inherit;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { border: 1px solid var(--line); padding: 6px 7px; vertical-align: top; text-align: left; }
+  th { background: #efeae2; color: var(--muted); font-size: 12px; }
+  .keep { background: var(--keep-bg); }
+  .new { background: var(--new-bg); }
+  .drop { background: var(--drop-bg); }
+  .pill {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-right: 4px;
+    border: 1px solid transparent;
+  }
+  .pill.keep { color: var(--keep); border-color: #b7cfc0; }
+  .pill.new { color: var(--new); border-color: #e0c2a4; }
+  .pill.drop { color: var(--drop); border-color: #e0b4b4; }
+  .flow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.4;
+    background: #221f1b;
+    color: #efe8dc;
+    padding: 12px 14px;
+    border-radius: 4px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .eq {
+    font-family: var(--mono);
+    background: #efeae2;
+    padding: 10px 12px;
+    border-radius: 3px;
+    font-size: 12.5px;
+    overflow-x: auto;
+  }
+  ul { margin: 6px 0; padding-left: 1.2rem; }
+  li { margin: 3px 0; }
+  .warn {
+    border-left: 4px solid #8a5a12;
+    background: #fff8eb;
+    border: 1px solid #e6d4a8;
+    border-left-width: 4px;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .small { color: var(--muted); font-size: 12px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>方法图画图说明书</h1>
+  <p class="meta">给 GPT / 绘图模型用 · 基于 FontDiffuser + CF-Font 画本方法总览图 · 不要当实验汇报页用</p>
+
+  <h2>1. 你要附上什么</h2>
+  <div class="card">
+    <ol>
+      <li><strong>FontDiffuser 论文方法图</strong>（截图）：标出 Content、Style、内容编码器、风格编码器、扩散 UNet、官方结构迁移（RSI / 形变卷积）。</li>
+      <li><strong>CF-Font 论文方法图</strong>（截图）：标出「库字体内容融合」那一块即可。</li>
+      <li><strong>本页全文</strong>（可复制第 2 节提示词 + 第 3–6 节规格）。</li>
+    </ol>
+    <p class="small">没有两篇基线图，模型只能凭空画，容易画成流程图而不是论文方法图。</p>
+  </div>
+
+  <h2>2. 复制这段提示词给 GPT</h2>
+  <div class="card">
+    <pre class="prompt" id="prompt">请基于附件中的 FontDiffuser、CF-Font 方法图，画一张论文风格的方法总览图（类似 AAAI/CVPR 方法图：白底、模块方框、箭头、少数字公式）。
+
+【任务】
+未见过的中文字体 → 给若干汉字风格参考 → 生成同一风格的拉丁/数字/假名/注音。
+
+【必须保留的 FontDiffuser 骨架（灰色/细线框，标注 Inherited）】
+- Content 图（目标字符，中性字体渲染）→ 内容编码器 Ec → 多尺度内容聚合（MCA）进入扩散 UNet
+- 目标字体风格参考图 → 风格编码器 Es → 风格交叉注意力进入 UNet
+- 扩散 UNet（含上采样中的结构迁移模块 RSI：交叉注意力预测 offset + 可变形卷积 DCN）
+- 输出：生成的目标字形
+
+【相对 FontDiffuser 的关键改动（彩色/粗线框，标注 Ours / Replaced）】
+官方做法：把「风格参考汉字」再送进 Ec，得到的绝对结构特征作为 RSI 的结构条件。
+我们的做法：不再用「参考汉字的 Ec」驱动 RSI，改为「同目标字符的近邻残差 Δ」：
+  1) 用 Es(风格参考) 在训练字体库中按风格相似度检索 Top-10 近邻字体；
+  2) 取这些近邻字体上「同一个目标字符 c」的 Ec 特征，加权平均；
+  3) 减去中性 Content 上同一字符 c 的 Ec，得到残差 Δ；
+  4) 将 Δ 送入 RSI（RSI/DCN 模块本身保留，只换结构条件来源）。
+灵感来自 CF-Font 的库内容融合，但我们是：风格近邻加权 + 强制同字符对齐 + 减中性残差；不是 CF-Font 原样复现，图中用虚线注释 “inspired by, not identical”。
+
+【可选模块（虚线框，标注 Optional）】
+Support：目标字体若干汉字经 Ec → 小型适配器 → 注入 UNet 上采样路径的风格注意力（补充局部笔触证据）。主图可画成可开关旁路。
+
+【图面要求】
+- 左或上：FontDiffuser 原结构条件路径（划掉或灰色 “Ec(style glyph) → RSI”）
+- 中/右：我们的 Δ 路径（高亮）
+- 清楚画出：风格参考只经 Es 做「风格条件 + 检索」；Δ 的字符身份来自「同字 c」，不是来自参考汉字笔画骨架
+- 旁注：训练时风格参考随机 1–8 张；评测固定八字「永和书风骨韵天地」
+- 不要画实验消融表、不要堆内部代号（F0/F1/F2…）；模块用中英文全称
+- 输出横向论文图，分辨率适合单栏或双栏插图</pre>
+    <div class="btnrow"><button type="button" onclick="copyPrompt()">复制提示词</button> <span class="small" id="copied"></span></div>
+  </div>
+
+  <h2>3. 模块着色表（画图时严格按此）</h2>
+  <table>
+    <thead>
+      <tr><th>模块</th><th>来源</th><th>图上怎么画</th></tr>
+    </thead>
+    <tbody>
+      <tr class="keep"><td>内容图 Content、内容编码器 Ec、MCA</td><td><span class="pill keep">继承 FontDiffuser</span></td><td>灰框</td></tr>
+      <tr class="keep"><td>风格参考、风格编码器 Es、风格交叉注意力</td><td><span class="pill keep">继承</span></td><td>灰框</td></tr>
+      <tr class="keep"><td>扩散 UNet、RSI 注意力头、DCN</td><td><span class="pill keep">继承（块不拆）</span></td><td>灰框；标注 “RSI block kept”</td></tr>
+      <tr class="drop"><td>官方：风格参考汉字 → Ec → 作为 RSI 结构条件</td><td><span class="pill drop">替换掉</span></td><td>灰线 + 叉掉，或旁注 “official path replaced”</td></tr>
+      <tr class="new"><td>训练库 228 字体 + Es 相似度 → Top-10</td><td><span class="pill new">本方法</span></td><td>彩框 “Style-kNN over font bank”</td></tr>
+      <tr class="new"><td>近邻同字符 Ec 加权 − Content 同字 Ec → Δ</td><td><span class="pill new">本方法</span></td><td>彩框；写公式</td></tr>
+      <tr class="new"><td>Δ → RSI 结构条件</td><td><span class="pill new">接线改动</span></td><td>粗箭头进入 RSI</td></tr>
+      <tr class="new"><td>Support 适配器（可选）</td><td><span class="pill new">可选扩展</span></td><td>虚线旁路</td></tr>
+      <tr class="keep"><td>库内容融合思想</td><td><span class="pill keep">启发自 CF-Font</span></td><td>脚注，勿画成 CF-Font 复制</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 信息流草图（给模型对齐布局）</h2>
+  <pre class="flow">┌──────────────┐     ┌──────────────┐
+│ Content (c)  │     │ Style refs R │  训练: 随机 n∈[1,8] 汉字
+│ 中性同字图    │     │ 目标字体汉字  │  评测: 固定 永和书风骨韵天地
+└──────┬───────┘     └───────┬──────┘
+       │ Ec                  │ Es
+       ▼                     ├──────────────────────┐
+┌──────────────┐             ▼                      ▼
+│ MCA / Identity│      ┌─────────────┐      ┌─────────────────┐
+│ → UNet       │      │ Style attn  │      │ Font-bank kNN   │
+└──────────────┘      │ → UNet      │      │ Top-10 by Es(R) │
+                      └─────────────┘      └────────┬────────┘
+                                                    │ 取近邻字体上
+                                                    │ 同一字符 c 的 Ec
+                                                    ▼
+                                           ┌─────────────────┐
+                                           │ Σ α·Ec(neigh,c) │
+                                           │    − Ec(Content,c)
+                                           │         = Δ       │
+                                           └────────┬────────┘
+                                                    │ 替换官方 Ec(style)
+                                                    ▼
+┌─────────────────────────────────────────────────────────────┐
+│ Diffusion UNet                                              │
+│   … upsample: RSI(Query=Δ, K/V=skip) → offset → DCN …       │
+│   optional: Support(target-font CN glyphs) → style attn     │
+└─────────────────────────────┬───────────────────────────────┘
+                              ▼
+                     Generated glyph (c, target style)</pre>
+
+  <h2>5. 必须出现的公式</h2>
+  <div class="eq">
+    α = softmax( sim(Es(R), Es(bank)) / τ )，取 Top-10，τ = 0.07<br/><br/>
+    Δ_c = Σ<sub>j</sub> α̃<sub>j</sub> · Ec(字体<sub>j</sub>, 字符 c) − Ec(Content, 字符 c)<br/><br/>
+    然后：Δ_c → RSI → DCN（UNet 上采样）
+  </div>
+  <p class="small">要点：减的是<strong>同字符</strong>中性内容特征；检索按<strong>字体风格</strong>，融合的是<strong>同字内容特征</strong>。</p>
+
+  <h2>6. 和两篇基线的一句话差别</h2>
+  <div class="card">
+    <ul>
+      <li><strong>vs FontDiffuser：</strong>保留 RSI/DCN 硬件；把 RSI 的结构条件从「参考汉字绝对 Ec」换成「目标字符对齐的近邻残差 Δ」。风格仍走 Es。</li>
+      <li><strong>vs CF-Font：</strong>都用库字体内容信息；我们不做其原论文式聚类基底插值，而是风格 kNN + 同字残差，专门接到扩散模型的 RSI。</li>
+    </ul>
+  </div>
+
+  <h2>7. 不要画进主方法图的东西</h2>
+  <div class="warn">
+    <ul>
+      <li>实验消融编号表（无结构迁移 / 官方 RSI / 近邻残差 / 支持特征对照）→ 那是实验图，不是方法图。</li>
+      <li>像素指标、训练曲线、GPU、checkpoint 步数。</li>
+      <li>把 Support 画成「又多看 8 个与 ref 完全不同的字」——旧版支持字表常与 ref8 相同，是<strong>多通路编码</strong>；新版支持设计若画上，单独虚线并标注 “design variant”。</li>
+      <li>把测试字体画进训练库；库是 train228，测试字体只作查询。</li>
+    </ul>
+  </div>
+
+  <h2>8. 建议版式</h2>
+  <div class="card">
+    <ul>
+      <li><strong>方案 A（推荐）：</strong>单张横向总览；左侧 Inherited 骨架，右侧高亮 Δ 分支。</li>
+      <li><strong>方案 B：</strong>上排 FontDiffuser 官方结构条件（小、灰），下排 Ours（大、彩）。</li>
+      <li>颜色不超过 3 种强调色；模块名中英均可，公式用 Δ、Ec、Es。</li>
+    </ul>
+  </div>
+
+  <p class="small" style="margin-top:18px">
+    文件：<code>reports/METHOD_FIGURE_BRIEF_FOR_GPT.html</code>
+    · 同端口：
+    <a href="http://127.0.0.1:8767/METHOD_FIGURE_BRIEF_FOR_GPT.html">:8767</a> /
+    <a href="http://127.0.0.1:8768/METHOD_FIGURE_BRIEF_FOR_GPT.html">:8768</a>
+    · 导师实验汇报是另一页，勿混淆。
+  </p>
+</main>
+<script>
+function copyPrompt() {
+  const t = document.getElementById('prompt').innerText;
+  navigator.clipboard.writeText(t).then(() => {
+    document.getElementById('copied').textContent = '已复制';
+    setTimeout(() => document.getElementById('copied').textContent = '', 2000);
+  }).catch(() => {
+    document.getElementById('copied').textContent = '复制失败，请手动全选黑框';
+  });
+}
+</script>
+</body>
+</html>

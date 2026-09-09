@@ -201,6 +201,14 @@
           </thead>
           <tbody></tbody>
         </table>
+        <h2 style="margin-top:1.2rem">E12 v5.1 风格分（生成器侧）</h2>
+        <p class="lede" style="margin:0 0 0.5rem;font-size:0.9rem">query=pred，refs=目标字体 ref8；test16 held-out。主看 mem_prob (latin+digit)↑。不与 L1 合成总分。</p>
+        <table id="e12-gen-table">
+          <thead>
+            <tr><th>方法</th><th>n</th><th>φ SC-R ↑</th><th>mem_prob ↑</th><th>mem_prob L+D ↑</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
       <div>
         <h2>对照预设</h2>
@@ -221,17 +229,18 @@
   <section id="glyph">
     <h2>字形对比 Lab</h2>
     <p class="lede" style="margin-top:0">
-      交互浏览复用已上线的 test16 看板（并排 pred / GT）。本门户后续会把「多选方法 + Diff 热力 + Hard cases」收进同页；
-      当前请用下方入口，按 font×char 对比已有 P1 / F0 / F2@75k / F3@80k。
+      同一页 Glyph Board，用 <strong>Mode A / B / C</strong> 切换公平轴（不是三个网站）。
+      顶栏条件条显式显示 1-shot「永」或 ref8；列脚注带 shot / ckpt。全览 Mode C 仅浏览，禁止当总排行榜。
     </p>
     <div class="preset">
       <a class="links" id="glyph-open" href="http://127.0.0.1:8767/" target="_blank" rel="noopener">打开 Glyph Board (:8767)</a>
     </div>
     <ul class="scope">
-      <li><strong>Strip</strong>：GT + 多方法缩略图 + 脚注 L1/SSIM</li>
-      <li><strong>Diff</strong>：选基准方法，对其余做差图（规划中）</li>
-      <li><strong>Hard cases</strong>：按配对有利差排序 top-K（规划中，数据已有 metrics_items）</li>
-      <li><strong>Script 过滤</strong>：Lu / Ll / 其他（与 RESULTS_COMPARE 分组一致）</li>
+      <li><strong>Mode A · 1-shot 消融</strong>：P1 | E1@100k | F0@100k + GT（官方 RSI 有没有用）</li>
+      <li><strong>Mode B · 8-ref 增量</strong>：F2@75k | F3 legacy@80k + GT（Δ 上再加 Support？）</li>
+      <li><strong>Mode C · 全览</strong>：五列同屏 + 跨 shot 警告条</li>
+      <li><strong>指标双轨</strong>：Diagnostic vs GT｜Style = E12 v5.1 生成器打分（板内 Style 页签）</li>
+      <li>Diff / Hard cases：规划中（数据已有 metrics_items）</li>
     </ul>
   </section>
 
@@ -254,11 +263,14 @@
   <section id="e12">
     <h2>风格判分 E12（与生成器分栏）</h2>
     <div class="grid" id="e12-grid"></div>
+    <p class="lede" style="margin:1rem 0 0.4rem">生成器侧打分（test16×47，见总览表）已写入
+      <a href="../f03_test16_strat/e12_v51_scores.json">e12_v51_scores.json</a>；字形板 Style 页签同步。</p>
     <div class="links" style="margin-top:1rem">
-      <a href="http://127.0.0.1:8766/standalone.html" target="_blank" rel="noopener">E12 eye probe</a>
-      <a href="http://127.0.0.1:8766/e12_mistakes_collage.png" target="_blank" rel="noopener">错例 collage</a>
+      <a href="http://127.0.0.1:8770/" target="_blank" rel="noopener">E12 v5.1 眼测 (:8770)</a>
+      <a href="../e12_v51_summary.json" target="_blank" rel="noopener">scorer 自身 AUC</a>
+      <a href="http://127.0.0.1:8766/" target="_blank" rel="noopener">旧 v4 眼测 (:8766，勿混)</a>
     </div>
-    <div class="callout">E12 分数不与 L1/SSIM/LPIPS 加权成「总分」。GT 像素诊断 ≠ 论文风格 claim。</div>
+    <div class="callout">E12 分数不与 L1/SSIM/LPIPS 加权成「总分」。主看 mem_prob (latin+digit)；假名/注音为外推。</div>
   </section>
 
   <section id="protocol">
@@ -327,6 +339,26 @@ async function main() {
     tbody.appendChild(tr);
   }
 
+  const e12g = (m.e12_generator_v51 || {}).rows || [];
+  const egBody = document.querySelector('#e12-gen-table tbody');
+  if (egBody && e12g.length) {
+    const bestE = {
+      phi_sc_r: Math.max(...e12g.map(r => r.phi_sc_r).filter(x => x != null)),
+      mem_prob: Math.max(...e12g.map(r => r.mem_prob).filter(x => x != null)),
+      mem_prob_latin_digit: Math.max(...e12g.map(r => r.mem_prob_latin_digit).filter(x => x != null)),
+    };
+    for (const r of e12g) {
+      const tr = document.createElement('tr');
+      const cell = (x, k) => {
+        if (x == null) return '<td>—</td>';
+        const cls = Math.abs(x - bestE[k]) < 1e-12 ? ' class="best"' : '';
+        return `<td${cls}>${x.toFixed(4)}</td>`;
+      };
+      tr.innerHTML = `<td>${r.id}</td><td>${r.n ?? '—'}</td>${cell(r.phi_sc_r,'phi_sc_r')}${cell(r.mem_prob,'mem_prob')}${cell(r.mem_prob_latin_digit,'mem_prob_latin_digit')}`;
+      egBody.appendChild(tr);
+    }
+  }
+
   const links = document.getElementById('links');
   const L = m.links || {};
   for (const [k, href] of Object.entries(L)) {
@@ -359,16 +391,17 @@ async function main() {
     <li>Split: <code>${p.split}</code> · fonts=${p.n_fonts} · chars=${p.chars_n} · n=${(p.n_fonts||0)*(p.chars_n||0)}</li>
     <li>Seed: <code>${p.seed}</code>（per-item set_seed，方法间配对）</li>
     <li>Sampler: <code>${p.sampler}</code></li>
-    <li>Style: ref8 首可用，优先「永」</li>
-    <li>主指标: L1↓ / SSIM↑ / LPIPS↓ vs GT（诊断）</li>
+    <li>Style: <strong>轴 A</strong> 1 张（优先「永」）；<strong>轴 B</strong> 固定 ref8「永和书风骨韵天地」——勿在同表当等条件</li>
+    <li>主指标: L1↓ / SSIM↑ / LPIPS↓ vs GT（诊断）；风格看 E12</li>
+    <li>Glyph Board: Mode A/B/C 同页切换（见 :8767）</li>
     <li>中间抽检: 每 5k/10k ckpt，子集须标注 n（≠752 时禁止混表）</li>
     <li>F3 legacy ≠ F3b（bank / adapter 协议不同）</li>`;
 
   const notes = {
-    e1f0: '同数据协议 A：E1=官方结构保留 RSI 微调 100k；F0=去掉 RSI/DCN 后微调 100k。主表已并列。',
-    rsi: '对照 RSI：现可看 E1（官方结构+RSI FT）vs F0（去掉 RSI）。F1（在 F0 上挂回官方 RSI）评测入库后可与 F0 再配对。',
-    delta: '对照 Delta：F2_75000 已可与未来的 F1_80k 配对；当前可用 F2 时间线观察 Delta 臂形态。',
-    support: '主科学对照 Support：F2 vs F3b（own-font + stroke）。F3b 建议先 20k mid，再 80k 全量。',
+    e1f0: '公平轴 A（1-shot）：E1=官方 RSI 微调 100k；F0=去 RSI 微调 100k。请在 :8767 Mode A 并排看。',
+    rsi: '对照 RSI：现可看 E1 vs F0（Mode A）。F1（在 F0 上挂回官方 RSI）评测入库后可再配对。',
+    delta: '跨协议（1 vs 8 shot）：F2 相对 E1 须标「条件不等」。Δ 臂形态先看 F2 timeline；主增量结论用 Mode B。',
+    support: '公平轴 B（8-ref）：F2 vs F3 legacy 已在 Mode B；主科学对照最终是 F2 vs F3b（待评）。',
     legacy: '仅历史参考：F3_80k vs F3b。页面将 F3 标为 LEGACY，避免写成同一方法。',
   };
   document.querySelectorAll('.preset button[data-preset]').forEach(btn => {

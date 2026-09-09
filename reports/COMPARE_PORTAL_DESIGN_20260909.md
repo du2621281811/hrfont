@@ -92,18 +92,29 @@ Compare Portal
 
 ### B. 字形对比 Glyph Lab（核心体验）
 
-**控件：** font 下拉、char 下拉、方法多选（默认 `GT | F0 | F2_75k | F3_80k`，F1/F3b 有了再勾）。
+**入口：** `http://127.0.0.1:8767/`（`ui=fair_axes_v1`，由 `scripts/rebuild_glyph_board_fair_axes.py` 生成）
 
-**呈现：**
+**同一页 Mode 切换（默认 A）：**
 
-| 模式 | 布局 | 用途 |
-|---|---|---|
-| **Strip** | 一行：GT + 各方法 96px 图 + 每格脚注 L1/SSIM | 快速扫 |
-| **Diff** | 选「基准方法」A，对其余做 `|pred−A|` 热力小图 | 看谁更像谁 |
-| **Hard cases** | 按「方法X−方法Y」有利差排序的 top-K 差例 | 找失败字体/字类 |
-| **Script filter** | Lu / Ll / digit / kana / bopomofo | 对齐已知「小写涨、大写跌」叙事 |
+| Mode | 列 | 顶栏条件条 | 用途 |
+|---|---|---|---|
+| **A · 1-shot 消融** | P1 \| E1 \| F0 \| GT | Content + Style×1「永」 | 官方 RSI 有无 |
+| **B · 8-ref 增量** | F2 \| F3leg \| GT | Content + ref8 | Δ 上加 Support |
+| **C · 全览** | 五方法 + GT | 1-shot 与 ref8 同时展示 + 警告条 | 仅浏览，禁止总榜 |
 
-数据：`browse_index.json` + `preds/<method>/...` + `metrics_items.json`（已有）。
+指标双轨：Diagnostic vs GT｜Style 链 E12 `:8770`。
+
+**控件：** font 下拉、语种过滤、Mode 按钮。列脚注含 shot / ckpt / 条件一句话。
+
+**仍规划：** Diff 热力、Hard cases top-K。
+
+数据：`browse_index.json` + `preds/<method>/...` + `refs/style_ref8/`。
+
+---
+
+### B′. 旧「五列总榜」说明（已废弃为默认）
+
+原先 Content|Style|GT|五方法 并排，单列 Style 暗示条件相同——已改为上表。Mode C 仍可同屏看全部。
 
 ### C. 训练时间线 Timeline
 

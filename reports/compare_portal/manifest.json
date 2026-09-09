@@ -7,7 +7,7 @@
     "sampler": "dpmsolver++ 20 CFG7.5 order2 multistep",
     "split": "test"
   },
-  "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. E1 merged from formal strat (same protocol A / seed 3407); P1 byte-identical to f03 P1.",
+  "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. Glyph Board (:8767) uses Mode A/B/C fair axes (1-shot vs 8-ref); Mode C is browse-only. E1 merged from formal strat (same protocol A / seed 3407); P1 byte-identical to f03 P1. Generator-side E12 v5.1 scores available (phi SC-R + membership).",
   "metrics_rows": [
     {
       "id": "P1",
@@ -129,9 +129,67 @@
     "pi_briefing": "http://127.0.0.1:8769/PI_BRIEFING_20260909.html",
     "glyph_board": "http://127.0.0.1:8767/",
     "timeline_f2": "http://127.0.0.1:8767/timeline_f2.html",
-    "e12_eye": "http://127.0.0.1:8766/standalone.html",
+    "e12_eye": "http://127.0.0.1:8770/",
+    "e12_eye_v4_legacy": "http://127.0.0.1:8766/",
+    "e12_summary": "../e12_v51_summary.json",
     "e1_dashboard": "../e1_ft_v2_dashboard/index.html",
     "design_doc": "../COMPARE_PORTAL_DESIGN_20260909.md",
-    "results_compare": "../RESULTS_COMPARE_20260907.html"
+    "results_compare": "../RESULTS_COMPARE_20260907.html",
+    "e12_generator_scores": "../f03_test16_strat/e12_v51_scores.json"
+  },
+  "e12_generator_v51": {
+    "source": "../f03_test16_strat/e12_v51_scores.json",
+    "protocol": "query=pred|GT, refs=target-font StyleImage ref8; held-out test16 fonts vs E12 train228",
+    "temperature": 2.249297618865967,
+    "rows": [
+      {
+        "id": "P1",
+        "n": 752,
+        "phi_sc_r": 0.6450690284292114,
+        "mem_prob": 0.5881907040082374,
+        "mem_prob_latin_digit": 0.5687400354509009,
+        "phi_sc_r_latin_digit": 0.6106895513366908
+      },
+      {
+        "id": "E1_100k",
+        "n": 752,
+        "phi_sc_r": 0.676333950396548,
+        "mem_prob": 0.5316062533018611,
+        "mem_prob_latin_digit": 0.5333014401198852,
+        "phi_sc_r_latin_digit": 0.6549894575728104
+      },
+      {
+        "id": "F0_100k",
+        "n": 752,
+        "phi_sc_r": 0.6719118164693738,
+        "mem_prob": 0.5180475638997915,
+        "mem_prob_latin_digit": 0.516242560259343,
+        "phi_sc_r_latin_digit": 0.6505751982622314
+      },
+      {
+        "id": "F2_75000",
+        "n": 752,
+        "phi_sc_r": 0.7022584848739999,
+        "mem_prob": 0.5937970601934989,
+        "mem_prob_latin_digit": 0.6029838900549294,
+        "phi_sc_r_latin_digit": 0.6784614643838722
+      },
+      {
+        "id": "F3_80k",
+        "n": 752,
+        "phi_sc_r": 0.7002606726984711,
+        "mem_prob": 0.5948121452718315,
+        "mem_prob_latin_digit": 0.6101513981343487,
+        "phi_sc_r_latin_digit": 0.677873866079608
+      },
+      {
+        "id": "GT",
+        "n": 752,
+        "phi_sc_r": 0.6842210330069065,
+        "mem_prob": 0.6117447616177045,
+        "mem_prob_latin_digit": 0.6249166650595726,
+        "phi_sc_r_latin_digit": 0.6748125375306699
+      }
+    ]
   }
 }
