@@ -39,20 +39,20 @@ input_hidden_states = [style_img_feature, content_residual_features, style_hidde
 - **正解 = 保留 ref 轴，把按需参考交给 UNet 自己的 attention**：h token 序列直接作为 up-path style context，UNet 每个位置的 Q 各取所需（生成 o 的位置自然多看带圈 ref 的 h）——「按需参考」由模型原生实现，不需要额外聚合器。
 - **拓扑表的角色**：作为**可选注意力偏置**（每个 ref 加一个拓扑相关度标量权重，弱偏置不硬选），列入消融候选而非主方案——主方案不加，保持最小。
 
-## 4. 技术决策清单（待 PI review）
+## 4. 技术决策清单（PI 2026-09-10 已拍板）
 
-| ID | 决策项 | 选项 | 推荐 |
-|---|---|---|---|
-| D-P1 | 聚合方式 | A 逐 ref h token 直进 UNet（无聚合）/ B 拓扑加权平均 / C 可学习 attention 聚合 | **A**（唯一真正消灭合并的方案；B/C 都合并 ref 轴，只作消融） |
-| D-P2 | h 维度处理 | 投影到 CA dim / 直接拼 | 投影（若 1024≠CA dim）；共享一个 Linear |
-| D-P3 | down-path 4D map | 保留 / 也换 | **保留**（最小改动；MCA 消费合同不动） |
-| D-P4 | α 检索 | 照旧 8-ref pooled query / 跟随改动 | **照旧**（检索与生成条件解耦；只改生成侧聚合） |
-| D-P5 | n 处理 | 训练 n~U{1..8} 变长 + mask / 固定 8 | **训练变长 + 真实 attention mask**（复用 support padding 实现，mask 必须真正屏蔽 logits，见 D-SW7）；推理固定 ref8 |
-| D-P6 | 拓扑偏置 | 加 / 不加 | 不加（主方案最小）；作为 F3b-P 之后的推理期消融 |
-| D-P7 | 预算 | 40k / 80k | **40k**（F3 val 35k-80k 平台 + train 过拟合尾巴三重证据；80k horizon 开跑、40k 评估，可续） |
-| D-P8 | run id | — | `f2_pattn_s3407` / `f3b_pattn_s3407`（F3b-P 沿用 own-font Ec + topology bank SHA 6cdefe70） |
-| D-P9 | matched 契约 | — | 同 F0 init、seed 3407、source_drop .25 共享、CFG .10、support_drop .20（仅 F3b-P）、40k 端点 |
-| D-P10 | 训推一致 | — | 训练/推理同 h token 形态、同投影、同 mask 规则；20k 面板 → 40k 终评 |
+| ID | 决策项 | 裁决 |
+|---|---|---|
+| D-P1 | 聚合方式 | **A**：逐 ref h token 直进 UNet（无聚合、无平均）；B/C 仅作消融候选 |
+| D-P2 | h 维度处理 | 投影（若 1024≠CA dim）；共享一个 Linear |
+| D-P3 | down-path 4D map | **保留**（[B,1024,3,3] 照旧喂 MCA；只改 up-path 3D token 段） |
+| D-P4 | α 检索 | **照旧**（8-ref pooled query；检索与生成条件解耦） |
+| D-P5 | n 处理 | 训练变长 n~U{1..8} + **真实 attention mask**；推理主协议固定 ref8（n 输入个数由 PI 定）；eval 加 n 扫描面板 n∈{1,2,4,8}（全在训练支撑域，零训练） |
+| D-P6 | 拓扑偏置 | **不加**（保持 F2↔F2-P 单变量；留作 F3b-P 后推理期 logit-bias 消融，固定 ckpt 零训练） |
+| D-P7 | 预算 | **40k**（PI 拍板：后续全部臂 40k；80k horizon 开跑、40k 评估可续；F1/F2/F3 主线维持 80k 不动） |
+| D-P8 | run id | `f2_pattn_s3407` / `f3b_pattn_s3407`；**种子全链一致 3407**（含新投影初始化隔离 RNG 但同 seed 域） |
+| D-P9 | matched 契约 | 同 F0 init、seed 3407、source_drop .25 共享、CFG .10、support_drop .20（仅 F3b-P）、40k 端点 |
+| D-P10 | 训推一致 | 同 h 形态、同投影、同 mask 规则；20k 面板 → 40k 终评 |
 
 ## 5. 验收清单（开训前）
 
