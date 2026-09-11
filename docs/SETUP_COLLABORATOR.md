@@ -1,9 +1,11 @@
 # 合作者本机初始化（单个仓库）
 
 ```bash
-git clone https://github.com/du2621281811/hrfont.git
+git clone git@github.com:du2621281811/hrfont.git
 cd hrfont
 ```
+
+Git 传输用 SSH（`git@github.com:...`），不要用 HTTPS clone。网页浏览仍是 `https://github.com/du2621281811/hrfont`。新机器把本机 `~/.ssh/id_ed25519.pub` 加到该仓 **Deploy keys**（可写）或 GitHub 账号 SSH keys。
 
 即可同时得到：
 

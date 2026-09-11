@@ -1,7 +1,7 @@
 # HR-Font / ICLR 2027 项目台账
 
 > 唯一内部入口。计划、状态、决策和结果只更新本文件。  
-> 工作区：`/root/projects/hrfont` · 远程：`https://github.com/du2621281811/hrfont`  
+> 工作区：`/root/projects/hrfont` · 远程：`git@github.com:du2621281811/hrfont.git`（SSH；网页 https://github.com/du2621281811/hrfont）  
 > 管理流程：[`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) · 登记表：[`provenance/REGISTRY.md`](provenance/REGISTRY.md)  
 > 实验速查：[`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) · 官方 vs 我们：[`docs/OFFICIAL_VS_OURS.md`](docs/OFFICIAL_VS_OURS.md)
 

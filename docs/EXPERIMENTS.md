@@ -1,6 +1,6 @@
 # 实验一览（合作者速查）
 
-> **一个仓即可：** clone [`hrfont`](https://github.com/du2621281811/hrfont)。  
+> **一个仓即可：** `git clone git@github.com:du2621281811/hrfont.git`（网页 [`hrfont`](https://github.com/du2621281811/hrfont)）。  
 > 项目管理：[`PROJECT_MANAGEMENT.md`](PROJECT_MANAGEMENT.md) · 登记表：[`../provenance/REGISTRY.md`](../provenance/REGISTRY.md)
 
 ## 防误用（最重要）

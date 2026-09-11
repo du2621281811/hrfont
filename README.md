@@ -45,7 +45,7 @@ hrfont/
 
 ## GitHub
 
-- 唯一需要拉的实验仓：https://github.com/du2621281811/hrfont （private）
+- 唯一需要拉的实验仓：`git clone git@github.com:du2621281811/hrfont.git`（private；网页 https://github.com/du2621281811/hrfont ）
 - 历史对照用的独立 fork（可选）：https://github.com/du2621281811/fontdiffuser-hrfont  
 
 ## 环境

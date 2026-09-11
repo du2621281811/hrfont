@@ -39,7 +39,7 @@ docs/patches/                # 相对 official 的可审查 diff
 
 ## 3. Git 规则
 
-1. 唯一协作仓：`https://github.com/du2621281811/hrfont`（工作目录 `/root/projects/hrfont`）。
+1. 唯一协作仓：`git@github.com:du2621281811/hrfont.git`（工作目录 `/root/projects/hrfont`）。网页仍是 `https://github.com/du2621281811/hrfont`。`fetch` / `push` **走 SSH**，不要用 HTTPS（本机 `github.com:22` 会被劫持，SSH 经 `ssh.github.com:443`）。
 2. **开训 / 正式评测前**：`git status` 干净；相关改动已 commit；再写 provenance。
 3. **进 Git**：脚本、台账、docs、provenance、`code/official`、`code/ours`、`code/variants`（无权重）、精选 reports。
 4. **不进 Git**：训练 JPG、`.pt`、大 logs、本机 `data/`/`runs/` symlink。

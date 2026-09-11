@@ -5,7 +5,7 @@ alwaysApply: true
 
 # 多机同步
 
-- 唯一远程：`origin/main`（`https://github.com/du2621281811/hrfont`）。禁止 force-push。
+- 唯一远程：`origin/main`。Git 传输用 SSH：`git@github.com:du2621281811/hrfont.git`（浏览器用 HTTPS）。禁止 force-push。
 - 机器之间：代码/报告用 Git；数据、权重、Es/Ec cache 用 rsync（见 `docs/PROJECT_MANAGEMENT.md` §3.1）。
 - 每 ~2h 跑 `python scripts/pm_sync_scan.py`。只自动提交 **must_sync**；**hold_wip** 留给人点头；**never** 永不 add。
 - must_sync：评测脚本、报告 HTML/已约定 preds、台账、provenance、docs、`.cursor/rules`。
