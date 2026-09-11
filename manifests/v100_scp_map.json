@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "doc": "docs/V100_SCP_TRANSFER.md",
-  "filled_by": "",
-  "filled_at": "",
-  "src_git_head": "",
+  "filled_by": "root",
+  "filled_at": "2026-09-11T15:59:00+00:00",
+  "src_git_head": "020713e16fe88ee357485fb8cdc47376843fd84e",
   "hosts": {
     "src_3090": {
       "role": "source",
@@ -11,10 +11,12 @@
       "ssh_host": "172.19.45.13",
       "ssh_port": 2222,
       "project_root": "/root/projects/hrfont",
-      "hostname": "",
-      "git_head": "",
-      "can_ssh_dest": null,
-      "notes": "fill hostname / git_head / can_ssh_dest by running scripts/fill_v100_scp_map.py"
+      "hostname": "012dbbfc0795",
+      "git_head": "020713e16fe88ee357485fb8cdc47376843fd84e",
+      "can_ssh_dest": false,
+      "notes": "Filled 2026-09-11 on container hostname=012dbbfc0795 (IP 192.168.240.2). Published SSH remain root@172.19.45.13:2222. TCP to dest 172.18.41.23:22 and :2222 timed out (3s). TCP to documented jump 172.18.41.24:17569 and :22 also timed out. Need a jumphost that can reach both 172.19.45.13:2222 and 172.18.41.23.",
+      "filled_at": "2026-09-11T15:59:00+00:00",
+      "container_ip": "192.168.240.2"
     },
     "dest_v100": {
       "role": "dest",
@@ -31,13 +33,13 @@
     },
     "jump": [
       {
-        "name": "",
+        "name": "24-8V100 (documented, not usable from 3090)",
         "ssh_user": "root",
-        "ssh_host": "",
-        "ssh_port": null,
-        "can_reach_src": null,
+        "ssh_host": "172.18.41.24",
+        "ssh_port": 17569,
+        "can_reach_src": false,
         "can_reach_dest": null,
-        "notes": "一台能同时 ssh 到 3090:2222 和 V100 宿主机的机器。172.18.41.24:17569 测过，不通 172.19.45.13。"
+        "notes": "V100 side: this jump cannot reach 172.19.45.13. 3090 side: TCP 172.18.41.24:17569 and :22 timed out from container 012dbbfc0795. No dual-homed jumphost identified yet."
       }
     ]
   },
@@ -51,20 +53,20 @@
     {
       "from": "src_3090",
       "to": "dest_v100",
-      "ok": null,
-      "how": "FILL: can 3090 ssh 172.18.41.23?"
+      "ok": false,
+      "how": "From 3090 container 012dbbfc0795 (192.168.240.2): TCP connect 172.18.41.23:22 and :2222 TimeoutError after 3s. No SSH config for V100 on this host."
     },
     {
       "from": "jump",
       "to": "src_3090",
-      "ok": null,
-      "how": ""
+      "ok": false,
+      "how": "V100 already reported 172.18.41.24 cannot reach 172.19.45.13:2222/:22. From 3090, 172.18.41.24:17569 also timed out."
     },
     {
       "from": "jump",
       "to": "dest_v100",
       "ok": null,
-      "how": ""
+      "how": "Not tested from 3090 (no route to 172.18.41.24). V100 docs imply .24 is on the same 172.18.41.x segment as dest."
     }
   ],
   "payloads": [
@@ -79,9 +81,10 @@
         "artifacts/f0/support_bank.json",
         "code/official/FontDiffuser/ckpt/unet.pth"
       ],
-      "exists_on_src": null,
-      "bytes_on_src": null,
-      "note": "support banks + official P1 ckpt"
+      "exists_on_src": true,
+      "bytes_on_src": 687872000,
+      "note": "support banks + official P1 ckpt",
+      "src_abs": "/root/projects/hrfont/artifacts/migrate_v100/01_small.tar"
     },
     {
       "id": "03_es",
@@ -93,9 +96,10 @@
       "unpacks_to": [
         "artifacts/f0/es_spatial_f0/"
       ],
-      "exists_on_src": null,
-      "bytes_on_src": null,
-      "note": "F0 Es only; do not send E1 cache"
+      "exists_on_src": true,
+      "bytes_on_src": 1802168320,
+      "note": "F0 Es only; do not send E1 cache",
+      "src_abs": "/root/projects/hrfont/artifacts/migrate_v100/03_es_cache.tar"
     },
     {
       "id": "04_f0",
@@ -107,9 +111,10 @@
       "unpacks_to": [
         "runs/F0-RSIFREE-FT-A-S3407/best/"
       ],
-      "exists_on_src": null,
-      "bytes_on_src": null,
-      "note": "F-arm parent"
+      "exists_on_src": true,
+      "bytes_on_src": 1167790080,
+      "note": "F-arm parent",
+      "src_abs": "/root/projects/hrfont/artifacts/migrate_v100/04_f0_best.tar"
     },
     {
       "id": "05_eval",
@@ -123,9 +128,10 @@
         "runs/F2-DELTARSI-A-S3407/global_step_80000",
         "runs/F3-JOINT-DS-A-S3407/global_step_80000"
       ],
-      "exists_on_src": null,
-      "bytes_on_src": null,
-      "note": "only if evaluating old F1/F2/F3 arms"
+      "exists_on_src": true,
+      "bytes_on_src": 4146606080,
+      "note": "only if evaluating old F1/F2/F3 arms",
+      "src_abs": "/root/projects/hrfont/artifacts/migrate_v100/05_eval_ckpts.tar"
     },
     {
       "id": "proto_A",
@@ -137,9 +143,10 @@
       "unpacks_to": [
         "data/fontdiffuser-p253-t295-s338-cn2west-v2/"
       ],
-      "exists_on_src": null,
-      "bytes_on_src": null,
-      "note": "protocol A PNGs; do not tar on source if already packed as directory"
+      "exists_on_src": true,
+      "bytes_on_src": 321042089,
+      "note": "protocol A PNGs; directory already on src (measured 0.32G, not 0.7G). do not tar on source if transferring as directory",
+      "src_abs": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2"
     },
     {
       "id": "ec_f0",
@@ -151,14 +158,15 @@
       "unpacks_to": [
         "artifacts/f0/ec_multiscale_f0/"
       ],
-      "exists_on_src": null,
-      "bytes_on_src": null,
-      "note": "F0 Ec; do not rebuild; do not use E1"
+      "exists_on_src": true,
+      "bytes_on_src": 100278530190,
+      "note": "F0 Ec; do not rebuild; do not use E1",
+      "src_abs": "/root/projects/hrfont/artifacts/f0/ec_multiscale_f0"
     },
     {
       "id": "ttf_tree_optional",
       "required": false,
-      "src_rel": "",
+      "src_rel": "/root/data/font_50",
       "dest_rel": "/root/data/font_50",
       "approx": "TTF files only",
       "method": "scp_if_re_render",
@@ -166,9 +174,10 @@
         "/root/data/font_50",
         "data/suiti_fonts_probe"
       ],
-      "exists_on_src": null,
-      "bytes_on_src": null,
-      "note": "optional; fill src_rel on 3090 (font_50 and/or suiti). Cannot replace ckpt/Es/Ec."
+      "exists_on_src": true,
+      "bytes_on_src": 4452341601,
+      "note": "optional re-render only; cannot replace ckpt/Es/Ec. src=/root/data/font_50 (4.45G). hrfont data/suiti_fonts_probe missing; actual 随体字体集 is /root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集 (stems resolved via protocol-B summary.json).",
+      "src_abs": "/root/data/font_50"
     },
     {
       "id": "ref_summary_optional",
@@ -180,9 +189,10 @@
       "unpacks_to": [
         "data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/summary.json"
       ],
-      "exists_on_src": null,
-      "bytes_on_src": null,
-      "note": "needed by build_cn2west_v2_proto_abc.py; paths inside point at 3090 TTFs — fill ttf stems too"
+      "exists_on_src": true,
+      "bytes_on_src": 123478,
+      "note": "needed by build_cn2west_v2_proto_abc.py; paths inside point at 3090 TTFs — fill ttf stems too",
+      "src_abs": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/summary.json"
     }
   ],
   "do_not_copy": [
@@ -195,1578 +205,1585 @@
   ],
   "ttf_render_optional": {
     "content_font_on_dest": "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
-    "ref_summary_src": "data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/summary.json",
-    "ref_summary_exists": null,
-    "pillow": null,
+    "ref_summary_src": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/summary.json",
+    "ref_summary_exists": true,
+    "pillow": "12.2.0",
     "font_search_roots": [
       "/root/data/font_50",
-      "data/suiti_fonts_probe/随体字体集"
+      "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集",
+      "/root/projects/hrfont/data/suiti_fonts_probe/随体字体集"
     ],
     "n_stems": 260,
-    "n_ttf_ok": 0,
-    "n_ttf_missing": 260,
+    "n_ttf_ok": 260,
+    "n_ttf_missing": 0,
     "missing_stems": [],
     "stems": [
       {
         "split": "train",
         "stem": "FZBaiZBYTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBaiZBYTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBaiZDZ115JW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBaiZDZ115JW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBaiZJHTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBaiZJHTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBaiZJKJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBaiZJKJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBaiZRZTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBaiZRZTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBaiZWGTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBaiZWGTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBangSKLTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBangSKLTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBaoCTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBaoCTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBaoHTJW_Da",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBaoHTJW_Da.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBenMKYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBenMKYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBenMWYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBenMWYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBenMXYTJW_Italic",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBenMXYTJW_Italic.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBenMZZZHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBenMZZZHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZBiaoYTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBiaoYTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZCCHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZCCHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZCHYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZCHYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZCQJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZCQJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZCangYHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZCangYHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZChaoLTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZChaoLTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZChaoZTJW_EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZChaoZTJW_EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZChenQTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZChenQTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZChiDTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZChiDTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZCuYSJ_V2",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZCuYSJ_V2.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDaDXMTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDaDXMTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDeSHJW_507R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_507R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDeSHJW_508R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_508R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDeSHJW_509R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_509R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDeSHJW_510M",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_510M.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDeSHJW_511M",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_511M.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDeSHJW_512B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_512B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDeSHJW_513B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_513B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDeSHJW_514H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_514H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDengXHJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDengXHJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDongGSJW-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDongGSJW-L.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDouSDYWTJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDouSDYWTJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZDuHJW_Cu",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDuHJW_Cu.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWHuanLTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWHuanLTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWQingYLJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWQingYLJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWTongQPOPTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWTongQPOPTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZGDLHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZGDLHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZGDLMCJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZGDLMCJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZGDSHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZGDSHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZGDSMCJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZGDSMCJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZLSHTJWB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZLSHTJWB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiABiaoTMCJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiABiaoTMCJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiHeiD",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiHeiD.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiHeiE",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiHeiE.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiHeiH",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiHeiH.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiHeiL",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiHeiL.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiHeiM",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiHeiM.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiHeiR",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiHeiR.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiHeiU",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiHeiU.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFWZhuZiMinchoD",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiMinchoD.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFXKTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFXKTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFeiSJW-EL",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFeiSJW-EL.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFeiYTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFeiYTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFeiYiTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFeiYiTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFuGCHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFuGCHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZFuGCYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFuGCYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZGDCTJW-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZGDCTJW-L.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZGLJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZGLJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZGangYTJ",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZGangYTJ.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZGuangHTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZGuangHTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHCJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZHCJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHZGBJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZHZGBJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHanSTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHanSTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHaoGGTTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHaoGGTTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHeJYSXZJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHeJYSXZJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHeYTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHeYTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHeiFJW-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHeiFJW-L.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHengWHJ-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHengWHJ-L.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHuaSKXTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHuaSKXTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZHuoLTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHuoLTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZIwataFWTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZIwataFWTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJLJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZJLJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJZJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZJZJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJianQRTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJianQRTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJianZTJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJianZTJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJiangYTJW_EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJiangYTJW_EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJinCTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJinCTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJingKHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJingKHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJingQSTJW_Cu",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJingQSTJW_Cu.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJuJTJW-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJuJTJW-L.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZJunTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJunTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZKeSHBTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZKeSHBTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZKuGHJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZKuGHJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZKuaiSTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZKuaiSTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZKuaiYTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZKuaiYTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLTHProJW_H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLTHProJW_H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLaGBTTJW_Da",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLaGBTTJW_Da.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLangKBTJW1",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLangKBTJW1.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLangKFTJW3",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLangKFTJW3.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLengRSJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLengRSJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLiDXYTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLiDXYTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLiHJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLiHJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLiQBLSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLiQBLSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLiYHJW-EL",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLiYHJW-EL.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLiuBSLSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLiuBSLSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLiuCTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLiuCTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLongKSKSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZLongKSKSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZLuXTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZLuXTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZMaLTJW_Da",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZMaLTJW_Da.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZManYTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZManYTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZMiaoYTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZMiaoYTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZMingCTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZMingCTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZMingMTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZMingMTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZMoDTJW_Cu",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZMoDTJW_Cu.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZMoFHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZMoFHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZMoYTJW-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZMoYTJW-L.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZOneFamily-Bold",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZOneFamily-Bold.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZOuYXKSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZOuYXKSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZPTYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZPTYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZPWJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZPWJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZPanDLTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZPanDLTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZPiaoCTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZPiaoCTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZQKBYSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZQKBYSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZQiSTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZQiSTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZQingFSJW_Xi",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZQingFSJW_Xi.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZQingKBYSJW-EL",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZQingKBYSJW-EL.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZQingLTJW_Xian",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZQingLTJW_Xian.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZQingLuTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZQingLuTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZQiuDYRHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZQiuDYRHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZRuiZHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZRuiZHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZRuiZHLTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZRuiZHLTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZRunKJW-T",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZRunKJW-T.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZRunYYSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZRunYYSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShanCPXJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShanCPXJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShangYTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShangYTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShenTJHHTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShenTJHHTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShiGKSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShiGKSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShiGKSK",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShiGKSK.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShiSTJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShiSTJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShiTSJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShiTSJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShuLTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShuLTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShuQTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShuQTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShuangQTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZShuangQTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZShuiYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZShuiYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZSiBTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSiBTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZSiLanTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSiLanTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZSiNTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSiNTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZSiNTJW-UB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSiNTJW-UB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZSiNTJW-UL",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSiNTJW-UL.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZSongYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSongYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZSongYuanK",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSongYuanK.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZTaiHTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZTaiHTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZTanHTJW_Da",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZTanHTJW_Da.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZTiHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZTiHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZTieXHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZTieXHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZVDLGTMCJW-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZVDLGTMCJW-L.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZVDLJianZHJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZVDLJianZHJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZVDLJiaoRHJW-T",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZVDLJiaoRHJW-T.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZVDLJieYTJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZVDLJieYTJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZVDLXinZTJW-R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZVDLXinZTJW-R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZVDLZhaoHJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZVDLZhaoHJW-H.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZVariable-YouSongJ",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZVariable-YouSongJ.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZWBJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZWBJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZWZZYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZWZZYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZWeiWTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZWeiWTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZWeiYHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZWeiYHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZWenHYBTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZWenHYBTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZWenZMXCJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZWenZMXCJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZWuYTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZWuYTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXiXSLSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXiXSLSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXianWTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXianWTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXianWXTJW-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXianWXTJW-L.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXiangHJW-M",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXiangHJW-M.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXiaoSSJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXiaoSSJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXieXTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXieXTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXinGHJW-EL",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXinGHJW-EL.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXinHJYKXZJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXinHJYKXZJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXinRTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXinRTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXinZYHJW_EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXinZYHJW_EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXinZYHJW_UL",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXinZYHJW_UL.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXingHeiJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXingHeiJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZXueWRHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZXueWRHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYASHJW_Cu",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYASHJW_Cu.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYDCHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZYDCHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZYTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYaSSJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYaSSJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYanSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZYanSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYanZQKSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYanZQKSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYaoDHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYaoDHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYiBSLSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYiBSLSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYiHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYiHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYiHTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYiHTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYiMSJW-T",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYiMSJW-T.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYiSJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYiSJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYiXTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYiXTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYiZTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYiZTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYongDHJW-T",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYongDHJW-T.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYongKTJ",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZYongKTJ.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYooncheQWHJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYooncheQWHJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHJW_508R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHJW_508R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHJW_509R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHJW_509R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHJW_510M",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHJW_510M.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHJW_511M",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHJW_511M.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHJW_512B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHJW_512B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHJW_513B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHJW_513B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHK_508R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHK_508R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHK_509R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHK_509R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHK_510M",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHK_510M.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHK_512B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHK_512B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouHK_513B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHK_513B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouSJJW_507R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouSJJW_507R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouSJJW_508R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouSJJW_508R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouSJJW_509R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouSJJW_509R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouSTJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouSTJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYouYSJW-R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouYSJW-R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYuLTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYuLTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYuYCTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYuYCTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYunHJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYunHJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZYunLTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYunLTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZDHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZZDHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZJ-ZWJBTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZZJ-ZWJBTJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZhaoJSJSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZZhaoJSJSJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZhenSYJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZhenSYJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZhiXHJW-R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZhiXHJW-R.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZhuoHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZhuoHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZhuoQHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZhuoQHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZiHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZiHJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZiRTJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZiRTJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZiZDKJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZiZDKJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZiZLDJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZiZLDJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZiZQXDCJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZiZQXDCJW.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZuanSTJW_Da",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZuanSTJW_Da.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZZuoZJHJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZuoZJHJW-B.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "FZquanfuti",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZquanfuti.TTF",
+        "exists": true
       },
       {
         "split": "train",
         "stem": "TSTanHJW-R",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/TSTanHJW-R.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZBangSKKXJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBangSKKXJW.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZCaoQBLSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZCaoQBLSJW.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZFWZhuZiHeiB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFWZhuZiHeiB.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZHengFSJW-T",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHengFSJW-T.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZJunYTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJunYTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZKANGJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZKANGJW.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZKuaiHTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZKuaiHTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZLTHProGBK_H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLTHProGBK_H.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZMiFXSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZMiFXSJW.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZQingYSJW-T",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZQingYSJW-T.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZSongKBXKJW-EB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSongKBXKJW-EB.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZSuHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZSuHJW.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZYouHK_511M",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZYouHK_511M.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZZHJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZZHJW.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZZanMTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZanMTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "val",
         "stem": "FZZhongYSJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZZhongYSJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZBuGTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZBuGTJW.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZChuangHJW_DB",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZChuangHJW_DB.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZCuanBZBKSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZCuanBZBKSJW.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZDeSHJW_515H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDeSHJW_515H.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZDouNTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZDouNTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZFeiHHJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZFeiHHJW-H.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZFengYKSJ",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZFengYKSJ.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZHanWZKJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZHanWZKJW.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZHuoYYJW-T",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZHuoYYJW-T.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZJianLTJW_Te",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJianLTJW_Te.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZJingLTJW-H",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZJingLTJW-H.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZJingYLLTJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZJingYLLTJW.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZLingFKSJW-B",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZLingFKSJW-B.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZLiuGQKJW-L",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZLiuGQKJW-L.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZMaWDBSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集/FZMaWDBSJW.TTF",
+        "exists": true
       },
       {
         "split": "test",
         "stem": "FZTJLSJW",
-        "src_ttf": "",
-        "exists": null
+        "src_ttf": "/root/data/font_50/FZTJLSJW.TTF",
+        "exists": true
       }
-    ]
+    ],
+    "font_search_roots_exist": {
+      "/root/data/font_50": true,
+      "/root/projects/font_crosslingual/data/suiti_fonts_probe/随体字体集": true,
+      "/root/projects/hrfont/data/suiti_fonts_probe/随体字体集": false
+    },
+    "suiti_src_note": "260/260 TTF resolved. Most stems point at font_crosslingual 随体字体集; some test stems at /root/data/font_50. Do not git-add TTF."
   }
 }
