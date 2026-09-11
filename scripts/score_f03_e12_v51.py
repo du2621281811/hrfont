@@ -33,7 +33,7 @@ PHI = ROOT / "runs/e12_phi_s2_v51_train228_s3407/best.pt"
 MEM = ROOT / "runs/e12_membership_v51_train228_s3407/best.pt"
 REF8 = list("永和书风骨韵天地")
 SEED = 3407
-METHODS = ["P1", "E1_100k", "F0_100k", "F1_30000", "F2_75000", "F3_80k"]
+METHODS = ["P1", "E1_100k", "F0_100k", "F1_80000", "F2_80000", "F3_80k"]
 # Membership training query domain (primary claim subset)
 MEM_QUERY_DOMAIN = set(
     list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")

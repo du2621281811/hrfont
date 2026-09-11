@@ -46,14 +46,30 @@ METHOD_META = {
         "label": "F1 官方RSI@30k mid",
         "shot": 1,
         "ckpt": "30k*",
+        "axes": ["C"],
+        "cond": "1-shot「永」· F0 上挂回官方 RSI（中期存档）",
+        "role": {"C": "存档"},
+    },
+    "F1_80000": {
+        "label": "F1 官方RSI@80k",
+        "shot": 1,
+        "ckpt": "80k",
         "axes": ["A", "C"],
-        "cond": "1-shot「永」· F0 上挂回官方 RSI（中期，可更新）",
+        "cond": "1-shot「永」· F0 上挂回官方 RSI",
         "role": {"A": "vs F0", "C": ""},
     },
     "F2_75000": {
         "label": "F2 Delta@75k",
         "shot": 8,
         "ckpt": "75k*",
+        "axes": ["C"],
+        "cond": "ref8 + Δ（无 Support，存档）",
+        "role": {"C": "存档"},
+    },
+    "F2_80000": {
+        "label": "F2 Delta@80k",
+        "shot": 8,
+        "ckpt": "80k",
         "axes": ["B", "C", "D"],
         "cond": "ref8 + Δ（无 Support）",
         "role": {"B": "baseline · Support消融底", "C": "", "D": "baseline · Es mean8"},
@@ -62,6 +78,14 @@ METHOD_META = {
         "label": "F2@75k style1",
         "shot": "style1+Δ8",
         "ckpt": "75k*",
+        "axes": ["C"],
+        "cond": "Es=「永」· Δ 仍 ref8（存档）",
+        "role": {"C": "存档"},
+    },
+    "F2_80000_s1": {
+        "label": "F2@80k style1",
+        "shot": "style1+Δ8",
+        "ckpt": "80k",
         "axes": ["C", "D"],
         "cond": "Es=「永」· Δ 仍 ref8（无 Support）",
         "role": {"C": "非消融", "D": "vs F2 · 只改 Es→永"},
@@ -88,34 +112,37 @@ MODES = {
     "A": {
         "title": "A · RSI 消融（1-shot）",
         "question": "以 F0 为底：官方 RSI 有没有用？",
-        "methods": ["P1", "E1_100k", "F0_100k", "F1_30000"],
+        "methods": ["P1", "E1_100k", "F0_100k", "F1_80000"],
         "shot": 1,
         "warn": False,
-        "blurb": "公平轴：同一 Content + 单张 Style「永」。合法对照 A1=P1→E1，A2=E1→F0，A3=F0→F1。F1@30k 为中期。",
+        "blurb": "公平轴：同一 Content + 单张 Style「永」。合法对照 A1=P1→E1，A2=E1→F0，A3=F0→F1@80k。",
     },
     "B": {
         "title": "B · Support 消融（ref8）",
         "question": "以 F2 为底：Support 有没有增益？",
-        "methods": ["F2_75000", "F3_80k"],
+        "methods": ["F2_80000", "F3_80k"],
         "shot": 8,
         "warn": False,
-        "blurb": "公平轴：同一 Content + 固定 ref8。合法对照 B1=F2→F3 legacy。步数 75k vs 80k 仍不完全对齐。",
+        "blurb": "公平轴：同一 Content + 固定 ref8。合法对照 B1=F2@80k→F3@80k（步数对齐）。",
     },
     "C": {
         "title": "C · 全方法浏览",
         "question": "同屏扫一眼（非总排行榜）",
-        "methods": ["P1", "E1_100k", "F0_100k", "F1_30000", "F2_75000", "F2_75000_s1", "F3_80k", "F3_80k_s1"],
+        "methods": [
+            "P1", "E1_100k", "F0_100k", "F1_80000", "F1_30000",
+            "F2_80000", "F2_80000_s1", "F2_75000", "F3_80k", "F3_80k_s1",
+        ],
         "shot": "mixed",
         "warn": True,
-        "blurb": "跨 1-shot、ref8 与 style1+Δ8，禁止当作总分榜。对照组请回 A/B/D。F1@30k 为中期。",
+        "blurb": "跨 1-shot、ref8 与 style1+Δ8，禁止当作总分榜。主看 @80k；@30k/@75k 为存档列。",
     },
     "D": {
         "title": "D · Style 平均消融（Δ 仍 ref8）",
         "question": "以 F2@mean8 为底：Es 改成只喂「永」之后，斜体/粗细变化有没有回来？",
-        "methods": ["F2_75000", "F2_75000_s1", "F3_80k", "F3_80k_s1"],
+        "methods": ["F2_80000", "F2_80000_s1", "F3_80k", "F3_80k_s1"],
         "shot": "style1_delta8",
         "warn": False,
-        "blurb": "公平轴：同一 Content + 同一 Δ/RSI=ref8；只改 Es 平均（8→1「永」）。不要和 Mode A 的 F1 比总分。主看斜体/对比，L1 仅诊断。",
+        "blurb": "公平轴：同一 Content + 同一 Δ/RSI=ref8；只改 Es 平均（8→1「永」）。主看斜体/对比，L1 仅诊断。",
     },
 }
 
@@ -454,7 +481,7 @@ a{{color:var(--accent)}}
   <div id="cond" class="cond"></div>
   <div class="grid" id="sheet" style="margin-top:12px"></div>
 </section>
-<p class="cap">生成于 {utc_now()} · ui=fair_axes_v3_modeD · baseline: A=F0 / B=F2 / D=F2 mean8 · F1@30k mid · F3b 待评 · <a href="pi_highlights.html">对照组精选看图</a> · <a href="PI_BRIEFING_20260909.html">白话稿 §2.1</a></p>
+<p class="cap">生成于 {utc_now()} · ui=fair_axes_v4_80k · baseline: A=F0 / B=F2@80k / D=F2 mean8 · F1@80k · F3b/F2-P 待挂 · <a href="pi_highlights.html">对照组精选看图</a> · <a href="PI_BRIEFING_20260909.html">白话稿 §2.1</a></p>
 </main>
 <script>
 const DATA = {json.dumps(data_js, ensure_ascii=False)};
@@ -595,7 +622,7 @@ tick(); setInterval(tick, 8000);
 
 def inject_style1_methods(payload: dict) -> None:
     """Attach F2/F3 style-oneshot columns; preds optional so Mode D shows 排队 while generating."""
-    s1 = ("F2_75000_s1", "F3_80k_s1")
+    s1 = ("F2_80000_s1", "F3_80k_s1")
     by_id = {m["id"]: m for m in payload["methods"]}
     for mid in s1:
         if mid not in by_id:

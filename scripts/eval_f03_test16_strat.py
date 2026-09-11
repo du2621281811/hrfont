@@ -4,7 +4,7 @@
 Does not change sampling RNG across shards/GPUs: each (method, font, char)
 calls accelerate.set_seed(3407) immediately before DPM.
 
-GPU3 is F2 training — refuse it. Prefer CUDA_VISIBLE_DEVICES pointing at an
+GPU1 holds F2-P training — refuse it. Prefer CUDA_VISIBLE_DEVICES pointing at an
 idle card (GPU2). Parallelism = one process per method, skip-existing PNGs.
 
 Writes reports/f03_test16_strat/ only.
@@ -72,6 +72,12 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F1-OFFRSI-A-S3407/global_step_30000",
     },
+    "F1_80000": {
+        "label": "F1@80k",
+        "kind": "f1",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F1-OFFRSI-A-S3407/global_step_80000",
+    },
     "F3_80k": {
         "label": "F3@80k",
         "kind": "f3",
@@ -86,11 +92,25 @@ METHODS = {
         "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_75000",
         "style_oneshot": False,
     },
+    "F2_80000": {
+        "label": "F2@80k",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_80000",
+        "style_oneshot": False,
+    },
     "F2_75000_s1": {
         "label": "F2@75k style1",
         "kind": "f2",
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_75000",
+        "style_oneshot": True,
+    },
+    "F2_80000_s1": {
+        "label": "F2@80k style1",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_80000",
         "style_oneshot": True,
     },
     "F3_80k_s1": {
@@ -172,10 +192,12 @@ def pred_path(mid: str, stem: str, ch: str) -> Path:
     return OUT / "preds" / mid / "test" / stem / f"test__{stem}__{cp_of(ch)}__s{SEED}.png"
 
 
-def refuse_f2_gpu() -> None:
-    vis = os.environ.get("CUDA_VISIBLE_DEVICES", "")
-    if vis.strip() == "3":
-        raise SystemExit("refusing CUDA_VISIBLE_DEVICES=3 (F2 is training there)")
+def refuse_busy_train_gpu() -> None:
+    """Refuse the physical GPU currently holding F2-P training (mapped via CUDA_VISIBLE_DEVICES)."""
+    vis = os.environ.get("CUDA_VISIBLE_DEVICES", "").strip()
+    # F2-P watchdog trains on physical GPU1; do not schedule board generate there.
+    if vis == "1":
+        raise SystemExit("refusing CUDA_VISIBLE_DEVICES=1 (F2-P is training there)")
 
 
 def parse_shard(s: str) -> tuple[int, int]:
@@ -838,18 +860,18 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     log(mid, f"finished done={done} skipped={skipped} elapsed={elapsed:.1f}s")
 
 
-def generate_f1(device: str, stems: list[str], overwrite: bool) -> None:
-    """F1 mid: official RSI on F0, no Support. 1-shot style (永) for Mode A fairness vs F0/E1."""
+def generate_f1(device: str, stems: list[str], overwrite: bool, mid: str = "F1_80000") -> None:
+    """F1: official RSI on F0, no Support. 1-shot style (永) for Mode A fairness vs F0/E1."""
     import torch
     from accelerate.utils import set_seed
 
-    mid = "F1_30000"
+    spec = METHODS[mid]
     n_total = len(stems) * len(STRATIFIED)
     update_status(
-        {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": "F1@30k"}
+        {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]}
     )
-    variant = METHODS[mid]["variant"]
-    ckpt = METHODS[mid]["ckpt"]
+    variant = spec["variant"]
+    ckpt = spec["ckpt"]
     if not (ckpt / "unet.pth").is_file():
         raise FileNotFoundError(f"F1 ckpt missing: {ckpt}")
     sys.path.insert(0, str(ROOT))
@@ -1624,7 +1646,7 @@ tick(); setInterval(tick, 8000);
 
 
 def cmd_timeline(args: argparse.Namespace) -> None:
-    refuse_f2_gpu()
+    refuse_busy_train_gpu()
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "logs").mkdir(exist_ok=True)
     arm = getattr(args, "arm", "F3").upper()
@@ -1653,7 +1675,7 @@ def cmd_timeline(args: argparse.Namespace) -> None:
 
 
 def cmd_generate(args: argparse.Namespace) -> None:
-    refuse_f2_gpu()
+    refuse_busy_train_gpu()
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "logs").mkdir(exist_ok=True)
     stems = shard_list(fonts(), args.shard)
@@ -1686,7 +1708,7 @@ def cmd_generate(args: argparse.Namespace) -> None:
     elif kind == "f2":
         generate_f2(args.device, stems, args.overwrite, mid=mid)
     elif kind == "f1":
-        generate_f1(args.device, stems, args.overwrite)
+        generate_f1(args.device, stems, args.overwrite, mid=mid)
     else:
         generate_image_method(mid, args.device, stems, args.overwrite)
 
@@ -1726,7 +1748,7 @@ def agg(rows: list[dict]) -> dict:
 
 
 def cmd_metrics(args: argparse.Namespace) -> None:
-    refuse_f2_gpu()
+    refuse_busy_train_gpu()
     lpips_fn = None
     if args.lpips:
         import torch

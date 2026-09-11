@@ -194,15 +194,53 @@
       "eta_s": 2,
       "last": "FZTJLSJW ㄅ",
       "elapsed_s": 897.2
+    },
+    "F1_80000": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "F1@80k",
+      "updated_at": "2026-09-11T07:54:13+00:00",
+      "rate_per_s": 1.052,
+      "eta_s": 11,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 714.2
+    },
+    "F2_80000": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "F2@80k",
+      "updated_at": "2026-09-11T08:07:39+00:00",
+      "rate_per_s": 0.498,
+      "eta_s": 24,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1519.7
+    },
+    "F2_80000_s1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "F2@80k style1",
+      "updated_at": "2026-09-11T08:07:39+00:00",
+      "rate_per_s": 0.498,
+      "eta_s": 24,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1519.9
     }
   },
   "phase": "gallery_done",
   "n_items": 752,
-  "updated_at": "2026-09-10T17:12:45+00:00",
+  "updated_at": "2026-09-11T08:10:15+00:00",
   "protocol": "E1-stratified test16×47 seed3407",
-  "n_metric_rows": 6016,
+  "n_metric_rows": 8272,
   "scored": [
-    "F3_80k_s1"
+    "F1_80000",
+    "F2_80000",
+    "F2_80000_s1"
   ],
   "ui": "fair_axes_v1"
 }

@@ -92,6 +92,12 @@
       "ckpt": "/root/projects/hrfont/runs/F1-OFFRSI-A-S3407/global_step_30000",
       "style_oneshot": false
     },
+    "F1_80000": {
+      "label": "F1@80k",
+      "kind": "f1",
+      "ckpt": "/root/projects/hrfont/runs/F1-OFFRSI-A-S3407/global_step_80000",
+      "style_oneshot": false
+    },
     "F3_80k": {
       "label": "F3@80k",
       "kind": "f3",
@@ -104,10 +110,22 @@
       "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_75000",
       "style_oneshot": false
     },
+    "F2_80000": {
+      "label": "F2@80k",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_80000",
+      "style_oneshot": false
+    },
     "F2_75000_s1": {
       "label": "F2@75k style1",
       "kind": "f2",
       "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_75000",
+      "style_oneshot": true
+    },
+    "F2_80000_s1": {
+      "label": "F2@80k style1",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_80000",
       "style_oneshot": true
     },
     "F3_80k_s1": {
