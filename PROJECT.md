@@ -8,6 +8,7 @@
 ## 当前状态
 
 - **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 均已 80k；Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。F2P 训练代码仍可能是本机 WIP，不自动进仓。
+- **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
 - **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git。
 - **旧状态备查：** [`reports/F123_STATUS_20260907.md`](reports/F123_STATUS_20260907.md)（日期已过，以本段为准）。
 - **合作者离线看板：** [`reports/collab_offline/index.html`](reports/collab_offline/index.html)（分层评测 / 时间线 / Δ 检索 / 导师页）。
@@ -22,11 +23,12 @@
 
 ## 下一步
 
-> **主表已定（D1）**：正在跑的 F1/F2/F3 是 `cn2west_f123_rsi`（identity-safe）。`cn2west_stage_a` 里的官方 RSI 零初始化仍在仓库，**不要开跑、不要和本表混用**。
+> **旧主表实现已冻结（D1）**：F1/F2/F3 使用 identity-safe `cn2west_f123_rsi`；`cn2west_stage_a` 的另一套 RSI 实现仍只作历史对照，**不要与下一版 Set-Delta 混用**。
 
-1. **主线**：F2 → 80k → F1 → 同一 test16×47 比 F1/F2/F3
-2. E12：T2 方案仍需改；Mac 可并行复训（勿放宽门限）
-3. 旧 E2/E2b：已 STOP，不进主结论
+1. **合作者 review：** 先审 Set-Delta 表示、Target-Character Variation Adapter 的 warp/value 接口、Graphics-Ref 的 primitive Key 与正式消融矩阵；不要直接开训。
+2. **实现顺序：** geometry mean 接口验证 → Set-Delta候选轴 → per-ref/local Ref → 联合训练；新逻辑放新 variant，旧 F1/F2/F3 不覆盖。
+3. **旧实验结论：** F1/F2/F3/F3b 作为旧实现证据；旧 E2/E2b 已 STOP，不进新方法主结论。
+4. E12：T2 方案仍需改；Mac 可并行复训（勿放宽门限）。
 
 ## 实验登记（摘要）
 
@@ -35,8 +37,8 @@
 | `E1-FTV2-A-S3407` | **completed 100k** | 主表数据域 FT 锚点 |
 | `F0-RSIFREE-FT-A-S3407` | **completed 100k** | **整段无 RSI**；val=0.031089 |
 | `F3-JOINT-DS-A-S3407` | **completed 80k** | Δ+Support；test16 像素已采 |
-| `F2-DELTARSI-A-S3407` | **running** | 只开 Δ |
-| `F1-OFFRSI-A-S3407` | **paused ~300** | 官方 RSI 对照 |
+| `F2-DELTARSI-A-S3407` | **completed 80k** | 旧 mean-Delta 实现；下一版基线 |
+| `F1-OFFRSI-A-S3407` | **completed 80k** | 官方 RSI 对照 |
 | `E12-*-V4-S3407/08/09` | **gate_failed (T2)** | cache_v4；T2≈0.73–0.80 |
 
 完整表见 `provenance/REGISTRY.md`。
@@ -125,6 +127,8 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 - 协议：同数据、同 `ft_cnstyle@25k` 初始化、10k、1-shot「永」；详见历史变更记录与 `provenance/runs/A-MVP-*.json`。
 
 ## 精简变更记录
+
+- 2026-09-11：同步下一版最终设计候选：Delta 从预平均单方向升级为保留 donor candidate axis 的 Set-Delta；Ref 改为 per-ref global + graphics-informed local evidence；Support 退出论文主方法。写作上明确 FontDiffuser 是 inherited denoising backbone，本文贡献是跨语系未观察目标字符的 prior proposal + observed evidence realization。设计尚未实现或验证。
 
 - 2026-09-02：Stage A 收缩为两臂最小验证；建立单一台账与护栏。
 - 2026-09-03：Stage A 完成 → `INCONCLUSIVE`；建根 Git 与补丁提交；迁入 `/root/projects/hrfont`。

@@ -6,11 +6,13 @@ ICLR 2027：**中文 few-shot 风格 → 生成拉丁 / 假名**。
 ## 合作者从这里开始
 
 1. [`PROJECT.md`](PROJECT.md) — **当前状态**（唯一台账）
-2. [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) — 进度 / 版本 / Git / 追溯
-3. [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) — 实验 ID 与结果入口
-4. [`code/README.md`](code/README.md) — `official` / `ours` / `variants`
-5. [`COLLABORATOR_GUIDE.md`](COLLABORATOR_GUIDE.md) — 协议 / Loss / 历史 FT
-6. [`docs/DATA_AND_WEIGHTS.md`](docs/DATA_AND_WEIGHTS.md) — 本机数据与权重
+2. [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md) — **下一版 Delta / Ref 最终设计候选与 review 清单**
+3. [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md) — 一页主叙事与 FontDiffuser 差异
+4. [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) — 进度 / 版本 / Git / 追溯
+5. [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) — 实验 ID 与结果入口
+6. [`code/README.md`](code/README.md) — `official` / `ours` / `variants`
+7. [`COLLABORATOR_GUIDE.md`](COLLABORATOR_GUIDE.md) — 协议 / Loss / 历史 FT
+8. [`docs/DATA_AND_WEIGHTS.md`](docs/DATA_AND_WEIGHTS.md) — 本机数据与权重
 
 ## 代码树（单仓物理隔离）
 

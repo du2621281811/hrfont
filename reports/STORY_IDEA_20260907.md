@@ -1,36 +1,55 @@
-# 故事与 Idea 总结（2026-09-07，PI 口径整合版）
+# 故事与 Idea 总结（2026-09-11，Delta / Ref 最终设计口径）
 
-> 本文是当前项目叙事的一页式整合（含 PI 最新补充的 IDEA 表述）。证据等级以
-> `BANK_STYLE_NARRATIVE_20260906.md`、`ARMS_NARRATIVE_QKV_20260905.md`、
-> `REVIEW_BANK_STYLE_20260906.md` 为准。ICLR 视角评估见 `IDEA_ICLR_EVAL_20260907.md`。
+> 本文是当前写作口径的一页式入口。完整方法、实现合同、消融和停止条件见
+> [HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md](HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)。
+> F1/F2/F3/F3b 是已完成的旧实现证据；Set-Delta / Graphics-Ref 是下一版设计，尚未实现或训练。
 
 ## 1. 问题
 
-给定一个未见字体的少量中文参考字（few-shot，主协议 8 张），生成同一字族的拉丁/假名字符。现有方法（FontDiffuser/DG-Font/CF-Font 系）**不能很好地捕捉跨语言的风格表示**：它们依赖同语系的结构对应（参考字结构与目标字结构的空间对齐），跨语系时参考字（汉字）无法有效预测目标字（拉丁）的形变，导致生成的跨语言文本在参考风格内**不合理**。
+给定未见字体的少量中文参考字（主协议 ref8），生成同一字族的拉丁、数字、假名或注音。目标字符身份由中性 Content 给出，但 refs 没有直接展示这些字符的具体设计；问题因此不是普通的 reference imitation，而是**在目标字符设计不可直接观察时，怎样结合 bank-supported variation 与 ref-observable appearance，生成合理且与字族兼容的字形**。
 
-## 2. 方法：两个互补的机制
+## 2. 方法：先验提出，参考实现
 
-**① Δ-RSI（核心）**：FD 的 RSI 以参考字自身结构 `Ec(ref)` 为形变源——跨语系错位。我们把它换成**同字残差结构先验 Δ**：
+**① Set-Delta Variation Prior（核心）**
 
-- 用冻结 Es 对目标字体的 ref 做 per-char cosine 排序，从 228 字体库取 **top-10** 邻居，softmax(cos/τ, τ=.07) 加权；
-- Δ = Σ ᾶ·Ec(库字体的目标字) − Ec(Noto Content)——**目标字身份对齐**，风格信息来自库先验；减去中性底得到「相对中性底应如何变」的 change-only 信号；
-- 注入方式：RSI 的注意力/DCN **原封不动**，只换结构源；新 RSI 头用 identity-safe zero-conv residual（step0 严格等价无 RSI 的 F0），单通路归因干净。
+- 用目标 ref8 在 train-bank 中检索 Top-K 相似字体，Alpha 只承担候选 proposal 与 attention bias；
+- 对每个 donor 保留“同一目标字符相对固定 Noto 中性锚点”的规范化边界 residual，不在网络外提前平均；
+- 候选轴保留到目标空间位置后再聚合，并通过 geometry adapter 的 warp/value 路径影响生成；
+- 因而 Delta 回答：**bank 支持这个目标字符怎样变化**。
 
-**② 多 support 支持字机制（F3）**：在 Δ 之外，把支持字样例（当前实现：目标字体 own-font 8 字）经 SupportAdapter 注入 RSI context 流，为模型提供跨语言风格语义补充。F2 vs F3 隔离 support 的贡献。
+**② Graphics-Informed Local Reference Attention（互补核心）**
 
-**③ 附带性质：变化空间可定制**。α 无绝对阈值、输出完全由 bank 邻域构成——**策展 bank 即定制生成偏好**（推理期、零训练）。这说明 Δ 表征不仅指明变化方向，还把「跨语言风格变化空间」显式化了（P1/P2 探针验证中）。
+- 每张 ref 保留独立 global token，不沿 ref 轴提前平均；
+- 从 ref 的 Es 中层特征读取 learned local style values；
+- 用 ink、stroke radius、orientation、endpoint、junction 等图形描述符作为跨字符匹配 Key；
+- 因而 Ref 回答：**目标字体已经展示了怎样的视觉实现**。
 
-## 3. 训练与因果拓扑
+**③ Support 的位置**
 
-`official P1 → E1(FT 锚) → F0(RSI-free FT) → F1(official RSI)/F2(Δ)/F3(Δ+support)`：
-- E1 证明「增益来自机制而非更多数据」；F0 提供无 RSI 的干净底座（无震荡引入 RSI）；
-- F1↔F2 隔离 Δ；F2↔F3 隔离 support；全部 matched（同 F0、同预算、同 RNG/drop、identity-safe init）。
+Support 不进入论文主方法。own-font support 只作为额外观测工程模式或 oracle upper bound，并披露额外目标字体图像预算。
+
+## 3. 与 FontDiffuser 的关系
+
+FontDiffuser 是 inherited denoising backbone，不是本文要重新发明的部分。关键区别是条件信息与推断对象：
+
+\[
+\text{FD}: p(y_c\mid B_{0,c},R),\qquad
+\text{HR-Font}:p(y_c\mid B_{0,c},\mathcal D_c(R),\mathcal R(R)).
+\]
+
+- FD 用 reference glyph 自身同时提供 style 与结构形变线索；
+- HR-Font 显式引入同目标字符的 bank residual candidates，并把 bank-supported variation 与 ref-observable appearance 分路建模；
+- 新模块称 Target-Character Variation Adapter，不再写成“Delta-RSI：只替换 FD 的 RSI 输入”；DCN 若保留，只是 geometry adapter 的 inherited operator。
+
+推荐论文句式：
+
+> Unlike reference imitation, cross-script completion must design a glyph that is absent from the references. HR-Font addresses this ambiguity by combining a retrieved target-character variation prior with independently observed reference appearance evidence.
 
 ## 4. 评测：合理性优先（独立贡献）
 
 现有评测只重像素级相似度（LPIPS 等），**忽视跨语言风格迁移最重要的「合理性」**。我们构建：
 
-- **E12 独立评测器**：与方案编码器隔离的 φ_s2（外部 26 字型训练，T1–T4 自测门）、ID-CLS、DeepSets membership verifier；
+- **E12 独立评测器原型**：与方案编码器隔离的 φ_s2、ID-CLS、membership verifier；当前 T2 gate failed，过门前不进入正式主表；
 - **三轴指标**：Identity / Style（SC-R、SC-Gap、Rank@1）/ Quality（coverage、LPIPS）；GT 仅作 positive control；
 - **设计师人工评测（E11）**：分层 2AFC + MOS，终审「合理性」。
 
@@ -38,13 +57,14 @@
 
 | 等级 | 声明 | 状态 |
 |---|---|---|
-| 机制级 | 跨语系错位 → 换同字残差源；α 加权库先验；bank 策展改变先验 | ✅ 设计与 matched 消融支持 |
-| 结果级 | 合理性/风格指标优于 baseline；few-shot 跨语言 SOTA | 🔄 等 F1/F2/F3 80k + E12 过门 + E3 主评测 |
-| 性质级 | 「更符合设计师通用原则」；定制=可靠控制机制 | 📋 P1/P2 + 人评；强 claim 需 matched retrain |
+| 机制级 | 候选轴保留到空间聚合；bank variation 与 ref appearance 分工 | 📋 最终设计，待正式实现 |
+| 结果级 | 相比 FD/ref-only 与 mean-Delta 改善跨语系合理性和风格 | 📋 待 matched retrain |
+| 性质级 | bank 策展形成稳定可控的设计偏好 | 📋 待 K/Alpha/curation 干预 |
 
-## 6. 关键风险与依赖（诚实清单）
+## 6. 合作者 Review 重点
 
-- SOTA 主张需主表落地（当前 F2/F3 ~13.5k+/80k，E12 卡 T2 门待 S3 重训）；
-- F3 support 语义=own-font 8 字（与最初「跨字检索」设计不同，D-B5 待拍板）；
-- 推理 Δ 路径在执行机实现，仓库 sample.py 未接线（D-B4 parity 准入）；
-- 可控性叙事当前是 inference-time intervention，非「训练过的可控性」。
+1. Set-Delta 是否应以 TSDF+gradient+mask 为正式表示，还是先用 geometry mean 做一天级接口验证；
+2. Target-Character Variation Adapter 的 warp/value 双路径是否保持，还是先做单路径快速筛查；
+3. Graphics-Ref 的 primitive-only Key 是否足够，R2 learned local K/V 是否作为强基线；
+4. 正式实现必须包含 D0/D1/D2/D3/D4/D6 与 R0/R1/R2/R3/R4，并把 FD/ref-only、mean-Delta 和 Set-Delta 放在同一主表；
+5. 论文主图应把 FD 画成灰色 inherited backbone，把 Set-Delta 与 Graphics-Ref 画成本文方法，避免“只换 RSI source”的误读。

@@ -119,7 +119,7 @@
 <body>
 <main class="wrap">
   <h1>方法图画图说明书</h1>
-  <p class="meta">给 GPT / 绘图模型用 · 基于 FontDiffuser + CF-Font 画本方法总览图 · 不要当实验汇报页用</p>
+  <p class="meta">给 GPT / 绘图模型用 · 2026-09-11 Set-Delta + Graphics-Ref 口径 · 不要当实验汇报页用</p>
 
   <h2>1. 你要附上什么</h2>
   <div class="card">
@@ -168,13 +168,13 @@
         <td><strong>Δ 的减数</strong></td>
         <td>与 Content <strong>同一张</strong> Noto 图</td>
         <td>同一字符 <em>c</em></td>
-        <td>写 “− Ec(Content,c)”；不要另画第二套中性字体</td>
+        <td>写 “− G(Content,c)”；不要另画第二套中性字体</td>
       </tr>
       <tr class="new">
-        <td><strong>Support（可选）</strong></td>
-        <td>协议变体：旧版常用<strong>目标字体</strong>汉字；图上若画请单独虚线标注版本</td>
-        <td>汉字（常与 ref 集合相关）</td>
-        <td>虚线旁路；勿默认画成「又多 8 个未见拉丁字」</td>
+        <td><strong>Support / own-font</strong></td>
+        <td>额外观测工程模式或 oracle upper bound</td>
+        <td>额外目标字体汉字</td>
+        <td>论文主方法图不画；单独实验图需披露额外图像预算</td>
       </tr>
     </tbody>
   </table>
@@ -191,30 +191,37 @@
 1) 内容参考图 Content：固定用 Noto Sans CJK Regular（中性字体）渲染「目标字符 c」。全数据共享，不随目标字体变化。图上必须画成无衬线/中性外观，并标注 “Noto / neutral”。
 2) 风格参考图 Style/R：用「当前目标字体」渲染的汉字（不是 Noto）。训练随机 1–8 张；评测固定八字「永和书风骨韵天地」。图上要看得出是目标字体风格。
 3) 近邻库图（仅用于构造 Δ）：训练库 228 套字体上、与 Content 同一个字符 c 的字形；测试字体不进库。
-减数 Ec(Content,c) 与内容参考是同一张 Noto 图，不要另画第二套中性字体。
+减数 G(Content,c) 与内容参考是同一张 Noto 图，不要另画第二套中性字体。
 真值 GT 是目标字体上的字符 c，只作对照，不是条件输入。
 
-【必须保留的 FontDiffuser 骨架（灰色/细线框，标注 Inherited）】
-- Content（Noto, 字符 c）→ 内容编码器 Ec → 多尺度内容聚合（MCA）进入扩散 UNet
-- 目标字体风格参考（汉字）→ 风格编码器 Es → 风格交叉注意力进入 UNet
-- 扩散 UNet（含上采样中的结构迁移模块 RSI：交叉注意力预测 offset + 可变形卷积 DCN）
-- 输出：生成的目标字形（目标字体风格 × 字符 c）
+【FontDiffuser 骨架（灰色细线框，整体标注 Inherited denoiser backbone）】
+- Content（Noto, 字符 c）→ Ec/MCA → diffusion UNet
+- 基础 Es 与 UNet style-conditioning 接口
+- diffusion objective / sampler
+- 不把 RSI 作为本文贡献高亮；若底层复用 DCN，仅标注 inherited operator
 
-【相对 FontDiffuser 的关键改动（彩色/粗线框，标注 Ours / Replaced）】
-官方做法：把「风格参考汉字」再送进 Ec，得到的绝对结构特征作为 RSI 的结构条件。
-我们的做法：不再用「参考汉字的 Ec」驱动 RSI，改为「同目标字符的近邻残差 Δ」：
-  1) 用 Es(目标字体汉字参考) 在训练字体库中按风格相似度检索 Top-10 近邻字体；
-  2) 取这些近邻字体上「同一个目标字符 c」的 Ec 特征，加权平均；
-  3) 减去 Noto Content 上同一字符 c 的 Ec，得到残差 Δ；
-  4) 将 Δ 送入 RSI（RSI/DCN 模块本身保留，只换结构条件来源）。
-灵感来自 CF-Font 的库内容融合，但我们是：风格近邻加权 + 强制同字符对齐 + 减中性残差；不是 CF-Font 原样复现，图中用虚线注释 “inspired by, not identical”。
+【本文方法一：Set-Delta Variation Prior（蓝色粗线框）】
+1) 用目标字体 ref8 在 train-bank 检索 Top-K 相似字体；Alpha 只作 proposal 与 logit bias；
+2) 对每个 donor，取与 Content 同一目标字符 c 的规范化边界表示；
+3) 分别减去固定 Noto 中性锚点，得到 K 个 donor residual candidates；
+4) 保留候选轴，不在网络外加权平均；
+5) Target-Character Variation Adapter 在目标空间位置聚合候选，通过 warp/value geometry paths 进入 UNet。
 
-【可选模块（虚线框，标注 Optional）】
-Support：若干汉字经 Ec → 小型适配器 → 注入 UNet 上采样路径的风格注意力。主图可画成可开关旁路。
+【本文方法二：Graphics-Informed Local Reference Attention（橙色粗线框）】
+1) 每张 ref 保留独立 global token；
+2) 从 Es 中层特征取得 learned local style values；
+3) ink/radius/orientation/endpoint/junction 图形描述符构成跨字符匹配 Key；
+4) Content 局部结构作 Query，读取目标字体 ref 中相符的 appearance evidence。
+
+【不要画入主方法】
+- own-font Support：只作额外观测工程模式或 oracle upper bound；
+- “Delta-RSI，只换官方 RSI source”的旧图；
+- 把 Alpha 画成唯一答案或把 K 个 donor 预先平均。
 
 【图面要求】
-- 左或上：FontDiffuser 原结构条件路径（划掉或灰色 “Ec(style glyph) → RSI”）
-- 中/右：我们的 Δ 路径（高亮）
+- 左或外围：FontDiffuser denoiser backbone（灰色、整体标注 inherited）
+- 中间：Set-Delta 候选轴与 Target-Character Variation Adapter（蓝色高亮）
+- 另一支：Graphics-Informed Local Reference Attention（橙色高亮）
 - 内容分支与风格分支在图上分列，并在 Content / Style 框内写明渲染字体
 - 旁注：训练时风格参考随机 1–8 张；评测固定八字「永和书风骨韵天地」
 - 不要画实验消融表、不要堆内部代号（F0/F1/F2…）；模块用中英文全称
@@ -228,64 +235,48 @@ Support：若干汉字经 Ec → 小型适配器 → 注入 UNet 上采样路径
       <tr><th>模块</th><th>来源</th><th>图上怎么画</th></tr>
     </thead>
     <tbody>
-      <tr class="keep"><td>内容图 Content、内容编码器 Ec、MCA</td><td><span class="pill keep">继承 FontDiffuser</span></td><td>灰框</td></tr>
-      <tr class="keep"><td>风格参考、风格编码器 Es、风格交叉注意力</td><td><span class="pill keep">继承</span></td><td>灰框</td></tr>
-      <tr class="keep"><td>扩散 UNet、RSI 注意力头、DCN</td><td><span class="pill keep">继承（块不拆）</span></td><td>灰框；标注 “RSI block kept”</td></tr>
-      <tr class="drop"><td>官方：风格参考汉字 → Ec → 作为 RSI 结构条件</td><td><span class="pill drop">替换掉</span></td><td>灰线 + 叉掉，或旁注 “official path replaced”</td></tr>
-      <tr class="new"><td>训练库 228 字体 + Es 相似度 → Top-10</td><td><span class="pill new">本方法</span></td><td>彩框 “Style-kNN over font bank”</td></tr>
-      <tr class="new"><td>近邻同字符 Ec 加权 − Content 同字 Ec → Δ</td><td><span class="pill new">本方法</span></td><td>彩框；写公式</td></tr>
-      <tr class="new"><td>Δ → RSI 结构条件</td><td><span class="pill new">接线改动</span></td><td>粗箭头进入 RSI</td></tr>
-      <tr class="new"><td>Support 适配器（可选）</td><td><span class="pill new">可选扩展</span></td><td>虚线旁路</td></tr>
-      <tr class="keep"><td>库内容融合思想</td><td><span class="pill keep">启发自 CF-Font</span></td><td>脚注，勿画成 CF-Font 复制</td></tr>
+      <tr class="keep"><td>Ec/MCA、基础 Es、Diffusion UNet</td><td><span class="pill keep">继承 FontDiffuser</span></td><td>整体灰框 “Inherited denoiser backbone”</td></tr>
+      <tr class="keep"><td>DCN（若最终保留）</td><td><span class="pill keep">继承算子</span></td><td>小字标注，不单独高亮</td></tr>
+      <tr class="drop"><td>参考汉字绝对 Ec → RSI；旧 mean-Delta → RSI</td><td><span class="pill drop">替换掉</span></td><td>不进入最终主图</td></tr>
+      <tr class="new"><td>Top-K同目标字符 anchor-relative residual candidates</td><td><span class="pill new">本方法</span></td><td>蓝色集合框，保留 donor 轴</td></tr>
+      <tr class="new"><td>Target-Character Variation Adapter</td><td><span class="pill new">本方法</span></td><td>蓝色粗框，warp/value 两出口</td></tr>
+      <tr class="new"><td>Graphics Key + learned local Style Value</td><td><span class="pill new">本方法</span></td><td>橙色粗框，明确 Q/K/V</td></tr>
+      <tr class="drop"><td>own-font Support</td><td><span class="pill drop">非论文主方法</span></td><td>主图不画</td></tr>
     </tbody>
   </table>
 
   <h2>5. 信息流草图（给模型对齐布局）</h2>
-  <pre class="flow">┌─────────────────────┐   ┌──────────────────────────┐
-│ Content (字符 c)     │   │ Style refs R（汉字）        │
-│ 字体: Noto Sans CJK  │   │ 字体: 当前目标字体           │
-│ Regular（固定中性）   │   │ 训练 n∈[1,8] / 评测 ref8    │
-└──────────┬──────────┘   └────────────┬─────────────┘
-           │ Ec                        │ Es
-           ▼                           ├──────────────────────┐
-┌─────────────────────┐                ▼                      ▼
-│ MCA / Identity      │         ┌─────────────┐      ┌─────────────────┐
-│ → UNet              │         │ Style attn  │      │ Font-bank kNN   │
-└─────────────────────┘         │ → UNet      │      │ Top-10 by Es(R) │
-                                └─────────────┘      └────────┬────────┘
-                                                              │ 近邻字体上
-                                                              │ 同一字符 c 的 Ec
-                                                              │ （库=train228）
-                                                              ▼
-                                                     ┌─────────────────┐
-                                                     │ Σ α·Ec(neigh,c) │
-                                                     │ − Ec(Noto, c)   │
-                                                     │      = Δ        │
-                                                     └────────┬────────┘
-                                                              │ 替换官方 Ec(style汉字)
-                                                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Diffusion UNet                                              │
-│   … upsample: RSI(Query=Δ, K/V=skip) → offset → DCN …       │
-│   optional: Support → style attn                            │
-└─────────────────────────────┬───────────────────────────────┘
-                              ▼
-              Generated glyph：目标字体风格 × 字符 c
-              （GT 同左，仅对照）</pre>
+  <pre class="flow">Content / Noto(c) ── Ec/MCA ───────────────────────────────┐
+        │                                                  │
+        └─ train-bank 同字符 c ─→ K个 anchor-relative      │
+                                  geometry residuals       │
+                                         │                 │
+Style refs R ── Es检索 Alpha ────────────┤ proposal bias   │
+        │                                ▼                 │
+        │                  Target-Character Variation      │
+        │                  Adapter: candidate-axis         │
+        │                  aggregation → warp/value ───────┤
+        │                                                  ▼
+        └─ per-ref global + graphics-keyed local values → Diffusion UNet
+                                                           │
+                                                           ▼
+                                      Generated glyph: bank-supported
+                                      design × ref-compatible appearance</pre>
 
   <h2>6. 必须出现的公式</h2>
   <div class="eq">
-    α = softmax( sim(Es(R), Es(bank)) / τ )，取 Top-10，τ = 0.07<br/><br/>
-    Δ_c = Σ<sub>j</sub> α̃<sub>j</sub> · Ec(库字体<sub>j</sub>, 字符 c) − Ec(Noto Content, 字符 c)<br/><br/>
-    然后：Δ_c → RSI → DCN（UNet 上采样）
+    J<sub>K</sub>(R) = TopK(sim(Es(R), Es(bank)))，Alpha 只作 proposal / logit bias<br/><br/>
+    d<sub>j,c</sub> = G(bank<sub>j,c</sub>) − G(Noto<sub>c</sub>)，j∈J<sub>K</sub>(R)<br/><br/>
+    D<sub>c</sub>(R) = {(d<sub>j,c</sub>, log α<sub>j</sub>)}；保留 candidate axis 到空间聚合<br/><br/>
+    output = Gθ(x<sub>t</sub>, Content<sub>c</sub>, D<sub>c</sub>(R), RefEvidence(R))
   </div>
-  <p class="small">要点：减的是<strong>同字符</strong>的 Noto 中性内容特征；检索按<strong>目标字体风格</strong>，融合的是<strong>库字体上同字内容特征</strong>。</p>
+  <p class="small">要点：Delta 提供 bank-supported variation；Ref 提供目标字体中实际可观察的 appearance evidence；不把 donor 预平均成唯一答案。</p>
 
   <h2>7. 和两篇基线的一句话差别</h2>
   <div class="card">
     <ul>
-      <li><strong>vs FontDiffuser：</strong>保留 RSI/DCN 硬件；把 RSI 的结构条件从「参考汉字绝对 Ec」换成「目标字符对齐的近邻残差 Δ」。风格仍走 Es。</li>
-      <li><strong>vs CF-Font：</strong>都用库字体内容信息；我们不做其原论文式聚类基底插值，而是风格 kNN + 同字残差，专门接到扩散模型的 RSI。</li>
+      <li><strong>vs FontDiffuser：</strong>FD 做 reference imitation；HR-Font 显式建模未观察目标字符的 retrieved variation prior，并与 observed reference evidence 分路。</li>
+      <li><strong>vs CF-Font：</strong>都利用 bank 字体；HR-Font 保留同目标字符相对固定锚点的 donor candidate axis，直到目标空间位置聚合，而不是先形成单一融合内容。</li>
     </ul>
   </div>
 
@@ -295,7 +286,7 @@ Support：若干汉字经 Ec → 小型适配器 → 注入 UNet 上采样路径
       <li>把 Content 画成目标字体样式，或把 Style 画成 Noto——这是最常见错误。</li>
       <li>实验消融编号表（无结构迁移 / 官方 RSI / 近邻残差 / 支持特征对照）→ 那是实验图，不是方法图。</li>
       <li>像素指标、训练曲线、GPU、checkpoint 步数。</li>
-      <li>把 Support 画成「又多看 8 个与 ref 完全不同的字」——旧版支持字表常与 ref8 相同，是<strong>多通路编码</strong>；新版支持设计若画上，单独虚线并标注 “design variant”。</li>
+      <li>Support / own-font extra images：不进入论文主方法图，只能在工程模式或 oracle upper bound 图中单独披露。</li>
       <li>把测试字体画进训练库；库是 train228，测试字体只作查询。</li>
     </ul>
   </div>

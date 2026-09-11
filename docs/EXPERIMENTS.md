@@ -24,11 +24,24 @@
 | `FT-P253-CNSTYLE-12K` | 253 字体，12k | 同上；Style 池存疑 | `code/ours`（历史） |
 | `A-MVP-CONTROL` / `DELTA` | Stage A，`INCONCLUSIVE` | `PROJECT.md`；`provenance/runs/A-MVP-*.json` | 脚本 + `ours` 权重树 |
 | `E1-FTV2-A-S3407` | A 协议 FT-v2，228/16/16，seed3407，100k | `PROJECT.md`（已完成 100k）；`provenance/runs/E1-FTV2-A-S3407.json`；正式评测待补 | **`code/variants/cn2west_ft_v2`** |
-| `E1C-FT-CONTINUE-S3407` | 原 E1 前向再训 80k（不改 RSI） | 计划中；口径 `reports/PI_DECISIONS_20260905.md` | **`code/variants/cn2west_ft_v2`** |
-| `E2-STAGE-A-S3407` / `E2B-…` | n-shot 9-token；E2=Δ，E2b=官方 RSI | 计划中；YAML `configs/e2*.yaml` | **`code/variants/cn2west_stage_a`** |
+| `E1C-FT-CONTINUE-S3407` | 原 E1 前向再训设想 | **superseded，未进入当前主线** | **`code/variants/cn2west_ft_v2`** |
+| `E2-STAGE-A-S3407` / `E2B-…` | 旧 n-shot Stage-A 方案 | **STOP，不进当前结论** | **`code/variants/cn2west_stage_a`** |
+| `F0-RSIFREE-FT-A-S3407` | RSI-free parent | **completed 100k；下一版唯一 parent** | **`code/variants/cn2west_f0_rsifree`** |
+| `F1-OFFRSI-A-S3407` | official-reference RSI 对照 | **completed 80k；正式比较仍待统一汇总** | **`code/variants/cn2west_f123_rsi`** |
+| `F2-DELTARSI-A-S3407` | 旧 mean-Delta | **completed 80k；作为下一版 mean-Delta baseline** | **`code/variants/cn2west_f123_rsi`** |
+| `F3-JOINT-DS-A-S3407` | 旧 mean-Delta + own-font Support | **completed 80k；legacy，不作为相同信息预算主方法** | **`code/variants/cn2west_f123_rsi`** |
+| F2-P / F3b-P | per-ref h token 执行机方案 | **训练状态据 PROJECT；代码可能尚未同步，不作为下一版 parent** | 执行机 WIP |
 | `FT-P251-REF8-CN2WEST-V2` | 旧 planned 名（已由 E1/p260 取代） | TBD | **`code/variants/cn2west_ft_v2`** |
 
 官方超参 / Loss / 渲染：`COLLABORATOR_GUIDE.md`。
+
+## 下一版方法（设计阶段，不得当作已完成实验）
+
+- 规格：[`../reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](../reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)
+- 主线：Set-Delta Variation Prior + Graphics-Informed Local Reference Attention。
+- Support：不进入论文主方法；own-font support 只作额外观测工程模式或 oracle upper bound。
+- 实验 ID、variant ID 与 provenance 在实现 review 通过后再登记；当前没有对应 checkpoint 或结果。
+- 最小正文对照：FD/ref-only、no-Delta、old mean-Delta、geometry mean、Set-Delta、absolute set、wrong-character，以及 global/per-ref/learned-local/graphics-local Ref。
 
 ## 数据与权重
 
