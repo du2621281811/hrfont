@@ -19,7 +19,7 @@
 |---|---|
 | `reports/DESIGN_F3B_20260908.md:9`、`:44` 仍写 cross-font / 新 mid attention | 不继承；采用上述 own-font / 既有 up-path 的任务锁定版 |
 | 同文 `:56` 写逐 ref 投影后平均为 local64 | 废弃本方案中的 ref 平均；该条也不得混入已排队 F3b-S |
-| `.cursor/rules/hrfont-execution-spec.mdc:60` 的 support 外部来源旧口径 | 不能据此把执行版 own-font 改成跨库来源；差异须记入执行批准记录 |
+| `.cursor/rules/hrfont-execution-spec.mdc:61` 的 support 外部来源旧口径 | 不能据此把执行版 own-font 改成跨库来源；差异须记入执行批准记录 |
 | 设计文档 `:65` warmup5k，与速查 `:17` 其他臂 warmup2k | 不在风格臂自行选值；取经过核实的 F3b-S resolved config，并核对与 F2 的 matched 契约 |
 
 **数据来源和论文身份必须分开说。**执行版 own-font support 确实读取该字体额外 CN 字（`code/variants/cn2west_f123_rsi/FontDiffuser/train.py:276`、`:308`）；不能写成实际张量来自跨字体库。论文仍只赋予它“结构条件化支持/库先验”的功能，不拿它的笔触承载能力冒充本方案的 ref 个体证据。必须披露 own-font 扩展访问预算，不能把整套系统说成只访问八张图；R-L128 的新增输入严格限于原 episode refs，没有新增目标字体观测。跨库版本的“同 J 同 support”论证也不能直接套到 own-font 实现。故事边界依据 `reports/IDEA_ICLR_SCORE_20260908.md:90`、`:210`、`:232`。
@@ -107,11 +107,11 @@ C_down = old_global_map                          # [B,1024,3,3]
 
 离线缓存角色暂命名 `es_local_f0_block2_pool4`，每个 `(split,font,ref_cp)` 保存 `[16,256]` fp16；FP32池化后转换存储。需要更细分辨率的后续诊断可重新离线建独立版本，禁止训练时临时跑Es。完整260×338字池约 **686.6 MiB payload**（不含索引/校验元数据），可按字体分片；训练只读train角色，val/test仅在对应评测角色读，test不用于筛选。
 
-manifest必须含：完整F0 Es权重SHA256、encoder代码SHA、hook路径、原始及保存shape、池化参数、dtype、RGB归一化、A协议dataset/split/render SHA、字池/索引SHA、payload SHA。**F0 Es权重SHA要与global cache一致**；不能用当前训练checkpoint的Es重新混建。预处理始终96×96 RGB PNG、无resize。逐条随机抽查离线hook→池化与cache读取误差及shape，校验缺字为失败而非零填补。正式训推若试图调用Es/Ec立即报错。依据 `.cursor/rules/hrfont-execution-spec.mdc:36`、`:53`、`:58`，及 `reports/DESIGN_F3B_20260908.md:53`。
+manifest必须含：完整F0 Es权重SHA256、encoder代码SHA、hook路径、原始及保存shape、池化参数、dtype、RGB归一化、A协议dataset/split/render SHA、字池/索引SHA、payload SHA。**F0 Es权重SHA要与global cache一致**；不能用当前训练checkpoint的Es重新混建。预处理始终96×96 RGB PNG、无resize。逐条随机抽查离线hook→池化与cache读取误差及shape，校验缺字为失败而非零填补。正式训推若试图调用Es/Ec立即报错。依据 `.cursor/rules/hrfont-execution-spec.mdc:38`、`:52`、`:59`，及 `reports/DESIGN_F3B_20260908.md:53`。
 
 ### 4.3 n、k_s、padding、drop 与 RNG
 
-- **n是style refs数，k_s是support字数，不能混用。**style训练沿用主线 `n~Uniform{1..8}`，推理固定同一ordered ref8；L训练为16n、推理128。所有有效ref都保留，不挑“最有风格”的单字。训推聚合算子相同，n=8属于训练支持域；不声称训练分布等于推理固定值。依据 `.cursor/rules/hrfont-execution-spec.mdc:48`。
+- **n是style refs数，k_s是support字数，不能混用。**style训练沿用主线 `n~Uniform{1..8}`，推理固定同一ordered ref8；L训练为16n、推理128。所有有效ref都保留，不挑“最有风格”的单字。训推聚合算子相同，n=8属于训练支持域；不声称训练分布等于推理固定值。依据 `.cursor/rules/hrfont-execution-spec.mdc:50`。
 - support的训练k_s/选字分布与F3b-S逐样本完全相同，推理同用拓扑前8。设计候选写U{4..16}（`reports/DESIGN_F3B_20260908.md:25`），实际代码受bank meta控制（`train.py:287`）；必须读取执行机meta和resolved config确认，不按文档猜。如果F3b-S实际固定8，新增臂也固定8。style改动不能借机“修正”support采样。
 - 变长L pad到128必须**真正屏蔽padding logits**，不许仅补零。当前 `src/modules/attention.py:209`、`:223` 显示mask参数被忽略，`train.py:317`也仅补零support；因此不能宣称现有padding安全。最小实现是把context有效mask传过现有wrapper，在既有attention logits上mask；无新增模块类型。新增臂只屏蔽L的pad，旧G/S语义保持不变；F3b-S同样使用该实现但mask全有效，必须做all-valid parity。若要修旧support padding，须两臂统一另核实，不得单边夹带。
 - 新L仅受既有 **CFG joint drop=.10** 控制：conditional有效；unconditional全禁用L（屏蔽而非让Linear bias泄漏）。旧global9仍按旧方式置零，保证至少有有效context、不产生全masked softmax。**source_drop=.25只管原结构源，不额外drop L；support_drop=.20也不管L。**旧S究竟随source/CFG关闭必须复用配对控制的真实行为。
