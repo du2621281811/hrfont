@@ -28,6 +28,7 @@
 *.tmp
 *.log
 *.zip
+reports/pm_sync_log.jsonl
 code/**/ckpt
 
 # Live training-machine symlink into runs/viz (collaborators use reports/e1_ft_v2_dashboard)

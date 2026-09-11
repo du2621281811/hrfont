@@ -7,7 +7,9 @@
 
 ## 当前状态
 
-- **主线：** F0@100k 父模型已定；F3@80k **完成**；F2 在跑；F1 暂停 300。详表 [`reports/F123_STATUS_20260907.md`](reports/F123_STATUS_20260907.md)。
+- **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 均已 80k；Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。F2P 训练代码仍可能是本机 WIP，不自动进仓。
+- **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git。
+- **旧状态备查：** [`reports/F123_STATUS_20260907.md`](reports/F123_STATUS_20260907.md)（日期已过，以本段为准）。
 - **合作者离线看板：** [`reports/collab_offline/index.html`](reports/collab_offline/index.html)（分层评测 / 时间线 / Δ 检索 / 导师页）。
 - **E12 v4：** 26 字型 cache_v4，三 seed **仍 gate_failed（T2）**；见 [`reports/E12_SELFTEST_V4_REVIEW_20260907.md`](reports/E12_SELFTEST_V4_REVIEW_20260907.md)。Mac 复训：[`reports/E12_MAC_COLLAB.md`](reports/E12_MAC_COLLAB.md)（`cache_v4` 已进 git，约 18 MB）。
 - E1@100k 锚点保留。

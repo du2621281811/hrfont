@@ -48,6 +48,20 @@ docs/patches/                # 相对 official 的可审查 diff
    - 同步导出 `docs/patches/<id>.diff`（相对 `code/official`）；
    - 在 `provenance/REGISTRY.md` 登记 variant + commit。
 6. 禁止 force-push `main`；禁止把「计划」写成「已完成」。
+7. **多机**：Git 只同步代码与精选报告；协议 A 数据、F0 `best`、Es/Ec cache 用 rsync（§3.1）。每台机尽量保持 `/root/projects/hrfont` + conda `boogu`。
+8. **2h 扫描**：`python scripts/pm_sync_scan.py` 把脏文件分成 `must_sync` / `hold_wip` / `never`。Agent 只自动提交 `must_sync`（评测脚本、报告页、台账）；训练 WIP（如未完成的 F2P）进 `hold_wip`，等人确认。落后 remote 时先 `fetch` + `pull --rebase`（禁止 `-i`）。
+
+## 3.1 新服务器要拷的非 Git 文件
+
+| 路径 | 约体积 | 用途 |
+|------|--------|------|
+| `data/fontdiffuser-p253-t295-s338-cn2west-v2/` | 0.7GB | 协议 A 训练/评测图 |
+| `artifacts/f0/es_spatial_f0/` | 1.7GB | F0 Es cache |
+| `artifacts/f0/ec_multiscale_f0/` | **94GB** | F0 Ec cache（优先 rsync，勿轻易重建） |
+| `runs/F0-RSIFREE-FT-A-S3407/best/` | 1.1GB | F 臂父模型 |
+| `artifacts/f0/support_bank.json` | 小 | 或从 `reports/artifacts_sync/` 拷回 |
+
+不要 rsync 整份 `runs/`（单臂可 20GB+）。官方 ckpt 仅 P1 评测需要。
 
 ## 4. 实验生命周期
 

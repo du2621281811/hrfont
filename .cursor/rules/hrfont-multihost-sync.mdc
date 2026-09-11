@@ -1,0 +1,15 @@
+---
+description: 多机多合作者 Git 同步：进仓边界、2h 扫描、禁止误提交
+alwaysApply: true
+---
+
+# 多机同步
+
+- 唯一远程：`origin/main`（`https://github.com/du2621281811/hrfont`）。禁止 force-push。
+- 机器之间：代码/报告用 Git；数据、权重、Es/Ec cache 用 rsync（见 `docs/PROJECT_MANAGEMENT.md` §3.1）。
+- 每 ~2h 跑 `python scripts/pm_sync_scan.py`。只自动提交 **must_sync**；**hold_wip** 留给人点头；**never** 永不 add。
+- must_sync：评测脚本、报告 HTML/已约定 preds、台账、provenance、docs、`.cursor/rules`。
+- hold_wip：未完成训练改动（如 F2P 的 `train.py` / attention）、live `training_logs`、`f123_dashboard/status.json`。
+- never：`artifacts/f0/ec_*`、`runs/**/*.pth`、pid/log/lock、`.env`、未跟踪 data symlink。
+- 落后 remote：先 `git fetch`；有本地 must_sync 则 stash → pull --rebase → stash pop → commit → push。不要 `rebase -i`。
+- 一次提交不混训练 WIP 和报告页。新 run 用新 ID。
