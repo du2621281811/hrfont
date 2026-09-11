@@ -172,7 +172,7 @@ def precompute_conditions(M, es, ec, library, bank, cfg, device, split, fonts, c
                 "char_cp": [cp_of(ch)],
                 "ref_chars": [REF8],
             }
-            style, queries = M.T._style_conditions(es, samples, device)
+            style, queries, *_ = M.T._style_conditions(es, samples, device)
             structure = M.T._structure_features(
                 es, ec, library, samples, queries, cfg, keep, device)
             content = M.T._content_features(ec, samples, keep, device)

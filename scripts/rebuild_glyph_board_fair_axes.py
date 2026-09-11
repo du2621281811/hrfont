@@ -24,6 +24,7 @@ METHOD_META = {
         "ckpt": "official",
         "axes": ["A", "C"],
         "cond": "1-shot Style（优先「永」）",
+        "role": {"A": "A1 底", "C": ""},
     },
     "E1_100k": {
         "label": "E1 官方RSI@100k",
@@ -31,6 +32,7 @@ METHOD_META = {
         "ckpt": "100k",
         "axes": ["A", "C"],
         "cond": "1-shot + 官方 RSI",
+        "role": {"A": "vs P1 / A2 底", "C": ""},
     },
     "F0_100k": {
         "label": "F0 无RSI@100k",
@@ -38,47 +40,82 @@ METHOD_META = {
         "ckpt": "100k",
         "axes": ["A", "C"],
         "cond": "1-shot · 无 RSI",
+        "role": {"A": "baseline · RSI消融底", "C": ""},
+    },
+    "F1_30000": {
+        "label": "F1 官方RSI@30k mid",
+        "shot": 1,
+        "ckpt": "30k*",
+        "axes": ["A", "C"],
+        "cond": "1-shot「永」· F0 上挂回官方 RSI（中期，可更新）",
+        "role": {"A": "vs F0", "C": ""},
     },
     "F2_75000": {
         "label": "F2 Delta@75k",
         "shot": 8,
         "ckpt": "75k*",
-        "axes": ["B", "C"],
+        "axes": ["B", "C", "D"],
         "cond": "ref8 + Δ（无 Support）",
+        "role": {"B": "baseline · Support消融底", "C": "", "D": "baseline · Es mean8"},
+    },
+    "F2_75000_s1": {
+        "label": "F2@75k style1",
+        "shot": "style1+Δ8",
+        "ckpt": "75k*",
+        "axes": ["C", "D"],
+        "cond": "Es=「永」· Δ 仍 ref8（无 Support）",
+        "role": {"C": "非消融", "D": "vs F2 · 只改 Es→永"},
     },
     "F3_80k": {
         "label": "F3 legacy@80k",
         "shot": 8,
         "ckpt": "80k",
-        "axes": ["B", "C"],
+        "axes": ["B", "C", "D"],
         "cond": "ref8 + Δ + Support（同 ref8 多通路）",
+        "role": {"B": "vs F2", "C": "", "D": "辅 · Es mean8 + Support"},
+    },
+    "F3_80k_s1": {
+        "label": "F3@80k style1",
+        "shot": "style1+Δ8",
+        "ckpt": "80k",
+        "axes": ["C", "D"],
+        "cond": "Es=「永」· Δ 仍 ref8 + Support",
+        "role": {"C": "非消融", "D": "vs F3 · 只改 Es→永"},
     },
 }
 
 MODES = {
     "A": {
-        "title": "A · 1-shot 消融",
-        "question": "官方 RSI 有没有用？",
-        "methods": ["P1", "E1_100k", "F0_100k"],
+        "title": "A · RSI 消融（1-shot）",
+        "question": "以 F0 为底：官方 RSI 有没有用？",
+        "methods": ["P1", "E1_100k", "F0_100k", "F1_30000"],
         "shot": 1,
         "warn": False,
-        "blurb": "公平轴：同一 Content + 单张 Style。P1 未微调；E1 保留官方 RSI；F0 关掉 RSI。",
+        "blurb": "公平轴：同一 Content + 单张 Style「永」。合法对照 A1=P1→E1，A2=E1→F0，A3=F0→F1。F1@30k 为中期。",
     },
     "B": {
-        "title": "B · 8-ref 增量",
-        "question": "Δ 之上再加 Support 有没有增益？",
+        "title": "B · Support 消融（ref8）",
+        "question": "以 F2 为底：Support 有没有增益？",
         "methods": ["F2_75000", "F3_80k"],
         "shot": 8,
         "warn": False,
-        "blurb": "公平轴：同一 Content + 固定 ref8。F2=Δ；F3 legacy=Δ+Support。步数 75k vs 80k 仍不完全对齐。",
+        "blurb": "公平轴：同一 Content + 固定 ref8。合法对照 B1=F2→F3 legacy。步数 75k vs 80k 仍不完全对齐。",
     },
     "C": {
         "title": "C · 全方法浏览",
         "question": "同屏扫一眼（非总排行榜）",
-        "methods": ["P1", "E1_100k", "F0_100k", "F2_75000", "F3_80k"],
+        "methods": ["P1", "E1_100k", "F0_100k", "F1_30000", "F2_75000", "F2_75000_s1", "F3_80k", "F3_80k_s1"],
         "shot": "mixed",
         "warn": True,
-        "blurb": "跨 1-shot 与 8-shot，禁止当作总分榜。下结论请切回 A 或 B。",
+        "blurb": "跨 1-shot、ref8 与 style1+Δ8，禁止当作总分榜。对照组请回 A/B/D。F1@30k 为中期。",
+    },
+    "D": {
+        "title": "D · Style 平均消融（Δ 仍 ref8）",
+        "question": "以 F2@mean8 为底：Es 改成只喂「永」之后，斜体/粗细变化有没有回来？",
+        "methods": ["F2_75000", "F2_75000_s1", "F3_80k", "F3_80k_s1"],
+        "shot": "style1_delta8",
+        "warn": False,
+        "blurb": "公平轴：同一 Content + 同一 Δ/RSI=ref8；只改 Es 平均（8→1「永」）。不要和 Mode A 的 F1 比总分。主看斜体/对比，L1 仅诊断。",
     },
 }
 
@@ -328,7 +365,7 @@ def write_html(payload: dict) -> None:
     html = f"""<!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Glyph Board · 公平轴 Mode A/B/C · test16×47</title>
+<title>Glyph Board · 公平轴 Mode A/B/C/D · test16×47</title>
 <style>
 :root{{--bg:#eef1f5;--card:#fff;--line:#d5dbe3;--muted:#5c6570;--ink:#1a1a1a;--accent:#1f4a6f;--warnbg:#fff4f0;--warnline:#e0b0a0;--okbg:#f0f6f2;--okline:#b7cfc0}}
 *{{box-sizing:border-box}} body{{margin:0;font:14px/1.45 system-ui,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--ink)}}
@@ -363,14 +400,17 @@ button.mode[aria-pressed="true"]{{background:var(--ink);color:#fff;border-color:
 a{{color:var(--accent)}}
 </style></head><body>
 <header>
-  <h1>Glyph Board · 按公平轴对比（同一页 Mode A / B / C）</h1>
-  <div class="meta">test16 × 47 · DPM++20 CFG7.5 seed{SEED} · 共享：测试集/种子/采样器/Content · 不共享：shot 数、结构条件、ckpt 步数</div>
+  <h1>Glyph Board · 按公平轴对比（同一页 Mode A / B / C / D）</h1>
+  <div class="meta">test16 × 47 · DPM++20 CFG7.5 seed{SEED} · 共享：测试集/种子/采样器/Content · 不共享：shot 数、Es 平均、结构条件、ckpt 步数</div>
 </header>
 <main>
 <div class="note">
-  <b>怎么读：</b>默认用 Mode A 或 B 下结论；Mode C 仅浏览。<br/>
+  <b>怎么读：</b>默认用 Mode A / B / D 下结论；Mode C 仅浏览。
+  对照组：A 以 <b>F0</b> 为 RSI 底，B 以 <b>F2</b> 为 Support 底，D 以 <b>F2 mean8</b> 为 Es 平均底（Δ 仍 ref8）。<br/>
   像素 L1/SSIM/LPIPS 相对 GT，<b>仅为诊断</b>，不是风格 claim。
-  · <a href="PI_BRIEFING_20260909.html">导师汇报</a>
+  · <a href="mode_d_style1_probe_compact.png">Mode D 探针拼图</a>
+  · <a href="PI_BRIEFING_20260909.html">导师汇报 §2.1</a>
+  · <a href="pi_highlights.html"><b>对照组精选看图</b></a>
   · <a href="http://127.0.0.1:8768/">Compare Portal</a>
   · <a href="http://127.0.0.1:8770/">E12 v5.1 眼测</a>
   · <a href="timeline_f2.html">F2 时间线</a>
@@ -400,9 +440,10 @@ a{{color:var(--accent)}}
   <h2>对照图 · 公平轴</h2>
   <p>
     <span class="meta">Mode</span>
-    <button type="button" class="mode" data-mode="A" aria-pressed="true">A · 1-shot 消融</button>
-    <button type="button" class="mode" data-mode="B" aria-pressed="false">B · 8-ref 增量</button>
-    <button type="button" class="mode" data-mode="C" aria-pressed="false">C · 全览</button>
+    <button type="button" class="mode" data-mode="A" aria-pressed="true">A · RSI 消融（1-shot）</button>
+    <button type="button" class="mode" data-mode="B" aria-pressed="false">B · Support 消融（ref8）</button>
+    <button type="button" class="mode" data-mode="C" aria-pressed="false">C · 全览（非总分）</button>
+    <button type="button" class="mode" data-mode="D" aria-pressed="false">D · Es 平均消融（Δ 仍 ref8）</button>
   </p>
   <div id="mode-blurb" class="okbox"></div>
   <div id="mode-warn" class="warn"></div>
@@ -413,7 +454,7 @@ a{{color:var(--accent)}}
   <div id="cond" class="cond"></div>
   <div class="grid" id="sheet" style="margin-top:12px"></div>
 </section>
-<p class="cap">生成于 {utc_now()} · ui=fair_axes_v1 · F2@75k 为中间落盘非最终 80k · F1/F3b 待评后进 Mode 槽</p>
+<p class="cap">生成于 {utc_now()} · ui=fair_axes_v3_modeD · baseline: A=F0 / B=F2 / D=F2 mean8 · F1@30k mid · F3b 待评 · <a href="pi_highlights.html">对照组精选看图</a> · <a href="PI_BRIEFING_20260909.html">白话稿 §2.1</a></p>
 </main>
 <script>
 const DATA = {json.dumps(data_js, ensure_ascii=False)};
@@ -449,9 +490,17 @@ function renderCond(){{
       h += '<div><img src="refs/style_ref8/'+font+'/'+cp+'.png" alt="'+ch+'" onerror="this.style.opacity=.2"/><div class="cap" style="text-align:center">'+ch+'</div></div>';
     }});
     h += '</div><div class="cap">F3 Support 当前与 ref8 相同字表（多通路，非额外 8 字）</div></div>';
+  }} else if (m.shot === 'style1_delta8'){{
+    h += '<div class="blk"><div class="lab">Style ×1「永」（s1 的 Es 输入）</div><img src="'+style1+'" alt="style1"/><div class="cap">*_s1 列只用这一张做 Es；无从平均</div></div>';
+    h += '<div class="blk"><div class="lab">Style ×8 ref8（Δ / RSI 仍看见）</div><div class="row">';
+    DATA.ref8.forEach((ch) => {{
+      const cp = 'u'+ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
+      h += '<div><img src="refs/style_ref8/'+font+'/'+cp+'.png" alt="'+ch+'" onerror="this.style.opacity=.2"/><div class="cap" style="text-align:center">'+ch+'</div></div>';
+    }});
+    h += '</div><div class="cap">mean8 列的 Es 也来自这 8 张平均。禁止与 Mode A 的 F1 比总分。</div></div>';
   }} else {{
-    h += '<div class="blk"><div class="lab">Style ×1（P1/E1/F0）</div><img src="'+style1+'" alt="style1"/></div>';
-    h += '<div class="blk"><div class="lab">Style ×8（F2/F3）</div><div class="row">';
+    h += '<div class="blk"><div class="lab">Style ×1（P1/E1/F0 / s1 Es）</div><img src="'+style1+'" alt="style1"/></div>';
+    h += '<div class="blk"><div class="lab">Style ×8（F2/F3 Δ）</div><div class="row">';
     DATA.ref8.forEach((ch) => {{
       const cp = 'u'+ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
       h += '<div><img src="refs/style_ref8/'+font+'/'+cp+'.png" alt="'+ch+'" onerror="this.style.opacity=.2"/><div class="cap" style="text-align:center">'+ch+'</div></div>';
@@ -476,11 +525,17 @@ function render(){{
   renderCond();
   const methods = activeMethods();
   const items = DATA.items.filter(it => it.font===font && (!bucket || it.bucket===bucket));
-  const heads = ['字','Content','GT'].concat(methods.map(m => m.label));
+  const heads = ['字','Content','GT'].concat(methods.map(m => {{
+    const role = ((m.role||{{}})[mode]) || '';
+    return role ? (m.label + '<div class="foot"><b>'+role+'</b></div>') : m.label;
+  }}));
   let h = '<table class="g"><thead><tr>'+heads.map(x=>'<th>'+x+'</th>').join('')+'</tr>';
   h += '<tr><th></th><th class="cap">共享</th><th class="cap">仅对照</th>';
   for (const m of methods){{
-    h += '<th class="foot">'+ (m.shot||'?') +'-shot · '+ (m.ckpt||'') +'<br/>'+ (m.cond||'') +'</th>';
+    const role = ((m.role||{{}})[mode]) || '';
+    const shotLab = (m.shot===1 || m.shot===8) ? (m.shot+'-shot') : String(m.shot||'?');
+    h += '<th class="foot">'+ shotLab +' · '+ (m.ckpt||'') +'<br/>'+ (m.cond||'')
+      + (role ? ('<br/><b>'+role+'</b>') : '') + '</th>';
   }}
   h += '</tr></thead><tbody>';
   for (const it of items){{
@@ -538,11 +593,36 @@ tick(); setInterval(tick, 8000);
     (OUT / "index.html").write_text(html, encoding="utf-8")
 
 
+def inject_style1_methods(payload: dict) -> None:
+    """Attach F2/F3 style-oneshot columns; preds optional so Mode D shows 排队 while generating."""
+    s1 = ("F2_75000_s1", "F3_80k_s1")
+    by_id = {m["id"]: m for m in payload["methods"]}
+    for mid in s1:
+        if mid not in by_id:
+            meta = METHOD_META[mid]
+            by_id[mid] = {"id": mid, "label": meta["label"]}
+        for it in payload["items"]:
+            rel = f"preds/{mid}/test/{it['font']}/test__{it['font']}__{cp_of(it['char'])}__s{SEED}.png"
+            it.setdefault("preds", {})[mid] = rel
+    ordered = []
+    seen = set()
+    for mid in METHOD_META:
+        if mid in by_id:
+            ordered.append(by_id[mid])
+            seen.add(mid)
+    for m in payload["methods"]:
+        if m["id"] not in seen:
+            ordered.append(m)
+            seen.add(m["id"])
+    payload["methods"] = ordered
+
+
 def main() -> None:
     idx_path = OUT / "browse_index.json"
     payload = json.loads(idx_path.read_text(encoding="utf-8"))
     fonts = payload["fonts"]
     stage_ref8(fonts)
+    inject_style1_methods(payload)
 
     # Enrich methods metadata while preserving order/labels from browse_index
     enriched = []
@@ -556,15 +636,18 @@ def main() -> None:
                 "ckpt": meta.get("ckpt"),
                 "axes": meta.get("axes"),
                 "cond": meta.get("cond"),
+                "role": meta.get("role") or {},
             }
         )
     payload["methods"] = enriched
     payload["ref8"] = REF8
-    payload["ui"] = "fair_axes_v1"
+    payload["ui"] = "fair_axes_v3_modeD"
     payload["generated_at"] = utc_now()
     payload["note"] = (
-        "Fair-axis UI: Mode A=1-shot P1/E1/F0; Mode B=8-ref F2/F3; Mode C=all browse. "
-        "Style refs for A = refs/style; for B = refs/style_ref8. E12 v5.1 in Style tab."
+        "Fair-axis UI v3: Mode A RSI ablation baseline=F0 (1-shot); "
+        "Mode B Support ablation baseline=F2 (ref8); "
+        "Mode D Es-mean ablation (Δ still ref8) baseline=F2 mean8; "
+        "Mode C browse only. Do not treat F1 vs F2/F3 or D vs A as fair ablation."
     )
     e12_path = OUT / "e12_v51_scores.json"
     if e12_path.is_file():

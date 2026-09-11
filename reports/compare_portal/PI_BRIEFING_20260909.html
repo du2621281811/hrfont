@@ -166,15 +166,15 @@
 </div>
 
 <h2>2. 实验在比什么（消融逻辑）</h2>
-<p>我们把「官方结构迁移模块」拆开，做成可对照的一组实验。名字是内部编号，下表用全称说明。</p>
+<p>我们把「官方结构迁移模块」拆开，做成可对照的一组实验。名字是内部编号，下表用全称说明。<strong>每条箭头 = 一次只改一个因素。</strong></p>
 <pre class="tree">官方零样本基线
    │
    ├─► 同数据微调（保留官方结构迁移）          ← 官方微调基线
    │
-   └─► 去掉结构迁移后再微调                    ← 无结构迁移基线
+   └─► 去掉结构迁移后再微调                    ← 无结构迁移基线（RSI 消融底 F0）
             │
             ├─► 加回「官方版」结构迁移           ← 官方结构迁移臂（训练中）
-            ├─► 换成「近邻残差」结构迁移         ← 近邻残差臂（已训完）
+            ├─► 换成「近邻残差」结构迁移         ← 近邻残差臂（已训完；Support 消融底 F2）
             └─► 近邻残差 + 额外支持特征          ← 支持特征臂（旧版已评；新版训练中）</pre>
 
 <table>
@@ -238,6 +238,78 @@
   </tbody>
 </table>
 
+<h2>2.1 对照组怎么读（一问一表）</h2>
+<div class="goodbox">
+  <strong>Baseline 口诀：</strong>讲 RSI 消融 → 底是 <strong>F0</strong>；讲 Support 消融 → 底是 <strong>F2</strong>；讲 Es 8 张平均 → 底是 <strong>F2 mean8</strong>（Δ 仍 ref8）。
+  <strong>不要把 F1 写成 F2/F3 的同条件对照组</strong>（1-shot vs ref8）。
+  Mode D 也<strong>不要和 Mode A 的 F1 比总分</strong>。
+</div>
+<p>设计原则：每个对照表只回答一个问题；同表内 shot / Content / seed / 采样器必须一致；跨轴只能浏览，不能下结论。读图时看表头「对照组 = X」。</p>
+<table>
+  <thead>
+    <tr>
+      <th>对照 ID</th>
+      <th>问题</th>
+      <th>对照组（Baseline）</th>
+      <th>变体</th>
+      <th>公平条件</th>
+      <th>看板上哪里</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>A1</strong></td>
+      <td>本数据微调有没有用</td>
+      <td>P1</td>
+      <td>E1</td>
+      <td>1-shot「永」</td>
+      <td rowspan="3"><a href="http://127.0.0.1:8767/">Mode A</a></td>
+    </tr>
+    <tr>
+      <td><strong>A2</strong></td>
+      <td>砍掉官方 RSI 会怎样</td>
+      <td>E1</td>
+      <td>F0</td>
+      <td>1-shot「永」</td>
+    </tr>
+    <tr>
+      <td><strong>A3</strong></td>
+      <td>官方 RSI 加回来有没有用</td>
+      <td><strong>F0</strong></td>
+      <td>F1（现 @30k mid）</td>
+      <td>1-shot「永」</td>
+    </tr>
+    <tr>
+      <td><strong>B1</strong></td>
+      <td>Δ 之上 Support 有没有增益</td>
+      <td><strong>F2</strong></td>
+      <td>F3 legacy（及日后 F3b）</td>
+      <td>固定 ref8</td>
+      <td><a href="http://127.0.0.1:8767/">Mode B</a></td>
+    </tr>
+    <tr>
+      <td><strong>D1</strong></td>
+      <td>8 张 Es 平均是不是把斜体/对比抹平了</td>
+      <td><strong>F2 mean8</strong>（及 F3 mean8）</td>
+      <td>F2/F3 <code>*_s1</code>：Es 只「永」，<strong>Δ 仍 ref8</strong></td>
+      <td>同一 Δ 检索；只改 Es k</td>
+      <td><a href="http://127.0.0.1:8767/">Mode D</a></td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td>官方 RSI vs Δ</td>
+      <td colspan="2">F1 vs F2</td>
+      <td><span class="bad">当前条件不齐</span></td>
+      <td>勿作主结论；Mode C 仅浏览</td>
+    </tr>
+  </tbody>
+</table>
+<div class="callout">
+  <strong class="bad">精选图若并排 F1 与 F2/F3，只作观感，不作消融结论。</strong>
+  合法精选见 <a href="http://127.0.0.1:8767/pi_highlights.html">pi_highlights</a>：A3 = F0 vs F1；B1 = F2 vs F3。
+  Mode D 看板上 <strong>F2 vs F2_s1</strong>（及 F3 vs F3_s1）：s1 更斜/有对比 → 推理期平均是主因；几乎一样平 → 转 A2-geo/local，不要把 Δ 收成 1-shot。
+</div>
+
 <h2>3. 推理条件是否一致？</h2>
 <div class="goodbox">
   <strong>一致、可并排对比的部分：</strong>同一测试 16 字体、同一 47 字符、同一真值、同一随机种子 3407、同一采样器设置、同一内容图。方法之间是完全配对的。
@@ -248,6 +320,7 @@
     <li>网络结构 / 条件化路径不同（这正是实验要隔离的处理）。</li>
     <li>检查点步数：官方微调与无结构迁移是 10 万步；近邻残差主表目前是 <strong>7.5 万步</strong>（8 万步已训完但未刷全量主表）；旧版支持特征是 8 万步。</li>
     <li>评测时看到的风格参考图张数不同（见下节）——官方微调三线是 1 张，近邻残差线是固定 8 张。</li>
+    <li>公平对照请切 <a href="http://127.0.0.1:8767/">:8767</a> 的 <strong>Mode A（1-shot）</strong>、<strong>Mode B（ref8）</strong> 或 <strong>Mode D（Es 平均，Δ 仍 ref8）</strong>；Mode C 禁止当总分榜。</li>
   </ul>
 </div>
 
@@ -274,6 +347,12 @@
       <td><strong>8 张</strong>固定「永和书风骨韵天地」</td>
       <td>每步随机抽 <strong>n = 1～8</strong> 张；验证用固定八字</td>
       <td>用参考算风格相似度，在训练字体库中取同字符近邻并加权</td>
+    </tr>
+    <tr>
+      <td>近邻残差 / 旧版支持 · Es 一拍（Mode D）<br/><span class="small">F2_75000_s1 · F3_80k_s1</span></td>
+      <td><strong>Es 只用「永」</strong>；<strong>Δ / RSI 检索仍 8 张</strong>固定八字（与主表 F2/F3 相同）</td>
+      <td>未改训练；同一 checkpoint 只改评测打包</td>
+      <td>用来回答「8 张 3×3 平均是不是把斜体/对比抹平了」。不要和 Mode A 的 F1 比总分</td>
     </tr>
     <tr>
       <td>旧版支持特征<br/><span class="small">F3</span></td>
@@ -325,6 +404,13 @@
       <td>略弱于官方微调</td>
     </tr>
     <tr>
+      <td>F0 上挂回官方 RSI @3万步 <span class="small">（F1 中期）</span></td>
+      <td class="num">0.0697</td>
+      <td class="num">0.6435</td>
+      <td class="num">0.1541</td>
+      <td>1-shot；未训满 8万，可更新</td>
+    </tr>
+    <tr>
       <td>近邻残差 @7.5万步</td>
       <td class="num">0.0707</td>
       <td class="num">0.6503</td>
@@ -355,6 +441,7 @@
     <tr><td>官方零样本</td><td class="num">0.645</td><td class="num">0.588</td><td class="num">0.569</td><td>像素差，风格分中等</td></tr>
     <tr><td>官方微调 @10万</td><td class="num">0.676</td><td class="num">0.532</td><td class="num">0.533</td><td>像素最好；E12 mem 偏低</td></tr>
     <tr><td>无结构迁移 @10万</td><td class="num">0.672</td><td class="num">0.518</td><td class="num">0.516</td><td>与官方微调接近、略低</td></tr>
+    <tr><td>F1 官方RSI@3万 mid</td><td class="num">0.650</td><td class="num">0.517</td><td class="num">0.519</td><td>接近 F0；中期，非终局</td></tr>
     <tr><td>近邻残差 @7.5万</td><td class="num"><strong>0.702</strong></td><td class="num">0.594</td><td class="num">0.603</td><td>φ SC-R 生成方法最优（可高于 GT）</td></tr>
     <tr><td>旧版支持 @8万</td><td class="num">0.700</td><td class="num"><strong>0.595</strong></td><td class="num"><strong>0.610</strong></td><td>mem 生成方法最优</td></tr>
     <tr><td>真值 GT（上界）</td><td class="num">0.684</td><td class="num"><strong>0.612</strong></td><td class="num"><strong>0.625</strong></td><td>对照上界（mem）；φ 非必然最高</td></tr>

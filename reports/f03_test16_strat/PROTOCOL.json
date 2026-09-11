@@ -71,28 +71,50 @@
   "chars_n": 47,
   "seed": 3407,
   "sampler": "dpmsolver++ 20 CFG7.5 order2 multistep",
-  "style": "ref8 first available, prefer 永",
-  "note": "Same protocol as E1 formal stratified. Val16 is not used. Per-item set_seed(3407).",
+  "style": "ref8 first available, prefer 永; F2/F3 *_s1: Es from 永 only, Δ still ref8",
+  "note": "Same protocol as E1 formal stratified. Val16 is not used. Per-item set_seed(3407). style_oneshot splits Es k from Δ retrieve k.",
   "methods": {
     "P1": {
       "label": "官方",
       "kind": "image",
-      "ckpt": "/root/projects/hrfont/code/official/FontDiffuser/ckpt"
+      "ckpt": "/root/projects/hrfont/code/official/FontDiffuser/ckpt",
+      "style_oneshot": false
     },
     "F0_100k": {
       "label": "F0@100k",
       "kind": "image",
-      "ckpt": "/root/projects/hrfont/runs/F0-RSIFREE-FT-A-S3407/global_step_100000"
+      "ckpt": "/root/projects/hrfont/runs/F0-RSIFREE-FT-A-S3407/global_step_100000",
+      "style_oneshot": false
+    },
+    "F1_30000": {
+      "label": "F1@30k",
+      "kind": "f1",
+      "ckpt": "/root/projects/hrfont/runs/F1-OFFRSI-A-S3407/global_step_30000",
+      "style_oneshot": false
     },
     "F3_80k": {
       "label": "F3@80k",
       "kind": "f3",
-      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_80000"
+      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_80000",
+      "style_oneshot": false
     },
     "F2_75000": {
       "label": "F2@75k",
       "kind": "f2",
-      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_75000"
+      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_75000",
+      "style_oneshot": false
+    },
+    "F2_75000_s1": {
+      "label": "F2@75k style1",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_75000",
+      "style_oneshot": true
+    },
+    "F3_80k_s1": {
+      "label": "F3@80k style1",
+      "kind": "f3",
+      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_80000",
+      "style_oneshot": true
     }
   }
 }

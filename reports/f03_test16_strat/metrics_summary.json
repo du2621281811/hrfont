@@ -1,7 +1,7 @@
 {
-  "computed_at": "2026-09-09T02:39:16+00:00",
-  "n_total": 3760,
-  "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. E1 merged from formal strat (same protocol A / seed 3407); P1 byte-identical to f03 P1. E12 v5.1 style scores in e12_v51 (phi SC-R + membership prob); diagnostic pixels unchanged.",
+  "computed_at": "2026-09-10T17:12:42+00:00",
+  "n_total": 6016,
+  "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. Mode D (*_s1) is style-k ablation with Δ still ref8.",
   "methods": {
     "P1": {
       "label": "官方 P1",
@@ -307,10 +307,210 @@
           "coverage_mean": 0.12900571469907407
         }
       }
+    },
+    "F1_30000": {
+      "label": "F1 官方RSI@30k mid",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.06969389569712803,
+        "SSIM_mean": 0.6435263819417897,
+        "LPIPS_mean": 0.15409857423559942,
+        "coverage_mean": 0.1257019764424497
+      },
+      "by_bucket": {
+        "digit": {
+          "n": 160,
+          "L1_mean": 0.06292563416645862,
+          "SSIM_mean": 0.6572792547754943,
+          "LPIPS_mean": 0.1554808676824905,
+          "coverage_mean": 0.11284654405381941
+        },
+        "latin_upper": {
+          "n": 144,
+          "L1_mean": 0.09088315541804251,
+          "SSIM_mean": 0.598374257898993,
+          "LPIPS_mean": 0.16274983047818145,
+          "coverage_mean": 0.15781430844907407
+        },
+        "latin_lower": {
+          "n": 208,
+          "L1_mean": 0.05127970040596735,
+          "SSIM_mean": 0.6935332310027801,
+          "LPIPS_mean": 0.14815970296219277,
+          "coverage_mean": 0.10190784421741458
+        },
+        "latin_ext": {
+          "n": 80,
+          "L1_mean": 0.06304866701830178,
+          "SSIM_mean": 0.653470428660512,
+          "LPIPS_mean": 0.14904137351550162,
+          "coverage_mean": 0.11778835720486107
+        },
+        "hiragana": {
+          "n": 64,
+          "L1_mean": 0.09441538294777274,
+          "SSIM_mean": 0.6123114076908678,
+          "LPIPS_mean": 0.1490930444560945,
+          "coverage_mean": 0.1728736029730903
+        },
+        "katakana": {
+          "n": 48,
+          "L1_mean": 0.08180890713507931,
+          "SSIM_mean": 0.5708662338244418,
+          "LPIPS_mean": 0.16329466691240668,
+          "coverage_mean": 0.12962058738425924
+        },
+        "bopomofo": {
+          "n": 48,
+          "L1_mean": 0.07448022125754505,
+          "SSIM_mean": 0.6141502012809118,
+          "LPIPS_mean": 0.15517888443234065,
+          "coverage_mean": 0.12169958043981478
+        }
+      },
+      "note": "mid ckpt global_step_30000; 1-shot 永; update when 80k ready"
+    },
+    "F2_75000_s1": {
+      "label": "F2@75k style1",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.06963497052152463,
+        "SSIM_mean": 0.6501869526758302,
+        "coverage_mean": 0.12914750480200937,
+        "LPIPS_mean": 0.15046432694083356,
+        "blank_rate": 0.0
+      },
+      "by_bucket": {
+        "digit": {
+          "n": 160,
+          "L1_mean": 0.0627695860399399,
+          "SSIM_mean": 0.6603504384867847,
+          "coverage_mean": 0.1149766710069445,
+          "LPIPS_mean": 0.15413971937960014,
+          "blank_rate": 0.0
+        },
+        "latin_upper": {
+          "n": 144,
+          "L1_mean": 0.09036714791889405,
+          "SSIM_mean": 0.6190542767378955,
+          "coverage_mean": 0.16654459635416663,
+          "LPIPS_mean": 0.15607355212947974,
+          "blank_rate": 0.0
+        },
+        "latin_lower": {
+          "n": 208,
+          "L1_mean": 0.049850998885141544,
+          "SSIM_mean": 0.7035322257031041,
+          "coverage_mean": 0.1032031458667201,
+          "LPIPS_mean": 0.1408792411407026,
+          "blank_rate": 0.0
+        },
+        "latin_ext": {
+          "n": 80,
+          "L1_mean": 0.06447246414609253,
+          "SSIM_mean": 0.6474195951595902,
+          "coverage_mean": 0.11922336154513888,
+          "LPIPS_mean": 0.1453896129038185,
+          "blank_rate": 0.0
+        },
+        "hiragana": {
+          "n": 64,
+          "L1_mean": 0.09219466161448509,
+          "SSIM_mean": 0.6247770632617176,
+          "coverage_mean": 0.17570156521267363,
+          "LPIPS_mean": 0.14471163577400148,
+          "blank_rate": 0.0
+        },
+        "katakana": {
+          "n": 48,
+          "L1_mean": 0.08362829510588199,
+          "SSIM_mean": 0.5673438757658005,
+          "coverage_mean": 0.13220214843749997,
+          "LPIPS_mean": 0.16395343731467923,
+          "blank_rate": 0.0
+        },
+        "bopomofo": {
+          "n": 48,
+          "L1_mean": 0.08058486160977434,
+          "SSIM_mean": 0.5998790366575122,
+          "coverage_mean": 0.12803141276041669,
+          "LPIPS_mean": 0.165559716289863,
+          "blank_rate": 0.0
+        }
+      }
+    },
+    "F3_80k_s1": {
+      "label": "F3@80k style1",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.06970765133712817,
+        "SSIM_mean": 0.6528532383752927,
+        "coverage_mean": 0.12905660137780725,
+        "LPIPS_mean": 0.1509984194801407,
+        "blank_rate": 0.0
+      },
+      "by_bucket": {
+        "digit": {
+          "n": 160,
+          "L1_mean": 0.06374372221762314,
+          "SSIM_mean": 0.6612996411509812,
+          "coverage_mean": 0.11524997287326386,
+          "LPIPS_mean": 0.15523608829826116,
+          "blank_rate": 0.0
+        },
+        "latin_upper": {
+          "n": 144,
+          "L1_mean": 0.09005397158519675,
+          "SSIM_mean": 0.6237369402919689,
+          "coverage_mean": 0.16703589168595676,
+          "LPIPS_mean": 0.1585713566099811,
+          "blank_rate": 0.0
+        },
+        "latin_lower": {
+          "n": 208,
+          "L1_mean": 0.050750235111291446,
+          "SSIM_mean": 0.7015388436221446,
+          "coverage_mean": 0.1028739733573718,
+          "LPIPS_mean": 0.14308348953580627,
+          "blank_rate": 0.0
+        },
+        "latin_ext": {
+          "n": 80,
+          "L1_mean": 0.06392844545189291,
+          "SSIM_mean": 0.6557633750140667,
+          "coverage_mean": 0.11958685980902777,
+          "LPIPS_mean": 0.14676215294748546,
+          "blank_rate": 0.0
+        },
+        "hiragana": {
+          "n": 64,
+          "L1_mean": 0.09410692268284038,
+          "SSIM_mean": 0.6213185873348266,
+          "coverage_mean": 0.17821078830295137,
+          "LPIPS_mean": 0.14759769150987267,
+          "blank_rate": 0.0
+        },
+        "katakana": {
+          "n": 48,
+          "L1_mean": 0.0840331403305754,
+          "SSIM_mean": 0.5688285951813062,
+          "coverage_mean": 0.13177490234375003,
+          "LPIPS_mean": 0.16269791157295307,
+          "blank_rate": 0.0
+        },
+        "bopomofo": {
+          "n": 48,
+          "L1_mean": 0.07347141699089359,
+          "SSIM_mean": 0.6222971174865961,
+          "coverage_mean": 0.12212456597222222,
+          "LPIPS_mean": 0.14834733121097088,
+          "blank_rate": 0.0
+        }
+      }
     }
   },
   "e12_v51": {
-    "generated_at": "2026-09-09T08:57:44+00:00",
+    "generated_at": "2026-09-09T09:46:09+00:00",
     "scorer": {
       "phi": "/root/projects/hrfont/runs/e12_phi_s2_v51_train228_s3407/best.pt",
       "membership": "/root/projects/hrfont/runs/e12_membership_v51_train228_s3407/best.pt",
@@ -669,6 +869,119 @@
           }
         }
       },
+      "F1_30000": {
+        "phi_sc_r": {
+          "n": 752,
+          "mean": 0.6503819241089389,
+          "std": 0.17272243788144379
+        },
+        "mem_prob": {
+          "n": 752,
+          "mean": 0.517256778433914,
+          "std": 0.28348391678530643
+        },
+        "mem_logit": {
+          "n": 752,
+          "mean": 0.05824041866419956,
+          "std": 3.574127120502352
+        },
+        "mem_prob_latin_digit": {
+          "n": 512,
+          "mean": 0.5189857085106269,
+          "std": 0.28055880156353885
+        },
+        "phi_sc_r_latin_digit": {
+          "n": 512,
+          "mean": 0.6261867306020577,
+          "std": 0.16450881872467862
+        },
+        "by_bucket": {
+          "bopomofo": {
+            "phi_sc_r": {
+              "n": 48,
+              "mean": 0.6734428529938062,
+              "std": 0.1767552963905848
+            },
+            "mem_prob": {
+              "n": 48,
+              "mean": 0.38702928067262593,
+              "std": 0.28136975968914996
+            }
+          },
+          "digit": {
+            "phi_sc_r": {
+              "n": 160,
+              "mean": 0.5886451235041023,
+              "std": 0.15674240319948937
+            },
+            "mem_prob": {
+              "n": 160,
+              "mean": 0.5197454080946045,
+              "std": 0.2794420838412173
+            }
+          },
+          "hiragana": {
+            "phi_sc_r": {
+              "n": 64,
+              "mean": 0.8067909660749137,
+              "std": 0.10897132178740765
+            },
+            "mem_prob": {
+              "n": 64,
+              "mean": 0.6359300066251308,
+              "std": 0.21657802746956592
+            }
+          },
+          "katakana": {
+            "phi_sc_r": {
+              "n": 48,
+              "mean": 0.7352149784564972,
+              "std": 0.1562280080902988
+            },
+            "mem_prob": {
+              "n": 48,
+              "mean": 0.5462221367439876,
+              "std": 0.262700839367622
+            }
+          },
+          "latin_ext": {
+            "phi_sc_r": {
+              "n": 80,
+              "mean": 0.6153675390407443,
+              "std": 0.1874996540535086
+            },
+            "mem_prob": {
+              "n": 80,
+              "mean": 0.4720103270607069,
+              "std": 0.3181249683074753
+            }
+          },
+          "latin_lower": {
+            "phi_sc_r": {
+              "n": 208,
+              "mean": 0.6339682007495028,
+              "std": 0.16562163531498156
+            },
+            "mem_prob": {
+              "n": 208,
+              "mean": 0.5183406479191035,
+              "std": 0.2798471930157042
+            }
+          },
+          "latin_upper": {
+            "phi_sc_r": {
+              "n": 144,
+              "mean": 0.6566597260534763,
+              "std": 0.16347064874387565
+            },
+            "mem_prob": {
+              "n": 144,
+              "mean": 0.5190733520495188,
+              "std": 0.28281242615422364
+            }
+          }
+        }
+      },
       "F2_75000": {
         "phi_sc_r": {
           "n": 752,
@@ -1009,7 +1322,13 @@
         }
       }
     },
-    "n_rows": 4512
+    "n_rows": 5264,
+    "audit": {
+      "cpu_rescore_tol": "~1e-4 vs GPU batch",
+      "protocol_ok": true,
+      "test16_outside_train228": true,
+      "note": "phi SC-R can exceed GT (observed F2); still valid relative ranking among generators"
+    }
   },
   "audit": {
     "bucket_relabel_fixed": 80,

@@ -80,7 +80,7 @@ def main() -> int:
             "char_cp": ["u0051"],
             "ref_chars": [ref_cp],
         }
-        _, queries = T._style_conditions(es, samples, device)
+        _, queries, *_ = T._style_conditions(es, samples, device)
         prototypes = library.prototypes(ref_cp, device)
         exclude = library.font_index.get(query)
         idx, weights, meta = compute_alpha(queries[0].to(device), prototypes, exclude, cfg)

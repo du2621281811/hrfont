@@ -33,7 +33,7 @@ PHI = ROOT / "runs/e12_phi_s2_v51_train228_s3407/best.pt"
 MEM = ROOT / "runs/e12_membership_v51_train228_s3407/best.pt"
 REF8 = list("永和书风骨韵天地")
 SEED = 3407
-METHODS = ["P1", "E1_100k", "F0_100k", "F2_75000", "F3_80k"]
+METHODS = ["P1", "E1_100k", "F0_100k", "F1_30000", "F2_75000", "F3_80k"]
 # Membership training query domain (primary claim subset)
 MEM_QUERY_DOMAIN = set(
     list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
@@ -185,9 +185,24 @@ def main() -> None:
                     flush()
         flush()
 
-    # Aggregate
+    items_path = OUT / "e12_v51_items.json"
+    summary_path = OUT / "e12_v51_scores.json"
+
+    # Merge with existing scores when scoring a subset
+    old_rows = []
+    old_summary = {}
+    if items_path.is_file() and set(methods) != set(METHODS + ["GT"]):
+        old_rows = [
+            r
+            for r in json.loads(items_path.read_text(encoding="utf-8"))
+            if r.get("method") not in set(targets)
+        ]
+        if summary_path.is_file():
+            old_summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+    all_rows = old_rows + rows
     by_m: dict[str, list[dict]] = defaultdict(list)
-    for r in rows:
+    for r in all_rows:
         by_m[r["method"]].append(r)
 
     def agg(rs: list[dict]) -> dict:
@@ -211,6 +226,11 @@ def main() -> None:
         }
         return out
 
+    method_order = []
+    for m in list(METHODS) + ["GT"] + list(by_m.keys()):
+        if m in by_m and m not in method_order:
+            method_order.append(m)
+
     summary = {
         "generated_at": utc_now(),
         "scorer": {
@@ -222,13 +242,13 @@ def main() -> None:
             "primary_subset": "latin+digit (membership train query domain)",
             "caveat": "Not weighted into a single score with L1/SSIM. Kana/bopomofo/ext are OOD for membership head.",
         },
-        "methods": {m: agg(by_m[m]) for m in targets if m in by_m},
-        "n_rows": len(rows),
+        "methods": {m: agg(by_m[m]) for m in method_order},
+        "n_rows": len(all_rows),
     }
+    if old_summary.get("audit"):
+        summary["audit"] = old_summary["audit"]
 
-    items_path = OUT / "e12_v51_items.json"
-    summary_path = OUT / "e12_v51_scores.json"
-    items_path.write_text(json.dumps(rows, ensure_ascii=False) + "\n", encoding="utf-8")
+    items_path.write_text(json.dumps(all_rows, ensure_ascii=False) + "\n", encoding="utf-8")
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     # Merge into metrics_summary.json
@@ -246,9 +266,7 @@ def main() -> None:
 
     # Compact table for stdout
     print("\nmethod | n | phi_sc_r↑ | mem_prob↑ | mem_prob(latin+digit)↑")
-    for m in targets:
-        if m not in summary["methods"]:
-            continue
+    for m in method_order:
         a = summary["methods"][m]
         print(
             f"{m:12s} | {a['phi_sc_r']['n']:4d} | "

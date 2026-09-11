@@ -32,6 +32,8 @@ SPLIT = ROOT / "manifests/split_v3_228_16_16.json"
 TEST_STEMS = ROOT / "manifests/pipeline_v3_test_stems.txt"
 OUT = ROOT / "reports/f03_test16_strat"
 REF8 = list("永和书风骨韵天地")
+REF8_CPS = [f"u{ord(c):04X}" for c in REF8]
+STYLE1_CPS = [f"u{ord('永'):04X}"]
 SEED = 3407
 STRATIFIED = (
     list("0123456789")
@@ -64,19 +66,42 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f0_rsifree/FontDiffuser",
         "ckpt": ROOT / "runs/F0-RSIFREE-FT-A-S3407/global_step_100000",
     },
+    "F1_30000": {
+        "label": "F1@30k",
+        "kind": "f1",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F1-OFFRSI-A-S3407/global_step_30000",
+    },
     "F3_80k": {
         "label": "F3@80k",
         "kind": "f3",
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F3-JOINT-DS-A-S3407/global_step_80000",
+        "style_oneshot": False,
     },
     "F2_75000": {
         "label": "F2@75k",
         "kind": "f2",
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_75000",
+        "style_oneshot": False,
+    },
+    "F2_75000_s1": {
+        "label": "F2@75k style1",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_75000",
+        "style_oneshot": True,
+    },
+    "F3_80k_s1": {
+        "label": "F3@80k style1",
+        "kind": "f3",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F3-JOINT-DS-A-S3407/global_step_80000",
+        "style_oneshot": True,
     },
 }
+F1_RUN = ROOT / "runs/F1-OFFRSI-A-S3407"
 F3_VARIANT = ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser"
 F3_RUN = ROOT / "runs/F3-JOINT-DS-A-S3407"
 F2_RUN = ROOT / "runs/F2-DELTARSI-A-S3407"
@@ -288,7 +313,41 @@ def sample_image(pipe, args, content_img, style_img, device: str) -> Image.Image
     return Image.fromarray(arr)
 
 
-def write_sidecar(mid: str, stem: str, ch: str, style_p: Path) -> None:
+def pack_style_delta(T, es, ec, library, font: str, ch: str, cfg, keep, device, style_oneshot: bool):
+    """Style Es uses k=1「永」 when style_oneshot; Δ retrieval always uses ref8."""
+    base = {
+        "split": ["test"],
+        "font_stem": [font],
+        "char_cp": [cp_of(ch)],
+    }
+    style_refs = STYLE1_CPS if style_oneshot else REF8_CPS
+    style, _, *_ = T._style_conditions(es, {**base, "ref_chars": [style_refs]}, device)
+    _, queries, *_ = T._style_conditions(es, {**base, "ref_chars": [REF8_CPS]}, device)
+    structure = T._structure_features(
+        es, ec, library, {**base, "ref_chars": [REF8_CPS]}, queries, cfg, keep, device
+    )
+    content = T._content_features(ec, {**base, "ref_chars": [REF8_CPS]}, keep, device)
+    return style, structure, content
+
+
+def sidecar_style_extra(mid: str) -> dict:
+    oneshot = bool(METHODS[mid].get("style_oneshot"))
+    return {
+        "style_k": 1 if oneshot else 8,
+        "delta_k": 8,
+        "style_chars": "永" if oneshot else "".join(REF8),
+        "style_oneshot": oneshot,
+    }
+
+
+def support_table(bank) -> dict:
+    """_load_support_bank used to return a flat cp→list map; now wraps {table, meta}."""
+    if isinstance(bank, dict) and isinstance(bank.get("table"), dict):
+        return bank["table"]
+    return bank
+
+
+def write_sidecar(mid: str, stem: str, ch: str, style_p: Path, extra: dict | None = None) -> None:
     g = gt_path(stem, ch)
     meta = {
         "method": mid,
@@ -302,6 +361,8 @@ def write_sidecar(mid: str, stem: str, ch: str, style_p: Path) -> None:
         "content_path": str(content_path(ch).relative_to(ROOT)),
         "gt_path": str(g.relative_to(ROOT)) if g else None,
     }
+    if extra:
+        meta.update(extra)
     pred_path(mid, stem, ch).with_suffix(".json").write_text(
         json.dumps(meta, ensure_ascii=False) + "\n", encoding="utf-8"
     )
@@ -407,15 +468,16 @@ def torch_cat(a, b):
     return torch.cat([a, b], dim=0)
 
 
-def generate_f3(device: str, stems: list[str], overwrite: bool) -> None:
+def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_80k") -> None:
     import torch
     from accelerate.utils import set_seed
 
-    mid = "F3_80k"
+    spec = METHODS[mid]
+    style_oneshot = bool(spec.get("style_oneshot"))
     n_total = len(stems) * len(STRATIFIED)
-    update_status({"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": "F3@80k"})
-    variant = METHODS[mid]["variant"]
-    ckpt = METHODS[mid]["ckpt"]
+    update_status({"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]})
+    variant = spec["variant"]
+    ckpt = spec["ckpt"]
     sys.path.insert(0, str(ROOT))
     sys.path.insert(0, str(variant))
     os.chdir(variant)
@@ -437,7 +499,13 @@ def generate_f3(device: str, stems: list[str], overwrite: bool) -> None:
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
     train_fonts = sorted(split["stems"]["train"])
     library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
-    bank = T._load_support_bank(str(ROOT / "artifacts/f0/support_bank.json"), SimpleNamespace(support=True))
+    bank = support_table(
+        T._load_support_bank(
+            str(ROOT / "artifacts/f0/support_bank.json"),
+            SimpleNamespace(support=True, support_k=8),
+        )
+    )
+    log(mid, f"support table keys={len(bank)} style_oneshot={style_oneshot}")
     cfg = SimpleNamespace(
         rsi_source="delta",
         delta_enabled=True,
@@ -486,15 +554,9 @@ def generate_f3(device: str, stems: list[str], overwrite: bool) -> None:
     keep = torch.zeros(1, dtype=torch.bool, device=device_t)
 
     def pack_one(font: str, ch: str):
-        samples = {
-            "split": ["test"],
-            "font_stem": [font],
-            "char_cp": [cp_of(ch)],
-            "ref_chars": [[f"u{ord(c):04X}" for c in "永和书风骨韵天地"]],
-        }
-        style, queries = T._style_conditions(es, samples, device_t)
-        structure = T._structure_features(es, ec, library, samples, queries, cfg, keep, device_t)
-        content = T._content_features(ec, samples, keep, device_t)
+        style, structure, content = pack_style_delta(
+            T, es, ec, library, font, ch, cfg, keep, device_t, style_oneshot
+        )
         vecs = []
         for scp in list(bank.get(cp_of(ch), []))[: cfg.support_k]:
             try:
@@ -561,7 +623,7 @@ def generate_f3(device: str, stems: list[str], overwrite: bool) -> None:
             packed = pack_one(stem, ch)
             pred = sample_one(packed)
             pred.save(out_p)
-            write_sidecar(mid, stem, ch, style_p)
+            write_sidecar(mid, stem, ch, style_p, extra=sidecar_style_extra(mid))
             done += 1
             if (done + skipped) % 10 == 0:
                 rate = done / max(1e-6, time.time() - t0)
@@ -610,18 +672,19 @@ def f2_timeline_steps() -> list[int]:
     return out
 
 
-def generate_f2(device: str, stems: list[str], overwrite: bool) -> None:
-    """Full stratified F2 mid checkpoint: Δ only, no Support (matches train --no-support)."""
+def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_75000") -> None:
+    """Δ only, no Support. style_oneshot=True → Es from 永 only; Δ still ref8."""
     import torch
     from accelerate.utils import set_seed
 
-    mid = "F2_75000"
+    spec = METHODS[mid]
+    style_oneshot = bool(spec.get("style_oneshot"))
     n_total = len(stems) * len(STRATIFIED)
     update_status(
-        {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": "F2@75k"}
+        {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]}
     )
-    variant = METHODS[mid]["variant"]
-    ckpt = METHODS[mid]["ckpt"]
+    variant = spec["variant"]
+    ckpt = spec["ckpt"]
     sys.path.insert(0, str(ROOT))
     sys.path.insert(0, str(variant))
     os.chdir(variant)
@@ -687,13 +750,182 @@ def generate_f2(device: str, stems: list[str], overwrite: bool) -> None:
     keep = torch.zeros(1, dtype=torch.bool, device=device_t)
 
     def pack_one(font: str, ch: str):
+        style, structure, content = pack_style_delta(
+            T, es, ec, library, font, ch, cfg, keep, device_t, style_oneshot
+        )
+        return {"style": style, "structure": structure, "content": content}
+
+    def sample_one(packed):
+        set_seed(SEED)
+        img = torch.zeros(1, 3, 96, 96, device=device_t)
+        style = packed["style"]
+        structure = packed["structure"]
+        content = packed["content"]
+        cond = [img, img, style, structure, content, None]
+        uncond = [
+            torch.ones_like(img),
+            torch.ones_like(img),
+            torch.zeros_like(style),
+            [torch.zeros_like(x) for x in structure],
+            [torch.zeros_like(x) for x in content],
+            None,
+        ]
+
+        def get_t_input(t_continuous):
+            return (t_continuous - 1.0 / noise_schedule.total_N) * 1000.0
+
+        def model_fn(x, t_continuous):
+            x_in = torch.cat([x, x], dim=0)
+            t_in = torch.cat([t_continuous, t_continuous], dim=0)
+            noise_uncond, noise = model(
+                x_in,
+                get_t_input(t_in),
+                cat_cond(uncond, cond),
+                content_encoder_downsample_size=3,
+                version="V3",
+            ).chunk(2)
+            return noise_uncond + 7.5 * (noise - noise_uncond)
+
+        solver = DPM_Solver(model_fn=model_fn, noise_schedule=noise_schedule, algorithm_type="dpmsolver++")
+        x = torch.randn(1, 3, 96, 96, device=device_t)
+        with torch.no_grad():
+            x = solver.sample(x=x, steps=20, order=2, skip_type="time_uniform", method="multistep")
+        x = (x / 2 + 0.5).clamp(0, 1)[0].detach().cpu().permute(1, 2, 0).numpy()
+        return Image.fromarray((x * 255).round().astype("uint8"))
+
+    done = skipped = 0
+    t0 = time.time()
+    update_status({"method": mid, "phase": "running", "done": 0, "skipped": 0, "total": n_total})
+    for stem in stems:
+        style_p = pick_style_path(stem)
+        for ch in STRATIFIED:
+            out_p = pred_path(mid, stem, ch)
+            out_p.parent.mkdir(parents=True, exist_ok=True)
+            if out_p.is_file() and not overwrite:
+                skipped += 1
+                continue
+            pred = sample_one(pack_one(stem, ch))
+            pred.save(out_p)
+            write_sidecar(mid, stem, ch, style_p, extra=sidecar_style_extra(mid))
+            done += 1
+            if (done + skipped) % 20 == 0:
+                rate = done / max(1e-6, time.time() - t0)
+                eta = (n_total - done - skipped) / max(rate, 1e-6)
+                update_status(
+                    {
+                        "method": mid,
+                        "phase": "running",
+                        "done": done,
+                        "skipped": skipped,
+                        "total": n_total,
+                        "rate_per_s": round(rate, 3),
+                        "eta_s": int(eta),
+                        "last": f"{stem} {ch}",
+                    }
+                )
+                log(mid, f"done={done} skipped={skipped}/{n_total} rate={rate:.2f}/s eta={eta/60:.1f}m last={stem} {ch}")
+    elapsed = time.time() - t0
+    update_status(
+        {
+            "method": mid,
+            "phase": "done",
+            "done": done,
+            "skipped": skipped,
+            "total": n_total,
+            "elapsed_s": round(elapsed, 1),
+        }
+    )
+    log(mid, f"finished done={done} skipped={skipped} elapsed={elapsed:.1f}s")
+
+
+def generate_f1(device: str, stems: list[str], overwrite: bool) -> None:
+    """F1 mid: official RSI on F0, no Support. 1-shot style (永) for Mode A fairness vs F0/E1."""
+    import torch
+    from accelerate.utils import set_seed
+
+    mid = "F1_30000"
+    n_total = len(stems) * len(STRATIFIED)
+    update_status(
+        {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": "F1@30k"}
+    )
+    variant = METHODS[mid]["variant"]
+    ckpt = METHODS[mid]["ckpt"]
+    if not (ckpt / "unet.pth").is_file():
+        raise FileNotFoundError(f"F1 ckpt missing: {ckpt}")
+    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(variant))
+    os.chdir(variant)
+    import train as T
+    from scripts.hrfont_feature_cache import EcCache, EsCache
+    from src.build import (
+        build_content_encoder,
+        build_ddpm_scheduler,
+        build_style_encoder,
+        build_unet,
+    )
+    from src.dpm_solver.dpm_solver_pytorch import DPM_Solver, NoiseScheduleVP
+    from src.model import FontDiffuserModel
+
+    log(mid, f"load Es/Ec + LibraryEs (F1: official RSI, no support) ckpt={ckpt.name}")
+    es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
+    ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
+    split = json.loads(SPLIT.read_text(encoding="utf-8"))
+    train_fonts = sorted(split["stems"]["train"])
+    library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
+    cfg = SimpleNamespace(
+        rsi_source="official",
+        delta_enabled=False,
+        delta_tau=0.07,
+        delta_eps_alpha=0.01,
+        delta_k_max=10,
+        delta_k_top=10,
+        delta_mode="topk",
+        seed=SEED,
+        support=False,
+        support_k=0,
+        style_start_channel=64,
+    )
+    args = SimpleNamespace(
+        resolution=96,
+        unet_channels=(64, 128, 256, 512),
+        style_image_size=(96, 96),
+        content_image_size=(96, 96),
+        content_encoder_downsample_size=3,
+        channel_attn=True,
+        content_start_channel=64,
+        style_start_channel=64,
+        beta_scheduler="scaled_linear",
+    )
+    fd = FontDiffuserModel(
+        unet=build_unet(args),
+        style_encoder=build_style_encoder(args),
+        content_encoder=build_content_encoder(args),
+    )
+    fd.unet.load_state_dict(torch.load(ckpt / "unet.pth", map_location="cpu", weights_only=True))
+    fd.style_encoder.load_state_dict(
+        torch.load(ckpt / "style_encoder.pth", map_location="cpu", weights_only=True)
+    )
+    fd.content_encoder.load_state_dict(
+        torch.load(ckpt / "content_encoder.pth", map_location="cpu", weights_only=True)
+    )
+    T._ban_encoder_forward(fd)
+    device_t = torch.device(device)
+    fd.to(device_t).eval()
+    model = make_dpm_adapter(fd, torch).to(device_t).eval()
+    scheduler = build_ddpm_scheduler(args)
+    noise_schedule = NoiseScheduleVP(schedule="discrete", betas=scheduler.betas)
+    keep = torch.zeros(1, dtype=torch.bool, device=device_t)
+    # 1-shot: official structure uses refs[0]; style Es also only 永 → fair vs F0/E1 Mode A
+    ref_one = [f"u{ord('永'):04X}"]
+
+    def pack_one(font: str, ch: str):
         samples = {
             "split": ["test"],
             "font_stem": [font],
             "char_cp": [cp_of(ch)],
-            "ref_chars": [[f"u{ord(c):04X}" for c in "永和书风骨韵天地"]],
+            "ref_chars": [ref_one],
         }
-        style, queries = T._style_conditions(es, samples, device_t)
+        style, queries, *_ = T._style_conditions(es, samples, device_t)
         structure = T._structure_features(es, ec, library, samples, queries, cfg, keep, device_t)
         content = T._content_features(ec, samples, keep, device_t)
         return {"style": style, "structure": structure, "content": content}
@@ -766,7 +998,10 @@ def generate_f2(device: str, stems: list[str], overwrite: bool) -> None:
                         "last": f"{stem} {ch}",
                     }
                 )
-                log(mid, f"done={done} skipped={skipped}/{n_total} rate={rate:.2f}/s eta={eta/60:.1f}m last={stem} {ch}")
+                log(
+                    mid,
+                    f"done={done} skipped={skipped}/{n_total} rate={rate:.2f}/s eta={eta/60:.1f}m last={stem} {ch}",
+                )
     elapsed = time.time() - t0
     update_status(
         {
@@ -820,7 +1055,13 @@ def generate_f3_timeline(device: str, overwrite: bool) -> None:
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
     train_fonts = sorted(split["stems"]["train"])
     library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
-    bank = T._load_support_bank(str(ROOT / "artifacts/f0/support_bank.json"), SimpleNamespace(support=True))
+    bank = support_table(
+        T._load_support_bank(
+            str(ROOT / "artifacts/f0/support_bank.json"),
+            SimpleNamespace(support=True, support_k=8),
+        )
+    )
+    log("F3_timeline", f"support table keys={len(bank)}")
     cfg = SimpleNamespace(
         rsi_source="delta", delta_enabled=True, delta_tau=0.07, delta_eps_alpha=0.01,
         delta_k_max=10, delta_k_top=10, delta_mode="topk", seed=SEED, support=True,
@@ -852,7 +1093,7 @@ def generate_f3_timeline(device: str, overwrite: bool) -> None:
             "split": ["test"], "font_stem": [font], "char_cp": [cp_of(ch)],
             "ref_chars": [[f"u{ord(c):04X}" for c in "永和书风骨韵天地"]],
         }
-        style, queries = T._style_conditions(es, samples, device_t)
+        style, queries, *_ = T._style_conditions(es, samples, device_t)
         structure = T._structure_features(es, ec, library, samples, queries, cfg, keep, device_t)
         content = T._content_features(ec, samples, keep, device_t)
         vecs = []
@@ -1161,7 +1402,7 @@ def generate_f2_timeline(
             "char_cp": [cp_of(ch)],
             "ref_chars": [[f"u{ord(c):04X}" for c in "永和书风骨韵天地"]],
         }
-        style, queries = T._style_conditions(es, samples, device_t)
+        style, queries, *_ = T._style_conditions(es, samples, device_t)
         structure = T._structure_features(es, ec, library, samples, queries, cfg, keep, device_t)
         content = T._content_features(ec, samples, keep, device_t)
         return {"style": style, "structure": structure, "content": content}
@@ -1424,18 +1665,28 @@ def cmd_generate(args: argparse.Namespace) -> None:
         "chars_n": len(STRATIFIED),
         "seed": SEED,
         "sampler": "dpmsolver++ 20 CFG7.5 order2 multistep",
-        "style": "ref8 first available, prefer 永",
-        "note": "Same protocol as E1 formal stratified. Val16 is not used. Per-item set_seed(3407).",
-        "methods": {k: {"label": v["label"], "kind": v["kind"], "ckpt": str(v["ckpt"])} for k, v in METHODS.items()},
+        "style": "ref8 first available, prefer 永; F2/F3 *_s1: Es from 永 only, Δ still ref8",
+        "note": "Same protocol as E1 formal stratified. Val16 is not used. Per-item set_seed(3407). style_oneshot splits Es k from Δ retrieve k.",
+        "methods": {
+            k: {
+                "label": v["label"],
+                "kind": v["kind"],
+                "ckpt": str(v["ckpt"]),
+                "style_oneshot": bool(v.get("style_oneshot", False)),
+            }
+            for k, v in METHODS.items()
+        },
     }
     (OUT / "PROTOCOL.json").write_text(json.dumps(protocol, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     update_status({"protocol": "E1-stratified test16×47 seed3407", "phase": "generate"})
     mid = args.method
     kind = METHODS[mid]["kind"]
     if kind == "f3":
-        generate_f3(args.device, stems, args.overwrite)
+        generate_f3(args.device, stems, args.overwrite, mid=mid)
     elif kind == "f2":
-        generate_f2(args.device, stems, args.overwrite)
+        generate_f2(args.device, stems, args.overwrite, mid=mid)
+    elif kind == "f1":
+        generate_f1(args.device, stems, args.overwrite)
     else:
         generate_image_method(mid, args.device, stems, args.overwrite)
 
@@ -1482,8 +1733,13 @@ def cmd_metrics(args: argparse.Namespace) -> None:
         import lpips
 
         lpips_fn = lpips.LPIPS(net="alex").to(args.device).eval()
+    want = [x.strip() for x in (getattr(args, "only", "") or "").split(",") if x.strip()]
+    mids = want if want else list(METHODS)
+    for mid in mids:
+        if mid not in METHODS:
+            raise SystemExit(f"unknown method {mid}")
     rows = []
-    for mid in METHODS:
+    for mid in mids:
         for png in (OUT / "preds" / mid).rglob("*.png"):
             meta_p = png.with_suffix(".json")
             if not meta_p.is_file():
@@ -1514,29 +1770,47 @@ def cmd_metrics(args: argparse.Namespace) -> None:
                 with torch.no_grad():
                     rec["LPIPS"] = float(lpips_fn(to_n11(pred), to_n11(gt)).item())
             rows.append(rec)
-    report = {
-        "computed_at": utc_now(),
-        "n_total": len(rows),
-        "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. E12 still gated.",
-        "methods": {},
-    }
     by_m = defaultdict(list)
     for r in rows:
         by_m[r["method"]].append(r)
+    new_methods = {}
     for mid, rs in by_m.items():
         by_b = defaultdict(list)
         for r in rs:
             by_b[r["bucket"]].append(r)
-        report["methods"][mid] = {
+        new_methods[mid] = {
             "label": METHODS[mid]["label"],
             "overall": agg(rs),
             "by_bucket": {b: agg(by_b[b]) for b in BUCKET_ORDER if b in by_b},
+        }
+    summary_p = OUT / "metrics_summary.json"
+    items_p = OUT / "metrics_items.json"
+    if want and summary_p.is_file():
+        report = json.loads(summary_p.read_text(encoding="utf-8"))
+        report.setdefault("methods", {})
+        report["methods"].update(new_methods)
+        report["computed_at"] = utc_now()
+        report["caveat"] = (
+            "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. "
+            "Mode D (*_s1) is style-k ablation with Δ still ref8."
+        )
+        if items_p.is_file():
+            old_rows = json.loads(items_p.read_text(encoding="utf-8"))
+            drop = set(want)
+            rows = [r for r in old_rows if r.get("method") not in drop] + rows
+        report["n_total"] = len(rows)
+    else:
+        report = {
+            "computed_at": utc_now(),
+            "n_total": len(rows),
+            "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. E12 still gated.",
+            "methods": new_methods,
         }
     (OUT / "metrics_summary.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     (OUT / "metrics_items.json").write_text(json.dumps(rows, ensure_ascii=False) + "\n", encoding="utf-8")
-    update_status({"phase": "metrics_done", "n_metric_rows": len(rows)})
+    update_status({"phase": "metrics_done", "n_metric_rows": len(rows), "scored": mids})
     print(json.dumps({m: report["methods"][m]["overall"] for m in report["methods"]}, indent=2))
 
 
@@ -1609,131 +1883,20 @@ def _fmt(x, n=4) -> str:
 
 
 def write_html(payload: dict) -> None:
-    metrics = payload.get("metrics") or {}
-    rows = []
-    methods = payload["methods"]
-    mids = [m["id"] for m in methods]
-    label_of = {m["id"]: m["label"] for m in methods}
-    if metrics.get("methods"):
-        rows.append("<table><thead><tr><th>方法</th><th>n</th><th>L1↓</th><th>SSIM↑</th><th>LPIPS↓</th></tr></thead><tbody>")
-        for mid in mids:
-            o = metrics["methods"].get(mid, {}).get("overall", {})
-            rows.append(
-                "<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
-                    label_of.get(mid, mid), o.get("n"),
-                    _fmt(o.get("L1_mean")), _fmt(o.get("SSIM_mean")), _fmt(o.get("LPIPS_mean")),
-                )
-            )
-        rows.append("</tbody></table>")
-        rows.append("<h3>按语种</h3><table><thead><tr><th>语种</th>")
-        for mid in mids:
-            rows.append(f"<th>{label_of.get(mid, mid)} L1</th><th>SSIM</th>")
-        rows.append("</tr></thead><tbody>")
-        for b in BUCKET_ORDER:
-            cells = [b]
-            for mid in mids:
-                bb = metrics["methods"].get(mid, {}).get("by_bucket", {}).get(b, {})
-                cells.append(_fmt(bb.get("L1_mean"), 3))
-                cells.append(_fmt(bb.get("SSIM_mean"), 3))
-            rows.append("<tr>" + "".join(f"<td>{c}</td>" for c in cells) + "</tr>")
-        rows.append("</tbody></table>")
-    metric_html = "".join(rows)
-    html = f"""<!doctype html>
-<html lang="zh-CN"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta http-equiv="refresh" content="20"/>
-<title>P1 / E1 / F0 / F2 / F3 · test16 × 47</title>
-<style>
-:root{{--bg:#eef1f5;--card:#fff;--line:#d5dbe3;--muted:#5c6570;--ink:#1a1a1a;--accent:#1f4a6f}}
-*{{box-sizing:border-box}} body{{margin:0;font:14px/1.45 system-ui,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--ink)}}
-header{{background:var(--card);border-bottom:1px solid var(--line);padding:14px 18px}}
-h1{{margin:0;font-size:1.2rem}} h2{{font-size:1.05rem;margin:0 0 8px}} h3{{font-size:.95rem}}
-.meta,.cap{{color:var(--muted);font-size:12px}}
-main{{max-width:1280px;margin:16px auto;padding:0 14px 48px}}
-.card{{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px;margin:14px 0}}
-.note{{background:#fff8e8;border:1px solid #e6d7a8;padding:8px 10px;margin:10px 0;font-size:12px}}
-table{{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0}}
-th,td{{border-bottom:1px solid var(--line);padding:5px 7px;text-align:left}}
-.bar{{height:8px;background:#e4e9ef;margin-top:4px}} .bar>i{{display:block;height:100%;background:var(--accent)}}
-.grid{{overflow-x:auto}}
-table.g th,table.g td{{border:1px solid var(--line);padding:3px;text-align:center;vertical-align:bottom;font-size:11px;color:var(--muted)}}
-table.g img{{width:72px;height:72px;image-rendering:pixelated;display:block;background:#fff}}
-table.g td.ch{{font:700 15px/1.2 ui-serif,serif;color:var(--ink)}}
-select{{padding:6px 8px;border:1px solid var(--line);background:#fff;margin-right:6px}}
-.pill{{display:inline-block;border:1px solid var(--line);padding:1px 8px;font-size:12px;margin-right:6px}}
-</style></head><body>
-<header>
-  <h1>P1 · E1@100k · F0@100k · F2@75k · F3@80k　测试集分层评测</h1>
-  <div class="meta">test16 × 47 · DPM++20 CFG7.5 seed3407 · 同协议 A。列序：官方零样本 → 官方RSI微调(E1) → 去RSI(F0) → Delta(F2) → Support legacy(F3)</div>
-</header>
-<main>
-<div class="note">像素指标相对 GT，仅为诊断。E1 自 formal strat 并入（与本页 P1 字节一致）。F1 / F3b 待训完再评。<br/><b><a href="http://127.0.0.1:8768/">Compare Portal →</a></b>
-<br/><b><a href="delta_retrieve/">Δ 检索诊断 →</a></b>
-<br/><b><a href="timeline.html">F3 时间线 →</a></b>
-<br/><b><a href="timeline_f2.html">F2 时间线 →</a></b></div>
-<section class="card" id="progress"><h2>出图进度</h2><pre id="prog" class="meta">读取 status.json …</pre></section>
-<section class="card"><h2>诊断指标（相对 GT）</h2>{metric_html or "<p class='meta'>指标将在三路出图完成后计算。</p>"}
-<p class="cap">L1 越低、SSIM 越高、LPIPS 越低通常越贴近像素真值。跨文字风格主张仍要等独立评测器。</p>
-</section>
-<section class="card">
-  <h2>对照图</h2>
-  <p>
-    <label>字体 <select id="font"></select></label>
-    <label>语种 <select id="bucket"><option value="">全部</option></select></label>
-  </p>
-  <div class="grid" id="sheet"></div>
-</section>
-<p class="cap">F2 走 cache Δ（无 Support）；F3 走 cache Δ + 同字体 Support×8。官方与 F0 走 Content + Style「永」。每张图独立 set_seed(3407)，分卡/分字体不改变结果。F2@75k 是中间落盘，非最终 80k。</p>
-</main>
-<script>
-const DATA = {json.dumps({"fonts": payload["fonts"], "chars": payload["chars"], "buckets": payload["buckets"], "methods": payload["methods"], "items": payload["items"]}, ensure_ascii=False)};
-const fontSel = document.getElementById('font');
-const bucketSel = document.getElementById('bucket');
-DATA.fonts.forEach(f => {{ const o=document.createElement('option'); o.value=f; o.textContent=f; fontSel.appendChild(o); }});
-const BNAME = {{digit:'数字', latin_upper:'拉丁大写', latin_lower:'拉丁小写', latin_ext:'拉丁扩展', hiragana:'平假名', katakana:'片假名', bopomofo:'注音'}};
-DATA.buckets.forEach(b => {{ const o=document.createElement('option'); o.value=b; o.textContent=BNAME[b]||b; bucketSel.appendChild(o); }});
-function render(){{
-  const font = fontSel.value;
-  const bucket = bucketSel.value;
-  const items = DATA.items.filter(it => it.font===font && (!bucket || it.bucket===bucket));
-  const heads = ['字','Content','Style','GT'].concat(DATA.methods.map(m=>m.label));
-  let h = '<table class="g"><thead><tr>'+heads.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>';
-  for (const it of items){{
-    h += '<tr><td class="ch">'+it.char+'</td>';
-    h += '<td><img src="'+it.content+'"/></td>';
-    h += '<td><img src="'+it.style+'"/></td>';
-    h += '<td><img src="'+it.gt+'"/></td>';
-    for (const m of DATA.methods){{
-      h += '<td><img src="'+it.preds[m.id]+'" onerror="this.style.opacity=.25"/></td>';
-    }}
-    h += '</tr>';
-  }}
-  h += '</tbody></table>';
-  document.getElementById('sheet').innerHTML = h;
-}}
-fontSel.onchange = render; bucketSel.onchange = render; render();
-async function tick(){{
-  try {{
-    const s = await (await fetch('status.json?t='+Date.now(), {{cache:'no-store'}})).json();
-    const ms = s.methods||{{}};
-    let t = '更新 '+ (s.updated_at||'') + ' · 阶段 ' + (s.phase||'') + '\\n';
-    for (const [k,v] of Object.entries(ms)){{
-      const tot = v.total||752;
-      const d = (v.done||0)+(v.skipped||0);
-      const pct = tot? Math.round(100*d/tot):0;
-      t += k+' '+ (v.phase||'') + ' '+d+'/'+tot+' ('+pct+'%)';
-      if (v.eta_s) t += '  ETA '+Math.round(v.eta_s/60)+' min';
-      if (v.rate_per_s) t += '  '+v.rate_per_s+'/s';
-      t += '\\n';
-    }}
-    document.getElementById('prog').textContent = t;
-  }} catch(e) {{ document.getElementById('prog').textContent = String(e); }}
-}}
-tick(); setInterval(tick, 8000);
-</script>
-</body></html>
-"""
-    (OUT / "index.html").write_text(html, encoding="utf-8")
+    """Delegate to fair-axes board builder (Mode A/B/C). Keeps payload on disk first."""
+    (OUT / "browse_index.json").write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+    rebuild = ROOT / "scripts/rebuild_glyph_board_fair_axes.py"
+    if rebuild.is_file():
+        import runpy
+
+        runpy.run_path(str(rebuild), run_name="__main__")
+        return
+    # Fallback: minimal stub if rebuild script missing
+    (OUT / "index.html").write_text(
+        "<!doctype html><meta charset=utf-8><title>f03 board</title>"
+        "<p>Missing scripts/rebuild_glyph_board_fair_axes.py — cannot render fair-axis board.</p>\n",
+        encoding="utf-8",
+    )
 
 
 def main() -> None:
@@ -1748,6 +1911,7 @@ def main() -> None:
     m = sub.add_parser("metrics")
     m.add_argument("--device", default="cuda:0")
     m.add_argument("--lpips", action="store_true")
+    m.add_argument("--only", default="", help="comma-separated method ids; merge into existing metrics_summary")
     m.set_defaults(func=cmd_metrics)
     gal = sub.add_parser("gallery")
     gal.set_defaults(func=cmd_gallery)
