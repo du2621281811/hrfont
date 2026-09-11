@@ -36,6 +36,15 @@ for it in metrics:
 rows = uniq
 fonts = browse["fonts"]
 BUCKETS = browse["buckets"]
+# 精选子集：简单字形（如 1/c/n）各方法无差是正常的，默认只展示有区分度的字
+CURATED = {
+    "0", "2", "8",
+    "A", "G", "M", "Q", "R", "W", "B", "O",
+    "a", "o", "g", "e", "i", "l", "b", "q",
+    "à", "é",
+    "あ", "さ", "ん", "ア", "ン",
+    "ㄅ", "ㄚ",
+}
 
 
 def chip(mid, font, cp, kind):
@@ -84,7 +93,8 @@ for fi, font in enumerate(fonts):
                 f"<div class='ch'>{chip(mid, font, cp, 'pix')}</div>"
                 f"<div class='ch e'>{chip(mid, font, cp, 'e12')}</div></td>")
         body.append(
-            f"<tr data-bk='{r['bucket']}'><td class='chr'>{ch}"
+            f"<tr data-bk='{r['bucket']}' data-keep='{1 if ch in CURATED else 0}'>"
+            f"<td class='chr'>{ch}"
             f"<div class='bk'>{r['bucket']}</div></td>{''.join(cells)}</tr>")
     sections.append(
         f"<h3 class='fhead' id='f{fi}' data-font='{font}'>{fi+1}. {font} "
@@ -110,7 +120,7 @@ table.sum th{{background:var(--head);color:var(--accent)}}
 table.gly{{border-collapse:collapse;font-size:11px}}
 table.gly td,table.gly th{{border:1px solid var(--border);padding:2px 4px;text-align:center;vertical-align:top}}
 table.gly tr:nth-child(even) td{{background:#191613}}
-table.gly th{{background:var(--head);color:var(--accent);position:sticky;top:0}}
+table.gly th{{background:var(--head);color:var(--accent);position:sticky;top:40px;z-index:3}}
 .ml{{font-weight:bold;color:var(--fg)}}.ms{{color:var(--muted);font-size:10px}}
 .chr{{font-weight:bold;font-size:13px;min-width:2.2em;color:var(--fg)}}
 .bk{{color:var(--muted);font-size:9px;font-weight:normal}}
@@ -133,6 +143,7 @@ button:hover{{border-color:var(--accent);color:var(--accent)}}
 {bucket_ui}
 <button onclick="foldAll()">全部折叠</button><button onclick="unfoldAll()">全部展开</button>
 <button id='btnChips'>隐藏数值</button>
+<button id='btnCur'>显示全部字(47)</button>
 </div>
 {summary}
 <nav>{nav}</nav>
@@ -140,12 +151,20 @@ button:hover{{border-color:var(--accent);color:var(--accent)}}
 <script>
 const boxes=[...document.querySelectorAll('.bkf')];
 boxes.forEach(b=>b.addEventListener('change',applyFilter));
+let curOnly=true;
 function applyFilter(){{
   const on=new Set(boxes.filter(b=>b.checked).map(b=>b.value));
   document.querySelectorAll('tr[data-bk]').forEach(tr=>{{
-    tr.classList.toggle('hidden', !on.has(tr.dataset.bk));
+    const keepOk = !curOnly || tr.dataset.keep==='1';
+    tr.classList.toggle('hidden', !(on.has(tr.dataset.bk) && keepOk));
   }});
 }}
+document.getElementById('btnCur').addEventListener('click',()=>{{
+  curOnly=!curOnly;
+  document.getElementById('btnCur').textContent=curOnly?'显示全部字(47)':'只看精选字(28)';
+  applyFilter();
+}});
+applyFilter();
 document.querySelectorAll('.fhead').forEach(h=>h.addEventListener('click',()=>{{
   const t=document.querySelector(`table.gly[data-font="${{h.dataset.font}}"]`);
   t.classList.toggle('hidden');
