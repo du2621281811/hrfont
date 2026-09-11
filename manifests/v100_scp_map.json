@@ -1,0 +1,1772 @@
+{
+  "schema_version": 1,
+  "doc": "docs/V100_SCP_TRANSFER.md",
+  "filled_by": "",
+  "filled_at": "",
+  "src_git_head": "",
+  "hosts": {
+    "src_3090": {
+      "role": "source",
+      "ssh_user": "root",
+      "ssh_host": "172.19.45.13",
+      "ssh_port": 2222,
+      "project_root": "/root/projects/hrfont",
+      "hostname": "",
+      "git_head": "",
+      "can_ssh_dest": null,
+      "notes": "fill hostname / git_head / can_ssh_dest by running scripts/fill_v100_scp_map.py"
+    },
+    "dest_v100": {
+      "role": "dest",
+      "ssh_user": "root",
+      "ssh_host": "172.18.41.23",
+      "ssh_port": 22,
+      "ssh_host_note": "宿主机地址（用户提供）。容器 hostname=0ecccf9be2dd，容器 IP=172.17.0.2。请源机/跳板实测 ssh 端口与是否需要 docker exec。",
+      "project_root": "/root/projects/hrfont",
+      "hostname": "0ecccf9be2dd",
+      "container_ip": "172.17.0.2",
+      "disk_free_hint_20260911": "~181G overlay / 800G",
+      "conda_env": "boogu",
+      "python": "/root/miniforge3/envs/boogu/bin/python"
+    },
+    "jump": [
+      {
+        "name": "",
+        "ssh_user": "root",
+        "ssh_host": "",
+        "ssh_port": null,
+        "can_reach_src": null,
+        "can_reach_dest": null,
+        "notes": "一台能同时 ssh 到 3090:2222 和 V100 宿主机的机器。172.18.41.24:17569 测过，不通 172.19.45.13。"
+      }
+    ]
+  },
+  "reachability": [
+    {
+      "from": "dest_v100",
+      "to": "src_3090",
+      "ok": false,
+      "how": "No route to host 172.19.45.13:2222 and :22 from this container and from 172.18.41.24"
+    },
+    {
+      "from": "src_3090",
+      "to": "dest_v100",
+      "ok": null,
+      "how": "FILL: can 3090 ssh 172.18.41.23?"
+    },
+    {
+      "from": "jump",
+      "to": "src_3090",
+      "ok": null,
+      "how": ""
+    },
+    {
+      "from": "jump",
+      "to": "dest_v100",
+      "ok": null,
+      "how": ""
+    }
+  ],
+  "payloads": [
+    {
+      "id": "01_small",
+      "required": true,
+      "src_rel": "artifacts/migrate_v100/01_small.tar",
+      "dest_rel": "artifacts/migrate_v100/01_small.tar",
+      "approx": "0.7GB",
+      "method": "scp_tar_then_unpack",
+      "unpacks_to": [
+        "artifacts/f0/support_bank.json",
+        "code/official/FontDiffuser/ckpt/unet.pth"
+      ],
+      "exists_on_src": null,
+      "bytes_on_src": null,
+      "note": "support banks + official P1 ckpt"
+    },
+    {
+      "id": "03_es",
+      "required": true,
+      "src_rel": "artifacts/migrate_v100/03_es_cache.tar",
+      "dest_rel": "artifacts/migrate_v100/03_es_cache.tar",
+      "approx": "1.7GB",
+      "method": "scp_tar_then_unpack",
+      "unpacks_to": [
+        "artifacts/f0/es_spatial_f0/"
+      ],
+      "exists_on_src": null,
+      "bytes_on_src": null,
+      "note": "F0 Es only; do not send E1 cache"
+    },
+    {
+      "id": "04_f0",
+      "required": true,
+      "src_rel": "artifacts/migrate_v100/04_f0_best.tar",
+      "dest_rel": "artifacts/migrate_v100/04_f0_best.tar",
+      "approx": "1.1GB",
+      "method": "scp_tar_then_unpack",
+      "unpacks_to": [
+        "runs/F0-RSIFREE-FT-A-S3407/best/"
+      ],
+      "exists_on_src": null,
+      "bytes_on_src": null,
+      "note": "F-arm parent"
+    },
+    {
+      "id": "05_eval",
+      "required": false,
+      "src_rel": "artifacts/migrate_v100/05_eval_ckpts.tar",
+      "dest_rel": "artifacts/migrate_v100/05_eval_ckpts.tar",
+      "approx": "4GB",
+      "method": "scp_tar_then_unpack",
+      "unpacks_to": [
+        "runs/F1-OFFRSI-A-S3407/global_step_80000",
+        "runs/F2-DELTARSI-A-S3407/global_step_80000",
+        "runs/F3-JOINT-DS-A-S3407/global_step_80000"
+      ],
+      "exists_on_src": null,
+      "bytes_on_src": null,
+      "note": "only if evaluating old F1/F2/F3 arms"
+    },
+    {
+      "id": "proto_A",
+      "required": true,
+      "src_rel": "data/fontdiffuser-p253-t295-s338-cn2west-v2",
+      "dest_rel": "data/fontdiffuser-p253-t295-s338-cn2west-v2",
+      "approx": "0.7GB",
+      "method": "rsync_or_tar_pipe",
+      "unpacks_to": [
+        "data/fontdiffuser-p253-t295-s338-cn2west-v2/"
+      ],
+      "exists_on_src": null,
+      "bytes_on_src": null,
+      "note": "protocol A PNGs; do not tar on source if already packed as directory"
+    },
+    {
+      "id": "ec_f0",
+      "required": true,
+      "src_rel": "artifacts/f0/ec_multiscale_f0",
+      "dest_rel": "artifacts/f0/ec_multiscale_f0",
+      "approx": "94GB",
+      "method": "rsync",
+      "unpacks_to": [
+        "artifacts/f0/ec_multiscale_f0/"
+      ],
+      "exists_on_src": null,
+      "bytes_on_src": null,
+      "note": "F0 Ec; do not rebuild; do not use E1"
+    },
+    {
+      "id": "ttf_tree_optional",
+      "required": false,
+      "src_rel": "",
+      "dest_rel": "/root/data/font_50",
+      "approx": "TTF files only",
+      "method": "scp_if_re_render",
+      "unpacks_to": [
+        "/root/data/font_50",
+        "data/suiti_fonts_probe"
+      ],
+      "exists_on_src": null,
+      "bytes_on_src": null,
+      "note": "optional; fill src_rel on 3090 (font_50 and/or suiti). Cannot replace ckpt/Es/Ec."
+    },
+    {
+      "id": "ref_summary_optional",
+      "required": false,
+      "src_rel": "data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/summary.json",
+      "dest_rel": "data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/summary.json",
+      "approx": "small",
+      "method": "scp_if_re_render",
+      "unpacks_to": [
+        "data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/summary.json"
+      ],
+      "exists_on_src": null,
+      "bytes_on_src": null,
+      "note": "needed by build_cn2west_v2_proto_abc.py; paths inside point at 3090 TTFs — fill ttf stems too"
+    }
+  ],
+  "do_not_copy": [
+    "runs/ (except the packed best/eval ckpts)",
+    "data/fontdiffuser",
+    "data/font",
+    "artifacts/e1",
+    "artifacts/e12",
+    "live logs / pid files"
+  ],
+  "ttf_render_optional": {
+    "content_font_on_dest": "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+    "ref_summary_src": "data/fontdiffuser-p253-t295-s338-cn2west-v2b-hfit/summary.json",
+    "ref_summary_exists": null,
+    "pillow": null,
+    "font_search_roots": [
+      "/root/data/font_50",
+      "data/suiti_fonts_probe/随体字体集"
+    ],
+    "n_stems": 260,
+    "n_ttf_ok": 0,
+    "n_ttf_missing": 260,
+    "missing_stems": [],
+    "stems": [
+      {
+        "split": "train",
+        "stem": "FZBaiZBYTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBaiZDZ115JW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBaiZJHTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBaiZJKJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBaiZRZTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBaiZWGTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBangSKLTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBaoCTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBaoHTJW_Da",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBenMKYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBenMWYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBenMXYTJW_Italic",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBenMZZZHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZBiaoYTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZCCHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZCHYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZCQJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZCangYHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZChaoLTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZChaoZTJW_EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZChenQTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZChiDTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZCuYSJ_V2",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDaDXMTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDeSHJW_507R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDeSHJW_508R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDeSHJW_509R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDeSHJW_510M",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDeSHJW_511M",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDeSHJW_512B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDeSHJW_513B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDeSHJW_514H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDengXHJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDongGSJW-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDouSDYWTJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZDuHJW_Cu",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWHuanLTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWQingYLJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWTongQPOPTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZGDLHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZGDLMCJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZGDSHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZGDSMCJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZLSHTJWB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiABiaoTMCJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiHeiD",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiHeiE",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiHeiH",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiHeiL",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiHeiM",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiHeiR",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiHeiU",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFWZhuZiMinchoD",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFXKTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFeiSJW-EL",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFeiYTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFeiYiTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFuGCHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZFuGCYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZGDCTJW-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZGLJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZGangYTJ",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZGuangHTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHCJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHZGBJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHanSTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHaoGGTTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHeJYSXZJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHeYTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHeiFJW-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHengWHJ-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHuaSKXTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZHuoLTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZIwataFWTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJLJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJZJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJianQRTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJianZTJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJiangYTJW_EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJinCTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJingKHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJingQSTJW_Cu",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJuJTJW-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZJunTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZKeSHBTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZKuGHJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZKuaiSTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZKuaiYTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLTHProJW_H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLaGBTTJW_Da",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLangKBTJW1",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLangKFTJW3",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLengRSJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLiDXYTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLiHJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLiQBLSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLiYHJW-EL",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLiuBSLSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLiuCTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLongKSKSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZLuXTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZMaLTJW_Da",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZManYTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZMiaoYTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZMingCTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZMingMTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZMoDTJW_Cu",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZMoFHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZMoYTJW-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZOneFamily-Bold",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZOuYXKSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZPTYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZPWJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZPanDLTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZPiaoCTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZQKBYSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZQiSTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZQingFSJW_Xi",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZQingKBYSJW-EL",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZQingLTJW_Xian",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZQingLuTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZQiuDYRHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZRuiZHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZRuiZHLTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZRunKJW-T",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZRunYYSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShanCPXJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShangYTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShenTJHHTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShiGKSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShiGKSK",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShiSTJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShiTSJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShuLTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShuQTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShuangQTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZShuiYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZSiBTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZSiLanTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZSiNTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZSiNTJW-UB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZSiNTJW-UL",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZSongYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZSongYuanK",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZTaiHTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZTanHTJW_Da",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZTiHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZTieXHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZVDLGTMCJW-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZVDLJianZHJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZVDLJiaoRHJW-T",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZVDLJieYTJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZVDLXinZTJW-R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZVDLZhaoHJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZVariable-YouSongJ",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZWBJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZWZZYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZWeiWTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZWeiYHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZWenHYBTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZWenZMXCJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZWuYTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXiXSLSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXianWTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXianWXTJW-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXiangHJW-M",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXiaoSSJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXieXTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXinGHJW-EL",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXinHJYKXZJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXinRTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXinZYHJW_EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXinZYHJW_UL",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXingHeiJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZXueWRHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYASHJW_Cu",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYDCHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYaSSJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYanSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYanZQKSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYaoDHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYiBSLSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYiHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYiHTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYiMSJW-T",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYiSJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYiXTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYiZTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYongDHJW-T",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYongKTJ",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYooncheQWHJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHJW_508R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHJW_509R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHJW_510M",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHJW_511M",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHJW_512B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHJW_513B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHK_508R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHK_509R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHK_510M",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHK_512B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouHK_513B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouSJJW_507R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouSJJW_508R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouSJJW_509R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouSTJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYouYSJW-R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYuLTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYuYCTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYunHJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZYunLTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZDHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZJ-ZWJBTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZhaoJSJSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZhenSYJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZhiXHJW-R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZhuoHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZhuoQHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZiHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZiRTJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZiZDKJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZiZLDJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZiZQXDCJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZuanSTJW_Da",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZZuoZJHJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "FZquanfuti",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "train",
+        "stem": "TSTanHJW-R",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZBangSKKXJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZCaoQBLSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZFWZhuZiHeiB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZHengFSJW-T",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZJunYTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZKANGJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZKuaiHTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZLTHProGBK_H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZMiFXSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZQingYSJW-T",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZSongKBXKJW-EB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZSuHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZYouHK_511M",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZZHJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZZanMTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "val",
+        "stem": "FZZhongYSJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZBuGTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZChuangHJW_DB",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZCuanBZBKSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZDeSHJW_515H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZDouNTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZFeiHHJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZFengYKSJ",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZHanWZKJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZHuoYYJW-T",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZJianLTJW_Te",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZJingLTJW-H",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZJingYLLTJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZLingFKSJW-B",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZLiuGQKJW-L",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZMaWDBSJW",
+        "src_ttf": "",
+        "exists": null
+      },
+      {
+        "split": "test",
+        "stem": "FZTJLSJW",
+        "src_ttf": "",
+        "exists": null
+      }
+    ]
+  }
+}

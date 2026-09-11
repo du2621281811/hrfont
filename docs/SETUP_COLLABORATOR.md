@@ -59,7 +59,8 @@ python -c "import torch; print(torch.__version__, torch.cuda.get_device_capabili
 
 ## 3. 数据与权重（不进 Git）
 
-打包位置（源机器）：`artifacts/migrate_v100/`（gitignored）。
+打包位置（源机器）：`artifacts/migrate_v100/`（gitignored）。  
+两机暂时不通时：填 [`V100_SCP_TRANSFER.md`](V100_SCP_TRANSFER.md) / [`manifests/v100_scp_map.json`](../manifests/v100_scp_map.json)，在跳板上 scp。
 
 | 包 | 约体积 | 必须？ | 内容 |
 |----|--------|--------|------|

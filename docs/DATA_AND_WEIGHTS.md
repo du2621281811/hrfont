@@ -4,7 +4,7 @@ Git 只跟踪清单与指纹；大文件用 symlink 或外盘。
 
 ## 当前主线要用的（协议 A / F 臂）
 
-新机迁移打包见 [`SETUP_COLLABORATOR.md`](SETUP_COLLABORATOR.md) §3。这些 **不进 Git**。
+新机迁移打包见 [`SETUP_COLLABORATOR.md`](SETUP_COLLABORATOR.md) §3。V100 跳板 scp 映射：[`V100_SCP_TRANSFER.md`](V100_SCP_TRANSFER.md)。这些 **不进 Git**。
 
 | 逻辑路径 | 约体积 | 说明 |
 |----------|--------|------|

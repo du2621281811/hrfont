@@ -56,7 +56,8 @@ docs/patches/                # 相对 official 的可审查 diff
 完整步骤（clone、环境、打包命令、V100 注意）：[`SETUP_COLLABORATOR.md`](SETUP_COLLABORATOR.md)。
 
 源机打包：`bash scripts/pack_newhost_migrate.sh` → `artifacts/migrate_v100/`（不进 Git）。  
-Ec **不打 tar**，用 `bash scripts/rsync_newhost_migrate.sh user@NEWHOST`。
+Ec **不打 tar**，用 `bash scripts/rsync_newhost_migrate.sh user@NEWHOST`。  
+源机与新机网段不通时：[`V100_SCP_TRANSFER.md`](V100_SCP_TRANSFER.md) + [`manifests/v100_scp_map.json`](../manifests/v100_scp_map.json)。
 
 | 包 / 路径 | 约体积 | 用途 |
 |-----------|--------|------|
