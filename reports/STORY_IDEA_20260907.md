@@ -63,8 +63,11 @@ FontDiffuser 是 inherited denoising backbone，不是本文要重新发明的�
 
 ## 6. 合作者 Review 重点
 
-1. Set-Delta 是否应以 TSDF+gradient+mask 为正式表示，还是先用 geometry mean 做一天级接口验证；
-2. Target-Character Variation Adapter 的 warp/value 双路径是否保持，还是先做单路径快速筛查；
-3. Graphics-Ref 的 primitive-only Key 是否足够，R2 learned local K/V 是否作为强基线；
-4. 正式实现必须包含 D0/D1/D2/D3/D4/D6 与 R0/R1/R2/R3/R4，并把 FD/ref-only、mean-Delta 和 Set-Delta 放在同一主表；
-5. 论文主图应把 FD 画成灰色 inherited backbone，把 Set-Delta 与 Graphics-Ref 画成本文方法，避免“只换 RSI source”的误读。
+1. 实现固定先用 geometry mean 验证 TSDF+gradient+mask 接口，再做 Set-Delta；待拍板的是 value path 是否通过 D7进入完整配置；
+2. Graphics-Ref 推荐 primitive-only Key + learned Es12 Value，R2 learned local K/V作为等预算强基线，是否接受该主配置待拍板；
+3. 筛查固定先建 R1公共底座、跑 Round D，再固定 D*跑 Round R；每个保留主张的 treatment/control 成对继续到40k；
+4. 正式多seed只覆盖完整方法与最强必要基线；具体seed编号和基于val pilot variance的数值阈值待拍板；
+5. P训练实现已入库，可作为R1接口参考；正式sample、回归测试与run provenance仍须补齐，下一版仍只从已入库 F0@100k派生；
+6. 论文主图应把 FD 画成灰色 inherited backbone，把 Set-Delta 与 Graphics-Ref 画成本文方法，避免“只换 RSI source”的误读。
+
+以上待拍板项以完整设计稿 §12 的 PR-1至PR-7为唯一清单；本页不另建第二套决策口径。

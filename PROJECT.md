@@ -7,8 +7,9 @@
 
 ## 当前状态
 
-- **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 均已 80k；Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机 F2-P 训至 ~40k 中，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
+- **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 均已 80k；Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机报告 F2-P 正向40k训练，Git中可核验的最新 probe checkpoint 为25k，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
 - **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
+- **远端增量核查（2026-09-11，`74f92b7a`→`1dba686e`）：** `ce5f8079` 只更新 SSH 说明；`1dba686e` 带来实质增量：F2-P/F3b-P per-ref token与mask训练代码、launch/queue/probe脚本，以及 F2@40k vs F2-P@25k 的320张 train/val probe图。当前只能确认执行链路与可视化产物存在；probe没有量化指标或已填写人工结论，步数也不匹配，正式 `sample.py` 尚未接 `style_seq`，且没有对应 run provenance，因此不能据此声称效果改善。
 - **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git。
 - **旧状态备查：** [`reports/F123_STATUS_20260907.md`](reports/F123_STATUS_20260907.md)（日期已过，以本段为准）。
 - **合作者离线看板：** [`reports/collab_offline/index.html`](reports/collab_offline/index.html)（分层评测 / 时间线 / Δ 检索 / 导师页）。
@@ -23,12 +24,13 @@
 
 ## 下一步
 
-> **旧主表实现已冻结（D1）**：F1/F2/F3 使用 identity-safe `cn2west_f123_rsi`；`cn2west_stage_a` 的另一套 RSI 实现仍只作历史对照，**不要与下一版 Set-Delta 混用**。
+> **旧主表实现已冻结（历史决策 D1）**：F1/F2/F3 使用 identity-safe `cn2west_f123_rsi`；`cn2west_stage_a` 的另一套 RSI 实现仍只作历史对照，**不要与下一版 Set-Delta 消融编号 D1 混淆或混用**。
 
-1. **合作者 review：** 先审 Set-Delta 表示、Target-Character Variation Adapter 的 warp/value 接口、Graphics-Ref 的 primitive Key 与正式消融矩阵；不要直接开训。
-2. **实现顺序：** geometry mean 接口验证 → Set-Delta候选轴 → per-ref/local Ref → 联合训练；新逻辑放新 variant，旧 F1/F2/F3 不覆盖。
-3. **旧实验结论：** F1/F2/F3/F3b 作为旧实现证据；旧 E2/E2b 已 STOP，不进新方法主结论。
-4. E12：T2 方案仍需改；Mac 可并行复训（勿放宽门限）。
+1. **PI/合作者 review：** 先审设计稿 §12 的 PR-1至PR-7，重点拍板双路径、graphics Key、顺序筛查、正式 seeds与数值阈值冻结流程；不要把推荐默认当作已批准结论。
+2. **执行顺序：** Phase 0合同与执行机同步 → Phase 1现有接口零训练诊断 → R1公共底座 → Round D（D0/D1/D2/D3）→ 固定 D* 后 Round R（复用R1，只新跑R2/R3）→ treatment/control成对继续40k → 正式主比较多seed；20k只是同一40k run中期点，不重启挑参。
+3. **代码边界：** 新逻辑放 `code/variants/hrfont_setdelta_graphicsref/` 并从 F0@100k派生，旧 F1/F2/F3不覆盖；`1dba686e` 的P方案只复用审过的per-ref token/mask接口，不继承P权重。run记录写 `provenance/runs/<RUN_ID>.json`；无活跃run/checkpoint须明确填 `NONE`。
+4. **旧实验结论：** F1/F2/F3/F3b 作为旧实现证据；旧 E2/E2b 已 STOP，不进新方法主结论。
+5. E12：T2 方案仍需改；Mac 可并行复训（勿放宽门限）。
 
 ## 实验登记（摘要）
 
@@ -129,6 +131,7 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 ## 精简变更记录
 
 - 2026-09-11：F2-P/F3b-P 训练代码进仓（per-ref style tokens + mask）；附 launch/queue/域探针；执行机继续训 F2-P→F3b-P，权重不入库。
+- 2026-09-11：把下一版执行协议细化为先 Delta、后 Ref 的顺序筛查；补齐 Phase 0–5交付物、效果可验证边界、失败优化树和 PR-1至PR-7待拍板项，并吸收 `1dba686e` 的 P实现作为 R1接口参考。
 - 2026-09-11：同步下一版最终设计候选：Delta 从预平均单方向升级为保留 donor candidate axis 的 Set-Delta；Ref 改为 per-ref global + graphics-informed local evidence；Support 退出论文主方法。写作上明确 FontDiffuser 是 inherited denoising backbone，本文贡献是跨语系未观察目标字符的 prior proposal + observed evidence realization。设计尚未实现或验证。
 
 - 2026-09-02：Stage A 收缩为两臂最小验证；建立单一台账与护栏。

@@ -2,7 +2,7 @@
 
 日期：2026-09-11  
 状态：最终设计候选；尚未实现、训练或验证  
-唯一训练 parent：已入库 F0@100k；F2-P/F3b-P 仅作执行机接口参考，不作为未同步代码依赖。正式论文协议只允许目标字体 ref8，不读取额外 own-font CN 图像
+唯一训练 parent：已入库 F0@100k；F2-P/F3b-P 训练代码已于 `1dba686e` 入库，仅作 per-ref token/mask 接口参考，不作为训练 parent或权重依赖。正式论文协议只允许目标字体 ref8，不读取额外 own-font CN 图像
 
 ## 0. 最终裁决
 
@@ -173,9 +173,9 @@ v_{j,x}^{(l)}=P_v^{(l)}(d_{j,c,x}^{(l)}),
 
 48/24 每尺度只挂到一个预先指定的 RSI skip；两尺度 head 不共享参数。若同尺度未来扩展到多个 block，必须另开版本而不是隐式复用。
 
-### 2.5 双路径注入：warp + value
+### 2.5 候选双路径注入：warp + value
 
-只用 RSI offset 会迫使所有变化通过 warp skip 间接产生，不适合新增/消失孔洞或装饰。最终采用同一 \(\Delta_{set}\) 的双路径：
+只用 RSI offset 会迫使所有变化通过 warp skip 间接产生，不适合新增/消失孔洞或装饰。候选完整配置采用同一 \(\Delta_{set}\) 的双路径：
 
 \[
 \text{skip}'=\text{skip}
@@ -187,6 +187,8 @@ v_{j,x}^{(l)}=P_v^{(l)}(d_{j,c,x}^{(l)}),
 - **value path**：一个轻量投影直接提供创建/消失和边界修正信号；
 - \(Z_w,Z_v\) 为独立1×1输出投影，记录梯度、更新量和输出范数；
 - 首版不增加新 attention block，不增加额外 target-font 图像。
+
+当前尚未批准 value path 进入最终方法。工程默认先实现 warp-only；value 作为 D7 独立 treatment，只有在预注册的创建/消失题本上带来增量且不破坏 Identity/伪影非劣约束时，才升级为完整配置。
 
 为保持与 F0 的可比起点，输出投影可以 zero-init，但其上游投影不能全部同时 zero-init；smoke 必须确认首步输出层有梯度、若干步后上游也开始更新。
 
@@ -231,6 +233,8 @@ j\sim\alpha,\qquad \Delta=d_{j,c},
 ### 3.1 当前 P 方案的边界
 
 逐 ref pooled h token 能保留 ref 轴差异，但 h 已经丢失该 ref 的空间位置。它适合全局风格，却不足以单独承担顿笔、端点、连断和飞白。
+
+`1dba686e` 已把 P 的训练侧 per-ref token、padding mask、launch/queue和专用 probe wrapper 入库，说明 R1不再需要从零设计；但正式 `sample.py` 尚未接 `style_seq`，现有 F2@40k vs F2-P@25k probe只有图像、没有量化或人工裁决，不能视为 R1效果结论。
 
 最终 Ref 路线保留 P 的 global per-ref tokens，同时新增局部 reference field；不再沿 ref 轴或空间轴提前平均。
 
@@ -387,44 +391,60 @@ C_c,
 
 ### 5.1 零训练诊断
 
-固定 F2 checkpoint、Content、ref、噪声、sampler、CFG：
+Phase 1A 使用已入库 F2@80k checkpoint，固定 Content、ref、噪声、sampler、CFG：
 
-- Delta：mean / zero / top1 / oracle legal donor / wrong-char；
+- Delta：mean / zero / top1 / oracle legal donor / wrong-char；oracle legal donor 只在冻结 val 题本中，从具备该目标字符的 train-bank donor 里按预注册 GT-SDF 距离选最小者，仅作 upper bound，不参与正式方法选择；
 - Ref：true ref / wrong-font ref / single-ref / mean8；
 - 记录 source→offset→warp correction→epsilon/x0→最终图的逐段响应。
 
+Phase 1B 在 R1 最小公共底座实现后执行 per-ref mask、条件清零和 CFG drop 干预；不得把旧 F2 不具备的接口写成其 checkpoint 已支持的能力。
+
 该阶段只定位问题，不能替代训练 treatment effect。
 
-### 5.2 20k工程筛查
+### 5.2 20k工程筛查：先 Delta，后 Ref
 
-第一批只运行：
+为避免一次同时改变 Delta 与 Ref 而无法归因，筛查分两轮串行进行。
 
-| Arm | Delta | Ref | 目的 |
+**Round D：固定 R1 per-ref global，只比较 Delta。**
+
+| Arm | Delta | Ref | 核心比较 |
 |---|---|---|---|
-| A | none | R1 per-ref global | 无 Delta 控制 |
-| B | D1 old mean | R1 | 旧 Delta 效应 |
-| C | D3 Set-Delta | R1 | Delta 集合核心增量 |
-| D | D3 Set-Delta | R3 primitive local | 完整方法 |
+| DS-A | D0 no-Delta | R1 | 空分支基线 |
+| DS-B | D1 old Ec mean | R1 | 旧 Delta 总效应 |
+| DS-C | D2 geometry mean | R1 | DS-C vs DS-B：去 donor appearance |
+| DS-D | D3 geometry Set-Delta | R1 | DS-D vs DS-C：保留候选轴 |
 
-筛查若资源允许，再补：
+**Round R：固定 Round D 的预注册赢家，只比较 Ref。**
 
-- E：D2 geometry mean + R1，用于分离 geometry canonicalization 与 Set；
-- F：D3 + R2普通 local，用于分离 primitive key。
+| Arm | Delta | Ref | 核心比较 |
+|---|---|---|---|
+| RS-A | D* | R1 per-ref global | global-only基线 |
+| RS-B | D* | R2 learned local Es12 | RS-B vs RS-A：局部信息增量 |
+| RS-C | D* | R3 graphics-informed local | RS-C vs RS-B：graphics Key增量 |
 
-所有 arm：同 F0、同 seed3407、同 sampler horizon、同 batch/data order、同 source/CFG draw；新模块初始化使用独立 generator。20k 是同一40k run的中期检查，不在20k看图后重开并挑选新超参。
+Round D 的赢家 D* 按固定顺序选择：先满足 Identity/伪影非劣约束，再比较预注册 style/geometry主指标；若差异不足最小效应阈值，选择更简单的 arm。Round R 同理。
 
-A–D 只用于确认接口和筛掉无信号路线，不能单独支撑论文机制结论。
+所有 arm：同 F0、同 seed3407、同40k scheduler horizon、同 batch/data order、同 source/CFG draw；新模块初始化使用独立 generator。20k 是同一40k run的中期检查，不在20k看图后重开并挑选新超参。单 seed筛查只决定是否继续，不作为论文稳定性结论。
 
 ### 5.3 正式裁决矩阵
 
-正式训练前冻结唯一 parent checkpoint SHA、trainable/frozen module清单、optimizer、scheduler、batch/accumulation、数据 manifest、题本与 primary endpoint。至少3个预注册 seeds；单 seed 结果只称筛查。
+正式训练前冻结唯一 parent checkpoint SHA、trainable/frozen module清单、optimizer、scheduler、batch/accumulation、数据 manifest、题本与 primary endpoint。下面的40k机制/消融矩阵先使用筛查 seed3407；只有最终主比较子集运行至少3个预注册 seeds。单 seed 结果只能支撑机制筛查，不能称稳定性结论。
 
-正式矩阵必须覆盖：
+论文证据集合必须覆盖以下项目，但不要求20k已经明确失败的探索臂全部继续到40k：
 
 - Delta：D0/D1/D2/D3/D4/D6；若保留 dual path，再加 D7；D3-D2为 Set 增量，D3-D4为 residual 增量；
 - Ref：R0/R1/R2/R3/R4与等预算 FSFont-style local attention；R3-R2为 graphics descriptors 增量；
 - 识别性：wrong-donor × wrong-ref 2×2、正确/错误字符 Delta、路径清零与 value/warp交换；
 - 公平性：关键对照 matched parameter/FLOPs、相同有效 refs、相同随机 draw和训练 endpoint。
+
+40k集合固定包含 D0，以及每个保留主张的直接 treatment/control 对；若声称 residual 必要性则加入 D4，若声称 Delta利用目标字符则加入 D6，若保留 graphics Key则加入 R4和等预算 FSFont-style baseline，若保留 dual path则加入 D7。未入选路线保留其20k结果并明确标为 screening negative。
+
+推荐确认顺序：
+
+1. 每个拟保留主张的 treatment 与直接 matched control 必须成对从20k继续到40k，不重启：若保留 D3 主张则至少继续 D2+D3；若只保留 D2则继续 D1+D2；若保留 R3主张则继续 R2+R3，若只保留 R2则继续 R1+R2；D0作为完整方法总效应基线保留；
+2. 按保留主张补条件性必要对照：residual→D4，Delta→D6，graphics Key→R4与FSFont-style baseline；
+3. 若 dual injection 保留，补 D7 warp-only/value-only/dual；
+4. 最后只对主方法和最强必要基线补3个预注册 seeds；不为已经明确失败的探索臂补种子。
 
 Go/No-Go 数值阈值、bootstrap CI和 identity/伪影非劣 margin 必须在看正式结果前写入独立 protocol；本设计稿不凭空替代 pilot variance 给出数值。
 
@@ -479,37 +499,64 @@ Go/No-Go 数值阈值、bootstrap CI和 identity/伪影非劣 margin 必须在�
 
 答辩：接受不可辨识性。方法输出与 refs 兼容、受 bank 支持的候选，而不是宣称恢复不可观察的唯一真值；多解由 Set-Delta 的 mode/sample 输出表达。
 
-## 8. 实施顺序
+## 8. 实施顺序与交付物
 
-### Phase 0：合同修复
+### Phase 0：同步与冻结合同（预计0.5–1天）
 
-1. 审阅执行机 P 实现可复用的 per-ref/mask 接口；新方法仍从已入库 F0@100k 建立独立 variant，不依赖未同步 P 权重；
-2. 删除论文主线 own-font support；
-3. 修真实 attention mask、CFG 全条件同步 drop、独立 RNG和回归测试；
-4. 冻结 val题本、属性标签、非劣界和主结果端点。
+1. 审阅 `1dba686e` 已入库的 P 方案训练/model/mask实现；补齐正式 `sample.py` 的 `style_seq`接线和专用 mask/CFG回归测试，并把执行机当前 run状态、step、checkpoint路径与启动命令写入 `provenance/runs/<RUN_ID>.json`，摘要更新 `PROJECT.md`；没有活跃 run或checkpoint时显式填 `NONE`。P仍只作为接口参考，新方法不继承P权重；
+2. 从已入库 F0@100k 建立独立 variant，冻结 parent SHA、数据 manifest、trainable/frozen modules、optimizer、scheduler、batch/accumulation、drop draws和 seed；
+3. Support 从论文配置和默认 CLI 中退出，额外观测模式必须显式命名；
+4. 落地真实 attention mask、CFG 对 global/local Ref、Alpha和 Delta 的同步 drop，以及新分支独立初始化 RNG；
+5. 冻结 val 题本、ref-observable 属性标签、Identity/伪影非劣约束、主指标排序和20k继续/停止规则。
 
-### Phase 1：一天内完成的因果诊断
+**交付物：** 新 variant 骨架、配置样例、shape/mask/drop/RNG 回归测试、preflight 输出和执行机状态登记。上述项目未通过，不启动训练。
 
-1. 固定 checkpoint 的 mean/zero/top1/oracle/wrong-char Delta；
-2. Es 3×3/h/12×12的 ref-observable attribute probe；
-3. 确认最大问题属于 Delta mixing、Ref representation、读取接口或信息缺失。
+### Phase 1：现有接口的零训练因果诊断（预计1天）
 
-### Phase 2：Ref最小实现
+1. 固定 checkpoint、输入、噪声和 sampler，比较 mean/zero/top1/oracle/wrong-char Delta；
+2. 对 Es 3×3、pooled h、Es 12×12做 ref-observable 属性 probe；
+3. 比较 true/wrong-font ref、single/mean ref，并逐段清零旧 F2 已存在的 source、offset、warp correction和 condition；
+4. 把主要问题归入 Delta mixing、Ref representation、读取接口或信息缺失，决定后续优先级。
 
-1. 完成 R1 per-ref h 与真实 mask；
-2. 完成 Es12 cache和 R2普通 local；
-3. R2有信号后才实现 R3 primitive keys。
+**交付物：** 干预响应表、固定样例图、probe 结果和一页决策记录。该阶段用于定位，不宣称训练收益。
 
-### Phase 3：Delta最小实现
+### Phase 2：R1公共底座、Delta实现与 Round D（预计编码2–3天，随后训练至20k）
 
-1. 生成 geometry cache；
-2. 先实现 D2 geometry mean，验证 cache/interface；
-3. 再实现 D3 Set-Delta局部 donor fusion；
-4. 最后根据诊断决定是否加入 value path。
+1. 将已审 P 实现中的 per-ref pooled h与真实 padding mask移植到新 variant，作为所有 Round D arm 共用的 R1；补齐同步 CFG drop并完成 Phase 1B 无训练干预；
+2. 生成带 renderer/font/B0/code hash 的 geometry cache；
+3. 实现 D2 geometry mean，验证 cache 和现有 RSI 接口；
+4. 再实现 D3 Set-Delta，保持 donor candidate axis 到48/24局部融合；
+5. 首轮先接 warp path；value path 独立成 D7 开关，不能与 Set-Delta 同时无对照地引入；
+6. 运行 DS-A/DS-B/DS-C/DS-D，同一40k horizon 在20k做预注册中期筛查。
 
-### Phase 4：联合验证
+**交付物：** D0–D3配置、单元/梯度/干预测试、20k指标与可视化、D*选择记录。赢家继续训练，不从20k重启。
 
-运行 A/B/C/D 四臂；只有单模块控制成立时，完整方法结果才进入主表。
+### Phase 3：Local Ref实现与 Round R（预计编码2–3天，随后训练至20k）
+
+1. 复用 Phase 2 已验证的 R1，不再重新实现或训练同配置基线；
+2. 构建 Es12 cache并实现 R2 learned local K/V；
+3. R2相对R1出现局部属性信号后，再实现 R3 primitive Key + learned style Value；
+4. 固定 Round D 赢家 D*，运行 RS-B/RS-C；RS-A 与 Round D 的 D*+R1 是同一配置，直接复用原 run/checkpoint，不产生重复训练；首轮 local style loss 权重固定为0。
+
+**交付物：** R1–R3配置、mask/置换/梯度测试、20k指标与可视化、R*选择记录。
+
+### Phase 4：40k必要对照与联合确认
+
+1. 将每个保留主张的 treatment/control 对从20k继续到40k：D3+D2或D2+D1，R3+R2或R2+R1，并保留 D0 总效应基线；
+2. 按保留主张补 D4 residual-vs-absolute、D6 wrong-character、R4 matched-key-shuffle与FSFont-style baseline；
+3. 若保留 dual injection，补 D7 warp-only/value-only/dual；
+4. 完成 wrong-donor × wrong-ref、路径清零、key/value交换和 donor assignment 一致性诊断。
+
+**交付物：** 40k冻结表、matched parameter/FLOPs 核对、机制消融和 Go/No-Go 记录。只有单模块增量成立，联合配置才进入正式候选。
+
+### Phase 5：正式结果
+
+1. 只对完整方法与最强必要基线组成的正式主比较子集运行至少3个预注册 seeds；其余40k机制消融保持单 seed3407；
+2. 正式测试集只在配置冻结后运行一次，按字体聚类 bootstrap；
+3. 同时报告 Identity、几何/笔触分层指标、盲评和 provenance；
+4. 按 ref-observable、bank-supported but unobserved、bank-unsupported 分层解释结果。
+
+**交付物：** 主表、消融表、盲评材料、可复现实验清单和最终 claim ledger。
 
 ## 9. Go / No-Go 总判决
 
@@ -525,7 +572,52 @@ Go/No-Go 数值阈值、bootstrap CI和 identity/伪影非劣 margin 必须在�
 
 若其中2失败，主叙事收缩为“retrieved same-character prior”，不再强调 residual。若3失败，删除 graphics key但不影响 Delta 主叙事。若1失败，保留 Ref路线并停止把 Delta 作为核心贡献。负结果不会迫使整个项目同时崩塌。
 
-## 10. 最终推荐配置
+## 10. 效果可验证性与预期
+
+该方案不能在训练前保证最终视觉质量一定提升；它能保证的是每个变化都具有可观测的机制响应和独立对照，因此不再依赖“换了模块但不知道输出为何变化”。
+
+必须先通过的工程/机制信号包括：新分支存在梯度和参数更新；true/zero/wrong 条件产生方向一致的响应；mask、CFG drop和候选置换行为正确；warp与value路径的输出范数、空间位置和最终影响可追踪。通过这些检查仍不等于视觉质量提升，视觉收益只由20k/40k matched runs与盲评确认。
+
+当前优先级判断：
+
+| 修改 | 最可能改善 | 预期与不确定性 |
+|---|---|---|
+| R1 per-ref global | 粗粒度字重、斜势、圆方 | 实现直接，预期较稳，但不能解决细笔触 |
+| R2 Es12 local | 端点、连笔、局部轮廓 | 有中等成功可能，取决于 Es 中层是否保留属性 |
+| D2 geometry mean | donor纹理/颜色串入 | 对降低 appearance 冲突最直接 |
+| D3 Set-Delta | 模式相消、局部候选选择 | 是核心研究变量；是否优于 D2 必须实测 |
+| R3 graphics Key | 跨字符局部对应 | 可能有增量，但必须超过等预算 learned-local 才保留 |
+
+主成功标准不是单一 L1 下降，而是 Identity/伪影不劣，同时 ref-observable 风格属性、几何完整性或盲评至少一个预注册主端点改善。
+
+## 11. 不及预期时的优化树
+
+1. **分支几乎无响应：** 先查 gate/output projection、梯度、CFG同步 drop、mask和注入层；不先加损失或扩大模型。
+2. **Delta改变了错误风格：** Ec residual切换为TSDF/gradient/mask，降低 Alpha bias，做尺度/半径归一化；若 value path 主要改墨量，退回 warp-only。
+3. **结构改善但笔触仍平：** 按 R1 → R2 → R3递进；若 Es12 probe阳性但生成端无收益，再试 Es24/48或局部 style loss，而不是同时更换编码器。
+4. **风格改善但Identity或伪影变差：** 降低注入 gate，限制边界带，分离 warp与value职责，并增加几何一致性约束。
+5. **Set不如geometry mean：** 先测 global/local soft、whole-glyph top1、hard/Gumbel与 assignment consistency；仍无增益则回退 D2。此时主线仍可保留“检索同字符几何先验”，但删除“候选轴是必要贡献”的声称。
+6. **所有local Ref均无增益：** 做 Es层级 probe；若中层确实无相关属性，再训练轻量局部 style encoder。若 refs本身未展示该属性，则转为 bank-supported多候选问题，不把它误判为读取失败。
+
+回退顺序保持主叙事稳定：先简化 Set为 geometry mean，再简化 graphics Key为 learned local，最后才判断 Delta 或 local Ref 整条路线无效。
+
+## 12. PI REVIEW REQUIRED
+
+下列项目会改变计算量、正式口径或实现接口，当前作为明确提案，不隐藏成默认事实：
+
+| ID | 待拍板项 | 推荐默认 | 影响 |
+|---|---|---|---|
+| PR-1 | 完整方法是否保留 warp + value 双路径 | 实现先 warp-only，value以 D7 独立加入；仅在拓扑题本有增量时进入完整方法 | 决定接口与正文消融数量 |
+| PR-2 | graphics Key 的主配置 | primitive-only Key + learned Es12 Value；R2 learned K/V为等预算基线 | 决定创新点是否能独立归因 |
+| PR-3 | 筛查顺序 | 先 Round D，后固定 D* 跑 Round R；20k是同一40k run中期点 | 降低联合改动的归因歧义 |
+| PR-4 | 正式多种子预算 | 40k机制矩阵用seed3407；仅完整方法和最强必要基线补至少3 seeds | 平衡稳定性与训练成本；旧F1/F2/F3单seed决定不约束新方法 |
+| PR-5 | Go/No-Go数值阈值 | 先批准制定流程；读取冻结 val pilot variance 后、40k结果前锁定具体数值 | 目前不能无依据填造 margin |
+| PR-6 | P方案与新方法的关系 | 审计已入库P接口，补正式sample、回归测试与run provenance；新方法仍以仓库F0@100k为唯一parent | 复用R1工程资产但不继承P权重或未裁决结果 |
+| PR-7 | 正式 seed 编号 | 数量先定为至少3；具体编号由PI预注册 | 避免沿用旧F1/F2/F3单seed决策时产生歧义 |
+
+在 PI 回复前，可执行 Phase 0/1与不依赖上述选择的 cache/interface 工作；不得把推荐默认写成已批准结论或启动正式主表。
+
+## 13. 最终推荐配置
 
 ```yaml
 method: hrfont_setdelta_graphicsref
@@ -540,7 +632,8 @@ delta:
   preserve_candidate_axis: true
   alpha_role: attention_logit_bias
   fusion: per_location_donor_attention
-  injection: [rsi_warp, residual_value]
+  implementation_order: [rsi_warp, residual_value_ablation]
+  final_injection: PI_REVIEW_REQUIRED
 
 reference:
   global: per_ref_pooled_h
@@ -554,9 +647,12 @@ reference:
 
 training:
   parent: same_f0
-  seed: 3407
+  screening_seed: 3407
+  formal_seed_count: 3
+  formal_seed_ids: PI_REVIEW_REQUIRED
   endpoint: 40000
   interim_review: 20000
+  screening_order: [delta_round, ref_round]
   encoder_runtime: cache_only
   independent_init_rng: true
   matched_data_and_drop_draws: true
