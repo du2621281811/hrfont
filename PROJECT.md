@@ -11,6 +11,7 @@
 - **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
 - **远端增量核查（2026-09-11，`74f92b7a`→`1dba686e`）：** `ce5f8079` 只更新 SSH 说明；`1dba686e` 带来实质增量：F2-P/F3b-P per-ref token与mask训练代码、launch/queue/probe脚本，以及 F2@40k vs F2-P@25k 的320张 train/val probe图。当前只能确认执行链路与可视化产物存在；probe没有量化指标或已填写人工结论，步数也不匹配，正式 `sample.py` 尚未接 `style_seq`，且没有对应 run provenance，因此不能据此声称效果改善。
 - **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；新机步骤 [`docs/SETUP_COLLABORATOR.md`](docs/SETUP_COLLABORATOR.md)。扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git；打包目录 `artifacts/migrate_v100/`（本机、不进仓）。
+- **所里 V100（2026-09-11）：** 仓在 `/root/projects/hrfont`，HEAD `5a8b24b8`；conda `boogu` / torch `2.7.1+cu126` / V100 capability `(7,0)`。仓库级作者 `Liang Xiaowei <qr0w6666666@gmail.com>`；push 走 Deploy key `github.com-hrfont-443`（dry-run 可写，禁止 force-push）。本机无 `/root/data/font_50`、无随体 TTF、无协议 B `summary.json`，不能从 TTF 重建协议 A PNG；Es/Ec/ckpt/support_bank 也不能从 TTF 生成。源机 `172.19.45.13:2222` 从本网段不可达。
 - **旧状态备查：** [`reports/F123_STATUS_20260907.md`](reports/F123_STATUS_20260907.md)（日期已过，以本段为准）。
 - **合作者离线看板：** [`reports/collab_offline/index.html`](reports/collab_offline/index.html)（分层评测 / 时间线 / Δ 检索 / 导师页）。
 - **E12 v4：** 26 字型 cache_v4，三 seed **仍 gate_failed（T2）**；见 [`reports/E12_SELFTEST_V4_REVIEW_20260907.md`](reports/E12_SELFTEST_V4_REVIEW_20260907.md)。Mac 复训：[`reports/E12_MAC_COLLAB.md`](reports/E12_MAC_COLLAB.md)（`cache_v4` 已进 git，约 18 MB）。
@@ -130,6 +131,7 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 
 ## 精简变更记录
 
+- 2026-09-11：所里 V100 仓/环境落地（`boogu`、HEAD `5a8b24b8`）；仓库级 git 作者改为 Liang Xiaowei；TTF/ckpt/cache 仍缺，源机网段不通。
 - 2026-09-11：F2-P/F3b-P 训练代码进仓（per-ref style tokens + mask）；附 launch/queue/域探针；执行机继续训 F2-P→F3b-P，权重不入库。
 - 2026-09-11：把下一版执行协议细化为先 Delta、后 Ref 的顺序筛查；补齐 Phase 0–5交付物、效果可验证边界、失败优化树和 PR-1至PR-7待拍板项，并吸收 `1dba686e` 的 P实现作为 R1接口参考。
 - 2026-09-11：同步下一版最终设计候选：Delta 从预平均单方向升级为保留 donor candidate axis 的 Set-Delta；Ref 改为 per-ref global + graphics-informed local evidence；Support 退出论文主方法。写作上明确 FontDiffuser 是 inherited denoising backbone，本文贡献是跨语系未观察目标字符的 prior proposal + observed evidence realization。设计尚未实现或验证。
