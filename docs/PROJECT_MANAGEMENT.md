@@ -53,15 +53,24 @@ docs/patches/                # 相对 official 的可审查 diff
 
 ## 3.1 新服务器要拷的非 Git 文件
 
-| 路径 | 约体积 | 用途 |
-|------|--------|------|
-| `data/fontdiffuser-p253-t295-s338-cn2west-v2/` | 0.7GB | 协议 A 训练/评测图 |
-| `artifacts/f0/es_spatial_f0/` | 1.7GB | F0 Es cache |
-| `artifacts/f0/ec_multiscale_f0/` | **94GB** | F0 Ec cache（优先 rsync，勿轻易重建） |
-| `runs/F0-RSIFREE-FT-A-S3407/best/` | 1.1GB | F 臂父模型 |
-| `artifacts/f0/support_bank.json` | 小 | 或从 `reports/artifacts_sync/` 拷回 |
+完整步骤（clone、环境、打包命令、V100 注意）：[`SETUP_COLLABORATOR.md`](SETUP_COLLABORATOR.md)。
 
-不要 rsync 整份 `runs/`（单臂可 20GB+）。官方 ckpt 仅 P1 评测需要。
+源机打包：`bash scripts/pack_newhost_migrate.sh` → `artifacts/migrate_v100/`（不进 Git）。  
+Ec **不打 tar**，用 `bash scripts/rsync_newhost_migrate.sh user@NEWHOST`。
+
+| 包 / 路径 | 约体积 | 用途 |
+|-----------|--------|------|
+| Git `origin/main` | 小 | 代码、docs、精选 reports |
+| `01_small.tar` | ~0.7GB | Support bank、官方 P1 `.pth` |
+| rsync 协议 A | 0.7GB | `data/fontdiffuser-p253-t295-s338-cn2west-v2/`（16 万 PNG，不打 tar） |
+| `03_es_cache.tar` | 1.7GB | F0 Es（禁止用 E1 cache） |
+| `04_f0_best.tar` | 1.1GB | F 臂 parent |
+| `05_eval_ckpts.tar` | ~4GB | 评旧 F1/F2/F3 终点步 |
+| `artifacts/f0/ec_multiscale_f0/` | **94GB** | F0 Ec；优先 rsync，勿重建 |
+
+不要 rsync 整份 `runs/`（F0 23GB，F1/F2/F3 各 ~19GB）。新实验用新 run id。
+
+训练超参与本机对齐：单卡、bs=8、fp16、seed 3407。V100 无 TF32，**不能比特复现** 3090 上已训权重；评测拷 ckpt，新训只做协议对照。V100 不要 bf16，不要 8 卡 DDP。
 
 ## 4. 实验生命周期
 
