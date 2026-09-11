@@ -42,7 +42,7 @@ def get_parser():
     # F1/F2/F3 matched arms. source_drop applies to WHATEVER structure source is
     # active (official Ec or delta) -- the old delta-only drop silently un-matched
     # the official arm against the delta arm.
-    parser.add_argument("--arm", choices=("F1", "F2", "F3", "F3b"), required=True)
+    parser.add_argument("--arm", choices=("F1", "F2", "F3", "F3b", "F2P", "F3bP"), required=True)
     parser.add_argument("--source_drop", type=float, default=0.25)
     parser.add_argument("--support", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--support_drop", type=float, default=0.20)

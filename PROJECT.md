@@ -7,7 +7,7 @@
 
 ## 当前状态
 
-- **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 均已 80k；Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。F2P 训练代码仍可能是本机 WIP，不自动进仓。
+- **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 均已 80k；Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机 F2-P 训至 ~40k 中，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
 - **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
 - **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git。
 - **旧状态备查：** [`reports/F123_STATUS_20260907.md`](reports/F123_STATUS_20260907.md)（日期已过，以本段为准）。
@@ -128,6 +128,7 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 
 ## 精简变更记录
 
+- 2026-09-11：F2-P/F3b-P 训练代码进仓（per-ref style tokens + mask）；附 launch/queue/域探针；执行机继续训 F2-P→F3b-P，权重不入库。
 - 2026-09-11：同步下一版最终设计候选：Delta 从预平均单方向升级为保留 donor candidate axis 的 Set-Delta；Ref 改为 per-ref global + graphics-informed local evidence；Support 退出论文主方法。写作上明确 FontDiffuser 是 inherited denoising backbone，本文贡献是跨语系未观察目标字符的 prior proposal + observed evidence realization。设计尚未实现或验证。
 
 - 2026-09-02：Stage A 收缩为两臂最小验证；建立单一台账与护栏。

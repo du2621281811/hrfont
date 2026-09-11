@@ -34,6 +34,8 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
         structure_features=None,
         content_features=None,
         support_tokens=None,
+        style_seq_tokens=None,
+        style_seq_mask=None,
     ):
         if style_features is None:
             if style_images is None:
@@ -47,7 +49,13 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
                 raise ValueError("style_features must be [B,C] or [B,C,H,W]")
     
         batch_size, channel, height, width = style_img_feature.shape
-        style_hidden_states = style_img_feature.permute(0, 2, 3, 1).reshape(batch_size, height*width, channel)
+        # Legacy path: flatten mean map → 9 tokens. F2-P/F3b-P: per-ref pooled h tokens.
+        if style_seq_tokens is not None:
+            style_hidden_states = style_seq_tokens
+            style_mask = style_seq_mask
+        else:
+            style_hidden_states = style_img_feature.permute(0, 2, 3, 1).reshape(batch_size, height*width, channel)
+            style_mask = None
     
         if content_features is None:
             content_img_feature, content_residual_features = self.content_encoder(content_images)
@@ -62,8 +70,14 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
         # in exactly one place.
         if support_tokens is not None and support_tokens.numel() > 0:
             style_hidden_states = torch.cat([style_hidden_states, support_tokens.to(style_hidden_states.dtype)], dim=1)
+            if style_mask is not None:
+                # support positions are always valid when provided
+                bsz, k_s, _ = support_tokens.shape
+                support_mask = torch.ones(bsz, k_s, dtype=torch.bool, device=style_mask.device)
+                style_mask = torch.cat([style_mask, support_mask], dim=1)
 
-        input_hidden_states = [style_img_feature, content_residual_features, style_hidden_states]
+        style_context = (style_hidden_states, style_mask) if style_mask is not None else style_hidden_states
+        input_hidden_states = [style_img_feature, content_residual_features, style_context]
 
         out = self.unet(
             x_t, 

@@ -558,6 +558,10 @@ class StyleRSIUpBlock2D(nn.Module):
         total_offset = 0
 
         structure_feat = structure_features[-self.upblock_index-2]
+        style_ctx = encoder_hidden_states
+        style_mask = None
+        if isinstance(encoder_hidden_states, (tuple, list)) and len(encoder_hidden_states) == 2:
+            style_ctx, style_mask = encoder_hidden_states
 
         for i, (sc_inter_offset, dcn_deform, resnet, attn) in \
             enumerate(zip(self.sc_interpreter_offsets, self.dcn_deforms, self.resnets, self.attentions)):
@@ -587,11 +591,11 @@ class StyleRSIUpBlock2D(nn.Module):
 
                 hidden_states = torch.utils.checkpoint.checkpoint(create_custom_forward(resnet), hidden_states, temb)
                 hidden_states = torch.utils.checkpoint.checkpoint(
-                    create_custom_forward(attn), hidden_states, encoder_hidden_states
+                    create_custom_forward(attn), hidden_states, style_ctx, style_mask
                 )
             else:
                 hidden_states = resnet(hidden_states, temb)
-                hidden_states = attn(hidden_states, context=encoder_hidden_states)
+                hidden_states = attn(hidden_states, context=style_ctx, mask=style_mask)
 
         if self.upsamplers is not None:
             for upsampler in self.upsamplers:
@@ -748,6 +752,10 @@ class StyleRSIUpBlockIdentitySafe(nn.Module):
     ):
         total_offset = 0
         structure_feat = structure_features[-self.upblock_index - 2]
+        style_ctx = encoder_hidden_states
+        style_mask = None
+        if isinstance(encoder_hidden_states, (tuple, list)) and len(encoder_hidden_states) == 2:
+            style_ctx, style_mask = encoder_hidden_states
 
         for sc_inter_offset, dcn_deform, zero_conv, resnet, attn in zip(
             self.sc_interpreter_offsets, self.dcn_deforms, self.zero_convs,
@@ -775,11 +783,11 @@ class StyleRSIUpBlockIdentitySafe(nn.Module):
 
                 hidden_states = torch.utils.checkpoint.checkpoint(create_custom_forward(resnet), hidden_states, temb)
                 hidden_states = torch.utils.checkpoint.checkpoint(
-                    create_custom_forward(attn), hidden_states, encoder_hidden_states
+                    create_custom_forward(attn), hidden_states, style_ctx, style_mask
                 )
             else:
                 hidden_states = resnet(hidden_states, temb)
-                hidden_states = attn(hidden_states, context=encoder_hidden_states)
+                hidden_states = attn(hidden_states, context=style_ctx, mask=style_mask)
 
         if self.upsamplers is not None:
             for upsampler in self.upsamplers:

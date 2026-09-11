@@ -30,7 +30,7 @@
 | `F1-OFFRSI-A-S3407` | official-reference RSI 对照 | **completed 80k；正式比较仍待统一汇总** | **`code/variants/cn2west_f123_rsi`** |
 | `F2-DELTARSI-A-S3407` | 旧 mean-Delta | **completed 80k；作为下一版 mean-Delta baseline** | **`code/variants/cn2west_f123_rsi`** |
 | `F3-JOINT-DS-A-S3407` | 旧 mean-Delta + own-font Support | **completed 80k；legacy，不作为相同信息预算主方法** | **`code/variants/cn2west_f123_rsi`** |
-| F2-P / F3b-P | per-ref h token 执行机方案 | **训练状态据 PROJECT；代码可能尚未同步，不作为下一版 parent** | 执行机 WIP |
+| F2-P / F3b-P | per-ref h tokens（去 ref 均值）；规格 `reports/DESIGN_F2P_F3BP_20260910.md` | **代码已进仓**；跑 `scripts/launch_cn2west_f123.py --arm F2P|F3bP`；队列 `scripts/queue_f2p_f3bp.py`；域探针 `reports/style_domain_probe/`。**不作为下一版 Set-Delta parent**；ckpt 在执行机 `runs/f2_pattn_s3407` 等 | **`code/variants/cn2west_f123_rsi`** |
 | `FT-P251-REF8-CN2WEST-V2` | 旧 planned 名（已由 E1/p260 取代） | TBD | **`code/variants/cn2west_ft_v2`** |
 
 官方超参 / Loss / 渲染：`COLLABORATOR_GUIDE.md`。

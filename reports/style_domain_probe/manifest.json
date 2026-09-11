@@ -1,0 +1,55 @@
+{
+  "probe_id": "v1_20260911",
+  "created": "2026-09-11T04:07:55+00:00",
+  "seed": 3407,
+  "chars": [
+    "I",
+    "l",
+    "1",
+    "o",
+    "A",
+    "a",
+    "あ",
+    "の"
+  ],
+  "ref8": "永和书风骨韵天地",
+  "train_stems": [
+    "FZBaiZBYTJW",
+    "FZBaiZJHTJW",
+    "FZXinZYHJW_EB",
+    "FZXinZYHJW_UL",
+    "FZSiNTJW-H",
+    "FZSiNTJW-UL",
+    "FZSiNTJW-UB",
+    "FZDongGSJW-L",
+    "FZJingQSTJW_Cu",
+    "FZRunKJW-T",
+    "FZYouYSJW-R",
+    "FZFeiSJW-EL"
+  ],
+  "val_stems": [
+    "FZBangSKKXJW",
+    "FZCaoQBLSJW",
+    "FZFWZhuZiHeiB",
+    "FZHengFSJW-T",
+    "FZJunYTJW-H",
+    "FZKANGJW",
+    "FZKuaiHTJW_Te",
+    "FZLTHProGBK_H"
+  ],
+  "methods": [
+    {
+      "id": "F2_40k",
+      "label": "F2@40k",
+      "ckpt": "runs/F2-DELTARSI-A-S3407/global_step_40000",
+      "style_pattn": false
+    },
+    {
+      "id": "F2P_25k",
+      "label": "F2-P@25k",
+      "ckpt": "runs/f2_pattn_s3407/global_step_25000",
+      "style_pattn": true
+    }
+  ],
+  "protocol": "Mode B ref8 · DPM++20 · CFG7.5 · matched seed 3407"
+}

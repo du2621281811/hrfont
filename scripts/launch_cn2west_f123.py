@@ -46,6 +46,13 @@ ARMS = {
         "run_id": "f3b_joint_crossbank_s3407",
         "support_bank": "artifacts/f0/support_bank_f3b_stroke.json",
     },
+    "F2P": {"rsi_source": "delta", "support": False, "run_id": "f2_pattn_s3407"},
+    "F3bP": {
+        "rsi_source": "delta",
+        "support": True,
+        "run_id": "f3b_pattn_s3407",
+        "support_bank": "artifacts/f0/support_bank_f3b_topology.json",
+    },
 }
 
 
@@ -182,7 +189,16 @@ def main() -> int:
         bank_path = spec.get("support_bank") or args.support_bank
         cmd += ["--support_bank", str(resolve(bank_path))]
         meta["support_bank"] = str(resolve(bank_path))
-        meta["support_mode"] = "f3b_preset_stroke_ownfont" if args.arm == "F3b" else "f3_fixed_ref8"
+        if args.arm in ("F3b", "F3bP"):
+            meta["support_mode"] = "f3b_preset_topology_ownfont" if "topology" in str(bank_path) else "f3b_preset_stroke_ownfont"
+        else:
+            meta["support_mode"] = "f3_fixed_ref8"
+        if args.arm in ("F2P", "F3bP"):
+            meta["style_pattn"] = True
+            meta["style_token"] = "per_ref_pooled_h"
+    if args.arm in ("F2P", "F3bP"):
+        meta["style_pattn"] = True
+        meta["style_token"] = "per_ref_pooled_h"
 
     env = os.environ.copy()
     env["CUDA_VISIBLE_DEVICES"] = str(args.gpu)

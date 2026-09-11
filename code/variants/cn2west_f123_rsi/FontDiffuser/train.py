@@ -49,7 +49,11 @@ ARM_SPEC = {
     "F2": ("delta", False),
     "F3": ("delta", True),
     "F3b": ("delta", True),
+    "F2P": ("delta", False),
+    "F3bP": ("delta", True),
 }
+# Arms that replace up-path 9-token mean with per-ref pooled h tokens (DESIGN_F2P_F3BP).
+STYLE_PATTN_ARMS = frozenset({"F2P", "F3bP"})
 # Ec multi-scale channel widths (see scripts/hrfont_feature_cache.py EC_SHAPES).
 EC_SCALE_CHANNELS = (3, 64, 128, 256, 256)
 
@@ -130,15 +134,40 @@ def _style_chars_from_cache(es_cache: EsCache) -> list[str]:
     return ordered
 
 
-def _style_conditions(es_cache: EsCache, samples, device):
+def _style_conditions(es_cache: EsCache, samples, device, style_pattn: bool = False, n_max: int = 8):
+    """Build down-path style map (+ optional per-ref up-path h tokens).
+
+    Down-path always gets the ref-mean spatial map (legacy MCA contract).
+    When style_pattn=True, also return padded per-ref pooled h tokens and a
+    boolean keep-mask (True=valid) for up-path cross-attention.
+    """
     maps, queries = [], []
+    seqs, masks = [], []
     for split, font, refs in zip(samples["split"], samples["font_stem"], samples["ref_chars"]):
         spatial = torch.stack([es_cache.spatial_tensor(split, font, cp) for cp in refs], 0)
         maps.append(spatial.mean(0))
-        queries.append(torch.stack([
+        pooled = torch.stack([
             F.normalize(es_cache.pooled_tensor(split, font, cp), dim=0) for cp in refs
-        ]))
-    return torch.stack(maps).to(device), queries
+        ], 0)
+        queries.append(pooled)
+        if style_pattn:
+            n = int(pooled.shape[0])
+            if n > n_max:
+                pooled = pooled[:n_max]
+                n = n_max
+            if n < 1:
+                raise RuntimeError(f"style_pattn requires ≥1 ref, got 0 for {font}")
+            if n < n_max:
+                pad = torch.zeros(n_max - n, pooled.shape[1], dtype=pooled.dtype)
+                pooled = torch.cat([pooled, pad], 0)
+            mask = torch.zeros(n_max, dtype=torch.bool)
+            mask[:n] = True
+            seqs.append(pooled)
+            masks.append(mask)
+    maps_t = torch.stack(maps).to(device)
+    if not style_pattn:
+        return maps_t, queries, None, None
+    return maps_t, queries, torch.stack(seqs).to(device), torch.stack(masks).to(device)
 
 
 def _write_heartbeat(output_dir: Path, **payload):
@@ -425,7 +454,8 @@ def _record_config(args, es_sha: str, ec_sha: str):
 
 
 def _forward_batch(model, noise_scheduler, perceptual_loss, args, batch, style, structure,
-                   content_feats, train: bool, support_tokens=None):
+                   content_feats, train: bool, support_tokens=None,
+                   style_seq_tokens=None, style_seq_mask=None):
     target = batch["target_image"]
     nonorm_target = batch["nonorm_target_image"]
     bsz = target.shape[0]
@@ -436,6 +466,7 @@ def _forward_batch(model, noise_scheduler, perceptual_loss, args, batch, style, 
         x_t=noisy, timesteps=timesteps, content_images=batch["content_image"],
         style_features=style, structure_features=structure, content_features=content_feats,
         support_tokens=support_tokens,
+        style_seq_tokens=style_seq_tokens, style_seq_mask=style_seq_mask,
         content_encoder_downsample_size=args.content_encoder_downsample_size)
     diffusion = F.mse_loss(noise_pred.float(), noise.float())
     if not train:
@@ -456,7 +487,8 @@ def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args
     for samples in val_loader:
         target = samples["target_image"].to(device)
         samples = {**samples, "target_image": target}
-        style, queries = _style_conditions(es_cache, samples, device)
+        style, queries, style_seq, style_mask = _style_conditions(
+            es_cache, samples, device, style_pattn=args.arm in STYLE_PATTN_ARMS)
         # Validation never drops: source, CFG and support are all fully on.
         source_draw = torch.zeros(target.shape[0], dtype=torch.bool, device=device)
         cfg_mask = torch.zeros_like(source_draw)
@@ -470,7 +502,8 @@ def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args
         dummy["content_image"] = samples["content_image"].to(device)
         dummy["nonorm_target_image"] = samples["nonorm_target_image"].to(device)
         loss, _ = _forward_batch(raw, noise_scheduler, None, args, dummy, style, structure,
-                                 content_feats, train=False, support_tokens=support)
+                                 content_feats, train=False, support_tokens=support,
+                                 style_seq_tokens=style_seq, style_seq_mask=style_mask)
         losses.append(float(loss))
     raw.train()
     raw.style_encoder.eval()
@@ -494,7 +527,8 @@ def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, 
     samples = {**samples, "target_image": samples["target_image"].to(device),
                "content_image": samples["content_image"].to(device),
                "nonorm_target_image": samples["nonorm_target_image"].to(device)}
-    style, queries = _style_conditions(es_cache, samples, device)
+    style, queries, style_seq, style_mask = _style_conditions(
+        es_cache, samples, device, style_pattn=args.arm in STYLE_PATTN_ARMS)
     draw = torch.zeros(samples["target_image"].shape[0], dtype=torch.bool, device=device)
     structure = _structure_features(es_cache, ec_cache, library, samples, queries, args, draw, device)
     content_feats = _content_features(ec_cache, samples, draw, device)
@@ -508,6 +542,7 @@ def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, 
         pred, _ = raw(x_t=noisy, timesteps=steps, content_images=samples["content_image"],
                       style_features=style, structure_features=structure,
                       content_features=content_feats, support_tokens=support,
+                      style_seq_tokens=style_seq, style_seq_mask=style_mask,
                       content_encoder_downsample_size=args.content_encoder_downsample_size)
         return pred
 
@@ -564,10 +599,10 @@ def main():
             f"arm {args.arm} requires rsi_source={expected[0]} support={expected[1]}, "
             f"got rsi_source={args.rsi_source} support={bool(args.support)}")
     bank = _load_support_bank(args.support_bank, args)
-    if args.support and args.arm == "F3b" and accelerator.is_main_process:
+    if args.support and args.arm in ("F3b", "F3bP") and accelerator.is_main_process:
         _write_heartbeat(Path(args.output_dir), status="prewarm_support_pool", step=0)
         n_warm = _prewarm_support_pool(ec_cache, bank, train_fonts)
-        print(f"F3b support pool prewarmed entries=+{n_warm} total={len(_SUPPORT_POOL_CACHE)}", flush=True)
+        print(f"{args.arm} support pool prewarmed entries=+{n_warm} total={len(_SUPPORT_POOL_CACHE)}", flush=True)
 
     model = FontDiffuserModel(unet=build_unet(args),
                               style_encoder=build_style_encoder(args),
@@ -575,9 +610,9 @@ def main():
     if args.support:
         # in_dim = concatenated per-scale means of the 5 Ec scales.
         ec_dim = sum(EC_SCALE_CHANNELS)
-        # F3b: standard init (PI). Legacy F3 keeps zero-init final Linear.
+        # F3b/F3bP: standard init (PI). Legacy F3 keeps zero-init final Linear.
         model.support_adapter = SupportAdapter(
-            ec_dim, args.style_start_channel * 16, zero_init=(args.arm != "F3b")
+            ec_dim, args.style_start_channel * 16, zero_init=(args.arm not in ("F3b", "F3bP"))
         )
     if args.phase_1_ckpt_dir:
         _load_parent(model, Path(args.phase_1_ckpt_dir), Path(args.output_dir))
@@ -642,7 +677,9 @@ def main():
             bsz = samples["target_image"].shape[0]
             with accelerator.accumulate(model):
                 with torch.no_grad():
-                    style, queries = _style_conditions(es_cache, samples, samples["target_image"].device)
+                    style, queries, style_seq, style_mask = _style_conditions(
+                        es_cache, samples, samples["target_image"].device,
+                        style_pattn=args.arm in STYLE_PATTN_ARMS)
                     # Draw order is fixed across arms so that a given step consumes the
                     # same RNG in F1/F2/F3; support_draw is drawn even when support is
                     # off, otherwise F2 and F3 would desynchronise after step 1.
@@ -654,6 +691,9 @@ def main():
                     content_feats = _content_features(ec_cache, samples, cfg_mask, style.device)
                     style = style.clone()
                     style[cfg_mask] = 0
+                    if style_seq is not None:
+                        style_seq = style_seq.clone()
+                        style_seq[cfg_mask] = 0
                 # Cache features are frozen, but SupportAdapter must build an
                 # autograd graph. Calling it inside no_grad freezes its initial
                 # zero output for the entire F3 run.
@@ -661,7 +701,8 @@ def main():
                                           args, style.device, train=True)
                 loss, _ = _forward_batch(model, noise_scheduler, perceptual_loss, args, samples,
                                          style, structure, content_feats, train=True,
-                                         support_tokens=support)
+                                         support_tokens=support,
+                                         style_seq_tokens=style_seq, style_seq_mask=style_mask)
                 accelerator.backward(loss)
                 if accelerator.sync_gradients:
                     accelerator.clip_grad_norm_(trainable, args.max_grad_norm)
