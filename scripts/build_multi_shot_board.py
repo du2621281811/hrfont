@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build multi-shot comparison board: P1..F3 with each model's shot variants in one table.
+"""Build multi-shot comparison board (McCarthy dark-warm theme + filters).
 
 Served via the local http.server (relative img paths, no base64)."""
 import json
@@ -23,43 +23,29 @@ METHODS = [
     ("F3_80k_s1", "F3@80k", "s1 永"),
 ]
 
-# per-item lookups
-m_item = {}
-for it in metrics:
-    m_item[(it["method"], it["font"], it["cp"])] = it
-e_item = {}
-for it in e12_items:
-    e_item[(it["method"], it["font"], it["cp"])] = it
+m_item = {(it["method"], it["font"], it["cp"]): it for it in metrics}
+e_item = {(it["method"], it["font"], it["cp"]): it for it in e12_items}
 
-rows = browse["items"] if "items" in browse else []
-if not rows:
-    # rebuild from metrics_items (already have font/char/cp/bucket/paths)
-    rows = metrics
-# dedupe to unique (font,char)
 seen, uniq = set(), []
-for it in rows:
+for it in metrics:
     k = (it["font"], it["cp"])
     if k in seen:
         continue
     seen.add(k)
     uniq.append(it)
 rows = uniq
-
 fonts = browse["fonts"]
+BUCKETS = browse["buckets"]
 
 
 def chip(mid, font, cp, kind):
-    it = m_item.get((mid, font, cp))
-    if kind == "pix" and it:
-        return f"L1 {it['L1']:.3f}<br>LP {it['LPIPS']:.3f}"
-    if kind == "e12":
-        e = e_item.get((mid, font, cp))
-        if e:
-            return f"φ {e['e12_phi_sc_r']:.3f}<br>m {e['e12_mem_logit']:.1f}"
-    return ""
+    if kind == "pix":
+        it = m_item.get((mid, font, cp))
+        return f"L1 {it['L1']:.3f} · LP {it['LPIPS']:.3f}" if it else ""
+    e = e_item.get((mid, font, cp))
+    return f"φ {e['e12_phi_sc_r']:.3f} · m {e['e12_mem_logit']:.1f}" if e else ""
 
 
-# header summary table
 th = "<tr><th>方法</th><th>shot</th>" + "".join(
     f"<th>{c}</th>" for c in ["L1", "SSIM", "LPIPS", "φ SC-R", "mem"]) + "</tr>"
 trs = []
@@ -74,18 +60,18 @@ for mid, label, shot in METHODS:
         f"<td>{e.get('mem_prob', {}).get('mean', float('nan')):.3f}</td></tr>")
 summary = f"<table class='sum'>{th}{''.join(trs)}</table>"
 
-# column header for glyph tables
 cols = "".join(
     f"<th class='mh'><div class='ml'>{label}</div><div class='ms'>{shot}</div></th>"
     for _, label, shot in METHODS)
 
 nav = "".join(f"<a href='#f{i}'>{f}</a> " for i, f in enumerate(fonts))
+bucket_ui = "".join(
+    f"<label><input type='checkbox' class='bkf' value='{b}' checked>{b}</label> "
+    for b in BUCKETS)
 
-# per-font tables: rows = chars, columns = GT + 8 methods
 sections = []
 for fi, font in enumerate(fonts):
-    frows = [r for r in rows if r["font"] == font]
-    frows.sort(key=lambda r: r["char"])
+    frows = sorted([r for r in rows if r["font"] == font], key=lambda r: r["char"])
     body = []
     for r in frows:
         cp, ch = r["cp"], r["char"]
@@ -93,44 +79,90 @@ for fi, font in enumerate(fonts):
         cells = [f"<td class='gt'><img loading='lazy' src='{gt}' width='52'></td>"]
         for mid, _, _ in METHODS:
             img = f"preds/{mid}/test/{font}/test__{font}__{cp}__s3407.png"
-            c_pix = chip(mid, font, cp, "pix")
-            c_e12 = chip(mid, font, cp, "e12")
             cells.append(
-                f"<td><img loading='lazy' src='{img}' width='52' "
-                f"title='{mid}'><div class='ch'>{c_pix}</div>"
-                f"<div class='ch e'>{c_e12}</div></td>")
+                f"<td><img loading='lazy' src='{img}' width='52' title='{mid}'>"
+                f"<div class='ch'>{chip(mid, font, cp, 'pix')}</div>"
+                f"<div class='ch e'>{chip(mid, font, cp, 'e12')}</div></td>")
         body.append(
-            f"<tr><td class='chr'>{ch}<div class='bk'>{r['bucket']}</div></td>"
-            f"{''.join(cells)}</tr>")
+            f"<tr data-bk='{r['bucket']}'><td class='chr'>{ch}"
+            f"<div class='bk'>{r['bucket']}</div></td>{''.join(cells)}</tr>")
     sections.append(
-        f"<h3 id='f{fi}'>{fi+1}. {font}</h3>"
-        f"<table class='gly'><tr><th class='chh'>字</th><th class='chh'>GT</th>{cols}</tr>"
+        f"<h3 class='fhead' id='f{fi}' data-font='{font}'>{fi+1}. {font} "
+        f"<span class='fold'>▾</span></h3>"
+        f"<table class='gly' data-font='{font}'>"
+        f"<tr><th class='chh'>字</th><th class='chh'>GT</th>{cols}</tr>"
         f"{''.join(body)}</table>")
 
 html = f"""<!doctype html><html><head><meta charset='utf-8'>
 <title>Multi-Shot Board — P1..F3</title>
 <style>
-body{{font-family:Menlo,monospace;background:#fff;color:#111;margin:14px}}
+:root{{
+  --bg:#151310; --card:#1d1a16; --border:#3a342c;
+  --fg:#d6cdb8; --muted:#8a8171; --accent:#9ab87a;
+  --amber:#c8a24b; --red:#c06a5e; --head:#221e18;
+}}
+body{{font-family:Menlo,monospace;background:var(--bg);color:var(--fg);margin:14px}}
+h2{{color:var(--fg)}} h3{{color:var(--accent);cursor:pointer;margin:20px 0 6px}}
+h3:hover{{text-shadow:0 0 6px #9ab87a55}}
 table.sum{{border-collapse:collapse;font-size:12px;margin:10px 0}}
-table.sum td,table.sum th{{border:1px solid #bbb;padding:3px 7px;text-align:right}}
-table.sum th{{background:#f2f2f2}}
-h3{{margin:22px 0 6px}}
+table.sum td,table.sum th{{border:1px solid var(--border);padding:3px 7px;text-align:right;color:var(--fg)}}
+table.sum th{{background:var(--head);color:var(--accent)}}
 table.gly{{border-collapse:collapse;font-size:11px}}
-table.gly td,table.gly th{{border:1px solid #ddd;padding:2px 4px;text-align:center;vertical-align:top}}
-.ml{{font-weight:bold}}.ms{{color:#888;font-size:10px}}
-.chr{{font-weight:bold;font-size:13px;min-width:2.2em}}
-.bk{{color:#999;font-size:9px;font-weight:normal}}
-.ch{{font-size:9px;color:#555;line-height:1.25}}
-.ch.e{{color:#8a5a00}}
-nav a{{margin-right:6px;font-size:12px}}
-.note{{color:#666;font-size:12px;margin:6px 0}}
+table.gly td,table.gly th{{border:1px solid var(--border);padding:2px 4px;text-align:center;vertical-align:top}}
+table.gly tr:nth-child(even) td{{background:#191613}}
+table.gly th{{background:var(--head);color:var(--accent);position:sticky;top:0}}
+.ml{{font-weight:bold;color:var(--fg)}}.ms{{color:var(--muted);font-size:10px}}
+.chr{{font-weight:bold;font-size:13px;min-width:2.2em;color:var(--fg)}}
+.bk{{color:var(--muted);font-size:9px;font-weight:normal}}
+.ch{{font-size:9px;color:var(--muted);line-height:1.3}}
+.ch.e{{color:var(--amber)}}
+nav a{{margin-right:6px;font-size:12px;color:var(--accent);text-decoration:none}}
+nav a:hover{{text-decoration:underline}}
+.fbar{{position:sticky;top:0;background:var(--card);padding:8px;border:1px solid var(--border);z-index:5}}
+.fbar label{{margin-right:10px;font-size:12px;color:var(--fg);cursor:pointer}}
+.fbar input{{accent-color:var(--accent)}}
+button{{background:var(--head);color:var(--fg);border:1px solid var(--border);padding:4px 10px;margin-right:6px;cursor:pointer;font-family:inherit}}
+button:hover{{border-color:var(--accent);color:var(--accent)}}
+.note{{color:var(--muted);font-size:12px;margin:6px 0}}
+.fold{{color:var(--muted)}}
+.hidden{{display:none}}
 </style></head><body>
 <h2>Multi-Shot Board：P1 → F3，各模型 shot 变体同表对照</h2>
-<div class='note'>GT 仅作 positive control。L1/LPIPS/φ/mem 为逐字诊断（chips），φ=phi SC-R（越大越好），m=membership logit。图像经本地 http.server 加载。</div>
+<div class='note'>GT 仅作 positive control。L1/LPIPS 逐字像素诊断；φ=phi SC-R（越大越好）、m=membership logit。点击字体标题折叠/展开；上方按字符桶过滤。</div>
+<div class='fbar'>
+{bucket_ui}
+<button onclick="foldAll()">全部折叠</button><button onclick="unfoldAll()">全部展开</button>
+<button id='btnChips'>隐藏数值</button>
+</div>
 {summary}
 <nav>{nav}</nav>
 {''.join(sections)}
+<script>
+const boxes=[...document.querySelectorAll('.bkf')];
+boxes.forEach(b=>b.addEventListener('change',applyFilter));
+function applyFilter(){{
+  const on=new Set(boxes.filter(b=>b.checked).map(b=>b.value));
+  document.querySelectorAll('tr[data-bk]').forEach(tr=>{{
+    tr.classList.toggle('hidden', !on.has(tr.dataset.bk));
+  }});
+}}
+document.querySelectorAll('.fhead').forEach(h=>h.addEventListener('click',()=>{{
+  const t=document.querySelector(`table.gly[data-font="${{h.dataset.font}}"]`);
+  t.classList.toggle('hidden');
+  h.querySelector('.fold').textContent=t.classList.contains('hidden')?'▸':'▾';
+}}));
+function foldAll(){{document.querySelectorAll('table.gly').forEach(t=>t.classList.add('hidden'));
+ document.querySelectorAll('.fold').forEach(s=>s.textContent='▸');}}
+function unfoldAll(){{document.querySelectorAll('table.gly').forEach(t=>t.classList.remove('hidden'));
+ document.querySelectorAll('.fold').forEach(s=>s.textContent='▾');}}
+let chipsOn=true;
+document.getElementById('btnChips').addEventListener('click',()=>{{
+  chipsOn=!chipsOn;
+  document.querySelectorAll('.ch').forEach(c=>c.classList.toggle('hidden',!chipsOn));
+  document.getElementById('btnChips').textContent=chipsOn?'隐藏数值':'显示数值';
+}});
+</script>
 </body></html>"""
 out = P / "multi_shot_board.html"
 out.write_text(html, encoding="utf-8")
-print("written", out, f"{len(rows)} rows, {len(fonts)} fonts, {out.stat().st_size//1024} KB")
+print("written", out, f"{len(rows)} rows, {out.stat().st_size//1024} KB")
