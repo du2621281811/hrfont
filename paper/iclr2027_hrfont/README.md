@@ -2,6 +2,8 @@
 
 This directory contains an anonymous, evidence-bounded first draft built from the official ICLR 2027 template.
 
+Collaborators: start from [`PAPER_ISSUE_TRACKER.md`](PAPER_ISSUE_TRACKER.md). It is the living list of template, layout, Overleaf, and evidence issues, plus what the 2026-09-12 writing pass already closed.
+
 ## Build
 
 ```bash
