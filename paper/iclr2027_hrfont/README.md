@@ -33,7 +33,7 @@ Every figure has a Python source and PDF/SVG/PNG output. PDF and SVG are vector-
 3. Approve primitive-only keys plus learned Es12 values.
 4. Use the fixed experiment seed 3407 throughout the paper.
 5. Freeze validation-derived Go/No-Go thresholds before inspecting formal 40k results.
-6. Confirm which faithful external baselines can be run under their native protocols.
+6. Confirm the minimum external set: FontDiffuser, FTransGAN, FCAGAN, and CF-Font; audit FSFont, DRA-font, and VQ-Font separately.
 7. Complete font-license and human-evaluation ethics details.
 
 The dependency-ordered run plan, stopping rules, compute accounting, and PI decisions are in [`EXPERIMENT_EXECUTION_PLAN.md`](EXPERIMENT_EXECUTION_PLAN.md).

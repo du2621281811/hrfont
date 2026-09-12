@@ -57,7 +57,7 @@ The denoiser combines both sources while the neutral content glyph remains respo
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig_method_overview.pdf}
-  \caption{Overview of \method. The neutral content glyph specifies identity. A reference-conditioned retrieval distribution selects same-character donor glyphs, which become anchor-relative geometric residuals and retain their candidate axis until spatial aggregation. In parallel, reference glyphs provide per-reference global tokens and local appearance values; graphics descriptors provide cross-script correspondence keys. The inherited FontDiffuser denoiser realizes the selected structure with the target family's observed appearance. Dashed paths expose optional analysis routes.}
+  \caption{HR-Font separates two evidence roles. Retrieved anchor-relative residuals propose bank-supported structure; graphics-addressed reference features supply observed appearance. The denoiser fuses both while neutral content anchors identity.}
   \label{fig:overview}
 \end{figure}
 
@@ -70,6 +70,11 @@ The design principle is simple: the font bank expands structural choice, and tar
 \end{itemize}
 
 \section{Related Work}
+\paragraph{Cross-script font transfer.}
+FTransGAN transfers a few observed glyphs across languages with multi-level attention~\citep{li2021ftransgan}, and FCAGAN combines full-domain convolutional attention with a multi-layer perceptual discriminator~\citep{zhao2024fcagan}.
+DRA-font studies cross-lingual synthesis through diffusion-regularized adversarial learning and enhanced attention~\citep{wu2026drafont}.
+Unlike these direct transfer systems, HR-Font casts cross-script generation as bank-supported completion guided by observed reference appearance.
+
 \paragraph{Few-shot font generation.}
 FontDiffuser casts one-shot font generation as conditional denoising and introduces multi-scale content aggregation and style contrastive refinement~\citep{yang2023fontdiffuser}.
 DG-Font uses deformable feature transport to preserve structure under unsupervised font translation~\citep{xie2021dgfont}.
@@ -81,6 +86,7 @@ HR-Font assigns correspondence and appearance to different representations: grap
 CF-Font projects content into a linear space of corresponding glyph features from basis fonts, with blending weights determined by font-level similarity~\citep{wang2023cffont}.
 This is the closest precedent for same-character bank fusion.
 \method preserves individual donor residuals relative to one neutral anchor until local aggregation and separates structural proposals from target-reference appearance.
+We aggregate anchor-relative residual candidates rather than fused absolute glyph features.
 The result is a spatially adaptive variation prior that can use different donor evidence for different regions of the same glyph.
 
 \paragraph{Geometric representation and decoupled conditioning.}
@@ -114,7 +120,7 @@ We retrieve the top-$K$ donors and compute
   \quad j\in\mathcal J(R), \quad |\mathcal J(R)|=K.
   \label{eq:alpha}
 \end{equation}
-$\alpha$ ranks the most relevant structural proposals and supplies an attention-logit bias.
+$\alpha$ ranks the retrieved structural proposals and enters spatial aggregation as a logit prior.
 The main configuration uses $K=10$ and $\tau=0.07$; both values are frozen before formal evaluation.
 
 \subsection{Set-Delta Variation Prior}
@@ -125,7 +131,7 @@ For every retrieved donor, we construct a same-character residual from the fixed
   \label{eq:delta}
 \end{equation}
 where $\mathcal N$ performs scale and radius normalization and clips distances to eight pixels.
-The common anchor focuses each candidate on change rather than absolute donor geometry; donor-identity and style probes in Section~\ref{sec:diagnostics} measure this separation directly.
+The common anchor represents each candidate as a change from neutral content rather than as absolute donor geometry.
 
 An encoder maps each residual to multi-scale candidate features $e^s_{j,p}$ at spatial position $p$ and scale $s\in\{48,24\}$.
 The current denoising and content state supplies queries $q^s_p$, while candidate geometry supplies keys $k^s_{j,p}$.
@@ -137,11 +143,10 @@ We retain the donor axis and aggregate separately at each position:
  m^s_p &= \sum_{j\in\mathcal J(R)}a^s_{j,p}e^s_{j,p}.
  \label{eq:setdelta}
 \end{align}
-The first implementation maps $m^s$ to a displacement field that warps content features through the existing deformable path.
-A residual-value injection is isolated as an ablation because it can directly alter ink amount and reintroduce donor appearance.
+The main implementation maps $m^s$ to a displacement field that warps content features through the existing deformable path.
+D7 evaluates residual-value injection as an alternative path.
 
 The distinction from pre-averaged Delta is operational: a mean produces one global direction before seeing the target location, whereas Equation~\ref{eq:setdelta} permits different parts of one glyph to select different supported variations.
-Whether this flexibility helps is an empirical question tested by D2 versus D3.
 
 \subsection{Graphics-Informed Local Reference Attention}
 Global style cues remain available as a sequence of per-reference pooled descriptors $\{h_i\}$ rather than their mean.
@@ -172,7 +177,7 @@ The total objective retains the existing perceptual reconstruction and deformati
 $\mathcal L=\mathcal L_{\mathrm{diff}}+\lambda_{\mathrm{perc}}\mathcal L_{\mathrm{perc}}+\lambda_{\mathrm{off}}\mathcal L_{\mathrm{off}}$,
 with the same coefficients in every matched arm.
 The style and content encoders remain frozen and are consumed through versioned offline caches.
-The first local-reference experiment uses no additional local style loss so that R1--R3 isolate the conditioning representation.
+R1--R3 add no local style loss.
 All new trainable projections use an initialization generator independent of the data and dropout random streams.
 The full method operates from the requested reference set and requires no additional target-font glyph collection.
 
@@ -181,7 +186,7 @@ The full method operates from the requested reference set and requires no additi
 \subsection{Questions and hypotheses}
 The evaluation answers four preregistered questions:
 \begin{enumerate}
-  \item Does normalized geometry reduce donor-appearance leakage relative to the old encoder-feature Delta (D2 versus D1)?
+  \item Does replacing legacy feature Delta with canonicalized geometry Delta reduce donor-appearance leakage (D2 versus D1 plus leakage probes)?
   \item Does preserving the donor axis improve compatible structure relative to geometry mean-Delta (D3 versus D2)?
   \item Do local reference values improve observable stroke attributes beyond per-reference global tokens (R2 versus R1)?
   \item Do graphics keys add useful cross-script correspondence beyond equal-capacity learned local attention (R3 versus R2, R4, and FSFont-style K/V)?
@@ -195,8 +200,10 @@ The new method is trained with $n\sim\mathrm{Uniform}\{1,\ldots,8\}$ and evaluat
 The exact data manifest hash, parent hash, optimizer, hardware, runtime, and total compute will be reported in Appendix~\ref{app:repro}.
 
 \subsection{Baselines}
-We compare against faithful implementations of FontDiffuser~\citep{yang2023fontdiffuser}, CF-Font~\citep{wang2023cffont}, FSFont~\citep{tang2022fsfont}, and VQ-Font~\citep{pan2023vqfont} under their documented input protocols.
-We also report bank-enabled matched controls under identical HR-Font resources, exposing the value of each information source under equal conditions.
+We prioritize faithful comparisons with FontDiffuser~\citep{yang2023fontdiffuser}, the direct cross-script methods FTransGAN~\citep{li2021ftransgan} and FCAGAN~\citep{zhao2024fcagan}, and the bank-based CF-Font~\citep{wang2023cffont}.
+FSFont~\citep{tang2022fsfont} and VQ-Font~\citep{pan2023vqfont} are reported only under documented protocols compatible with the cross-script setting.
+For every external baseline, a protocol card records its source and target scripts, reference budget, font-bank access, training corpus, and adaptation.
+We separately report bank-enabled matched controls under identical HR-Font resources, exposing the value of each information source under equal conditions.
 Internal controls include F0 (no RSI), F1 (official RSI source), F2 (old mean-Delta), D0--D6, and R0--R4.
 
 \subsection{Metrics}
@@ -204,11 +211,11 @@ The primary endpoint is blind family/style preference, with confidence intervals
 Identity accuracy and artifact/readability judgments define non-inferiority gates.
 Geometry is measured with boundary Chamfer or SDF distance, hole and connected-component errors, endpoint error, skeleton-radius distributions, and slant/orientation distributions.
 Local blind labels cover terminals, ligatures, outline treatment, weight contrast, and dry-brush texture.
-LPIPS, SSIM, and L1 are pixel diagnostics rather than style claims.
+Pixel metrics (LPIPS, SSIM, and L1) serve as diagnostics.
 The E12 score provides a targeted, lineage-defined measure of family compatibility alongside human preference and geometry metrics.
 
 We stratify every attribute as (i) visible in the references, (ii) unobserved but represented in the training bank, or (iii) unsupported by both.
-This stratification reveals where HR-Font delivers observed-style transfer, bank-supported completion, and graceful fallback.
+This stratification measures observed-style transfer, bank-supported completion, and cases unsupported by either source.
 
 \subsection{Matched screening and formal evaluation}
 Figure~\ref{fig:matrix} summarizes the staged design.
@@ -220,7 +227,7 @@ The 20k checkpoint provides an efficient interim decision point within the share
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig_experiment_matrix.pdf}
-  \caption{Claim-oriented experiment plan. Each arrow upgrades one capability while keeping the remaining system fixed. Focused controls quantify the value of anchor-relative residuals (D4), target-character alignment (D6), graphics semantics (R4 and equal-capacity FSFont-style K/V), and injection design (D7).}
+  \caption{Claim-oriented experiment plan. Matched controls test residuals, character alignment, graphics semantics, and injection design while keeping the remaining system fixed.}
   \label{fig:matrix}
 \end{figure}
 
@@ -230,8 +237,8 @@ Formal test data are opened once after the configuration and validation threshol
 \label{sec:legacy}
 Table~\ref{tab:legacy} reports completed diagnostics from the current system on 752 test glyphs.
 The old mean-Delta condition F2 improves the E12 compatibility proxies over F0 and F1, while pixel metrics disagree about the best method.
-Legacy support F3 does not improve the E12 proxies over F2.
-The strongest current signal sits in Delta, and local appearance has substantial headroom. Both observations motivate Set-Delta and Graphics-Ref.
+The legacy support path F3 does not improve those proxies over F2.
+These observations motivate a geometry-centered Delta representation and a new local-reference interface.
 
 \begin{table}[t]
 \caption{Completed current-system diagnostics on 752 glyphs. E12 scores capture family compatibility, while L1 and LPIPS measure pixel fidelity. Higher is better for $\phi$ SC-R and membership; lower is better for L1 and LPIPS.}
@@ -282,7 +289,7 @@ F2 old mean-Delta & -- & -- & -- & -- & -- & --\\
 
 \subsection{Ablations and causal diagnostics}
 \begin{table}[t]
-\caption{Mechanism attribution. Each comparison changes one design choice, linking HR-Font's gains to geometry normalization, candidate preservation, local appearance, and graphics correspondence.}
+\caption{Mechanism attribution. Matched comparisons test the geometry representation, candidate preservation, local appearance, and graphics correspondence.}
 \label{tab:ablation}
 \centering
 \small
@@ -290,7 +297,7 @@ F2 old mean-Delta & -- & -- & -- & -- & -- & --\\
 \toprule
 Claim & Treatment & Direct control & Result\\
 \midrule
-Remove donor appearance & D2 geometry mean & D1 old feature mean & --\\
+Canonicalized geometry package & D2 geometry mean & D1 old feature mean & --\\
 Preserve candidate modes & D3 geometry set & D2 geometry mean & --\\
 Anchor-relative residual & D3 residual set & D4 absolute set & --\\
 Target-character use & D3 correct char. & D6 wrong char. & --\\
@@ -309,14 +316,14 @@ Together, these interventions reveal how each condition steers structure and app
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig_qualitative_template.pdf}
-  \caption{Editable qualitative-grid template. Each final row fixes target font, character, references, sampler, and noise across methods. A preregistered selection rule covers ref-observable attributes, bank-supported structure, and challenging cases; gray cells reserve positions for matched outputs.}
+  \caption{Editable qualitative-grid template. Each row fixes target, references, sampler, and noise; gray cells reserve matched outputs selected by the frozen protocol.}
   \label{fig:qualitative}
 \end{figure}
 
 \section{Scope and Future Opportunities}
 HR-Font targets compatible completion rather than reproduction of a single hidden design.
 Its structural vocabulary scales with the font bank and extends to rare, culturally specific, and emerging styles.
-The current graphics primitives provide an efficient raster interface; vector control points and learned stroke graphs offer promising upgrades for even finer endpoint and topology control.
+Vector control points and learned stroke graphs offer future extensions for finer endpoint and topology control.
 
 The current platform operates on $96\times96$ rendered glyphs and focuses on Chinese-to-Western and neighboring-script transfer.
 Extending the same evidence architecture to vector outlines, kerning, hinting, and text-line typography would support a broader cross-script type-design workflow.
@@ -378,7 +385,7 @@ ID & Definition & Identified comparison\\
 \midrule
 D0 & No Delta, shape-matched empty branch & Total method effect\\
 D1 & Old encoder-feature mean-Delta & Legacy Delta effect\\
-D2 & Geometry mean-Delta & D2--D1: appearance removal\\
+D2 & Geometry mean-Delta & D2--D1: canonicalized geometry package\\
 D3 & Geometry Set-Delta & D3--D2: candidate-axis value\\
 D4 & Same-bank absolute set & D3--D4: residual value\\
 D5 & Uniform retrieval weights & Learned retrieval bias\\

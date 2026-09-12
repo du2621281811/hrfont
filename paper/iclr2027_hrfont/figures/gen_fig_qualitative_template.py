@@ -13,7 +13,7 @@ HERE = Path(__file__).resolve().parent
 
 def main():
     apply_style()
-    columns = ["Content", "Ref set", "FontDiffuser", "CF-Font", "D2", "D3", "R3 / Ours", "GT"]
+    columns = ["Content", "Ref set", "FTransGAN", "FCAGAN", "FontDiff.", "CF-Font", "HR-Font / Ours", "GT"]
     rows = ["Ref-observable", "Bank-supported", "Failure case"]
     fig, ax = plt.subplots(figsize=(5.5, 2.35))
     ax.set_xlim(-1.12, len(columns))

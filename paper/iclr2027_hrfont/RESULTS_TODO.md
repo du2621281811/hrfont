@@ -10,6 +10,7 @@ Execution order and Go/No-Go dependencies are specified in [`EXPERIMENT_EXECUTIO
 | Figure 4 | qualitative grid | preregistered selection rule; same noise/sampler/reference |
 | Appendix | n-shot robustness | fixed checkpoint, n in 1/2/4/8 |
 | Appendix | leakage probes | donor/font/style probes and wrong-condition interventions |
+| Appendix | retrieval diagnostics | top-K overlap, alpha entropy, and effective donor count |
 | Appendix | efficiency | parameters, FLOPs, peak memory, p50/p95 step time, GPU hours |
 | Ethics | asset licenses and human study | license audit and study protocol complete |
 
@@ -17,7 +18,7 @@ Execution order and Go/No-Go dependencies are specified in [`EXPERIMENT_EXECUTIO
 
 | Proposed sentence | Minimum evidence | If negative |
 |---|---|---|
-| Geometry removes donor appearance leakage | D2 vs D1 plus leakage probe | retain old Delta only as historical baseline |
+| Canonicalized geometry Delta reduces leakage relative to legacy feature Delta | D2 vs D1 plus leakage probe | retain D1 as the historical baseline and remove the package-level gain claim |
 | Candidate-axis preservation is useful | D3 vs D2 | simplify to geometry mean-Delta |
 | Anchor-relative residual is necessary | D3 vs D4 | call method retrieved same-character set, not residual prior |
 | Delta uses the requested character | correct vs D6 wrong-character | remove target-aware claim |
