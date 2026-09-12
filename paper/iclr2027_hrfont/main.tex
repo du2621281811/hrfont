@@ -31,10 +31,10 @@ Reference-Observed Style for Cross-Script Font Generation}
 \maketitle
 
 \begin{abstract}
-We introduce \method, a conditional diffusion framework for few-shot cross-script font generation that separates two information sources that prior systems often entangle.
+We introduce \method, a conditional diffusion framework for few-shot cross-script font generation. It separates two information sources that prior systems entangle.
 The task is underdetermined because Chinese references reveal a typeface's appearance but do not directly reveal how its Latin, Japanese, or phonetic glyphs should be designed.
 Our \emph{Set-Delta Variation Prior} retains same-character donor glyphs as normalized geometric residuals from a fixed neutral anchor until location-dependent aggregation, while \emph{Graphics-Informed Local Reference Attention} uses cross-script geometric primitives as keys and learned local reference features as values.
-Together, these modules turn ambiguous cross-script completion into a controllable design process: the bank supplies a structured variation space, and the references select the appearance that best represents the target family.
+Together, these modules make ambiguous cross-script completion a controllable design process: the bank supplies a structured variation space, and the references select the appearance that best represents the target family.
 On \tbd{dataset and evaluation protocol}, \method improves \tbd{headline family/style result} while preserving glyph identity at \tbd{identity result}; controlled studies show \tbd{Set-Delta and Graphics-Ref findings}.
 \end{abstract}
 
@@ -42,11 +42,11 @@ On \tbd{dataset and evaluation protocol}, \method improves \tbd{headline family/
 Designing a font across writing systems is not ordinary image translation.
 Given a small set of Chinese glyphs from an unseen typeface, a model may observe weight, slant, contrast, terminal shape, and texture, yet it does not observe the target Latin letter or Japanese kana itself.
 Multiple target glyphs can therefore be compatible with the same references.
-This ambiguity creates an opportunity: a system can combine a broad vocabulary of proven glyph structures with the target family's visible design language.
+A generator can exploit this ambiguity by combining a broad vocabulary of proven glyph structures with the target family's visible design language.
 
 Existing few-shot font generators typically combine a neutral content glyph with a global or local style representation~\citep{yang2023fontdiffuser,tang2022fsfont,pan2023vqfont}.
 Content-fusion methods additionally blend corresponding characters from basis fonts~\citep{wang2023cffont}.
-These ideas are useful but leave two failure modes exposed in the cross-script setting.
+Two failure modes remain exposed in the cross-script setting.
 First, compressing retrieved same-character examples into one mean feature can cancel distinct structural modes and can transmit donor-specific appearance as if it were target-font evidence.
 Second, globally pooling a few reference glyphs removes localized cues such as terminals, ligatures, stroke contrast, and dry-brush effects before the generator can use them.
 
@@ -61,7 +61,7 @@ The denoiser combines both sources while the neutral content glyph remains respo
   \label{fig:overview}
 \end{figure}
 
-HR-Font turns this opportunity into a simple design principle---use the font bank to expand structural choice, and use target references to personalize appearance:
+The design principle is simple: the font bank expands structural choice, and target references personalize appearance.
 \begin{itemize}
   \item We establish an evidence architecture for cross-script font completion: \emph{bank-supported structural variation} defines the design space, while \emph{reference-observed appearance} personalizes the result.
   \item We introduce \setdelta, which preserves normalized, anchor-relative same-character candidates until spatial aggregation, allowing each glyph region to select the most useful structural proposal.
@@ -74,8 +74,8 @@ HR-Font turns this opportunity into a simple design principle---use the font ban
 FontDiffuser casts one-shot font generation as conditional denoising and introduces multi-scale content aggregation and style contrastive refinement~\citep{yang2023fontdiffuser}.
 DG-Font uses deformable feature transport to preserve structure under unsupervised font translation~\citep{xie2021dgfont}.
 FSFont learns spatial correspondence between content and fine-grained local styles through cross-attention~\citep{tang2022fsfont}, while VQ-Font combines similarity-guided global style with quantized local components~\citep{pan2023vqfont}.
-These works establish the value of local style and spatial alignment.
-HR-Font advances this direction by assigning correspondence and appearance to different representations: graphics descriptors align cross-script regions, while learned values carry the target family's visual character.
+Local style and spatial alignment matter across these systems.
+HR-Font assigns correspondence and appearance to different representations: graphics descriptors align cross-script regions, while learned values carry the target family's visual character.
 
 \paragraph{Font-bank content priors.}
 CF-Font projects content into a linear space of corresponding glyph features from basis fonts, with blending weights determined by font-level similarity~\citep{wang2023cffont}.
@@ -84,9 +84,9 @@ This is the closest precedent for same-character bank fusion.
 The result is a spatially adaptive variation prior that can use different donor evidence for different regions of the same glyph.
 
 \paragraph{Geometric representation and decoupled conditioning.}
-Signed distance representations support high-quality vector-font reconstruction and synthesis~\citep{xia2023vecfontsdf}; \method turns truncated signed distance fields into a normalized carrier for comparable glyph variation.
+Signed distance representations support high-quality vector-font reconstruction and synthesis~\citep{xia2023vecfontsdf}; \method uses truncated signed distance fields as a normalized carrier for comparable glyph variation.
 Decoupled image conditioning has also appeared outside font generation~\citep{ye2023ipadapter}.
-HR-Font brings role-specific conditioning to cross-script typography, pairing proposal geometry with observed appearance in one generation system.
+HR-Font applies role-specific conditioning to cross-script typography: proposal geometry pairs with observed appearance in one generation system.
 
 \section{Problem Formulation}
 Let $c$ denote a target character and $x_c^0$ its rendering in a fixed neutral font.
@@ -159,7 +159,7 @@ Keys and values have deliberately different roles:
  \label{eq:kv}
 \end{equation}
 Queries derived from the target content and denoising state attend over all valid $(i,u)$ pairs.
-Thus graphics primitives propose cross-script correspondence, while learned features carry the target font's local appearance.
+Graphics primitives propose cross-script correspondence; learned features carry the target font's local appearance.
 A padding mask supports variable $n$ and classifier-free guidance drops global references, local references, retrieval bias, and the Delta branch synchronously.
 
 \subsection{Training objective and implementation boundary}
@@ -231,7 +231,7 @@ Formal test data are opened once after the configuration and validation threshol
 Table~\ref{tab:legacy} reports completed diagnostics from the current system on 752 test glyphs.
 The old mean-Delta condition F2 improves the E12 compatibility proxies over F0 and F1, while pixel metrics disagree about the best method.
 Legacy support F3 does not improve the E12 proxies over F2.
-These results reveal the strongest current signal in Delta, expose substantial headroom in local appearance, and directly motivate Set-Delta and Graphics-Ref.
+The strongest current signal sits in Delta, and local appearance has substantial headroom. Both observations motivate Set-Delta and Graphics-Ref.
 
 \begin{table}[t]
 \caption{Completed current-system diagnostics on 752 glyphs. E12 scores capture family compatibility, while L1 and LPIPS measure pixel fidelity. Higher is better for $\phi$ SC-R and membership; lower is better for L1 and LPIPS.}
@@ -315,15 +315,15 @@ Together, these interventions reveal how each condition steers structure and app
 
 \section{Scope and Future Opportunities}
 HR-Font targets compatible completion rather than reproduction of a single hidden design.
-Its structural vocabulary grows naturally with the font bank, creating a direct path to richer coverage of rare, culturally specific, and emerging styles.
+Its structural vocabulary scales with the font bank and extends to rare, culturally specific, and emerging styles.
 The current graphics primitives provide an efficient raster interface; vector control points and learned stroke graphs offer promising upgrades for even finer endpoint and topology control.
 
 The current platform operates on $96\times96$ rendered glyphs and focuses on Chinese-to-Western and neighboring-script transfer.
-Extending the same evidence architecture to vector outlines, kerning, hinting, and text-line typography would turn glyph completion into a broader cross-script type-design workflow.
+Extending the same evidence architecture to vector outlines, kerning, hinting, and text-line typography would support a broader cross-script type-design workflow.
 Our evaluation combines blind human judgments, structure-aware measurements, and representative challenging cases to map the strongest opportunities for that expansion.
 
 \section{Conclusion}
-We presented \method, an evidence architecture that transforms cross-script font completion into bank-supported structural choice and reference-driven appearance personalization.
+We presented \method, an evidence architecture for cross-script font completion: bank-supported structural choice plus reference-driven appearance personalization.
 \setdelta retains same-character, anchor-relative geometry candidates until spatial aggregation, while \graphicsref separates primitive-based correspondence keys from learned local style values.
 Together, the two modules provide a scalable path from a few observed glyphs to a coherent cross-script family: \tbd{summarize headline result and strongest mechanism finding}.
 
