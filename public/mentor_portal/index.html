@@ -20,14 +20,16 @@
 </head>
 <body>
 <header>
-  <span class="status">只读 · 原审查页入口</span>
+  <span class="status">p649 审查可写 · 其余只读</span>
   <h1>HR-Font 评审入口</h1>
-  <p class="muted">导师请先看 9 月 7 日一页纸。其余链接是原始审查目录，与 <code>:8777</code> 相同。</p>
+  <p class="muted">导师请先看 9 月 7 日一页纸。p649 新盘审查可点 pass/drop 并写回磁盘。</p>
 </header>
 <main>
   <div class="note">本机优先用 <code>127.0.0.1:19001/briefing/</code>。合作者克隆后请打开仓库内 <code>reports/collab_offline/index.html</code>（纯离线）。</div>
   <div class="grid">
-    <a class="card" href="/briefing/"><h3>导师一页纸（9 月 7 日）</h3><p>F0–F3 各改了什么、终点数字、不能下的结论。</p><p class="arrow">打开 →</p></a>
+    <a class="card" href="/p649_v2a_review/review.html"><h3>p649 协议 A 人工审查</h3><p>649 套字体 ink / 空图 / tofu。pass / drop / rerender 会写入磁盘，可中途接着审。</p><p class="arrow">打开 →</p></a>
+    <a class="card" href="/p649_v2a_review/compare260.html"><h3>p649 vs 原 260 像素对照</h3><p>重叠 260 套与旧 A 盘逐像素对照。</p><p class="arrow">打开 →</p></a>
+    <a class="card" href="/f03_eval/core_shot_board.html"><h3>核心模型 1-shot / 8-shot</h3><p>Demo-8 × 67 风格探针字（数字/拉丁/假名/注音）。原版 FD / E1 / F0 / F1 / F2 / F2-P / F3 / F3b / F3b-P。同一 Content 与 Style。</p><p class="arrow">打开 →</p></a>
     <a class="card" href="/f03_eval/"><h3>F0 / F3 测试集分层评测</h3><p>test16 × 47 字。官方 / F0@100k / F3@80k。已出完。</p><p class="arrow">打开 →</p></a>
     <a class="card" href="/f03_eval/timeline.html"><h3>F3 训练过程</h3><p>5k 到 80k。看变方是不是一开始就有。</p><p class="arrow">打开 →</p></a>
     <a class="card" href="/f03_eval/delta_retrieve/"><h3>Δ 检索诊断</h3><p>左：检索用的汉字。右：真正灌进 RSI 的西文邻居。</p><p class="arrow">打开 →</p></a>

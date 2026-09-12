@@ -128,6 +128,24 @@
       "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_80000",
       "style_oneshot": true
     },
+    "F2_40000": {
+      "label": "F2@40k",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_40000",
+      "style_oneshot": false
+    },
+    "F2P_40000": {
+      "label": "F2-P@40k",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/f2_pattn_s3407/global_step_40000",
+      "style_oneshot": false
+    },
+    "F3bP_40000": {
+      "label": "F3b-P@40k",
+      "kind": "f3",
+      "ckpt": "/root/projects/hrfont/runs/f3b_pattn_s3407/global_step_40000",
+      "style_oneshot": false
+    },
     "F3_80k_s1": {
       "label": "F3@80k style1",
       "kind": "f3",

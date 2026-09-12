@@ -25,13 +25,11 @@
 
 ## 下一步
 
-> **旧主表实现已冻结（历史决策 D1）**：F1/F2/F3 使用 identity-safe `cn2west_f123_rsi`；`cn2west_stage_a` 的另一套 RSI 实现仍只作历史对照，**不要与下一版 Set-Delta 消融编号 D1 混淆或混用**。
+> **下一版 Set-Delta / Round D–R 暂时停开**（2026-09-12 PI：先搁置，待新 idea）。当前只做已有核心模型的对照推理。
 
-1. **PI/合作者 review：** 先审设计稿 §12 的 PR-1至PR-7，重点拍板双路径、graphics Key、顺序筛查、正式 seeds与数值阈值冻结流程；不要把推荐默认当作已批准结论。
-2. **执行顺序：** Phase 0合同与执行机同步 → Phase 1现有接口零训练诊断 → R1公共底座 → Round D（D0/D1/D2/D3）→ 固定 D* 后 Round R（复用R1，只新跑R2/R3）→ treatment/control成对继续40k → 正式主比较多seed；20k只是同一40k run中期点，不重启挑参。
-3. **代码边界：** 新逻辑放 `code/variants/hrfont_setdelta_graphicsref/` 并从 F0@100k派生，旧 F1/F2/F3不覆盖；`1dba686e` 的P方案只复用审过的per-ref token/mask接口，不继承P权重。run记录写 `provenance/runs/<RUN_ID>.json`；无活跃run/checkpoint须明确填 `NONE`。
-4. **旧实验结论：** F1/F2/F3/F3b 作为旧实现证据；旧 E2/E2b 已 STOP，不进新方法主结论。
-5. E12：T2 方案仍需改；Mac 可并行复训（勿放宽门限）。
+1. **核心模型 1-shot / 8-shot 对照：** Demo-8 × 67 字；看板 `reports/f03_test16_strat/core_shot_board.html`（`:19000/core_shot_board.html`）。
+2. 旧 F1/F2/F3 证据冻结；`hrfont_setdelta_graphicsref` 未实现前不要开新消融训练。
+3. E12：T2 方案仍需改；不作为本轮对照。
 
 ## 实验登记（摘要）
 
@@ -131,6 +129,8 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 
 ## 精简变更记录
 
+- 2026-09-12：核心模型对照看板扩到 Demo-8 × 67 字（分层 47 + 20 风格探针），14 列 pred 全齐。
+- 2026-09-12：下一版 Set-Delta 实验按 PI 指示暂缓。补核心模型 Demo-8 1-shot/8-shot 对照看板 `reports/f03_test16_strat/core_shot_board.html`。
 - 2026-09-11：3090 填写 `manifests/v100_scp_map.json`：migrate tar / 协议 A / F0 Es+Ec 均在源机；TTF 260/260 可解析。3090→V100（`172.18.41.23:22`）TCP 超时，仍需能两边通的跳板 scp。
 - 2026-09-11：所里 V100 仓/环境落地（`boogu`）；仓库级 git 作者改为 Liang Xiaowei；补 `docs/V100_SCP_TRANSFER.md` + `manifests/v100_scp_map.json` 给 3090 填路径后跳板 scp。TTF/ckpt/cache 仍缺，源机网段不通。
 - 2026-09-11：F2-P/F3b-P 训练代码进仓（per-ref style tokens + mask）；附 launch/queue/域探针；执行机继续训 F2-P→F3b-P，权重不入库。

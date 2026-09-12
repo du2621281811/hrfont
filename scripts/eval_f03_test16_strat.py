@@ -60,6 +60,12 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_ft_v2/FontDiffuser",
         "ckpt": ROOT / "code/official/FontDiffuser/ckpt",
     },
+    "E1_100k": {
+        "label": "E1@100k",
+        "kind": "image",
+        "variant": ROOT / "code/variants/cn2west_ft_v2/FontDiffuser",
+        "ckpt": ROOT / "runs/E1-FTV2-A-S3407/global_step_100000",
+    },
     "F0_100k": {
         "label": "F0@100k",
         "kind": "image",
@@ -113,12 +119,88 @@ METHODS = {
         "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_80000",
         "style_oneshot": True,
     },
+    "F2_40000": {
+        "label": "F2@40k",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_40000",
+        "style_oneshot": False,
+    },
+    "F2P_40000": {
+        "label": "F2-P@40k",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/f2_pattn_s3407/global_step_40000",
+        "style_oneshot": False,
+        "style_pattn": True,
+    },
+    "F3bP_40000": {
+        "label": "F3b-P@40k",
+        "kind": "f3",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/f3b_pattn_s3407/global_step_40000",
+        "style_oneshot": False,
+        "style_pattn": True,
+        "support_bank": ROOT / "artifacts/f0/support_bank_f3b_topology.json",
+    },
     "F3_80k_s1": {
         "label": "F3@80k style1",
         "kind": "f3",
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F3-JOINT-DS-A-S3407/global_step_80000",
         "style_oneshot": True,
+    },
+    "F2_80000_k1": {
+        "label": "F2@80k 1-shot",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_80000",
+        "style_oneshot": True,
+        "delta_oneshot": True,
+    },
+    "F2P_40000_k1": {
+        "label": "F2-P@40k 1-shot",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/f2_pattn_s3407/global_step_40000",
+        "style_oneshot": True,
+        "delta_oneshot": True,
+        "style_pattn": True,
+    },
+    "F3_80k_k1": {
+        "label": "F3@80k 1-shot",
+        "kind": "f3",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F3-JOINT-DS-A-S3407/global_step_80000",
+        "style_oneshot": True,
+        "delta_oneshot": True,
+    },
+    "F3b_80000": {
+        "label": "F3b@80k",
+        "kind": "f3",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/f3b_topology_ownfont_s3407/global_step_80000",
+        "style_oneshot": False,
+        "support_bank": ROOT / "artifacts/f0/support_bank_f3b_topology.json",
+    },
+    "F3b_80000_k1": {
+        "label": "F3b@80k 1-shot",
+        "kind": "f3",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/f3b_topology_ownfont_s3407/global_step_80000",
+        "style_oneshot": True,
+        "delta_oneshot": True,
+        "support_bank": ROOT / "artifacts/f0/support_bank_f3b_topology.json",
+    },
+    "F3bP_40000_k1": {
+        "label": "F3b-P@40k 1-shot",
+        "kind": "f3",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/f3b_pattn_s3407/global_step_40000",
+        "style_oneshot": True,
+        "delta_oneshot": True,
+        "style_pattn": True,
+        "support_bank": ROOT / "artifacts/f0/support_bank_f3b_topology.json",
     },
 }
 F1_RUN = ROOT / "runs/F1-OFFRSI-A-S3407"
@@ -193,11 +275,24 @@ def pred_path(mid: str, stem: str, ch: str) -> Path:
 
 
 def refuse_busy_train_gpu() -> None:
-    """Refuse the physical GPU currently holding F2-P training (mapped via CUDA_VISIBLE_DEVICES)."""
+    """Refuse a physical GPU that still has an active F2-P/F3b-P train process."""
     vis = os.environ.get("CUDA_VISIBLE_DEVICES", "").strip()
-    # F2-P watchdog trains on physical GPU1; do not schedule board generate there.
-    if vis == "1":
-        raise SystemExit("refusing CUDA_VISIBLE_DEVICES=1 (F2-P is training there)")
+    if vis != "1":
+        return
+    # Training queue completed; only block if a train.py is still attached to GPU1.
+    try:
+        import subprocess
+
+        out = subprocess.check_output(
+            ["nvidia-smi", "--id=1", "--query-compute-apps=pid,process_name", "--format=csv,noheader"],
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return
+    for line in out.splitlines():
+        if "python" in line.lower() or "train" in line.lower():
+            # Heuristic: still refuse when something python-like holds GPU1 during historic P training.
+            raise SystemExit("refusing CUDA_VISIBLE_DEVICES=1 (busy train/eval process detected)")
 
 
 def parse_shard(s: str) -> tuple[int, int]:
@@ -335,30 +430,55 @@ def sample_image(pipe, args, content_img, style_img, device: str) -> Image.Image
     return Image.fromarray(arr)
 
 
-def pack_style_delta(T, es, ec, library, font: str, ch: str, cfg, keep, device, style_oneshot: bool):
-    """Style Es uses k=1「永」 when style_oneshot; Δ retrieval always uses ref8."""
+def pack_style_delta(
+    T,
+    es,
+    ec,
+    library,
+    font: str,
+    ch: str,
+    cfg,
+    keep,
+    device,
+    style_oneshot: bool,
+    style_pattn: bool = False,
+    delta_oneshot: bool = False,
+):
+    """Style Es uses k=1「永」 when style_oneshot.
+
+    Historical *_s1 arms keep Δ on ref8 (`delta_oneshot=False`).
+    True 1-shot compare arms set `delta_oneshot=True` so Es and Δ both see 永.
+    """
     base = {
         "split": ["test"],
         "font_stem": [font],
         "char_cp": [cp_of(ch)],
     }
     style_refs = STYLE1_CPS if style_oneshot else REF8_CPS
-    style, _, *_ = T._style_conditions(es, {**base, "ref_chars": [style_refs]}, device)
-    _, queries, *_ = T._style_conditions(es, {**base, "ref_chars": [REF8_CPS]}, device)
-    structure = T._structure_features(
-        es, ec, library, {**base, "ref_chars": [REF8_CPS]}, queries, cfg, keep, device
+    delta_refs = STYLE1_CPS if delta_oneshot else REF8_CPS
+    style, _, style_seq, style_mask = T._style_conditions(
+        es, {**base, "ref_chars": [style_refs]}, device, style_pattn=style_pattn
     )
-    content = T._content_features(ec, {**base, "ref_chars": [REF8_CPS]}, keep, device)
-    return style, structure, content
+    _, queries, *_ = T._style_conditions(es, {**base, "ref_chars": [delta_refs]}, device, style_pattn=False)
+    structure = T._structure_features(
+        es, ec, library, {**base, "ref_chars": [delta_refs]}, queries, cfg, keep, device
+    )
+    content = T._content_features(ec, {**base, "ref_chars": [delta_refs]}, keep, device)
+    return style, structure, content, style_seq, style_mask
 
 
 def sidecar_style_extra(mid: str) -> dict:
-    oneshot = bool(METHODS[mid].get("style_oneshot"))
+    spec = METHODS[mid]
+    oneshot = bool(spec.get("style_oneshot"))
+    delta_oneshot = bool(spec.get("delta_oneshot"))
+    delta_k = 1 if delta_oneshot else 8
     return {
         "style_k": 1 if oneshot else 8,
-        "delta_k": 8,
+        "delta_k": delta_k,
         "style_chars": "永" if oneshot else "".join(REF8),
+        "delta_chars": "永" if delta_oneshot else "".join(REF8),
         "style_oneshot": oneshot,
+        "delta_oneshot": delta_oneshot,
     }
 
 
@@ -450,16 +570,15 @@ def generate_image_method(mid: str, device: str, stems: list[str], overwrite: bo
     log(mid, f"finished done={done} skipped={skipped} elapsed={elapsed:.1f}s")
 
 
-def make_dpm_adapter(fd, torch):
+def make_dpm_adapter(fd, torch, style_pattn: bool = False):
     class DPMAdapter(torch.nn.Module):
-        def __init__(self, inner):
+        def __init__(self, inner, style_pattn: bool):
             super().__init__()
             self.fd = inner
+            self.style_pattn = style_pattn
 
         def forward(self, x_t, timesteps, cond, content_encoder_downsample_size, version):
-            noise, _ = self.fd(
-                x_t,
-                timesteps,
+            kw = dict(
                 content_images=cond[0],
                 content_encoder_downsample_size=content_encoder_downsample_size,
                 style_features=cond[2],
@@ -467,9 +586,13 @@ def make_dpm_adapter(fd, torch):
                 content_features=cond[4],
                 support_tokens=cond[5],
             )
+            if self.style_pattn:
+                kw["style_seq_tokens"] = cond[6]
+                kw["style_seq_mask"] = cond[7]
+            noise, _ = self.fd(x_t, timesteps, **kw)
             return noise
 
-    return DPMAdapter(fd)
+    return DPMAdapter(fd, style_pattn=style_pattn)
 
 
 def cat_cond(uncond, cond):
@@ -496,6 +619,9 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
 
     spec = METHODS[mid]
     style_oneshot = bool(spec.get("style_oneshot"))
+    style_pattn = bool(spec.get("style_pattn"))
+    delta_oneshot = bool(spec.get("delta_oneshot"))
+    bank_path = Path(spec.get("support_bank") or (ROOT / "artifacts/f0/support_bank.json"))
     n_total = len(stems) * len(STRATIFIED)
     update_status({"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]})
     variant = spec["variant"]
@@ -515,7 +641,7 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
     from src.dpm_solver.dpm_solver_pytorch import DPM_Solver, NoiseScheduleVP
     from src.model import FontDiffuserModel
 
-    log(mid, "load Es/Ec caches + LibraryEs")
+    log(mid, f"load Es/Ec caches + LibraryEs (style_pattn={style_pattn}; bank={bank_path.name})")
     es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
     ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
@@ -523,7 +649,7 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
     library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
     bank = support_table(
         T._load_support_bank(
-            str(ROOT / "artifacts/f0/support_bank.json"),
+            str(bank_path),
             SimpleNamespace(support=True, support_k=8),
         )
     )
@@ -570,14 +696,25 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
     T._ban_encoder_forward(fd)
     device_t = torch.device(device)
     fd.to(device_t).eval()
-    model = make_dpm_adapter(fd, torch).to(device_t).eval()
+    model = make_dpm_adapter(fd, torch, style_pattn=style_pattn).to(device_t).eval()
     scheduler = build_ddpm_scheduler(args)
     noise_schedule = NoiseScheduleVP(schedule="discrete", betas=scheduler.betas)
     keep = torch.zeros(1, dtype=torch.bool, device=device_t)
 
     def pack_one(font: str, ch: str):
-        style, structure, content = pack_style_delta(
-            T, es, ec, library, font, ch, cfg, keep, device_t, style_oneshot
+        style, structure, content, style_seq, style_mask = pack_style_delta(
+            T,
+            es,
+            ec,
+            library,
+            font,
+            ch,
+            cfg,
+            keep,
+            device_t,
+            style_oneshot,
+            style_pattn=style_pattn,
+            delta_oneshot=delta_oneshot,
         )
         vecs = []
         for scp in list(bank.get(cp_of(ch), []))[: cfg.support_k]:
@@ -587,7 +724,14 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
                 continue
             vecs.append(T._pool_ec(feats))
         pooled = torch.stack(vecs, dim=0).unsqueeze(0) if vecs else None
-        return {"style": style, "structure": structure, "content": content, "support_pooled": pooled}
+        return {
+            "style": style,
+            "structure": structure,
+            "content": content,
+            "support_pooled": pooled,
+            "style_seq": style_seq,
+            "style_mask": style_mask,
+        }
 
     def sample_one(packed):
         set_seed(SEED)
@@ -595,17 +739,32 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
         style = packed["style"]
         structure = packed["structure"]
         content = packed["content"]
+        style_seq = packed["style_seq"]
+        style_mask = packed["style_mask"]
         pooled = packed["support_pooled"]
         support = fd.support_adapter(pooled) if pooled is not None else None
-        cond = [img, img, style, structure, content, support]
-        uncond = [
-            torch.ones_like(img),
-            torch.ones_like(img),
-            torch.zeros_like(style),
-            [torch.zeros_like(x) for x in structure],
-            [torch.zeros_like(x) for x in content],
-            torch.zeros_like(support) if support is not None else None,
-        ]
+        if style_pattn:
+            cond = [img, img, style, structure, content, support, style_seq, style_mask]
+            uncond = [
+                torch.ones_like(img),
+                torch.ones_like(img),
+                torch.zeros_like(style),
+                [torch.zeros_like(x) for x in structure],
+                [torch.zeros_like(x) for x in content],
+                torch.zeros_like(support) if support is not None else None,
+                torch.zeros_like(style_seq),
+                style_mask.clone(),
+            ]
+        else:
+            cond = [img, img, style, structure, content, support]
+            uncond = [
+                torch.ones_like(img),
+                torch.ones_like(img),
+                torch.zeros_like(style),
+                [torch.zeros_like(x) for x in structure],
+                [torch.zeros_like(x) for x in content],
+                torch.zeros_like(support) if support is not None else None,
+            ]
 
         def get_t_input(t_continuous):
             return (t_continuous - 1.0 / noise_schedule.total_N) * 1000.0
@@ -695,12 +854,15 @@ def f2_timeline_steps() -> list[int]:
 
 
 def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_75000") -> None:
-    """Δ only, no Support. style_oneshot=True → Es from 永 only; Δ still ref8."""
+    """Δ only, no Support. style_oneshot=True → Es from 永 only; Δ still ref8.
+    style_pattn=True → F2-P per-ref style seq on up-path cross-attn."""
     import torch
     from accelerate.utils import set_seed
 
     spec = METHODS[mid]
     style_oneshot = bool(spec.get("style_oneshot"))
+    style_pattn = bool(spec.get("style_pattn"))
+    delta_oneshot = bool(spec.get("delta_oneshot"))
     n_total = len(stems) * len(STRATIFIED)
     update_status(
         {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]}
@@ -721,7 +883,7 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     from src.dpm_solver.dpm_solver_pytorch import DPM_Solver, NoiseScheduleVP
     from src.model import FontDiffuserModel
 
-    log(mid, "load Es/Ec caches + LibraryEs (F2: delta, no support)")
+    log(mid, f"load Es/Ec caches + LibraryEs (F2: delta, no support; style_pattn={style_pattn})")
     es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
     ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
@@ -766,16 +928,33 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     T._ban_encoder_forward(fd)
     device_t = torch.device(device)
     fd.to(device_t).eval()
-    model = make_dpm_adapter(fd, torch).to(device_t).eval()
+    model = make_dpm_adapter(fd, torch, style_pattn=style_pattn).to(device_t).eval()
     scheduler = build_ddpm_scheduler(args)
     noise_schedule = NoiseScheduleVP(schedule="discrete", betas=scheduler.betas)
     keep = torch.zeros(1, dtype=torch.bool, device=device_t)
 
     def pack_one(font: str, ch: str):
-        style, structure, content = pack_style_delta(
-            T, es, ec, library, font, ch, cfg, keep, device_t, style_oneshot
+        style, structure, content, style_seq, style_mask = pack_style_delta(
+            T,
+            es,
+            ec,
+            library,
+            font,
+            ch,
+            cfg,
+            keep,
+            device_t,
+            style_oneshot,
+            style_pattn=style_pattn,
+            delta_oneshot=delta_oneshot,
         )
-        return {"style": style, "structure": structure, "content": content}
+        return {
+            "style": style,
+            "structure": structure,
+            "content": content,
+            "style_seq": style_seq,
+            "style_mask": style_mask,
+        }
 
     def sample_one(packed):
         set_seed(SEED)
@@ -783,15 +962,30 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         style = packed["style"]
         structure = packed["structure"]
         content = packed["content"]
-        cond = [img, img, style, structure, content, None]
-        uncond = [
-            torch.ones_like(img),
-            torch.ones_like(img),
-            torch.zeros_like(style),
-            [torch.zeros_like(x) for x in structure],
-            [torch.zeros_like(x) for x in content],
-            None,
-        ]
+        style_seq = packed["style_seq"]
+        style_mask = packed["style_mask"]
+        if style_pattn:
+            cond = [img, img, style, structure, content, None, style_seq, style_mask]
+            uncond = [
+                torch.ones_like(img),
+                torch.ones_like(img),
+                torch.zeros_like(style),
+                [torch.zeros_like(x) for x in structure],
+                [torch.zeros_like(x) for x in content],
+                None,
+                torch.zeros_like(style_seq),
+                style_mask.clone(),
+            ]
+        else:
+            cond = [img, img, style, structure, content, None]
+            uncond = [
+                torch.ones_like(img),
+                torch.ones_like(img),
+                torch.zeros_like(style),
+                [torch.zeros_like(x) for x in structure],
+                [torch.zeros_like(x) for x in content],
+                None,
+            ]
 
         def get_t_input(t_continuous):
             return (t_continuous - 1.0 / noise_schedule.total_N) * 1000.0
