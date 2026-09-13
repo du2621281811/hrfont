@@ -32,6 +32,7 @@
 | `F3-JOINT-DS-A-S3407` | 旧 mean-Delta + own-font Support | **completed 80k；legacy，不作为相同信息预算主方法** | **`code/variants/cn2west_f123_rsi`** |
 | `F2-RL128-A-S3407` | F2 + R-L128（global9 + Es block2 4×4, Linear 256→1024） | **completed 40k**；best@35k val=0.002055；1-shot/8-shot 看板 `reports/f03_test16_strat/core_shot_board.html`；权重 `runs/F2-RL128-A-S3407`（不进 Git） | **`code/variants/cn2west_f123_rsi`** |
 | `F2-PRL-A-S3407` | F2-P+L（per-ref pooled h + Es block2 L128，去掉 up-path mean global9） | **starting 40k** GPU0；watchdog `scripts/watchdog_f2_prl.py`；权重不进 Git | **`code/variants/cn2west_f123_rsi`** |
+| `F2-VEC-MT-A-S3407` | F2 mean-Δ + 可微矢量 decoder multi-task，40k/fp16 | **远端分支报告 completed**；best@35k val=0.002105；test16 few/one-shot 均 752 项。预测和像素指标已迁入 main；训练日志/权重未随分支提供，故作为 side study，不覆盖 F2 | **`code/variants/cn2west_f2_vec`** |
 | `f2_pattn_s3407`（F2-P） | F2 + per-ref pooled h（drop mean global9） | **completed 40k**；best@35k val=0.002042；看板 F2-P 列 | **`code/variants/cn2west_f123_rsi`** |
 | `f3b_pattn_s3407`（F3b-P） | F3b + per-ref pooled h | **completed 40k**；best@35k val=0.002057 | **`code/variants/cn2west_f123_rsi`** |
 | `FT-P251-REF8-CN2WEST-V2` | 旧 planned 名（已由 E1/p260 取代） | TBD | **`code/variants/cn2west_ft_v2`** |

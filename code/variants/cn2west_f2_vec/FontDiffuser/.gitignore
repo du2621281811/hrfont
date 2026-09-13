@@ -1,0 +1,8 @@
+# Upstream demo assets already in code/official — do not duplicate in Git.
+figures/
+data_examples/
+ckpt/
+__pycache__/
+*.pt
+*.pth
+*.log

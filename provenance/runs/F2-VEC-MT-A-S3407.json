@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "experiment_import",
+  "experiment_id": "F2-VEC-MT-A-S3407",
+  "source_branch": "v100/f2-vec-mt-40k-eval",
+  "source_commit": "0aae4d1e1d9035507252c94eae1418f697f89554",
+  "imported_to_main_at": "2026-09-13",
+  "status": "reported_completed_evidence_partial",
+  "reported_training": {
+    "max_train_steps": 40000,
+    "precision": "fp16",
+    "hardware": "V100",
+    "best_step": 35000,
+    "best_val": 0.002105,
+    "wall_time_hours": 6.1
+  },
+  "method": {
+    "parent": "runs/F0-RSIFREE-FT-A-S3407/best",
+    "variant": "code/variants/cn2west_f2_vec",
+    "delta": "mean-Delta",
+    "support": false,
+    "addition": "differentiable vector decoder multitask side study"
+  },
+  "imported_assets": {
+    "code": "code/variants/cn2west_f2_vec",
+    "launch": "scripts/launch_cn2west_f2_vec.py",
+    "evaluation": "scripts/eval_f2vec_oneshot_fewshot.sh",
+    "design": "reports/F2_VEC_MULTITASK_DESIGN_20260913.md",
+    "fewshot_predictions": "reports/f03_test16_strat/preds/F2VEC_40000",
+    "oneshot_predictions": "reports/f03_test16_strat/preds/F2VEC_40000_s1"
+  },
+  "raster_metrics": {
+    "protocol": "test16 x 47 characters, seed 3407",
+    "fewshot": {
+      "method_id": "F2VEC_40000",
+      "n": 752,
+      "L1_mean": 0.07052202149111024,
+      "SSIM_mean": 0.6477220612466632,
+      "LPIPS_mean": 0.15131774336282916,
+      "blank_rate": 0.0
+    },
+    "oneshot": {
+      "method_id": "F2VEC_40000_s1",
+      "n": 752,
+      "L1_mean": 0.07223329354793408,
+      "SSIM_mean": 0.6338933709152155,
+      "LPIPS_mean": 0.15800012475464176,
+      "blank_rate": 0.0
+    }
+  },
+  "evidence_limits": [
+    "checkpoint weights are not stored in Git",
+    "complete training logs and parent-load manifest were not present in the source branch",
+    "vector metrics and SG/TRUNK matched controls were not present in the imported assets",
+    "the imported renderer uses signed center-radius primitive occupancy rather than the quadratic Bezier winding/SDF described in the design",
+    "raster metrics are diagnostics and do not establish vector or style improvement"
+  ]
+}

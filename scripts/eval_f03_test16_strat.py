@@ -221,6 +221,20 @@ METHODS = {
         "style_rl128": True,
         "es_local_cache": ROOT / "artifacts/f0/es_local_f0_block2_pool4",
     },
+    "F2VEC_40000": {
+        "label": "F2-VEC@40k fewshot",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f2_vec/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-VEC-MT-A-S3407/global_step_40000",
+        "style_oneshot": False,
+    },
+    "F2VEC_40000_s1": {
+        "label": "F2-VEC@40k oneshot",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f2_vec/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-VEC-MT-A-S3407/global_step_40000",
+        "style_oneshot": True,
+    },
 }
 F1_RUN = ROOT / "runs/F1-OFFRSI-A-S3407"
 F3_VARIANT = ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser"

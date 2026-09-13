@@ -134,9 +134,10 @@ subject to  S_identity(z) >= τ_id
 截至本备忘录创建时：
 
 - CGE 仍是独立 proposal，未进入冻结实验计划；
-- main 已拉到 `39abc4b1`；当前主线新增 F2-RL128 完成记录和 F2-PRL 启动记录；
-- 远端存在 `origin/v100/f2-vec-mt-40k-eval`，包含 F2-VEC-MT 代码和 test16 预测产物；但该分支设计文档仍标记“design-only、未实现/未训练/未验证”，需在合并或引用前核对 checkpoint、训练日志、provenance 和指标来源；
-- 本文件只保存融合设计，不认可该远端分支为正式结果，也不触发新训练。
+- main 已包含 F2-RL128 完成记录和 F2-PRL 启动记录；
+- `origin/v100/f2-vec-mt-40k-eval@0aae4d1e` 的矢量 variant、启动/评测脚本、设计文档、test16 few/one-shot 预测与像素指标已于 2026-09-13 选择性迁入 main；该旧分支对论文、主线看板和其他实验的删除/覆盖没有迁入；
+- 来源分支报告 F2-VEC-MT 40k 已完成，但权重和完整训练日志未随 Git 提供，因此按 `reported completed / evidence partial` 管理；
+- 本文件只保存 CGE 融合设计，不把 F2-VEC 的栅格诊断自动升级为矢量或 CGE 结论，也不触发新训练。
 
 待 PI 决策：
 
@@ -144,4 +145,4 @@ subject to  S_identity(z) >= τ_id
 - D-CV2：优先采用真实 TTF/OTF outline 监督，还是 raster-only 的 render consistency；
 - D-CV3：CGE v1 使用哪些矢量属性轴；
 - D-CV4：clean Mean-F2 通过 controllability gate 后，先做 VectorAux 还是 CGE Phase 0；
-- D-CV5：是否批准读取并验收远端 F2-VEC-MT 分支的训练证据后再考虑合并。
+- D-CV5：是否补传 F2-VEC-MT 的权重、训练日志和矢量指标，以完成独立验收。

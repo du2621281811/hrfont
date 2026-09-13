@@ -18,3 +18,6 @@ code/variants/   → 新实验专用最小树，从 official 派生
 
 - `cn2west_ft_v2`：CN→West 基模微调最小补丁（StyleImage PNG、无 Resize、P1 热启、SCR off）。  
   启动：`python scripts/launch_cn2west_ft_v2_e1.py --smoke` / `--yes`
+- `cn2west_f2_vec`：F2 mean-Delta + 可微矢量 decoder 的多任务 side study；从远端
+  `v100/f2-vec-mt-40k-eval@0aae4d1e` 选择性迁入。栅格预测与指标已归档，权重和
+  训练机 cache 不进 Git；不得替代 `cn2west_f123_rsi` 主线。

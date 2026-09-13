@@ -1,6 +1,6 @@
 {
-  "computed_at": "2026-09-12T10:54:36+00:00",
-  "n_total": 10528,
+  "computed_at": "2026-09-13T08:27:59+00:00",
+  "n_total": 12032,
   "caveat": "L1/SSIM/LPIPS vs GT are diagnostics, not the paper style claim. Mode D (*_s1) is style-k ablation with Δ still ref8.",
   "methods": {
     "P1": {
@@ -918,6 +918,144 @@
           "SSIM_mean": 0.6462704933558902,
           "coverage_mean": 0.13972755714699076,
           "LPIPS_mean": 0.15109709976240993,
+          "blank_rate": 0.0
+        }
+      }
+    },
+    "F2VEC_40000": {
+      "label": "F2-VEC@40k fewshot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.07052202149111024,
+        "SSIM_mean": 0.6477220612466632,
+        "coverage_mean": 0.12794180795656032,
+        "LPIPS_mean": 0.15131774336282916,
+        "blank_rate": 0.0
+      },
+      "by_bucket": {
+        "digit": {
+          "n": 160,
+          "L1_mean": 0.06564972483320161,
+          "SSIM_mean": 0.6501348888967187,
+          "coverage_mean": 0.11367051866319437,
+          "LPIPS_mean": 0.15761783855268732,
+          "blank_rate": 0.0
+        },
+        "latin_upper": {
+          "n": 144,
+          "L1_mean": 0.09275783246590032,
+          "SSIM_mean": 0.6031581122466984,
+          "coverage_mean": 0.1630806628568673,
+          "LPIPS_mean": 0.16562384150974038,
+          "blank_rate": 0.0
+        },
+        "latin_lower": {
+          "n": 208,
+          "L1_mean": 0.05095442516568045,
+          "SSIM_mean": 0.7031445092736528,
+          "coverage_mean": 0.09984360393295931,
+          "LPIPS_mean": 0.14132629424924603,
+          "blank_rate": 0.0
+        },
+        "latin_ext": {
+          "n": 80,
+          "L1_mean": 0.06349599799141288,
+          "SSIM_mean": 0.659408500418067,
+          "coverage_mean": 0.1186102973090278,
+          "LPIPS_mean": 0.14273199858143926,
+          "blank_rate": 0.0
+        },
+        "hiragana": {
+          "n": 64,
+          "L1_mean": 0.0921190126100555,
+          "SSIM_mean": 0.6140623555984348,
+          "coverage_mean": 0.17762586805555552,
+          "LPIPS_mean": 0.14105288195423782,
+          "blank_rate": 0.0
+        },
+        "katakana": {
+          "n": 48,
+          "L1_mean": 0.08153439619733642,
+          "SSIM_mean": 0.5782131670663754,
+          "coverage_mean": 0.13756193938078703,
+          "LPIPS_mean": 0.15921250187481442,
+          "blank_rate": 0.0
+        },
+        "bopomofo": {
+          "n": 48,
+          "L1_mean": 0.07675017113797367,
+          "SSIM_mean": 0.6281183110550046,
+          "coverage_mean": 0.131542064525463,
+          "LPIPS_mean": 0.1507967091165483,
+          "blank_rate": 0.0
+        }
+      }
+    },
+    "F2VEC_40000_s1": {
+      "label": "F2-VEC@40k oneshot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.07223329354793408,
+        "SSIM_mean": 0.6338933709152155,
+        "coverage_mean": 0.12289277205230512,
+        "LPIPS_mean": 0.15800012475464176,
+        "blank_rate": 0.0
+      },
+      "by_bucket": {
+        "digit": {
+          "n": 160,
+          "L1_mean": 0.06633278415538371,
+          "SSIM_mean": 0.6421504230238497,
+          "coverage_mean": 0.1098463270399305,
+          "LPIPS_mean": 0.16114394541364163,
+          "blank_rate": 0.0
+        },
+        "latin_upper": {
+          "n": 144,
+          "L1_mean": 0.09430309262178424,
+          "SSIM_mean": 0.5910148363691405,
+          "coverage_mean": 0.15576021170910498,
+          "LPIPS_mean": 0.16985433749181944,
+          "blank_rate": 0.0
+        },
+        "latin_lower": {
+          "n": 208,
+          "L1_mean": 0.05368418341654783,
+          "SSIM_mean": 0.6811012061706816,
+          "coverage_mean": 0.09651275373931621,
+          "LPIPS_mean": 0.15182421539122096,
+          "blank_rate": 0.0
+        },
+        "latin_ext": {
+          "n": 80,
+          "L1_mean": 0.06634140096139163,
+          "SSIM_mean": 0.6374717026948928,
+          "coverage_mean": 0.11581217447916665,
+          "LPIPS_mean": 0.1535187663976103,
+          "blank_rate": 0.0
+        },
+        "hiragana": {
+          "n": 64,
+          "L1_mean": 0.09292396483942866,
+          "SSIM_mean": 0.6184259159490466,
+          "coverage_mean": 0.16968960232204866,
+          "LPIPS_mean": 0.14606951852329075,
+          "blank_rate": 0.0
+        },
+        "katakana": {
+          "n": 48,
+          "L1_mean": 0.08375781289457034,
+          "SSIM_mean": 0.567293764402469,
+          "coverage_mean": 0.13103343822337968,
+          "LPIPS_mean": 0.16524695185944438,
+          "blank_rate": 0.0
+        },
+        "bopomofo": {
+          "n": 48,
+          "L1_mean": 0.07677947811316699,
+          "SSIM_mean": 0.6116971749191483,
+          "coverage_mean": 0.12335657190393517,
+          "LPIPS_mean": 0.15484993671998382,
           "blank_rate": 0.0
         }
       }

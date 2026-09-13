@@ -11,7 +11,7 @@ from pathlib import Path
 
 from PIL import Image
 
-ROOT = Path("/root/projects/hrfont")
+ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "reports/f03_test16_strat"
 DATA = ROOT / "data/fontdiffuser-p253-t295-s338-cn2west-v2"
 REF8 = list("永和书风骨韵天地")
@@ -130,6 +130,22 @@ METHOD_META = {
         "cond": "ref8 + Δ + F3b Support + per-ref attention",
         "role": {"E": "vs F2-P@40k"},
     },
+    "F2VEC_40000": {
+        "label": "F2-VEC@40k fewshot",
+        "shot": 8,
+        "ckpt": "40k",
+        "axes": ["F"],
+        "cond": "ref8 + mean-Δ + differentiable vector multitask",
+        "role": {"F": "vs F2@40k（跨机诊断）"},
+    },
+    "F2VEC_40000_s1": {
+        "label": "F2-VEC@40k oneshot",
+        "shot": "style1+Δ8",
+        "ckpt": "40k",
+        "axes": ["F"],
+        "cond": "Es=「永」· Δ 仍 ref8 + differentiable vector multitask",
+        "role": {"F": "shot sensitivity；无 matched F2@40k s1"},
+    },
 }
 
 MODES = {
@@ -175,6 +191,14 @@ MODES = {
         "shot": 8,
         "warn": True,
         "blurb": "PI：新训练/正式比较统一看 40k。本表只比 40k；不要和 Mode B 的 F2@80k 比总分。像素有升有降，不据此声称 F2-P 更好。F2-RL / Demo-8 一眼看 core_shot_board.html。",
+    },
+    "F": {
+        "title": "F · F2-VEC side study（40k）",
+        "question": "在 mean-Delta 上加入可微矢量多任务后，栅格诊断发生了什么？",
+        "methods": ["F2_40000", "F2VEC_40000", "F2VEC_40000_s1"],
+        "shot": "mixed",
+        "warn": True,
+        "blurb": "F2-VEC 来自 V100，F2@40k 来自既有执行线；few-shot 可作跨机诊断，不是严格 matched 结论。oneshot 的 Δ 仍为 ref8，且没有配对 F2@40k-s1。",
     },
 }
 
@@ -287,7 +311,10 @@ def metric_tables(payload: dict) -> str:
     )
 
     buckets = payload.get("buckets") or []
-    bucket_mids = [mid for mid in mids if "E" not in (METHOD_META.get(mid, {}).get("axes") or [])]
+    bucket_mids = [
+        mid for mid in mids
+        if not {"E", "F"}.intersection(METHOD_META.get(mid, {}).get("axes") or [])
+    ]
     rows.append("<h3>按语种（诊断 · 不含 40k 新对照）</h3><table><thead><tr><th>语种</th>")
     for mid in bucket_mids:
         rows.append(f"<th>{label_of.get(mid, mid)} L1↓</th><th>SSIM↑</th>")
@@ -405,6 +432,9 @@ def write_html(payload: dict) -> None:
         meta["label"] = m.get("label") or METHOD_META.get(mid, {}).get("label", mid)
         methods.append(meta)
     payload = {**payload, "methods": methods, "ref8": REF8, "modes": MODES, "ui": "fair_axes_v1"}
+    (OUT / "browse_index.json").write_text(
+        json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
 
     data_js = {
         "fonts": payload["fonts"],

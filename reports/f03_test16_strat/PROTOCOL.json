@@ -151,6 +151,21 @@
       "kind": "f3",
       "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_80000",
       "style_oneshot": true
+    },
+    "F2VEC_40000": {
+      "label": "F2-VEC@40k fewshot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000",
+      "style_oneshot": false,
+      "source_commit": "0aae4d1e1d9035507252c94eae1418f697f89554"
+    },
+    "F2VEC_40000_s1": {
+      "label": "F2-VEC@40k oneshot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000",
+      "style_oneshot": true,
+      "delta_oneshot": false,
+      "source_commit": "0aae4d1e1d9035507252c94eae1418f697f89554"
     }
   }
 }
