@@ -28,7 +28,7 @@
 | val | 9 | 5 | 2 | 0 |
 | test | 7 | 6 | 3 | 0 |
 
-训练 target：**223 / 228**（去掉 5 套 exclude）。val/test 无 exclude。
+训练合同名：**`v0913_clean`**。训练 target：**223 / 228**（去掉 5 套 exclude）。val/test 无 exclude。
 
 exclude：`FZBenMWYJW` `FZCHYJW` `FZGuangHTJW-H` `FZHeJYSXZJW` `FZZhuoQHJW`  
 不做 GT、不做 donor。
@@ -43,7 +43,8 @@ exclude：`FZBenMWYJW` `FZCHYJW` `FZGuangHTJW-H` `FZHeJYSXZJW` `FZZhuoQHJW`
 4. 不改 split
 
 val 有效对数 4123 / 4720；test 3880 / 4720。  
-按语种报分：注音只在 `all_scripts` 上平均；假名只在 `all_scripts` + `no_bopomofo` 上平均。
+按语种报分：注音只在 `all_scripts` 上平均；假名只在 `all_scripts` + `no_bopomofo` 上平均。  
+采样合同：`v0913_clean` 默认 **拉丁 50 / 假名 38 / 注音 12**，中→中 = 0；评测分层 47 只计 704 个可用 GT。冻结 pair 表：`manifests/v0913_clean/INDEX.json`。
 
 ## 假名口径（审 L2/L3 时）
 

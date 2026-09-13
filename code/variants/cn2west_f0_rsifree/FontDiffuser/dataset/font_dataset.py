@@ -1,10 +1,30 @@
+import csv
+import json
 import os
 import random
+from pathlib import Path
 from PIL import Image
 
 import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
+
+
+def _load_clean_rows(map_dir: str, phase: str):
+    map_dir = Path(map_dir)
+    tsv = map_dir / f"pairs_{phase}.tsv"
+    if not tsv.is_file():
+        raise FileNotFoundError(f"v0913_clean pairs missing: {tsv}")
+    with tsv.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle, delimiter="\t"))
+    if not rows:
+        raise RuntimeError(f"v0913_clean {phase} pair list is empty: {tsv}")
+    weights = None
+    if phase == "train":
+        spec = json.loads((map_dir / "sample_weights.json").read_text(encoding="utf-8"))
+        table = spec["pair_weight"]
+        weights = [float(table[row["script_group"]]) for row in rows]
+    return rows, weights
 
 
 def get_nonorm_transform(resolution):
@@ -29,12 +49,14 @@ class FontDataset(Dataset):
 
     def __init__(self, args, phase, transforms=None, scr=False):
         super().__init__()
+        self.args = args
         self.root = args.data_root
         self.phase = phase
         self.scr = scr
         if self.scr:
             self.num_neg = args.num_neg
 
+        self.sample_weights = None
         self.get_path()
         self.transforms = transforms
         self.nonorm_transforms = get_nonorm_transform(args.resolution)
@@ -42,6 +64,10 @@ class FontDataset(Dataset):
     def get_path(self):
         self.target_images = []
         self.style_to_images = {}
+        map_dir = getattr(self.args, "v0913_clean_map", None) or ""
+        if map_dir:
+            self._load_from_clean_map(map_dir)
+            return
         target_image_dir = f"{self.root}/{self.phase}/TargetImage"
         style_image_dir = f"{self.root}/{self.phase}/StyleImage"
         if not os.path.isdir(style_image_dir):
@@ -70,6 +96,31 @@ class FontDataset(Dataset):
 
         if not self.target_images:
             raise RuntimeError(f"no TargetImage PNGs under {target_image_dir}")
+
+    def _load_from_clean_map(self, map_dir: str):
+        rows, weights = _load_clean_rows(map_dir, self.phase)
+        self.sample_weights = weights
+        for row in rows:
+            font, cp = row["font"], row["cp"]
+            target = f"{self.root}/{self.phase}/TargetImage/{font}/{font}+{cp}.png"
+            if not os.path.isfile(target):
+                raise FileNotFoundError(f"v0913_clean missing TargetImage: {target}")
+            self.target_images.append(target)
+            if font in self.style_to_images:
+                continue
+            style_src = f"{self.root}/{self.phase}/StyleImage/{font}"
+            images_related_style = []
+            if os.path.isdir(style_src):
+                for img in sorted(os.listdir(style_src)):
+                    if img.lower().endswith(".png"):
+                        images_related_style.append(f"{style_src}/{img}")
+            if not images_related_style:
+                raise FileNotFoundError(
+                    f"CN StyleImage missing/empty for font={font}: {style_src}"
+                )
+            self.style_to_images[font] = images_related_style
+        if not self.target_images:
+            raise RuntimeError(f"v0913_clean produced no {self.phase} pairs from {map_dir}")
 
     @staticmethod
     def _open_content(root, phase, content_cp: str) -> Image.Image:

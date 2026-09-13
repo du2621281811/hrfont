@@ -26,7 +26,8 @@
 | `E1-FTV2-A-S3407` | A 协议 FT-v2，228/16/16，seed3407，100k | `PROJECT.md`（已完成 100k）；`provenance/runs/E1-FTV2-A-S3407.json`；正式评测待补 | **`code/variants/cn2west_ft_v2`** |
 | `E1C-FT-CONTINUE-S3407` | 原 E1 前向再训设想 | **superseded，未进入当前主线** | **`code/variants/cn2west_ft_v2`** |
 | `E2-STAGE-A-S3407` / `E2B-…` | 旧 n-shot Stage-A 方案 | **STOP，不进当前结论** | **`code/variants/cn2west_stage_a`** |
-| `F0-RSIFREE-FT-A-S3407` | RSI-free parent | **completed 100k；下一版唯一 parent** | **`code/variants/cn2west_f0_rsifree`** |
+| `F0-RSIFREE-FT-A-S3407` | RSI-free parent | **completed 100k；dirty 协议 A parent（勿覆盖）** | **`code/variants/cn2west_f0_rsifree`** |
+| `F0-CLEAN-V0913-A-S3407` | 同一 F0，数据换成 `v0913_clean`（50/38/12） | **starting 40k** GPU2；旧 F0 不动 | **`code/variants/cn2west_f0_rsifree`** |
 | `F1-OFFRSI-A-S3407` | official-reference RSI 对照 | **completed 80k；正式比较仍待统一汇总** | **`code/variants/cn2west_f123_rsi`** |
 | `F2-DELTARSI-A-S3407` | 旧 mean-Delta | **completed 80k；作为下一版 mean-Delta baseline** | **`code/variants/cn2west_f123_rsi`** |
 | `F3-JOINT-DS-A-S3407` | 旧 mean-Delta + own-font Support | **completed 80k；legacy，不作为相同信息预算主方法** | **`code/variants/cn2west_f123_rsi`** |
@@ -60,7 +61,7 @@
 | R0 ink 审查 | `data/cn2west_v2_abc_review/proto_A_ink/review.html` |
 | Ink 阈值 | `reports/R0_INK_GATE_PROPOSAL.md`（**已冻结**） |
 | Split v3 | `manifests/split_v3_228_16_16.json`（228/16/16） |
-| p649 原260 语种映射 | [`data/p649_v2a_layers/REVIEW_RECORD.md`](../data/p649_v2a_layers/REVIEW_RECORD.md) · `training_map/`（审查完成；**尚未**接训练） |
+| `v0913_clean` | [`INDEX`](../manifests/v0913_clean/INDEX.json) · [`SYNC`](../manifests/v0913_clean/SYNC.md)（frozen pair 表；F0 已接 50/38/12） |
 | E1 训练看板（Git 快照） | `reports/e1_ft_v2_dashboard/` · `python -m http.server 8777 --directory reports` → http://127.0.0.1:8777/e1_ft_v2_dashboard/ |
 | E1 训练看板（训练机实时） | 仅训练机：`data/e1_ft_v2_dashboard` → `runs/.../viz`（不进 Git） |
 | F0–F3 训练看板（实时） | 训练机 `:8787`（`scripts/f123_monitor.py`，崩溃自动从 last_state 续跑 F2/F3） |

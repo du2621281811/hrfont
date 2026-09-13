@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "dataset_id": "v0913_clean",
+  "kind": "script_usability_contract",
+  "status": "frozen_map",
+  "pair_map": "manifests/v0913_clean/",
+  "pair_index": "manifests/v0913_clean/INDEX.json",
+  "created_at": "2026-09-13",
+  "scope": "overlap260",
+  "note": "Not a new PNG tree. Filter over the existing 228/16/16 split using the frozen p649 overlap260 usability map. PNG / Ec / Es stay as-is.",
+  "png_root_current": "data/fontdiffuser-p253-t295-s338-cn2west-v2",
+  "png_root_p649_same_fonts": "data/fontdiffuser-p649-t295-s338-cn2west-v2a-r0",
+  "split_manifest": "manifests/split_v3_228_16_16.json",
+  "usability_map": "data/p649_v2a_layers/training_map/script_usability_map.json",
+  "font_to_bucket": "data/p649_v2a_layers/training_map/font_to_bucket.json",
+  "review_record": "data/p649_v2a_layers/REVIEW_RECORD.md",
+  "cache": {
+    "reuse": true,
+    "ec": "artifacts/f0/ec_multiscale_f0/",
+    "es": "artifacts/f0/es_spatial_f0/",
+    "reason": "Same protocol-A PNGs. Sampler only skips (font, char) pairs; no new ContentImage, no cache rebuild."
+  },
+  "split": {"train": 228, "val": 16, "test": 16},
+  "train_effective_fonts": 223,
+  "exclude_fonts": [
+    "FZBenMWYJW",
+    "FZCHYJW",
+    "FZGuangHTJW-H",
+    "FZHeJYSXZJW",
+    "FZZhuoQHJW"
+  ],
+  "exclude_role": "no GT, no donor, no style pool",
+  "script_groups": {
+    "latin": {
+      "scripts": ["ascii_digits", "ascii_letters", "latin_ext_letters"],
+      "n_chars": 89,
+      "usable_buckets": ["all_scripts", "no_bopomofo", "han_latin_digit"]
+    },
+    "kana": {
+      "scripts": ["hiragana", "katakana"],
+      "n_chars": 169,
+      "usable_buckets": ["all_scripts", "no_bopomofo"]
+    },
+    "bopomofo": {
+      "scripts": ["bopomofo"],
+      "n_chars": 37,
+      "usable_buckets": ["all_scripts"]
+    }
+  },
+  "pair_counts": {
+    "train": {
+      "latin": 19847,
+      "kana": 31772,
+      "bopomofo": 4810,
+      "all": 56429,
+      "uniform_pair_share": {"latin": 0.3517, "kana": 0.5630, "bopomofo": 0.0852}
+    },
+    "val": {"latin": 1424, "kana": 2366, "bopomofo": 333, "all": 4123},
+    "test": {"latin": 1424, "kana": 2197, "bopomofo": 259, "all": 3880}
+  },
+  "train_sample": {
+    "name": "v0913_clean.train.s50_k38_b12",
+    "rule": "Two-stage: sample script_group with fixed p, then uniform over allowed (font, char) in that group. Style refs stay random n-shot from the same font's 338 Han. Exclude fonts never appear.",
+    "group_p": {"latin": 0.50, "kana": 0.38, "bopomofo": 0.12},
+    "cn2cn_p": 0.0,
+    "within_group": "uniform over masked pairs; kana keeps natural 83:86; latin keeps natural 10:52:27",
+    "why_not_uniform_pairs": "Uniform-over-pairs is 35/56/9. Kana would take most steps; bopomofo would starve; Latin is the paper headline.",
+    "why_these_rates": "Latin primary 50%. Kana cut from 56% to 38% but not starved (still the largest unique-pair set). Bopomofo boosted from 9% to 12% — only 130 fonts × 37 chars, so do not go to 1/3 or it over-repeats.",
+    "style_refs": "338 Han StyleImage of the same font; eval ref8 永和书风骨韵天地 may appear as style, never as western target",
+    "delta_library": "train fonts minus exclude; a donor may contribute Δ for char C only if C's script is usable on that donor"
+  },
+  "cn2cn": {
+    "default": "off",
+    "help": "Possible later as a small auxiliary, not in the first clean F2.",
+    "blocker": "ContentImage is 295 western only. Ec content keys are 295 only. Proper 中→中 needs 338 Noto Han ContentImage + 338 Ec content keys — that is a cache change. Using StyleImage as content would mix content domains. Do not do either in v0913_clean.",
+    "already_have": "Every train step already conditions on Chinese StyleImage via Es. That is 中 style, not 中→中 generation.",
+    "if_later": {
+      "name": "v0913_clean+cn2cn10",
+      "cn2cn_p": 0.10,
+      "cross_script_p": {"latin": 0.45, "kana": 0.34, "bopomofo": 0.11},
+      "requires": "338 Noto Han ContentImage + Ec content keys. Separate dataset increment. Do not mix into the first clean-data vs dirty-data ablation."
+    }
+  },
+  "eval": {
+    "fonts": "same 16/16, do not drop fonts",
+    "mask": "same (font, char) skip_scripts as train",
+    "stratified_47": {
+      "chars": "0123456789AGMQRWBCOaodpqbegcilnuàéüāěあかさんアカンㄅㄆㄚ",
+      "old_items": 752,
+      "valid_items": 704,
+      "drop": 48,
+      "drop_breakdown": {
+        "kana_on_han_latin_digit": {"fonts": ["FZHuoYYJW-T", "FZJingYLLTJW", "FZTJLSJW"], "chars": 7, "pairs": 21},
+        "bopomofo_on_not_all_scripts": {"n_fonts": 9, "chars": 3, "pairs": 27}
+      }
+    },
+    "report_slices": [
+      {"id": "latin16", "meaning": "all val/test fonts × latin chars; fully comparable across 16 fonts", "val": 1424, "test_full": 1424, "test_47": 592},
+      {"id": "kana_usable", "meaning": "only all_scripts + no_bopomofo fonts", "val_fonts": 14, "test_fonts": 13, "test_47": 91},
+      {"id": "bopomofo_usable", "meaning": "only all_scripts fonts", "val_fonts": 9, "test_fonts": 7, "test_47": 21},
+      {"id": "all_scripts_x47", "meaning": "7 test fonts that pass every script × 47; fully comparable across scripts", "test_fonts": 7, "items": 329},
+      {"id": "valid_mask", "meaning": "mean over valid pairs only; default headline for clean eval", "test_47": 704}
+    ],
+    "early_stop": "val latin16 L1 (16×89=1424). Do not early-stop on mixed-script mean — kana volume would dominate.",
+    "legacy_recompute": "Apply the same 704-pair mask to existing F0/F2/F2-VEC preds. Do not regenerate. Old 752-mean includes 48 bad GT and is not the clean baseline."
+  },
+  "do_not": [
+    "rebuild PNG or Ec/Es",
+    "drop the 77 partial-script fonts",
+    "still train all 295 targets on the 223 fonts",
+    "sample uniform-over-pairs as the clean default",
+    "mix CN→CN into the first clean run",
+    "score kana/bopomofo on fonts whose bucket skips that script",
+    "drop val/test fonts to force a rectangular 16×47",
+    "move fonts across 228/16/16",
+    "train on new389"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "algo": "two_stage_group_then_uniform_pair",
+  "seed": 3407,
+  "cn2cn_p": 0.0,
+  "group_p": {
+    "latin": 0.5,
+    "kana": 0.38,
+    "bopomofo": 0.12
+  },
+  "n_train": {
+    "latin": 19847,
+    "kana": 31772,
+    "bopomofo": 4810
+  },
+  "pair_weight": {
+    "latin": 2.5192724341210258e-05,
+    "kana": 1.1960216542867934e-05,
+    "bopomofo": 2.4948024948024948e-05
+  },
+  "note": "P(pair) = group_p[g] / n_train[g]. Materialize-only (no weights) is uniform-over-pairs and is NOT this recipe."
+}

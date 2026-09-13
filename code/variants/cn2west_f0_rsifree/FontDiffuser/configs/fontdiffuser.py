@@ -8,6 +8,8 @@ def get_parser():
     parser.add_argument("--experience_name", type=str, default="fontdiffuer_training")
     parser.add_argument("--data_root", type=str, default=None, 
                         help="The font dataset root path.",)
+    parser.add_argument("--v0913_clean_map", type=str, default="",
+                        help="Frozen v0913_clean map dir. If set, train/val pairs and 50/38/12 weights come from the TSV.")
     parser.add_argument("--output_dir", type=str, default=None, 
                         help="The output directory where the model predictions and checkpoints will be written.")
     parser.add_argument("--report_to", type=str, default="tensorboard")

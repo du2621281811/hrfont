@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "kind": "dataset",
+  "dataset_id": "v0913_clean",
+  "created_at": "2026-09-13",
+  "root": "manifests/v0913_clean/INDEX.json",
+  "source_note": "Frozen pair maps over dirty protocol-A PNGs. 223 train fonts; latin50/kana38/bopomofo12; no CN→CN; eval47 keep 704/752. Sampler not wired yet; other machines read INDEX.json.",
+  "map": "manifests/v0913_clean/",
+  "split": "manifests/split_v3_228_16_16.json",
+  "train_effective_fonts": 223,
+  "status": "frozen_map",
+  "verify": "python3 scripts/verify_v0913_clean_map.py --png-root data/fontdiffuser-p253-t295-s338-cn2west-v2"
+}

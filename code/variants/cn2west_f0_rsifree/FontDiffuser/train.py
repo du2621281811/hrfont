@@ -230,8 +230,27 @@ def main():
             style_transforms, 
             target_transforms],
         scr=args.phase_2)
+    sampler = None
+    if getattr(train_font_dataset, "sample_weights", None):
+        gen = torch.Generator()
+        gen.manual_seed(int(args.seed))
+        sampler = torch.utils.data.WeightedRandomSampler(
+            weights=torch.as_tensor(train_font_dataset.sample_weights, dtype=torch.double),
+            num_samples=len(train_font_dataset.sample_weights),
+            replacement=True,
+            generator=gen,
+        )
+        logger.info(
+            f"v0913_clean WeightedRandomSampler on {len(train_font_dataset)} pairs "
+            f"from {args.v0913_clean_map}"
+        )
     train_dataloader = torch.utils.data.DataLoader(
-        train_font_dataset, shuffle=True, batch_size=args.train_batch_size, collate_fn=CollateFN())
+        train_font_dataset,
+        shuffle=sampler is None,
+        sampler=sampler,
+        batch_size=args.train_batch_size,
+        collate_fn=CollateFN(),
+    )
     
     # Build optimizer and learning rate
     if args.scale_lr:

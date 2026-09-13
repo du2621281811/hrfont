@@ -41,6 +41,10 @@ def main() -> int:
     ap.add_argument("--ckpt_interval", type=int, default=5000)
     ap.add_argument("--log_interval", type=int, default=100)
     ap.add_argument("--run_id", type=str, default="F0-RSIFREE-FT-A-S3407")
+    ap.add_argument("--dataset_id", type=str, default="",
+                    help="Use v0913_clean to filter dirty PNGs via manifests/v0913_clean.")
+    ap.add_argument("--v0913_clean_map", type=Path,
+                    default=ROOT / "manifests/v0913_clean")
     ap.add_argument("--data_root", type=Path, default=DATA)
     ap.add_argument("--phase_1_ckpt_dir", type=Path, default=OFFICIAL_CKPT)
     ap.add_argument("--smoke", action="store_true", help="20-step sanity run into runs/smoke_*")
@@ -68,6 +72,20 @@ def main() -> int:
     if not SPLIT.is_file():
         print(f"missing split manifest: {SPLIT}", file=sys.stderr)
         return 2
+    clean_map = None
+    if args.dataset_id == "v0913_clean":
+        clean_map = args.v0913_clean_map
+        if not clean_map.is_absolute():
+            clean_map = ROOT / clean_map
+        index = clean_map / "INDEX.json"
+        weights = clean_map / "sample_weights.json"
+        pairs = clean_map / "pairs_train.tsv"
+        if not index.is_file() or not weights.is_file() or not pairs.is_file():
+            print(f"missing v0913_clean map: {clean_map}", file=sys.stderr)
+            return 2
+        if args.run_id == "F0-RSIFREE-FT-A-S3407" and not args.smoke:
+            print("refuse to reuse dirty F0 run_id on v0913_clean", file=sys.stderr)
+            return 2
 
     out_dir = RUNS / args.run_id
     if out_dir.exists():
@@ -93,6 +111,8 @@ def main() -> int:
         "up_block": "StyleUpBlockNoRSI",
         "data_root": str(args.data_root),
         "split": str(SPLIT),
+        "dataset_id": args.dataset_id or "dirty_protocol_A",
+        "v0913_clean_map": str(clean_map) if clean_map else "",
         "phase_1_ckpt_dir": str(args.phase_1_ckpt_dir),
         "created_at": datetime.now(timezone.utc).isoformat(),
         "note": "Joint mainline F0; reuse protocol-A renders; drop RSI/DCN from P1.",
@@ -105,6 +125,10 @@ def main() -> int:
         "--experience_name", args.run_id,
         "--output_dir", str(out_dir),
         "--data_root", str(args.data_root),
+    ]
+    if clean_map:
+        cmd += ["--v0913_clean_map", str(clean_map)]
+    cmd += [
         "--resolution", "96",
         "--style_image_size", "96",
         "--content_image_size", "96",

@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "dataset_id": "v0913_clean",
+  "status": "frozen",
+  "built_at": "2026-09-13T11:30:34.528873+00:00",
+  "dirty_png_root": "data/fontdiffuser-p253-t295-s338-cn2west-v2",
+  "rebuild": "python3 scripts/build_v0913_clean_map.py",
+  "verify": "python3 scripts/verify_v0913_clean_map.py --png-root data/fontdiffuser-p253-t295-s338-cn2west-v2",
+  "materialize": "python3 scripts/verify_v0913_clean_map.py --png-root data/fontdiffuser-p253-t295-s338-cn2west-v2 --materialize-to data/v0913_clean",
+  "sources": {
+    "charset": {
+      "path": "manifests/charset_cn2west_v2_planned.json",
+      "sha256": "d246d42f611ebfe2d62e64639294d96d2cbc7f987082ade2bbde377fc6fc7ef4"
+    },
+    "split": {
+      "path": "manifests/split_v3_228_16_16.json",
+      "sha256": "7aca8a4724142c35b38129847eb5d0be199cfc4824160c5cb69ccced309a2f37"
+    },
+    "usability_map": {
+      "path": "data/p649_v2a_layers/training_map/script_usability_map.json",
+      "sha256": "cfdd846531d389faaeb804f5918b7b48a6cde97ceae6efb6093a6adf235ac496"
+    },
+    "font_to_bucket": {
+      "path": "data/p649_v2a_layers/training_map/font_to_bucket.json",
+      "sha256": "e6fd7d2ca4958900372393eb8aacbd864b7b0336ea3766fe3f64aca3d46a9987"
+    },
+    "contract": {
+      "path": "manifests/v0913_clean.json",
+      "sha256": "5287191c8ed556d32455db822a914710eb5e5a8ff21bb2c5701180d0fb492ef8"
+    }
+  },
+  "path_templates": {
+    "target": "{png_root}/{split}/TargetImage/{font}/{font}+{cp}.png",
+    "content": "{png_root}/{split}/ContentImage/{cp}.png",
+    "style": "{png_root}/{split}/StyleImage/{font}/{font}+{cp}.png"
+  },
+  "counts": {
+    "train": {
+      "all": 56429,
+      "latin": 19847,
+      "kana": 31772,
+      "bopomofo": 4810
+    },
+    "val": {
+      "all": 4123,
+      "latin": 1424,
+      "kana": 2366,
+      "bopomofo": 333
+    },
+    "test": {
+      "all": 3880,
+      "latin": 1424,
+      "kana": 2197,
+      "bopomofo": 259
+    },
+    "eval47": {
+      "all": 752,
+      "keep": 704,
+      "drop": 48
+    },
+    "fonts": {
+      "train_effective": 223,
+      "train_exclude": 5,
+      "val": 16,
+      "test": 16
+    }
+  },
+  "sample": {
+    "name": "v0913_clean.train.s50_k38_b12",
+    "group_p": {
+      "latin": 0.5,
+      "kana": 0.38,
+      "bopomofo": 0.12
+    },
+    "cn2cn_p": 0.0,
+    "seed": 3407
+  },
+  "cache": {
+    "reuse": true,
+    "ec": "artifacts/f0/ec_multiscale_f0/",
+    "es": "artifacts/f0/es_spatial_f0/"
+  },
+  "files": {
+    "pairs_train.tsv": "12ddecec77588479b7c554a488d521981e965575a49f1d0df8c9aebee01ce183",
+    "pairs_val.tsv": "96f760644831a246725e554f2a7a4222a85e3639e582899571cddb2d3bc01c2c",
+    "pairs_test.tsv": "459f89af91aa428e6b29868285e06e101c901f2ee7978bfa35e2c211e505863f",
+    "pairs_eval47.tsv": "df8725346a586990eb6c75e5f2df37e959fe1e9bf6236fc867f41a2d349829ef",
+    "fonts.tsv": "b363ddc84f5e86ac141ffb6963f9596a52de33b66ba205e9818c69872beb8db3",
+    "donor_train.json": "751404a717cfaf94a07b7a523f6e6e1c7640fb5da94f331892a784d52bb53638",
+    "sample_weights.json": "6ae9df4e9c5ce23eea7217a6a793ef9b28a039b70560c6a92e108d2e93196a7f"
+  },
+  "do_not": [
+    "re-render PNG",
+    "rebuild Ec/Es",
+    "treat materialize-only as the 50/38/12 recipe",
+    "score eval47 rows with keep=0"
+  ]
+}
