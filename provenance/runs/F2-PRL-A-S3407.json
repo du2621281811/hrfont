@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "kind": "experiment",
+  "experiment_id": "F2-PRL-A-S3407",
+  "created_at": "2026-09-13T08:40:00+00:00",
+  "status": "starting",
+  "max_train_steps": 40000,
+  "variant": "cn2west_f123_rsi",
+  "arm": "F2PRL",
+  "parent": "runs/F0-RSIFREE-FT-A-S3407/best",
+  "rsi_source": "delta",
+  "support": false,
+  "style_token": "per_ref_pooled_h_plus_es_block2_pool4_l128",
+  "local_proj": "Linear(256,1024) isolated RNG seed 3407*1009+128",
+  "es_cache": "artifacts/f0/es_spatial_f0",
+  "es_local_cache": "artifacts/f0/es_local_f0_block2_pool4",
+  "ec_cache": "artifacts/f0/ec_multiscale_f0",
+  "output_dir": "runs/F2-PRL-A-S3407",
+  "gpu": 0,
+  "train": {
+    "seed": 3407,
+    "batch_size": 8,
+    "grad_accum": 1,
+    "lr": 1e-05,
+    "warmup": 5000,
+    "scheduler": "linear",
+    "fp16": true,
+    "drop_prob": 0.1,
+    "source_drop": 0.25,
+    "ckpt_interval": 5000
+  },
+  "eval_protocol": {
+    "primary_step": 40000,
+    "note": "PI 2026-09-12: new arms train and compare at 40k."
+  },
+  "design": {
+    "drop_mean_global9_on_up_path": true,
+    "down_path": "keep mean 3x3 spatial map",
+    "per_ref_pooled_h": true,
+    "per_ref_local_4x4": true,
+    "tokens_n8": "8+128=136",
+    "tokens_n1": "1+16=17 valid, pad to 136",
+    "delta": "same-character Ec(donor)-B0; n-shot only changes alpha query and Es tokens"
+  },
+  "watchdog": {
+    "script": "scripts/watchdog_f2_prl.py",
+    "start": "scripts/start_watchdog_f2_prl.sh",
+    "status": "reports/watchdog_f2_prl/status.json"
+  },
+  "eta_note": "F2-RL128 40k on this 3090 was 3h51 at ~3.1 it/s; PRL CA length is almost the same, expect ~4h.",
+  "note": "One-factor vs F2-RL128: replace up-path mean global9 with per-ref pooled h; keep L128 and Delta."
+}

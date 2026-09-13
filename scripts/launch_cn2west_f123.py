@@ -54,6 +54,7 @@ ARMS = {
         "support_bank": "artifacts/f0/support_bank_f3b_topology.json",
     },
     "F2RL": {"rsi_source": "delta", "support": False, "run_id": "F2-RL128-A-S3407"},
+    "F2PRL": {"rsi_source": "delta", "support": False, "run_id": "F2-PRL-A-S3407"},
 }
 
 
@@ -115,8 +116,8 @@ def main() -> int:
                   file=sys.stderr)
             return 2
     es_local = resolve(args.es_local_cache)
-    if args.arm == "F2RL" and not (es_local / "manifest.json").is_file():
-        print(f"arm F2RL needs local Es cache: {es_local}", file=sys.stderr)
+    if args.arm in ("F2RL", "F2PRL") and not (es_local / "manifest.json").is_file():
+        print(f"arm {args.arm} needs local Es cache: {es_local}", file=sys.stderr)
         return 2
     if spec["support"] and not resolve(spec.get("support_bank") or args.support_bank).is_file():
         print(f"arm {args.arm} needs a support bank: {resolve(spec.get('support_bank') or args.support_bank)}", file=sys.stderr)
@@ -211,6 +212,12 @@ def main() -> int:
         meta["style_token"] = "global9_plus_es_block2_pool4_l128"
         meta["es_local_cache"] = str(es_local)
         meta["local_proj"] = "Linear(256,1024)"
+    if args.arm == "F2PRL":
+        meta["style_pattn"] = True
+        meta["style_token"] = "per_ref_pooled_h_plus_es_block2_pool4_l128"
+        meta["es_local_cache"] = str(es_local)
+        meta["local_proj"] = "Linear(256,1024)"
+        meta["note"] = "Drop mean global9 on up-path; keep down-path mean 3x3. Delta still same-char."
 
     env = os.environ.copy()
     env["CUDA_VISIBLE_DEVICES"] = str(args.gpu)

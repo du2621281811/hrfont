@@ -57,7 +57,8 @@ alwaysApply: true
 ## 1.8 PI 决策（2026-09-12）
 
 - **新训练默认 40k，正式比较统一看 40k checkpoint。** 覆盖 §1.7 D-P8 对后续新臂的 80k 主比较。历史 F1/F2/F3 的 80k 跑完记录保留；新对照优先用已有 `global_step_40000`，不再把 80k 当默认终点或默认评测点。F0/E1 的 100k 父模型/锚点不变。
-- **A1 零训练探针 parked。** 题本与 gate 仍以 `reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3 为准；当前数据未清洗，**换清洗后数据集再做**。不阻塞 F2-RL128。禁止用旧数据上的 A1 阴性/阳性当清洗后结论。
+- **A1 零训练探针 parked。** 题本与 gate 仍以 `reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3 为准；当前数据未清洗，**换清洗后数据集再做**。不阻塞 F2-RL128 / F2-PRL。禁止用旧数据上的 A1 阴性/阳性当清洗后结论。
+- **F2-PRL（2026-09-13）：** 新臂 `F2-PRL-A-S3407`，40k，F0 parent，Δ，无 Support。up-path = per-ref pooled h + Es block2 4×4 L128（去掉 mean global9）；down-path 仍 mean 3×3。Δ 仍是目标字残差；n 只改 Es 与 α query。GPU0 + `scripts/watchdog_f2_prl.py`。
 
 ## 2. 数据契约
 

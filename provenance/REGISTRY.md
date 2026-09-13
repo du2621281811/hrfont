@@ -42,6 +42,7 @@
 | `F2-DELTARSI-A-S3407` | `reports/training_logs/F2-DELTARSI-A-S3407/` | **completed 80k** | 旧 mean-Delta baseline |
 | `F3-JOINT-DS-A-S3407` | `reports/training_logs/F3-JOINT-DS-A-S3407/` | **completed 80k** | Δ+Support；legacy |
 | `F2-RL128-A-S3407` | `provenance/runs/F2-RL128-A-S3407.json` | **completed 40k** | F2+R-L128；best@35k val=0.002055；看板 `reports/f03_test16_strat/core_shot_board.html`；权重不进 Git |
+| `F2-PRL-A-S3407` | `provenance/runs/F2-PRL-A-S3407.json` | **starting 40k** | F2-P+L（per-ref h + L128，drop up-path mean G）；GPU0；watchdog `reports/watchdog_f2_prl/` |
 | `f2_pattn_s3407` | `runs/f2_pattn_s3407`（权重不进 Git） | **completed 40k** | F2-P per-ref pooled h；best@35k val=0.002042 |
 | `f3b_pattn_s3407` | `runs/f3b_pattn_s3407`（权重不进 Git） | **completed 40k** | F3b-P；best@35k val=0.002057 |
 | `A1-PC72-PROBE` | `reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3 | **parked** | 换清洗后数据集再做；当前数据不跑 |

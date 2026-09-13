@@ -52,11 +52,12 @@ ARM_SPEC = {
     "F2P": ("delta", False),
     "F3bP": ("delta", True),
     "F2RL": ("delta", False),
+    "F2PRL": ("delta", False),
 }
 # Arms that replace up-path 9-token mean with per-ref pooled h tokens (DESIGN_F2P_F3BP).
-STYLE_PATTN_ARMS = frozenset({"F2P", "F3bP"})
-# F2 + R-L128: keep global9, concat per-ref Es block2 4×4 tokens (SOLUTION_STYLE_WEAKNESS).
-LOCAL_L128_ARMS = frozenset({"F2RL"})
+STYLE_PATTN_ARMS = frozenset({"F2P", "F3bP", "F2PRL"})
+# Per-ref Es block2 4×4 tokens (SOLUTION_STYLE_WEAKNESS). F2RL keeps global9; F2PRL drops it.
+LOCAL_L128_ARMS = frozenset({"F2RL", "F2PRL"})
 LOCAL_PROJ_SEED = 3407 * 1009 + 128
 N_LOCAL_PER_REF = 16
 # Ec multi-scale channel widths (see scripts/hrfont_feature_cache.py EC_SHAPES).
@@ -155,6 +156,7 @@ def _style_conditions(es_cache: EsCache, samples, device, style_pattn: bool = Fa
     When style_pattn=True, also return padded per-ref pooled h tokens and a
     boolean keep-mask (True=valid) for up-path cross-attention.
     When local_cache is set, also return padded [16*n_max, 256] block2 tokens.
+    F2-PRL uses both: up-path = h + L, no mean global9.
     """
     maps, queries = [], []
     seqs, masks = [], []
@@ -216,7 +218,11 @@ def _attach_local_proj(model) -> None:
 
 
 def _pack_up_style(raw, style, style_seq, style_mask, local_raw, local_mask, cfg_mask):
-    """Concat global9 + projected L128. CFG zeros G; L is masked off (no Linear bias leak)."""
+    """Pack up-path style tokens.
+
+    F2-P: per-ref pooled h. F2-RL128: mean global9 + projected L. F2-PRL: h + L (no G).
+    CFG zeros G/P; L is masked off (no Linear bias leak). Down-path still uses mean 3×3.
+    """
     if local_raw is None:
         if style_seq is None:
             return None, None
@@ -226,11 +232,24 @@ def _pack_up_style(raw, style, style_seq, style_mask, local_raw, local_mask, cfg
             seq = seq.clone()
             seq[cfg_mask] = 0
         return seq, mask
+    proj = raw.local_style_proj
+    local_tok = proj(local_raw.to(dtype=next(proj.parameters()).dtype))
+    if style_seq is not None:
+        local_tok = local_tok.to(dtype=style_seq.dtype)
+        seq = torch.cat([style_seq, local_tok], dim=1)
+        mask = torch.cat([style_mask.to(device=style_seq.device),
+                          local_mask.to(device=style_seq.device)], dim=1)
+        n_p = style_seq.shape[1]
+        if cfg_mask is not None and bool(cfg_mask.any()):
+            seq = seq.clone()
+            mask = mask.clone()
+            seq[cfg_mask, :n_p] = 0
+            mask[cfg_mask, n_p:] = False
+        return seq, mask
     bsz = style.shape[0]
     g = style.permute(0, 2, 3, 1).reshape(bsz, -1, style.shape[1])
     g_mask = torch.ones(bsz, g.shape[1], dtype=torch.bool, device=style.device)
-    proj = raw.local_style_proj
-    local_tok = proj(local_raw.to(dtype=next(proj.parameters()).dtype)).to(dtype=g.dtype)
+    local_tok = local_tok.to(dtype=g.dtype)
     seq = torch.cat([g, local_tok], dim=1)
     mask = torch.cat([g_mask, local_mask.to(device=style.device)], dim=1)
     if cfg_mask is not None and bool(cfg_mask.any()):

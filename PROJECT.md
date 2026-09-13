@@ -32,11 +32,12 @@
 
 > **下一版 Set-Delta / Round D–R 暂时停开**（2026-09-12 PI：先搁置，待新 idea）。新训练/正式评测统一 **40k**。
 
-1. **F2-RL128：** `F2-RL128-A-S3407` **已完成 40k**（best@35k val=0.002055；40k val=0.002080）。1-shot/8-shot 已进 Demo-8 看板 `reports/f03_test16_strat/core_shot_board.html`。
-2. **A1 零训练探针 parked：** 换清洗后数据集再做。题本/gate：`reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3。当前数据不跑、不作 A1 结论。
-3. **核心模型 1-shot / 8-shot 对照：** Demo-8 × 67 字；看板 `reports/f03_test16_strat/core_shot_board.html`（`:19000/core_shot_board.html`）。后续新对照用 40k checkpoint。
-4. 旧 F1/F2/F3 80k 证据冻结为历史；`hrfont_setdelta_graphicsref` 未实现前不要开新消融训练。
-5. E12：T2 方案仍需改；不作为本轮对照。
+1. **F2-PRL：** `F2-PRL-A-S3407` **正在 GPU0 训 40k**（F0 parent；Δ；up-path = per-ref pooled h + Es block2 L128，去掉 mean global9；down-path 仍 mean 3×3）。watchdog：`scripts/start_watchdog_f2_prl.sh`。预计约 4h。
+2. **F2-RL128：** `F2-RL128-A-S3407` **已完成 40k**（best@35k val=0.002055；40k val=0.002080）。1-shot/8-shot 已进 Demo-8 看板 `reports/f03_test16_strat/core_shot_board.html`。
+3. **A1 零训练探针 parked：** 换清洗后数据集再做。题本/gate：`reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3。当前数据不跑、不作 A1 结论。
+4. **核心模型 1-shot / 8-shot 对照：** Demo-8 × 67 字；看板 `reports/f03_test16_strat/core_shot_board.html`（`:19000/core_shot_board.html`）。后续新对照用 40k checkpoint。
+5. 旧 F1/F2/F3 80k 证据冻结为历史；`hrfont_setdelta_graphicsref` 未实现前不要开新消融训练。
+6. E12：T2 方案仍需改；不作为本轮对照。
 
 ## 实验登记（摘要）
 
@@ -48,6 +49,7 @@
 | `F2-DELTARSI-A-S3407` | **completed 80k** | 旧 mean-Delta 实现；下一版基线 |
 | `F1-OFFRSI-A-S3407` | **completed 80k** | 官方 RSI 对照 |
 | `F2-RL128-A-S3407` | **completed 40k** | F2 + R-L128；正式评测点 40k；best@35k |
+| `F2-PRL-A-S3407` | **starting 40k** | F2-P+L：per-ref h + L128，去掉 up-path mean G；GPU0 |
 | `E12-*-V4-S3407/08/09` | **gate_failed (T2)** | cache_v4；T2≈0.73–0.80 |
 
 完整表见 `provenance/REGISTRY.md`。
@@ -137,6 +139,7 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 
 ## 精简变更记录
 
+- 2026-09-13：启动 `F2-PRL-A-S3407`（F0 parent，Δ，up-path=per-ref h+L128、无 mean G；GPU0 + watchdog）。40k；预计约 4h。
 - 2026-09-13：F2-RL128@40k 的 1-shot（Es+Δ=永）与 8-shot（ref8）写入 `core_shot_board.html`（Demo-8×67，536/536）。
 - 2026-09-12：PI：A1 探针 parked（清洗后数据再做）；新训练/评测统一 40k。`F2-RL128-A-S3407` 停 80k 日程、按 40k 重开。
 - 2026-09-12：启动 `F2-RL128-A-S3407`（F0 parent，Δ，global9+Es block2 L128，GPU0）。smoke 20 步 + RSI parity 通过；稳态约 1.15 s/step。
