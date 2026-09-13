@@ -7,7 +7,7 @@
 
 ## 当前状态
 
-- **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 均已 80k；Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机报告 F2-P 正向40k训练，Git中可核验的最新 probe checkpoint 为25k，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
+- **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 历史臂已跑满 80k（**新对照统一看 40k**）。Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机报告 F2-P 正向40k训练，Git中可核验的最新 probe checkpoint 为25k，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
 - **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
 - **远端增量核查（2026-09-11，`74f92b7a`→`1dba686e`）：** `ce5f8079` 只更新 SSH 说明；`1dba686e` 带来实质增量：F2-P/F3b-P per-ref token与mask训练代码、launch/queue/probe脚本，以及 F2@40k vs F2-P@25k 的320张 train/val probe图。当前只能确认执行链路与可视化产物存在；probe没有量化指标或已填写人工结论，步数也不匹配，正式 `sample.py` 尚未接 `style_seq`，且没有对应 run provenance，因此不能据此声称效果改善。
 - **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；新机步骤 [`docs/SETUP_COLLABORATOR.md`](docs/SETUP_COLLABORATOR.md)。扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git；打包目录 `artifacts/migrate_v100/`（本机、不进仓）。V100 缺项与 scp 映射表：[`docs/V100_SCP_TRANSFER.md`](docs/V100_SCP_TRANSFER.md) + [`manifests/v100_scp_map.json`](manifests/v100_scp_map.json)（**3090 已填路径/体积/TTF；两机互不通，需第三方跳板 scp**）。
@@ -23,13 +23,20 @@
 - F1/F2/F3 **固定单 seed 3407**，不补 3408/3409。
 - E12 做 S1/S2/S4/S5；S3 外部字型池已在 v4 落地，T2 仍未过门。
 
+## PI 决定（2026-09-12）
+
+- **新训练默认 40k；正式比较统一看 40k。** 历史 F1/F2/F3 的 80k 跑完记录保留，新对照用 `global_step_40000`。
+- **A1 零训练探针 parked**：换清洗后数据集再做；规格 `reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3。
+
 ## 下一步
 
-> **下一版 Set-Delta / Round D–R 暂时停开**（2026-09-12 PI：先搁置，待新 idea）。当前只做已有核心模型的对照推理。
+> **下一版 Set-Delta / Round D–R 暂时停开**（2026-09-12 PI：先搁置，待新 idea）。新训练/正式评测统一 **40k**。
 
-1. **核心模型 1-shot / 8-shot 对照：** Demo-8 × 67 字；看板 `reports/f03_test16_strat/core_shot_board.html`（`:19000/core_shot_board.html`）。
-2. 旧 F1/F2/F3 证据冻结；`hrfont_setdelta_graphicsref` 未实现前不要开新消融训练。
-3. E12：T2 方案仍需改；不作为本轮对照。
+1. **F2-RL128：** `F2-RL128-A-S3407` **已完成 40k**（best@35k val=0.002055；40k val=0.002080）。1-shot/8-shot 已进 Demo-8 看板 `reports/f03_test16_strat/core_shot_board.html`。
+2. **A1 零训练探针 parked：** 换清洗后数据集再做。题本/gate：`reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3。当前数据不跑、不作 A1 结论。
+3. **核心模型 1-shot / 8-shot 对照：** Demo-8 × 67 字；看板 `reports/f03_test16_strat/core_shot_board.html`（`:19000/core_shot_board.html`）。后续新对照用 40k checkpoint。
+4. 旧 F1/F2/F3 80k 证据冻结为历史；`hrfont_setdelta_graphicsref` 未实现前不要开新消融训练。
+5. E12：T2 方案仍需改；不作为本轮对照。
 
 ## 实验登记（摘要）
 
@@ -40,6 +47,7 @@
 | `F3-JOINT-DS-A-S3407` | **completed 80k** | Δ+Support；test16 像素已采 |
 | `F2-DELTARSI-A-S3407` | **completed 80k** | 旧 mean-Delta 实现；下一版基线 |
 | `F1-OFFRSI-A-S3407` | **completed 80k** | 官方 RSI 对照 |
+| `F2-RL128-A-S3407` | **completed 40k** | F2 + R-L128；正式评测点 40k；best@35k |
 | `E12-*-V4-S3407/08/09` | **gate_failed (T2)** | cache_v4；T2≈0.73–0.80 |
 
 完整表见 `provenance/REGISTRY.md`。
@@ -129,7 +137,9 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 
 ## 精简变更记录
 
-- 2026-09-12：核心模型对照看板扩到 Demo-8 × 67 字（分层 47 + 20 风格探针），14 列 pred 全齐。
+- 2026-09-13：F2-RL128@40k 的 1-shot（Es+Δ=永）与 8-shot（ref8）写入 `core_shot_board.html`（Demo-8×67，536/536）。
+- 2026-09-12：PI：A1 探针 parked（清洗后数据再做）；新训练/评测统一 40k。`F2-RL128-A-S3407` 停 80k 日程、按 40k 重开。
+- 2026-09-12：启动 `F2-RL128-A-S3407`（F0 parent，Δ，global9+Es block2 L128，GPU0）。smoke 20 步 + RSI parity 通过；稳态约 1.15 s/step。
 - 2026-09-12：下一版 Set-Delta 实验按 PI 指示暂缓。补核心模型 Demo-8 1-shot/8-shot 对照看板 `reports/f03_test16_strat/core_shot_board.html`。
 - 2026-09-11：3090 填写 `manifests/v100_scp_map.json`：migrate tar / 协议 A / F0 Es+Ec 均在源机；TTF 260/260 可解析。3090→V100（`172.18.41.23:22`）TCP 超时，仍需能两边通的跳板 scp。
 - 2026-09-11：所里 V100 仓/环境落地（`boogu`）；仓库级 git 作者改为 Liang Xiaowei；补 `docs/V100_SCP_TRANSFER.md` + `manifests/v100_scp_map.json` 给 3090 填路径后跳板 scp。TTF/ckpt/cache 仍缺，源机网段不通。

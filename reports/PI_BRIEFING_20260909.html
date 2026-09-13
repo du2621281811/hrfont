@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>HR-Font 实验汇报 · 给导师 · 2026-09-09</title>
+<title>HR-Font 实验汇报 · 给导师 · 2026-09-13</title>
 <style>
   :root {
     --bg: #f3f1ec;
@@ -144,10 +144,11 @@
 <main class="wrap">
 <header>
   <h1>跨语系字体生成实验汇报</h1>
-  <p class="meta">给导师阅读的独立说明 · 2026-09-09 · 项目 HR-Font / FontDiffuser 改造 · ICLR 2027 方向<br/>
-  若 :8769 打不开，用：<a href="http://127.0.0.1:8767/PI_BRIEFING_20260909.html">:8767 同页</a> ·
-  <a href="http://127.0.0.1:8768/PI_BRIEFING_20260909.html">:8768 同页</a> ·
-  或直接打开本机文件 <code>reports/PI_BRIEFING_20260909.html</code></p>
+  <p class="meta">给导师阅读的独立说明 · 刷新 2026-09-13 · 项目 HR-Font / FontDiffuser 改造 · ICLR 2027 方向<br/>
+  本机入口：<a href="http://172.19.45.13:19000/">http://172.19.45.13:19000/</a>（文件名仍为本页，链接不变）<br/>
+  同目录：<a href="./">字形对照板</a> ·
+  <a href="pi_highlights.html">精选看图</a> ·
+  <a href="core_shot_board.html">Demo-8 1-shot/8-shot</a></p>
 </header>
 
 <p class="lede">
@@ -173,9 +174,9 @@
    │
    └─► 去掉结构迁移后再微调                    ← 无结构迁移基线（RSI 消融底 F0）
             │
-            ├─► 加回「官方版」结构迁移           ← 官方结构迁移臂（训练中）
-            ├─► 换成「近邻残差」结构迁移         ← 近邻残差臂（已训完；Support 消融底 F2）
-            └─► 近邻残差 + 额外支持特征          ← 支持特征臂（旧版已评；新版训练中）</pre>
+            ├─► 加回「官方版」结构迁移           ← 官方结构迁移臂（已评 @8万步）
+            ├─► 换成「近邻残差」结构迁移         ← 近邻残差臂（已评 @8万步；Support 消融底 F2）
+            └─► 近邻残差 + 额外支持特征          ← 支持特征臂（旧版 F3@8万已评；新版 F3b 权重已有）</pre>
 
 <table>
   <thead>
@@ -209,13 +210,13 @@
       <td>F1</td>
       <td>在 F0 上加回官方结构迁移，训到 8 万步</td>
       <td>相对 F0：加官方结构迁移</td>
-      <td><span class="warn">训练中 ~2.6万/8万</span></td>
+      <td><span class="ok">已评测 @8万步</span>（752 全量）</td>
     </tr>
     <tr>
       <td>F2</td>
       <td>用「风格近邻库字体」加权残差，代替官方结构来源</td>
       <td>相对 F1：换结构信息来源（近邻残差）</td>
-      <td><span class="ok">已训完 8万步</span>；主表目前是 <strong>7.5万步</strong> 全量评测</td>
+      <td><span class="ok">已评测 @8万步</span>；新对照另看 <strong>4万步</strong></td>
     </tr>
     <tr>
       <td>F3（旧版）</td>
@@ -227,7 +228,13 @@
       <td>F3b（新版）</td>
       <td>重新设计的支持特征：仅用目标字体自身编码；笔画分桶抽样</td>
       <td>相对 F2：规范后的支持特征</td>
-      <td><span class="warn">训练中 ~0.9万/8万</span>；计划 2万步先评一次</td>
+      <td><span class="ok">已训完 8万步</span>；全量 752 主表尚未挂（勿把 Demo-8 当成 752）</td>
+    </tr>
+    <tr>
+      <td>F2-P / F3b-P</td>
+      <td>近邻残差（及 F3b）上加 per-ref attention</td>
+      <td>相对同步数 F2 / F3b：只改注意力打包</td>
+      <td><span class="ok">40k 已出 752 像素分</span>；未见稳定改善，勿写成「更好」</td>
     </tr>
     <tr>
       <td>风格评测器</td>
@@ -263,7 +270,7 @@
       <td>P1</td>
       <td>E1</td>
       <td>1-shot「永」</td>
-      <td rowspan="3"><a href="http://127.0.0.1:8767/">Mode A</a></td>
+      <td rowspan="3"><a href="./">Mode A</a></td>
     </tr>
     <tr>
       <td><strong>A2</strong></td>
@@ -285,7 +292,7 @@
       <td><strong>F2</strong></td>
       <td>F3 legacy（及日后 F3b）</td>
       <td>固定 ref8</td>
-      <td><a href="http://127.0.0.1:8767/">Mode B</a></td>
+      <td><a href="./">Mode B</a></td>
     </tr>
     <tr>
       <td><strong>D1</strong></td>
@@ -293,7 +300,7 @@
       <td><strong>F2 mean8</strong>（及 F3 mean8）</td>
       <td>F2/F3 <code>*_s1</code>：Es 只「永」，<strong>Δ 仍 ref8</strong></td>
       <td>同一 Δ 检索；只改 Es k</td>
-      <td><a href="http://127.0.0.1:8767/">Mode D</a></td>
+      <td><a href="./">Mode D</a></td>
     </tr>
     <tr>
       <td>—</td>
@@ -306,7 +313,7 @@
 </table>
 <div class="callout">
   <strong class="bad">精选图若并排 F1 与 F2/F3，只作观感，不作消融结论。</strong>
-  合法精选见 <a href="http://127.0.0.1:8767/pi_highlights.html">pi_highlights</a>：A3 = F0 vs F1；B1 = F2 vs F3。
+  合法精选见 <a href="./pi_highlights.html">pi_highlights</a>：A3 = F0 vs F1；B1 = F2 vs F3。
   Mode D 看板上 <strong>F2 vs F2_s1</strong>（及 F3 vs F3_s1）：s1 更斜/有对比 → 推理期平均是主因；几乎一样平 → 转 A2-geo/local，不要把 Δ 收成 1-shot。
 </div>
 
@@ -320,7 +327,7 @@
     <li>网络结构 / 条件化路径不同（这正是实验要隔离的处理）。</li>
     <li>检查点步数：官方微调与无结构迁移是 10 万步；近邻残差主表目前是 <strong>7.5 万步</strong>（8 万步已训完但未刷全量主表）；旧版支持特征是 8 万步。</li>
     <li>评测时看到的风格参考图张数不同（见下节）——官方微调三线是 1 张，近邻残差线是固定 8 张。</li>
-    <li>公平对照请切 <a href="http://127.0.0.1:8767/">:8767</a> 的 <strong>Mode A（1-shot）</strong>、<strong>Mode B（ref8）</strong> 或 <strong>Mode D（Es 平均，Δ 仍 ref8）</strong>；Mode C 禁止当总分榜。</li>
+    <li>公平对照请切 <a href="./">:8767</a> 的 <strong>Mode A（1-shot）</strong>、<strong>Mode B（ref8）</strong> 或 <strong>Mode D（Es 平均，Δ 仍 ref8）</strong>；Mode C 禁止当总分榜。</li>
   </ul>
 </div>
 
@@ -349,7 +356,7 @@
       <td>用参考算风格相似度，在训练字体库中取同字符近邻并加权</td>
     </tr>
     <tr>
-      <td>近邻残差 / 旧版支持 · Es 一拍（Mode D）<br/><span class="small">F2_75000_s1 · F3_80k_s1</span></td>
+      <td>近邻残差 / 旧版支持 · Es 一拍（Mode D）<br/><span class="small">F2_80000_s1 · F3_80k_s1</span></td>
       <td><strong>Es 只用「永」</strong>；<strong>Δ / RSI 检索仍 8 张</strong>固定八字（与主表 F2/F3 相同）</td>
       <td>未改训练；同一 checkpoint 只改评测打包</td>
       <td>用来回答「8 张 3×3 平均是不是把斜体/对比抹平了」。不要和 Mode A 的 F1 比总分</td>
@@ -362,7 +369,7 @@
     </tr>
     <tr>
       <td>新版支持特征<br/><span class="small">F3b</span></td>
-      <td>训练完成后按同一评测协议评（尚未出全表）</td>
+      <td>8万步权重已有；全量 752 主表尚未挂</td>
       <td>同近邻残差的多参考设置</td>
       <td>仅目标字体自身特征；笔画分桶抽样（已锁定）</td>
     </tr>
@@ -404,29 +411,78 @@
       <td>略弱于官方微调</td>
     </tr>
     <tr>
-      <td>F0 上挂回官方 RSI @3万步 <span class="small">（F1 中期）</span></td>
-      <td class="num">0.0697</td>
-      <td class="num">0.6435</td>
-      <td class="num">0.1541</td>
-      <td>1-shot；未训满 8万，可更新</td>
+      <td>F0 上挂回官方 RSI @8万步 <span class="small">（F1）</span></td>
+      <td class="num">0.0694</td>
+      <td class="num"><strong>0.6548</strong></td>
+      <td class="num">0.1498</td>
+      <td>1-shot；与 F0 同条件对照（Mode A）</td>
     </tr>
     <tr>
-      <td>近邻残差 @7.5万步</td>
-      <td class="num">0.0707</td>
-      <td class="num">0.6503</td>
-      <td class="num">0.1455</td>
-      <td>步数未对齐 8万/10万</td>
+      <td>近邻残差 @8万步</td>
+      <td class="num">0.0701</td>
+      <td class="num">0.6534</td>
+      <td class="num">0.1452</td>
+      <td>与旧版支持对齐步数（Mode B 底）</td>
     </tr>
     <tr>
       <td>旧版支持特征 @8万步</td>
       <td class="num">0.0703</td>
-      <td class="num"><strong>0.6536</strong></td>
+      <td class="num">0.6536</td>
       <td class="num"><strong>0.1437</strong></td>
-      <td>SSIM/LPIPS 最优；勿当成新版结论</td>
+      <td>LPIPS 最优；勿当成新版 F3b 结论</td>
+    </tr>
+    <tr>
+      <td>F0 上挂回官方 RSI @3万步 <span class="small">（存档）</span></td>
+      <td class="num">0.0697</td>
+      <td class="num">0.6435</td>
+      <td class="num">0.1541</td>
+      <td>中期存档，已被 8万步取代</td>
+    </tr>
+    <tr>
+      <td>近邻残差 @7.5万步 <span class="small">（存档）</span></td>
+      <td class="num">0.0707</td>
+      <td class="num">0.6503</td>
+      <td class="num">0.1455</td>
+      <td>中期存档，已被 8万步取代</td>
     </tr>
   </tbody>
 </table>
-<p class="small">上表为相对真值的像素诊断。下表为 <strong>E12 v5.1 生成器侧风格分</strong>（query=生成图，refs=目标字体 ref8；test16 不在 scorer 训练族内）。主看 latin+digit 子集。</p>
+<p class="small">上表为相对真值的像素诊断（历史 8万/10万）。<strong>新对照统一看 4万步</strong>，勿与上表混成一张消融：</p>
+<table>
+  <thead>
+    <tr>
+      <th>方法（40k · 752）</th>
+      <th class="num">L1 ↓</th>
+      <th class="num">SSIM ↑</th>
+      <th class="num">LPIPS ↓</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>近邻残差 @4万步</td>
+      <td class="num"><strong>0.0722</strong></td>
+      <td class="num">0.6381</td>
+      <td class="num"><strong>0.1491</strong></td>
+      <td>40k 底（字形板 Mode E）</td>
+    </tr>
+    <tr>
+      <td>F2-P @4万步</td>
+      <td class="num">0.0734</td>
+      <td class="num"><strong>0.6463</strong></td>
+      <td class="num">0.1617</td>
+      <td>L1/LPIPS 变差、SSIM 略升；不声称更好</td>
+    </tr>
+    <tr>
+      <td>F3b-P @4万步</td>
+      <td class="num">0.0735</td>
+      <td class="num">0.6447</td>
+      <td class="num">0.1624</td>
+      <td>与 F2-P 接近；尚无 E12</td>
+    </tr>
+  </tbody>
+</table>
+<p class="small">下表为 <strong>E12 v5.1 生成器侧风格分</strong>（query=生成图，refs=目标字体 ref8；test16 不在 scorer 训练族内）。主看 latin+digit 子集。<strong>40k 方法尚未跑 E12。</strong></p>
 <table>
   <thead>
     <tr>
@@ -441,9 +497,9 @@
     <tr><td>官方零样本</td><td class="num">0.645</td><td class="num">0.588</td><td class="num">0.569</td><td>像素差，风格分中等</td></tr>
     <tr><td>官方微调 @10万</td><td class="num">0.676</td><td class="num">0.532</td><td class="num">0.533</td><td>像素最好；E12 mem 偏低</td></tr>
     <tr><td>无结构迁移 @10万</td><td class="num">0.672</td><td class="num">0.518</td><td class="num">0.516</td><td>与官方微调接近、略低</td></tr>
-    <tr><td>F1 官方RSI@3万 mid</td><td class="num">0.650</td><td class="num">0.517</td><td class="num">0.519</td><td>接近 F0；中期，非终局</td></tr>
-    <tr><td>近邻残差 @7.5万</td><td class="num"><strong>0.702</strong></td><td class="num">0.594</td><td class="num">0.603</td><td>φ SC-R 生成方法最优（可高于 GT）</td></tr>
-    <tr><td>旧版支持 @8万</td><td class="num">0.700</td><td class="num"><strong>0.595</strong></td><td class="num"><strong>0.610</strong></td><td>mem 生成方法最优</td></tr>
+    <tr><td>F1 官方RSI@8万</td><td class="num">0.668</td><td class="num">0.531</td><td class="num">0.541</td><td>接近官方微调；1-shot</td></tr>
+    <tr><td>近邻残差 @8万</td><td class="num"><strong>0.704</strong></td><td class="num"><strong>0.601</strong></td><td class="num"><strong>0.612</strong></td><td>φ / mem 生成方法最优（φ 可高于 GT）</td></tr>
+    <tr><td>旧版支持 @8万</td><td class="num">0.700</td><td class="num">0.595</td><td class="num">0.610</td><td>与 F2@8万接近</td></tr>
     <tr><td>真值 GT（上界）</td><td class="num">0.684</td><td class="num"><strong>0.612</strong></td><td class="num"><strong>0.625</strong></td><td>对照上界（mem）；φ 非必然最高</td></tr>
   </tbody>
 </table>
@@ -453,16 +509,18 @@
     <h3>目前能看出的</h3>
     <ul class="two-col">
       <li>本数据微调后，像素诊断相对零样本有大幅改善。</li>
-      <li>去掉结构迁移后略变差 → 结构迁移在本协议下<strong>有一点</strong>像素贡献，但幅度不大。</li>
-      <li>E12 上：8-ref 近邻残差 / 旧版支持 &gt; 1-shot 官方微调（尤其 latin+digit mem_prob）。</li>
+      <li>去掉结构迁移后略变差 → 结构迁移在本协议下<strong>有一点</strong>像素贡献，但幅度不大。F1@8万相对 F0 把 SSIM/LPIPS 拉回接近官方微调。</li>
+      <li>E12 上：8-ref 近邻残差 @8万 / 旧版支持 &gt; 1-shot 官方微调（尤其 latin+digit mem_prob）。</li>
       <li>像素最好的官方微调，E12 mem 反而偏低 → 更说明「像素≠风格」。</li>
     </ul>
   </div>
   <div class="card">
     <h3>现在不能下的结论</h3>
     <ul>
-      <li>不能说「已全面优于官方」——步数未对齐（7.5万 vs 10万）、单一种子、尚无人工盲测。</li>
-      <li>不能把旧版支持特征成绩写成新版 F3b 成绩。</li>
+      <li>不能说「已全面优于官方」——单一种子、尚无人工盲测；E1 仍是 L1 最优。</li>
+      <li>不能把旧版支持特征成绩写成新版 F3b 成绩；F3b 全量 752 尚未上主表。</li>
+      <li>不能把 F2-P@40k 的 SSIM 略升写成整体更好（L1/LPIPS 变差，且无 E12）。</li>
+      <li>不能把 40k 与 80k 放进同一张消融表。</li>
       <li>E12 是域内 scorer，不是开放世界字体鉴定器。</li>
     </ul>
   </div>
@@ -485,10 +543,12 @@
     <tr><th>任务</th><th>进度</th><th>说明</th></tr>
   </thead>
   <tbody>
-    <tr><td>官方结构迁移臂（F1）</td><td class="warn">~2.6万 / 8万步</td><td>从无结构迁移权重续训；完成后按同一 752 协议评测</td></tr>
-    <tr><td>新版支持特征（F3b）</td><td class="warn">~0.9万 / 8万步</td><td>计划 2万步做一次中期评测，可继续训满</td></tr>
-    <tr><td>近邻残差 8万步全量主表</td><td class="warn">待刷</td><td>权重已有；主对比表仍显示 7.5万步</td></tr>
-    <tr><td>崩溃自动续跑</td><td class="ok">已挂守护进程</td><td>训练中断会尝试自动恢复</td></tr>
+    <tr><td>官方结构迁移臂（F1）</td><td class="ok">8万 / 8万步</td><td>752 已评；字形板 Mode A 已挂 F1@80k</td></tr>
+    <tr><td>近邻残差 8万步全量主表（F2）</td><td class="ok">已刷</td><td>与旧版支持对齐；Mode B/D 底为 F2@80k</td></tr>
+    <tr><td>新版支持特征（F3b）</td><td class="ok">已训完 8万步</td><td>全量 752 主表未挂；勿用 Demo-8 代替</td></tr>
+    <tr><td>新对照默认点</td><td class="ok">统一 4万步</td><td>F2 / F2-P / F3b-P 已出 752 像素分（Mode E）</td></tr>
+    <tr><td>F2-RL128</td><td class="ok">已完成 4万步</td><td>目前在 Demo-8 看板，不在 752 主表</td></tr>
+    <tr><td>Set-Delta / Round D–R</td><td class="warn">暂停</td><td>待新 idea，不作为本轮汇报主线</td></tr>
   </tbody>
 </table>
 
@@ -496,27 +556,29 @@
 <ol>
   <li><strong>先看字形对照板</strong>（同一页，按公平轴切换）：
     <ul>
-      <li><strong>Mode A</strong>：1-shot 消融 — 零样本 / 官方微调 / 无结构迁移</li>
-      <li><strong>Mode B</strong>：8-ref 增量 — 近邻残差 / 旧版支持</li>
-      <li><strong>Mode C</strong>：五列全览（仅浏览；跨 1/8-shot，勿当总榜）</li>
+      <li><strong>Mode A</strong>：1-shot 消融 — 零样本 / 官方微调 / 无结构迁移 / F1@8万</li>
+      <li><strong>Mode B</strong>：8-ref 增量 — 近邻残差@8万 / 旧版支持@8万</li>
+      <li><strong>Mode C</strong>：全览（仅浏览；跨 1/8-shot，勿当总榜）</li>
+      <li><strong>Mode D</strong>：Es 改成只喂「永」（Δ 仍 ref8）；不要和 Mode A 的 F1 比总分</li>
+      <li><strong>Mode E</strong>：40k 新对照 — F2 / F2-P / F3b-P；不要和 Mode B 的 80k 混读</li>
     </ul>
-    顶栏会显示该方法真实可见的风格参考（1 张或 ref8）。地址：<a href="http://127.0.0.1:8767/">http://127.0.0.1:8767/</a></li>
-  <li><strong>再看指标总览门户</strong>：<a href="http://127.0.0.1:8768/">http://127.0.0.1:8768/</a></li>
-  <li>风格评测器眼测（v5.1）：<a href="http://127.0.0.1:8770/">http://127.0.0.1:8770/</a>（旧 v4 在 :8766，勿混）</li>
+    顶栏会显示该方法真实可见的风格参考（1 张或 ref8）。地址：<a href="./">./</a></li>
+  <li><strong>Demo-8 一眼对照</strong>（1-shot / 8-shot，含 F2-RL）：<a href="core_shot_board.html">core_shot_board.html</a>。不是 752 全表。</li>
+  <li>风格评测器分数已并入字形板「Style · E12」页签；请忽略任何 :8768 / :8770 本地端口。</li>
 </ol>
-<p class="small">若在本机浏览器打开本文件，上述链接指向实验机本地服务；远程请用对应端口转发。</p>
+<p class="small">导师请用 <a href="http://172.19.45.13:19000/">http://172.19.45.13:19000/</a>；不要用 GitHub 网页当实时看板，也不要依赖本机 :8767。</p>
 
 <h2>9. 下一步（最小必要）</h2>
 <ol>
-  <li>官方结构迁移臂训完 → 同协议评测，补齐「无结构迁移 ↔ 官方结构迁移」。</li>
-  <li>近邻残差刷 <strong>8万步</strong> 全量 752，与旧版支持特征对齐步数。</li>
-  <li>新版支持特征在 2万步 / 8万步评测；旧版只作历史对照。</li>
-  <li>用风格评测器做方法间正式对比；需要时再上设计师盲测。</li>
+  <li>新臂正式比较统一看 <strong>4万步</strong>（字形板 Mode E）；需要风格主张时再补 40k 的 E12。</li>
+  <li>F3b@8万 若要进主叙事，先补同一 752 协议，勿用 Demo-8 代替。</li>
+  <li>F2-P 像素有升有降，先人工看 Mode E / Demo-8，再决定是否继续该臂。</li>
+  <li>Set-Delta 暂停；设计师盲测按需再上。</li>
 </ol>
 
 <div class="foot">
-  本页为导师汇报用独立摘要，数字来自主评测看板与训练心跳（约 2026-09-09 上午）。更细的工程日志不在此展开。<br/>
-  文件位置：<code>reports/PI_BRIEFING_20260909.html</code>
+  本页为导师汇报用独立摘要，数字来自主评测看板（metrics 计算于 2026-09-12；页面刷新 2026-09-13）。更细的工程日志不在此展开。<br/>
+  文件位置：<code>reports/f03_test16_strat/PI_BRIEFING_20260909.html</code>（URL 文件名未改）
 </div>
 </main>
 </body>

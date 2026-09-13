@@ -106,6 +106,30 @@ METHOD_META = {
         "cond": "Es=「永」· Δ 仍 ref8 + Support",
         "role": {"C": "非消融", "D": "vs F3 · 只改 Es→永"},
     },
+    "F2_40000": {
+        "label": "F2 Delta@40k",
+        "shot": 8,
+        "ckpt": "40k",
+        "axes": ["E"],
+        "cond": "ref8 + Δ（无 Support）· 新对照底",
+        "role": {"E": "baseline · 40k"},
+    },
+    "F2P_40000": {
+        "label": "F2-P@40k",
+        "shot": 8,
+        "ckpt": "40k",
+        "axes": ["E"],
+        "cond": "ref8 + Δ + per-ref attention",
+        "role": {"E": "vs F2@40k"},
+    },
+    "F3bP_40000": {
+        "label": "F3b-P@40k",
+        "shot": 8,
+        "ckpt": "40k",
+        "axes": ["E"],
+        "cond": "ref8 + Δ + F3b Support + per-ref attention",
+        "role": {"E": "vs F2-P@40k"},
+    },
 }
 
 MODES = {
@@ -143,6 +167,14 @@ MODES = {
         "shot": "style1_delta8",
         "warn": False,
         "blurb": "公平轴：同一 Content + 同一 Δ/RSI=ref8；只改 Es 平均（8→1「永」）。主看斜体/对比，L1 仅诊断。",
+    },
+    "E": {
+        "title": "E · 40k 新对照（勿与 80k 混读）",
+        "question": "以 F2@40k 为底：F2-P / F3b-P 在同协议 752 上差在哪？",
+        "methods": ["F2_40000", "F2P_40000", "F3bP_40000"],
+        "shot": 8,
+        "warn": True,
+        "blurb": "PI：新训练/正式比较统一看 40k。本表只比 40k；不要和 Mode B 的 F2@80k 比总分。像素有升有降，不据此声称 F2-P 更好。F2-RL / Demo-8 一眼看 core_shot_board.html。",
     },
 }
 
@@ -255,14 +287,15 @@ def metric_tables(payload: dict) -> str:
     )
 
     buckets = payload.get("buckets") or []
-    rows.append("<h3>按语种（诊断）</h3><table><thead><tr><th>语种</th>")
-    for mid in mids:
+    bucket_mids = [mid for mid in mids if "E" not in (METHOD_META.get(mid, {}).get("axes") or [])]
+    rows.append("<h3>按语种（诊断 · 不含 40k 新对照）</h3><table><thead><tr><th>语种</th>")
+    for mid in bucket_mids:
         rows.append(f"<th>{label_of.get(mid, mid)} L1↓</th><th>SSIM↑</th>")
     rows.append("</tr></thead><tbody>")
     for b in buckets:
         l1s = []
         ss = []
-        for mid in mids:
+        for mid in bucket_mids:
             bb = metrics["methods"].get(mid, {}).get("by_bucket", {}).get(b, {})
             l1s.append(bb.get("L1_mean"))
             ss.append(bb.get("SSIM_mean"))
@@ -357,8 +390,8 @@ def e12_tables(e12: dict, methods: list[dict]) -> str:
         rows.append("</tbody></table>")
     rows.append(
         "<p class='cap'>来源 <a href='e12_v51_scores.json'>e12_v51_scores.json</a> · "
-        "眼测 <a href='http://127.0.0.1:8770/'>:8770</a> · "
-        "不与 L1/SSIM 合成总分。</p>"
+        "本页「Style · E12」页签已含生成器侧分数；独立眼测端口未对导师开放。"
+        " 不与 L1/SSIM 合成总分。40k 方法尚未跑 E12。</p>"
     )
     return "".join(rows)
 
@@ -437,6 +470,7 @@ a{{color:var(--accent)}}
   像素 L1/SSIM/LPIPS 相对 GT，<b>仅为诊断</b>，不是风格 claim。
   · <a href="mode_d_style1_probe_compact.png">Mode D 探针拼图</a>
   · <a href="PI_BRIEFING_20260909.html">导师汇报 §2.1</a>
+  · <a href="/p649_v2a_review/review.html">P649 ink 审查</a>
   · <a href="pi_highlights.html"><b>对照组精选看图</b></a>
   · <a href="http://127.0.0.1:8768/">Compare Portal</a>
   · <a href="http://127.0.0.1:8770/">E12 v5.1 眼测</a>
@@ -471,6 +505,7 @@ a{{color:var(--accent)}}
     <button type="button" class="mode" data-mode="B" aria-pressed="false">B · Support 消融（ref8）</button>
     <button type="button" class="mode" data-mode="C" aria-pressed="false">C · 全览（非总分）</button>
     <button type="button" class="mode" data-mode="D" aria-pressed="false">D · Es 平均消融（Δ 仍 ref8）</button>
+    <button type="button" class="mode" data-mode="E" aria-pressed="false">E · 40k 新对照</button>
   </p>
   <div id="mode-blurb" class="okbox"></div>
   <div id="mode-warn" class="warn"></div>
@@ -481,7 +516,7 @@ a{{color:var(--accent)}}
   <div id="cond" class="cond"></div>
   <div class="grid" id="sheet" style="margin-top:12px"></div>
 </section>
-<p class="cap">生成于 {utc_now()} · ui=fair_axes_v4_80k · baseline: A=F0 / B=F2@80k / D=F2 mean8 · F1@80k · F3b/F2-P 待挂 · <a href="pi_highlights.html">对照组精选看图</a> · <a href="PI_BRIEFING_20260909.html">白话稿 §2.1</a></p>
+<p class="cap">生成于 {utc_now()} · ui=fair_axes_v5_40k · baseline: A=F0 / B=F2@80k / D=F2 mean8 / E=F2@40k · F1@80k 已挂 · <a href="core_shot_board.html">Demo-8 1-shot/8-shot</a> · <a href="pi_highlights.html">对照组精选看图</a> · <a href="PI_BRIEFING_20260909.html">白话稿</a></p>
 </main>
 <script>
 const DATA = {json.dumps(data_js, ensure_ascii=False)};
@@ -621,12 +656,10 @@ tick(); setInterval(tick, 8000);
 
 
 def inject_style1_methods(payload: dict) -> None:
-    """Attach F2/F3 style-oneshot columns; preds optional so Mode D shows 排队 while generating."""
-    s1 = ("F2_80000_s1", "F3_80k_s1")
+    """Attach METHOD_META pred columns so Mode A/B/D/E can show methods missing from browse_index."""
     by_id = {m["id"]: m for m in payload["methods"]}
-    for mid in s1:
+    for mid, meta in METHOD_META.items():
         if mid not in by_id:
-            meta = METHOD_META[mid]
             by_id[mid] = {"id": mid, "label": meta["label"]}
         for it in payload["items"]:
             rel = f"preds/{mid}/test/{it['font']}/test__{it['font']}__{cp_of(it['char'])}__s{SEED}.png"
@@ -668,12 +701,13 @@ def main() -> None:
         )
     payload["methods"] = enriched
     payload["ref8"] = REF8
-    payload["ui"] = "fair_axes_v3_modeD"
+    payload["ui"] = "fair_axes_v5_40k"
     payload["generated_at"] = utc_now()
     payload["note"] = (
-        "Fair-axis UI v3: Mode A RSI ablation baseline=F0 (1-shot); "
-        "Mode B Support ablation baseline=F2 (ref8); "
+        "Fair-axis UI v5: Mode A RSI ablation baseline=F0 (1-shot, F1@80k); "
+        "Mode B Support ablation baseline=F2@80k (ref8); "
         "Mode D Es-mean ablation (Δ still ref8) baseline=F2 mean8; "
+        "Mode E 40k F2 vs F2-P vs F3b-P (do not mix with 80k); "
         "Mode C browse only. Do not treat F1 vs F2/F3 or D vs A as fair ablation."
     )
     e12_path = OUT / "e12_v51_scores.json"

@@ -1,17 +1,17 @@
 {
-  "ts": "2026-09-11T04:16:19+00:00",
+  "ts": "2026-09-11T17:15:24+00:00",
   "results": [
     {
       "method": "F2_40k",
-      "done": 160,
-      "skipped": 0,
-      "elapsed_s": 270.6
+      "done": 0,
+      "skipped": 160,
+      "elapsed_s": 0.0
     },
     {
-      "method": "F2P_25k",
+      "method": "F2P_40k",
       "done": 160,
       "skipped": 0,
-      "elapsed_s": 210.9
+      "elapsed_s": 381.4
     }
   ]
 }

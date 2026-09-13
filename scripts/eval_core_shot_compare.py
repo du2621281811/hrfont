@@ -124,12 +124,15 @@ REUSE_S1 = [
 REUSE_S8 = [
     ("F2_80000", "F2@80k", "s8"),
     ("F2P_40000", "F2-P@40k", "s8"),
+    ("F2RL_40000", "F2-RL128@40k", "s8"),
     ("F3_80k", "F3@80k", "s8"),
     ("F3bP_40000", "F3b-P@40k", "s8"),
 ]
 GENERATE = [
     ("F2_80000_k1", "F2@80k", "s1"),
     ("F2P_40000_k1", "F2-P@40k", "s1"),
+    ("F2RL_40000", "F2-RL128@40k", "s8"),
+    ("F2RL_40000_k1", "F2-RL128@40k", "s1"),
     ("F3_80k_k1", "F3@80k", "s1"),
     ("F3b_80000", "F3b@80k", "s8"),
     ("F3b_80000_k1", "F3b@80k", "s1"),
@@ -143,6 +146,7 @@ COL_S1 = [
     ("F1_80000", "F1@80k"),
     ("F2_80000_k1", "F2@80k"),
     ("F2P_40000_k1", "F2-P@40k"),
+    ("F2RL_40000_k1", "F2-RL@40k"),
     ("F3_80k_k1", "F3@80k"),
     ("F3b_80000_k1", "F3b@80k"),
     ("F3bP_40000_k1", "F3b-P@40k"),
@@ -150,6 +154,7 @@ COL_S1 = [
 COL_S8 = [
     ("F2_80000", "F2@80k"),
     ("F2P_40000", "F2-P@40k"),
+    ("F2RL_40000", "F2-RL@40k"),
     ("F3_80k", "F3@80k"),
     ("F3b_80000", "F3b@80k"),
     ("F3bP_40000", "F3b-P@40k"),
@@ -168,7 +173,14 @@ FAMILIES = {
     },
     "f2": {
         "label": "F2 族",
-        "ids": ["F2_80000_k1", "F2P_40000_k1", "F2_80000", "F2P_40000"],
+        "ids": [
+            "F2_80000_k1",
+            "F2P_40000_k1",
+            "F2RL_40000_k1",
+            "F2_80000",
+            "F2P_40000",
+            "F2RL_40000",
+        ],
     },
     "f3": {
         "label": "F3 族",
@@ -336,7 +348,7 @@ def build_manifest() -> dict:
         "protocol": {
             "content": "同一张 Noto 协议 A ContentImage",
             "s1": "P1/E1/F0/F1 用 Style=永；F 臂 true-1-shot 为 Es+Δ 都用 永",
-            "s8": "F2/F2-P/F3/F3b/F3b-P 用 ref8=永和书风骨韵天地（Es+Δ）",
+            "s8": "F2/F2-P/F2-RL128/F3/F3b/F3b-P 用 ref8=永和书风骨韵天地（Es+Δ；F2-RL128 另加 local L）",
             "oneshot_only": ["P1", "E1_100k", "F0_100k", "F1_80000"],
             "not_reused": "F2/F3 历史 *_s1 仍是 Es=永 且 Δ=ref8，本表 1-shot 列不用它们",
         },
@@ -430,7 +442,7 @@ th.hl-col {{ filter:brightness(1.25); }}
 <h1>核心模型对照 · Demo-8 × {len(CHARS)} 字 · 1-shot / 8-shot</h1>
 <p class="meta">同一 Content、同一套 Style 图、seed 3407、DPM++20 CFG7.5。
 原版 FD / E1 / F0 / F1 只做 1-shot（永）。
-F2 / F2-P / F3 / F3b / F3b-P 同时做 1-shot（Es+Δ 都用永）和 8-shot（ref8）。
+F2 / F2-P / F2-RL128 / F3 / F3b / F3b-P 同时做 1-shot（Es+Δ 都用永）和 8-shot（ref8）。
 GT 只作 positive control，不是天花板。</p>
 <div class="bar">
 <label>视图 <select id="viewSel"><option value="font">按字体（字为行）</option><option value="char">按字（字体为行）</option></select></label>
@@ -440,7 +452,7 @@ GT 只作 positive control，不是天花板。</p>
 <label><input type="checkbox" id="s8" checked> 8-shot</label>
 <span class="legs">
   <span class="leg baseline"><i></i>基线 P1/E1/F0/F1</span>
-  <span class="leg f2"><i></i>F2 族</span>
+  <span class="leg f2"><i></i>F2 族（含 RL128）</span>
   <span class="leg f3"><i></i>F3 族</span>
 </span>
 <span id="bk"></span>

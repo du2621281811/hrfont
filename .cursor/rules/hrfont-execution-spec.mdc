@@ -54,6 +54,11 @@ alwaysApply: true
 - D-P9：E2/E2b 均 `new_layer=null`，复用同一 E1 offset head；禁止只给 E2 加 adapter。
 - **代码级阻断（修后方可开 80k）**：① E2 的 Δ-drop 与 E2b 官方源无 drop 构成混杂（D-P2 修复）；② launcher/parser 必须接线 `k_top`（YAML 已写 10，运行时仍回落默认 3）。
 
+## 1.8 PI 决策（2026-09-12）
+
+- **新训练默认 40k，正式比较统一看 40k checkpoint。** 覆盖 §1.7 D-P8 对后续新臂的 80k 主比较。历史 F1/F2/F3 的 80k 跑完记录保留；新对照优先用已有 `global_step_40000`，不再把 80k 当默认终点或默认评测点。F0/E1 的 100k 父模型/锚点不变。
+- **A1 零训练探针 parked。** 题本与 gate 仍以 `reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3 为准；当前数据未清洗，**换清洗后数据集再做**。不阻塞 F2-RL128。禁止用旧数据上的 A1 阴性/阳性当清洗后结论。
+
 ## 2. 数据契约
 
 - A 协议：对每字体在 target295+style338 全633字符上寻找同一最大字号，使每字 `textbbox` 的 w,h≤84；在96×96白底居中渲染 RGB PNG；禁止 resize、JPG、128输入及混用旧 A/B/cache/alpha/gap/B0。

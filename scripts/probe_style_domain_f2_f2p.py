@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Train/val style-domain probe: F2@40k vs F2-P@25k (Mode B ref8).
+"""Train/val style-domain probe: F2@40k vs F2-P@40k (Mode B ref8).
 
 Locks fonts/chars before generate. Writes reports/style_domain_probe/.
-Does not touch test16. Prefer GPU2 while F2-P trains on GPU1.
+Does not touch test16. Prefer free GPUs; avoid GPU1 while F3b-P trains there.
 """
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ REF8_CPS = [f"u{ord(c):04X}" for c in REF8]
 SEED = 3407
 
 # Locked before any generate (do not edit after first run without bumping probe_id).
-PROBE_ID = "v1_20260911"
+PROBE_ID = "v2_20260912"
 CHARS = list("Il1oAaあの")  # 8: latin + kana identity/style probes
 # 12 train: weight extremes + unmarked (all must exist in split train).
 TRAIN_STEMS = [
@@ -372,8 +372,8 @@ def build_html(manifest: dict) -> Path:
                     "<td class='cell'>"
                     f"<div class='lab'>{ch}</div>"
                     f"<div class='pair'>"
-                    f"<figure><figcaption>F2@40k</figcaption>{img_tag(methods[0]['id'], domain, stem, ch)}</figure>"
-                    f"<figure><figcaption>F2-P@25k</figcaption>{img_tag(methods[1]['id'], domain, stem, ch)}</figure>"
+                    f"<figure><figcaption>{methods[0]['label']}</figcaption>{img_tag(methods[0]['id'], domain, stem, ch)}</figure>"
+                    f"<figure><figcaption>{methods[1]['label']}</figcaption>{img_tag(methods[1]['id'], domain, stem, ch)}</figure>"
                     f"<figure><figcaption>GT</figcaption>{gt_tag(domain, stem, ch)}</figure>"
                     f"</div></td>"
                 )
@@ -404,7 +404,7 @@ figcaption{{font-size:10px;color:#666}}
 .miss{{color:#aaa}}
 .verdict{{background:#fff;border:1px solid #ccc;padding:12px 16px;max-width:70ch}}
 </style></head><body>
-<h1>Style domain probe · F2@40k vs F2-P@25k</h1>
+<h1>Style domain probe · {methods[0]['label']} vs {methods[1]['label']}</h1>
 <p class="meta">probe_id=<code>{manifest['probe_id']}</code> · seed={SEED} · Mode B ref8=<code>{''.join(REF8)}</code> ·
 DPM++20 CFG7.5 · chars=<code>{''.join(chars)}</code><br/>
 {manifest['methods'][0]['id']}: {manifest['methods'][0]['ckpt']}<br/>
@@ -440,9 +440,9 @@ def main() -> int:
             "style_pattn": False,
         },
         {
-            "id": "F2P_25k",
-            "label": "F2-P@25k",
-            "ckpt": "runs/f2_pattn_s3407/global_step_25000",
+            "id": "F2P_40k",
+            "label": "F2-P@40k",
+            "ckpt": "runs/f2_pattn_s3407/global_step_40000",
             "style_pattn": True,
         },
     ]

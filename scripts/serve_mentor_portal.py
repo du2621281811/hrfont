@@ -9,6 +9,7 @@ Routes:
   /weekly.html               weekly report HTML
   /assets/                   weekly-report figures
   /cn2west_v2_abc_review/    same as :8777
+  /p649_v2a_review/          p649 协议 A ink 审查（可写 decisions.json）
   /fontdiffuser-*/           protocol render datasets (image roots)
   /e1_formal_eval/ /e1/      E1 formal eval
   /f3_ckpt_dashboard/        Official / F0 / F3 visual compare
@@ -20,10 +21,14 @@ Routes:
 from __future__ import annotations
 
 import argparse
+import json
 import os
+import sys
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,6 +55,8 @@ _DATA_PREFIXES = (
     "e1_ft_v2_dashboard",
     "fontdiffuser-p253-",
     "fontdiffuser_p253",
+    "fontdiffuser-p649-",
+    "p649_v2a_review",
 )
 
 
@@ -85,6 +92,45 @@ class MentorHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             return
         super().do_GET()
+
+    def do_OPTIONS(self) -> None:  # noqa: N802
+        from serve_p649_review import PUT_STORES
+
+        if unquote(urlsplit(self.path).path) not in PUT_STORES:
+            self.send_error(403)
+            return
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Methods", "GET, PUT, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
+    def do_PUT(self) -> None:  # noqa: N802
+        """Only p649 ink review may write; the rest of the portal stays read-only."""
+        from serve_p649_review import PUT_STORES, apply_incoming
+
+        request_path = unquote(urlsplit(self.path).path)
+        store = PUT_STORES.get(request_path)
+        if store is None:
+            self.send_error(403, "PUT only allowed for p649 review decisions")
+            return
+        json_path, jsonl_path = store
+        n = int(self.headers.get("Content-Length") or 0)
+        raw = self.rfile.read(n)
+        try:
+            data = json.loads(raw.decode("utf-8"))
+            payload = apply_incoming(data, json_path=json_path, jsonl_path=jsonl_path)
+        except json.JSONDecodeError:
+            self.send_error(400, "invalid json")
+            return
+        except ValueError as exc:
+            self.send_error(400, str(exc))
+            return
+        body = json.dumps({"ok": True, "n": payload["n"], "updated_at": payload["updated_at"]}).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
     def translate_path(self, path: str) -> str:
         request_path = unquote(urlsplit(path).path)
@@ -141,7 +187,8 @@ def verify_inputs() -> None:
         E1 / "index.html",
         E1 / "browse_index.json",
         QA_HUB,
-        DATA / "fontdiffuser-p253-t295-s338-cn2west-v2" / "train" / "TargetImage",
+        DATA / "p649_v2a_review" / "review.html",
+        DATA / "fontdiffuser-p649-t295-s338-cn2west-v2a-r0" / "train" / "TargetImage",
     )
     missing = []
     for path in required:

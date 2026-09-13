@@ -42,7 +42,7 @@ def get_parser():
     # F1/F2/F3 matched arms. source_drop applies to WHATEVER structure source is
     # active (official Ec or delta) -- the old delta-only drop silently un-matched
     # the official arm against the delta arm.
-    parser.add_argument("--arm", choices=("F1", "F2", "F3", "F3b", "F2P", "F3bP"), required=True)
+    parser.add_argument("--arm", choices=("F1", "F2", "F3", "F3b", "F2P", "F3bP", "F2RL"), required=True)
     parser.add_argument("--source_drop", type=float, default=0.25)
     parser.add_argument("--support", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--support_drop", type=float, default=0.20)
@@ -55,6 +55,7 @@ def get_parser():
     parser.add_argument("--nshot_max", type=int, default=8)
     parser.add_argument("--eval_refs", nargs="+", default=list("永和书风骨韵天地"))
     parser.add_argument("--es_cache_path", type=str, default="artifacts/f0/es_spatial_f0")
+    parser.add_argument("--es_local_cache_path", type=str, default="artifacts/f0/es_local_f0_block2_pool4")
     parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
     parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
     parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)
@@ -78,7 +79,7 @@ def get_parser():
     parser.add_argument("--perceptual_coefficient", type=float, default=0.01)
     parser.add_argument("--offset_coefficient", type=float, default=0.5)
     ## step
-    parser.add_argument("--max_train_steps", type=int, default=80000, 
+    parser.add_argument("--max_train_steps", type=int, default=40000, 
                         help="Total number of training steps to perform.  If provided, overrides num_train_epochs.",)
     parser.add_argument("--ckpt_interval", type=int,default=5000, help="The checkpoint interval.")
     parser.add_argument("--resume_from", type=str, default=None,

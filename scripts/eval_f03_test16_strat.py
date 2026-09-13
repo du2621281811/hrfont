@@ -202,6 +202,25 @@ METHODS = {
         "style_pattn": True,
         "support_bank": ROOT / "artifacts/f0/support_bank_f3b_topology.json",
     },
+    "F2RL_40000": {
+        "label": "F2-RL128@40k",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-RL128-A-S3407/global_step_40000",
+        "style_oneshot": False,
+        "style_rl128": True,
+        "es_local_cache": ROOT / "artifacts/f0/es_local_f0_block2_pool4",
+    },
+    "F2RL_40000_k1": {
+        "label": "F2-RL128@40k 1-shot",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-RL128-A-S3407/global_step_40000",
+        "style_oneshot": True,
+        "delta_oneshot": True,
+        "style_rl128": True,
+        "es_local_cache": ROOT / "artifacts/f0/es_local_f0_block2_pool4",
+    },
 }
 F1_RUN = ROOT / "runs/F1-OFFRSI-A-S3407"
 F3_VARIANT = ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser"
@@ -443,6 +462,7 @@ def pack_style_delta(
     style_oneshot: bool,
     style_pattn: bool = False,
     delta_oneshot: bool = False,
+    local_cache=None,
 ):
     """Style Es uses k=1「永」 when style_oneshot.
 
@@ -456,15 +476,19 @@ def pack_style_delta(
     }
     style_refs = STYLE1_CPS if style_oneshot else REF8_CPS
     delta_refs = STYLE1_CPS if delta_oneshot else REF8_CPS
-    style, _, style_seq, style_mask = T._style_conditions(
-        es, {**base, "ref_chars": [style_refs]}, device, style_pattn=style_pattn
+    style, _, style_seq, style_mask, local_raw, local_mask = T._style_conditions(
+        es,
+        {**base, "ref_chars": [style_refs]},
+        device,
+        style_pattn=style_pattn,
+        local_cache=local_cache,
     )
     _, queries, *_ = T._style_conditions(es, {**base, "ref_chars": [delta_refs]}, device, style_pattn=False)
     structure = T._structure_features(
         es, ec, library, {**base, "ref_chars": [delta_refs]}, queries, cfg, keep, device
     )
     content = T._content_features(ec, {**base, "ref_chars": [delta_refs]}, keep, device)
-    return style, structure, content, style_seq, style_mask
+    return style, structure, content, style_seq, style_mask, local_raw, local_mask
 
 
 def sidecar_style_extra(mid: str) -> dict:
@@ -702,7 +726,7 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
     keep = torch.zeros(1, dtype=torch.bool, device=device_t)
 
     def pack_one(font: str, ch: str):
-        style, structure, content, style_seq, style_mask = pack_style_delta(
+        style, structure, content, style_seq, style_mask, *_ = pack_style_delta(
             T,
             es,
             ec,
@@ -855,13 +879,16 @@ def f2_timeline_steps() -> list[int]:
 
 def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_75000") -> None:
     """Δ only, no Support. style_oneshot=True → Es from 永 only; Δ still ref8.
-    style_pattn=True → F2-P per-ref style seq on up-path cross-attn."""
+    style_pattn=True → F2-P per-ref style seq on up-path cross-attn.
+    style_rl128=True → F2-RL128 global9 + Es block2 4×4 local tokens.
+    """
     import torch
     from accelerate.utils import set_seed
 
     spec = METHODS[mid]
     style_oneshot = bool(spec.get("style_oneshot"))
     style_pattn = bool(spec.get("style_pattn"))
+    style_rl128 = bool(spec.get("style_rl128"))
     delta_oneshot = bool(spec.get("delta_oneshot"))
     n_total = len(stems) * len(STRATIFIED)
     update_status(
@@ -873,7 +900,7 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     sys.path.insert(0, str(variant))
     os.chdir(variant)
     import train as T
-    from scripts.hrfont_feature_cache import EcCache, EsCache
+    from scripts.hrfont_feature_cache import EcCache, EsCache, EsLocalCache
     from src.build import (
         build_content_encoder,
         build_ddpm_scheduler,
@@ -883,9 +910,17 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     from src.dpm_solver.dpm_solver_pytorch import DPM_Solver, NoiseScheduleVP
     from src.model import FontDiffuserModel
 
-    log(mid, f"load Es/Ec caches + LibraryEs (F2: delta, no support; style_pattn={style_pattn})")
+    log(
+        mid,
+        f"load Es/Ec caches + LibraryEs (F2: delta, no support; "
+        f"style_pattn={style_pattn}; style_rl128={style_rl128})",
+    )
     es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
     ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
+    local_cache = None
+    if style_rl128:
+        local_dir = Path(spec.get("es_local_cache") or (ROOT / "artifacts/f0/es_local_f0_block2_pool4"))
+        local_cache = EsLocalCache(local_dir)
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
     train_fonts = sorted(split["stems"]["train"])
     library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
@@ -918,6 +953,8 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         style_encoder=build_style_encoder(args),
         content_encoder=build_content_encoder(args),
     )
+    if style_rl128:
+        T._attach_local_proj(fd)
     fd.unet.load_state_dict(torch.load(ckpt / "unet.pth", map_location="cpu", weights_only=True))
     fd.style_encoder.load_state_dict(
         torch.load(ckpt / "style_encoder.pth", map_location="cpu", weights_only=True)
@@ -925,16 +962,22 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     fd.content_encoder.load_state_dict(
         torch.load(ckpt / "content_encoder.pth", map_location="cpu", weights_only=True)
     )
+    if style_rl128:
+        proj_p = ckpt / "local_style_proj.pth"
+        if not proj_p.is_file():
+            raise FileNotFoundError(proj_p)
+        fd.local_style_proj.load_state_dict(torch.load(proj_p, map_location="cpu", weights_only=True))
     T._ban_encoder_forward(fd)
     device_t = torch.device(device)
     fd.to(device_t).eval()
-    model = make_dpm_adapter(fd, torch, style_pattn=style_pattn).to(device_t).eval()
+    use_style_seq = style_pattn or style_rl128
+    model = make_dpm_adapter(fd, torch, style_pattn=use_style_seq).to(device_t).eval()
     scheduler = build_ddpm_scheduler(args)
     noise_schedule = NoiseScheduleVP(schedule="discrete", betas=scheduler.betas)
     keep = torch.zeros(1, dtype=torch.bool, device=device_t)
 
     def pack_one(font: str, ch: str):
-        style, structure, content, style_seq, style_mask = pack_style_delta(
+        style, structure, content, style_seq, style_mask, local_raw, local_mask = pack_style_delta(
             T,
             es,
             ec,
@@ -947,7 +990,12 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
             style_oneshot,
             style_pattn=style_pattn,
             delta_oneshot=delta_oneshot,
+            local_cache=local_cache,
         )
+        if style_rl128:
+            style_seq, style_mask = T._pack_up_style(
+                fd, style, None, None, local_raw, local_mask, cfg_mask=None
+            )
         return {
             "style": style,
             "structure": structure,
@@ -964,18 +1012,35 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         content = packed["content"]
         style_seq = packed["style_seq"]
         style_mask = packed["style_mask"]
-        if style_pattn:
+        if use_style_seq:
             cond = [img, img, style, structure, content, None, style_seq, style_mask]
-            uncond = [
-                torch.ones_like(img),
-                torch.ones_like(img),
-                torch.zeros_like(style),
-                [torch.zeros_like(x) for x in structure],
-                [torch.zeros_like(x) for x in content],
-                None,
-                torch.zeros_like(style_seq),
-                style_mask.clone(),
-            ]
+            if style_rl128:
+                # Match train CFG: zero G; mask L off so Linear bias cannot leak.
+                uncond_seq = style_seq.clone()
+                uncond_mask = style_mask.clone()
+                uncond_seq[:, :9] = 0
+                uncond_mask[:, 9:] = False
+                uncond = [
+                    torch.ones_like(img),
+                    torch.ones_like(img),
+                    torch.zeros_like(style),
+                    [torch.zeros_like(x) for x in structure],
+                    [torch.zeros_like(x) for x in content],
+                    None,
+                    uncond_seq,
+                    uncond_mask,
+                ]
+            else:
+                uncond = [
+                    torch.ones_like(img),
+                    torch.ones_like(img),
+                    torch.zeros_like(style),
+                    [torch.zeros_like(x) for x in structure],
+                    [torch.zeros_like(x) for x in content],
+                    None,
+                    torch.zeros_like(style_seq),
+                    style_mask.clone(),
+                ]
         else:
             cond = [img, img, style, structure, content, None]
             uncond = [

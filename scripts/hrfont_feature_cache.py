@@ -111,6 +111,29 @@ class EsCache:
         return self.table.directory / "pooled.dat"
 
 
+ES_LOCAL = (16, 256)
+
+
+class EsLocalCache:
+    """Frozen F0 Es third DBlock → 4×4 pool, one [16,256] row per (split,font,cp)."""
+
+    def __init__(self, directory: Path):
+        self.table = MemmapTable(directory)
+        self.table.load_keys()
+        n = len(self.table.keys)
+        self.local = self.table.open_array("local", (n, *ES_LOCAL), "r")
+        self.manifest = self.table.load_manifest()
+
+    def _row(self, split: str, font: str, cp: str) -> int:
+        key = key_es(split, font, cp)
+        if key not in self.table.index:
+            raise KeyError(key)
+        return self.table.index[key]
+
+    def tokens(self, split: str, font: str, cp: str) -> torch.Tensor:
+        return torch.from_numpy(np.array(self.local[self._row(split, font, cp)], copy=True)).float()
+
+
 class CosineTable:
     """Read-only mmap of per-query-font/per-character library cosines."""
 

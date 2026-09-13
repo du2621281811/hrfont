@@ -32,7 +32,7 @@ from tqdm.auto import tqdm
 REPO = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO))
 from scripts.hrfont_delta_v2 import DeltaConfig, compute_alpha
-from scripts.hrfont_feature_cache import EcCache, EsCache, mix_cached_delta
+from scripts.hrfont_feature_cache import EcCache, EsCache, EsLocalCache, mix_cached_delta
 from scripts.hrfont_support_adapter import SupportAdapter
 
 from configs.fontdiffuser import get_parser
@@ -51,9 +51,14 @@ ARM_SPEC = {
     "F3b": ("delta", True),
     "F2P": ("delta", False),
     "F3bP": ("delta", True),
+    "F2RL": ("delta", False),
 }
 # Arms that replace up-path 9-token mean with per-ref pooled h tokens (DESIGN_F2P_F3BP).
 STYLE_PATTN_ARMS = frozenset({"F2P", "F3bP"})
+# F2 + R-L128: keep global9, concat per-ref Es block2 4×4 tokens (SOLUTION_STYLE_WEAKNESS).
+LOCAL_L128_ARMS = frozenset({"F2RL"})
+LOCAL_PROJ_SEED = 3407 * 1009 + 128
+N_LOCAL_PER_REF = 16
 # Ec multi-scale channel widths (see scripts/hrfont_feature_cache.py EC_SHAPES).
 EC_SCALE_CHANNELS = (3, 64, 128, 256, 256)
 
@@ -96,6 +101,14 @@ def _verify_caches(args):
     ec_prog = json.loads((ec_dir / "progress.json").read_text(encoding="utf-8"))
     if es_prog.get("done") != es_prog.get("total") or ec_prog.get("done") != ec_prog.get("total"):
         raise RuntimeError("encoder cache is incomplete")
+    if args.arm in LOCAL_L128_ARMS:
+        local_dir = Path(args.es_local_cache_path)
+        local_man = json.loads((local_dir / "manifest.json").read_text(encoding="utf-8"))
+        local_prog = json.loads((local_dir / "progress.json").read_text(encoding="utf-8"))
+        if local_prog.get("done") != local_prog.get("total"):
+            raise RuntimeError("es local cache is incomplete")
+        if local_man.get("es_checkpoint_sha256") != es_sha:
+            raise RuntimeError("D-A1: Es local cache SHA does not match init style_encoder")
     return es_sha, ec_sha
 
 
@@ -134,15 +147,18 @@ def _style_chars_from_cache(es_cache: EsCache) -> list[str]:
     return ordered
 
 
-def _style_conditions(es_cache: EsCache, samples, device, style_pattn: bool = False, n_max: int = 8):
-    """Build down-path style map (+ optional per-ref up-path h tokens).
+def _style_conditions(es_cache: EsCache, samples, device, style_pattn: bool = False, n_max: int = 8,
+                      local_cache: EsLocalCache | None = None):
+    """Build down-path style map (+ optional per-ref up-path h tokens / R-L128).
 
     Down-path always gets the ref-mean spatial map (legacy MCA contract).
     When style_pattn=True, also return padded per-ref pooled h tokens and a
     boolean keep-mask (True=valid) for up-path cross-attention.
+    When local_cache is set, also return padded [16*n_max, 256] block2 tokens.
     """
     maps, queries = [], []
     seqs, masks = [], []
+    local_rows, local_masks = [], []
     for split, font, refs in zip(samples["split"], samples["font_stem"], samples["ref_chars"]):
         spatial = torch.stack([es_cache.spatial_tensor(split, font, cp) for cp in refs], 0)
         maps.append(spatial.mean(0))
@@ -164,10 +180,63 @@ def _style_conditions(es_cache: EsCache, samples, device, style_pattn: bool = Fa
             mask[:n] = True
             seqs.append(pooled)
             masks.append(mask)
+        if local_cache is not None:
+            toks = torch.cat([local_cache.tokens(split, font, cp) for cp in refs], 0)
+            cap = N_LOCAL_PER_REF * n_max
+            n_l = int(toks.shape[0])
+            if n_l > cap:
+                toks = toks[:cap]
+                n_l = cap
+            if n_l < cap:
+                toks = torch.cat([toks, torch.zeros(cap - n_l, toks.shape[1], dtype=toks.dtype)], 0)
+            lmask = torch.zeros(cap, dtype=torch.bool)
+            lmask[:n_l] = True
+            local_rows.append(toks)
+            local_masks.append(lmask)
     maps_t = torch.stack(maps).to(device)
-    if not style_pattn:
-        return maps_t, queries, None, None
-    return maps_t, queries, torch.stack(seqs).to(device), torch.stack(masks).to(device)
+    seq_t = torch.stack(seqs).to(device) if style_pattn else None
+    mask_t = torch.stack(masks).to(device) if style_pattn else None
+    loc_t = torch.stack(local_rows).to(device) if local_cache is not None else None
+    loc_m = torch.stack(local_masks).to(device) if local_cache is not None else None
+    return maps_t, queries, seq_t, mask_t, loc_t, loc_m
+
+
+def _attach_local_proj(model) -> None:
+    """One shared Linear(256,1024); isolated RNG so F2 streams stay unmatched-safe."""
+    cpu = torch.get_rng_state()
+    cuda = torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None
+    torch.manual_seed(LOCAL_PROJ_SEED)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(LOCAL_PROJ_SEED)
+    proj = torch.nn.Linear(256, 1024, bias=True)
+    torch.set_rng_state(cpu)
+    if cuda is not None:
+        torch.cuda.set_rng_state_all(cuda)
+    model.add_module("local_style_proj", proj)
+
+
+def _pack_up_style(raw, style, style_seq, style_mask, local_raw, local_mask, cfg_mask):
+    """Concat global9 + projected L128. CFG zeros G; L is masked off (no Linear bias leak)."""
+    if local_raw is None:
+        if style_seq is None:
+            return None, None
+        seq = style_seq
+        mask = style_mask
+        if cfg_mask is not None and bool(cfg_mask.any()):
+            seq = seq.clone()
+            seq[cfg_mask] = 0
+        return seq, mask
+    bsz = style.shape[0]
+    g = style.permute(0, 2, 3, 1).reshape(bsz, -1, style.shape[1])
+    g_mask = torch.ones(bsz, g.shape[1], dtype=torch.bool, device=style.device)
+    proj = raw.local_style_proj
+    local_tok = proj(local_raw.to(dtype=next(proj.parameters()).dtype)).to(dtype=g.dtype)
+    seq = torch.cat([g, local_tok], dim=1)
+    mask = torch.cat([g_mask, local_mask.to(device=style.device)], dim=1)
+    if cfg_mask is not None and bool(cfg_mask.any()):
+        mask = mask.clone()
+        mask[cfg_mask, g.shape[1]:] = False
+    return seq, mask
 
 
 def _write_heartbeat(output_dir: Path, **payload):
@@ -376,6 +445,8 @@ def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int, sc
     torch.save(model.style_encoder.state_dict(), directory / "style_encoder.pth")
     torch.save(model.content_encoder.state_dict(), directory / "content_encoder.pth")
     torch.save(adapter.state_dict() if adapter is not None else {}, directory / "support_adapter.pth")
+    proj = getattr(model, "local_style_proj", None)
+    torch.save(proj.state_dict() if proj is not None else {}, directory / "local_style_proj.pth")
     payload = {"step": step, "optimizer": optimizer.state_dict(),
                "scheduler": scheduler.state_dict(), "rng": _rng_state()}
     if scaler is not None:
@@ -420,6 +491,12 @@ def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None, sca
         payload = torch.load(adapter_path, map_location="cpu")
         if payload:
             adapter.load_state_dict(payload)
+    proj = getattr(model, "local_style_proj", None)
+    proj_path = directory / "local_style_proj.pth"
+    if proj is not None and proj_path.is_file():
+        payload = torch.load(proj_path, map_location="cpu")
+        if payload:
+            proj.load_state_dict(payload)
     state_path = directory / "trainer_state.pt"
     if not state_path.is_file():
         return 0
@@ -479,16 +556,24 @@ def _forward_batch(model, noise_scheduler, perceptual_loss, args, batch, style, 
     return loss, diffusion.detach()
 
 
+def _style_bundle(es_cache, samples, device, args, local_cache=None):
+    return _style_conditions(
+        es_cache, samples, device,
+        style_pattn=args.arm in STYLE_PATTN_ARMS,
+        local_cache=local_cache if args.arm in LOCAL_L128_ARMS else None,
+    )
+
+
 @torch.no_grad()
 def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args, device,
-             bank=None):
+             bank=None, local_cache=None):
     raw.eval()
     losses = []
     for samples in val_loader:
         target = samples["target_image"].to(device)
         samples = {**samples, "target_image": target}
-        style, queries, style_seq, style_mask = _style_conditions(
-            es_cache, samples, device, style_pattn=args.arm in STYLE_PATTN_ARMS)
+        style, queries, style_seq, style_mask, local_raw, local_mask = _style_bundle(
+            es_cache, samples, device, args, local_cache)
         # Validation never drops: source, CFG and support are all fully on.
         source_draw = torch.zeros(target.shape[0], dtype=torch.bool, device=device)
         cfg_mask = torch.zeros_like(source_draw)
@@ -501,9 +586,10 @@ def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args
         dummy["target_image"] = target
         dummy["content_image"] = samples["content_image"].to(device)
         dummy["nonorm_target_image"] = samples["nonorm_target_image"].to(device)
+        seq, mask = _pack_up_style(raw, style, style_seq, style_mask, local_raw, local_mask, cfg_mask)
         loss, _ = _forward_batch(raw, noise_scheduler, None, args, dummy, style, structure,
                                  content_feats, train=False, support_tokens=support,
-                                 style_seq_tokens=style_seq, style_seq_mask=style_mask)
+                                 style_seq_tokens=seq, style_seq_mask=mask)
         losses.append(float(loss))
     raw.train()
     raw.style_encoder.eval()
@@ -513,7 +599,7 @@ def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args
 
 @torch.no_grad()
 def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args, device,
-                 bank, output_dir: Path):
+                 bank, output_dir: Path, local_cache=None):
     """Assert the freshly-initialised RSI branch is a bit-exact no-op.
 
     `zero_conv` makes `skip + zero_conv(warped - skip) == skip` exactly, so step 0 must
@@ -527,13 +613,14 @@ def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, 
     samples = {**samples, "target_image": samples["target_image"].to(device),
                "content_image": samples["content_image"].to(device),
                "nonorm_target_image": samples["nonorm_target_image"].to(device)}
-    style, queries, style_seq, style_mask = _style_conditions(
-        es_cache, samples, device, style_pattn=args.arm in STYLE_PATTN_ARMS)
+    style, queries, style_seq, style_mask, local_raw, local_mask = _style_bundle(
+        es_cache, samples, device, args, local_cache)
     draw = torch.zeros(samples["target_image"].shape[0], dtype=torch.bool, device=device)
     structure = _structure_features(es_cache, ec_cache, library, samples, queries, args, draw, device)
     content_feats = _content_features(ec_cache, samples, draw, device)
     support = _support_tokens(ec_cache, getattr(raw, "support_adapter", None), bank or {},
                               samples, draw, args, device, train=False)
+    seq, mask = _pack_up_style(raw, style, style_seq, style_mask, local_raw, local_mask, draw)
     noise = torch.randn_like(samples["target_image"])
     steps = torch.zeros(samples["target_image"].shape[0], device=device).long()
     noisy = noise_scheduler.add_noise(samples["target_image"], noise, steps)
@@ -542,7 +629,7 @@ def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, 
         pred, _ = raw(x_t=noisy, timesteps=steps, content_images=samples["content_image"],
                       style_features=style, structure_features=structure,
                       content_features=content_feats, support_tokens=support,
-                      style_seq_tokens=style_seq, style_seq_mask=style_mask,
+                      style_seq_tokens=seq, style_seq_mask=mask,
                       content_encoder_downsample_size=args.content_encoder_downsample_size)
         return pred
 
@@ -585,6 +672,7 @@ def main():
         _write_heartbeat(Path(args.output_dir), status="loading_caches", step=0)
     es_cache = EsCache(Path(args.es_cache_path))
     ec_cache = EcCache(Path(args.ec_cache_path))
+    local_cache = EsLocalCache(Path(args.es_local_cache_path)) if args.arm in LOCAL_L128_ARMS else None
     split = json.loads(Path(args.split_manifest).read_text(encoding="utf-8"))
     train_fonts = sorted(split.get("stems", split)["train"])
     if accelerator.is_main_process:
@@ -614,6 +702,8 @@ def main():
         model.support_adapter = SupportAdapter(
             ec_dim, args.style_start_channel * 16, zero_init=(args.arm not in ("F3b", "F3bP"))
         )
+    if args.arm in LOCAL_L128_ARMS:
+        _attach_local_proj(model)
     if args.phase_1_ckpt_dir:
         _load_parent(model, Path(args.phase_1_ckpt_dir), Path(args.output_dir))
     if args.freeze_encoders:
@@ -657,7 +747,8 @@ def main():
                                    restore_rng=True, adapter=adapter) if args.resume_from else 0
     if args.parity_check and not args.resume_from:
         _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args,
-                     next(raw.parameters()).device, bank, Path(args.output_dir))
+                     next(raw.parameters()).device, bank, Path(args.output_dir),
+                     local_cache=local_cache)
     if accelerator.is_main_process:
         accelerator.init_trackers(args.experience_name)
         _record_config(args, es_sha, ec_sha)
@@ -677,9 +768,8 @@ def main():
             bsz = samples["target_image"].shape[0]
             with accelerator.accumulate(model):
                 with torch.no_grad():
-                    style, queries, style_seq, style_mask = _style_conditions(
-                        es_cache, samples, samples["target_image"].device,
-                        style_pattn=args.arm in STYLE_PATTN_ARMS)
+                    style, queries, style_seq, style_mask, local_raw, local_mask = _style_bundle(
+                        es_cache, samples, samples["target_image"].device, args, local_cache)
                     # Draw order is fixed across arms so that a given step consumes the
                     # same RNG in F1/F2/F3; support_draw is drawn even when support is
                     # off, otherwise F2 and F3 would desynchronise after step 1.
@@ -691,18 +781,16 @@ def main():
                     content_feats = _content_features(ec_cache, samples, cfg_mask, style.device)
                     style = style.clone()
                     style[cfg_mask] = 0
-                    if style_seq is not None:
-                        style_seq = style_seq.clone()
-                        style_seq[cfg_mask] = 0
-                # Cache features are frozen, but SupportAdapter must build an
-                # autograd graph. Calling it inside no_grad freezes its initial
-                # zero output for the entire F3 run.
+                # Cache features are frozen, but SupportAdapter / R-L128 Linear must
+                # build an autograd graph. Calling them inside no_grad freezes output.
                 support = _support_tokens(ec_cache, adapter, bank, samples, support_draw,
                                           args, style.device, train=True)
+                seq, mask = _pack_up_style(
+                    raw, style, style_seq, style_mask, local_raw, local_mask, cfg_mask)
                 loss, _ = _forward_batch(model, noise_scheduler, perceptual_loss, args, samples,
                                          style, structure, content_feats, train=True,
                                          support_tokens=support,
-                                         style_seq_tokens=style_seq, style_seq_mask=style_mask)
+                                         style_seq_tokens=seq, style_seq_mask=mask)
                 accelerator.backward(loss)
                 if accelerator.sync_gradients:
                     accelerator.clip_grad_norm_(trainable, args.max_grad_norm)
@@ -750,7 +838,8 @@ def main():
                     _save_checkpoint(raw, Path(args.output_dir) / "last_state",
                                      optimizer, scheduler, global_step, adapter=adapter)
                     val_loss = _run_val(raw, es_cache, ec_cache, library, val_loader,
-                                        noise_scheduler, args, style.device, bank)
+                                        noise_scheduler, args, style.device, bank,
+                                        local_cache=local_cache)
                     eligible = global_step >= 10000
                     if eligible and (best["val"] is None or val_loss < best["val"]):
                         best = {"step": global_step, "val": val_loss}

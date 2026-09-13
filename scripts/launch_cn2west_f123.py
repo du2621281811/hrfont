@@ -53,6 +53,7 @@ ARMS = {
         "run_id": "f3b_pattn_s3407",
         "support_bank": "artifacts/f0/support_bank_f3b_topology.json",
     },
+    "F2RL": {"rsi_source": "delta", "support": False, "run_id": "F2-RL128-A-S3407"},
 }
 
 
@@ -61,12 +62,14 @@ def main() -> int:
     ap.add_argument("--arm", required=True, choices=sorted(ARMS))
     ap.add_argument("--parent", required=True, help="F0 milestone dir (unet/style/content .pth)")
     ap.add_argument("--es_cache", default="artifacts/f0/es_spatial_f0")
+    ap.add_argument("--es_local_cache", default="artifacts/f0/es_local_f0_block2_pool4")
     ap.add_argument("--ec_cache", default="artifacts/f0/ec_multiscale_f0")
     ap.add_argument("--support_bank", default="artifacts/f0/support_bank.json")
     ap.add_argument("--gpu", type=int, default=0)
     ap.add_argument("--batch_size", type=int, default=8)
     ap.add_argument("--gradient_accumulation_steps", type=int, default=1)
-    ap.add_argument("--max_steps", type=int, default=80_000)
+    ap.add_argument("--max_steps", type=int, default=40_000,
+                    help="PI 2026-09-12: new arms train/eval at 40k (was 80k).")
     ap.add_argument("--lr", type=float, default=1e-5)
     ap.add_argument("--warmup", type=int, default=5000)
     ap.add_argument("--seed", type=int, default=3407, help="PI freeze: single seed only")
@@ -111,6 +114,10 @@ def main() -> int:
                   f"Rebuild Es/Ec from the F0 milestone; E1 caches are bound to E1 encoders.",
                   file=sys.stderr)
             return 2
+    es_local = resolve(args.es_local_cache)
+    if args.arm == "F2RL" and not (es_local / "manifest.json").is_file():
+        print(f"arm F2RL needs local Es cache: {es_local}", file=sys.stderr)
+        return 2
     if spec["support"] and not resolve(spec.get("support_bank") or args.support_bank).is_file():
         print(f"arm {args.arm} needs a support bank: {resolve(spec.get('support_bank') or args.support_bank)}", file=sys.stderr)
         return 2
@@ -165,6 +172,7 @@ def main() -> int:
         "--data_root", str(DATA),
         "--split_manifest", str(SPLIT),
         "--es_cache_path", str(es_cache),
+        "--es_local_cache_path", str(es_local),
         "--ec_cache_path", str(ec_cache),
         "--phase_1_ckpt_dir", str(parent),
         "--resolution", "96",
@@ -199,6 +207,10 @@ def main() -> int:
     if args.arm in ("F2P", "F3bP"):
         meta["style_pattn"] = True
         meta["style_token"] = "per_ref_pooled_h"
+    if args.arm == "F2RL":
+        meta["style_token"] = "global9_plus_es_block2_pool4_l128"
+        meta["es_local_cache"] = str(es_local)
+        meta["local_proj"] = "Linear(256,1024)"
 
     env = os.environ.copy()
     env["CUDA_VISIBLE_DEVICES"] = str(args.gpu)

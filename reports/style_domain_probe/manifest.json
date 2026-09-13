@@ -1,6 +1,6 @@
 {
-  "probe_id": "v1_20260911",
-  "created": "2026-09-11T04:07:55+00:00",
+  "probe_id": "v2_20260912",
+  "created": "2026-09-11T17:27:14+00:00",
   "seed": 3407,
   "chars": [
     "I",
@@ -45,9 +45,9 @@
       "style_pattn": false
     },
     {
-      "id": "F2P_25k",
-      "label": "F2-P@25k",
-      "ckpt": "runs/f2_pattn_s3407/global_step_25000",
+      "id": "F2P_40k",
+      "label": "F2-P@40k",
+      "ckpt": "runs/f2_pattn_s3407/global_step_40000",
       "style_pattn": true
     }
   ],

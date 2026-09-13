@@ -38,7 +38,11 @@
 | `E12-*-V2-S3407/08/09` | `reports/training_logs/e12_*_v2_*` | **gate_failed** | cache_v2；字型泄漏 + 同字型负样本，`reports/E12_SELFTEST_V2_REVIEW_20260905.md` |
 | `E12-*-V3-S3407/08/09` | `reports/training_logs/e12_*_v3_*` | **gate_failed (T2)** | cache_v3；`reports/E12_SELFTEST_V3_REVIEW_20260906.md` |
 | `F0-RSIFREE-FT-A-S3407` | `reports/training_logs/F0-RSIFREE-FT-A-S3407/` | **completed 100k** | milestone=100k val=0.031089；`reports/F0_MILESTONE_20260906.md` |
-| `F1-OFFRSI-A-S3407` | `reports/training_logs/F1-OFFRSI-A-S3407/` | **paused ~300** | 对照；resume `stopped_step`；`DECISION_POINTS` D7 |
-| `F2-DELTARSI-A-S3407` | `reports/training_logs/F2-DELTARSI-A-S3407/` | **paused 6573** | D9 串行；resume after F3 DONE |
-| `F3-JOINT-DS-A-S3407` | `reports/training_logs/F3-JOINT-DS-A-S3407/` | **running 13500/80k exclusive** | GPU2 99%；val@10k=0.00217（trainer，无 perceptual）；D9 |
+| `F1-OFFRSI-A-S3407` | `reports/training_logs/F1-OFFRSI-A-S3407/` | **completed 80k** | 官方 RSI 对照；best@75k |
+| `F2-DELTARSI-A-S3407` | `reports/training_logs/F2-DELTARSI-A-S3407/` | **completed 80k** | 旧 mean-Delta baseline |
+| `F3-JOINT-DS-A-S3407` | `reports/training_logs/F3-JOINT-DS-A-S3407/` | **completed 80k** | Δ+Support；legacy |
+| `F2-RL128-A-S3407` | `provenance/runs/F2-RL128-A-S3407.json` | **completed 40k** | F2+R-L128；best@35k val=0.002055；看板 `reports/f03_test16_strat/core_shot_board.html`；权重不进 Git |
+| `f2_pattn_s3407` | `runs/f2_pattn_s3407`（权重不进 Git） | **completed 40k** | F2-P per-ref pooled h；best@35k val=0.002042 |
+| `f3b_pattn_s3407` | `runs/f3b_pattn_s3407`（权重不进 Git） | **completed 40k** | F3b-P；best@35k val=0.002057 |
+| `A1-PC72-PROBE` | `reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3 | **parked** | 换清洗后数据集再做；当前数据不跑 |
 | `FT-P260-A-CN2WEST-V2` | alias / planned formal ID | 同 E1 数据协议 | 正式 p260 指纹待发 |
