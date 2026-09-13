@@ -2,8 +2,10 @@
   "schema_version": 1,
   "kind": "experiment",
   "experiment_id": "F2-PRL-A-S3407",
-  "created_at": "2026-09-13T08:40:00+00:00",
-  "status": "starting",
+  "created_at": "2026-09-13T08:44:31+00:00",
+  "completed_at": "2026-09-13T12:37:37+00:00",
+  "best": {"step": 35000, "val": 0.0020549077086320336},
+  "status": "completed",
   "max_train_steps": 40000,
   "variant": "cn2west_f123_rsi",
   "arm": "F2PRL",
@@ -27,11 +29,16 @@
     "fp16": true,
     "drop_prob": 0.1,
     "source_drop": 0.25,
-    "ckpt_interval": 5000
+    "ckpt_interval": 5000,
+    "wall_clock": "3h54m",
+    "val_40000": 0.002084976844035752
   },
   "eval_protocol": {
     "primary_step": 40000,
-    "note": "PI 2026-09-12: new arms train and compare at 40k."
+    "board": "reports/f03_test16_strat/core_shot_board.html",
+    "demo8_1shot": "F2PRL_40000_k1",
+    "demo8_8shot": "F2PRL_40000",
+    "coverage": "536/536 each"
   },
   "design": {
     "drop_mean_global9_on_up_path": true,
@@ -47,6 +54,5 @@
     "start": "scripts/start_watchdog_f2_prl.sh",
     "status": "reports/watchdog_f2_prl/status.json"
   },
-  "eta_note": "F2-RL128 40k on this 3090 was 3h51 at ~3.1 it/s; PRL CA length is almost the same, expect ~4h.",
-  "note": "One-factor vs F2-RL128: replace up-path mean global9 with per-ref pooled h; keep L128 and Delta."
+  "note": "One-factor vs F2-RL128: replace up-path mean global9 with per-ref pooled h; keep L128 and Delta. Weights not in Git."
 }

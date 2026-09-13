@@ -254,11 +254,35 @@
       "eta_s": 9,
       "last": "FZLingFKSJW-B の",
       "elapsed_s": 330.1
+    },
+    "F2PRL_40000": {
+      "phase": "done",
+      "done": 536,
+      "skipped": 0,
+      "total": 536,
+      "label": "F2-PRL@40k",
+      "updated_at": "2026-09-13T13:36:41+00:00",
+      "rate_per_s": 1.689,
+      "eta_s": 9,
+      "last": "FZLingFKSJW-B の",
+      "elapsed_s": 317.1
+    },
+    "F2PRL_40000_k1": {
+      "phase": "done",
+      "done": 536,
+      "skipped": 0,
+      "total": 536,
+      "label": "F2-PRL@40k 1-shot",
+      "updated_at": "2026-09-13T13:42:05+00:00",
+      "rate_per_s": 1.662,
+      "eta_s": 9,
+      "last": "FZLingFKSJW-B の",
+      "elapsed_s": 322.2
     }
   },
   "phase": "generate",
   "n_items": 752,
-  "updated_at": "2026-09-13T07:56:24+00:00",
+  "updated_at": "2026-09-13T13:42:05+00:00",
   "protocol": "E1-stratified test16×47 seed3407",
   "n_metric_rows": 8272,
   "scored": [

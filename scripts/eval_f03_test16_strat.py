@@ -30,7 +30,18 @@ ROOT = Path("/root/projects/hrfont")
 DATA = ROOT / "data/fontdiffuser-p253-t295-s338-cn2west-v2"
 SPLIT = ROOT / "manifests/split_v3_228_16_16.json"
 TEST_STEMS = ROOT / "manifests/pipeline_v3_test_stems.txt"
+VAL_STEMS = ROOT / "manifests/pipeline_v3_val_stems.txt"
 OUT = ROOT / "reports/f03_test16_strat"
+EVAL_SPLIT = "test"
+
+
+def configure_split(split: str) -> None:
+    """Point generate/metrics at test16 or val16. Never mix output dirs."""
+    global EVAL_SPLIT, OUT
+    if split not in ("test", "val"):
+        raise SystemExit(f"split must be test|val, got {split!r}")
+    EVAL_SPLIT = split
+    OUT = ROOT / ("reports/f03_test16_strat" if split == "test" else "reports/f03_val16_strat")
 REF8 = list("永和书风骨韵天地")
 REF8_CPS = [f"u{ord(c):04X}" for c in REF8]
 STYLE1_CPS = [f"u{ord('永'):04X}"]
@@ -125,6 +136,14 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_40000",
         "style_oneshot": False,
+    },
+    "F2_40000_k1": {
+        "label": "F2@40k 1-shot",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_40000",
+        "style_oneshot": True,
+        "delta_oneshot": True,
     },
     "F2P_40000": {
         "label": "F2-P@40k",
@@ -221,6 +240,27 @@ METHODS = {
         "style_rl128": True,
         "es_local_cache": ROOT / "artifacts/f0/es_local_f0_block2_pool4",
     },
+    "F2PRL_40000": {
+        "label": "F2-PRL@40k",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-PRL-A-S3407/global_step_40000",
+        "style_oneshot": False,
+        "style_pattn": True,
+        "style_rl128": True,
+        "es_local_cache": ROOT / "artifacts/f0/es_local_f0_block2_pool4",
+    },
+    "F2PRL_40000_k1": {
+        "label": "F2-PRL@40k 1-shot",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-PRL-A-S3407/global_step_40000",
+        "style_oneshot": True,
+        "delta_oneshot": True,
+        "style_pattn": True,
+        "style_rl128": True,
+        "es_local_cache": ROOT / "artifacts/f0/es_local_f0_block2_pool4",
+    },
     "F2VEC_40000": {
         "label": "F2-VEC@40k fewshot",
         "kind": "f2",
@@ -256,7 +296,8 @@ def cp_of(ch: str) -> str:
 
 
 def fonts() -> list[str]:
-    return [l.strip() for l in TEST_STEMS.read_text().splitlines() if l.strip()]
+    src = TEST_STEMS if EVAL_SPLIT == "test" else VAL_STEMS
+    return [l.strip() for l in src.read_text().splitlines() if l.strip()]
 
 
 def script_bucket(ch: str) -> str:
@@ -287,12 +328,12 @@ def content_path(ch: str) -> Path:
 
 
 def gt_path(stem: str, ch: str) -> Path | None:
-    p = DATA / "test" / "TargetImage" / stem / f"{stem}+{cp_of(ch)}.png"
+    p = DATA / EVAL_SPLIT / "TargetImage" / stem / f"{stem}+{cp_of(ch)}.png"
     return p if p.is_file() else None
 
 
 def pick_style_path(stem: str) -> Path:
-    d = DATA / "test" / "StyleImage" / stem
+    d = DATA / EVAL_SPLIT / "StyleImage" / stem
     for ch in REF8:
         p = d / f"{stem}+{cp_of(ch)}.png"
         if p.is_file():
@@ -304,7 +345,14 @@ def pick_style_path(stem: str) -> Path:
 
 
 def pred_path(mid: str, stem: str, ch: str) -> Path:
-    return OUT / "preds" / mid / "test" / stem / f"test__{stem}__{cp_of(ch)}__s{SEED}.png"
+    return (
+        OUT
+        / "preds"
+        / mid
+        / EVAL_SPLIT
+        / stem
+        / f"{EVAL_SPLIT}__{stem}__{cp_of(ch)}__s{SEED}.png"
+    )
 
 
 def refuse_busy_train_gpu() -> None:
@@ -484,7 +532,7 @@ def pack_style_delta(
     True 1-shot compare arms set `delta_oneshot=True` so Es and Δ both see 永.
     """
     base = {
-        "split": ["test"],
+        "split": [EVAL_SPLIT],
         "font_stem": [font],
         "char_cp": [cp_of(ch)],
     }
@@ -531,7 +579,7 @@ def write_sidecar(mid: str, stem: str, ch: str, style_p: Path, extra: dict | Non
     g = gt_path(stem, ch)
     meta = {
         "method": mid,
-        "split": "test",
+        "split": EVAL_SPLIT,
         "font": stem,
         "char": ch,
         "cp": cp_of(ch),
@@ -894,7 +942,7 @@ def f2_timeline_steps() -> list[int]:
 def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_75000") -> None:
     """Δ only, no Support. style_oneshot=True → Es from 永 only; Δ still ref8.
     style_pattn=True → F2-P per-ref style seq on up-path cross-attn.
-    style_rl128=True → F2-RL128 global9 + Es block2 4×4 local tokens.
+    style_rl128=True → local L128. Together with style_pattn → F2-PRL (h + L, no G).
     """
     import torch
     from accelerate.utils import set_seed
@@ -927,7 +975,8 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     log(
         mid,
         f"load Es/Ec caches + LibraryEs (F2: delta, no support; "
-        f"style_pattn={style_pattn}; style_rl128={style_rl128})",
+        f"style_pattn={style_pattn}; style_rl128={style_rl128}"
+        f"{'; PRL' if style_pattn and style_rl128 else ''})",
     )
     es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
     ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
@@ -1006,9 +1055,14 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
             delta_oneshot=delta_oneshot,
             local_cache=local_cache,
         )
+        n_up_prefix = 9
         if style_rl128:
+            prefix_seq = style_seq if style_pattn else None
+            prefix_mask = style_mask if style_pattn else None
+            if prefix_seq is not None:
+                n_up_prefix = int(prefix_seq.shape[1])
             style_seq, style_mask = T._pack_up_style(
-                fd, style, None, None, local_raw, local_mask, cfg_mask=None
+                fd, style, prefix_seq, prefix_mask, local_raw, local_mask, cfg_mask=None
             )
         return {
             "style": style,
@@ -1016,6 +1070,7 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
             "content": content,
             "style_seq": style_seq,
             "style_mask": style_mask,
+            "n_up_prefix": n_up_prefix,
         }
 
     def sample_one(packed):
@@ -1029,11 +1084,12 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         if use_style_seq:
             cond = [img, img, style, structure, content, None, style_seq, style_mask]
             if style_rl128:
-                # Match train CFG: zero G; mask L off so Linear bias cannot leak.
+                # RL128: zero G (9). PRL: zero P (n_max=8). Mask L off (no Linear bias leak).
+                n_p = int(packed.get("n_up_prefix") or 9)
                 uncond_seq = style_seq.clone()
                 uncond_mask = style_mask.clone()
-                uncond_seq[:, :9] = 0
-                uncond_mask[:, 9:] = False
+                uncond_seq[:, :n_p] = 0
+                uncond_mask[:, n_p:] = False
                 uncond = [
                     torch.ones_like(img),
                     torch.ones_like(img),
@@ -1949,19 +2005,24 @@ def cmd_timeline(args: argparse.Namespace) -> None:
 
 def cmd_generate(args: argparse.Namespace) -> None:
     refuse_busy_train_gpu()
+    configure_split(getattr(args, "split", "test"))
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "logs").mkdir(exist_ok=True)
     stems = shard_list(fonts(), args.shard)
     protocol = {
-        "split": "test",
-        "n_fonts": 16,
+        "split": EVAL_SPLIT,
+        "n_fonts": len(fonts()),
         "fonts": fonts(),
         "chars": STRATIFIED,
         "chars_n": len(STRATIFIED),
         "seed": SEED,
         "sampler": "dpmsolver++ 20 CFG7.5 order2 multistep",
         "style": "ref8 first available, prefer 永; F2/F3 *_s1: Es from 永 only, Δ still ref8",
-        "note": "Same protocol as E1 formal stratified. Val16 is not used. Per-item set_seed(3407). style_oneshot splits Es k from Δ retrieve k.",
+        "note": (
+            "Same protocol as E1 formal stratified. Per-item set_seed(3407). "
+            "style_oneshot splits Es k from Δ retrieve k. "
+            f"This run is split={EVAL_SPLIT}."
+        ),
         "methods": {
             k: {
                 "label": v["label"],
@@ -1973,7 +2034,7 @@ def cmd_generate(args: argparse.Namespace) -> None:
         },
     }
     (OUT / "PROTOCOL.json").write_text(json.dumps(protocol, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    update_status({"protocol": "E1-stratified test16×47 seed3407", "phase": "generate"})
+    update_status({"protocol": f"E1-stratified {EVAL_SPLIT}16×47 seed3407", "phase": "generate"})
     mid = args.method
     kind = METHODS[mid]["kind"]
     if kind == "f3":
@@ -2022,6 +2083,7 @@ def agg(rows: list[dict]) -> dict:
 
 def cmd_metrics(args: argparse.Namespace) -> None:
     refuse_busy_train_gpu()
+    configure_split(getattr(args, "split", "test"))
     lpips_fn = None
     if args.lpips:
         import torch
@@ -2125,8 +2187,299 @@ def copy_refs() -> None:
                 Image.open(g).convert("RGB").resize((96, 96)).save(dst)
 
 
+VAL_BOARD_ARMS = [
+    {"id": "F2", "label": "F2@40k", "s8": "F2_40000", "s1": "F2_40000_k1", "tone": "f2"},
+    {"id": "F2P", "label": "F2-P@40k", "s8": "F2P_40000", "s1": "F2P_40000_k1", "tone": "p"},
+    {"id": "F2RL", "label": "F2-RL128@40k", "s8": "F2RL_40000", "s1": "F2RL_40000_k1", "tone": "rl"},
+    {"id": "F2PRL", "label": "F2-PRL@40k", "s8": "F2PRL_40000", "s1": "F2PRL_40000_k1", "tone": "prl"},
+    {"id": "F280", "label": "F2@80k", "s8": "F2_80000", "s1": "F2_80000_k1", "tone": "long"},
+]
+VAL_BOARD_LEAD_FONTS = [
+    "FZCaoQBLSJW",
+    "FZMiFXSJW",
+    "FZBangSKKXJW",
+    "FZQingYSJW-T",
+    "FZSongKBXKJW-EB",
+    "FZHengFSJW-T",
+]
+VAL_BOARD_FOCUS_CHARS = list("AQaRgあのIl1")
+
+
+def write_val_board() -> None:
+    """Paired 8-shot / 1-shot board. Does not touch the test16 glyph board."""
+    metrics = {}
+    mp = OUT / "metrics_summary.json"
+    if mp.is_file():
+        raw = json.loads(mp.read_text(encoding="utf-8"))
+        metrics = raw.get("methods", {})
+    stems = fonts()
+    lead = [s for s in VAL_BOARD_LEAD_FONTS if s in stems]
+    ordered = lead + [s for s in stems if s not in lead]
+    payload = {
+        "generated_at": utc_now(),
+        "split": EVAL_SPLIT,
+        "seed": SEED,
+        "n_fonts": len(ordered),
+        "n_chars": len(STRATIFIED),
+        "fonts": ordered,
+        "lead": lead,
+        "focus_chars": VAL_BOARD_FOCUS_CHARS,
+        "chars": [{"ch": ch, "cp": cp_of(ch), "bucket": script_bucket(ch)} for ch in STRATIFIED],
+        "buckets": BUCKET_ORDER,
+        "arms": VAL_BOARD_ARMS,
+        "metrics": {
+            mid: (metrics.get(mid) or {}).get("overall") or {}
+            for arm in VAL_BOARD_ARMS
+            for mid in (arm["s8"], arm["s1"])
+        },
+        "paths": {
+            "pred": f"preds/{{mid}}/{EVAL_SPLIT}/{{stem}}/{EVAL_SPLIT}__{{stem}}__{{cp}}__s{SEED}.png",
+            "gt": "refs/gt/{stem}+{cp}.png",
+            "style": "refs/style/{stem}.png",
+            "content": "refs/content/{cp}.png",
+        },
+    }
+    (OUT / "board.json").write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+    data_js = json.dumps(payload, ensure_ascii=False).replace("</", "<\\/")
+    html = VAL_BOARD_HTML.replace("__DATA__", data_js)
+    (OUT / "index.html").write_text(html, encoding="utf-8")
+
+
+VAL_BOARD_HTML = r"""<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<title>val16 · F2 1-shot vs 8-shot</title>
+<style>
+:root {
+  --bg:#14120f; --card:#1c1914; --line:#3a342c; --fg:#e4dcc8;
+  --muted:#8d8473; --acc:#b7c98a; --warn:#c8a24b; --head:#221e18;
+  --gt:#c8a24b; --f2:#6aa8a0; --p:#d4a574; --rl:#9b8fd4; --long:#7aa0c8;
+}
+* { box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  margin:0; display:flex; flex-direction:column; overflow:hidden;
+  font-family:ui-sans-serif,system-ui,sans-serif; background:var(--bg); color:var(--fg);
+}
+header { flex:0 0 auto; background:var(--card); border-bottom:1px solid var(--line); padding:10px 16px 8px; }
+h1 { font-size:1.05rem; margin:0 0 4px; font-weight:650; }
+.meta { color:var(--muted); font-size:12px; max-width:130ch; line-height:1.45; }
+.bar { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-top:8px; font-size:13px; }
+.bar label { cursor:pointer; }
+select, button, input[type=range] {
+  background:var(--head); color:var(--fg); border:1px solid var(--line); padding:4px 8px; font:inherit;
+}
+button:hover, label.chip:hover { border-color:var(--acc); color:var(--acc); }
+label.chip {
+  border:1px solid var(--line); padding:2px 8px; border-radius:999px; background:var(--head);
+}
+label.chip input { accent-color:var(--acc); }
+main { flex:1; min-height:0; display:flex; flex-direction:column; padding:8px 16px 10px; }
+.metrics { flex:0 0 auto; overflow:auto; margin-bottom:8px; }
+.metrics table { border-collapse:collapse; font-size:12px; }
+.metrics th, .metrics td { border:1px solid var(--line); padding:4px 8px; text-align:right; }
+.metrics th:first-child, .metrics td:first-child { text-align:left; white-space:nowrap; }
+.metrics .pair8 { color:#b7e4de; }
+.metrics .pair1 { color:#f0d078; }
+.scroll { flex:1; min-height:0; overflow:auto; border:1px solid var(--line); background:#17140f; }
+table.grid { border-collapse:separate; border-spacing:0; font-size:11px; }
+.grid th, .grid td {
+  border-right:1px solid var(--line); border-bottom:1px solid var(--line);
+  padding:3px 4px; text-align:center; vertical-align:middle;
+}
+.grid thead th { position:sticky; top:0; z-index:6; background:var(--head); white-space:nowrap; padding:5px 4px; }
+.grid thead tr.sub th { top:28px; font-size:10px; letter-spacing:.04em; }
+.grid th.stub, .grid td.stub {
+  position:sticky; left:0; z-index:8; background:var(--card);
+  font-weight:700; min-width:7.5em; text-align:left; padding-left:8px;
+  box-shadow:1px 0 0 var(--line);
+}
+.grid thead th.stub { z-index:10; }
+.grid td.chr { font-size:18px; font-weight:700; min-width:2.2em; text-align:center; }
+img.g { width:var(--gs,64px); height:var(--gs,64px); image-rendering:pixelated; background:#fff; display:block; cursor:zoom-in; }
+.tone-gt { background:#2f2614; }
+thead th.tone-gt { color:#f0d078; box-shadow:inset 0 -3px 0 var(--gt); }
+.tone-f2 { background:#141c1b; }
+thead th.tone-f2 { color:#b7e4de; box-shadow:inset 0 -3px 0 var(--f2); }
+.tone-p { background:#241c14; }
+thead th.tone-p { color:#f0d0a8; box-shadow:inset 0 -3px 0 var(--p); }
+.tone-rl { background:#1b1724; }
+thead th.tone-rl { color:#d4c8ff; box-shadow:inset 0 -3px 0 var(--rl); }
+.tone-long { background:#14202a; }
+thead th.tone-long { color:#b7d4ee; box-shadow:inset 0 -3px 0 var(--long); }
+.shot8 { color:#b7e4de; }
+.shot1 { color:#f0d078; }
+td.hl { outline:2px solid #f0d078; outline-offset:-2px; }
+.miss { color:#555; }
+#zoom {
+  display:none; position:fixed; inset:0; z-index:40; background:rgba(0,0,0,.78);
+  align-items:center; justify-content:center; padding:24px;
+}
+#zoom.on { display:flex; }
+#zoom .box { background:var(--card); border:1px solid var(--line); padding:12px 16px; max-width:96vw; }
+#zoom .row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+#zoom figure { margin:0; text-align:center; }
+#zoom img { width:160px; height:160px; image-rendering:pixelated; background:#fff; }
+#zoom figcaption { color:var(--muted); font-size:12px; margin-top:4px; }
+</style></head><body>
+<header>
+  <h1>val16 · F2 1-shot vs 8-shot</h1>
+  <p class="meta">非正式主表。同一行里 8-shot 和 1-shot 紧挨着。8-shot：Es+Δ = 永和书风骨韵天地。1-shot：Es+Δ 都只用「永」。DPM++20 CFG7.5 seed 3407。点图放大。</p>
+  <div class="bar">
+    <label>视图
+      <select id="view">
+        <option value="char">固定字体 · 逐字</option>
+        <option value="font">固定字 · 逐字体</option>
+      </select>
+    </label>
+    <label>字体 <select id="font"></select></label>
+    <label>字 <select id="char"></select></label>
+    <label>语种 <select id="bucket"><option value="">全部</option></select></label>
+    <label><input type="checkbox" id="focus"/> 论文探针字</label>
+    <span id="armToggles"></span>
+    <label>大小 <input id="size" type="range" min="48" max="96" value="64"/></label>
+  </div>
+</header>
+<main>
+  <div class="metrics" id="metrics"></div>
+  <div class="scroll"><table class="grid" id="grid"></table></div>
+</main>
+<div id="zoom"><div class="box"><div id="zoomCap" class="meta"></div><div class="row" id="zoomRow"></div></div></div>
+<script>
+const DATA = __DATA__;
+const $ = id => document.getElementById(id);
+const tone = {gt:"tone-gt", f2:"tone-f2", p:"tone-p", rl:"tone-rl", long:"tone-long"};
+function fmt(x, n=4){ return (x==null || x==="") ? "—" : Number(x).toFixed(n); }
+function path(tpl, o){
+  return tpl.replaceAll("{mid}", o.mid||"").replaceAll("{stem}", o.stem||"").replaceAll("{cp}", o.cp||"");
+}
+function img(src, cls){
+  return `<img class="g ${cls||""}" src="${src}" width="64" height="64" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'miss',textContent:'·'}))"/>`;
+}
+function selectedArms(){
+  return DATA.arms.filter(a => $("arm_"+a.id).checked);
+}
+function fillSelects(){
+  $("font").innerHTML = DATA.fonts.map(f => `<option value="${f}">${f}${DATA.lead.includes(f)?" · 笔意":""}</option>`).join("");
+  $("font").value = DATA.lead[0] || DATA.fonts[0];
+  $("char").innerHTML = DATA.chars.map(c => `<option value="${c.ch}">${c.ch} · ${c.bucket}</option>`).join("");
+  $("char").value = DATA.focus_chars[0] || DATA.chars[0].ch;
+  $("bucket").innerHTML = `<option value="">全部</option>` + DATA.buckets.map(b => `<option value="${b}">${b}</option>`).join("");
+  $("armToggles").innerHTML = DATA.arms.map(a =>
+    `<label class="chip"><input type="checkbox" id="arm_${a.id}" checked/> ${a.label}</label>`
+  ).join("");
+}
+function charsFiltered(){
+  const b = $("bucket").value;
+  const focus = $("focus").checked;
+  return DATA.chars.filter(c => (!b || c.bucket===b) && (!focus || DATA.focus_chars.includes(c.ch)));
+}
+function renderMetrics(){
+  const head = `<tr><th>方法</th><th class="pair8">8 L1</th><th class="pair1">1 L1</th><th class="pair8">8 SSIM</th><th class="pair1">1 SSIM</th><th class="pair8">8 LPIPS</th><th class="pair1">1 LPIPS</th></tr>`;
+  const rows = DATA.arms.map(a => {
+    const m8 = DATA.metrics[a.s8]||{}; const m1 = DATA.metrics[a.s1]||{};
+    return `<tr><td>${a.label}</td>
+      <td class="pair8">${fmt(m8.L1_mean)}</td><td class="pair1">${fmt(m1.L1_mean)}</td>
+      <td class="pair8">${fmt(m8.SSIM_mean)}</td><td class="pair1">${fmt(m1.SSIM_mean)}</td>
+      <td class="pair8">${fmt(m8.LPIPS_mean)}</td><td class="pair1">${fmt(m1.LPIPS_mean)}</td></tr>`;
+  }).join("");
+  $("metrics").innerHTML = `<table><thead>${head}</thead><tbody>${rows}</tbody></table>`;
+}
+function cell(mid, stem, ch, cp, shotCls){
+  const src = path(DATA.paths.pred, {mid, stem, cp});
+  return `<td class="${shotCls}" data-mid="${mid}" data-stem="${stem}" data-ch="${ch}" data-cp="${cp}">${img(src)}</td>`;
+}
+function render(){
+  const arms = selectedArms();
+  const view = $("view").value;
+  const size = $("size").value;
+  document.documentElement.style.setProperty("--gs", size+"px");
+  let top = `<tr><th class="stub" rowspan="2">${view==="char"?"字":"字体"}</th>
+    <th class="tone-gt" rowspan="2">Content</th><th class="tone-gt" rowspan="2">Style</th><th class="tone-gt" rowspan="2">GT</th>`;
+  arms.forEach(a => { top += `<th class="${tone[a.tone]}" colspan="2">${a.label}</th>`; });
+  top += `</tr><tr class="sub">`;
+  arms.forEach(a => { top += `<th class="${tone[a.tone]} shot8">8</th><th class="${tone[a.tone]} shot1">1</th>`; });
+  top += `</tr>`;
+  let body = "";
+  if (view === "char") {
+    const stem = $("font").value;
+    charsFiltered().forEach(c => {
+      body += `<tr><td class="stub chr">${c.ch}<div class="meta">${c.bucket}</div></td>
+        <td class="tone-gt">${img(path(DATA.paths.content,{cp:c.cp}))}</td>
+        <td class="tone-gt">${img(path(DATA.paths.style,{stem}))}</td>
+        <td class="tone-gt">${img(path(DATA.paths.gt,{stem, cp:c.cp}))}</td>`;
+      arms.forEach(a => {
+        body += cell(a.s8, stem, c.ch, c.cp, tone[a.tone]+" shot8");
+        body += cell(a.s1, stem, c.ch, c.cp, tone[a.tone]+" shot1");
+      });
+      body += `</tr>`;
+    });
+  } else {
+    const ch = $("char").value;
+    const rec = DATA.chars.find(c => c.ch===ch) || DATA.chars[0];
+    DATA.fonts.forEach(stem => {
+      body += `<tr><td class="stub"><code>${stem}</code></td>
+        <td class="tone-gt">${img(path(DATA.paths.content,{cp:rec.cp}))}</td>
+        <td class="tone-gt">${img(path(DATA.paths.style,{stem}))}</td>
+        <td class="tone-gt">${img(path(DATA.paths.gt,{stem, cp:rec.cp}))}</td>`;
+      arms.forEach(a => {
+        body += cell(a.s8, stem, rec.ch, rec.cp, tone[a.tone]+" shot8");
+        body += cell(a.s1, stem, rec.ch, rec.cp, tone[a.tone]+" shot1");
+      });
+      body += `</tr>`;
+    });
+  }
+  $("grid").innerHTML = `<thead>${top}</thead><tbody>${body}</tbody>`;
+}
+function zoomFrom(td){
+  const stem = td.dataset.stem, ch = td.dataset.ch, cp = td.dataset.cp;
+  const rec = DATA.chars.find(c => c.ch===ch);
+  $("zoomCap").textContent = `${stem} · ${ch} · ${rec?rec.bucket:""}`;
+  let html = `<figure><figcaption>GT</figcaption>${img(path(DATA.paths.gt,{stem,cp}))}</figure>`;
+  selectedArms().forEach(a => {
+    html += `<figure><figcaption>${a.label} 8</figcaption>${img(path(DATA.paths.pred,{mid:a.s8,stem,cp}))}</figure>`;
+    html += `<figure><figcaption>${a.label} 1</figcaption>${img(path(DATA.paths.pred,{mid:a.s1,stem,cp}))}</figure>`;
+  });
+  $("zoomRow").innerHTML = html;
+  $("zoom").classList.add("on");
+}
+function bind(){
+  ["view","font","char","bucket","focus","size"].forEach(id => $(id).addEventListener("change", render));
+  $("size").addEventListener("input", render);
+  DATA.arms.forEach(a => $("arm_"+a.id).addEventListener("change", render));
+  $("view").addEventListener("change", () => {
+    $("font").disabled = $("view").value!=="char";
+    $("char").disabled = $("view").value!=="font";
+  });
+  $("grid").addEventListener("click", e => {
+    const td = e.target.closest("td[data-mid]");
+    if (td) zoomFrom(td);
+  });
+  $("zoom").addEventListener("click", () => $("zoom").classList.remove("on"));
+  document.addEventListener("keydown", e => {
+    if (e.key==="Escape") $("zoom").classList.remove("on");
+  });
+}
+fillSelects();
+renderMetrics();
+$("font").disabled = false;
+$("char").disabled = true;
+bind();
+render();
+</script>
+</body></html>
+"""
+
+
 def cmd_gallery(_args: argparse.Namespace) -> None:
     """Refresh browse_index refs; prefer fair-axes HTML rebuild (keeps E1 if present)."""
+    configure_split(getattr(_args, "split", "test"))
+    if EVAL_SPLIT != "test":
+        copy_refs()
+        write_val_board()
+        update_status({"phase": "gallery_done", "ui": "val16_f2", "n_fonts": len(fonts())})
+        print("wrote", OUT / "index.html")
+        return
     copy_refs()
     # Prefer dedicated rebuild: preserves E1 columns + Mode A/B/C UI.
     rebuild = ROOT / "scripts/rebuild_glyph_board_fair_axes.py"
@@ -2202,13 +2555,16 @@ def main() -> None:
     g.add_argument("--device", default="cuda:0")
     g.add_argument("--shard", default="0/1")
     g.add_argument("--overwrite", action="store_true")
+    g.add_argument("--split", choices=["test", "val"], default="test")
     g.set_defaults(func=cmd_generate)
     m = sub.add_parser("metrics")
     m.add_argument("--device", default="cuda:0")
     m.add_argument("--lpips", action="store_true")
     m.add_argument("--only", default="", help="comma-separated method ids; merge into existing metrics_summary")
+    m.add_argument("--split", choices=["test", "val"], default="test")
     m.set_defaults(func=cmd_metrics)
     gal = sub.add_parser("gallery")
+    gal.add_argument("--split", choices=["test", "val"], default="test")
     gal.set_defaults(func=cmd_gallery)
     p = sub.add_parser("progress-page")
     p.set_defaults(func=cmd_gallery)

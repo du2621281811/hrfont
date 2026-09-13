@@ -50,7 +50,7 @@
 | `F2-DELTARSI-A-S3407` | `reports/training_logs/F2-DELTARSI-A-S3407/` | **completed 80k** | 旧 mean-Delta baseline |
 | `F3-JOINT-DS-A-S3407` | `reports/training_logs/F3-JOINT-DS-A-S3407/` | **completed 80k** | Δ+Support；legacy |
 | `F2-RL128-A-S3407` | `provenance/runs/F2-RL128-A-S3407.json` | **completed 40k** | F2+R-L128；best@35k val=0.002055；看板 `reports/f03_test16_strat/core_shot_board.html`；权重不进 Git |
-| `F2-PRL-A-S3407` | `provenance/runs/F2-PRL-A-S3407.json` | **starting 40k** | F2-P+L（per-ref h + L128，drop up-path mean G）；GPU0；watchdog `reports/watchdog_f2_prl/` |
+| `F2-PRL-A-S3407` | `provenance/runs/F2-PRL-A-S3407.json` | **completed 40k** | F2-P+L；best@35k val=0.002055；看板 `reports/f03_test16_strat/core_shot_board.html`；权重不进 Git |
 | `F2-VEC-MT-A-S3407` | `provenance/runs/F2-VEC-MT-A-S3407.json` | **reported completed 40k; evidence partial** | V100 side study；代码、752×2 预测与像素指标已迁入；权重/完整训练日志未入 Git |
 | `f2_pattn_s3407` | `runs/f2_pattn_s3407`（权重不进 Git） | **completed 40k** | F2-P per-ref pooled h；best@35k val=0.002042 |
 | `f3b_pattn_s3407` | `runs/f3b_pattn_s3407`（权重不进 Git） | **completed 40k** | F3b-P；best@35k val=0.002057 |
