@@ -9,9 +9,10 @@
 
 - **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 均已 80k；Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机报告 F2-P 正向40k训练，Git中可核验的最新 probe checkpoint 为25k，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
 - **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
+- **F2-VEC side study（2026-09-13）：** `F2-VEC-MT-A-S3407` **40k / fp16 已完成**（约 6.1h，best@35k val=0.002105）。test16 分层 **few-shot / one-shot 已出图**：`F2VEC_40000` L1=0.0705 SSIM=0.648 LPIPS=0.151；`F2VEC_40000_s1` L1=0.0722 SSIM=0.634 LPIPS=0.158（752 项，blank=0；像素诊断，不是论文主张）。side study，不进 REGISTRY，不覆盖 F2。设计 [`reports/F2_VEC_MULTITASK_DESIGN_20260913.md`](reports/F2_VEC_MULTITASK_DESIGN_20260913.md)。现行主方法仍是 F2 mean-Δ。
 - **远端增量核查（2026-09-11，`74f92b7a`→`1dba686e`）：** `ce5f8079` 只更新 SSH 说明；`1dba686e` 带来实质增量：F2-P/F3b-P per-ref token与mask训练代码、launch/queue/probe脚本，以及 F2@40k vs F2-P@25k 的320张 train/val probe图。当前只能确认执行链路与可视化产物存在；probe没有量化指标或已填写人工结论，步数也不匹配，正式 `sample.py` 尚未接 `style_seq`，且没有对应 run provenance，因此不能据此声称效果改善。
 - **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；新机步骤 [`docs/SETUP_COLLABORATOR.md`](docs/SETUP_COLLABORATOR.md)。扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git；打包目录 `artifacts/migrate_v100/`（本机、不进仓）。V100 缺项与 scp 映射表：[`docs/V100_SCP_TRANSFER.md`](docs/V100_SCP_TRANSFER.md) + [`manifests/v100_scp_map.json`](manifests/v100_scp_map.json)（**3090 已填路径/体积/TTF；两机互不通，需第三方跳板 scp**）。
-- **所里 V100（2026-09-11）：** 仓在 `/root/projects/hrfont`；conda `boogu` / torch `2.7.1+cu126` / V100 capability `(7,0)`。仓库级作者 `Liang Xiaowei <qr0w6666666@gmail.com>`；push 走 Deploy key `github.com-hrfont-443`（可写，禁止 force-push）。本机无 `/root/data/font_50`、无随体 TTF、无协议 B `summary.json`；Es/Ec/ckpt/support_bank 也不能从 TTF 生成。源机 `172.19.45.13:2222` 从本网段不可达。
+- **所里 V100（2026-09-13）：** 仓在 `/root/projects/hrfont`；conda `boogu` / torch `2.7.1+cu126` / V100 `(7,0)`。协议 A 全量 PNG、官方 P1、F0 `best`、Es 1.7G、Ec **94G / 155435 entries 已齐**。`T1-V100-PLUMBING-2` 仅 20-step 连通性（`paper=false`）。**`F2-VEC-MT-A-S3407` 40k / fp16 已完成**；test16 oneshot/fewshot 已写入 `reports/f03_test16_strat/preds/F2VEC_40000*`（side study，不进 REGISTRY，不覆盖 F2）。未改 `F0-RSIFREE-FT-A-S3407`。
 - **旧状态备查：** [`reports/F123_STATUS_20260907.md`](reports/F123_STATUS_20260907.md)（日期已过，以本段为准）。
 - **合作者离线看板：** [`reports/collab_offline/index.html`](reports/collab_offline/index.html)（分层评测 / 时间线 / Δ 检索 / 导师页）。
 - **E12 v4：** 26 字型 cache_v4，三 seed **仍 gate_failed（T2）**；见 [`reports/E12_SELFTEST_V4_REVIEW_20260907.md`](reports/E12_SELFTEST_V4_REVIEW_20260907.md)。Mac 复训：[`reports/E12_MAC_COLLAB.md`](reports/E12_MAC_COLLAB.md)（`cache_v4` 已进 git，约 18 MB）。
@@ -131,7 +132,9 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 
 ## 精简变更记录
 
+- 2026-09-13：F2-VEC 收口：side study、现行主方法=F2 mean-Δ、只开 MT 跑满 40k、双头同进程不复现 Ec 双跑阻塞。设计见 `reports/F2_VEC_MULTITASK_DESIGN_20260913.md`。
 - 2026-09-11：3090 填写 `manifests/v100_scp_map.json`：migrate tar / 协议 A / F0 Es+Ec 均在源机；TTF 260/260 可解析。3090→V100（`172.18.41.23:22`）TCP 超时，仍需能两边通的跳板 scp。
+- 2026-09-12：V100 用已到数据跑 `T1-V100-PLUMBING-2`（20 step，链路通）；明确不进主实验/REGISTRY/文章。F0@100k 未动。
 - 2026-09-11：所里 V100 仓/环境落地（`boogu`）；仓库级 git 作者改为 Liang Xiaowei；补 `docs/V100_SCP_TRANSFER.md` + `manifests/v100_scp_map.json` 给 3090 填路径后跳板 scp。TTF/ckpt/cache 仍缺，源机网段不通。
 - 2026-09-11：F2-P/F3b-P 训练代码进仓（per-ref style tokens + mask）；附 launch/queue/域探针；执行机继续训 F2-P→F3b-P，权重不入库。
 - 2026-09-11：把下一版执行协议细化为先 Delta、后 Ref 的顺序筛查；补齐 Phase 0–5交付物、效果可验证边界、失败优化树和 PR-1至PR-7待拍板项，并吸收 `1dba686e` 的 P实现作为 R1接口参考。

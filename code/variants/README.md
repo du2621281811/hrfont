@@ -16,5 +16,8 @@ code/variants/   → 新实验专用最小树，从 official 派生
 
 ## 计划中的变体
 
+- `cn2west_f2_vec`：F2 mean-Δ + 可微渲染矢量头（side study）。  
+  启动：`python scripts/launch_cn2west_f2_vec.py --smoke` / `--yes`  
+  设计：`reports/F2_VEC_MULTITASK_DESIGN_20260913.md`
 - `cn2west_ft_v2`：CN→West 基模微调最小补丁（StyleImage PNG、无 Resize、P1 热启、SCR off）。  
   启动：`python scripts/launch_cn2west_ft_v2_e1.py --smoke` / `--yes`

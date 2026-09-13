@@ -230,17 +230,40 @@
       "eta_s": 24,
       "last": "FZTJLSJW ü",
       "elapsed_s": 1519.9
+    },
+    "F2VEC_40000": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "F2-VEC@40k fewshot",
+      "updated_at": "2026-09-13T08:07:30+00:00",
+      "rate_per_s": 0.68,
+      "eta_s": 17,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1108.1
+    },
+    "F2VEC_40000_s1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "F2-VEC@40k oneshot",
+      "updated_at": "2026-09-13T08:27:37+00:00",
+      "rate_per_s": 0.629,
+      "eta_s": 19,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1194.4
     }
   },
-  "phase": "gallery_done",
+  "phase": "metrics_done",
   "n_items": 752,
-  "updated_at": "2026-09-11T08:10:15+00:00",
+  "updated_at": "2026-09-13T08:28:00+00:00",
   "protocol": "E1-stratified test16×47 seed3407",
-  "n_metric_rows": 8272,
+  "n_metric_rows": 9776,
   "scored": [
-    "F1_80000",
-    "F2_80000",
-    "F2_80000_s1"
+    "F2VEC_40000",
+    "F2VEC_40000_s1"
   ],
   "ui": "fair_axes_v1"
 }

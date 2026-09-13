@@ -50,7 +50,9 @@ def main() -> int:
     if args.smoke:
         args.max_steps = 20
         args.ckpt_interval = 20
-        args.run_id = f"smoke-F0-RSIFREE-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+        args.log_interval = min(args.log_interval, 5)
+        if args.run_id == "F0-RSIFREE-FT-A-S3407":
+            args.run_id = f"smoke-F0-RSIFREE-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
 
     if not args.smoke and not args.yes:
         print("Refusing full train without --yes (use --smoke first, or pass --yes).", file=sys.stderr)
@@ -95,9 +97,21 @@ def main() -> int:
         "split": str(SPLIT),
         "phase_1_ckpt_dir": str(args.phase_1_ckpt_dir),
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "note": "Joint mainline F0; reuse protocol-A renders; drop RSI/DCN from P1.",
+        "paper": False if args.smoke else True,
+        "do_not_cite": bool(args.smoke),
+        "do_not_use_as_parent": bool(args.smoke),
+        "note": (
+            "T1/V100 plumbing only; discard; not a paper run; do not use as F-arm parent."
+            if args.smoke
+            else "Joint mainline F0; reuse protocol-A renders; drop RSI/DCN from P1."
+        ),
     }
     (out_dir / "launch_meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
+    if args.smoke:
+        (out_dir / "NOT_FOR_PAPER.txt").write_text(
+            "T1/V100 plumbing smoke. Discard. Do not cite, compare, or use as parent.\n",
+            encoding="utf-8",
+        )
 
     cmd = [
         PY, str(VARIANT / "train.py"),
