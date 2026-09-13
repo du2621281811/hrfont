@@ -9,6 +9,9 @@ alwaysApply: true
 
 ## 1. 冻结决策
 
+- **PI 2026-09-13：Set-Delta 弃用**（时间预算限制），关联 Round D–R 不再排期；当前使用 Mean-Delta。已部署的 Group G 按其原 10k 日程执行；后续研发排程以 2026-09-14 TC-v2 计划为准，不自动改动运行中任务。CGE × vector 仍待 PI review。
+- **PI 2026-09-14：授权 Luna 实现、review 并修复 TC-v2，方案/代码同步 Git。** 规格为 `reports/G_STYLE_COMPLETION_PLAN_20260914.md`：Ref VGG + Content，目标 VGG 外观统计监督，H 不读 Delta/alpha/Es，优先 RL global9+local。不得恢复旧 Es-teacher + Delta-input 方案。实现默认关闭；本轮不授权启动正式训练或修改执行机 watchdog。
+
 - D-A：A 是唯一训练/评测渲染协议；96×96、margin=6、inner≤84、逐字体统一 fs、633 字符共同定 fs、RGB PNG、无缩放。**协议 H 已弃用（PI 人工验证 2026-09-04），不得用于训练/评测/QA 结论。**
 - D-FT：FT-v2 从 official P1 在 A/train228 重训；旧 `ft_cnstyle@25k` 仅 `legacy-domain` 参考，不作新实验初始化或 matched 证据。E1（bs=8、seed3407 only、无训练期 ink 过滤）已经 PI 人工验收，非 deviation。
 - D-CFG：YAML 唯一真源，CLI 仅 schema 内 override；resolved canonical JSON + SHA-256 锁定运行。

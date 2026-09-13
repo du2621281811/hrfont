@@ -1,5 +1,7 @@
 # HR-Font Delta / Ref 最终统一设计稿
 
+> **2026-09-13 PI 更新：本文 Set-Delta 路线已弃用，不再排期。以下保留为历史设计，当前方法为 Mean-Delta；执行状态以 PROJECT.md 为准。**
+
 日期：2026-09-11  
 状态：最终设计候选；尚未实现、训练或验证  
 唯一训练 parent：已入库 F0@100k；F2-P/F3b-P 训练代码已于 `1dba686e` 入库，仅作 per-ref token/mask 接口参考，不作为训练 parent或权重依赖。正式论文协议只允许目标字体 ref8，不读取额外 own-font CN 图像

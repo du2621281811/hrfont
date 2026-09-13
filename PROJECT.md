@@ -7,11 +7,13 @@
 
 ## 当前状态
 
+- **TC-v2 实现授权（2026-09-14）：** PI 指定 Luna 负责实现及正确性 review/修复，方案与代码同步 Git。实现进行中，新增功能默认关闭；未启动正式训练、未改执行机队列。
+- **G 系研发排程更新（2026-09-14，计划未部署）：** PI 视觉偏好 F2-RL > F2-PRL；后续优先 clean G2 → RL短验证 → 独立目标字外观补全 TC-v2 → 胜出方案延长。TC 不读 Delta、不用 Es teacher，采用现有 VGG 外观统计监督。完整设计/预算/验收见 [`reports/G_STYLE_COMPLETION_PLAN_20260914.md`](reports/G_STYLE_COMPLETION_PLAN_20260914.md)。本日 fetch 后远端仍为 `baa9b2fc`，未收到新 G 完成记录；下面旧 watchdog 排程是已部署配置，不代表新计划已执行。
 - **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 历史臂已跑满 80k（**新对照统一看 40k**）。Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机报告 F2-P 正向40k训练，Git中可核验的最新 probe checkpoint 为25k，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
 - **Group G（执行中）：** `G0-F0-V0913-BS256-A-S3407` 8×32=**256**，lr `3.2e-4`，warmup 500，日程 **10k**，主看 **5k**。方案 `reports/G0_DESIGN_20260913.md`。之后 **G2 → G1∥G2-PRL**（均 10k，G0@10k parent）。看板 http://127.0.0.1:19000/g/ 。不覆盖 `F0-CLEAN-V0913-*`。
 - **`v0913_clean` F0-c / F0-c-128：** 已中断给 G0 腾 8 卡。目录保留，不覆盖。v0913 watchdog 已停，避免把 F0-c 拉起来。
 - **F2-VEC side study（2026-09-13 选择性迁入）：** 来源 `v100/f2-vec-mt-40k-eval@0aae4d1e`。分支报告 `F2-VEC-MT-A-S3407` 40k/fp16 完成（best@35k val=0.002105）；main 只接收矢量 variant、启动/评测脚本、设计文档、test16 few/one-shot 各 752 项预测及像素指标，不接收该旧分支对论文、主线看板或其他实验的删除/覆盖。权重和完整训练日志未随分支提供，结论仍按 side study 管理。
-- **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
+- **方法决策（PI 2026-09-13）：Set-Delta 弃用。** 时间预算不允许新增该路线实验；当前方法使用 Mean-Delta，原 Set-Delta / Round D–R 设计保留为历史。CGE × 矢量融合仍待 PI 评估。新方向优先可信 GT 的直接监督与低成本效果验证，不把可解释性探针作为主要贡献依赖。
 - **远端增量核查（2026-09-11，`74f92b7a`→`1dba686e`）：** `ce5f8079` 只更新 SSH 说明；`1dba686e` 带来实质增量：F2-P/F3b-P per-ref token与mask训练代码、launch/queue/probe脚本，以及 F2@40k vs F2-P@25k 的320张 train/val probe图。当前只能确认执行链路与可视化产物存在；probe没有量化指标或已填写人工结论，步数也不匹配，正式 `sample.py` 尚未接 `style_seq`，且没有对应 run provenance，因此不能据此声称效果改善。
 - **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；新机步骤 [`docs/SETUP_COLLABORATOR.md`](docs/SETUP_COLLABORATOR.md)。扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git；打包目录 `artifacts/migrate_v100/`（本机、不进仓）。V100 缺项与 scp 映射表：[`docs/V100_SCP_TRANSFER.md`](docs/V100_SCP_TRANSFER.md) + [`manifests/v100_scp_map.json`](manifests/v100_scp_map.json)（**3090 已填路径/体积/TTF；两机互不通，需第三方跳板 scp**）。
 - **所里 V100（2026-09-11）：** 仓在 `/root/projects/hrfont`；conda `boogu` / torch `2.7.1+cu126` / V100 capability `(7,0)`。仓库级作者 `Liang Xiaowei <qr0w6666666@gmail.com>`；push 走 Deploy key `github.com-hrfont-443`（可写，禁止 force-push）。本机无 `/root/data/font_50`、无随体 TTF、无协议 B `summary.json`；Es/Ec/ckpt/support_bank 也不能从 TTF 生成。源机 `172.19.45.13:2222` 从本网段不可达。
@@ -28,19 +30,24 @@
 
 ## PI 决定（2026-09-12）
 
-- **新训练默认 40k；正式比较统一看 40k。** 历史 F1/F2/F3 的 80k 跑完记录保留，新对照用 `global_step_40000`。
+- **旧 F 系正式比较统一看 40k；Group G 使用独立批准的 10k 日程。** 历史 F1/F2/F3 的 80k 跑完记录保留，不能与新 G 系混作等预算比较。
 - **A1 零训练探针 parked**：换清洗后数据集再做；规格 `reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3。
+
+## PI 决定（2026-09-13，本轮）
+
+- Set-Delta 弃用，不再排期；后续方案以 Mean-Delta 为基础。
+- 数据审计与直接监督候选：`reports/DIRTY_DATA_AND_DIRECT_SUPERVISION_20260913.md`；旧指标按新 mask 的重算：`reports/DIRTY_DATA_IMPACT_20260913.json`。这些分析不更改正在执行的 Group G。
 
 ## 下一步
 
-> **下一版 Set-Delta / Round D–R 暂时停开**（2026-09-12 PI：先搁置，待新 idea）。新训练/正式评测统一 **40k**。
+> **Set-Delta / 关联 Round D–R 弃用**（PI 2026-09-13）。Group G 使用其已批准的 10k 快验日程；旧 F 系 40k 比较单独保留。
 
 1. **Group G：** 先跑完 G0（约 2.4 h 到 10k；1.2 h 先看 5k）。watchdog 在 G0+cache 后开 G2，G2 完成后并行 G1 与 G2-PRL。`scripts/start_g_watchdog.sh`。
 2. **F2-PRL：** `F2-PRL-A-S3407` **已完成 40k**（best@35k val=0.002055；40k val=0.002085；墙钟 3h55）。Demo-8 1-shot/8-shot 已进看板 `reports/f03_test16_strat/core_shot_board.html`。
 3. **F2-RL128：** `F2-RL128-A-S3407` **已完成 40k**（best@35k val=0.002055；40k val=0.002080）。1-shot/8-shot 已进 Demo-8 看板。
 4. **A1 零训练探针 parked：** 换清洗后数据集再做。题本/gate：`reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3。当前数据不跑、不作 A1 结论。
 5. **F2 / F2-RL / F2-VEC 对照：** Demo-8；页 `reports/f03_test16_strat/f2vec_shot_board.html`（`http://127.0.0.1:19000/f2vec_shot_board.html`）。F2-VEC 只有 test16×47；1-shot 是 Mode D（Es=永、Δ 仍 ref8），不是 F2/F2-RL 的 true-1。完整核心对照仍是 `core_shot_board.html`。
-6. 旧 F1/F2/F3 80k 证据冻结为历史；`hrfont_setdelta_graphicsref` 未实现前不要开新消融训练。
+6. 旧 F1/F2/F3 80k 证据冻结为历史；Set-Delta 不再实现或排期。
 7. E12：T2 方案仍需改；不作为本轮对照。
 8. p649：sampler/eval 接上 `training_map` 之前，训练继续走旧 A 盘 `fontdiffuser-p253-t295-s338-cn2west-v2`。
 

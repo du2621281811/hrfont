@@ -44,13 +44,14 @@
 
 官方超参 / Loss / 渲染：`COLLABORATOR_GUIDE.md`。
 
-## 下一版方法（设计阶段，不得当作已完成实验）
+## 方法方向（PI 2026-09-13 更新）
 
+- **2026-09-14 计划更新：** G 系改为效果优先，RL短验证后推进独立 TC-v2；新候选的权威规格为 [`G_STYLE_COMPLETION_PLAN_20260914.md`](../reports/G_STYLE_COMPLETION_PLAN_20260914.md)。旧 Es-teacher + Delta-input 补全候选已被该设计替代。当前未实现 TC、未修改执行机 watchdog，不将计划 ID 计为已有实验。
 - 规格：[`../reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](../reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)
-- 主线：Set-Delta Variation Prior + Graphics-Informed Local Reference Attention。
+- 当前主线：Mean-Delta。Set-Delta 因时间预算弃用，以上规格作为历史设计保留。
 - Support：不进入论文主方法；own-font support 只作额外观测工程模式或 oracle upper bound。
 - 实验 ID、variant ID 与 provenance 在实现 review 通过后再登记；当前没有对应 checkpoint 或结果。
-- 最小正文对照：FD/ref-only、no-Delta、old mean-Delta、geometry mean、Set-Delta、absolute set、wrong-character，以及 global/per-ref/learned-local/graphics-local Ref。
+- 旧 Set-Delta / absolute-set / Round D–R 不再排期。当前快验使用 Group G 的 G0/G2/G1/G2-PRL。CGE × vector 和新直接监督候选仍待 PI review，见 `../reports/DIRTY_DATA_AND_DIRECT_SUPERVISION_20260913.md`。
 
 ## 数据与权重
 

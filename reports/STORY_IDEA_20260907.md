@@ -1,5 +1,7 @@
 # 故事与 Idea 总结（2026-09-11，Delta / Ref 最终设计口径）
 
+> **2026-09-13 PI 更新：Set-Delta 已弃用。下文为历史 Set-Delta 叙事，不再是当前写作/执行口径。当前保留 Mean-Delta、任务与评测；CGE × vector 和新直接监督候选待 PI 评估，见 PROJECT.md。**
+
 > 本文是当前写作口径的一页式入口。完整方法、实现合同、消融和停止条件见
 > [HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md](HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)。
 > F1/F2/F3/F3b 是已完成的旧实现证据；Set-Delta / Graphics-Ref 是下一版设计，尚未实现或训练。
