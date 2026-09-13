@@ -57,6 +57,8 @@ def get_parser():
     parser.add_argument("--es_cache_path", type=str, default="artifacts/f0/es_spatial_f0")
     parser.add_argument("--es_local_cache_path", type=str, default="artifacts/f0/es_local_f0_block2_pool4")
     parser.add_argument("--split_manifest", type=str, default="manifests/split_v3_228_16_16.json")
+    parser.add_argument("--v0913_clean_map", type=str, default="",
+                        help="If set, filter pairs and use 50/38/12 weights from manifests/v0913_clean.")
     parser.add_argument("--excluded", nargs="*", default=["FZXianZTJW"])
     parser.add_argument("--freeze_encoders", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--config_path", type=str, default=None)

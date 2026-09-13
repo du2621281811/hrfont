@@ -41,6 +41,11 @@
 | `E12-*-V2-S3407/08/09` | `reports/training_logs/e12_*_v2_*` | **gate_failed** | cache_v2；字型泄漏 + 同字型负样本，`reports/E12_SELFTEST_V2_REVIEW_20260905.md` |
 | `E12-*-V3-S3407/08/09` | `reports/training_logs/e12_*_v3_*` | **gate_failed (T2)** | cache_v3；`reports/E12_SELFTEST_V3_REVIEW_20260906.md` |
 | `F0-RSIFREE-FT-A-S3407` | `reports/training_logs/F0-RSIFREE-FT-A-S3407/` | **completed 100k** | milestone=100k val=0.031089；`reports/F0_MILESTONE_20260906.md` |
+| `G0-F0-V0913-BS256-A-S3407` | `provenance/runs/G0-F0-V0913-BS256-A-S3407.json` | **starting 10k** | Group G parent；8×32=256；主看 5k；看板 `/g/` |
+| `G2-F2-V0913-A-S3407` | `provenance/runs/G2-F2-V0913-A-S3407.json` | **queued after G0** | G0 parent；mean-Δ；10k |
+| `G1-F1-V0913-A-S3407` | `provenance/runs/G1-F1-V0913-A-S3407.json` | **queued after G2** | G0 parent；official RSI；10k |
+| `G2-PRL-V0913-A-S3407` | `provenance/runs/G2-PRL-V0913-A-S3407.json` | **queued after G2** | G0 parent；F2-P+L；10k |
+| `F0-CLEAN-V0913-BS128-A-S3407` | `provenance/runs/F0-CLEAN-V0913-BS128-A-S3407.json` | **interrupted** | 给 G0 腾卡；目录保留 |
 | `F1-OFFRSI-A-S3407` | `reports/training_logs/F1-OFFRSI-A-S3407/` | **completed 80k** | 官方 RSI 对照；best@75k |
 | `F2-DELTARSI-A-S3407` | `reports/training_logs/F2-DELTARSI-A-S3407/` | **completed 80k** | 旧 mean-Delta baseline |
 | `F3-JOINT-DS-A-S3407` | `reports/training_logs/F3-JOINT-DS-A-S3407/` | **completed 80k** | Δ+Support；legacy |

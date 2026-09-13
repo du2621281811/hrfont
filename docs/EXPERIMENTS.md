@@ -27,7 +27,11 @@
 | `E1C-FT-CONTINUE-S3407` | 原 E1 前向再训设想 | **superseded，未进入当前主线** | **`code/variants/cn2west_ft_v2`** |
 | `E2-STAGE-A-S3407` / `E2B-…` | 旧 n-shot Stage-A 方案 | **STOP，不进当前结论** | **`code/variants/cn2west_stage_a`** |
 | `F0-RSIFREE-FT-A-S3407` | RSI-free parent | **completed 100k；dirty 协议 A parent（勿覆盖）** | **`code/variants/cn2west_f0_rsifree`** |
-| `F0-CLEAN-V0913-A-S3407` | 同一 F0，数据换成 `v0913_clean`（50/38/12） | **starting 40k** GPU2；旧 F0 不动 | **`code/variants/cn2west_f0_rsifree`** |
+| `F0-CLEAN-V0913-A-S3407` | 同一 F0，数据换成 `v0913_clean`（50/38/12） | **interrupted**（给 G0 腾卡；目录保留） | **`code/variants/cn2west_f0_rsifree`** |
+| `F0-CLEAN-V0913-BS128-A-S3407` | F0-c-128：同数据 4 卡 DDP，32×4=128，lr×16 | **interrupted**（给 G0 腾卡；目录保留） | **`code/variants/cn2west_f0_rsifree`** |
+| `G0-F0-V0913-BS256-A-S3407` | Group G parent：8×32=256，lr 3.2e-4，10k，主看 5k | **starting**；看板 `http://127.0.0.1:19000/g/` | **`code/variants/cn2west_f0_rsifree`** |
+| `G2 / G1 / G2-PRL` | G0@10k parent + `artifacts/g0`；先 G2，再 G1∥G2-PRL；各 10k | **queued**；`scripts/watchdog_g.py` | **`code/variants/cn2west_f123_rsi`** |
+| `F1/F2/F2-RL/F2-PRL-CLEAN-V0913` | F0-clean parent + 新 Es/Ec | **parked**；v0913 watchdog 已停 | **`code/variants/cn2west_f123_rsi`** |
 | `F1-OFFRSI-A-S3407` | official-reference RSI 对照 | **completed 80k；正式比较仍待统一汇总** | **`code/variants/cn2west_f123_rsi`** |
 | `F2-DELTARSI-A-S3407` | 旧 mean-Delta | **completed 80k；作为下一版 mean-Delta baseline** | **`code/variants/cn2west_f123_rsi`** |
 | `F3-JOINT-DS-A-S3407` | 旧 mean-Delta + own-font Support | **completed 80k；legacy，不作为相同信息预算主方法** | **`code/variants/cn2west_f123_rsi`** |

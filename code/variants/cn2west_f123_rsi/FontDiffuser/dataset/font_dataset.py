@@ -30,6 +30,7 @@ class FontDataset(Dataset):
 
     def __init__(self, args, phase, transforms=None, scr=False):
         super().__init__()
+        self.args = args
         self.root = Path(args.data_root)
         self.phase = phase
         self.scr = scr
@@ -41,6 +42,7 @@ class FontDataset(Dataset):
         if self.scr:
             self.num_neg = args.num_neg
 
+        self.sample_weights = None
         self.get_path()
         self.transforms = transforms
         self.nonorm_transforms = get_nonorm_transform(args.resolution)
@@ -76,6 +78,10 @@ class FontDataset(Dataset):
             self.style_by_font_char[font] = style_map
             self.target_images.extend(str(target_map[cp]) for cp in sorted(target_map))
 
+        map_dir = getattr(self.args, "v0913_clean_map", None) or ""
+        if map_dir:
+            self._filter_clean_pairs(map_dir)
+
         if not self.target_images:
             raise RuntimeError(f"no TargetImage PNGs under {target_image_dir}")
 
@@ -92,6 +98,35 @@ class FontDataset(Dataset):
                 continue
             result[path.stem[len(prefix):]] = path
         return result
+
+    def _filter_clean_pairs(self, map_dir: str):
+        import csv
+        import json
+        tsv = Path(map_dir) / f"pairs_{self.phase}.tsv"
+        rows = list(csv.DictReader(tsv.open(encoding="utf-8", newline=""), delimiter="\t"))
+        allowed = {(row["font"], row["cp"]) for row in rows}
+        filtered = []
+        for path in self.target_images:
+            p = Path(path)
+            font = p.parent.name
+            cp = p.stem[len(font) + 1:]
+            if (font, cp) in allowed:
+                filtered.append(path)
+        if len(filtered) != len(allowed):
+            raise RuntimeError(
+                f"v0913_clean {self.phase} pairs={len(allowed)} files={len(filtered)}"
+            )
+        self.target_images = filtered
+        if self.phase == "train":
+            table = json.loads((Path(map_dir) / "sample_weights.json").read_text(encoding="utf-8"))["pair_weight"]
+            group = {(row["font"], row["cp"]): row["script_group"] for row in rows}
+            weights = []
+            for path in self.target_images:
+                p = Path(path)
+                font = p.parent.name
+                cp = p.stem[len(font) + 1:]
+                weights.append(float(table[group[(font, cp)]]))
+            self.sample_weights = weights
 
     def _open_content(self, content_cp: str) -> Image.Image:
         path = self.root / self.phase / "ContentImage" / f"{content_cp}.png"

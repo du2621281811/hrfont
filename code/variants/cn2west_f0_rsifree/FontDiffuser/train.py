@@ -233,7 +233,8 @@ def main():
     sampler = None
     if getattr(train_font_dataset, "sample_weights", None):
         gen = torch.Generator()
-        gen.manual_seed(int(args.seed))
+        # Rank-offset so DDP ranks do not draw the identical weighted stream.
+        gen.manual_seed(int(args.seed) + int(accelerator.process_index))
         sampler = torch.utils.data.WeightedRandomSampler(
             weights=torch.as_tensor(train_font_dataset.sample_weights, dtype=torch.double),
             num_samples=len(train_font_dataset.sample_weights),

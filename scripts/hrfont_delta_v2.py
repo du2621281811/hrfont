@@ -82,6 +82,7 @@ def compute_alpha(
     proto_feats: torch.Tensor,
     exclude_idx: int | None,
     cfg: DeltaConfig,
+    extra_exclude: list[int] | None = None,
 ) -> tuple[list[int], torch.Tensor, dict]:
     """Compute a sparse, normalized neighborhood over candidate prototypes.
 
@@ -104,6 +105,10 @@ def compute_alpha(
         if not 0 <= exclude_idx < len(cos):
             raise IndexError(exclude_idx)
         valid[exclude_idx] = False
+    if extra_exclude:
+        for idx in extra_exclude:
+            if 0 <= idx < len(valid):
+                valid[idx] = False
     valid_idx = torch.nonzero(valid, as_tuple=False).flatten()
     valid_cos = cos[valid]
     if valid_cos.numel():

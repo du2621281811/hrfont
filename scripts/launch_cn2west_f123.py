@@ -57,6 +57,19 @@ ARMS = {
     "F2PRL": {"rsi_source": "delta", "support": False, "run_id": "F2-PRL-A-S3407"},
 }
 
+CLEAN_RUN = {
+    "F1": "F1-CLEAN-V0913-A-S3407",
+    "F2": "F2-CLEAN-V0913-A-S3407",
+    "F2RL": "F2-RL128-CLEAN-V0913-A-S3407",
+    "F2PRL": "F2-PRL-CLEAN-V0913-A-S3407",
+}
+
+G_RUN = {
+    "F1": "G1-F1-V0913-A-S3407",
+    "F2": "G2-F2-V0913-A-S3407",
+    "F2PRL": "G2-PRL-V0913-A-S3407",
+}
+
 
 def main() -> int:
     ap = argparse.ArgumentParser()
@@ -82,12 +95,23 @@ def main() -> int:
     ap.add_argument("--state_interval", type=int, default=1000)
     ap.add_argument("--log_interval", type=int, default=100)
     ap.add_argument("--run_id", default=None)
+    ap.add_argument("--dataset_id", default="", help="v0913_clean filters dirty PNGs via the frozen pair map.")
+    ap.add_argument("--v0913_clean_map", default="manifests/v0913_clean")
     ap.add_argument("--smoke", action="store_true", help="20-step sanity run into runs/smoke_*")
     ap.add_argument("--yes", action="store_true", help="Required for full (non-smoke) training")
     args = ap.parse_args()
 
     spec = ARMS[args.arm]
-    run_id = args.run_id or spec["run_id"]
+    if args.dataset_id == "v0913_clean" and not args.run_id and not args.smoke:
+        if args.arm not in CLEAN_RUN:
+            print(f"v0913_clean has no run id for arm {args.arm}", file=sys.stderr)
+            return 2
+        run_id = CLEAN_RUN[args.arm]
+    else:
+        run_id = args.run_id or spec["run_id"]
+    if args.dataset_id == "v0913_clean" and run_id == spec["run_id"] and not args.smoke:
+        print(f"refuse to reuse dirty run_id {run_id} on v0913_clean", file=sys.stderr)
+        return 2
     if args.smoke:
         args.max_steps = 20
         args.ckpt_interval = 20
@@ -104,6 +128,12 @@ def main() -> int:
     parent = resolve(args.parent)
     es_cache = resolve(args.es_cache)
     ec_cache = resolve(args.ec_cache)
+    clean_map = None
+    if args.dataset_id == "v0913_clean":
+        clean_map = resolve(args.v0913_clean_map)
+        if not (clean_map / "INDEX.json").is_file():
+            print(f"missing v0913_clean map: {clean_map}", file=sys.stderr)
+            return 2
 
     for name in ("unet.pth", "style_encoder.pth", "content_encoder.pth"):
         if not (parent / name).is_file():
@@ -156,6 +186,8 @@ def main() -> int:
         "offset_coefficient": args.offset_coefficient,
         "mixed_precision": "fp16",
         "created_at": datetime.now(timezone.utc).isoformat(),
+        "dataset_id": args.dataset_id or "dirty_protocol_A",
+        "v0913_clean_map": str(clean_map) if clean_map else "",
     }
     (out_dir / "launch_meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
 
@@ -172,6 +204,10 @@ def main() -> int:
         "--output_dir", str(out_dir),
         "--data_root", str(DATA),
         "--split_manifest", str(SPLIT),
+    ]
+    if clean_map:
+        cmd += ["--v0913_clean_map", str(clean_map)]
+    cmd += [
         "--es_cache_path", str(es_cache),
         "--es_local_cache_path", str(es_local),
         "--ec_cache_path", str(ec_cache),

@@ -8,7 +8,8 @@
 ## 当前状态
 
 - **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 历史臂已跑满 80k（**新对照统一看 40k**）。Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机报告 F2-P 正向40k训练，Git中可核验的最新 probe checkpoint 为25k，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
-- **`v0913_clean`：** 映射已冻 [`manifests/v0913_clean/INDEX.json`](manifests/v0913_clean/INDEX.json)。同步清单 [`manifests/v0913_clean/SYNC.md`](manifests/v0913_clean/SYNC.md)。F0 已接 pair 表 + 50/38/12。**F0-clean 先跑** `F0-CLEAN-V0913-A-S3407`（40k / GPU2 / 旧 F0 不动）。PNG 本机已有，**不必再从 3090 拷图**。F1/F2/… 等 F0-clean 完成本机重建 Es/Ec，不要用 dirty cache。
+- **Group G（执行中）：** `G0-F0-V0913-BS256-A-S3407` 8×32=**256**，lr `3.2e-4`，warmup 500，日程 **10k**，主看 **5k**。方案 `reports/G0_DESIGN_20260913.md`。之后 **G2 → G1∥G2-PRL**（均 10k，G0@10k parent）。看板 http://127.0.0.1:19000/g/ 。不覆盖 `F0-CLEAN-V0913-*`。
+- **`v0913_clean` F0-c / F0-c-128：** 已中断给 G0 腾 8 卡。目录保留，不覆盖。v0913 watchdog 已停，避免把 F0-c 拉起来。
 - **F2-VEC side study（2026-09-13 选择性迁入）：** 来源 `v100/f2-vec-mt-40k-eval@0aae4d1e`。分支报告 `F2-VEC-MT-A-S3407` 40k/fp16 完成（best@35k val=0.002105）；main 只接收矢量 variant、启动/评测脚本、设计文档、test16 few/one-shot 各 752 项预测及像素指标，不接收该旧分支对论文、主线看板或其他实验的删除/覆盖。权重和完整训练日志未随分支提供，结论仍按 side study 管理。
 - **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
 - **远端增量核查（2026-09-11，`74f92b7a`→`1dba686e`）：** `ce5f8079` 只更新 SSH 说明；`1dba686e` 带来实质增量：F2-P/F3b-P per-ref token与mask训练代码、launch/queue/probe脚本，以及 F2@40k vs F2-P@25k 的320张 train/val probe图。当前只能确认执行链路与可视化产物存在；probe没有量化指标或已填写人工结论，步数也不匹配，正式 `sample.py` 尚未接 `style_seq`，且没有对应 run provenance，因此不能据此声称效果改善。
@@ -34,10 +35,10 @@
 
 > **下一版 Set-Delta / Round D–R 暂时停开**（2026-09-12 PI：先搁置，待新 idea）。新训练/正式评测统一 **40k**。
 
-1. **F2-PRL：** `F2-PRL-A-S3407` **正在 GPU0 训 40k**（F0 parent；Δ；up-path = per-ref pooled h + Es block2 L128，去掉 mean global9；down-path 仍 mean 3×3）。watchdog：`scripts/start_watchdog_f2_prl.sh`。预计约 4h。
+1. **Group G：** 先跑完 G0（约 2.4 h 到 10k；1.2 h 先看 5k）。watchdog 在 G0+cache 后开 G2，G2 完成后并行 G1 与 G2-PRL。`scripts/start_g_watchdog.sh`。
 2. **F2-RL128：** `F2-RL128-A-S3407` **已完成 40k**（best@35k val=0.002055；40k val=0.002080）。1-shot/8-shot 已进 Demo-8 看板 `reports/f03_test16_strat/core_shot_board.html`。
 3. **A1 零训练探针 parked：** 换清洗后数据集再做。题本/gate：`reports/SOLUTION_STYLE_WEAKNESS_20260909.md` §3。当前数据不跑、不作 A1 结论。
-4. **核心模型 1-shot / 8-shot 对照：** Demo-8 × 67 字；看板 `reports/f03_test16_strat/core_shot_board.html`（`:19000/core_shot_board.html`）。后续新对照用 40k checkpoint。
+4. **F2 / F2-RL / F2-VEC 对照：** Demo-8；页 `reports/f03_test16_strat/f2vec_shot_board.html`（`http://127.0.0.1:19000/f2vec_shot_board.html`）。F2-VEC 只有 test16×47；1-shot 是 Mode D（Es=永、Δ 仍 ref8），不是 F2/F2-RL 的 true-1。完整核心对照仍是 `core_shot_board.html`。
 5. 旧 F1/F2/F3 80k 证据冻结为历史；`hrfont_setdelta_graphicsref` 未实现前不要开新消融训练。
 6. E12：T2 方案仍需改；不作为本轮对照。
 7. p649：sampler/eval 接上 `training_map` 之前，训练继续走旧 A 盘 `fontdiffuser-p253-t295-s338-cn2west-v2`。
@@ -48,6 +49,11 @@
 |----|------|------|
 | `E1-FTV2-A-S3407` | **completed 100k** | 主表数据域 FT 锚点 |
 | `F0-RSIFREE-FT-A-S3407` | **completed 100k** | **整段无 RSI**；val=0.031089 |
+| `G0-F0-V0913-BS256-A-S3407` | **starting 10k** | Group G parent；8×32=256；lr 3.2e-4；主看 5k |
+| `G2-F2-V0913-A-S3407` | **queued after G0** | G0 parent；mean-Δ；10k |
+| `G1-F1-V0913-A-S3407` | **queued after G2** | G0 parent；official RSI；10k |
+| `G2-PRL-V0913-A-S3407` | **queued after G2** | G0 parent；F2-P+L；10k |
+| `F0-CLEAN-V0913-BS128-A-S3407` | **interrupted** | 给 G0 腾卡；目录保留 |
 | `F3-JOINT-DS-A-S3407` | **completed 80k** | Δ+Support；test16 像素已采 |
 | `F2-DELTARSI-A-S3407` | **completed 80k** | 旧 mean-Delta 实现；下一版基线 |
 | `F1-OFFRSI-A-S3407` | **completed 80k** | 官方 RSI 对照 |
@@ -159,6 +165,9 @@ train 可作 target **223/228**。val/test 16/16 保留，按字体跳过被排�
 
 ## 精简变更记录
 
+- 2026-09-13：开 Group G。G0=`G0-F0-V0913-BS256-A-S3407`（8×32=256，10k，主看 5k）。随后 G2，再 G1∥G2-PRL。中断 F0-c / F0-c-128 腾 8 卡，不覆盖其目录。方案 `reports/G0_DESIGN_20260913.md`。
+- 2026-09-13：启动 `F0-CLEAN-V0913-BS128-A-S3407`（F0-c-128，4 卡 DDP，32×4=128，lr 1.6e-4，40k）。6 卡除不尽 128 已改 4 卡。不占 GPU2，不覆盖 F0-c。后为 G0 中断。
+- 2026-09-13：F0-clean DataLoader 微基准：getitem ~2.5ms，workers 0→4 只从 0.021s 降到 0.006s/batch，端到端约 1.06×，**不重训**。V100 看板枢纽 `:19000`；F2/F2-RL/F2-VEC 对照页 `reports/f03_test16_strat/f2vec_shot_board.html`。
 - 2026-09-13：p649 原260 三层语种审查完成并写出训练映射（146/69/40/5）；val/test 同步滤语种。记录 `data/p649_v2a_layers/REVIEW_RECORD.md`。训练暂不切盘。
 - 2026-09-13：启动 `F2-PRL-A-S3407`（F0 parent，Δ，up-path=per-ref h+L128、无 mean G；GPU0 + watchdog）。40k；预计约 4h。
 - 2026-09-13：F2-RL128@40k 的 1-shot（Es+Δ=永）与 8-shot（ref8）写入 `core_shot_board.html`（Demo-8×67，536/536）。

@@ -302,7 +302,13 @@ def _structure_features(es_cache, ec_cache, library: _LibraryEs, samples, querie
     for dropped, font, cp, rchars, query in zip(source_draw, fonts, chars, ref_chars, queries):
         prototypes = library.prototypes(rchars, device)
         exclude = library.font_index.get(font)
-        indices, weights, _ = compute_alpha(query.to(device), prototypes, exclude, alpha_cfg)
+        extra = None
+        donor_mask = getattr(cfg, "_v0913_donor_exclude", None)
+        if donor_mask is not None:
+            extra = donor_mask(cp)
+        indices, weights, _ = compute_alpha(
+            query.to(device), prototypes, exclude, alpha_cfg, extra_exclude=extra
+        )
         if len(indices) == 0:
             raise RuntimeError(f"empty top-K neighborhood font={font} char={cp}")
         neighbors = [ec_cache.features("target", train_fonts[i], cp) for i in indices]
@@ -694,6 +700,12 @@ def main():
     local_cache = EsLocalCache(Path(args.es_local_cache_path)) if args.arm in LOCAL_L128_ARMS else None
     split = json.loads(Path(args.split_manifest).read_text(encoding="utf-8"))
     train_fonts = sorted(split.get("stems", split)["train"])
+    if getattr(args, "v0913_clean_map", None):
+        from scripts.v0913_clean_lib import extra_exclude_indices, load_cp_group, load_donors
+        donors = load_donors(args.v0913_clean_map)
+        train_fonts = donors["all"]
+        cp_group = load_cp_group(args.v0913_clean_map)
+        args._v0913_donor_exclude = lambda cp: extra_exclude_indices(train_fonts, cp, donors, cp_group)
     if accelerator.is_main_process:
         _write_heartbeat(Path(args.output_dir), status="loading_library", step=0)
     library = _LibraryEs(es_cache, train_fonts, _style_chars_from_cache(es_cache))
@@ -750,10 +762,22 @@ def main():
     normalized = transforms.Compose([native, transforms.ToTensor(),
                                      transforms.Normalize([0.5], [0.5])])
     dataset = FontDataset(args, "train", [normalized, normalized, normalized], scr=False)
-    loader = torch.utils.data.DataLoader(dataset, shuffle=True,
-                                         batch_size=args.train_batch_size,
-                                         collate_fn=CollateFN(),
-                                         generator=torch.Generator().manual_seed(args.seed or 3407))
+    sampler = None
+    if getattr(dataset, "sample_weights", None):
+        sampler = torch.utils.data.WeightedRandomSampler(
+            weights=torch.as_tensor(dataset.sample_weights, dtype=torch.double),
+            num_samples=len(dataset.sample_weights),
+            replacement=True,
+            generator=torch.Generator().manual_seed(args.seed or 3407),
+        )
+    loader = torch.utils.data.DataLoader(
+        dataset,
+        shuffle=sampler is None,
+        sampler=sampler,
+        batch_size=args.train_batch_size,
+        collate_fn=CollateFN(),
+        generator=None if sampler else torch.Generator().manual_seed(args.seed or 3407),
+    )
     val_set = FontDataset(args, "val", [normalized, normalized, normalized], scr=False)
     val_loader = torch.utils.data.DataLoader(val_set, shuffle=False,
                                              batch_size=args.train_batch_size,
