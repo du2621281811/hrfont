@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"/><title>p649 review hub</title></head>
+<body style="font:14px/1.5 system-ui;margin:32px">
+<h1>p649 协议 A 审查入口</h1>
+<p>新盘只读对照：原 A 未覆盖。</p>
+<ul>
+<li><a href="compare260.html">260 套 vs 原 A 像素对照</a></li>
+<li><a href="review.html">ink / 空图 / tofu 人工审查</a></li>
+</ul>
+<p>启动：<code>python -m http.server 8778 --directory /root/projects/hrfont/data</code>
+然后打开 <code>http://127.0.0.1:8778/p649_v2a_review/review.html</code></p>
+<p>进度会写入 <code>p649_v2a_review/decisions.json</code>。请用 <code>python scripts/serve_p649_review.py --port 8778</code>，不要用普通 http.server（不能写盘）。</p>
+</body></html>

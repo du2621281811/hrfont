@@ -8,7 +8,8 @@ Git 只跟踪清单与指纹；大文件用 symlink 或外盘。
 
 | 逻辑路径 | 约体积 | 说明 |
 |----------|--------|------|
-| `data/fontdiffuser-p253-t295-s338-cn2west-v2/` | 0.7GB | 协议 A；F0/F1/F2/F3 训练与 test16 |
+| `data/fontdiffuser-p253-t295-s338-cn2west-v2/` | 0.7GB | **当前训练盘**；协议 A；F0/F1/F2/F3 与 test16。只读，勿覆盖 |
+| `data/fontdiffuser-p649-t295-s338-cn2west-v2a-r0/` | — | p649 新盘；原260 语种表见 `data/p649_v2a_layers/training_map/`。**未接训练** |
 | `artifacts/f0/es_spatial_f0/` | 1.7GB | **F0** Es cache |
 | `artifacts/f0/ec_multiscale_f0/` | 94GB | **F0** Ec cache |
 | `runs/F0-RSIFREE-FT-A-S3407/best/` | 1.1GB | F 臂 parent（= `global_step_100000`） |

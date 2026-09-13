@@ -8,6 +8,7 @@
 ## 当前状态
 
 - **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 历史臂已跑满 80k（**新对照统一看 40k**）。Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机报告 F2-P 正向40k训练，Git中可核验的最新 probe checkpoint 为25k，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
+- **p649 原260 语种审查（2026-09-13）：** 三层漏斗已审完并冻结映射。146 全语种 / 69 无注音 / 40 仅汉字+拉丁数字 / 5 剔除。train/val/test **同一张表**按 `(字体, 字)` 跳过不能用的语种，不改 228/16/16。新389 未审完。**训练仍用旧协议 A 盘**，未接 sampler 前不要指向 p649。记录 [`data/p649_v2a_layers/REVIEW_RECORD.md`](data/p649_v2a_layers/REVIEW_RECORD.md)，表 `data/p649_v2a_layers/training_map/`。
 - **下一版方法设计：** Set-Delta Variation Prior + Graphics-Informed Local Reference Attention 已形成最终设计候选；Support 退出论文主方法。完整规格与合作者 review 点见 [`reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)，一页叙事见 [`reports/STORY_IDEA_20260907.md`](reports/STORY_IDEA_20260907.md)。状态是 **design-only，尚未实现/训练/验证**。
 - **远端增量核查（2026-09-11，`74f92b7a`→`1dba686e`）：** `ce5f8079` 只更新 SSH 说明；`1dba686e` 带来实质增量：F2-P/F3b-P per-ref token与mask训练代码、launch/queue/probe脚本，以及 F2@40k vs F2-P@25k 的320张 train/val probe图。当前只能确认执行链路与可视化产物存在；probe没有量化指标或已填写人工结论，步数也不匹配，正式 `sample.py` 尚未接 `style_seq`，且没有对应 run provenance，因此不能据此声称效果改善。
 - **多机同步：** 规则见 [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) §3；新机步骤 [`docs/SETUP_COLLABORATOR.md`](docs/SETUP_COLLABORATOR.md)。扫描脚本 `scripts/pm_sync_scan.py`（约每 2h）。数据/cache 不走 Git；打包目录 `artifacts/migrate_v100/`（本机、不进仓）。V100 缺项与 scp 映射表：[`docs/V100_SCP_TRANSFER.md`](docs/V100_SCP_TRANSFER.md) + [`manifests/v100_scp_map.json`](manifests/v100_scp_map.json)（**3090 已填路径/体积/TTF；两机互不通，需第三方跳板 scp**）。
@@ -38,6 +39,7 @@
 4. **核心模型 1-shot / 8-shot 对照：** Demo-8 × 67 字；看板 `reports/f03_test16_strat/core_shot_board.html`（`:19000/core_shot_board.html`）。后续新对照用 40k checkpoint。
 5. 旧 F1/F2/F3 80k 证据冻结为历史；`hrfont_setdelta_graphicsref` 未实现前不要开新消融训练。
 6. E12：T2 方案仍需改；不作为本轮对照。
+7. p649：sampler/eval 接上 `training_map` 之前，训练继续走旧 A 盘 `fontdiffuser-p253-t295-s338-cn2west-v2`。
 
 ## 实验登记（摘要）
 
@@ -129,6 +131,23 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 **字体门（已冻结）**：`mean_bbox < 20%` → 仅 `FZXianZTJW` drop；其余 B-screen 对照候选 **pass**。  
 **Split（已冻结）**：228/16/16；从原 test8 起，用 seed=3407 自 train 增补 8 字进 test。详见 `reports/R0_INK_GATE_PROPOSAL.md`、`manifests/split_v3_228_16_16.json`。
 
+### p649 v2a（审查完成，尚未接训练）
+
+新盘 `data/fontdiffuser-p649-t295-s338-cn2west-v2a-r0/`（649 套渲染；**不要覆盖旧 A 盘**）。  
+原 260 三层可用性已审完：记录 [`data/p649_v2a_layers/REVIEW_RECORD.md`](data/p649_v2a_layers/REVIEW_RECORD.md)。  
+映射 `data/p649_v2a_layers/training_map/`（`font_to_bucket.json`）。  
+L1 只读 `data/p649_v2a_review/decisions.json`；L2/L3 只写 `layer2.json` / `layer3.json`。  
+内部审查页（不进导师首页）：`http://172.19.45.13:19000/p649_v2a_layers/review.html`。
+
+| bucket | n | target |
+|--------|--:|--------|
+| `all_scripts` | 146 | 295 |
+| `no_bopomofo` | 69 | 258 |
+| `han_latin_digit` | 40 | 89 |
+| `exclude` | 5 | 0 |
+
+train 可作 target **223/228**。val/test 16/16 保留，按字体跳过被排除语种。新389 未三层审完。
+
 ---
 
 ## 归档：Stage A MVP（2026-09）
@@ -139,6 +158,7 @@ python -m http.server 8777 --directory data/  # 打开 http://127.0.0.1:8777/cn2
 
 ## 精简变更记录
 
+- 2026-09-13：p649 原260 三层语种审查完成并写出训练映射（146/69/40/5）；val/test 同步滤语种。记录 `data/p649_v2a_layers/REVIEW_RECORD.md`。训练暂不切盘。
 - 2026-09-13：启动 `F2-PRL-A-S3407`（F0 parent，Δ，up-path=per-ref h+L128、无 mean G；GPU0 + watchdog）。40k；预计约 4h。
 - 2026-09-13：F2-RL128@40k 的 1-shot（Es+Δ=永）与 8-shot（ref8）写入 `core_shot_board.html`（Demo-8×67，536/536）。
 - 2026-09-12：PI：A1 探针 parked（清洗后数据再做）；新训练/评测统一 40k。`F2-RL128-A-S3407` 停 80k 日程、按 40k 重开。

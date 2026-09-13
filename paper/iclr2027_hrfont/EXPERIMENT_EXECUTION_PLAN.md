@@ -52,7 +52,7 @@ D2−D1 识别的是从 legacy feature Delta 到 canonicalized geometry Delta �
 
 ### Wave 0 — 合同与零训练诊断（0.5–1 天）
 
-1. 为 p260 数据发布唯一 manifest ID/hash；确认 228/16/16 按 font family 隔离，避免同家族不同字重跨 split。
+1. 为 p260 数据发布唯一 manifest ID/hash；确认 228/16/16 按 font family 隔离，避免同家族不同字重跨 split。原260 语种可用性已冻结：[`data/p649_v2a_layers/REVIEW_RECORD.md`](../../data/p649_v2a_layers/REVIEW_RECORD.md)；train/val/test 均按 `font_to_bucket` 跳过不可用语种，5 套 `exclude` 不做 GT/donor。新389 未审完，不进该合同。
 2. 固定 F0@100k artifact hash、ref8 顺序、neutral B0、renderer 和 geometry cache v1。
 3. 冻结 val 题本：identity、hole/component、endpoint、terminal、contrast、dry-brush；标出 ref-observable / bank-only / unsupported。
 4. 对 F2@80k 做 true/zero/wrong Delta 与 donor/font/style leakage probe。

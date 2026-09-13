@@ -16,6 +16,13 @@
 /data/cn2west_v2_abc_review/proto_DF_script_review/
 /data/cn2west_v2_abc_review/screen_v2b/
 
+# p649 review: keep JSON decisions + training_map; skip regenerable previews
+/data/p649_v2a_review/font_check_cards/
+/data/p649_v2a_review/sheet_preview/
+/data/p649_v2a_review/compare260_sheet.png
+/data/p649_v2a_layers/sheet_preview/
+/paper/iclr2027_hrfont_overleaf/
+
 # Never commit model weights (even if someone places them under code/).
 **/ckpt/
 **/*.pt

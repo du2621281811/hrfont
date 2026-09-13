@@ -10,6 +10,7 @@
 | `fontdiffuser_p253`（磁盘名） | **缺失** | legacy_untracked | summary 与磁盘 Style 计数不一致；不得直接当新基模数据 |
 | `fontdiffuser-p253-…-cn2west-v2`（磁盘名） | `manifests/split_v3_228_16_16.json` | **active_transition** | 盘上已是 **228/16/16** + excluded；正式 ID 待发 **p260** |
 | `fontdiffuser-p260-…-v2a-r1-*` | TBD | **planned** | 正式发布名；勿与旧 237/16/8 / p261 混用 |
+| `fontdiffuser-p649-…-v2a-r0`（磁盘名） | `data/p649_v2a_layers/training_map/` | **review_frozen_overlap260** | 原260 三层语种已审（146/69/40/5）；新389 未完；未接训练 |
 
 ## Code variants
 

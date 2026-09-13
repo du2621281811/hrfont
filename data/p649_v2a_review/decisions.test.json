@@ -1,0 +1,58 @@
+{
+  "dataset": "fontdiffuser-p649-t295-s338-cn2west-v2a-r0",
+  "updated_at": "2026-09-11T17:08:41.714411+00:00",
+  "n": 3,
+  "reviewer": "",
+  "last_stem": "",
+  "reviewers": {},
+  "decisions": {
+    "FZBaiZBYTJW": {
+      "dataset": "fontdiffuser-p649-t295-s338-cn2west-v2a-r0",
+      "stem": "FZBaiZBYTJW",
+      "review_decision": "drop",
+      "reviewer": "alice",
+      "reviewed_at": "2026-09-11T17:08:22.271Z",
+      "reason": "",
+      "mean_ink_ratio": 0.4818166016653501,
+      "split": "train",
+      "subset": "overlap260",
+      "target_rel": "train/TargetImage/FZBaiZBYTJW",
+      "style_rel": "train/StyleImage/FZBaiZBYTJW",
+      "target_url": "../fontdiffuser-p649-t295-s338-cn2west-v2a-r0/train/TargetImage/FZBaiZBYTJW",
+      "style_url": "../fontdiffuser-p649-t295-s338-cn2west-v2a-r0/train/StyleImage/FZBaiZBYTJW",
+      "n_glyphs": 633
+    },
+    "FZBaiZDZ115JW": {
+      "dataset": "fontdiffuser-p649-t295-s338-cn2west-v2a-r0",
+      "stem": "FZBaiZDZ115JW",
+      "review_decision": "rerender",
+      "reviewer": "alice",
+      "reviewed_at": "2026-09-11T17:08:24.082Z",
+      "reason": "",
+      "mean_ink_ratio": 0.526290392695717,
+      "split": "train",
+      "subset": "overlap260",
+      "target_rel": "train/TargetImage/FZBaiZDZ115JW",
+      "style_rel": "train/StyleImage/FZBaiZDZ115JW",
+      "target_url": "../fontdiffuser-p649-t295-s338-cn2west-v2a-r0/train/TargetImage/FZBaiZDZ115JW",
+      "style_url": "../fontdiffuser-p649-t295-s338-cn2west-v2a-r0/train/StyleImage/FZBaiZDZ115JW",
+      "n_glyphs": 633
+    },
+    "FZBaiZDZ113JW": {
+      "dataset": "fontdiffuser-p649-t295-s338-cn2west-v2a-r0",
+      "stem": "FZBaiZDZ113JW",
+      "review_decision": "pass",
+      "reviewer": "alice",
+      "reviewed_at": "2026-09-11T17:08:23.250Z",
+      "reason": "",
+      "mean_ink_ratio": 0.5277491511431455,
+      "split": "train",
+      "subset": "new389",
+      "target_rel": "train/TargetImage/FZBaiZDZ113JW",
+      "style_rel": "train/StyleImage/FZBaiZDZ113JW",
+      "target_url": "../fontdiffuser-p649-t295-s338-cn2west-v2a-r0/train/TargetImage/FZBaiZDZ113JW",
+      "style_url": "../fontdiffuser-p649-t295-s338-cn2west-v2a-r0/train/StyleImage/FZBaiZDZ113JW",
+      "n_glyphs": 633
+    }
+  }
+}

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>p649 · 分层可用性（内部 · 非导师页）</title>
+<style>
+:root{--bg:#eef1f5;--panel:#fff;--line:#d5dbe3;--muted:#5c6570;--warn:#8a4b08;--drop:#8b1a1a;--pass:#1b5e20}
+*{box-sizing:border-box} html,body{height:100%;margin:0}
+body{font:13px/1.45 system-ui,sans-serif;background:var(--bg);color:#1a1a1a;display:flex;flex-direction:column}
+header{flex:0 0 auto;background:#fff;border-bottom:1px solid var(--line);padding:10px 14px}
+h1{margin:0;font-size:1.1rem} .meta{color:var(--muted);font-size:12px;margin-top:2px}
+.banner{margin-top:8px;padding:8px 10px;background:#fff6e8;border:1px solid #e6c48a;border-radius:4px;color:#6a4a12;font-size:12px}
+.l1box{margin-top:8px;padding:8px 10px;background:#eef6ee;border:1px solid #b7d0b8;border-radius:4px;font-size:12px}
+.l1box.warn{background:#fff6e8;border-color:#e6c48a}
+.l1box code{font-size:11px}
+.l1lists{margin-top:6px;display:none;grid-template-columns:1fr 1fr;gap:8px}
+.l1lists.on{display:grid}
+.l1lists pre{margin:0;max-height:160px;overflow:auto;background:#fff;border:1px solid var(--line);padding:6px;font:11px/1.35 ui-monospace,monospace}
+.layer-tabs{display:flex;gap:8px;margin-top:8px}
+.layer-tabs button{padding:6px 12px}
+.layer-tabs button.on{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+input,select,button{padding:5px 9px;border:1px solid var(--line);border-radius:4px;font:inherit;background:#fff}
+button.primary{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
+.layout{flex:1;min-height:0;display:grid;grid-template-columns:420px 1fr}
+aside{background:var(--panel);border-right:1px solid var(--line);overflow:auto}
+#fontList{list-style:none;margin:0;padding:0}
+#fontList li{padding:8px 10px;border-bottom:1px solid #eef1f5;cursor:pointer}
+#fontList li:hover{background:#f5f7fa} #fontList li.active{background:#e8eef5}
+#fontList li.group{cursor:default;background:#f3f6fa;padding:6px 10px;font-size:11px;color:#3a4450;font-weight:600;position:sticky;top:0;z-index:1}
+#fontList li.group:hover{background:#f3f6fa}
+#fontList li.dec-drop{border-left:3px solid var(--drop)}
+#fontList li.dec-pass{border-left:3px solid var(--pass)}
+.stem{font-weight:600;font-family:ui-monospace,monospace;font-size:12px}
+.sub{color:var(--muted);font-size:11px;margin-top:2px}
+main{overflow:auto;padding:14px}
+.badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:11px;margin-left:4px}
+.badge.ok{background:#e8f5e9;color:var(--pass)}
+.badge.drop{background:#fdecea;color:var(--drop)} .badge.pass{background:#e8f5e9;color:var(--pass)}
+.badge.done{background:#e8f5e9;color:var(--pass)} .badge.todo{background:#fff3cd;color:var(--warn)}
+.badge.l1{background:#eceff1;color:#37474f}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin-top:6px}
+.script-block{margin-top:12px}
+.script-block h3{margin:0 0 4px;font-size:12px;color:#3a4450;font-weight:650}
+.script-block.hot{outline:2px solid #c62828;background:#fff8f6;padding:8px;border-radius:4px}
+.script-block.hot h3{color:#8b1a1a}
+.cell{background:#fff;border:1px solid var(--line);padding:4px;text-align:center}
+.cell img{width:64px;height:64px;image-rendering:pixelated;background:#fff}
+.cell.miss img{visibility:hidden}
+.cell.miss{background:#fff5f5;border-color:#e8b4b4}
+.cell.miss .lab::after{content:" 缺文件";color:#b42318}
+.cell .lab{font-size:11px;color:var(--muted);margin-top:2px}
+.dec{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0;padding:10px;background:#fff;border:1px solid var(--line)}
+.note{color:var(--muted);font-size:12px}
+.paths{font:12px/1.5 ui-monospace,monospace;background:#fff;border:1px solid var(--line);padding:8px 10px;margin:8px 0}
+.progress{display:flex;align-items:center;gap:10px;margin-top:6px}
+.bar{flex:1;min-width:160px;height:8px;background:#e6ebf1;border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:#2e7d32;width:0}
+#progressText{font-size:12px}
+.rule{font-size:11px;color:var(--muted);margin-top:4px}
+.who{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;padding:8px 10px;background:#f7f9fc;border:1px solid var(--line);border-radius:4px}
+.who.missing{background:#fff5f5;border-color:#e8b4b4}
+.who .me{font-weight:650}
+.owner{font-size:11px;color:var(--muted);margin-left:6px}
+</style></head>
+<body>
+<header>
+  <h1>p649 · 分层可用性筛选（内部隐藏页 · 不要发给导师）</h1>
+  <div class="meta" id="meta"></div>
+  <div class="banner">笔记本请打开 <code>http://172.19.45.13:19000/p649_v2a_layers/review.html</code>（宿主机未映射 19003）。不要把本页发给导师，首页和 19001 都没有入口。漏斗：第1层 pass = 各语种都能用（只读，不改 decisions.json）。第2层只审第1层 drop：pass = 只有注音不能用。第3层只审第2层 drop：pass = 注音 + 平假/片假不能用。默认列表是原 260。</div>
+  <div class="l1box" id="l1box">正在同步第1层 decisions.json …</div>
+  <div class="l1lists" id="l1lists">
+    <div><b>原260 · L1 pass（不进第2层）</b><pre id="l1passList"></pre></div>
+    <div><b>原260 · L1 drop（第2层候选）</b><pre id="l1dropList"></pre></div>
+  </div>
+  <div class="funnel" id="funnel"></div>
+  <div class="layer-tabs">
+    <button type="button" id="tab2" class="on">第2层 · 仅注音不可用</button>
+    <button type="button" id="tab3">第3层 · 注音+假名不可用</button>
+  </div>
+  <div class="progress">
+    <div class="bar"><i id="progressBar"></i></div>
+    <span id="progressText"></span>
+    <span id="doneBadge"></span>
+  </div>
+  <div class="who missing" id="identityBar">
+    <span>审查人</span>
+    <select id="reviewerPick"><option value="">选择已有姓名…</option></select>
+    <input id="reviewerNew" type="text" placeholder="或输入新姓名" style="width:140px" autocomplete="nickname"/>
+    <button type="button" class="primary" id="btnUseReviewer">以此身份审查</button>
+    <span class="me" id="whoAmI">尚未选择 — 无法写入</span>
+  </div>
+  <div class="rule" id="layerHint"></div>
+  <div class="toolbar">
+    <label>显示 <select id="filter">
+      <option value="overlap260" selected>仅原 260</option>
+      <option value="all">本层全部候选</option>
+      <option value="undecided">未决策</option>
+      <option value="mine">仅我审的</option>
+      <option value="others">仅他人审的</option>
+      <option value="decided">已决策</option>
+      <option value="drop">仅 drop（进入下一层 / 仍不可用）</option>
+      <option value="pass">仅 pass（本层收下）</option>
+      <option value="new389">仅新 389</option>
+    </select></label>
+    <label>排序 <select id="sort">
+      <option value="style" selected>风格分组（字重连着）</option>
+      <option value="ink_asc">mean_bbox ↑ 淡→浓</option>
+      <option value="ink_desc">mean_bbox ↓ 浓→淡</option>
+      <option value="undecided_first">未决策优先，再按风格</option>
+      <option value="stem">stem A–Z</option>
+      <option value="split">split + 风格</option>
+    </select></label>
+    <input id="q" type="search" placeholder="搜索 stem / 风格…" style="min-width:180px"/>
+    <button type="button" id="btnExport">导出本层 JSONL</button>
+    <button type="button" id="btnExportMine">导出我的 JSONL</button>
+    <button type="button" id="btnImport">导入 JSONL</button>
+    <input id="fileImport" type="file" accept=".jsonl,.json,.txt" hidden/>
+    <button type="button" class="primary" id="btnExportDrop">导出本层 drop 清单</button>
+    <button type="button" id="btnRetrySync">重试同步</button>
+    <span class="note" id="sync"></span>
+    <span class="note" id="stats"></span>
+  </div>
+</header>
+<div class="layout"><aside><ul id="fontList"></ul></aside><main id="main"></main></div>
+<script>
+const PROBES = ["永", "和", "书", "A", "a", "G", "g", "W", "w", "M", "m", "0", "1", "i", "l", "ㄅ", "あ", "ア"];
+const SCRIPT_PROBES = [{"id": "style_han", "label": "Style 汉字", "n": 338, "sample": ["永", "和", "书", "风", "骨", "韵", "天", "地"]}, {"id": "ascii_digits", "label": "数字", "n": 10, "sample": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]}, {"id": "ascii_letters", "label": "拉丁", "n": 52, "sample": ["A", "a", "G", "g", "W", "w", "M", "m", "I", "i", "L", "l", "Q", "q"]}, {"id": "latin_ext_letters", "label": "扩展拉丁", "n": 27, "sample": ["à", "á", "è", "é", "ê", "í", "ò", "ó", "ù", "ú", "ü", "ā", "ē", "ě", "ī", "ń", "ň", "ō", "ū", "ǎ", "ǐ", "ǒ", "ǔ", "ǖ", "ǘ", "ǚ", "ǜ"]}, {"id": "hiragana", "label": "平假名", "n": 83, "sample": ["あ", "い", "う", "え", "お", "か", "が", "き", "ぎ", "ぱ", "ぽ", "ん"]}, {"id": "katakana", "label": "片假名", "n": 86, "sample": ["ア", "イ", "ウ", "エ", "オ", "カ", "ガ", "キ", "ギ", "ジ", "ヴ", "ン"]}, {"id": "bopomofo", "label": "注音", "n": 37, "sample": ["ㄅ", "ㄆ", "ㄇ", "ㄈ", "ㄉ", "ㄊ", "ㄋ", "ㄌ", "ㄍ", "ㄎ", "ㄏ", "ㄐ", "ㄑ", "ㄒ", "ㄓ", "ㄔ", "ㄕ", "ㄖ", "ㄗ", "ㄘ", "ㄙ", "ㄚ", "ㄛ", "ㄜ", "ㄝ", "ㄞ", "ㄟ", "ㄠ", "ㄡ", "ㄢ", "ㄣ", "ㄤ", "ㄥ", "ㄦ", "ㄧ", "ㄨ", "ㄩ"]}];
+const REL = "../fontdiffuser-p649-t295-s338-cn2west-v2a-r0";
+const RANK_URL = "../p649_v2a_review/ink_ratio_rank.json";
+const L1_URL = "../p649_v2a_review/decisions.json";
+const LS_ID = "hrfont_p649_layers_who_v1";
+const LS_DATA_KEY = "hrfont_p649_ink_rank";
+const LAYERS = {
+  2: {
+    title: "第2层 · 仅注音不可用",
+    passLabel: "收：仅注音不可用",
+    dropLabel: "不行：进入第3层",
+    hint: "候选 = 第1层 drop。1 = 收下（除注音外都能用）。2 = 更差，进入第3层。红框是注音探针。",
+    hot: ["bopomofo"],
+    disk: "./layer2.json",
+    ls: "hrfont_p649_layer2_v1",
+    fileTag: "layer2",
+  },
+  3: {
+    title: "第3层 · 注音+平假+片假不可用",
+    passLabel: "收：注音+假名不可用",
+    dropLabel: "仍不可用",
+    hint: "候选 = 第2层 drop。1 = 收下（拉丁/数字/汉字仍可用，注音与假名不可用）。2 = 仍不可用。红框是注音+假名。",
+    hot: ["bopomofo","hiragana","katakana"],
+    disk: "./layer3.json",
+    ls: "hrfont_p649_layer3_v1",
+    fileTag: "layer3",
+  }
+};
+let DATA = null;
+let layer = 2;
+let stores = {2: {}, 3: {}};
+let l1 = {};
+let activeStem = null;
+let diskOk = null;
+let saveTimer = null;
+let dirty = false;
+let saveInFlight = false;
+let reviewer = "";
+let lastStemByReviewer = {};
+let knownReviewers = [];
+
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[c]));
+}
+function normName(s){
+  return String(s || "").trim().replace(/\s+/g, " ");
+}
+function currentReviewer(){
+  return normName(reviewer);
+}
+function spec(){ return LAYERS[layer]; }
+function recOf(stem){
+  return stores[layer][stem] || {};
+}
+function ownerOf(stem){
+  return normName(recOf(stem).reviewer);
+}
+function l1Dec(stem){
+  return (l1[stem] || {}).review_decision || "";
+}
+function l2Dec(stem){
+  return (stores[2][stem] || {}).review_decision || "";
+}
+function decOf(stem){
+  return recOf(stem).review_decision || "";
+}
+function inPool(f){
+  if (layer === 2) return l1Dec(f.stem) === "drop";
+  if (layer === 3) return l1Dec(f.stem) === "drop" && l2Dec(f.stem) === "drop";
+  return false;
+}
+function poolFonts(){
+  return (DATA && DATA.fonts || []).filter(inPool);
+}
+function rememberName(name){
+  name = normName(name);
+  if (!name) return;
+  if (!knownReviewers.includes(name)) knownReviewers.push(name);
+  knownReviewers.sort((a,b) => a.localeCompare(b, "zh"));
+}
+function fillReviewerSelect(){
+  const sel = document.getElementById("reviewerPick");
+  if (!sel) return;
+  const cur = currentReviewer();
+  const names = knownReviewers.slice();
+  sel.innerHTML = `<option value="">选择已有姓名…</option>` +
+    names.map(n => `<option value="${esc(n)}" ${n===cur?"selected":""}>${esc(n)}</option>`).join("");
+}
+function renderIdentity(){
+  const who = currentReviewer();
+  const bar = document.getElementById("identityBar");
+  const label = document.getElementById("whoAmI");
+  if (bar) bar.classList.toggle("missing", !who);
+  if (label) label.textContent = who ? `当前：${who}（写入与进度都记在此名下）` : "尚未选择 — 无法写入";
+  fillReviewerSelect();
+}
+function setReviewer(name, resume){
+  name = normName(name);
+  if (!name){
+    alert("请输入审查人姓名");
+    return false;
+  }
+  reviewer = name;
+  rememberName(name);
+  if (resume !== false && lastStemByReviewer[name]) activeStem = lastStemByReviewer[name];
+  renderIdentity();
+  persistAll();
+  if (DATA) renderList();
+  saveDisk();
+  return true;
+}
+function requireReviewer(){
+  const name = currentReviewer();
+  if (name) return name;
+  alert("请先在顶栏选择或输入审查人姓名，再开始打标。");
+  const inp = document.getElementById("reviewerNew");
+  if (inp) inp.focus();
+  return "";
+}
+function glyphFolder(ch){
+  return /[\u4e00-\u9fff]/.test(ch) ? "StyleImage" : "TargetImage";
+}
+function imgUrl(stem, split, ch){
+  const cp = "u" + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,"0");
+  return `${REL}/${split}/${glyphFolder(ch)}/${stem}/${stem}+${cp}.png`;
+}
+function fontDirs(f){
+  return {
+    target_rel: `${f.split}/TargetImage/${f.stem}`,
+    style_rel: `${f.split}/StyleImage/${f.stem}`,
+    target_url: `${REL}/${f.split}/TargetImage/${f.stem}`,
+    style_url: `${REL}/${f.split}/StyleImage/${f.stem}`,
+  };
+}
+function subsetOk(f, mode){
+  if (mode === "new389") return f.subset !== "overlap260";
+  if (mode === "overlap260") return f.subset === "overlap260";
+  return true;
+}
+function tally(rows, store){
+  const me = currentReviewer();
+  let pass=0, drop=0, mine=0, others=0;
+  for (const f of rows){
+    const rec = (store && store[f.stem]) || {};
+    const d = rec.review_decision || "";
+    if (d==="pass") pass++;
+    else if (d==="drop") drop++;
+    if (d){
+      if (me && normName(rec.reviewer) === me) mine++;
+      else others++;
+    }
+  }
+  const decided = pass+drop;
+  return {n: rows.length, pass, drop, mine, others, decided, undecided: rows.length-decided, done: rows.length>0 && decided===rows.length};
+}
+function counts(){
+  return tally(poolFonts(), stores[layer]);
+}
+function mergeDecisions(a, b){
+  const out = Object.assign({}, a||{});
+  for (const [stem, rec] of Object.entries(b||{})){
+    if (!rec || typeof rec !== "object") continue;
+    const cur = out[stem];
+    if (!cur || (rec.reviewed_at||"") >= (cur.reviewed_at||"")) out[stem] = rec;
+  }
+  return out;
+}
+function persistWho(){
+  const who = currentReviewer();
+  if (who && activeStem) lastStemByReviewer[who] = activeStem;
+  localStorage.setItem(LS_ID, JSON.stringify({
+    reviewer: who,
+    known_reviewers: knownReviewers,
+    last_stem_by_reviewer: lastStemByReviewer,
+    last_stem: activeStem,
+    layer,
+  }));
+}
+function persistLayer(n){
+  n = n || layer;
+  localStorage.setItem(LAYERS[n].ls, JSON.stringify({
+    decisions: stores[n],
+    saved_at: new Date().toISOString(),
+  }));
+}
+function persistAll(){
+  persistWho();
+  persistLayer(2);
+  persistLayer(3);
+}
+function loadWho(){
+  try {
+    const raw = JSON.parse(localStorage.getItem(LS_ID)||"{}") || {};
+    if (raw.reviewer) reviewer = normName(raw.reviewer);
+    if (raw.last_stem_by_reviewer && typeof raw.last_stem_by_reviewer === "object"){
+      lastStemByReviewer = Object.assign({}, raw.last_stem_by_reviewer);
+    }
+    if (raw.last_stem && reviewer){
+      lastStemByReviewer[reviewer] = lastStemByReviewer[reviewer] || raw.last_stem;
+    }
+    if (raw.layer === 2 || raw.layer === 3) layer = raw.layer;
+    if (reviewer && lastStemByReviewer[reviewer]) activeStem = lastStemByReviewer[reviewer];
+    if (Array.isArray(raw.known_reviewers)) raw.known_reviewers.forEach(rememberName);
+    if (reviewer) rememberName(reviewer);
+  } catch(e){}
+}
+function loadLocalLayer(n){
+  try {
+    const raw = JSON.parse(localStorage.getItem(LAYERS[n].ls)||"{}") || {};
+    return raw.decisions || {};
+  } catch(e){ return {}; }
+}
+function saveLocal(){
+  dirty = true;
+  persistAll();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveDisk, 250);
+}
+function setSync(text, ok){
+  const el = document.getElementById("sync");
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = ok===true ? "#1b5e20" : (ok===false ? "#8b1a1a" : "");
+}
+async function saveDisk(opts){
+  const who = currentReviewer();
+  const force = !!(opts && opts.force);
+  if (!who && !force){
+    setSync("未选审查人，未写入磁盘", false);
+    return;
+  }
+  if (saveInFlight){
+    dirty = true;
+    return;
+  }
+  if (who && activeStem) lastStemByReviewer[who] = activeStem;
+  persistAll();
+  const now = new Date().toISOString();
+  const reviewers = {};
+  if (who) reviewers[who] = { last_stem: activeStem || "", updated_at: now };
+  const body = JSON.stringify({
+    dataset: DATA && DATA.dataset,
+    layer: spec().fileTag,
+    updated_at: now,
+    n: Object.keys(stores[layer]).length,
+    reviewer: who,
+    last_stem: who ? (activeStem || "") : "",
+    reviewers,
+    decisions: stores[layer],
+  });
+  saveInFlight = true;
+  try {
+    const r = await fetch(spec().disk, {method:"PUT", headers:{"Content-Type":"application/json"}, body});
+    diskOk = r.ok;
+    const c = Object.keys(stores[layer]).length;
+    if (r.ok){
+      dirty = false;
+      setSync(`${who || "导入"} · 第${layer}层已同步 ${c} 条 ${new Date().toLocaleTimeString()}`, true);
+    } else {
+      dirty = true;
+      setSync("磁盘写入失败。进度已在本机，连上后点「重试同步」", false);
+    }
+  } catch(e){
+    diskOk = false;
+    dirty = true;
+    setSync("网络中断，进度已记在本机。恢复后会自动同步", false);
+  } finally {
+    saveInFlight = false;
+  }
+}
+async function loadRank(){
+  try {
+    const r = await fetch(RANK_URL, {cache:"no-store"});
+    if (!r.ok) throw new Error("rank http "+r.status);
+    const j = await r.json();
+    try { localStorage.setItem(LS_DATA_KEY, JSON.stringify(j)); } catch (e) {}
+    return j;
+  } catch (e) {
+    try {
+      const cached = localStorage.getItem(LS_DATA_KEY);
+      if (cached){
+        setSync("字表用本机缓存（当前连不上服务器）", false);
+        return JSON.parse(cached);
+      }
+    } catch (e2) {}
+    throw e;
+  }
+}
+async function loadJson(url){
+  try {
+    const r = await fetch(url, {cache:"no-store"});
+    if (!r.ok) return {};
+    return await r.json();
+  } catch(e){ return {}; }
+}
+function ingestDiskPayload(j){
+  const revs = j.reviewers || {};
+  for (const [name, rec] of Object.entries(revs)){
+    rememberName(name);
+    if (rec && rec.last_stem) lastStemByReviewer[name] = lastStemByReviewer[name] || rec.last_stem;
+  }
+  for (const rec of Object.values(j.decisions || {})){
+    if (rec && rec.reviewer) rememberName(rec.reviewer);
+  }
+  return j.decisions || {};
+}
+function parseImportText(text){
+  text = (text||"").trim();
+  if (!text) return {};
+  try {
+    const j = JSON.parse(text);
+    if (j && j.decisions && typeof j.decisions === "object") return j.decisions;
+    if (j && j.stem && j.review_decision) return {[j.stem]: j};
+    if (j && typeof j === "object" && !Array.isArray(j)){
+      const first = Object.values(j)[0];
+      if (first && typeof first === "object" && first.review_decision) return j;
+    }
+  } catch (e) {}
+  const out = {};
+  for (const line of text.split(/\n+/)){
+    if (!line.trim()) continue;
+    const rec = JSON.parse(line);
+    if (rec.stem) out[rec.stem] = rec;
+  }
+  return out;
+}
+function styleOf(f){
+  return f.style_key || f.family_key || f.stem;
+}
+function weightRank(stem){
+  const num = stem.match(/_(\d{3,4})[A-Za-z]{1,3}$/);
+  if (num) return 1000 + parseInt(num[1], 10);
+  const order = ["EL","UL","L","Xi","R","Zhun","M","Zhong","Da","Te","Cu","DB","B","SB","H","EB","UB"];
+  const u = stem.toUpperCase();
+  for (let i = order.length - 1; i >= 0; i--){
+    if (u.endsWith("-"+order[i]) || u.endsWith("_"+order[i])) return i;
+  }
+  return 50;
+}
+function styleThenWeight(a, b){
+  const sa = styleOf(a), sb = styleOf(b);
+  if (sa !== sb) return sa.localeCompare(sb);
+  const wa = weightRank(a.stem), wb = weightRank(b.stem);
+  if (wa !== wb) return wa - wb;
+  return a.stem.localeCompare(b.stem);
+}
+function sorted(rows){
+  const mode = document.getElementById("sort").value;
+  const copy = rows.slice();
+  const ink = (a,b) => a.mean_ink_ratio - b.mean_ink_ratio || a.stem.localeCompare(b.stem);
+  if (mode === "ink_asc") copy.sort(ink);
+  else if (mode === "ink_desc") copy.sort((a,b) => b.mean_ink_ratio - a.mean_ink_ratio || a.stem.localeCompare(b.stem));
+  else if (mode === "stem") copy.sort((a,b) => a.stem.localeCompare(b.stem));
+  else if (mode === "split") copy.sort((a,b) => a.split.localeCompare(b.split) || styleThenWeight(a,b));
+  else if (mode === "undecided_first") copy.sort((a,b) => {
+    const ua = decOf(a.stem) ? 1 : 0, ub = decOf(b.stem) ? 1 : 0;
+    return ua - ub || styleThenWeight(a,b);
+  });
+  else copy.sort(styleThenWeight);
+  return copy;
+}
+function filtered(){
+  const mode = document.getElementById("filter").value;
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const subsetMode = ["overlap260","new389","all"].includes(mode) ? mode : currentSubsetScope();
+  return sorted(poolFonts().filter(f => {
+    if (q && !f.stem.toLowerCase().includes(q) && !styleOf(f).toLowerCase().includes(q)) return false;
+    if (!subsetOk(f, subsetMode)) return false;
+    const d = decOf(f.stem);
+    if (mode === "undecided") return !d;
+    if (mode === "mine") return !!d && ownerOf(f.stem) === currentReviewer() && !!currentReviewer();
+    if (mode === "others") return !!d && ownerOf(f.stem) !== currentReviewer();
+    if (mode === "decided") return !!d;
+    if (mode === "drop") return d === "drop";
+    if (mode === "pass") return d === "pass";
+    return true;
+  }));
+}
+let subsetScope = "overlap260";
+function currentSubsetScope(){
+  return subsetScope;
+}
+function onFilterChange(){
+  const mode = document.getElementById("filter").value;
+  if (mode === "overlap260" || mode === "new389" || mode === "all") subsetScope = mode;
+  renderList();
+}
+function subsetGroup(f){
+  return f.subset === "overlap260" ? "overlap260" : "new389";
+}
+function l1Buckets(){
+  const buckets = {
+    overlap260: {n:0, pass:[], drop:[], undecided:[]},
+    new389: {n:0, pass:[], drop:[], undecided:[]},
+  };
+  for (const f of (DATA && DATA.fonts) || []){
+    const b = buckets[subsetGroup(f)];
+    b.n++;
+    const d = l1Dec(f.stem);
+    if (d === "pass") b.pass.push(f.stem);
+    else if (d === "drop") b.drop.push(f.stem);
+    else b.undecided.push(f.stem);
+  }
+  buckets.overlap260.pass.sort();
+  buckets.overlap260.drop.sort();
+  buckets.new389.pass.sort();
+  buckets.new389.drop.sort();
+  return buckets;
+}
+function renderL1Sync(){
+  const el = document.getElementById("l1box");
+  if (!el || !DATA) return;
+  const b = l1Buckets();
+  const o = b.overlap260;
+  const n = b.new389;
+  const ok = o.n === 260 && o.undecided.length === 0 && o.pass.length + o.drop.length === 260;
+  el.classList.toggle("warn", !ok);
+  el.innerHTML =
+    `<b>第1层只读已同步</b>（live <code>../p649_v2a_review/decisions.json</code>）` +
+    ` · 原260：${ok ? "已审完" : "未审完"} ${o.pass.length} pass / ${o.drop.length} drop / 未审 ${o.undecided.length}` +
+    ` · 第2层默认候选 = 这 ${o.drop.length} 套 drop` +
+    ` · 新389：已审 ${n.pass.length + n.drop.length} / ${n.n}（pass ${n.pass.length} · drop ${n.drop.length} · 未审 ${n.undecided.length}）` +
+    ` · <button type="button" id="btnL1Lists">查看原260名单</button>`;
+  const lists = document.getElementById("l1lists");
+  document.getElementById("l1passList").textContent = o.pass.join("\n");
+  document.getElementById("l1dropList").textContent = o.drop.join("\n");
+  document.getElementById("btnL1Lists").onclick = () => lists.classList.toggle("on");
+}
+function renderFunnel(){
+  if (!DATA) return;
+  renderL1Sync();
+  const scope = currentSubsetScope();
+  const base = DATA.fonts.filter(f => subsetOk(f, scope));
+  const l1pass = base.filter(f => l1Dec(f.stem)==="pass").length;
+  const l1drop = base.filter(f => l1Dec(f.stem)==="drop").length;
+  const l1miss = base.filter(f => !l1Dec(f.stem)).length;
+  const l2pool = base.filter(f => l1Dec(f.stem)==="drop");
+  const t2 = tally(l2pool, stores[2]);
+  const l3pool = base.filter(f => l1Dec(f.stem)==="drop" && l2Dec(f.stem)==="drop");
+  const t3 = tally(l3pool, stores[3]);
+  const scopeLab = scope === "overlap260" ? "原260" : (scope === "new389" ? "新389" : "全部");
+  document.getElementById("funnel").innerHTML =
+    `<span>范围 ${scopeLab}</span>` +
+    `<span>第1层只读 · pass ${l1pass} · drop ${l1drop}${l1miss?` · 未审 ${l1miss}`:""}</span>` +
+    `<span>第2层候选 ${t2.n} · 已审 ${t2.decided} · 收下 ${t2.pass} · 入第3层 ${t2.drop}</span>` +
+    `<span>第3层候选 ${t3.n} · 已审 ${t3.decided} · 收下 ${t3.pass} · 仍不可用 ${t3.drop}</span>`;
+}
+function renderTabs(){
+  document.getElementById("tab2").classList.toggle("on", layer===2);
+  document.getElementById("tab3").classList.toggle("on", layer===3);
+  document.getElementById("layerHint").textContent = spec().hint;
+}
+function renderProgress(){
+  renderFunnel();
+  const c = counts();
+  const scopeRows = poolFonts().filter(f => subsetOk(f, currentSubsetScope()));
+  const cs = tally(scopeRows, stores[layer]);
+  const pct = cs.n ? Math.round(100*cs.decided/cs.n) : 0;
+  document.getElementById("progressBar").style.width = pct + "%";
+  document.getElementById("progressText").textContent =
+    `第${layer}层已审 ${cs.decided} / ${cs.n}（${pct}%） · 收下 ${cs.pass} · drop ${cs.drop} · 未审 ${cs.undecided}`;
+  document.getElementById("doneBadge").innerHTML = cs.n && cs.done
+    ? `<span class="badge done">本层完成</span>`
+    : `<span class="badge todo">本层未完成</span>`;
+  document.getElementById("stats").textContent = `列表 ${filtered().length} · 本层池 ${c.n}`;
+}
+function renderList(){
+  renderTabs();
+  const ul = document.getElementById("fontList");
+  const rows = filtered();
+  renderProgress();
+  const sortMode = document.getElementById("sort").value;
+  const showGroups = sortMode === "style" || sortMode === "undecided_first" || sortMode === "split";
+  const nBy = {};
+  for (const f of rows) nBy[styleOf(f)] = (nBy[styleOf(f)]||0)+1;
+  const parts = [];
+  let lastStyle = null;
+  for (const f of rows){
+    const sk = styleOf(f);
+    if (showGroups && sk !== lastStyle){
+      parts.push(`<li class="group">${esc(sk)} · ${nBy[sk]} 套</li>`);
+      lastStyle = sk;
+    }
+    const d = decOf(f.stem);
+    const owner = ownerOf(f.stem);
+    const cls = d?("dec-"+d):"";
+    const badge = d
+      ? `<span class="badge ${d}">${d==="pass"?"收下":"drop"}</span>`
+      : `<span class="badge todo">未审</span>`;
+    const whoBit = owner ? `<span class="owner">${esc(owner)}</span>` : "";
+    parts.push(`<li class="${cls}" data-stem="${f.stem}">
+      <div class="stem">${esc(f.stem)}${badge}${whoBit}</div>
+      <div class="sub">${esc(sk)} · ${esc(f.split)} · ${esc(f.subset)} · L1 ${esc(l1Dec(f.stem)||"—")}${layer===3?` · L2 ${esc(l2Dec(f.stem)||"—")}`:""}</div>
+    </li>`);
+  }
+  ul.innerHTML = parts.join("");
+  ul.querySelectorAll("li[data-stem]").forEach(li => li.onclick = () => showFont(li.dataset.stem));
+  const keep = activeStem && rows.some(r => r.stem === activeStem) ? activeStem : (rows[0] && rows[0].stem);
+  if (keep) showFont(keep);
+  else document.getElementById("main").innerHTML = `<p class="note">当前层/筛选下没有字体。第3层要等第2层标完 drop 才会出现候选。</p>`;
+}
+function applyDecision(stem, value){
+  const f = DATA.fonts.find(x => x.stem === stem);
+  if (!f || !value || !inPool(f)) return;
+  const who = requireReviewer();
+  if (!who){
+    if (DATA) renderList();
+    return;
+  }
+  const prev = recOf(stem);
+  const prevOwner = normName(prev.reviewer);
+  if (prev.review_decision && prevOwner && prevOwner !== who){
+    if (!confirm(`该套已由 ${prevOwner} 判为 ${prev.review_decision}。确定用 ${who} 改判为 ${value}？`)) return;
+  }
+  stores[layer][stem] = {
+    review_decision: value,
+    layer: spec().fileTag,
+    reviewer: who,
+    reviewed_at: new Date().toISOString(),
+    reason: (document.getElementById("reason")||{}).value?.trim() || "",
+    mean_ink_ratio: f.mean_ink_ratio,
+    split: f.split,
+    subset: f.subset,
+    ...fontDirs(f),
+    n_glyphs: f.n_glyphs,
+  };
+  const rowsAfter = filtered();
+  if (!rowsAfter.some(r => r.stem === stem) && rowsAfter[0]) activeStem = rowsAfter[0].stem;
+  else activeStem = stem;
+  saveLocal();
+  renderList();
+}
+function showFont(stem){
+  const f = DATA.fonts.find(x => x.stem === stem);
+  if (!f) return;
+  activeStem = stem;
+  document.querySelectorAll("#fontList li[data-stem]").forEach(li => li.classList.toggle("active", li.dataset.stem===stem));
+  const d = recOf(stem);
+  const cur = d.review_decision || "";
+  const dirs = fontDirs(f);
+  const s = spec();
+  document.getElementById("main").innerHTML = `
+    <h2 style="margin:0 0 6px;font-family:ui-monospace,monospace">${f.stem}</h2>
+    <div class="note">第${layer}层 · 风格=${f.style_key||f.family_key||"—"} · split=${f.split} · subset=${f.subset} · fs_A=${f.fs_A}</div>
+    <div class="note">第1层只读：<b>${esc(l1Dec(stem)||"未审")}</b>${layer===3?` · 第2层：<b>${esc(l2Dec(stem)||"未审")}</b>`:""}</div>
+    <div class="paths">
+      ${dirs.target_rel} <a href="${dirs.target_url}/" target="_blank">打开 Target</a> ·
+      ${dirs.style_rel} <a href="${dirs.style_url}/" target="_blank">打开 Style</a>
+    </div>
+    <div class="dec">
+      <span>本层决策：</span>
+      <label><input type="radio" name="dec" value="pass" ${cur==="pass"?"checked":""}/> ${esc(s.passLabel)}</label>
+      <label><input type="radio" name="dec" value="drop" ${cur==="drop"?"checked":""}/> ${esc(s.dropLabel)}</label>
+      <input id="reason" placeholder="reason" value="${esc(d.reason||"")}" style="min-width:220px"/>
+      <button type="button" id="btnApply">应用</button>
+      <span class="note">${
+        d.reviewer
+          ? `上次：${esc(d.reviewer)} · ${esc(d.review_decision||"")} · ${esc(d.reviewed_at||"")}`
+          : (currentReviewer() ? `将以 ${esc(currentReviewer())} 写入第${layer}层` : "请先选择审查人")
+      }</span>
+      <span class="note">1=收下 2=drop，j/k 上下套。不写第1层。</span>
+    </div>
+    <div>${SCRIPT_PROBES.map(g => `
+      <div class="script-block${s.hot.includes(g.id)?" hot":""}">
+        <h3>${g.label} · 字表 ${g.n} · 探针 ${g.sample.length}${s.hot.includes(g.id)?" · 本层重点":""}</h3>
+        <div class="grid">${g.sample.map(ch => {
+          const url = imgUrl(stem, f.split, ch);
+          return `<div class="cell"><img src="${url}" alt="${ch}" loading="lazy" onerror="this.parentNode.classList.add('miss')"/><div class="lab">${ch}</div></div>`;
+        }).join("")}</div>
+      </div>`).join("")}</div>`;
+  document.querySelectorAll('input[name="dec"]').forEach(inp => {
+    inp.onchange = () => applyDecision(stem, inp.value);
+  });
+  document.getElementById("btnApply").onclick = () => {
+    const sel = document.querySelector('input[name="dec"]:checked');
+    if (!sel) { alert("请选择本层决策"); return; }
+    applyDecision(stem, sel.value);
+  };
+}
+function setLayer(n){
+  if (n !== 2 && n !== 3) return;
+  persistAll();
+  layer = n;
+  persistWho();
+  if (DATA) renderList();
+}
+function downloadText(name, text){
+  const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function exportJsonl(mineOnly){
+  const me = currentReviewer();
+  const rows = poolFonts().filter(f => {
+    if (!decOf(f.stem)) return false;
+    if (mineOnly) return me && ownerOf(f.stem) === me;
+    return true;
+  });
+  if (!rows.length){ alert(mineOnly ? (me ? "你还没有决策" : "请先选择审查人") : "本层还没有决策"); return; }
+  const lines = rows.map(f => JSON.stringify({dataset: DATA.dataset, layer: spec().fileTag, stem: f.stem, ...stores[layer][f.stem]}));
+  const name = mineOnly
+    ? `p649_${spec().fileTag}_${me}.jsonl`
+    : `p649_${spec().fileTag}_decisions.jsonl`;
+  downloadText(name, lines.join("\n")+"\n");
+}
+function exportDrop(){
+  const drops = poolFonts().filter(f => decOf(f.stem)==="drop");
+  if (!drops.length){ alert("本层还没有 drop"); return; }
+  const stems = drops.map(f => f.stem).join("\n")+"\n";
+  const recs = drops.map(f => {
+    const d = stores[layer][f.stem];
+    const dirs = fontDirs(f);
+    return JSON.stringify({
+      dataset: DATA.dataset,
+      layer: spec().fileTag,
+      stem: f.stem,
+      split: f.split,
+      subset: f.subset,
+      review_decision: "drop",
+      reason: d.reason||"",
+      reviewer: d.reviewer||"",
+      n_glyphs: f.n_glyphs,
+      target_dir: dirs.target_rel,
+      style_dir: dirs.style_rel,
+    });
+  });
+  downloadText(`p649_${spec().fileTag}_drop_stems.txt`, stems);
+  downloadText(`p649_${spec().fileTag}_drop_files.jsonl`, recs.join("\n")+"\n");
+}
+async function switchLayer(n){
+  if (dirty) await saveDisk({force: true});
+  setLayer(n);
+}
+async function main(){
+  loadWho();
+  const [rank, l1j, l2j, l3j] = await Promise.all([
+    loadRank(),
+    loadJson(L1_URL),
+    loadJson(LAYERS[2].disk),
+    loadJson(LAYERS[3].disk),
+  ]);
+  DATA = rank;
+  l1 = l1j.decisions || {};
+  stores[2] = mergeDecisions(loadLocalLayer(2), ingestDiskPayload(l2j));
+  stores[3] = mergeDecisions(loadLocalLayer(3), ingestDiskPayload(l3j));
+  const who = currentReviewer();
+  if (who && lastStemByReviewer[who]) activeStem = lastStemByReviewer[who];
+  renderIdentity();
+  document.getElementById("meta").textContent =
+    `${DATA.dataset} · 本页只写 layer2.json / layer3.json · 第1层 ${Object.keys(l1).length} 条只读`;
+  document.getElementById("filter").onchange = onFilterChange;
+  document.getElementById("sort").onchange = renderList;
+  document.getElementById("q").oninput = renderList;
+  document.getElementById("btnExport").onclick = () => exportJsonl(false);
+  document.getElementById("btnExportMine").onclick = () => exportJsonl(true);
+  document.getElementById("btnExportDrop").onclick = exportDrop;
+  document.getElementById("btnImport").onclick = () => document.getElementById("fileImport").click();
+  document.getElementById("tab2").onclick = () => switchLayer(2);
+  document.getElementById("tab3").onclick = () => switchLayer(3);
+  document.getElementById("btnUseReviewer").onclick = () => {
+    const typed = document.getElementById("reviewerNew").value;
+    const picked = document.getElementById("reviewerPick").value;
+    setReviewer(typed || picked, true);
+  };
+  document.getElementById("reviewerPick").onchange = () => {
+    const v = document.getElementById("reviewerPick").value;
+    if (v) setReviewer(v, true);
+  };
+  document.getElementById("reviewerNew").addEventListener("keydown", ev => {
+    if (ev.key === "Enter"){
+      ev.preventDefault();
+      setReviewer(document.getElementById("reviewerNew").value, true);
+    }
+  });
+  document.getElementById("fileImport").onchange = async (ev) => {
+    const file = ev.target.files && ev.target.files[0];
+    ev.target.value = "";
+    if (!file) return;
+    try {
+      const extra = parseImportText(await file.text());
+      const n0 = Object.keys(stores[layer]).length;
+      stores[layer] = mergeDecisions(stores[layer], extra);
+      for (const rec of Object.values(extra)) if (rec && rec.reviewer) rememberName(rec.reviewer);
+      renderIdentity();
+      saveLocal();
+      await saveDisk({force: true});
+      renderList();
+      alert(`已合并导入到第${layer}层：原 ${n0} 条 → 现 ${Object.keys(stores[layer]).length} 条`);
+    } catch(e){ alert("导入失败：" + e); }
+  };
+  document.getElementById("btnRetrySync").onclick = () => saveDisk({force: true});
+  document.addEventListener("keydown", ev => {
+    if (ev.target && ["INPUT","SELECT","TEXTAREA"].includes(ev.target.tagName)) return;
+    const rows = filtered();
+    const i = rows.findIndex(r => r.stem === activeStem);
+    if (ev.key==="1") applyDecision(activeStem, "pass");
+    else if (ev.key==="2") applyDecision(activeStem, "drop");
+    else if ((ev.key==="j" || ev.key==="ArrowDown") && rows[i+1]) { ev.preventDefault(); showFont(rows[i+1].stem); persistWho(); }
+    else if ((ev.key==="k" || ev.key==="ArrowUp") && rows[i-1]) { ev.preventDefault(); showFont(rows[i-1].stem); persistWho(); }
+  });
+  window.addEventListener("online", () => { if (dirty) saveDisk({force: true}); });
+  window.addEventListener("beforeunload", persistAll);
+  if (currentReviewer()) await saveDisk();
+  else setSync("未选审查人，未写入磁盘", false);
+  renderList();
+}
+main();
+</script>
+</body></html>
