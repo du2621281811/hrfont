@@ -38,6 +38,13 @@ def get_parser():
     parser.add_argument("--delta_k_top", type=int, default=10)
     parser.add_argument("--delta_mode", choices=("soft", "topk", "threshold"), default="topk")
     parser.add_argument("--ec_cache_path", type=str, default="artifacts/f0/ec_multiscale_f0")
+    parser.add_argument("--tc_enabled", action=argparse.BooleanOptionalAction, default=False,
+                        help="Enable TC-v2 target-character appearance completion (default off).")
+    parser.add_argument("--tc_cache_path", type=str, default="artifacts/tc_v2_appearance")
+    parser.add_argument("--tc_head_ckpt", type=str, default=None,
+                        help="Optional pretrained tc_head.pth (used before joint training).")
+    parser.add_argument("--tc_loss_coefficient", type=float, default=0.01)
+    parser.add_argument("--tc_learning_rate", type=float, default=1e-4)
     parser.add_argument("--encoder_runtime", choices=("cache_only", "online"), default="cache_only")
     # F1/F2/F3 matched arms. source_drop applies to WHATEVER structure source is
     # active (official Ec or delta) -- the old delta-only drop silently un-matched
@@ -84,8 +91,12 @@ def get_parser():
     parser.add_argument("--max_train_steps", type=int, default=40000, 
                         help="Total number of training steps to perform.  If provided, overrides num_train_epochs.",)
     parser.add_argument("--ckpt_interval", type=int,default=5000, help="The checkpoint interval.")
+    parser.add_argument("--best_min_step", type=int, default=10000,
+                        help="Minimum step before writing best/val selection (set 0 for pilots).")
     parser.add_argument("--resume_from", type=str, default=None,
                         help="Resume from a checkpoint dir (global_step_* or last_state) with trainer_state.pt.")
+    parser.add_argument("--warm_start_from", type=str, default=None,
+                        help="Load model/module weights only; never loads optimizer, scheduler, RNG or step.")
     parser.add_argument("--state_interval", type=int, default=1000,
                         help="Interval to save crash-recovery last_state (weights+optimizer+RNG).")
     parser.add_argument("--gradient_accumulation_steps", type=int, default=1, 
@@ -94,6 +105,9 @@ def get_parser():
     ## learning rate
     parser.add_argument("--learning_rate", type=float, default=1e-5, 
                         help="Initial learning rate (after the potential warmup period) to use.")
+    parser.add_argument("--local_learning_rate", type=float, default=None,
+                        help="Optional learning rate for the F2RL local-style projection; "
+                             "defaults to --learning_rate.")
     parser.add_argument("--scale_lr", action="store_true", default=False, 
                         help="Scale the learning rate by the number of GPUs, gradient accumulation steps, and batch size.")
     parser.add_argument("--lr_scheduler", type=str, default="linear", 

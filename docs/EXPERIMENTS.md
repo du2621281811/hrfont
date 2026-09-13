@@ -46,7 +46,7 @@
 
 ## 方法方向（PI 2026-09-13 更新）
 
-- **2026-09-14 计划更新：** G 系改为效果优先，RL短验证后推进独立 TC-v2；新候选的权威规格为 [`G_STYLE_COMPLETION_PLAN_20260914.md`](../reports/G_STYLE_COMPLETION_PLAN_20260914.md)。旧 Es-teacher + Delta-input 补全候选已被该设计替代。当前未实现 TC、未修改执行机 watchdog，不将计划 ID 计为已有实验。
+- **2026-09-14 方案与实现更新：** G 系改为效果优先，RL短验证后推进独立 TC-v2；权威规格为 [`G_STYLE_COMPLETION_PLAN_20260914.md`](../reports/G_STYLE_COMPLETION_PLAN_20260914.md)。旧 Es-teacher + Delta-input 补全候选已被该设计替代。Luna 已加入默认关闭的 TC 实现与专用采样入口；CPU 测试不代表已完成 G 实验。实际命令和先行 GPU smoke 见[执行交接](../reports/TC_V2_EXECUTION_HANDOFF_20260914.md)，review 见[实现记录](../reports/TC_V2_LUNA_IMPLEMENTATION_REVIEW_20260914.md)。未修改执行机 watchdog，不将计划 ID 计为已有实验。
 - 规格：[`../reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](../reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)
 - 当前主线：Mean-Delta。Set-Delta 因时间预算弃用，以上规格作为历史设计保留。
 - Support：不进入论文主方法；own-font support 只作额外观测工程模式或 oracle upper bound。

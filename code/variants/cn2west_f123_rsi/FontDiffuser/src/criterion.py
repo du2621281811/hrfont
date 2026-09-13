@@ -4,9 +4,15 @@ import torchvision
 
 
 class VGG16(nn.Module):
-    def __init__(self):
+    def __init__(self, weights_path=None):
         super(VGG16, self).__init__()
-        vgg16 = torchvision.models.vgg16(pretrained=True)
+        if weights_path:
+            vgg16 = torchvision.models.vgg16(weights=None)
+            state = torch.load(weights_path, map_location="cpu", weights_only=True)
+            vgg16.load_state_dict(state, strict=True)
+        else:
+            # Keep the legacy pretrained behaviour for existing F/G paths.
+            vgg16 = torchvision.models.vgg16(pretrained=True)
 
         self.enc_1 = nn.Sequential(*vgg16.features[:5])
         self.enc_2 = nn.Sequential(*vgg16.features[5:10])

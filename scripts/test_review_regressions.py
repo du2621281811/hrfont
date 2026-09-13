@@ -37,10 +37,20 @@ class ReviewRegressions(unittest.TestCase):
 
     def test_real_support_helper_updates_adapter(self):
         tree = ast.parse(TRAIN.read_text())
+        # `_support_tokens` now routes style rows through the production
+        # `_pooled_style_cached` helper.  Keep this AST fixture limited to the
+        # real helper chain rather than importing the training module (which
+        # would pull in optional diffusers/runtime dependencies).
         helpers = [n for n in tree.body if isinstance(n, ast.FunctionDef)
-                   and n.name in {"_pool_ec", "_support_tokens"}]
-        scope = {"torch": torch}
-        exec(compile(ast.Module(body=helpers, type_ignores=[]), str(TRAIN), "exec"), scope)
+                   and n.name in {"_pool_ec", "_pooled_style_cached", "_support_tokens"}]
+        scope = {"torch": torch, "_SUPPORT_POOL_CACHE": {}}
+        module = ast.Module(
+            body=[ast.ImportFrom(module="__future__", names=[ast.alias(name="annotations")], level=0)]
+            + helpers,
+            type_ignores=[],
+        )
+        ast.fix_missing_locations(module)
+        exec(compile(module, str(TRAIN), "exec"), scope)
         cache = SimpleNamespace(features=lambda *args: [torch.ones(1, 3, 2, 2)])
         adapter = SupportAdapter(3, 4)
         optimizer = torch.optim.AdamW(adapter.parameters(), lr=.01)

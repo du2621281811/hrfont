@@ -46,6 +46,12 @@ def arg_parse():
     args.style_image_size = (style_image_size, style_image_size)
     args.content_image_size = (content_image_size, content_image_size)
 
+    if args.tc_enabled:
+        raise RuntimeError(
+            "legacy sample.py does not support TC-v2/G-RL cache conditions; "
+            "do not use it for TC comparisons"
+        )
+
     return args
 
 

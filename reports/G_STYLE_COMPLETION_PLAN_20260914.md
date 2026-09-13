@@ -1,8 +1,8 @@
 # G 系列：独立目标字外观补全与效果优先排程
 
-日期：2026-09-14。状态：**PI 已授权 Luna 实现、review 并修复；实现进行中，尚未训练**。本文件不表示执行机队列已变更。代码验收结果另见实现报告，不把方案提交等同于功能验证。
+日期：2026-09-14。状态：**Luna 已加入本地实现并进行独立 review/修复；尚未真实训练**。本文件不表示执行机队列已变更。CPU 检查范围见[实现报告](TC_V2_LUNA_IMPLEMENTATION_REVIEW_20260914.md)，完整命令与待执行 GPU smoke 见[执行交接](TC_V2_EXECUTION_HANDOFF_20260914.md)。不把代码提交等同于生成效果验证。
 
-2026-09-14 已成功 fetch origin，HEAD 与 origin/main 均为 `baa9b2fc`。Git 仍记录 G0 starting、G2/G1/G2-PRL queued，没有新的完成证据；未登录执行机核实实时状态。旧实验目录和 provenance 保留。
+2026-09-14 本轮首次 fetch 的执行信息基点为 `baa9b2fc`；随后本轮方案与实现提交不代表执行机进度更新。该基点仍记录 G0 starting、G2/G1/G2-PRL queued，没有新的完成证据；未登录执行机核实实时状态。旧实验目录和 provenance 保留。
 
 PI 输入：Set-Delta 已弃用；G 系效果优先，无需复刻 F 系训练预算；PI 视觉判断 F2-RL 优于 F2-PRL。该判断用于方向选择，不改写为已完成的盲评统计。
 
@@ -67,10 +67,10 @@ Es 仍被原模型与 alpha 使用；只有新增 H 分支摆脱 Es 输入/teach
 
 - 网络阶段：单卡 bs8、fp16+GradScaler、原 UNet lr1e-5；新 local projection / H / W_out lr1e-4；AdamW 沿用既有其余参数；梯度裁剪1.0。
 - H 预训练：bs256、lr3e-4、warmup100、最多2k；FP32计算统计与loss。
-- 网络 pilot：新增步数最多5k，warmup200，之后恒定lr；2k做readout，每1k保存并验证。延长阶段重新登记学习率日程，不偷偷恢复已衰减到零的 scheduler。
+- 网络 pilot：新增步数最多5k，warmup200，之后恒定lr；2k做readout，每1k保存并验证，`best_min_step=1000`。延长阶段重新登记学习率日程，不偷偷恢复已衰减到零的 scheduler。
 - TC：`L = L_diff + 0.01*L_percep + 0.5*L_offset + 0.01*L_comp`；先不同时加入边缘loss、更换alpha、重训Ec/Es或改渲染。
 - 单个既定 seed 沿用3407。数值超参只有验证给出问题时再调整，不开大网格。
-- warm-start = 只加载模型权重，保留训练过的 RSI/local projection，新 optimizer/scheduler/阶段step；不能把不同参数组的新模块实验作为旧 trainer_state 的原样 resume。记录 parent SHA、parent步数、新增步数。当前代码需要补 weight-only warm-start 接口和 H checkpoint 读写；本文件不是可直接执行的 launch 命令。
+- warm-start = 只加载模型权重，保留训练过的 RSI/local projection，新 optimizer/scheduler/阶段step；不能把不同参数组的新模块实验作为旧 trainer_state 的原样 resume。记录 parent SHA、parent步数、新增步数。已加入 weight-only warm-start 接口和 H checkpoint 读写；可执行参数模板见[执行交接](TC_V2_EXECUTION_HANDOFF_20260914.md)。
 
 ## 5. 视觉优先的选择标准
 

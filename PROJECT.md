@@ -7,8 +7,8 @@
 
 ## 当前状态
 
-- **TC-v2 实现授权（2026-09-14）：** PI 指定 Luna 负责实现及正确性 review/修复，方案与代码同步 Git。实现进行中，新增功能默认关闭；未启动正式训练、未改执行机队列。
-- **G 系研发排程更新（2026-09-14，计划未部署）：** PI 视觉偏好 F2-RL > F2-PRL；后续优先 clean G2 → RL短验证 → 独立目标字外观补全 TC-v2 → 胜出方案延长。TC 不读 Delta、不用 Es teacher，采用现有 VGG 外观统计监督。完整设计/预算/验收见 [`reports/G_STYLE_COMPLETION_PLAN_20260914.md`](reports/G_STYLE_COMPLETION_PLAN_20260914.md)。本日 fetch 后远端仍为 `baa9b2fc`，未收到新 G 完成记录；下面旧 watchdog 排程是已部署配置，不代表新计划已执行。
+- **TC-v2 本地实现（2026-09-14）：** PI 指定 Luna 实现，另一位 Luna 独立 review，发现的问题由实现 Luna 修复。已加入缓存构建、H 预训练、联合训练与专用采样入口；新增功能默认关闭。CPU 合成/回归测试不是效果验证，真实 GPU 资产 smoke 尚待执行；未启动正式训练、未改执行机队列。见[实现记录](reports/TC_V2_LUNA_IMPLEMENTATION_REVIEW_20260914.md)与[执行交接](reports/TC_V2_EXECUTION_HANDOFF_20260914.md)。
+- **G 系研发排程更新（2026-09-14，计划未部署）：** PI 视觉偏好 F2-RL > F2-PRL；后续优先 clean G2 → RL短验证 → 独立目标字外观补全 TC-v2 → 胜出方案延长。TC 不读 Delta、不用 Es teacher，采用现有 VGG 外观统计监督。完整设计/预算/验收见 [`reports/G_STYLE_COMPLETION_PLAN_20260914.md`](reports/G_STYLE_COMPLETION_PLAN_20260914.md)。本轮执行信息基点为 `baa9b2fc`；随后本轮方案/代码提交不代表新 G 完成记录。下面旧 watchdog 排程是已部署配置，不代表新计划已执行。
 - **主线：** F0@100k 父模型已定；F1/F2/F3/F3b 历史臂已跑满 80k（**新对照统一看 40k**）。Glyph Board Mode D（Es 一拍）已上 `main`（`682940f0`）。**F2-P / F3b-P 训练代码已进仓**（`cn2west_f123_rsi` + `launch_cn2west_f123.py`）；执行机报告 F2-P 正向40k训练，Git中可核验的最新 probe checkpoint 为25k，权重/大 cache **不走 Git**。训推：正式 `sample.py` 尚未接 `style_seq`；域探针用 `scripts/probe_style_domain_f2_f2p.py`。
 - **Group G（执行中）：** `G0-F0-V0913-BS256-A-S3407` 8×32=**256**，lr `3.2e-4`，warmup 500，日程 **10k**，主看 **5k**。方案 `reports/G0_DESIGN_20260913.md`。之后 **G2 → G1∥G2-PRL**（均 10k，G0@10k parent）。看板 http://127.0.0.1:19000/g/ 。不覆盖 `F0-CLEAN-V0913-*`。
 - **`v0913_clean` F0-c / F0-c-128：** 已中断给 G0 腾 8 卡。目录保留，不覆盖。v0913 watchdog 已停，避免把 F0-c 拉起来。

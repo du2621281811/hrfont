@@ -2,6 +2,20 @@ import math
 import torch
 import torch.nn as nn
 
+
+def _add_tc_global_residual(style_hidden_states, residual):
+    """Add TC-v2 residual only to the existing first nine global tokens."""
+    if residual is None:
+        return style_hidden_states
+    if style_hidden_states.ndim != 3 or style_hidden_states.shape[1] < 9:
+        raise ValueError("TC-v2 requires an up-path sequence containing nine global tokens")
+    if residual.ndim != 3 or residual.shape[0] != style_hidden_states.shape[0] or residual.shape[1] != 9:
+        raise ValueError(f"TC residual must be [B,9,D], got {tuple(residual.shape)}")
+    residual = residual.to(device=style_hidden_states.device, dtype=style_hidden_states.dtype)
+    out = style_hidden_states.clone()
+    out[:, :9] = out[:, :9] + residual
+    return out
+
 from diffusers import ModelMixin
 from diffusers.configuration_utils import (ConfigMixin, 
                                            register_to_config)
@@ -36,6 +50,7 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
         support_tokens=None,
         style_seq_tokens=None,
         style_seq_mask=None,
+        tc_global_residual=None,
     ):
         if style_features is None:
             if style_images is None:
@@ -56,6 +71,7 @@ class FontDiffuserModel(ModelMixin, ConfigMixin):
         else:
             style_hidden_states = style_img_feature.permute(0, 2, 3, 1).reshape(batch_size, height*width, channel)
             style_mask = None
+        style_hidden_states = _add_tc_global_residual(style_hidden_states, tc_global_residual)
     
         if content_features is None:
             content_img_feature, content_residual_features = self.content_encoder(content_images)
