@@ -697,8 +697,6 @@ def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None, sca
         if actual != expected:
             raise RuntimeError("TC checkpoint cache/Ec binding mismatch")
     state_path = directory / "trainer_state.pt"
-    if optimizer is None and scheduler is None and not restore_rng and not require_tc:
-        return 0
     if not state_path.is_file():
         if require_tc:
             raise RuntimeError("TC resume checkpoint is missing trainer_state.pt")
