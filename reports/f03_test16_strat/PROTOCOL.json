@@ -72,7 +72,7 @@
   "seed": 3407,
   "sampler": "dpmsolver++ 20 CFG7.5 order2 multistep",
   "style": "ref8 first available, prefer 永; F2/F3 *_s1: Es from 永 only, Δ still ref8",
-  "note": "Same protocol as E1 formal stratified. Val16 is not used. Per-item set_seed(3407). style_oneshot splits Es k from Δ retrieve k.",
+  "note": "Same protocol as E1 formal stratified. Per-item set_seed(3407). style_oneshot splits Es k from Δ retrieve k. This run is split=test.",
   "methods": {
     "P1": {
       "label": "官方",
@@ -80,10 +80,28 @@
       "ckpt": "/root/projects/hrfont/code/official/FontDiffuser/ckpt",
       "style_oneshot": false
     },
+    "E1_100k": {
+      "label": "E1@100k",
+      "kind": "image",
+      "ckpt": "/root/projects/hrfont/runs/E1-FTV2-A-S3407/global_step_100000",
+      "style_oneshot": false
+    },
     "F0_100k": {
       "label": "F0@100k",
       "kind": "image",
       "ckpt": "/root/projects/hrfont/runs/F0-RSIFREE-FT-A-S3407/global_step_100000",
+      "style_oneshot": false
+    },
+    "F0C_95000": {
+      "label": "F0-CLEAN@95k(best)",
+      "kind": "image",
+      "ckpt": "/root/projects/hrfont/runs/F0-CLEAN-V0913-A-S3407/global_step_95000",
+      "style_oneshot": false
+    },
+    "F0C_100000": {
+      "label": "F0-CLEAN@100k",
+      "kind": "image",
+      "ckpt": "/root/projects/hrfont/runs/F0-CLEAN-V0913-A-S3407/global_step_100000",
       "style_oneshot": false
     },
     "F1_30000": {
@@ -134,6 +152,12 @@
       "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_40000",
       "style_oneshot": false
     },
+    "F2_40000_k1": {
+      "label": "F2@40k 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_40000",
+      "style_oneshot": true
+    },
     "F2P_40000": {
       "label": "F2-P@40k",
       "kind": "f2",
@@ -152,20 +176,65 @@
       "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_80000",
       "style_oneshot": true
     },
+    "F2_80000_k1": {
+      "label": "F2@80k 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-DELTARSI-A-S3407/global_step_80000",
+      "style_oneshot": true
+    },
+    "F2P_40000_k1": {
+      "label": "F2-P@40k 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/f2_pattn_s3407/global_step_40000",
+      "style_oneshot": true
+    },
+    "F3_80k_k1": {
+      "label": "F3@80k 1-shot",
+      "kind": "f3",
+      "ckpt": "/root/projects/hrfont/runs/F3-JOINT-DS-A-S3407/global_step_80000",
+      "style_oneshot": true
+    },
+    "F3b_80000": {
+      "label": "F3b@80k",
+      "kind": "f3",
+      "ckpt": "/root/projects/hrfont/runs/f3b_topology_ownfont_s3407/global_step_80000",
+      "style_oneshot": false
+    },
+    "F3b_80000_k1": {
+      "label": "F3b@80k 1-shot",
+      "kind": "f3",
+      "ckpt": "/root/projects/hrfont/runs/f3b_topology_ownfont_s3407/global_step_80000",
+      "style_oneshot": true
+    },
+    "F3bP_40000_k1": {
+      "label": "F3b-P@40k 1-shot",
+      "kind": "f3",
+      "ckpt": "/root/projects/hrfont/runs/f3b_pattn_s3407/global_step_40000",
+      "style_oneshot": true
+    },
+    "F2RL_40000": {
+      "label": "F2-RL128@40k",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-RL128-A-S3407/global_step_40000",
+      "style_oneshot": false
+    },
+    "F2RL_40000_k1": {
+      "label": "F2-RL128@40k 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/F2-RL128-A-S3407/global_step_40000",
+      "style_oneshot": true
+    },
     "F2VEC_40000": {
       "label": "F2-VEC@40k fewshot",
       "kind": "f2",
       "ckpt": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000",
-      "style_oneshot": false,
-      "source_commit": "0aae4d1e1d9035507252c94eae1418f697f89554"
+      "style_oneshot": false
     },
     "F2VEC_40000_s1": {
       "label": "F2-VEC@40k oneshot",
       "kind": "f2",
       "ckpt": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000",
-      "style_oneshot": true,
-      "delta_oneshot": false,
-      "source_commit": "0aae4d1e1d9035507252c94eae1418f697f89554"
+      "style_oneshot": true
     }
   }
 }

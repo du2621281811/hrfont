@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-09-14T13:26:06+00:00",
+  "pending": false,
+  "n_items_correlated": 39,
+  "spearman_human_vs_cosine": -0.06740890688257913,
+  "kendall_tau_human_vs_cosine": -0.06872852233676977,
+  "inter_rater_spearman": null,
+  "raters": {
+    "R1": {
+      "n_scored": 46,
+      "n_attn": 7,
+      "attn_fail": 1,
+      "attn_fail_frac": 0.14285714285714285,
+      "pass": true
+    }
+  },
+  "passing_raters": [
+    "R1"
+  ],
+  "note": "Fill human_ratings_template.csv then re-run; empty scores => pending=true"
+}

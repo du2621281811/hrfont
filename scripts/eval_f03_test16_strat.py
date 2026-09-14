@@ -90,6 +90,18 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f0_rsifree/FontDiffuser",
         "ckpt": ROOT / "runs/F0-RSIFREE-FT-A-S3407/global_step_100000",
     },
+    "F0C_95000": {
+        "label": "F0-CLEAN@95k(best)",
+        "kind": "image",
+        "variant": ROOT / "code/variants/cn2west_f0_rsifree/FontDiffuser",
+        "ckpt": ROOT / "runs/F0-CLEAN-V0913-A-S3407/global_step_95000",
+    },
+    "F0C_100000": {
+        "label": "F0-CLEAN@100k",
+        "kind": "image",
+        "variant": ROOT / "code/variants/cn2west_f0_rsifree/FontDiffuser",
+        "ckpt": ROOT / "runs/F0-CLEAN-V0913-A-S3407/global_step_100000",
+    },
     "F1_30000": {
         "label": "F1@30k",
         "kind": "f1",
@@ -122,6 +134,24 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_80000",
         "style_oneshot": False,
+    },
+    "F2C_40000": {
+        "label": "F2-CLEAN@40k",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-CLEAN-V0913-A-S3407/global_step_40000",
+        "style_oneshot": False,
+        "es_cache": ROOT / "artifacts/f0_clean_v0913/es_spatial",
+        "ec_cache": ROOT / "artifacts/f0_clean_v0913/ec_multiscale",
+    },
+    "F2C_80000": {
+        "label": "F2-CLEAN@80k",
+        "kind": "f2",
+        "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
+        "ckpt": ROOT / "runs/F2-CLEAN-V0913-A-S3407/global_step_80000",
+        "style_oneshot": False,
+        "es_cache": ROOT / "artifacts/f0_clean_v0913/es_spatial",
+        "ec_cache": ROOT / "artifacts/f0_clean_v0913/ec_multiscale",
     },
     "F2_75000_s1": {
         "label": "F2@75k style1",
@@ -296,6 +326,10 @@ TIMELINE_STEPS = [5000, 10000, 20000, 30000, 40000, 50000, 60000, 75000, 80000]
 F2_TIMELINE_CANDIDATES = [5000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 75000]
 # All 16 test fonts; 16 chars covering every script so 9 steps stay readable.
 TIMELINE_CHARS = list("08AGQaegàěあさアンㄅㄚ")
+# Extra eye-probe glyphs for fonts whose ornaments live on tittles/dots (e.g. star-in-circle on i/j).
+# Does not replace TIMELINE_CHARS; mid dirty/clean board shows both.
+EFFECT_PROBE_CHARS = list("ij")
+BOARD_CHARS = TIMELINE_CHARS + EFFECT_PROBE_CHARS
 
 
 def utc_now() -> str:
@@ -993,14 +1027,30 @@ def f3_mid(step: int) -> str:
 def f2_mid(step: int) -> str:
     return f"F2_{step}" if step != 75000 else "F2_75000"
 
+def f2_mid_named(step: int, prefix: str = "F2_") -> str:
+    """Pred method id. Dirty timeline uses F2_{step}; clean uses F2C_{step}."""
+    if prefix == "F2_" and step == 75000:
+        return "F2_75000"
+    return f"{prefix}{step}"
 
-def f2_timeline_steps() -> list[int]:
+
+
+def f2_timeline_steps(run_dir: Path | None = None) -> list[int]:
+    run = Path(run_dir) if run_dir is not None else F2_RUN
     out = []
     for step in F2_TIMELINE_CANDIDATES:
-        ckpt = F2_RUN / f"global_step_{step}"
+        ckpt = run / f"global_step_{step}"
         if (ckpt / "unet.pth").is_file():
             out.append(step)
-    return out
+    # Also pick up any other named global_step_* (e.g. clean arm still below 20k).
+    for p in sorted(run.glob("global_step_*")):
+        try:
+            step = int(p.name.split("_")[-1])
+        except ValueError:
+            continue
+        if (p / "unet.pth").is_file() and step not in out:
+            out.append(step)
+    return sorted(out)
 
 
 def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_75000") -> None:
@@ -1799,19 +1849,29 @@ def generate_f2_timeline(
     stems: list[str] | None = None,
     steps: list[int] | None = None,
     status_key: str = "F2_timeline",
+    run_dir: Path | None = None,
+    es_dir: Path | None = None,
+    ec_dir: Path | None = None,
+    mid_prefix: str = "F2_",
+    chars: list[str] | None = None,
 ) -> None:
     """Sample F2 named ckpts with train-matched Δ conditions (no Support).
 
     Font/step sharding is result-safe: each (font,char,step) calls set_seed(3407).
+    Optional run_dir/es_dir/ec_dir/mid_prefix select the clean arm without changing
+    sampler (DPM++20 / CFG7.5 / seed 3407 / TIMELINE_CHARS / test16 fonts).
     """
     import torch
     from accelerate.utils import set_seed
 
-    steps = list(steps) if steps is not None else f2_timeline_steps()
+    run = Path(run_dir) if run_dir is not None else F2_RUN
+    es_path = Path(es_dir) if es_dir is not None else (ROOT / "artifacts/f0/es_spatial_f0")
+    ec_path = Path(ec_dir) if ec_dir is not None else (ROOT / "artifacts/f0/ec_multiscale_f0")
+    steps = list(steps) if steps is not None else f2_timeline_steps(run)
     if not steps:
-        raise SystemExit(f"no F2 checkpoints under {F2_RUN}")
+        raise SystemExit(f"no F2 checkpoints under {run}")
     stems = list(stems) if stems is not None else fonts()
-    chars = TIMELINE_CHARS
+    chars = list(chars) if chars is not None else list(TIMELINE_CHARS)
     n_total = len(stems) * len(chars) * len(steps)
     update_status(
         {
@@ -1823,6 +1883,10 @@ def generate_f2_timeline(
             "label": f"F2 过程:{status_key}",
             "stems": stems,
             "steps": steps,
+            "run": str(run),
+            "es": str(es_path),
+            "ec": str(ec_path),
+            "mid_prefix": mid_prefix,
         }
     )
     sys.path.insert(0, str(ROOT))
@@ -1839,9 +1903,12 @@ def generate_f2_timeline(
     from src.dpm_solver.dpm_solver_pytorch import DPM_Solver, NoiseScheduleVP
     from src.model import FontDiffuserModel
 
-    log(status_key, f"load Es/Ec caches; steps={steps} stems={len(stems)}")
-    es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
-    ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
+    log(
+        status_key,
+        f"load Es/Ec caches; run={run.name} es={es_path.name} steps={steps} stems={len(stems)} prefix={mid_prefix}",
+    )
+    es = EsCache(es_path)
+    ec = EcCache(ec_path)
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
     train_fonts = sorted(split["stems"]["train"])
     library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
@@ -1884,7 +1951,7 @@ def generate_f2_timeline(
 
     def pack_one(font: str, ch: str):
         samples = {
-            "split": ["test"],
+            "split": [EVAL_SPLIT],
             "font_stem": [font],
             "char_cp": [cp_of(ch)],
             "ref_chars": [[f"u{ord(c):04X}" for c in "永和书风骨韵天地"]],
@@ -1903,8 +1970,8 @@ def generate_f2_timeline(
     done = skipped = 0
     t0 = time.time()
     for step in steps:
-        mid = f2_mid(step)
-        ckpt = F2_RUN / f"global_step_{step}"
+        mid = f2_mid_named(step, mid_prefix)
+        ckpt = run / f"global_step_{step}"
         log(status_key, f"load {ckpt}")
         fd.unet.load_state_dict(torch.load(ckpt / "unet.pth", map_location="cpu", weights_only=True))
         fd.style_encoder.load_state_dict(
@@ -1993,7 +2060,508 @@ def generate_f2_timeline(
         }
     )
     log(status_key, f"finished done={done} skipped={skipped} elapsed={elapsed:.1f}s")
-    write_f2_timeline_html()
+    if mid_prefix == "F2_":
+        write_f2_timeline_html()
+    else:
+        write_f2_clean_compare_html()
+
+
+def write_f2_clean_compare_html() -> None:
+    """Dirty F2_* vs clean F2C_* mid boards (same protocol)."""
+    clean_run = ROOT / "runs/F2-CLEAN-V0913-A-S3407"
+    dirty_steps = set(f2_timeline_steps(F2_RUN))
+    clean_steps = set(f2_timeline_steps(clean_run))
+    steps_clean = sorted(
+        s for s in (dirty_steps | clean_steps) if (OUT / f"preds/{f2_mid_named(s, 'F2C_')}").is_dir()
+    )
+    steps_dirty = sorted(
+        s for s in (dirty_steps | clean_steps) if (OUT / f"preds/{f2_mid_named(s, 'F2_')}").is_dir()
+    )
+    steps = sorted(set(steps_clean) | set(steps_dirty))
+    if not steps:
+        steps = steps_clean or steps_dirty
+    board_chars = list(BOARD_CHARS)
+    items = []
+    for stem in fonts():
+        for ch in board_chars:
+            preds = {}
+            for s in steps:
+                preds[f"dirty_{s}"] = f"preds/{f2_mid_named(s, 'F2_')}/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png"
+                preds[f"clean_{s}"] = f"preds/{f2_mid_named(s, 'F2C_')}/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png"
+            items.append(
+                {
+                    "font": stem,
+                    "char": ch,
+                    "cp": cp_of(ch),
+                    "bucket": script_bucket(ch),
+                    "probe": ch in EFFECT_PROBE_CHARS,
+                    "content": f"refs/content/{cp_of(ch)}.png",
+                    "gt": f"refs/gt/{stem}+{cp_of(ch)}.png",
+                    "f0_dirty": f"preds/F0_100k/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png",
+                    "f0_clean_100k": f"preds/F0C_100000/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png",
+                    "f0_clean_95k": f"preds/F0C_95000/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png",
+                    "f0_clean": f"preds/F0C_100000/test/{stem}/test__{stem}__{cp_of(ch)}__s{SEED}.png",
+                    "preds": preds,
+                }
+            )
+    style_ref8 = {
+        stem: [
+            {"ch": c, "cp": cp_of(c), "src": f"refs/style_ref8/{stem}/{cp_of(c)}.png"}
+            for c in REF8
+        ]
+        for stem in fonts()
+    }
+    payload = {
+        "fonts": fonts(),
+        "chars": board_chars,
+        "effect_probe": EFFECT_PROBE_CHARS,
+        "steps": steps,
+        "steps_dirty": steps_dirty,
+        "steps_clean": steps_clean,
+        "ref8": "".join(REF8),
+        "style_ref8": style_ref8,
+        "items": items,
+        "note": "F2 dirty vs F2-CLEAN mid; F0 dirty@100k vs clean@100k + clean@95k best; 8-shot; +i/j",
+    }
+    html = f"""<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>F2 dirty vs CLEAN 中间测试图</title>
+<style>
+:root{{--bg:#eef1f5;--card:#fff;--line:#d5dbe3;--muted:#5c6570;--ink:#1a1a1a;--accent:#1f4a6f;--dirty:#8b3a2a;--clean:#1f5a3a;--cell:80px}}
+*{{box-sizing:border-box}} html,body{{height:100%;margin:0}}
+body{{font:13px/1.4 system-ui,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;height:100vh;overflow:hidden}}
+.top{{z-index:40;background:var(--bg);border-bottom:1px solid var(--line);flex:0 1 auto;max-height:38vh;overflow:auto}}
+header{{background:var(--card);padding:6px 10px}}
+h1{{margin:0;font-size:1.05rem}} .meta{{color:var(--muted);font-size:11px;margin-top:2px}}
+.note{{display:none;background:#fff8e8;border-top:1px solid #e6d7a8;padding:6px 12px;font-size:11px}}
+.note.on{{display:block}}
+.panel{{background:var(--card);padding:6px 10px;display:grid;gap:4px}}
+.row{{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}}
+.grp{{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}}
+.grp strong{{color:var(--ink);font-weight:600}}
+select,button,input[type=range]{{padding:4px 7px;border:1px solid var(--line);background:#fff;border-radius:4px;font:inherit}}
+button{{cursor:pointer}} button:hover{{border-color:var(--accent)}}
+button.active{{background:#e8f0f7;border-color:var(--accent);color:var(--accent)}}
+.chk{{display:inline-flex;align-items:center;gap:3px;font-size:12px;color:var(--muted);cursor:pointer}}
+.chips{{display:flex;flex-wrap:nowrap;gap:3px;overflow-x:auto;max-width:100%;padding-bottom:2px}}
+.chips.wrap{{flex-wrap:wrap}}
+.chip{{padding:2px 7px;border:1px solid var(--line);border-radius:999px;background:#f4f6f8;font-size:11px;cursor:pointer;user-select:none;color:var(--muted)}}
+.chip.on{{background:#dceaf6;border-color:var(--accent);color:var(--accent);font-weight:600}}
+details.more{{border-top:1px dashed var(--line);padding-top:4px}}
+details.more > summary{{cursor:pointer;font-size:12px;color:var(--accent);user-select:none}}
+.ref8{{flex:0 0 auto;background:var(--card);border-bottom:1px solid var(--line);padding:6px 10px;overflow-x:auto}}
+.ref8 .lab{{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px}}
+.ref8 .lab span{{font-weight:400;color:var(--muted)}}
+.ref8 .figs{{display:flex;gap:6px;align-items:flex-end;flex-wrap:nowrap}}
+.ref8 figure{{margin:0;text-align:center}}
+.ref8 figcaption{{font-size:10px;color:var(--muted);margin-top:1px}}
+.ref8 img{{width:56px;height:56px;image-rendering:pixelated;display:block;background:#fff;border:1px solid var(--line);cursor:zoom-in}}
+#prog{{margin:0;color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}}
+.grid-wrap{{flex:1 1 auto;min-height:0;padding:8px 10px 12px;display:flex;flex-direction:column}}
+.grid{{flex:1 1 auto;overflow:auto;border:1px solid var(--line);background:var(--card);min-height:200px}}
+table.g{{border-collapse:separate;border-spacing:0}}
+table.g th,table.g td{{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:2px;text-align:center;vertical-align:bottom;font-size:10px;color:var(--muted);background:#fff}}
+table.g thead th{{position:sticky;top:0;z-index:5;background:#f7f9fb;box-shadow:0 1px 0 var(--line)}}
+table.g th.pair-d{{color:var(--dirty);background:#faf3f1}}
+table.g th.pair-c{{color:var(--clean);background:#f1f7f3}}
+table.g td.sticky,table.g th.sticky{{position:sticky;left:0;z-index:3;background:#fff;min-width:1.8em;box-shadow:1px 0 0 var(--line)}}
+table.g thead th.sticky{{z-index:6;background:#f7f9fb}}
+table.g th.sep,table.g td.sep{{border-left:2px solid #9aa8b8}}
+table.g img{{width:var(--cell);height:var(--cell);image-rendering:pixelated;display:block;background:#fff;cursor:zoom-in}}
+table.g td.ch{{font:700 14px/1.1 ui-serif,serif;color:var(--ink)}}
+table.g td.pair-d{{background:#fffaf8}}
+table.g td.pair-c{{background:#f7fcf8}}
+a{{color:var(--accent)}}
+#lightbox{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:center;justify-content:center;padding:24px}}
+#lightbox.on{{display:flex}}
+#lightbox .box{{background:#fff;padding:12px;border-radius:8px;max-width:96vw;max-height:92vh;overflow:auto;text-align:center}}
+#lightbox img{{max-width:min(640px,90vw);max-height:70vh;image-rendering:pixelated;background:#fff}}
+#lightbox .cap{{margin-top:8px;font-size:13px;color:var(--muted)}}
+#lightbox .nav{{display:flex;gap:8px;justify-content:center;margin-top:10px}}
+</style></head><body>
+<div class="top" id="topbar">
+<header>
+  <h1>F2 中间测试图 · 脏臂 vs F2-CLEAN
+    <button type="button" id="toggleNote" style="font-size:11px;margin-left:8px;vertical-align:middle">说明</button>
+  </h1>
+  <div class="meta">test16 · DPM++20 / CFG7.5 / seed3407 · 8-shot ·
+    <a href="timeline_f2.html">脏 F2 时间线</a> · <a href="./">终点评测</a>
+    · <a href="clean_dirty_compare.html">干净vs脏指标</a>
+    · ←/→ 换字体 · 点图放大</div>
+</header>
+<div class="note" id="note">Style×8 = Es+Δ（{"".join(REF8)}）。F0：脏@100k 与 <b>净@100k</b> 同预算；<b>净@95k</b> 为 val-best / F2-CLEAN 父模型。默认只开关键 step（5/40/80k），避免列过多。</div>
+<section class="panel" id="controls">
+  <div class="row">
+    <div class="grp"><strong>字体</strong>
+      <button type="button" id="fontPrev" title="上一字体">‹</button>
+      <select id="font"></select>
+      <button type="button" id="fontNext" title="下一字体">›</button>
+    </div>
+    <div class="grp"><strong>语种</strong>
+      <select id="bucket"><option value="">全部</option><option value="__effect__">特效 i/j</option></select>
+    </div>
+    <div class="grp"><strong>布局</strong>
+      <select id="layout">
+        <option value="pair">成对并排</option>
+        <option value="dirty">只看脏</option>
+        <option value="clean">只看净</option>
+        <option value="interleave">交错全列</option>
+      </select>
+    </div>
+    <div class="grp"><strong>图</strong>
+      <input type="range" id="cellSize" min="48" max="140" step="8" value="80"/>
+      <span id="cellSizeVal">80</span>
+    </div>
+    <button type="button" id="reloadImgs">刷新</button>
+    <button type="button" id="presetKey" class="active" title="5/40/80k">预设·关键</button>
+    <button type="button" id="presetF0">预设·F0</button>
+    <button type="button" id="presetAll">预设·全部</button>
+  </div>
+  <div class="row">
+    <strong style="font-size:12px">基准</strong>
+    <label class="chk"><input type="checkbox" id="showContent" checked/> Content</label>
+    <label class="chk"><input type="checkbox" id="showGt" checked/> GT</label>
+    <label class="chk"><input type="checkbox" id="showF0d" checked/> F0脏@100k</label>
+    <label class="chk"><input type="checkbox" id="showF0c100" checked/> F0净@100k</label>
+    <label class="chk"><input type="checkbox" id="showF0c95"/> F0净@95k</label>
+  </div>
+  <div class="row">
+    <strong style="font-size:12px">step</strong>
+    <div class="chips" id="stepChips"></div>
+    <button type="button" id="stepsAll">全</button>
+    <button type="button" id="stepsNone">清</button>
+  </div>
+  <details class="more" id="charDetails">
+    <summary>字符筛选（默认全选；可收起）</summary>
+    <div class="row" style="margin-top:4px">
+      <div class="chips" id="charChips"></div>
+      <button type="button" id="charsAll">全选</button>
+      <button type="button" id="charsProbe">仅 i/j</button>
+    </div>
+  </details>
+  <pre id="prog">…</pre>
+</section>
+</div>
+<section class="ref8" id="ref8box">
+  <div class="lab" id="ref8lab">Style×8 · Es+Δ 风格条件 · {"".join(REF8)}</div>
+  <div class="figs" id="ref8figs"></div>
+</section>
+<div class="grid-wrap"><div class="grid" id="sheet"></div></div>
+<div id="lightbox"><div class="box">
+  <img id="lbImg" alt=""/>
+  <div class="cap" id="lbCap"></div>
+  <div class="nav">
+    <button type="button" id="lbPrev">上一张</button>
+    <button type="button" id="lbClose">关闭 · Esc</button>
+    <button type="button" id="lbNext">下一张</button>
+  </div>
+</div></div>
+<script>
+const DATA = {json.dumps(payload, ensure_ascii=False)};
+const LS = 'f2c_mid_ui_v5';
+const KEY_STEPS = [5000, 40000, 80000];
+const BNAME = {{digit:'数字', latin_upper:'拉丁大写', latin_lower:'拉丁小写', latin_ext:'拉丁扩展', hiragana:'平假名', katakana:'片假名', bopomofo:'注音'}};
+const dirtySet = new Set(DATA.steps_dirty || DATA.steps);
+const cleanSet = new Set(DATA.steps_clean || DATA.steps);
+const fontSel = document.getElementById('font');
+const bucketSel = document.getElementById('bucket');
+const layoutSel = document.getElementById('layout');
+const cellSize = document.getElementById('cellSize');
+DATA.fonts.forEach(f => {{ const o=document.createElement('option'); o.value=f; o.textContent=f; fontSel.appendChild(o); }});
+[...new Set(DATA.items.map(i=>i.bucket))].forEach(b => {{ const o=document.createElement('option'); o.value=b; o.textContent=BNAME[b]||b; bucketSel.appendChild(o); }});
+
+function defaultState(){{
+  const key = KEY_STEPS.filter(s => DATA.steps.includes(s));
+  return {{
+    font: DATA.fonts[0],
+    bucket: '',
+    layout: 'pair',
+    cell: 80,
+    showContent: true, showGt: true, showF0d: true, showF0c100: true, showF0c95: false,
+    steps: key.length ? key : DATA.steps.slice(0, Math.min(3, DATA.steps.length)),
+    chars: DATA.chars.slice(),
+  }};
+}}
+function loadState(){{
+  try {{
+    const raw = JSON.parse(localStorage.getItem(LS)||'{{}}');
+    if ('showF0c' in raw && !('showF0c100' in raw)) {{
+      raw.showF0c100 = !!raw.showF0c;
+      raw.showF0c95 = false;
+    }}
+    const s = Object.assign(defaultState(), raw);
+    if (!DATA.fonts.includes(s.font)) s.font = DATA.fonts[0];
+    s.steps = (s.steps||[]).filter(x => DATA.steps.includes(x));
+    if (!s.steps.length) s.steps = defaultState().steps;
+    s.chars = (s.chars||[]).filter(c => DATA.chars.includes(c));
+    if (!s.chars.length) s.chars = DATA.chars.slice();
+    return s;
+  }} catch(e) {{ return defaultState(); }}
+}}
+let ST = loadState();
+
+function syncFromControls(){{
+  ST.font = fontSel.value;
+  ST.bucket = bucketSel.value || '';
+  ST.layout = layoutSel.value;
+  ST.cell = +cellSize.value;
+  ST.showContent = document.getElementById('showContent').checked;
+  ST.showGt = document.getElementById('showGt').checked;
+  ST.showF0d = document.getElementById('showF0d').checked;
+  ST.showF0c100 = document.getElementById('showF0c100').checked;
+  ST.showF0c95 = document.getElementById('showF0c95').checked;
+}}
+function persistState(){{
+  localStorage.setItem(LS, JSON.stringify(ST));
+}}
+function saveState(){{
+  syncFromControls();
+  persistState();
+}}
+
+function applyStateToControls(){{
+  fontSel.value = ST.font;
+  bucketSel.value = ST.bucket;
+  layoutSel.value = ST.layout;
+  cellSize.value = ST.cell;
+  document.getElementById('cellSizeVal').textContent = ST.cell;
+  document.documentElement.style.setProperty('--cell', ST.cell+'px');
+  document.getElementById('showContent').checked = !!ST.showContent;
+  document.getElementById('showGt').checked = !!ST.showGt;
+  document.getElementById('showF0d').checked = !!ST.showF0d;
+  document.getElementById('showF0c100').checked = ST.showF0c100 !== false;
+  document.getElementById('showF0c95').checked = !!ST.showF0c95;
+  const sc = document.getElementById('stepChips');
+  sc.innerHTML = '';
+  DATA.steps.forEach(s => {{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip' + (ST.steps.includes(s) ? ' on' : '');
+    const hasD = dirtySet.has(s), hasC = cleanSet.has(s);
+    b.textContent = (s/1000)+'k' + (!hasD && hasC ? '·净' : hasD && !hasC ? '·脏' : '');
+    b.onclick = () => {{
+      if (ST.steps.includes(s)) ST.steps = ST.steps.filter(x=>x!==s);
+      else ST.steps = DATA.steps.filter(x => ST.steps.includes(x) || x===s);
+      render();
+    }};
+    sc.appendChild(b);
+  }});
+  const cc = document.getElementById('charChips');
+  cc.classList.add('wrap');
+  cc.innerHTML = '';
+  DATA.chars.forEach(ch => {{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip' + (ST.chars.includes(ch) ? ' on' : '');
+    const probe = (DATA.effect_probe||[]).includes(ch);
+    b.textContent = ch + (probe ? '★' : '');
+    b.onclick = () => {{
+      if (ST.chars.includes(ch)) ST.chars = ST.chars.filter(x=>x!==ch);
+      else ST.chars = DATA.chars.filter(x => ST.chars.includes(x) || x===ch);
+      render();
+    }};
+    cc.appendChild(b);
+  }});
+  document.getElementById('charDetails').querySelector('summary').textContent =
+    '字符筛选 · 已选 '+ST.chars.length+'/'+DATA.chars.length+'（点击展开）';
+}}
+
+function renderRef8(font){{
+  const refs = DATA.style_ref8[font] || [];
+  document.getElementById('ref8lab').innerHTML =
+    'Style×8 · Es+Δ 风格条件（'+DATA.ref8+'）· <span>'+font+'</span>';
+  let h = '';
+  for (const r of refs){{
+    h += '<figure><img src="'+r.src+'" alt="'+r.ch+'" data-cap="Style '+r.ch+'" onerror="this.style.opacity=.2"/><figcaption>'+r.ch+'</figcaption></figure>';
+  }}
+  const box = document.getElementById('ref8figs');
+  box.innerHTML = h;
+  box.querySelectorAll('img').forEach(img => {{
+    img.onclick = () => {{
+      lbQueue = [{{src: img.src, cap: img.dataset.cap || img.alt}}];
+      openLb(0);
+    }};
+  }});
+}}
+
+function buildCols(){{
+  const layout = ST.layout;
+  const steps = DATA.steps.filter(s => ST.steps.includes(s));
+  const cols = [{{key:'ch', label:'字', sticky:true}}];
+  if (ST.showContent) cols.push({{key:'content', label:'Content', sep:true}});
+  if (ST.showGt) cols.push({{key:'gt', label:'GT'}});
+  if (ST.showF0d) cols.push({{key:'f0d', label:'F0脏@100k', cls:'pair-d', sep:true}});
+  if (ST.showF0c100) cols.push({{key:'f0c100', label:'F0净@100k', cls:'pair-c'}});
+  if (ST.showF0c95) cols.push({{key:'f0c95', label:'F0净@95k', cls:'pair-c'}});
+  for (const s of steps){{
+    const hasD = dirtySet.has(s), hasC = cleanSet.has(s);
+    const sk = (s/1000)+'k';
+    let first = true;
+    const push = (col) => {{ col.sep = first; first = false; cols.push(col); }};
+    if (layout === 'pair'){{
+      if (hasD) push({{key:'dirty_'+s, label:'脏@'+sk, cls:'pair-d'}});
+      if (hasC) push({{key:'clean_'+s, label:'净@'+sk, cls:'pair-c'}});
+    }} else if (layout === 'dirty'){{
+      if (hasD) push({{key:'dirty_'+s, label:'脏@'+sk, cls:'pair-d'}});
+    }} else if (layout === 'clean'){{
+      if (hasC) push({{key:'clean_'+s, label:'净@'+sk, cls:'pair-c'}});
+    }} else {{
+      if (hasD) push({{key:'dirty_'+s, label:'脏@'+sk, cls:'pair-d'}});
+      if (hasC) push({{key:'clean_'+s, label:'净@'+sk, cls:'pair-c'}});
+    }}
+  }}
+  return cols;
+}}
+
+let lbQueue = [];
+let lbIdx = 0;
+function openLb(i){{
+  if (!lbQueue.length) return;
+  lbIdx = (i+lbQueue.length) % lbQueue.length;
+  const q = lbQueue[lbIdx];
+  document.getElementById('lbImg').src = q.src;
+  document.getElementById('lbCap').textContent = q.cap;
+  document.getElementById('lightbox').classList.add('on');
+}}
+function closeLb(){{ document.getElementById('lightbox').classList.remove('on'); }}
+document.getElementById('lbClose').onclick = closeLb;
+document.getElementById('lbPrev').onclick = () => openLb(lbIdx-1);
+document.getElementById('lbNext').onclick = () => openLb(lbIdx+1);
+document.getElementById('lightbox').onclick = (e) => {{ if (e.target.id==='lightbox') closeLb(); }};
+document.addEventListener('keydown', (e) => {{
+  if (!document.getElementById('lightbox').classList.contains('on')) {{
+    if (e.key==='ArrowLeft') document.getElementById('fontPrev').click();
+    if (e.key==='ArrowRight') document.getElementById('fontNext').click();
+    return;
+  }}
+  if (e.key==='Escape') closeLb();
+  if (e.key==='ArrowLeft') openLb(lbIdx-1);
+  if (e.key==='ArrowRight') openLb(lbIdx+1);
+}});
+
+function render(){{
+  // Apply ST → controls (chips etc). Do NOT syncFromControls here:
+  // that would wipe ST updates from presets / shiftFont / chip toggles.
+  applyStateToControls();
+  persistState();
+  const font = ST.font;
+  renderRef8(font);
+  const items = DATA.items.filter(it => {{
+    if (it.font !== font) return false;
+    if (!ST.chars.includes(it.char)) return false;
+    if (bucketSel.value==='__effect__') return !!it.probe;
+    if (bucketSel.value) return it.bucket===bucketSel.value;
+    return true;
+  }});
+  const cols = buildCols();
+  const bust = Date.now();
+  lbQueue = [];
+  let h = '<table class="g"><thead><tr>';
+  for (const c of cols){{
+    h += '<th class="'+(c.cls||'')+(c.sticky?' sticky':'')+(c.sep?' sep':'')+'">'+c.label+'</th>';
+  }}
+  h += '</tr></thead><tbody>';
+  for (const it of items){{
+    const mark = it.probe ? ' ★' : '';
+    h += '<tr>';
+    for (const c of cols){{
+      if (c.key==='ch'){{
+        h += '<td class="ch sticky">'+it.char+mark+'</td>';
+        continue;
+      }}
+      let src = '', cap = it.font+' · '+it.char+' · '+c.label;
+      if (c.key==='content') src = it.content;
+      else if (c.key==='gt') src = it.gt;
+      else if (c.key==='f0d') src = it.f0_dirty;
+      else if (c.key==='f0c100') src = it.f0_clean_100k || it.f0_clean;
+      else if (c.key==='f0c95') src = it.f0_clean_95k;
+      else src = it.preds[c.key]||'';
+      if (src) src = src + (src.includes('?') ? '&' : '?') + 't=' + bust;
+      const qi = lbQueue.length;
+      lbQueue.push({{src: src.split('?')[0], cap}});
+      h += '<td class="'+(c.cls||'')+(c.sep?' sep':'')+'"><img src="'+src+'" alt="'+c.label+'" data-i="'+qi+'" loading="lazy" onerror="this.style.opacity=.2"/></td>';
+    }}
+    h += '</tr>';
+  }}
+  h += '</tbody></table>';
+  const sheet = document.getElementById('sheet');
+  const prevLeft = sheet.scrollLeft, prevTop = sheet.scrollTop;
+  sheet.innerHTML = h;
+  sheet.scrollLeft = prevLeft; sheet.scrollTop = prevTop;
+  sheet.querySelectorAll('img[data-i]').forEach(img => {{
+    img.onclick = () => openLb(+img.dataset.i);
+  }});
+}}
+
+function shiftFont(d){{
+  const i = DATA.fonts.indexOf(ST.font);
+  ST.font = DATA.fonts[(i+d+DATA.fonts.length)%DATA.fonts.length];
+  render();
+}}
+document.getElementById('fontPrev').onclick = () => shiftFont(-1);
+document.getElementById('fontNext').onclick = () => shiftFont(1);
+fontSel.onchange = () => {{ syncFromControls(); render(); }};
+bucketSel.onchange = () => {{ syncFromControls(); render(); }};
+layoutSel.onchange = () => {{ syncFromControls(); render(); }};
+cellSize.oninput = () => {{
+  document.getElementById('cellSizeVal').textContent = cellSize.value;
+  document.documentElement.style.setProperty('--cell', cellSize.value+'px');
+}};
+cellSize.onchange = () => {{ syncFromControls(); render(); }};
+['showContent','showGt','showF0d','showF0c100','showF0c95'].forEach(id => {{
+  document.getElementById(id).onchange = () => {{ syncFromControls(); render(); }};
+}});
+document.getElementById('reloadImgs').onclick = () => {{ syncFromControls(); render(); }};
+document.getElementById('stepsAll').onclick = () => {{ ST.steps = DATA.steps.slice(); render(); }};
+document.getElementById('stepsNone').onclick = () => {{ ST.steps = []; render(); }};
+document.getElementById('charsAll').onclick = () => {{ ST.chars = DATA.chars.slice(); render(); }};
+document.getElementById('charsProbe').onclick = () => {{ ST.chars = (DATA.effect_probe||[]).slice(); document.getElementById('charDetails').open = true; render(); }};
+document.getElementById('presetF0').onclick = () => {{
+  ST.showContent = true; ST.showGt = true; ST.showF0d = true; ST.showF0c100 = true; ST.showF0c95 = true; ST.steps = []; render();
+}};
+document.getElementById('presetKey').onclick = () => {{
+  ST.steps = KEY_STEPS.filter(s => DATA.steps.includes(s));
+  ST.showContent = true; ST.showGt = true; ST.showF0d = true; ST.showF0c100 = true; ST.showF0c95 = false;
+  ST.layout = 'pair';
+  render();
+}};
+document.getElementById('presetAll').onclick = () => {{
+  ST.steps = DATA.steps.slice();
+  ST.showContent = true; ST.showGt = true; ST.showF0d = true; ST.showF0c100 = true; ST.showF0c95 = false;
+  render();
+}};
+document.getElementById('toggleNote').onclick = () => {{
+  document.getElementById('note').classList.toggle('on');
+}};
+
+render();
+async function tick(){{
+  try {{
+    const s = await (await fetch('status.json?t='+Date.now(),{{cache:'no-store'}})).json();
+    const ms = s.methods||{{}};
+    const keys = Object.keys(ms).filter(k => k.includes('F2C') || k.includes('F2_clean') || k.startsWith('F2_timeline'));
+    let t = '';
+    for (const k of keys){{
+      const v = ms[k]||{{}};
+      if (v.phase !== 'running' && v.phase !== 'precompute') continue;
+      const tot=v.total||0, d=(v.done||0)+(v.skipped||0);
+      const pct = tot? Math.round(100*d/tot):0;
+      t += k+' '+(v.phase||'')+' '+d+'/'+tot+' ('+pct+'%)';
+      if (v.eta_s) t += ' ETA '+Math.round(v.eta_s/60)+'m';
+      if (v.last) t += ' '+v.last;
+      t += ' · ';
+    }}
+    document.getElementById('prog').textContent = t || '空闲 · 刷新更新图片 · ←/→ 换字体';
+  }} catch(e) {{ document.getElementById('prog').textContent = String(e); }}
+}}
+tick(); setInterval(tick, 8000);
+</script>
+</body></html>
+"""
+    (OUT / "timeline_f2_clean.html").write_text(html, encoding="utf-8")
+    print("wrote", OUT / "timeline_f2_clean.html", "items", len(items), "steps", steps)
+
 
 
 def write_f2_timeline_html() -> None:
@@ -2115,22 +2683,49 @@ def cmd_timeline(args: argparse.Namespace) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "logs").mkdir(exist_ok=True)
     arm = getattr(args, "arm", "F3").upper()
-    if arm == "F2":
-        write_f2_timeline_html()
+    if arm in ("F2", "F2C"):
+        if arm == "F2":
+            write_f2_timeline_html()
+        else:
+            write_f2_clean_compare_html()
         if args.html_only:
             return
         stems = shard_list(fonts(), args.shard)
-        steps = f2_timeline_steps()
+        if arm == "F2":
+            run = F2_RUN
+            es = ROOT / "artifacts/f0/es_spatial_f0"
+            ec = ROOT / "artifacts/f0/ec_multiscale_f0"
+            prefix = "F2_"
+        else:
+            run = ROOT / "runs/F2-CLEAN-V0913-A-S3407"
+            es = ROOT / "artifacts/f0_clean_v0913/es_spatial"
+            ec = ROOT / "artifacts/f0_clean_v0913/ec_multiscale"
+            prefix = "F2C_"
+            if not (es / "manifest.json").is_file() or not (ec / "manifest.json").is_file():
+                raise SystemExit(f"missing clean Es/Ec under {es} / {ec}")
+        steps = f2_timeline_steps(run)
         if getattr(args, "steps", None):
             want = {int(x) for x in args.steps.split(",") if x.strip()}
             steps = [s for s in steps if s in want]
-        status_key = f"F2_timeline_{args.shard.replace('/', 'of')}"
+        status_key = f"{'F2C' if arm == 'F2C' else 'F2'}_timeline_{args.shard.replace('/', 'of')}"
+        char_s = getattr(args, "chars", None)
+        if char_s:
+            gen_chars = list(char_s)
+        elif arm in ("F2C", "F2"):
+            gen_chars = list(BOARD_CHARS)
+        else:
+            gen_chars = list(TIMELINE_CHARS)
         generate_f2_timeline(
             args.device,
             args.overwrite,
             stems=stems,
             steps=steps,
             status_key=status_key,
+            run_dir=run,
+            es_dir=es,
+            ec_dir=ec,
+            mid_prefix=prefix,
+            chars=gen_chars,
         )
     else:
         write_timeline_html()
@@ -2705,10 +3300,15 @@ def main() -> None:
     p = sub.add_parser("progress-page")
     p.set_defaults(func=cmd_gallery)
     t = sub.add_parser("timeline")
-    t.add_argument("--arm", choices=["F2", "F3", "f2", "f3"], default="F3")
+    t.add_argument("--arm", choices=["F2", "F3", "f2", "f3", "F2C", "f2c"], default="F3")
     t.add_argument("--device", default="cuda:0")
     t.add_argument("--shard", default="0/1", help="font shard i/n; result-safe with per-item seed")
     t.add_argument("--steps", default="", help="optional comma steps e.g. 5000,10000")
+    t.add_argument(
+        "--chars",
+        default="",
+        help="optional literal chars to sample; default TIMELINE(+i/j for F2C)",
+    )
     t.add_argument("--overwrite", action="store_true")
     t.add_argument("--html-only", action="store_true")
     t.set_defaults(func=cmd_timeline)

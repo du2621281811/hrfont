@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>E12 Human Style Rating</title>
+<style>
+  :root { --bg:#f4f2ec; --ink:#1a1a1a; --muted:#666; --line:#d8d4cc; --card:#fff; --cell:88px; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Source Han Sans SC","Noto Sans SC",system-ui,sans-serif;
+    background:var(--bg); color:var(--ink); }
+  header { padding:14px 20px; border-bottom:1px solid var(--line); background:#fff; }
+  header h1 { margin:0 0 4px; font-size:18px; font-weight:650; }
+  header p { margin:0; color:var(--muted); font-size:13px; max-width:56rem; }
+  #progress { margin-top:8px; font-size:13px; }
+  main { max-width:1080px; margin:0 auto; padding:18px 16px 40px; }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px; }
+  .compare-label { display:flex; justify-content:space-between; align-items:baseline;
+    font-size:13px; color:var(--muted); margin-bottom:8px; gap:12px; flex-wrap:wrap; }
+  .strip {
+    display:flex; flex-wrap:wrap; align-items:flex-end; gap:8px;
+    padding:12px; background:#faf9f6; border:1px solid var(--line); border-radius:8px;
+  }
+  .cell { display:flex; flex-direction:column; align-items:center; gap:4px; width:var(--cell); }
+  .cell img {
+    width:var(--cell); height:var(--cell); object-fit:contain;
+    background:#fff; border:1px solid var(--line); border-radius:4px;
+  }
+  .cell .tag { font-size:11px; color:var(--muted); line-height:1.2; text-align:center; }
+  .cell.query { width:calc(var(--cell) + 4px); }
+  .cell.query img {
+    border:2px solid #1a1a1a;
+    box-shadow:0 0 0 3px rgba(0,0,0,0.04);
+  }
+  .cell.query .tag { color:var(--ink); font-weight:600; }
+  .divider {
+    width:1px; align-self:stretch; min-height:var(--cell); margin:0 4px;
+    background:var(--line); position:relative;
+  }
+  .divider::after {
+    content:"vs"; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:#faf9f6; color:var(--muted); font-size:10px; padding:2px 0;
+  }
+  .score-box { margin-top:16px; }
+  .scale { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .scale button { width:48px; height:48px; font-size:18px; border:1px solid var(--line);
+    background:#fff; border-radius:6px; cursor:pointer; }
+  .scale button.active { background:#1a1a1a; color:#fff; border-color:#1a1a1a; }
+  .nav { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; align-items:center; }
+  .nav button, #btnExport { padding:8px 14px; border-radius:6px; border:1px solid var(--line);
+    background:#fff; cursor:pointer; }
+  .hint { font-size:12px; color:var(--muted); margin-top:8px; }
+  #meta { font-size:12px; color:var(--muted); }
+  details.export { margin-top:16px; border-top:1px solid var(--line); padding-top:12px; }
+  details.export summary { cursor:pointer; color:var(--muted); font-size:13px; }
+  #export { margin-top:10px; width:100%; min-height:64px; font-family:ui-monospace,monospace; font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>跨语种风格一致性评分</h1>
+  <p>同一行对比：左边 8 个中文参考，右边加框的是西文候选（同尺寸）。打 1–5：西文是否像参考的<strong>同一字体风格</strong>。</p>
+  <div id="progress">Loading…</div>
+</header>
+<main>
+  <div class="panel">
+    <div class="compare-label">
+      <span>中文参考（同字体）</span>
+      <span>西文候选（请对比风格）</span>
+    </div>
+    <div class="strip" id="strip" aria-label="glyph comparison"></div>
+    <div id="meta" class="hint"></div>
+
+    <div class="score-box">
+      <div style="font-size:13px">风格一致性</div>
+      <div class="scale" id="scale"></div>
+      <div class="nav">
+        <button type="button" id="prev">上一题</button>
+        <button type="button" id="next">下一题</button>
+        <button type="button" id="btnSync">同步到服务器并可用于计算</button>
+        <span class="hint" style="margin:0" id="syncStatus"></span>
+      </div>
+    </div>
+
+    <details class="export">
+      <summary>导出已填分数 CSV</summary>
+      <button type="button" id="btnExport" style="margin-top:10px">生成 CSV</button>
+      <p class="hint">分数在本机 localStorage。导出后保存/粘贴，再跑 Spearman 脚本。</p>
+      <textarea id="export" readonly placeholder="导出内容出现在这里"></textarea>
+    </details>
+  </div>
+</main>
+<script>
+const REF8 = ["永","和","书","风","骨","韵","天","地"];
+const DATA = "/data/fontdiffuser-p253-t295-s338-cn2west-v2";
+const PREDS = "/reports/f03_test16_strat/preds";
+const SEED = 3407;
+
+function cp(ch){ return "u" + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,"0"); }
+function styleUrl(font, ch){
+  return `${DATA}/test/StyleImage/${font}/${font}+${cp(ch)}.png`;
+}
+function gtUrl(font, ch){
+  return `${DATA}/test/TargetImage/${font}/${font}+${cp(ch)}.png`;
+}
+function predUrl(method, font, ch){
+  return `${PREDS}/${method}/test/${font}/test__${font}__${cp(ch)}__s${SEED}.png`;
+}
+function queryUrl(it, fonts){
+  if(it.method === "GT") return gtUrl(it.font, it.char);
+  if(it.method === "ATTN_wrong"){
+    const wf = it.wrong_font || fonts[(fonts.indexOf(it.font)+1)%fonts.length];
+    return gtUrl(wf, it.char);
+  }
+  return predUrl(it.method, it.font, it.char);
+}
+function blindId(it, idx){
+  return `Q${String(idx+1).padStart(3,"0")} · ${it.font} · “${it.char}”`;
+}
+function mkCell(src, label, isQuery){
+  const d=document.createElement("div");
+  d.className = "cell" + (isQuery ? " query" : "");
+  const img=document.createElement("img");
+  img.src=src; img.alt=label;
+  const tag=document.createElement("div");
+  tag.className="tag"; tag.textContent=label;
+  d.appendChild(img); d.appendChild(tag);
+  return d;
+}
+
+let manifest=null, i=0;
+const keyStore="e12_human_ratings_v1";
+const raterStore="e12_human_rater_id";
+function loadScores(){ try{ return JSON.parse(localStorage.getItem(keyStore)||"{}"); }catch(e){ return {}; } }
+function saveScores(s){ localStorage.setItem(keyStore, JSON.stringify(s)); }
+function getRater(){ return localStorage.getItem(raterStore) || "R1"; }
+function setSyncStatus(msg){ const el=document.getElementById("syncStatus"); if(el) el.textContent=msg; }
+
+async function syncToServer(){
+  const scores=loadScores();
+  const n=Object.keys(scores).length;
+  if(!n){ setSyncStatus("本地还没有分数"); return; }
+  let rater=getRater();
+  if(!localStorage.getItem(raterStore)){
+    rater=prompt("标注员 ID（如 R1）", rater)||"R1";
+    localStorage.setItem(raterStore, rater);
+  }
+  setSyncStatus(`同步中… (${n})`);
+  try{
+    const res=await fetch("/api/ratings", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({rater, scores})
+    });
+    const j=await res.json();
+    if(!j.ok) throw new Error(j.error||"fail");
+    setSyncStatus(`已同步 ${j.n} 条 → 服务器可计算`);
+  }catch(e){
+    setSyncStatus("同步失败：请确认开的是带 API 的 :8793");
+  }
+}
+
+function render(){
+  const items=manifest.items, fonts=manifest.fonts, it=items[i];
+  const scores=loadScores();
+  document.getElementById("progress").textContent =
+    `第 ${i+1} / ${items.length} 题 · 已填 ${Object.keys(scores).length}`;
+
+  const strip=document.getElementById("strip");
+  strip.innerHTML="";
+  REF8.forEach(ch => strip.appendChild(mkCell(styleUrl(it.font, ch), ch, false)));
+  const div=document.createElement("div");
+  div.className="divider";
+  div.setAttribute("aria-hidden","true");
+  strip.appendChild(div);
+  strip.appendChild(mkCell(queryUrl(it, fonts), it.char, true));
+
+  document.getElementById("meta").textContent = blindId(it, i);
+
+  const scale=document.getElementById("scale");
+  scale.innerHTML="";
+  for(let s=1;s<=5;s++){
+    const b=document.createElement("button");
+    b.type="button"; b.textContent=String(s);
+    if(scores[it.item_id]===s) b.classList.add("active");
+    b.onclick=()=>{
+      scores[it.item_id]=s; saveScores(scores); render();
+      // fire-and-forget sync so server always has latest
+      syncToServer();
+    };
+    scale.appendChild(b);
+  }
+}
+
+document.getElementById("prev").onclick=()=>{ if(i>0){ i--; render(); } };
+document.getElementById("next").onclick=()=>{ if(i<manifest.items.length-1){ i++; render(); } };
+document.getElementById("btnSync").onclick=()=>syncToServer();
+document.getElementById("btnExport").onclick=()=>{
+  const scores=loadScores();
+  const rater=getRater();
+  let lines=["item_id,font,char,method,attention_check,rater,score"];
+  for(const it of manifest.items){
+    if(scores[it.item_id]==null) continue;
+    lines.push([it.item_id,it.font,it.char,it.method,it.attention_check?1:0,rater,scores[it.item_id]].join(","));
+  }
+  document.getElementById("export").value=lines.join("\n");
+  syncToServer();
+};
+
+fetch("items.json").then(r=>r.json()).then(m=>{
+  manifest=m; render();
+  // if already have local scores, push once on load
+  if(Object.keys(loadScores()).length) syncToServer();
+})
+  .catch(()=>{ document.getElementById("progress").textContent = "加载 items.json 失败：请用 :8793 从仓库根目录起服务"; });
+</script>
+</body>
+</html>

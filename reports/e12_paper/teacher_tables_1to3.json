@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-09-14T12:00:58+00:00",
+  "protocol": {
+    "cache": "/root/projects/hrfont/artifacts/e12/cache_v0913_b",
+    "phi": "/root/projects/hrfont/runs/e12_phi_s2_b_s3407/best.pt",
+    "split": "70/15/15 by_group seed 3407; metrics on test families",
+    "ref8": [
+      "永",
+      "和",
+      "书",
+      "风",
+      "骨",
+      "韵",
+      "天",
+      "地"
+    ],
+    "retrieval_query": "A-Z a-z",
+    "verification_query": "A-Z a-z 0-9",
+    "score": "cosine on mean-pooled zh proto vs en query (except LPIPS distance ablation N/A here)"
+  },
+  "table1_retrieval": [
+    {
+      "method": "Ours",
+      "n_queries": 1768,
+      "n_gallery": 34,
+      "R@1": 0.36425339366515835,
+      "R@5": 0.7839366515837104,
+      "MRR": 0.5473700567076791
+    },
+    {
+      "method": "CLIP",
+      "n_queries": 1768,
+      "n_gallery": 34,
+      "R@1": 0.09276018099547512,
+      "R@5": 0.2516968325791855,
+      "MRR": 0.19781035543817263
+    },
+    {
+      "method": "DINOv2",
+      "n_queries": 1768,
+      "n_gallery": 34,
+      "R@1": 0.2652714932126697,
+      "R@5": 0.5350678733031674,
+      "MRR": 0.3961829920368719
+    },
+    {
+      "method": "LPIPS-Alex",
+      "n_queries": 1768,
+      "n_gallery": 34,
+      "R@1": 0.16911764705882354,
+      "R@5": 0.49547511312217196,
+      "MRR": 0.3298373371907276
+    }
+  ],
+  "table2_verification": [
+    {
+      "method": "Ours",
+      "n_pairs": 544,
+      "ROC-AUC": 0.9471608996391296,
+      "pairwise_order_acc": 0.9393382352941176,
+      "mean_cos_matched": 0.8180269758929225,
+      "mean_cos_mismatched": 0.39288585715214996
+    },
+    {
+      "method": "CLIP",
+      "n_pairs": 544,
+      "ROC-AUC": 0.5433641076087952,
+      "pairwise_order_acc": 0.5643382352941176,
+      "mean_cos_matched": 0.8635736623888507,
+      "mean_cos_mismatched": 0.8568150340853369
+    },
+    {
+      "method": "DINOv2",
+      "n_pairs": 544,
+      "ROC-AUC": 0.8247222304344177,
+      "pairwise_order_acc": 0.8492647058823529,
+      "mean_cos_matched": 0.7665531979325939,
+      "mean_cos_mismatched": 0.6534957930116969
+    },
+    {
+      "method": "LPIPS-Alex",
+      "n_pairs": 544,
+      "ROC-AUC": 0.7812702655792236,
+      "pairwise_order_acc": 0.8860294117647058,
+      "mean_cos_matched": 0.8919975001584081,
+      "mean_cos_mismatched": 0.8428452650413794
+    }
+  ],
+  "table3_separation_ours": {
+    "metric": "style_score_01 = (cosine+1)/2",
+    "matched": {
+      "n": 272,
+      "mean": 0.9013148357489091,
+      "std": 0.06613875112586193
+    },
+    "hard_negative_same_weight_class": {
+      "n": 160,
+      "mean": 0.7918193196412175,
+      "std": 0.11170791676480989
+    },
+    "random_negative": {
+      "n": 272,
+      "mean": 0.7334508929702946,
+      "std": 0.1123170834288476
+    },
+    "same_coarse_category_different_font": {
+      "n": 160,
+      "mean": 0.7918193196412175,
+      "std": 0.11170791676480989
+    },
+    "weight_class_counts": {
+      "bold": 13,
+      "light": 5,
+      "regular": 2,
+      "unknown": 14
+    },
+    "note": "hard = different test font with same parsed weight class (light/regular/bold/italic); unknown-class fonts excluded from hard pool"
+  }
+}

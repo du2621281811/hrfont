@@ -91,7 +91,13 @@ def load_model(ckpt_dir: Path, device: str, offset_coefficient: float):
     return model, build_ddpm_scheduler(args), ContentPerceptualLoss(), args
 
 
-def eval_one(ckpt_dir: Path, device: str, seed: int, offset_coefficient: float) -> dict:
+def eval_one(
+    ckpt_dir: Path,
+    device: str,
+    seed: int,
+    offset_coefficient: float,
+    v0913_clean_map: str = "",
+) -> dict:
     import numpy as np
     import torch
     import torch.nn.functional as F
@@ -109,6 +115,8 @@ def eval_one(ckpt_dir: Path, device: str, seed: int, offset_coefficient: float) 
         torch.cuda.manual_seed_all(seed)
 
     model, noise_scheduler, percep, args = load_model(ckpt_dir, device, offset_coefficient)
+    if v0913_clean_map:
+        args.v0913_clean_map = v0913_clean_map
 
     def native(img):
         if img.size != (96, 96):
@@ -166,17 +174,22 @@ def eval_one(ckpt_dir: Path, device: str, seed: int, offset_coefficient: float) 
     return {"loss": total / max(n, 1), "n": n}
 
 
-def select(rows: list[dict]) -> dict:
+def select(rows: list[dict], endpoint_step: int = 100000) -> dict:
     eligible = [r for r in rows if r.get("loss") is not None]
     if not eligible:
         raise RuntimeError("no val losses computed")
     best = min(eligible, key=lambda r: (float(r["loss"]), int(r["step"])))
-    end = next(r for r in eligible if int(r["step"]) == 100000)
+    end = next((r for r in eligible if int(r["step"]) == endpoint_step), None)
+    if end is None:
+        raise RuntimeError(
+            f"endpoint step {endpoint_step} missing from history; "
+            f"have {[int(r['step']) for r in eligible]}"
+        )
     return {
         "rule": "min val16 diffusion loss among 5k milestones; ties -> smaller step",
         "selected_step": int(best["step"]),
         "selected_loss": float(best["loss"]),
-        "endpoint_step": 100000,
+        "endpoint_step": int(endpoint_step),
         "endpoint_loss": float(end["loss"]),
         "n": int(best["n"]),
         "seed": 3407,
@@ -191,6 +204,13 @@ def main() -> int:
     ap.add_argument("--out", default=str(ROOT / "reports/training_logs/F0-RSIFREE-FT-A-S3407"))
     ap.add_argument("--device", default="cuda:2")
     ap.add_argument("--seed", type=int, default=3407)
+    ap.add_argument(
+        "--v0913_clean_map",
+        default="",
+        help="Optional. Default empty = FULL dirty val16 (matches historical F0 pick). "
+        "Set to manifests/v0913_clean only if you intentionally select on clean val.",
+    )
+    ap.add_argument("--endpoint_step", type=int, default=100000)
     args = ap.parse_args()
 
     run = Path(args.run)
@@ -201,24 +221,36 @@ def main() -> int:
     if hist_path.is_file():
         hist = json.loads(hist_path.read_text(encoding="utf-8"))
     have = {int(r["step"]) for r in hist if "loss" in r}
+    val_map = args.v0913_clean_map
+    if val_map and not Path(val_map).is_absolute():
+        val_map = str(ROOT / val_map)
 
     for step, ckpt in list_milestones(run):
         if step in have:
             print(f"skip {step}: already have loss", flush=True)
             continue
-        print(f"eval step={step} ckpt={ckpt}", flush=True)
-        row = eval_one(ckpt, args.device, args.seed, offset_coefficient=0.0)
+        print(f"eval step={step} ckpt={ckpt} val_map={val_map or 'FULL_DIRTY_VAL'}", flush=True)
+        row = eval_one(
+            ckpt,
+            args.device,
+            args.seed,
+            offset_coefficient=0.0,
+            v0913_clean_map=val_map,
+        )
         row.update({
             "step": step,
             "tag": f"global_step_{step}",
             "ts": datetime.now(timezone.utc).isoformat(),
+            "val_map": val_map or "full_dirty_val16",
+            "n_pairs": int(row.get("n", 0)),
         })
         hist = [r for r in hist if int(r["step"]) != step] + [row]
         hist.sort(key=lambda r: int(r["step"]))
         hist_path.write_text(json.dumps(hist, indent=2) + "\n", encoding="utf-8")
         print(f"  loss={row['loss']:.6f} n={row['n']}", flush=True)
 
-    decision = select(hist)
+    decision = select(hist, endpoint_step=args.endpoint_step)
+    decision["val_map"] = val_map or "full_dirty_val16"
     (out / "F0_MILESTONE.json").write_text(
         json.dumps(decision, indent=2) + "\n", encoding="utf-8")
     selected = run / f"global_step_{decision['selected_step']}"
@@ -228,6 +260,8 @@ def main() -> int:
             best.unlink()
         elif best.is_dir() and not any(best.iterdir()):
             best.rmdir()
+        elif best.is_dir():
+            raise SystemExit(f"best exists as non-empty directory: {best}")
     if not best.exists():
         best.symlink_to(selected.name)
         print(f"symlink {best} -> {selected.name}", flush=True)

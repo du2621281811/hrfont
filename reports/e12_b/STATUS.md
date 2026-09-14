@@ -1,0 +1,13 @@
+# E12-b STATUS
+- updated: 2026-09-14T07:24:19.028676+00:00
+- cache: artifacts/e12/cache_v0913_b (fonts≈223)
+- phi run: runs/e12_phi_s2_b_s3407
+- phi latest val_auc points: [(250, 0.8868408203125), (500, 0.97161865234375), (750, 0.9654541015625), (1000, 0.95281982421875), (1250, 0.9493408203125), (1500, 0.9639892578125), (1750, 0.9171142578125), (2000, 0.9072265625)]
+- phi curve best: (500, 0.97161865234375)
+- phi best.pt: True
+- membership: done
+- membership val: {'roc_auc': 0.9555795192718506, 'pr_auc': 0.9419764876365662, 'brier': 0.09405942261219025, 'ece': 0.0956201096996665, 'temperature': 1.968626856803894, 'role': 'temperature_fit', 'families': ['FZBaiZDZ115JW', 'FZBaiZJKJW', 'FZBangSKLTJW', 'FZBaoHTJW_Da', 'FZBenMXYTJW_Italic', 'FZDaDXMTJW', 'FZFWHuanLTJW', 'FZFWZhuZGDSMCJW', 'FZFWZhuZLSHTJWB', 'FZFeiYiTJW-EB', 'FZHCJW', 'FZHeYTJW-EB', 'FZJinCTJW_Te', 'FZJingKHJW', 'FZLangKBTJW1', 'FZManYTJW-H', 'FZOuYXKSJW', 'FZRuiZHLTJW', 'FZShiGKSJW', 'FZShiSTJW-B', 'FZSiNTJW-UB', 'FZTanHTJW_Da', 'FZTieXHJW', 'FZVDLGTMCJW-L', 'FZVDLJianZHJW-H', 'FZVDLXinZTJW-R', 'FZXinRTJW-EB', 'FZYASHJW_Cu', 'FZYouHK_508R', 'FZYouHK_509R', 'FZYouHK_510M', 'FZZhenSYJW', 'FZZhuoHJW'], 'smoke_overlap': False}
+- membership test: {'roc_auc': 0.913358747959137, 'pr_auc': 0.8879284262657166, 'brier': 0.13108029961585999, 'ece': 0.09358363136925618, 'temperature': 1.968626856803894, 'role': 'held_out_test', 'families': ['FZBaoCTJW_Te', 'FZCQJW', 'FZDeSHJW_512B', 'FZDeSHJW_513B', 'FZDengXHJW-B', 'FZDuHJW_Cu', 'FZFWZhuZiHeiU', 'FZFuGCHJW', 'FZFuGCYJW', 'FZGDCTJW-L', 'FZHanSTJW_Te', 'FZHengWHJ-L', 'FZIwataFWTJW-H', 'FZJZJW', 'FZJingQSTJW_Cu', 'FZJuJTJW-L', 'FZKuGHJW-H', 'FZLTHProJW_H', 'FZLaGBTTJW_Da', 'FZLiQBLSJW', 'FZMoFHJW', 'FZMoYTJW-L', 'FZPTYJW', 'FZRunYYSJW', 'FZShuangQTJW_Te', 'FZVDLJiaoRHJW-T', 'FZVariable-YouSongJ', 'FZWBJW', 'FZXinGHJW-EL', 'FZYDCHJW', 'FZYiMSJW-T', 'FZYouHJW_510M', 'FZYouHK_512B', 'FZYouSJJW_507R'], 'smoke_overlap': False}
+- contract: reports/EXPERIMENT_E12B_V0913_20260914.md
+- paper validation: reports/e12_paper/PAPER_TABLES.md (cosine primary: retrieval R@k + AUC + Style Score; human Spearman pending ratings)
+- teacher metric: reports/e12_paper/cosine_protocol.md · HUMAN_PROTOCOL.md

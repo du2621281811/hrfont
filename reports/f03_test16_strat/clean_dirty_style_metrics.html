@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"/>
+<title>干净 vs 脏 · 风格(固定) + vs GT</title>
+<style>
+body{font-family:ui-sans-serif,system-ui,sans-serif;margin:24px;background:#f5f3ef;color:#1a1a1a;line-height:1.45}
+h1{font-size:1.35rem;margin:0 0 .35rem} h2{font-size:1.1rem;margin:1.4rem 0 .5rem}
+.meta,.note{color:#555;font-size:.92rem;max-width:92ch}
+table{border-collapse:collapse;background:#fff;margin:12px 0;font-size:13px}
+th,td{border:1px solid #ddd;padding:6px 8px;text-align:right}
+th:first-child,td:first-child,td:nth-child(2){text-align:left}
+tr.clean{background:#f3faf3} tr.dirty{background:#fffaf3} tr.baseline{background:#f3f5fa}
+.links a{margin-right:12px}
+th.sty,td.sty{background:#eef6ff}
+th.gtm,td.gtm{background:#f7f7f7}
+</style></head><body>
+<h1>干净 vs 脏 · 指标总表</h1>
+<p class="meta">生成 2026-09-14T12:32:40+00:00 · 匹配 n=272</p>
+<p class="note">
+<strong>蓝列固定不动：</strong>E12 mem / Ours φ = 中文 ref8 → 西文 query 的风格协议（不是 vs GT）。<br>
+<strong>灰列 vs GT：</strong>CLIP / DINO / Alex / LPIPS（及 L1/SSIM）= 生成图相对 TargetImage。
+</p>
+<p class="links">
+  <a href="clean_dirty_compare.html">像素板</a>
+  <a href="timeline_f2_clean.html">时间线</a>
+</p>
+<h2>总表</h2>
+<table>
+<thead><tr><th>方法</th><th>臂</th><th>n</th>
+<th class="sty">E12mem↑</th><th class="sty">Oursφ↑</th>
+<th class="gtm">CLIP↑</th><th class="gtm">DINO↑</th><th class="gtm">Alex↑</th><th class="gtm">LPIPS↓</th>
+<th class="gtm">L1↓</th><th class="gtm">SSIM↑</th>
+</tr></thead>
+<tbody>
+<tr class='baseline'><td>官方 P1</td><td>baseline</td><td>272</td><td>—</td><td>—</td><td>0.9539</td><td>0.8330</td><td>0.9709</td><td>0.2079</td><td>0.1084</td><td>0.4289</td></tr><tr class='dirty'><td>F0 脏@100k</td><td>dirty</td><td>272</td><td>0.5046</td><td>0.8615</td><td>0.9792</td><td>0.9008</td><td>0.9839</td><td>0.1241</td><td>0.0740</td><td>0.6311</td></tr><tr class='clean'><td>F0 净@95k(best)</td><td>clean</td><td>272</td><td>0.6132</td><td>0.8857</td><td>0.9800</td><td>0.8973</td><td>0.9854</td><td>0.1152</td><td>0.0716</td><td>0.6484</td></tr><tr class='clean'><td>F0 净@100k</td><td>clean</td><td>272</td><td>0.6090</td><td>0.8850</td><td>0.9803</td><td>0.8969</td><td>0.9853</td><td>0.1150</td><td>0.0711</td><td>0.6516</td></tr><tr class='dirty'><td>F2 脏@40k</td><td>dirty</td><td>272</td><td>0.6053</td><td>0.8907</td><td>0.9807</td><td>0.9060</td><td>0.9851</td><td>0.1176</td><td>0.0740</td><td>0.6324</td></tr><tr class='clean'><td>F2 净@40k</td><td>clean</td><td>272</td><td>0.6688</td><td>0.9009</td><td>0.9799</td><td>0.9009</td><td>0.9851</td><td>0.1107</td><td>0.0746</td><td>0.6446</td></tr><tr class='dirty'><td>F2 脏@80k</td><td>dirty</td><td>272</td><td>0.6124</td><td>0.8912</td><td>0.9798</td><td>0.9091</td><td>0.9854</td><td>0.1148</td><td>0.0722</td><td>0.6436</td></tr><tr class='clean'><td>F2 净@80k</td><td>clean</td><td>272</td><td>0.6641</td><td>0.9036</td><td>0.9797</td><td>0.9018</td><td>0.9855</td><td>0.1077</td><td>0.0735</td><td>0.6464</td></tr>
+</tbody></table>
+<h2>成对差值（A−B）</h2>
+<table>
+<thead><tr><th>对比</th>
+<th class="sty">ΔE12</th><th class="sty">ΔOursφ</th>
+<th class="gtm">ΔCLIP</th><th class="gtm">ΔDINO</th><th class="gtm">ΔAlex</th><th class="gtm">ΔLPIPS</th>
+</tr></thead>
+<tbody><tr><td>F0 净100k − 脏</td><td>0.1044</td><td>0.0236</td><td>0.0011</td><td>-0.0039</td><td>0.0014</td><td>-0.0091</td></tr><tr><td>F2 净40k − 脏</td><td>0.0635</td><td>0.0102</td><td>-0.0008</td><td>-0.0050</td><td>0.0000</td><td>-0.0070</td></tr><tr><td>F2 净80k − 脏</td><td>0.0517</td><td>0.0124</td><td>-0.0002</td><td>-0.0073</td><td>0.0001</td><td>-0.0071</td></tr><tr><td>F2 净40k − P1</td><td>—</td><td>—</td><td>0.0260</td><td>0.0680</td><td>0.0142</td><td>-0.0973</td></tr></tbody></table>
+<p class="note">风格列 Δ&gt;0 更好；LPIPS/L1 Δ&lt;0 更好。P1 若无 Oursφ/E12，是尚未用该协议打分。</p>
+</body></html>

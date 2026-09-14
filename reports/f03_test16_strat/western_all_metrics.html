@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"/>
+<title>全西文 592 · test16 重测</title>
+<style>
+body{font-family:ui-sans-serif,system-ui,sans-serif;margin:24px;background:#f5f3ef;color:#1a1a1a;line-height:1.45}
+h1{font-size:1.35rem;margin:0 0 .35rem} h2{font-size:1.1rem;margin:1.4rem 0 .5rem}
+.meta,.note{color:#555;font-size:.92rem;max-width:92ch}
+table{border-collapse:collapse;background:#fff;margin:12px 0;font-size:13px}
+th,td{border:1px solid #ddd;padding:6px 8px;text-align:right}
+th:first-child,td:first-child,td:nth-child(2){text-align:left}
+tr.clean{background:#f3faf3} tr.dirty{background:#fffaf3} tr.baseline{background:#f3f5fa}
+th.sty,td.sty{background:#eef6ff} th.gtm,td.gtm{background:#f7f7f7}
+.links a{margin-right:12px}
+</style></head><body>
+<h1>全西文重测 · test16 × 37 西文</h1>
+<p class="meta">生成 2026-09-14T12:56:32+00:00 · n=592（期望 592）·
+字体 test16 · 可用性 v0913_clean · 字集 digit+拉丁大小写+扩展（无假名/注音）</p>
+<p class="note">
+<strong>蓝列固定：</strong>E12 mem / Ours φ = 中文 ref8 → 西文 query。<br>
+<strong>灰列 vs GT：</strong>CLIP/DINO/Alex/LPIPS/L1/SSIM；LPIPS 与 f03 同协议（不强制 64）。
+</p>
+<p class="links">
+  <a href="clean_dirty_style_metrics.html">旧子集板</a>
+  <a href="timeline_f2_clean.html">时间线</a>
+</p>
+<table>
+<thead><tr><th>方法</th><th>臂</th><th>n</th>
+<th class="sty">E12mem↑</th><th class="sty">Oursφ↑</th>
+<th class="gtm">CLIP↑</th><th class="gtm">DINO↑</th><th class="gtm">Alex↑</th>
+<th class="gtm">LPIPS↓</th><th class="gtm">L1↓</th><th class="gtm">SSIM↑</th>
+</tr></thead>
+<tbody><tr class='baseline'><td>官方 P1</td><td>baseline</td><td>592</td><td>0.6308</td><td>0.8517</td><td>0.9528</td><td>0.8220</td><td>0.9704</td><td>0.2815</td><td>0.1021</td><td>0.4412</td></tr><tr class='dirty'><td>F0 脏@100k</td><td>dirty</td><td>592</td><td>0.5491</td><td>0.8623</td><td>0.9811</td><td>0.9051</td><td>0.9837</td><td>0.1581</td><td>0.0671</td><td>0.6537</td></tr><tr class='clean'><td>F0 净@95k(best)</td><td>clean</td><td>592</td><td>0.6433</td><td>0.8839</td><td>0.9814</td><td>0.9028</td><td>0.9854</td><td>0.1486</td><td>0.0656</td><td>0.6675</td></tr><tr class='clean'><td>F0 净@100k</td><td>clean</td><td>592</td><td>0.6380</td><td>0.8828</td><td>0.9816</td><td>0.9035</td><td>0.9855</td><td>0.1483</td><td>0.0654</td><td>0.6692</td></tr><tr class='dirty'><td>F2 脏@40k</td><td>dirty</td><td>592</td><td>0.6365</td><td>0.8899</td><td>0.9827</td><td>0.9091</td><td>0.9859</td><td>0.1483</td><td>0.0685</td><td>0.6488</td></tr><tr class='clean'><td>F2 净@40k</td><td>clean</td><td>592</td><td>0.6807</td><td>0.8954</td><td>0.9814</td><td>0.9061</td><td>0.9858</td><td>0.1399</td><td>0.0679</td><td>0.6701</td></tr><tr class='dirty'><td>F2 脏@80k</td><td>dirty</td><td>592</td><td>0.6462</td><td>0.8918</td><td>0.9822</td><td>0.9121</td><td>0.9861</td><td>0.1434</td><td>0.0660</td><td>0.6657</td></tr><tr class='clean'><td>F2 净@80k</td><td>clean</td><td>592</td><td>0.6915</td><td>0.8963</td><td>0.9811</td><td>0.9053</td><td>0.9861</td><td>0.1366</td><td>0.0673</td><td>0.6704</td></tr></tbody></table>
+<h2>成对差值</h2>
+<table>
+<thead><tr><th>对比</th><th class="sty">ΔE12</th><th class="sty">ΔOursφ</th>
+<th class="gtm">ΔCLIP</th><th class="gtm">ΔDINO</th><th class="gtm">ΔAlex</th><th class="gtm">ΔLPIPS</th></tr></thead>
+<tbody><tr><td>F0 净100k − 脏</td><td>0.0889</td><td>0.0204</td><td>0.0005</td><td>-0.0016</td><td>0.0018</td><td>-0.0098</td></tr><tr><td>F0 净95k − 脏</td><td>0.0942</td><td>0.0216</td><td>0.0003</td><td>-0.0022</td><td>0.0017</td><td>-0.0095</td></tr><tr><td>F2 净40k − 脏</td><td>0.0442</td><td>0.0055</td><td>-0.0013</td><td>-0.0031</td><td>-0.0001</td><td>-0.0083</td></tr><tr><td>F2 净80k − 脏</td><td>0.0453</td><td>0.0045</td><td>-0.0012</td><td>-0.0068</td><td>0.0001</td><td>-0.0068</td></tr><tr><td>F2 净40k − P1</td><td>0.0499</td><td>0.0437</td><td>0.0286</td><td>0.0840</td><td>0.0154</td><td>-0.1415</td></tr></tbody></table>
+</body></html>

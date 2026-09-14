@@ -1,0 +1,73 @@
+{
+  "protocol": {
+    "base_split": "split_v3_228_16_16",
+    "train_n": 228,
+    "val_n": 16,
+    "test_n_original": 16,
+    "rule": "原260按 train/val/test 标明；不在260的新增字体一律归为测试集（新增）"
+  },
+  "fonts": [
+    {
+      "clean": "FZHanZKTTJW",
+      "disp": "方正憨仔卡通体 简",
+      "cat": "cartoon",
+      "split": "test",
+      "in_260": false,
+      "origin": "added_ood_paper6_0914",
+      "split_label": "测试集（新增）"
+    },
+    {
+      "clean": "FZWangDXCJW",
+      "disp": "方正王铎行草 简",
+      "cat": "xingkai",
+      "split": "test",
+      "in_260": false,
+      "origin": "added_ood_paper6_0914",
+      "split_label": "测试集（新增）"
+    },
+    {
+      "clean": "FZZJ-ZTMBZKJW",
+      "disp": "方正字迹-朱涛毛笔正楷简体",
+      "cat": "shouxie",
+      "split": "test",
+      "in_260": false,
+      "origin": "added_ood_paper6_0914",
+      "split_label": "测试集（新增）"
+    },
+    {
+      "clean": "FZZJ-OYCDXKJW",
+      "disp": "方正字迹-欧阳长迪行楷 简",
+      "cat": "xingkai",
+      "split": "test",
+      "in_260": false,
+      "origin": "added_ood_paper6_0914",
+      "split_label": "测试集（新增）"
+    },
+    {
+      "clean": "FZPangPHJW",
+      "disp": "方正胖胖黑 简",
+      "cat": "cartoon",
+      "split": "test",
+      "in_260": false,
+      "origin": "added_ood_paper6_0914",
+      "split_label": "测试集（新增）"
+    },
+    {
+      "clean": "FZHPJW",
+      "disp": "方正琥珀简体",
+      "cat": "display",
+      "split": "test",
+      "in_260": false,
+      "origin": "added_ood_paper6_0914",
+      "split_label": "测试集（新增）"
+    }
+  ],
+  "test_added": [
+    "FZHanZKTTJW",
+    "FZWangDXCJW",
+    "FZZJ-ZTMBZKJW",
+    "FZZJ-OYCDXKJW",
+    "FZPangPHJW",
+    "FZHPJW"
+  ]
+}

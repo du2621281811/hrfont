@@ -1,0 +1,780 @@
+{
+  "n_unique": 831,
+  "n_ok": 831,
+  "n_err": 0,
+  "n_suiti": 792,
+  "n_font50_only": 39,
+  "planned": {
+    "target": 295,
+    "style": 338,
+    "west89": 89,
+    "total": 633
+  },
+  "fonts_complete": {
+    "target295": 830,
+    "style338": 831,
+    "west89": 830,
+    "all633": 830,
+    "all633_pct": 99.88
+  },
+  "incomplete": [
+    {
+      "stem": "FZGoolongWuxiaFontR",
+      "source": "suiti",
+      "t_miss": 2,
+      "s_miss": 0,
+      "w_miss": 2,
+      "t_miss_ch": "ńň",
+      "w_miss_ch": "ńň",
+      "n_cmap": 7579
+    }
+  ],
+  "cmap_size": {
+    "min": 7579,
+    "p50": 8765,
+    "p90": 10614,
+    "max": 22081
+  },
+  "intersection_all_ok": {
+    "n": 7568,
+    "contains_planned633": false,
+    "contains_west89": false,
+    "planned_missing_from_inter": [
+      "ń",
+      "ň"
+    ],
+    "blocks": {
+      "cjk": 6763,
+      "other": 265,
+      "fullwidth": 98,
+      "katakana": 86,
+      "hiragana": 83,
+      "box_drawing": 76,
+      "ascii_letter": 52,
+      "bopomofo": 37,
+      "ascii_punct": 33,
+      "latin1": 20,
+      "cjk_punct": 20,
+      "latin_ext_ab": 14,
+      "general_punct": 11,
+      "digit": 10
+    },
+    "extra_beyond_633": 6937,
+    "extra_blocks": {
+      "cjk": 6425,
+      "other": 265,
+      "fullwidth": 98,
+      "box_drawing": 76,
+      "ascii_punct": 33,
+      "cjk_punct": 20,
+      "general_punct": 11,
+      "latin1": 9
+    },
+    "extra_han": 6425,
+    "extra_west_like": 42,
+    "extra_west_chars": " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~¤§¨°±·×ì÷",
+    "ascii95_incl_space": true,
+    "ascii95_excl_space": true,
+    "ascii95_missing_cps": [],
+    "latin1_letters_in_inter": "àáèéêìíòóùúü",
+    "n_latin1_letters": 12
+  },
+  "intersection_full633_fonts": {
+    "n_fonts": 830,
+    "n": 7586,
+    "extra_beyond_633": 6953,
+    "extra_blocks": {
+      "cjk": 6425,
+      "other": 281,
+      "fullwidth": 98,
+      "box_drawing": 76,
+      "ascii_punct": 33,
+      "cjk_punct": 20,
+      "general_punct": 11,
+      "latin1": 9
+    },
+    "extra_han": 6425,
+    "extra_west_like": 42,
+    "extra_west_chars": " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~¤§¨°±·×ì÷",
+    "latin1_letters": "àáèéêìíòóùúü",
+    "n_latin1_letters": 12,
+    "blocks": {
+      "cjk": 6763,
+      "other": 281,
+      "fullwidth": 98,
+      "katakana": 86,
+      "hiragana": 83,
+      "box_drawing": 76,
+      "ascii_letter": 52,
+      "bopomofo": 37,
+      "ascii_punct": 33,
+      "latin1": 20,
+      "cjk_punct": 20,
+      "latin_ext_ab": 16,
+      "general_punct": 11,
+      "digit": 10
+    }
+  },
+  "target_group_complete_fonts": {
+    "ascii_digits": 831,
+    "ascii_letters": 831,
+    "latin_ext_letters": 830,
+    "hiragana": 831,
+    "katakana": 831,
+    "bopomofo": 831
+  },
+  "chars_missing_anywhere": [
+    {
+      "ch": "ń",
+      "cp": "U+0144",
+      "n_fonts_missing": 1,
+      "group": "latin_ext_letters"
+    },
+    {
+      "ch": "ň",
+      "cp": "U+0148",
+      "n_fonts_missing": 1,
+      "group": "latin_ext_letters"
+    }
+  ],
+  "western_care_coverage": [
+    {
+      "ch": " ",
+      "cp": "U+0020",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "!",
+      "cp": "U+0021",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "\"",
+      "cp": "U+0022",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "#",
+      "cp": "U+0023",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "$",
+      "cp": "U+0024",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "%",
+      "cp": "U+0025",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "&",
+      "cp": "U+0026",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "'",
+      "cp": "U+0027",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "(",
+      "cp": "U+0028",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": ")",
+      "cp": "U+0029",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "*",
+      "cp": "U+002A",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "+",
+      "cp": "U+002B",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": ",",
+      "cp": "U+002C",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "-",
+      "cp": "U+002D",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": ".",
+      "cp": "U+002E",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "/",
+      "cp": "U+002F",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": ":",
+      "cp": "U+003A",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": ";",
+      "cp": "U+003B",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "<",
+      "cp": "U+003C",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "=",
+      "cp": "U+003D",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": ">",
+      "cp": "U+003E",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "?",
+      "cp": "U+003F",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "@",
+      "cp": "U+0040",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "[",
+      "cp": "U+005B",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "\\",
+      "cp": "U+005C",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "]",
+      "cp": "U+005D",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "^",
+      "cp": "U+005E",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "_",
+      "cp": "U+005F",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "`",
+      "cp": "U+0060",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "{",
+      "cp": "U+007B",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "|",
+      "cp": "U+007C",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "}",
+      "cp": "U+007D",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "~",
+      "cp": "U+007E",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "À",
+      "cp": "U+00C0",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Á",
+      "cp": "U+00C1",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Â",
+      "cp": "U+00C2",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ã",
+      "cp": "U+00C3",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ä",
+      "cp": "U+00C4",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Å",
+      "cp": "U+00C5",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Æ",
+      "cp": "U+00C6",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ç",
+      "cp": "U+00C7",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "È",
+      "cp": "U+00C8",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "É",
+      "cp": "U+00C9",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ê",
+      "cp": "U+00CA",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ë",
+      "cp": "U+00CB",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ì",
+      "cp": "U+00CC",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Í",
+      "cp": "U+00CD",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Î",
+      "cp": "U+00CE",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ï",
+      "cp": "U+00CF",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ñ",
+      "cp": "U+00D1",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ò",
+      "cp": "U+00D2",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ó",
+      "cp": "U+00D3",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ô",
+      "cp": "U+00D4",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Õ",
+      "cp": "U+00D5",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ö",
+      "cp": "U+00D6",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ø",
+      "cp": "U+00D8",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ù",
+      "cp": "U+00D9",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ú",
+      "cp": "U+00DA",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Û",
+      "cp": "U+00DB",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ü",
+      "cp": "U+00DC",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "Ý",
+      "cp": "U+00DD",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ß",
+      "cp": "U+00DF",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "à",
+      "cp": "U+00E0",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "á",
+      "cp": "U+00E1",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "â",
+      "cp": "U+00E2",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ã",
+      "cp": "U+00E3",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ä",
+      "cp": "U+00E4",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "å",
+      "cp": "U+00E5",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "æ",
+      "cp": "U+00E6",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ç",
+      "cp": "U+00E7",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "è",
+      "cp": "U+00E8",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "é",
+      "cp": "U+00E9",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "ê",
+      "cp": "U+00EA",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "ë",
+      "cp": "U+00EB",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ì",
+      "cp": "U+00EC",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": false
+    },
+    {
+      "ch": "í",
+      "cp": "U+00ED",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "î",
+      "cp": "U+00EE",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ï",
+      "cp": "U+00EF",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ñ",
+      "cp": "U+00F1",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ò",
+      "cp": "U+00F2",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "ó",
+      "cp": "U+00F3",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "ô",
+      "cp": "U+00F4",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "õ",
+      "cp": "U+00F5",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ö",
+      "cp": "U+00F6",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ø",
+      "cp": "U+00F8",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ù",
+      "cp": "U+00F9",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "ú",
+      "cp": "U+00FA",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "û",
+      "cp": "U+00FB",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ü",
+      "cp": "U+00FC",
+      "n": 831,
+      "pct": 100.0,
+      "in_planned633": true
+    },
+    {
+      "ch": "ý",
+      "cp": "U+00FD",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    },
+    {
+      "ch": "ÿ",
+      "cp": "U+00FF",
+      "n": 4,
+      "pct": 0.48,
+      "in_planned633": false
+    }
+  ],
+  "method": "cmap getBestCmap intersection; unique=suiti792 + font50 stems not in suiti; not a tofu/render check"
+}

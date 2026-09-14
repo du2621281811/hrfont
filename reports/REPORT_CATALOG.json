@@ -1,0 +1,432 @@
+{
+  "schema_version": 1,
+  "hub_title": "HR-Font 报告导航",
+  "hub_blurb": "所有可视化报告的入口。精简介绍写在 REPORT_CATALOG.json；详情页负责深度内容。新增报告只改目录再 build。",
+  "pages": [
+    {
+      "id": "tonight_20260914",
+      "title": "通宵实验看板 · F0/F2-CLEAN + E12-b",
+      "blurb": "收敛曲线、脏/净 val 对照、E12 φ/membership；数据自动重建。",
+      "path": "tonight_20260914_dashboard/index.html",
+      "port": 8790,
+      "tags": ["tonight", "F0", "F2", "E12", "clean"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "f2c_mid_board",
+      "title": "F2 中间测试图 · 脏 vs CLEAN",
+      "blurb": "test16×TIMELINE_CHARS 中途 ckpt 并排；协议同 DPM++20/CFG7.5/seed3407。进度更新不跳字体。",
+      "path": "f03_test16_strat/timeline_f2_clean.html",
+      "port": 8791,
+      "tags": ["tonight", "F2", "mid", "eye"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "clean_dirty_compare",
+      "title": "干净 vs 脏 · F0/F2 匹配指标",
+      "blurb": "P1 / 脏F0·F2 / 净F0·F2 同字符 L1·SSIM + E12 mem；看清洗与 Delta-F2 有没有用。",
+      "path": "f03_test16_strat/clean_dirty_compare.html",
+      "port": 8791,
+      "tags": ["tonight", "F0", "F2", "clean", "metrics"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "western_all_metrics",
+      "title": "全西文 592 · test16 重测",
+      "blurb": "test16×37西文(digit+拉丁+扩展)；E12/Oursφ固定；CLIP/DINO/Alex/LPIPS vs GT（f03协议）。",
+      "path": "f03_test16_strat/western_all_metrics.html",
+      "port": 8791,
+      "tags": ["tonight", "F0", "F2", "clean", "western", "metrics"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "f2_timeline_dirty",
+      "title": "F2 脏臂训练过程时间线",
+      "blurb": "脏 F2 从 5k→75k 的中间结果（历史基线）。",
+      "path": "f03_test16_strat/timeline_f2.html",
+      "port": 8791,
+      "tags": ["F2", "mid", "dirty"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-09"
+    },
+    {
+      "id": "f03_glyph_board",
+      "title": "F0/F2/F3 Glyph Board（test16 主评测）",
+      "blurb": "协议 A 终点图板 + L1/SSIM/LPIPS 诊断；正式比较主入口。",
+      "path": "f03_test16_strat/index.html",
+      "port": 8791,
+      "tags": ["eval", "F0", "F2", "F3", "mentor"],
+      "status": "live",
+      "audience": "mentor",
+      "updated": "2026-09-09"
+    },
+    {
+      "id": "core_shot",
+      "title": "Demo-8 · 1-shot / 8-shot 对照",
+      "blurb": "核心模型冻结 Demo-8 一眼板；与 test16 全量互补。",
+      "path": "f03_test16_strat/core_shot_board.html",
+      "port": 8791,
+      "tags": ["eval", "Demo8", "mentor"],
+      "status": "live",
+      "audience": "mentor",
+      "updated": "2026-09-09"
+    },
+    {
+      "id": "g_v0913_shot",
+      "title": "G 系 v0913 · 1/8-shot 看板",
+      "blurb": "G0b/G0c/G1/G2/G2-RL/pilot vs dirty F2/F2-RL；合作者入口 http://172.19.45.13:19000/g_shot/",
+      "path": "g_v0913_shot/index.html",
+      "port": 8780,
+      "tags": ["eval", "G", "shot", "mentor"],
+      "status": "live",
+      "audience": "mentor",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "pi_highlights",
+      "title": "对照组精选看图",
+      "blurb": "PI 精选字形对。",
+      "path": "f03_test16_strat/pi_highlights.html",
+      "port": 8791,
+      "tags": ["eval", "mentor"],
+      "status": "live",
+      "audience": "mentor",
+      "updated": "2026-09-09"
+    },
+    {
+      "id": "compare_portal",
+      "title": "Compare Portal（方法状态总览）",
+      "blurb": "各臂 ready/queued 与指标摘要。",
+      "path": "compare_portal/index.html",
+      "tags": ["portal", "mentor"],
+      "status": "live",
+      "audience": "mentor",
+      "updated": "2026-09-09"
+    },
+    {
+      "id": "f123_dashboard",
+      "title": "F0–F3 训练看板",
+      "blurb": "各臂 step/loss/ETA/GPU。",
+      "path": "f123_dashboard/index.html",
+      "tags": ["train", "dashboard"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-10"
+    },
+    {
+      "id": "f3_ckpt_dashboard",
+      "title": "F3 ckpt 视觉对照",
+      "blurb": "Official / F0 / F3 视觉并排。",
+      "path": "f3_ckpt_dashboard/index.html",
+      "tags": ["F3", "eye"],
+      "status": "live",
+      "audience": "mentor",
+      "updated": "2026-09-08"
+    },
+    {
+      "id": "e12_eye_v51",
+      "title": "E12 v5.1 眼板（train228）",
+      "blurb": "同域打分器错误样例；v51 冻结基线。",
+      "path": "e12_eye_probe_v51_train228_s3407/index.html",
+      "tags": ["E12", "eye"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-08"
+    },
+    {
+      "id": "e12_eye_v4",
+      "title": "E12 v4 眼板（外部池）",
+      "blurb": "外部 OFL 池诊断；与 E12-b 不同合同。",
+      "path": "e12_eye_probe_v4_s3407/index.html",
+      "tags": ["E12", "external"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-07"
+    },
+    {
+      "id": "tonight_morning_md",
+      "title": "通宵 MORNING 文本看板",
+      "blurb": "watchdog 阶段快照；事故见 incidents.jsonl。",
+      "path": "watchdog_tonight_20260914/MORNING.md",
+      "tags": ["tonight", "text"],
+      "status": "live",
+      "audience": "self",
+      "kind": "markdown",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "f0f2_clean_status",
+      "title": "F0/F2 clean STATUS.md",
+      "blurb": "脏/净对齐 val 表与 cache 状态。",
+      "path": "f0f2_clean_v0913/STATUS.md",
+      "tags": ["tonight", "F0", "F2", "text"],
+      "status": "live",
+      "audience": "self",
+      "kind": "markdown",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "e12b_status",
+      "title": "E12-b STATUS.md",
+      "blurb": "φ best AUC + membership val/test。",
+      "path": "e12_b/STATUS.md",
+      "tags": ["tonight", "E12", "text"],
+      "status": "live",
+      "audience": "self",
+      "kind": "markdown",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "multi_shot",
+      "title": "Multi-shot 眼板",
+      "blurb": "多样本条件对照；与 Demo-8 / test16 互补。",
+      "path": "f03_test16_strat/multi_shot_board.html",
+      "port": 8791,
+      "tags": ["eval", "shot"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-13"
+    },
+    {
+      "id": "f2vec_eye",
+      "title": "F2Vec 眼板",
+      "blurb": "F2 向量侧诊断看图。",
+      "path": "f03_test16_strat/f2vec_eye_board.html",
+      "port": 8791,
+      "tags": ["eval", "F2"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-13"
+    },
+    {
+      "id": "f03_val16",
+      "title": "F0/F2/F3 Val16 分层板",
+      "blurb": "val16 分层评测入口（非 test16 正式终点）。",
+      "path": "f03_val16_strat/index.html",
+      "tags": ["eval", "val"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-13"
+    },
+    {
+      "id": "multi_exp_compare",
+      "title": "多实验并排对照",
+      "blurb": "跨 run / 方法一眼对照。",
+      "path": "multi_exp_compare/index.html",
+      "tags": ["compare"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-13"
+    },
+    {
+      "id": "style_domain_probe",
+      "title": "Style / Domain 探针",
+      "blurb": "风格域分布探针板。",
+      "path": "style_domain_probe/index.html",
+      "tags": ["probe"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-13"
+    },
+    {
+      "id": "f2p_40k_compare",
+      "title": "F2P 40k 对照",
+      "blurb": "F2P 40k 视觉/指标对照。",
+      "path": "f2p_40k_compare/index.html",
+      "tags": ["F2", "compare"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-12"
+    },
+    {
+      "id": "delta_retrieve",
+      "title": "Delta Retrieve 板",
+      "blurb": "检索差量可视化。",
+      "path": "f03_test16_strat/delta_retrieve/index.html",
+      "tags": ["retrieve"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-07"
+    },
+    {
+      "id": "mentor_briefing_0907",
+      "title": "导师简报 2026-09-07",
+      "blurb": "阶段性导师汇报页（历史）。",
+      "path": "mentor_briefing_20260907/index.html",
+      "tags": ["mentor", "archive"],
+      "status": "archive",
+      "audience": "mentor",
+      "updated": "2026-09-07"
+    },
+    {
+      "id": "series750_browse",
+      "title": "Series750 权重浏览",
+      "blurb": "750 系列权重浏览页。",
+      "path": "series750_weight_browse/index.html",
+      "tags": ["browse", "archive"],
+      "status": "archive",
+      "audience": "self",
+      "updated": "2026-09-09"
+    },
+    {
+      "id": "collab_offline",
+      "title": "离线协作包入口",
+      "blurb": "离线带走的协作导航；含 f123_board。",
+      "path": "collab_offline/index.html",
+      "tags": ["collab", "archive"],
+      "status": "archive",
+      "audience": "self",
+      "updated": "2026-09-09"
+    },
+    {
+      "id": "collab_f123_board",
+      "title": "离线包 · F123 板",
+      "blurb": "collab_offline 内嵌训练板副本。",
+      "path": "collab_offline/f123_board/index.html",
+      "tags": ["collab", "archive"],
+      "status": "archive",
+      "audience": "self",
+      "updated": "2026-09-07"
+    },
+    {
+      "id": "e1_ft_v2_dashboard",
+      "title": "E1 FT v2 看板",
+      "blurb": "早期 E1 fine-tune 看板（历史）。",
+      "path": "e1_ft_v2_dashboard/index.html",
+      "tags": ["E1", "archive"],
+      "status": "archive",
+      "audience": "self",
+      "updated": "2026-09-04"
+    },
+    {
+      "id": "charset_picker",
+      "title": "字符集挑选器",
+      "blurb": "选字工具页。",
+      "path": "charset_picker/index.html",
+      "tags": ["tool"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-03"
+    },
+    {
+      "id": "timeline_generic",
+      "title": "通用 timeline.html（旧）",
+      "blurb": "早期通用时间线；优先用 timeline_f2 / timeline_f2_clean。",
+      "path": "f03_test16_strat/timeline.html",
+      "port": 8791,
+      "tags": ["archive", "mid"],
+      "status": "archive",
+      "audience": "self",
+      "updated": "2026-09-07"
+    },
+    {
+      "id": "f2c_mid_on_8790",
+      "title": "F2C 中间图（挂在 8790 目录）",
+      "blurb": "与 f2c_mid_board 同内容镜像，方便从通宵看板同端口打开。",
+      "path": "tonight_20260914_dashboard/timeline_f2_clean.html",
+      "port": 8790,
+      "tags": ["tonight", "mirror"],
+      "status": "live",
+      "audience": "self",
+      "updated": "2026-09-14"
+    },
+    {
+      "id": "hrfont_overnight_preview",
+      "title": "通宵正式预览（旧）",
+      "blurb": "早期 overnight formal preview。",
+      "path": "hrfont_overnight/formal_preview/index.html",
+      "tags": ["archive"],
+      "status": "archive",
+      "audience": "self",
+      "updated": "2026-09-03"
+    },
+    {
+      "id": "stagea_mvp_visual",
+      "title": "StageA MVP 视觉（旧）",
+      "blurb": "早期 StageA 视觉页。",
+      "path": "hrfont_stagea_mvp_visual/index.html",
+      "tags": ["archive"],
+      "status": "archive",
+      "audience": "self",
+      "updated": "2026-09-03"
+    },
+    {
+      "id": "fd_protocol_report",
+      "title": "FD Protocol 报告（retrain_v2）",
+      "blurb": "协议报告历史页。",
+      "path": "retrain_v2/fd_protocol_report/index.html",
+      "tags": ["archive", "protocol"],
+      "status": "archive",
+      "audience": "self",
+      "updated": "2026-09-02"
+    }
+  ],
+  "groups": [
+    {
+      "id": "tonight",
+      "title": "今晚实验（2026-09-14）",
+      "page_ids": [
+        "tonight_20260914",
+        "f2c_mid_board",
+        "f2c_mid_on_8790",
+        "tonight_morning_md",
+        "f0f2_clean_status",
+        "e12b_status"
+      ]
+    },
+    {
+      "id": "eval",
+      "title": "正式评测与导师板",
+      "page_ids": [
+        "f03_glyph_board",
+        "core_shot",
+        "multi_shot",
+        "pi_highlights",
+        "f2vec_eye",
+        "f03_val16",
+        "compare_portal",
+        "multi_exp_compare",
+        "f3_ckpt_dashboard",
+        "mentor_briefing_0907"
+      ]
+    },
+    {
+      "id": "train",
+      "title": "训练监控",
+      "page_ids": ["f123_dashboard", "f2_timeline_dirty", "f2p_40k_compare"]
+    },
+    {
+      "id": "e12",
+      "title": "E12 打分器",
+      "page_ids": ["e12_eye_v51", "e12_eye_v4", "e12b_status"]
+    },
+    {
+      "id": "tools_misc",
+      "title": "工具与探针",
+      "page_ids": ["charset_picker", "style_domain_probe", "delta_retrieve"]
+    },
+    {
+      "id": "archive",
+      "title": "历史归档（少用）",
+      "page_ids": [
+        "timeline_generic",
+        "series750_browse",
+        "collab_offline",
+        "collab_f123_board",
+        "e1_ft_v2_dashboard",
+        "hrfont_overnight_preview",
+        "stagea_mvp_visual",
+        "fd_protocol_report"
+      ]
+    }
+  ]
+}

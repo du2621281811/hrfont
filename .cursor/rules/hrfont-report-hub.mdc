@@ -1,0 +1,16 @@
+---
+description: 报告网页必须登记 REPORT_CATALOG，防漏更新导航
+globs: reports/**/*
+alwaysApply: false
+---
+
+# 报告网页管理
+
+- **唯一目录源**：`reports/REPORT_CATALOG.json`（title / blurb / path / port / tags / status）。
+- **勿手改**：`reports/hub/index.html`、`reports/REPORT_HUB.md`（由脚本生成）。
+- 新增或改动可视化报告页（`*board*.html` / `timeline*.html` / 报告 `index.html`）时：
+  1. 在 catalog 加/改一条，并放进合适 `groups[].page_ids`
+  2. 跑 `python3 scripts/build_report_hub.py`
+  3. 用 `--check` 确认 `hub/unregistered.json` 为空
+- 总入口：http://127.0.0.1:8780/hub/ · 约定全文：`reports/REPORT_MANAGEMENT.md`
+- Hub 只放一句话 blurb；实验细节仍写各 STATUS / 详情页。

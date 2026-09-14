@@ -1,0 +1,14 @@
+{
+  "matched_clean_overlap": {
+    "n": 144,
+    "means_mem_prob": {
+      "GT": 0.6621739845722914,
+      "F0_100k": 0.5369783595977222,
+      "F0C_100000": 0.6458612043611033,
+      "F2_80000": 0.6384054404010789,
+      "F2C_80000": 0.6902466178645328,
+      "GT_wrong_family": 0.14084636173114026
+    },
+    "note": "Cells where clean+dirty preds all exist (clean board coverage incomplete)"
+  }
+}

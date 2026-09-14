@@ -152,6 +152,32 @@ def main() -> int:
         if not (clean_map / "INDEX.json").is_file():
             print(f"missing v0913_clean map: {clean_map}", file=sys.stderr)
             return 2
+        # Matched clean stack: refuse dirty F0 parent / dirty F0 caches.
+        parent_s = str(parent.resolve())
+        if "F0-RSIFREE-FT-A-S3407" in parent_s and "CLEAN" not in parent_s:
+            print(
+                "refuse dirty F0 parent on v0913_clean F-arm "
+                f"(got {parent}). Use F0-CLEAN best + artifacts/f0_clean_v0913.",
+                file=sys.stderr,
+            )
+            return 2
+        for label, cache in (("es", es_cache), ("ec", ec_cache)):
+            resolved = cache.resolve()
+            dirty = (ROOT / f"artifacts/f0/{'es_spatial_f0' if label == 'es' else 'ec_multiscale_f0'}").resolve()
+            if resolved == dirty:
+                print(
+                    f"refuse dirty {label} cache on v0913_clean F-arm: {cache}. "
+                    "Build artifacts/f0_clean_v0913 via rebuild_f0_clean_v0913_caches.py.",
+                    file=sys.stderr,
+                )
+                return 2
+        if run_id in CLEAN_RUN.values() and args.max_steps == 40_000 and not args.smoke:
+            print(
+                "NOTE: CLEAN_* default max_steps is still 40k from launcher; "
+                "matched dirty F2 used 80k — pass --max_steps 80000 "
+                "(scripts/run_f0f2_clean_v0913.py train-f2 does).",
+                flush=True,
+            )
 
     for name in ("unet.pth", "style_encoder.pth", "content_encoder.pth"):
         if not (parent / name).is_file():

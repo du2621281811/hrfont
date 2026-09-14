@@ -1,0 +1,1208 @@
+{
+  "seed": 3407,
+  "n_items": 144,
+  "methods": [
+    "GT",
+    "F2C_80000",
+    "F0C_100000",
+    "F0_100k"
+  ],
+  "ref8": [
+    "永",
+    "和",
+    "书",
+    "风",
+    "骨",
+    "韵",
+    "天",
+    "地"
+  ],
+  "fonts": [
+    "FZBuGTJW",
+    "FZChuangHJW_DB",
+    "FZCuanBZBKSJW",
+    "FZDeSHJW_515H",
+    "FZDouNTJW_Te",
+    "FZFeiHHJW-H",
+    "FZFengYKSJ",
+    "FZHanWZKJW",
+    "FZHuoYYJW-T",
+    "FZJianLTJW_Te",
+    "FZJingLTJW-H",
+    "FZJingYLLTJW",
+    "FZLingFKSJW-B",
+    "FZLiuGQKJW-L",
+    "FZMaWDBSJW",
+    "FZTJLSJW"
+  ],
+  "items": [
+    {
+      "item_id": "FZTJLSJW__0047__F0_100k",
+      "font": "FZTJLSJW",
+      "char": "G",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.686013400554657
+    },
+    {
+      "item_id": "FZMaWDBSJW__0030__F0_100k",
+      "font": "FZMaWDBSJW",
+      "char": "0",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.810471773147583
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0038__GT",
+      "font": "FZJianLTJW_Te",
+      "char": "8",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.7222796082496643
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0051__F0C_100000",
+      "font": "FZHuoYYJW-T",
+      "char": "Q",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.9549104571342468
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0030__F0_100k",
+      "font": "FZLiuGQKJW-L",
+      "char": "0",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6586602926254272
+    },
+    {
+      "item_id": "FZHanWZKJW__0038__GT",
+      "font": "FZHanWZKJW",
+      "char": "8",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.6010525226593018
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0069__ATTN_wrong",
+      "font": "FZLiuGQKJW-L",
+      "char": "i",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.14784665405750275,
+      "wrong_font": "FZMaWDBSJW"
+    },
+    {
+      "item_id": "FZTJLSJW__0067__GT",
+      "font": "FZTJLSJW",
+      "char": "g",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.7228565216064453
+    },
+    {
+      "item_id": "FZHanWZKJW__0047__ATTN_wrong",
+      "font": "FZHanWZKJW",
+      "char": "G",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.332159161567688,
+      "wrong_font": "FZHuoYYJW-T"
+    },
+    {
+      "item_id": "FZJingLTJW-H__0047__GT",
+      "font": "FZJingLTJW-H",
+      "char": "G",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.8691920638084412
+    },
+    {
+      "item_id": "FZFengYKSJ__0051__F0_100k",
+      "font": "FZFengYKSJ",
+      "char": "Q",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.9248745441436768
+    },
+    {
+      "item_id": "FZBuGTJW__0065__F2C_80000",
+      "font": "FZBuGTJW",
+      "char": "e",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8355066776275635
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0047__GT",
+      "font": "FZDouNTJW_Te",
+      "char": "G",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.8673985004425049
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0041__F0C_100000",
+      "font": "FZChuangHJW_DB",
+      "char": "A",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.7445816397666931
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0047__F2C_80000",
+      "font": "FZHuoYYJW-T",
+      "char": "G",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.9620233774185181
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0051__F2C_80000",
+      "font": "FZHuoYYJW-T",
+      "char": "Q",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.9670602083206177
+    },
+    {
+      "item_id": "FZMaWDBSJW__0030__GT",
+      "font": "FZMaWDBSJW",
+      "char": "0",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.7826350331306458
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0051__ATTN_wrong",
+      "font": "FZDeSHJW_515H",
+      "char": "Q",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.938789427280426,
+      "wrong_font": "FZDouNTJW_Te"
+    },
+    {
+      "item_id": "FZMaWDBSJW__0030__ATTN_wrong",
+      "font": "FZMaWDBSJW",
+      "char": "0",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.09067399799823761,
+      "wrong_font": "FZTJLSJW"
+    },
+    {
+      "item_id": "FZJingYLLTJW__0061__GT",
+      "font": "FZJingYLLTJW",
+      "char": "a",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.4735484719276428
+    },
+    {
+      "item_id": "FZTJLSJW__0047__F0C_100000",
+      "font": "FZTJLSJW",
+      "char": "G",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.6421412229537964
+    },
+    {
+      "item_id": "FZBuGTJW__0030__F0C_100000",
+      "font": "FZBuGTJW",
+      "char": "0",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.752661943435669
+    },
+    {
+      "item_id": "FZJingLTJW-H__0047__F0C_100000",
+      "font": "FZJingLTJW-H",
+      "char": "G",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.7192717790603638
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0067__F2C_80000",
+      "font": "FZDouNTJW_Te",
+      "char": "g",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8790115118026733
+    },
+    {
+      "item_id": "FZHanWZKJW__0038__F2C_80000",
+      "font": "FZHanWZKJW",
+      "char": "8",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.719170331954956
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0051__ATTN_wrong",
+      "font": "FZHuoYYJW-T",
+      "char": "Q",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.3160020112991333,
+      "wrong_font": "FZJianLTJW_Te"
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0061__GT",
+      "font": "FZDeSHJW_515H",
+      "char": "a",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.6566565632820129
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0047__ATTN_wrong",
+      "font": "FZCuanBZBKSJW",
+      "char": "G",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.14918822050094604,
+      "wrong_font": "FZDeSHJW_515H"
+    },
+    {
+      "item_id": "FZFengYKSJ__0051__F2C_80000",
+      "font": "FZFengYKSJ",
+      "char": "Q",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.7100321650505066
+    },
+    {
+      "item_id": "FZJingYLLTJW__0061__F2C_80000",
+      "font": "FZJingYLLTJW",
+      "char": "a",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.7324736714363098
+    },
+    {
+      "item_id": "FZMaWDBSJW__0041__F0_100k",
+      "font": "FZMaWDBSJW",
+      "char": "A",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.799730658531189
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0061__F0C_100000",
+      "font": "FZJianLTJW_Te",
+      "char": "a",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.732277512550354
+    },
+    {
+      "item_id": "FZJingYLLTJW__0030__GT",
+      "font": "FZJingYLLTJW",
+      "char": "0",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.4922029376029968
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0061__GT",
+      "font": "FZJianLTJW_Te",
+      "char": "a",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.5838549137115479
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0051__GT",
+      "font": "FZDeSHJW_515H",
+      "char": "Q",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.7279676795005798
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0047__F0_100k",
+      "font": "FZDouNTJW_Te",
+      "char": "G",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.8753201961517334
+    },
+    {
+      "item_id": "FZFengYKSJ__0069__GT",
+      "font": "FZFengYKSJ",
+      "char": "i",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.92791348695755
+    },
+    {
+      "item_id": "FZJingYLLTJW__0061__F0_100k",
+      "font": "FZJingYLLTJW",
+      "char": "a",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6341742277145386
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0030__F0C_100000",
+      "font": "FZLiuGQKJW-L",
+      "char": "0",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.7671031951904297
+    },
+    {
+      "item_id": "FZBuGTJW__0065__F0_100k",
+      "font": "FZBuGTJW",
+      "char": "e",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.868276834487915
+    },
+    {
+      "item_id": "FZFengYKSJ__0051__F0C_100000",
+      "font": "FZFengYKSJ",
+      "char": "Q",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.9363104701042175
+    },
+    {
+      "item_id": "FZJingYLLTJW__0030__F0C_100000",
+      "font": "FZJingYLLTJW",
+      "char": "0",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.745254397392273
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0041__ATTN_wrong",
+      "font": "FZChuangHJW_DB",
+      "char": "A",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.5998502373695374,
+      "wrong_font": "FZCuanBZBKSJW"
+    },
+    {
+      "item_id": "FZFengYKSJ__0069__F0_100k",
+      "font": "FZFengYKSJ",
+      "char": "i",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.7150858640670776
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0051__F0_100k",
+      "font": "FZLingFKSJW-B",
+      "char": "Q",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6092060804367065
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0061__F2C_80000",
+      "font": "FZDeSHJW_515H",
+      "char": "a",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.5583961009979248
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0061__F0C_100000",
+      "font": "FZDeSHJW_515H",
+      "char": "a",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.7950693964958191
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0030__F2C_80000",
+      "font": "FZLiuGQKJW-L",
+      "char": "0",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.6253491640090942
+    },
+    {
+      "item_id": "FZJingYLLTJW__0030__F2C_80000",
+      "font": "FZJingYLLTJW",
+      "char": "0",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.7840411067008972
+    },
+    {
+      "item_id": "FZHanWZKJW__0038__F0_100k",
+      "font": "FZHanWZKJW",
+      "char": "8",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6383090615272522
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0047__F0_100k",
+      "font": "FZHuoYYJW-T",
+      "char": "G",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.9613593816757202
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0061__F0_100k",
+      "font": "FZChuangHJW_DB",
+      "char": "a",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6993688941001892
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0069__F2C_80000",
+      "font": "FZFeiHHJW-H",
+      "char": "i",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.653132975101471
+    },
+    {
+      "item_id": "FZJingYLLTJW__0061__F0C_100000",
+      "font": "FZJingYLLTJW",
+      "char": "a",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.6919745206832886
+    },
+    {
+      "item_id": "FZHanWZKJW__0047__F0_100k",
+      "font": "FZHanWZKJW",
+      "char": "G",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.5018600225448608
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0061__ATTN_wrong",
+      "font": "FZJianLTJW_Te",
+      "char": "a",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.8243491649627686,
+      "wrong_font": "FZJingLTJW-H"
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0047__F2C_80000",
+      "font": "FZCuanBZBKSJW",
+      "char": "G",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.9466114044189453
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0051__F0C_100000",
+      "font": "FZLingFKSJW-B",
+      "char": "Q",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.8781296014785767
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0038__ATTN_wrong",
+      "font": "FZLingFKSJW-B",
+      "char": "8",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.2339668571949005,
+      "wrong_font": "FZLiuGQKJW-L"
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0069__ATTN_wrong",
+      "font": "FZFeiHHJW-H",
+      "char": "i",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.2958502471446991,
+      "wrong_font": "FZFengYKSJ"
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0038__F0_100k",
+      "font": "FZLingFKSJW-B",
+      "char": "8",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.8328148126602173
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0065__F0C_100000",
+      "font": "FZFeiHHJW-H",
+      "char": "e",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.3175109028816223
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0047__ATTN_wrong",
+      "font": "FZDouNTJW_Te",
+      "char": "G",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.9345061182975769,
+      "wrong_font": "FZFeiHHJW-H"
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0051__GT",
+      "font": "FZLingFKSJW-B",
+      "char": "Q",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.5819597244262695
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0065__GT",
+      "font": "FZFeiHHJW-H",
+      "char": "e",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.5492691993713379
+    },
+    {
+      "item_id": "FZHanWZKJW__0047__GT",
+      "font": "FZHanWZKJW",
+      "char": "G",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.8810351490974426
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0069__GT",
+      "font": "FZLiuGQKJW-L",
+      "char": "i",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.9074149131774902
+    },
+    {
+      "item_id": "FZJingYLLTJW__0061__ATTN_wrong",
+      "font": "FZJingYLLTJW",
+      "char": "a",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.47261738777160645,
+      "wrong_font": "FZLingFKSJW-B"
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0065__F0C_100000",
+      "font": "FZCuanBZBKSJW",
+      "char": "e",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.693199634552002
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0067__F0C_100000",
+      "font": "FZDouNTJW_Te",
+      "char": "g",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.8807075023651123
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0061__F2C_80000",
+      "font": "FZJianLTJW_Te",
+      "char": "a",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.6727309226989746
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0069__F0C_100000",
+      "font": "FZFeiHHJW-H",
+      "char": "i",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.547267735004425
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0038__F0C_100000",
+      "font": "FZJianLTJW_Te",
+      "char": "8",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.8052063584327698
+    },
+    {
+      "item_id": "FZHanWZKJW__0038__F0C_100000",
+      "font": "FZHanWZKJW",
+      "char": "8",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.849822998046875
+    },
+    {
+      "item_id": "FZBuGTJW__0065__F0C_100000",
+      "font": "FZBuGTJW",
+      "char": "e",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.9303455352783203
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0065__F2C_80000",
+      "font": "FZCuanBZBKSJW",
+      "char": "e",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.7881522178649902
+    },
+    {
+      "item_id": "FZMaWDBSJW__0041__F0C_100000",
+      "font": "FZMaWDBSJW",
+      "char": "A",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.8487714529037476
+    },
+    {
+      "item_id": "FZJingLTJW-H__0038__GT",
+      "font": "FZJingLTJW-H",
+      "char": "8",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.8742365837097168
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0067__GT",
+      "font": "FZDouNTJW_Te",
+      "char": "g",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.8389448523521423
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0051__F0C_100000",
+      "font": "FZDeSHJW_515H",
+      "char": "Q",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.9152026176452637
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0069__F0_100k",
+      "font": "FZFeiHHJW-H",
+      "char": "i",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.5244573354721069
+    },
+    {
+      "item_id": "FZFengYKSJ__0069__F2C_80000",
+      "font": "FZFengYKSJ",
+      "char": "i",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.9087536931037903
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0069__F2C_80000",
+      "font": "FZLiuGQKJW-L",
+      "char": "i",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8709698915481567
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0047__F2C_80000",
+      "font": "FZDouNTJW_Te",
+      "char": "G",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8682932257652283
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0038__F0_100k",
+      "font": "FZJianLTJW_Te",
+      "char": "8",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.5958235859870911
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0051__F2C_80000",
+      "font": "FZDeSHJW_515H",
+      "char": "Q",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.9774729013442993
+    },
+    {
+      "item_id": "FZJingLTJW-H__0038__F2C_80000",
+      "font": "FZJingLTJW-H",
+      "char": "8",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.4466719329357147
+    },
+    {
+      "item_id": "FZJingLTJW-H__0038__F0C_100000",
+      "font": "FZJingLTJW-H",
+      "char": "8",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.7401156425476074
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0061__GT",
+      "font": "FZChuangHJW_DB",
+      "char": "a",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.7291252017021179
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0038__F2C_80000",
+      "font": "FZLingFKSJW-B",
+      "char": "8",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.9223886132240295
+    },
+    {
+      "item_id": "FZBuGTJW__0030__ATTN_wrong",
+      "font": "FZBuGTJW",
+      "char": "0",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.7681279182434082,
+      "wrong_font": "FZChuangHJW_DB"
+    },
+    {
+      "item_id": "FZMaWDBSJW__0041__GT",
+      "font": "FZMaWDBSJW",
+      "char": "A",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.9544363021850586
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0065__F2C_80000",
+      "font": "FZFeiHHJW-H",
+      "char": "e",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.4179900884628296
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0061__F0C_100000",
+      "font": "FZChuangHJW_DB",
+      "char": "a",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.7625370025634766
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0061__F2C_80000",
+      "font": "FZChuangHJW_DB",
+      "char": "a",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8943469524383545
+    },
+    {
+      "item_id": "FZJingLTJW-H__0038__F0_100k",
+      "font": "FZJingLTJW-H",
+      "char": "8",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6592158079147339
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0038__GT",
+      "font": "FZLingFKSJW-B",
+      "char": "8",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.6833866834640503
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0069__GT",
+      "font": "FZFeiHHJW-H",
+      "char": "i",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.6819654703140259
+    },
+    {
+      "item_id": "FZJingLTJW-H__0047__F2C_80000",
+      "font": "FZJingLTJW-H",
+      "char": "G",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8695592284202576
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0069__F0_100k",
+      "font": "FZLiuGQKJW-L",
+      "char": "i",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.5136724710464478
+    },
+    {
+      "item_id": "FZTJLSJW__0067__F0_100k",
+      "font": "FZTJLSJW",
+      "char": "g",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.8136165142059326
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0047__GT",
+      "font": "FZHuoYYJW-T",
+      "char": "G",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.9913740158081055
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0047__GT",
+      "font": "FZCuanBZBKSJW",
+      "char": "G",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.843434751033783
+    },
+    {
+      "item_id": "FZFeiHHJW-H__0065__F0_100k",
+      "font": "FZFeiHHJW-H",
+      "char": "e",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.2021608054637909
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0067__F0_100k",
+      "font": "FZDouNTJW_Te",
+      "char": "g",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.8946784734725952
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0065__F0_100k",
+      "font": "FZCuanBZBKSJW",
+      "char": "e",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.7552515268325806
+    },
+    {
+      "item_id": "FZMaWDBSJW__0041__F2C_80000",
+      "font": "FZMaWDBSJW",
+      "char": "A",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.9564992189407349
+    },
+    {
+      "item_id": "FZFengYKSJ__0069__F0C_100000",
+      "font": "FZFengYKSJ",
+      "char": "i",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.6634551286697388
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0041__GT",
+      "font": "FZChuangHJW_DB",
+      "char": "A",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.9072133898735046
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0038__F0C_100000",
+      "font": "FZLingFKSJW-B",
+      "char": "8",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.9392520189285278
+    },
+    {
+      "item_id": "FZBuGTJW__0030__GT",
+      "font": "FZBuGTJW",
+      "char": "0",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.8475239276885986
+    },
+    {
+      "item_id": "FZJingLTJW-H__0047__F0_100k",
+      "font": "FZJingLTJW-H",
+      "char": "G",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6521824598312378
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0051__GT",
+      "font": "FZHuoYYJW-T",
+      "char": "Q",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.9563153386116028
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0041__F0_100k",
+      "font": "FZChuangHJW_DB",
+      "char": "A",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.7957918047904968
+    },
+    {
+      "item_id": "FZTJLSJW__0047__ATTN_wrong",
+      "font": "FZTJLSJW",
+      "char": "G",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.2736784815788269,
+      "wrong_font": "FZBuGTJW"
+    },
+    {
+      "item_id": "FZHanWZKJW__0047__F0C_100000",
+      "font": "FZHanWZKJW",
+      "char": "G",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.5755948424339294
+    },
+    {
+      "item_id": "FZTJLSJW__0067__F2C_80000",
+      "font": "FZTJLSJW",
+      "char": "g",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8620670437812805
+    },
+    {
+      "item_id": "FZTJLSJW__0047__GT",
+      "font": "FZTJLSJW",
+      "char": "G",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.8529613018035889
+    },
+    {
+      "item_id": "FZMaWDBSJW__0030__F0C_100000",
+      "font": "FZMaWDBSJW",
+      "char": "0",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.8222444653511047
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0047__F0C_100000",
+      "font": "FZHuoYYJW-T",
+      "char": "G",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.9799620509147644
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0065__GT",
+      "font": "FZCuanBZBKSJW",
+      "char": "e",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.9068188071250916
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0047__F0C_100000",
+      "font": "FZCuanBZBKSJW",
+      "char": "G",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.8070876598358154
+    },
+    {
+      "item_id": "FZDouNTJW_Te__0047__F0C_100000",
+      "font": "FZDouNTJW_Te",
+      "char": "G",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.7884248495101929
+    },
+    {
+      "item_id": "FZBuGTJW__0065__GT",
+      "font": "FZBuGTJW",
+      "char": "e",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.9337577819824219
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0061__F0_100k",
+      "font": "FZJianLTJW_Te",
+      "char": "a",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.578319787979126
+    },
+    {
+      "item_id": "FZLingFKSJW-B__0051__F2C_80000",
+      "font": "FZLingFKSJW-B",
+      "char": "Q",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8664486408233643
+    },
+    {
+      "item_id": "FZChuangHJW_DB__0041__F2C_80000",
+      "font": "FZChuangHJW_DB",
+      "char": "A",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8067593574523926
+    },
+    {
+      "item_id": "FZBuGTJW__0030__F2C_80000",
+      "font": "FZBuGTJW",
+      "char": "0",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.7698947191238403
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0051__F0_100k",
+      "font": "FZDeSHJW_515H",
+      "char": "Q",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6936029195785522
+    },
+    {
+      "item_id": "FZJingYLLTJW__0030__F0_100k",
+      "font": "FZJingYLLTJW",
+      "char": "0",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.7261072397232056
+    },
+    {
+      "item_id": "FZFengYKSJ__0051__ATTN_wrong",
+      "font": "FZFengYKSJ",
+      "char": "Q",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.432073712348938,
+      "wrong_font": "FZHanWZKJW"
+    },
+    {
+      "item_id": "FZCuanBZBKSJW__0047__F0_100k",
+      "font": "FZCuanBZBKSJW",
+      "char": "G",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.9103372097015381
+    },
+    {
+      "item_id": "FZJianLTJW_Te__0038__F2C_80000",
+      "font": "FZJianLTJW_Te",
+      "char": "8",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.7461623549461365
+    },
+    {
+      "item_id": "FZHanWZKJW__0047__F2C_80000",
+      "font": "FZHanWZKJW",
+      "char": "G",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.6512107849121094
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0030__GT",
+      "font": "FZLiuGQKJW-L",
+      "char": "0",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.799289882183075
+    },
+    {
+      "item_id": "FZJingLTJW-H__0038__ATTN_wrong",
+      "font": "FZJingLTJW-H",
+      "char": "8",
+      "method": "ATTN_wrong",
+      "attention_check": true,
+      "style_cosine": 0.7254416942596436,
+      "wrong_font": "FZJingYLLTJW"
+    },
+    {
+      "item_id": "FZBuGTJW__0030__F0_100k",
+      "font": "FZBuGTJW",
+      "char": "0",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.6896863579750061
+    },
+    {
+      "item_id": "FZLiuGQKJW-L__0069__F0C_100000",
+      "font": "FZLiuGQKJW-L",
+      "char": "i",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.6571741700172424
+    },
+    {
+      "item_id": "FZMaWDBSJW__0030__F2C_80000",
+      "font": "FZMaWDBSJW",
+      "char": "0",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8865774869918823
+    },
+    {
+      "item_id": "FZFengYKSJ__0051__GT",
+      "font": "FZFengYKSJ",
+      "char": "Q",
+      "method": "GT",
+      "attention_check": false,
+      "style_cosine": 0.8010289072990417
+    },
+    {
+      "item_id": "FZDeSHJW_515H__0061__F0_100k",
+      "font": "FZDeSHJW_515H",
+      "char": "a",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.7678980827331543
+    },
+    {
+      "item_id": "FZTJLSJW__0047__F2C_80000",
+      "font": "FZTJLSJW",
+      "char": "G",
+      "method": "F2C_80000",
+      "attention_check": false,
+      "style_cosine": 0.8573618531227112
+    },
+    {
+      "item_id": "FZHuoYYJW-T__0051__F0_100k",
+      "font": "FZHuoYYJW-T",
+      "char": "Q",
+      "method": "F0_100k",
+      "attention_check": false,
+      "style_cosine": 0.9305571913719177
+    },
+    {
+      "item_id": "FZTJLSJW__0067__F0C_100000",
+      "font": "FZTJLSJW",
+      "char": "g",
+      "method": "F0C_100000",
+      "attention_check": false,
+      "style_cosine": 0.7622665166854858
+    }
+  ]
+}
