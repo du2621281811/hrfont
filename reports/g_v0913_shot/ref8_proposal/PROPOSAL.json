@@ -1,0 +1,60 @@
+{
+  "created_at": "2026-09-14T15:27:47.757421+08:00",
+  "old_ref8": "永和书风骨韵天地",
+  "proposed_ref8": "山水云月金石心文",
+  "alt_ref8": "春夏秋冬东西南北",
+  "note": "Proposed NEW is fully covered on all train/val/test StyleImage pools. Ref1 for 1-shot stays 山 (first of NEW) unless you prefer keeping 永.",
+  "ref1_options": {
+    "keep_yong": "永",
+    "first_of_new": "山"
+  },
+  "train5": [
+    "FZPTYJW",
+    "FZDuHJW_Cu",
+    "FZShuLTJW-H",
+    "FZYiMSJW-T",
+    "FZFeiSJW-EL"
+  ],
+  "val5": [
+    "FZYouHK_511M",
+    "FZLTHProGBK_H",
+    "FZJunYTJW-H",
+    "FZBangSKKXJW",
+    "FZKANGJW"
+  ],
+  "test16": [
+    "FZBuGTJW",
+    "FZChuangHJW_DB",
+    "FZCuanBZBKSJW",
+    "FZDeSHJW_515H",
+    "FZDouNTJW_Te",
+    "FZFeiHHJW-H",
+    "FZFengYKSJ",
+    "FZHanWZKJW",
+    "FZHuoYYJW-T",
+    "FZJianLTJW_Te",
+    "FZJingLTJW-H",
+    "FZJingYLLTJW",
+    "FZLingFKSJW-B",
+    "FZLiuGQKJW-L",
+    "FZMaWDBSJW",
+    "FZTJLSJW"
+  ],
+  "shots_planned": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "shot_rule": "k-shot uses first k chars of confirmed REF8 (same episode for Es+Δ)",
+  "confirmed_at": "2026-09-14T15:33:24.509911+08:00",
+  "confirmed_ref8": "山水云月金石心文",
+  "shot_sets": {
+    "1": "山",
+    "2": "山水",
+    "4": "山水云月",
+    "8": "山水云月金石心文"
+  },
+  "ref1": "山",
+  "status": "CONFIRMED_BY_USER"
+}

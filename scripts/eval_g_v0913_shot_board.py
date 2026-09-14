@@ -488,8 +488,10 @@ table.board thead th{{position:sticky;top:var(--ctrl-h);z-index:20;background:#1
 table.board .sticky-char{{position:sticky;left:0;z-index:15;background:#161616;min-width:36px}}
 table.board thead .sticky-char{{z-index:25;left:0;top:var(--ctrl-h);background:#1c2834}}
 table.board img{{width:72px;height:72px;image-rendering:pixelated;background:#1a1a1a;display:block;margin:0 auto}}
-.r8wrap{{display:grid;grid-template-columns:repeat(4,28px);gap:2px;justify-content:center}}
-img.r8{{width:28px;height:28px}}
+/* Ref8: must beat `table.board img` specificity or 72px tiles overlap in the grid */
+table.board td.ref8{{min-width:92px;max-width:100px;padding:3px}}
+table.board .r8wrap{{display:grid;grid-template-columns:repeat(4,20px);grid-template-rows:repeat(2,20px);gap:2px;justify-content:center;align-content:center;width:86px;margin:0 auto;overflow:hidden}}
+table.board .r8wrap img.r8,table.board img.r8{{width:20px;height:20px;max-width:20px;max-height:20px;margin:0;padding:0;object-fit:contain}}
 .meta{{font-size:12px;color:#aaa}} .ml{{font-size:11px;white-space:nowrap}} .ms{{font-size:10px;color:#9ab}}
 .miss{{color:#666;font-size:12px}} h2{{font-size:16px;margin:28px 0 8px}}
 .warn{{color:#fd6}} .note{{color:#aaa;font-size:13px;line-height:1.45}} a{{color:#9cf}}
