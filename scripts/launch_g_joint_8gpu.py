@@ -17,7 +17,8 @@ from pathlib import Path
 ROOT = Path("/root/projects/hrfont")
 PY = "/root/miniforge3/envs/boogu/bin/python"
 ACCEL = "/root/miniforge3/envs/boogu/bin/accelerate"
-TRAIN = ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser/train.py"
+CODE_ROOT = Path(os.environ.get("HRFONT_CODE_ROOT", str(ROOT)))
+TRAIN = CODE_ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser/train.py"
 DATA = ROOT / "data/fontdiffuser-p253-t295-s338-cn2west-v2"
 SPLIT = ROOT / "manifests/split_v3_228_16_16.json"
 CLEAN = ROOT / "manifests/v0913_clean"
@@ -38,6 +39,13 @@ def main() -> int:
     ap.add_argument("--tc_head", type=Path, default=ROOT / "artifacts/tc_v2_head/tc_head.pth")
     ap.add_argument("--local_lr", type=float, default=0.0, help=">0 sets --local_learning_rate")
     ap.add_argument("--rsi", default="", help="override rsi_source; default by arm")
+    ap.add_argument("--ref_aggregation", action="store_true")
+    ap.add_argument("--ref_lr", type=float, default=1e-4)
+    ap.add_argument("--local_count_norm", action="store_true")
+    ap.add_argument("--tc_freeze_head", action="store_true")
+    ap.add_argument("--ref_recipe", action="store_true",
+                    help="Actual-update scheduler, fixed val RNG, compact checkpoint policy.")
+    ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
     if not args.yes:
         print("pass --yes", file=sys.stderr)
@@ -74,6 +82,11 @@ def main() -> int:
         "learning_rate": 1e-5,
         "local_learning_rate": args.local_lr or None,
         "tc_enabled": bool(args.tc),
+        "ref_aggregation": args.ref_aggregation,
+        "local_count_norm": args.local_count_norm,
+        "tc_freeze_head": args.tc_freeze_head,
+        "ref_recipe": args.ref_recipe,
+        "code_root": str(CODE_ROOT),
         "lr_rule": "absolute; do not scale with batch",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "note": "8-GPU short run per user request after G queue + v0913 board",
@@ -119,6 +132,18 @@ def main() -> int:
     ]
     if args.local_lr and args.local_lr > 0:
         cmd += ["--local_learning_rate", f"{args.local_lr:.8g}"]
+    if args.ref_aggregation:
+        cmd += ["--ref_aggregation", "--ref_learning_rate", str(args.ref_lr)]
+    if args.local_count_norm:
+        cmd += ["--local_count_norm"]
+    if args.tc_freeze_head:
+        cmd += ["--tc_freeze_head"]
+    if args.ref_recipe:
+        cmd += ["--scheduler_optimizer_steps", "--fixed_validation_rng", "--compact_checkpoints",
+                "--val_interval", "500", "--state_interval", "500", "--best_min_step", "2500"]
+    if args.smoke:
+        cmd += ["--val_interval", "0", "--state_interval", str(args.max_steps + 1),
+                "--ckpt_interval", str(args.max_steps + 1), "--log_interval", "10"]
     if args.tc:
         if not args.tc_cache.is_dir() or not args.tc_head.is_file():
             print(f"TC assets missing: cache={args.tc_cache} head={args.tc_head}", file=sys.stderr)

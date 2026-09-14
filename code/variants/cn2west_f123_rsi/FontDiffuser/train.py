@@ -34,6 +34,7 @@ sys.path.insert(0, str(REPO))
 from scripts.hrfont_delta_v2 import DeltaConfig, compute_alpha
 from scripts.hrfont_feature_cache import EcCache, EsCache, EsLocalCache, mix_cached_delta
 from scripts.hrfont_support_adapter import SupportAdapter
+from scripts.hrfont_ref_aggregation import attach_reader, gather_maps, apply_reader, enable_local_count_norm
 
 from configs.fontdiffuser import get_parser
 from dataset.collate_fn import CollateFN
@@ -555,10 +556,24 @@ def _set_rng(state: dict):
 
 def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int, scaler=None,
                      adapter=None):
+    if scaler is None:
+        scaler = getattr(model, "_training_scaler", None)
     directory.mkdir(parents=True, exist_ok=True)
     torch.save(model.unet.state_dict(), directory / "unet.pth")
-    torch.save(model.style_encoder.state_dict(), directory / "style_encoder.pth")
-    torch.save(model.content_encoder.state_dict(), directory / "content_encoder.pth")
+    for name in ("style_encoder", "content_encoder"):
+        target = directory / (name + ".pth")
+        source = getattr(model, "frozen_encoder_parent", None)
+        if source is not None:
+            if not target.exists():
+                target.symlink_to(Path(source).resolve() / (name + ".pth"))
+        else:
+            torch.save(getattr(model, name).state_dict(), target)
+    reader = getattr(model, "ref_reader", None)
+    torch.save(reader.state_dict() if reader is not None else {}, directory / "ref_reader.pth")
+    (directory / "ref_config.json").write_text(json.dumps({
+        "ref_aggregation": reader is not None,
+        "local_count_norm": bool(getattr(model, "local_count_norm", False)),
+    }) + "\n")
     torch.save(adapter.state_dict() if adapter is not None else {}, directory / "support_adapter.pth")
     proj = getattr(model, "local_style_proj", None)
     torch.save(proj.state_dict() if proj is not None else {}, directory / "local_style_proj.pth")
@@ -571,6 +586,8 @@ def _save_checkpoint(model, directory: Path, optimizer, scheduler, step: int, sc
     if binding is not None:
         (directory / "tc_binding.json").write_text(json.dumps(binding, indent=2) + "\n",
                                                      encoding="utf-8")
+    if getattr(model, "compact_checkpoints", False) and directory.name not in {"last_state", "stopped_step"}:
+        return
     payload = {"step": step, "optimizer": optimizer.state_dict(),
                "scheduler": scheduler.state_dict(), "rng": _rng_state()}
     if scaler is not None:
@@ -607,6 +624,20 @@ def _load_parent(model, directory: Path, output_dir: Path) -> None:
 
 def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None, scaler=None,
                      restore_rng: bool = False, adapter=None, require_tc: bool = False) -> int:
+    reader = getattr(model, "ref_reader", None)
+    reader_path = directory / "ref_reader.pth"
+    ref_meta_path = directory / "ref_config.json"
+    ref_meta = json.loads(ref_meta_path.read_text()) if ref_meta_path.exists() else {}
+    if ref_meta.get("ref_aggregation") and reader is None:
+        raise RuntimeError("checkpoint requires --ref_aggregation")
+    if reader is not None:
+        payload_r = torch.load(reader_path, map_location="cpu", weights_only=True) if reader_path.exists() else {}
+        if payload_r:
+            reader.load_state_dict(payload_r, strict=True)
+        elif restore_rng or ref_meta.get("ref_aggregation"):
+            raise RuntimeError("missing reference reader checkpoint")
+    if restore_rng and bool(ref_meta.get("local_count_norm")) != bool(getattr(model, "local_count_norm", False)):
+        raise RuntimeError("resume local-count configuration mismatch")
     model.unet.load_state_dict(torch.load(directory / "unet.pth", map_location="cpu"))
     model.style_encoder.load_state_dict(torch.load(directory / "style_encoder.pth", map_location="cpu"))
     model.content_encoder.load_state_dict(torch.load(directory / "content_encoder.pth", map_location="cpu"))
@@ -666,6 +697,8 @@ def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None, sca
         if actual != expected:
             raise RuntimeError("TC checkpoint cache/Ec binding mismatch")
     state_path = directory / "trainer_state.pt"
+    if optimizer is None and scheduler is None and not restore_rng:
+        return 0
     if not state_path.is_file():
         if require_tc:
             raise RuntimeError("TC resume checkpoint is missing trainer_state.pt")
@@ -742,16 +775,22 @@ def _forward_batch(model, noise_scheduler, perceptual_loss, args, batch, style, 
 
 
 def _style_bundle(es_cache, samples, device, args, local_cache=None):
-    return _style_conditions(
+    result = _style_conditions(
         es_cache, samples, device,
         style_pattn=args.arm in STYLE_PATTN_ARMS,
         local_cache=local_cache if args.arm in LOCAL_L128_ARMS else None,
     )
+    if getattr(args, "ref_aggregation", False):
+        result = (gather_maps(es_cache, samples, device), *result[1:])
+    return result
 
 
 @torch.no_grad()
 def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args, device,
              bank=None, local_cache=None, tc_cache=None):
+    saved_rng = _rng_state() if getattr(args, "fixed_validation_rng", False) else None
+    if saved_rng is not None:
+        set_seed(args.seed)
     raw.eval()
     losses = []
     for samples in val_loader:
@@ -759,6 +798,7 @@ def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args
         samples = {**samples, "target_image": target}
         style, queries, style_seq, style_mask, local_raw, local_mask = _style_bundle(
             es_cache, samples, device, args, local_cache)
+        style = apply_reader(raw, style, samples)
         # Validation never drops: source, CFG and support are all fully on.
         source_draw = torch.zeros(target.shape[0], dtype=torch.bool, device=device)
         cfg_mask = torch.zeros_like(source_draw)
@@ -785,6 +825,8 @@ def _run_val(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, args
     raw.train()
     raw.style_encoder.eval()
     raw.content_encoder.eval()
+    if saved_rng is not None:
+        _set_rng(saved_rng)
     return float(np.mean(losses)) if losses else float("nan")
 
 
@@ -806,6 +848,7 @@ def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, 
                "nonorm_target_image": samples["nonorm_target_image"].to(device)}
     style, queries, style_seq, style_mask, local_raw, local_mask = _style_bundle(
         es_cache, samples, device, args, local_cache)
+    style = apply_reader(raw, style, samples)
     draw = torch.zeros(samples["target_image"].shape[0], dtype=torch.bool, device=device)
     structure = _structure_features(es_cache, ec_cache, library, samples, queries, args, draw, device)
     content_feats = _content_features(ec_cache, samples, draw, device)
@@ -847,6 +890,14 @@ def _parity_gate(raw, es_cache, ec_cache, library, val_loader, noise_scheduler, 
 
 def main():
     args = get_args()
+    if args.ref_aggregation and args.arm not in {"F2", "F2RL"}:
+        raise RuntimeError("R requires F2/F2RL global9")
+    if args.local_count_norm and args.arm != "F2RL":
+        raise RuntimeError("N requires F2RL")
+    if args.tc_freeze_head and (not args.tc_enabled or not args.tc_head_ckpt):
+        raise RuntimeError("frozen TC requires a pretrained head")
+    if args.compact_checkpoints and (not args.freeze_encoders or not args.warm_start_from):
+        raise RuntimeError("compact checkpoints require frozen warm-start encoders")
     if args.tc_enabled and args.arm not in {"F2", "F2RL"}:
         raise RuntimeError("TC-v2 injection requires the nine global-token F2/F2RL arms")
     accelerator = Accelerator(gradient_accumulation_steps=args.gradient_accumulation_steps,
@@ -909,6 +960,15 @@ def main():
         )
     if args.arm in LOCAL_L128_ARMS:
         _attach_local_proj(model)
+    if args.ref_aggregation:
+        attach_reader(model)
+    model.local_count_norm = args.local_count_norm
+    if args.local_count_norm:
+        enable_local_count_norm(model.unet)
+    model.compact_checkpoints = args.compact_checkpoints
+    if args.compact_checkpoints:
+        model.frozen_encoder_parent = args.warm_start_from
+    tc_init_rng = _rng_state() if args.scheduler_optimizer_steps else None
     if args.tc_enabled:
         model.tc_head = TCV2Head()
         model.tc_global_adapter = TCV2Global9Adapter()
@@ -934,6 +994,10 @@ def main():
                 if head_meta.get("ec_checkpoint_sha256") != ec_cache.manifest.get("ec_checkpoint_sha256"):
                     raise RuntimeError("TC head/Ec cache checkpoint binding mismatch")
             model.tc_head.load_state_dict(torch.load(head_path, map_location="cpu", weights_only=True))
+        if args.tc_freeze_head:
+            model.tc_head.requires_grad_(False).eval()
+    if tc_init_rng is not None:
+        _set_rng(tc_init_rng)
     if args.phase_1_ckpt_dir:
         _load_parent(model, Path(args.phase_1_ckpt_dir), Path(args.output_dir))
     if args.freeze_encoders:
@@ -944,7 +1008,9 @@ def main():
 
     tc_trainable = []
     if args.tc_enabled:
-        tc_trainable = list(model.tc_head.parameters()) + list(model.tc_global_adapter.parameters())
+        tc_trainable = [p for p in model.tc_head.parameters() if p.requires_grad] + list(model.tc_global_adapter.parameters())
+    ref_trainable = list(model.ref_reader.parameters()) if args.ref_aggregation else []
+    ref_ids = {id(p) for p in ref_trainable}
     tc_ids = {id(p) for p in tc_trainable}
     local_module = getattr(model, "local_style_proj", None)
     local_trainable = list(local_module.parameters()) if local_module is not None else []
@@ -955,7 +1021,7 @@ def main():
         separate_local = True
     local_ids = {id(p) for p in local_trainable} if separate_local else set()
     trainable = [p for p in model.parameters()
-                 if p.requires_grad and id(p) not in tc_ids and id(p) not in local_ids]
+                 if p.requires_grad and id(p) not in tc_ids and id(p) not in local_ids and id(p) not in ref_ids]
     param_groups = [{"params": trainable, "lr": args.learning_rate}]
     if separate_local:
         param_groups.append({"params": local_trainable,
@@ -964,6 +1030,8 @@ def main():
                                     else args.learning_rate)})
     if tc_trainable:
         param_groups.append({"params": tc_trainable, "lr": args.tc_learning_rate})
+    if ref_trainable:
+        param_groups.append({"params": ref_trainable, "lr": args.ref_learning_rate})
     optimizer = torch.optim.AdamW(param_groups,
                                   betas=(args.adam_beta1, args.adam_beta2),
                                   weight_decay=args.adam_weight_decay,
@@ -1003,8 +1071,12 @@ def main():
                                              batch_size=args.train_batch_size,
                                              collate_fn=CollateFN())
 
-    model, optimizer, loader, scheduler = accelerator.prepare(model, optimizer, loader, scheduler)
+    if args.scheduler_optimizer_steps:
+        model, optimizer, loader = accelerator.prepare(model, optimizer, loader)
+    else:
+        model, optimizer, loader, scheduler = accelerator.prepare(model, optimizer, loader, scheduler)
     raw = accelerator.unwrap_model(model)
+    raw._training_scaler = accelerator.scaler
     adapter = getattr(raw, "support_adapter", None)
     if args.resume_from and args.warm_start_from:
         raise RuntimeError("--resume_from and --warm_start_from are mutually exclusive")
@@ -1033,6 +1105,8 @@ def main():
             model.train()
             raw.style_encoder.eval()
             raw.content_encoder.eval()
+            if args.tc_freeze_head:
+                raw.tc_head.eval()
             bsz = samples["target_image"].shape[0]
             with accelerator.accumulate(model):
                 with torch.no_grad():
@@ -1049,6 +1123,7 @@ def main():
                     content_feats = _content_features(ec_cache, samples, cfg_mask, style.device)
                     style = style.clone()
                     style[cfg_mask] = 0
+                style = apply_reader(raw, style, samples, cfg_mask)
                 tc_residual, tc_loss, _ = (None, None, None)
                 if tc_cache is not None:
                     # H and W_out must stay outside this no_grad region: both are
@@ -1066,17 +1141,26 @@ def main():
                                          style, structure, content_feats, train=True,
                                          support_tokens=support,
                                          style_seq_tokens=seq, style_seq_mask=mask,
-                                         tc_global_residual=tc_residual, tc_loss=tc_loss)
+                                         tc_global_residual=tc_residual,
+                                         tc_loss=None if args.tc_freeze_head else tc_loss)
                 accelerator.backward(loss)
                 if accelerator.sync_gradients:
-                    clip_params = (trainable + tc_trainable +
+                    clip_params = (trainable + tc_trainable + ref_trainable +
                                    (local_trainable if separate_local else []))
-                    accelerator.clip_grad_norm_(clip_params, args.max_grad_norm)
+                    grad_norm = accelerator.clip_grad_norm_(clip_params, args.max_grad_norm)
+                    ref_grad = float(torch.stack([p.grad.float().norm() for p in ref_trainable if p.grad is not None]).norm()) if ref_trainable else 0.0
                 optimizer.step()
-                scheduler.step()
+                skipped = accelerator.optimizer_step_was_skipped
+                if not args.scheduler_optimizer_steps or (accelerator.sync_gradients and not skipped):
+                    scheduler.step()
                 optimizer.zero_grad()
 
             if accelerator.sync_gradients:
+                if args.scheduler_optimizer_steps and skipped:
+                    if accelerator.is_main_process:
+                        with (Path(args.output_dir) / "amp_skips.jsonl").open("a") as handle:
+                            handle.write(json.dumps({"step": global_step, "skipped": True}) + "\n")
+                    continue
                 global_step += 1
                 progress.update(1)
                 loss_value = float(loss.detach().item())
@@ -1101,6 +1185,9 @@ def main():
                             handle.write(json.dumps({
                                 "step": global_step, "loss": loss_value,
                                 "lr": scheduler.get_last_lr()[0],
+                                "lr_groups": scheduler.get_last_lr(),
+                                "grad_norm": float(grad_norm), "ref_grad_norm": ref_grad,
+                                "tc_comp_monitor": float(tc_loss.detach()) if tc_loss is not None else None,
                                 # How much of the RSI branch the arm actually uses.
                                 "rsi_gain": [b.rsi_gain() for b in raw.unet.up_blocks
                                              if hasattr(b, "rsi_gain")],
@@ -1110,6 +1197,14 @@ def main():
                     if global_step % args.state_interval == 0:
                         _save_checkpoint(raw, Path(args.output_dir) / "last_state",
                                          optimizer, scheduler, global_step, adapter=adapter)
+                if args.val_interval and global_step % args.val_interval == 0 and global_step % args.ckpt_interval != 0:
+                    if accelerator.is_main_process:
+                        val_loss = _run_val(raw, es_cache, ec_cache, library, val_loader,
+                                            noise_scheduler, args, style.device, bank,
+                                            local_cache=local_cache, tc_cache=tc_cache)
+                        with (Path(args.output_dir) / "val_log.jsonl").open("a") as handle:
+                            handle.write(json.dumps({"step": global_step, "val_loss": val_loss}) + "\n")
+                    accelerator.wait_for_everyone()
                 if accelerator.is_main_process and global_step % args.ckpt_interval == 0:
                     _save_checkpoint(raw, Path(args.output_dir) / f"global_step_{global_step}",
                                      optimizer, scheduler, global_step, adapter=adapter)
@@ -1137,10 +1232,13 @@ def main():
             break
 
     if accelerator.is_main_process:
+        if global_step != args.max_train_steps:
+            raise RuntimeError(f"incomplete successful updates: {global_step}/{args.max_train_steps}")
         _save_checkpoint(raw, Path(args.output_dir) / "last_state", optimizer, scheduler, global_step, adapter=adapter)
         (Path(args.output_dir) / "DONE.json").write_text(
             json.dumps({"global_step": global_step, "status": "completed", "best": best}) + "\n",
             encoding="utf-8")
+    accelerator.wait_for_everyone()
     accelerator.end_training()
 
 

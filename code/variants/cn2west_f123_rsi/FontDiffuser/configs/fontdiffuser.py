@@ -45,6 +45,16 @@ def get_parser():
                         help="Optional pretrained tc_head.pth (used before joint training).")
     parser.add_argument("--tc_loss_coefficient", type=float, default=0.01)
     parser.add_argument("--tc_learning_rate", type=float, default=1e-4)
+    parser.add_argument("--ref_aggregation", action="store_true")
+    parser.add_argument("--ref_learning_rate", type=float, default=1e-4)
+    parser.add_argument("--local_count_norm", action="store_true")
+    parser.add_argument("--tc_freeze_head", action="store_true")
+    parser.add_argument("--scheduler_optimizer_steps", action="store_true",
+                        help="Step LR once per successful optimizer update, including DDP.")
+    parser.add_argument("--fixed_validation_rng", action="store_true")
+    parser.add_argument("--compact_checkpoints", action="store_true",
+                        help="Share immutable frozen encoders; optimizer only in last_state.")
+    parser.add_argument("--val_interval", type=int, default=0)
     parser.add_argument("--encoder_runtime", choices=("cache_only", "online"), default="cache_only")
     # F1/F2/F3 matched arms. source_drop applies to WHATEVER structure source is
     # active (official Ec or delta) -- the old delta-only drop silently un-matched

@@ -236,12 +236,23 @@ class CrossAttention(nn.Module):
 
     def _attention(self, query, key, value, mask=None):
         attention_scores = torch.matmul(query, key.transpose(-1, -2)) * self.scale
+        attention_scores = self._normalize_local_count(attention_scores, mask)
         if mask is not None:
             attention_scores = attention_scores.masked_fill(~mask, torch.finfo(attention_scores.dtype).min)
         attention_probs = attention_scores.softmax(dim=-1)
         hidden_states = torch.matmul(attention_probs, value)
         hidden_states = self.reshape_batch_dim_to_heads(hidden_states)
         return hidden_states
+
+    def _normalize_local_count(self, scores, mask):
+        if not getattr(self, "local_count_norm", False) or mask is None:
+            return scores
+        if scores.shape[-1] <= 9 or (scores.shape[-1] - 9) % 16:
+            raise ValueError("local count normalization requires global9 + 16*k tokens")
+        k = mask[..., 9:].sum(-1, keepdim=True).float() / 16
+        bias = torch.zeros_like(scores[..., :1, :])
+        bias[..., 9:] = -k.clamp_min(1).log().to(scores.dtype)
+        return scores + bias
 
     def _sliced_attention(self, query, key, value, sequence_length, dim, mask=None):
         batch_size_attention = query.shape[0]
@@ -255,6 +266,8 @@ class CrossAttention(nn.Module):
             attn_slice = (
                 torch.matmul(query[start_idx:end_idx], key[start_idx:end_idx].transpose(1, 2)) * self.scale
             )
+            attn_slice = self._normalize_local_count(
+                attn_slice, mask[start_idx:end_idx] if mask is not None else None)
             if mask is not None:
                 attn_slice = attn_slice.masked_fill(
                     ~mask[start_idx:end_idx], torch.finfo(attn_slice.dtype).min

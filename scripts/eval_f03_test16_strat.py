@@ -1023,6 +1023,8 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         style_oneshot = style_k == 1
         delta_oneshot = style_k == 1
     tc_enabled = bool(spec.get("tc_enabled"))
+    ref_meta_path = Path(spec["ckpt"]) / "ref_config.json"
+    ref_meta = json.loads(ref_meta_path.read_text()) if ref_meta_path.exists() else {}
     n_total = len(stems) * len(STRATIFIED)
     update_status(
         {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]}
@@ -1071,6 +1073,13 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         support_k=0,
         style_start_channel=64,
     )
+    if spec.get("clean_map"):
+        from scripts.v0913_clean_lib import extra_exclude_indices, load_cp_group, load_donors
+        donors = load_donors(spec["clean_map"])
+        train_fonts = donors["all"]
+        library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
+        cp_group = load_cp_group(spec["clean_map"])
+        cfg._v0913_donor_exclude = lambda cp: extra_exclude_indices(train_fonts, cp, donors, cp_group)
     args = SimpleNamespace(
         resolution=96,
         unet_channels=(64, 128, 256, 512),
@@ -1089,6 +1098,13 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     )
     if style_rl128:
         T._attach_local_proj(fd)
+    if ref_meta.get("ref_aggregation"):
+        T.attach_reader(fd)
+        fd.ref_reader.load_state_dict(torch.load(ckpt / "ref_reader.pth", map_location="cpu", weights_only=True), strict=True)
+    if ref_meta.get("local_count_norm") or spec.get("local_count_norm"):
+        if not style_rl128 or style_pattn:
+            raise ValueError("N requires global9+local")
+        T.enable_local_count_norm(fd.unet)
     fd.unet.load_state_dict(torch.load(ckpt / "unet.pth", map_location="cpu", weights_only=True))
     fd.style_encoder.load_state_dict(
         torch.load(ckpt / "style_encoder.pth", map_location="cpu", weights_only=True)
@@ -1142,6 +1158,10 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
             style_k=style_k,
         )
         n_up_prefix = 9
+        if ref_meta.get("ref_aggregation"):
+            refs_r = REF8_CPS[:style_k] if style_k is not None else (STYLE1_CPS if style_oneshot else REF8_CPS)
+            samples_r = {"split": [EVAL_SPLIT], "font_stem": [font], "ref_chars": [refs_r]}
+            style = T.apply_reader(fd, T.gather_maps(es, samples_r, device_t), samples_r)
         if style_rl128:
             prefix_seq = style_seq if style_pattn else None
             prefix_mask = style_mask if style_pattn else None
