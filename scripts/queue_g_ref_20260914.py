@@ -89,6 +89,7 @@ def main():
     try:
         idle()
         run('unit_tests', [PY, str(CODE / 'tests/test_g_ref_aggregation.py'), '-v'])
+        run('tc_regressions', [PY, str(CODE / 'scripts/test_tc_v2_integration_review.py')])
         run('P0', [PY, str(CODE / 'scripts/eval_g_ref_panel.py'), '--out', str(OUT / 'P0')])
         for tag, arm in [('SMOKE-A1', 'F2'), ('SMOKE-B1', 'F2RL')]:
             idle()

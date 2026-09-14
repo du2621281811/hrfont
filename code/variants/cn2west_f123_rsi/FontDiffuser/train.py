@@ -697,7 +697,7 @@ def _load_checkpoint(model, directory: Path, optimizer=None, scheduler=None, sca
         if actual != expected:
             raise RuntimeError("TC checkpoint cache/Ec binding mismatch")
     state_path = directory / "trainer_state.pt"
-    if optimizer is None and scheduler is None and not restore_rng:
+    if optimizer is None and scheduler is None and not restore_rng and not require_tc:
         return 0
     if not state_path.is_file():
         if require_tc:
@@ -737,8 +737,14 @@ def _record_config(args, es_sha: str, ec_sha: str):
         copied = out / "input_config.yaml"
         shutil.copy2(src, copied)
         digest = hashlib.sha256(copied.read_bytes()).hexdigest()
-    sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, check=True,
-                         capture_output=True, text=True).stdout.strip()
+    archive = REPO / "source.tar"
+    if archive.is_file():
+        with archive.open("rb") as handle:
+            sha = subprocess.run(["git", "get-tar-commit-id"], stdin=handle, check=True,
+                                 capture_output=True, text=True).stdout.strip()
+    else:
+        sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, check=True,
+                             capture_output=True, text=True).stdout.strip()
     (out / "run_note.txt").write_text(
         f"git_sha={sha} config_sha256={digest} es_sha={es_sha} ec_sha={ec_sha}\n",
         encoding="utf-8")
