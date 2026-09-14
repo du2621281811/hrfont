@@ -1,41 +1,32 @@
-# HR-Font ICLR 2027 draft
+# HR-Font: Completing Font Families across Scripts
 
-This directory contains an anonymous, evidence-bounded first draft built from the official ICLR 2027 template.
+2026-09-14 revision. Main document: [main.tex](main.tex).
+Review PDF: [hrfont_iclr2027_draft.pdf](output/pdf/hrfont_iclr2027_draft.pdf).
 
-Collaborators: start from [`PAPER_ISSUE_TRACKER.md`](PAPER_ISSUE_TRACKER.md). It is the living list of template, layout, Overleaf, and evidence issues, plus what the 2026-09-12 writing pass already closed.
+The draft presents three contributions: cross-script completion and evaluation, Mean-Delta, and target-character appearance completion (TC-v2).
+It follows the implemented architecture. Quantitative results remain blank while matched evaluation and the learned evaluator are completed.
+
+## Collaborator entry points
+
+- [Changes and rationale](REVISION_NOTES_20260914.md)
+- [Authoritative 8-V100 plan](../../reports/G_NEXT_8V100_PLAN_20260914.md)
+- [Remaining paper work](RESULTS_TODO.md)
+- [Current review checklist](PAPER_ISSUE_TRACKER.md)
+- [TC implementation design](../../reports/G_STYLE_COMPLETION_PLAN_20260914.md)
 
 ## Build
 
-```bash
-python3 figures/gen_fig_method_overview.py
-python3 figures/gen_fig_experiment_matrix.py
-python3 figures/gen_fig_legacy_diagnostics.py
-python3 figures/gen_fig_qualitative_template.py
-latexmk -pdf main.tex
-```
+    latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+    cp main.pdf output/pdf/hrfont_iclr2027_draft.pdf
 
-The workstation uses a Homebrew TeX Live installation. If `latexmk` is unavailable, the equivalent manual build is `pdflatex main.tex`, `bibtex main`, followed by two more `pdflatex main.tex` passes.
+Use pdfLaTeX and set the Overleaf main document to main.tex. The conference style files are preserved.
+Figures 1 and 2 are editable LaTeX sources in figures/method_overview.tex and figures/qualitative_layout.tex. No image-generation service or external plot dependency is required for this revision.
 
-## Evidence rules
+The older Python-generated Set-Delta / Graphics-Ref diagrams and the September 12 review notes remain as historical assets. They are not included in the active draft and must not be regenerated into the current paper. Earlier versions of the overwritten planning files are recoverable from Git history.
 
-- Magenta `[TBD: ...]` text and `--` table cells are intentional placeholders.
-- F0/F1/F2/F3 values are completed legacy diagnostics loaded from the repository; they are not results for Set-Delta or Graphics-Ref.
-- Do not replace a placeholder until the corresponding run has exact code/data/checkpoint provenance.
-- Do not turn E12 family compatibility into a universal design-quality claim.
-- Keep the submission anonymous and leave `\iclrfinalcopy` disabled.
+## Results and review
 
-## Editable figures
-
-Every figure has a Python source and PDF/SVG/PNG output. PDF and SVG are vector-editable in Illustrator, Inkscape, Affinity Designer, or Figma. The qualitative grid contains placeholders by design and must be populated with matched, preregistered examples.
-
-## Primary PI review items
-
-1. Confirm the one-sentence contribution and title.
-2. Approve warp-only as the initial main path and keep value injection as D7.
-3. Approve primitive-only keys plus learned Es12 values.
-4. Use the fixed experiment seed 3407 throughout the paper.
-5. Freeze validation-derived Go/No-Go thresholds before inspecting formal 40k results.
-6. Confirm the minimum external set: FontDiffuser, FTransGAN, FCAGAN, and CF-Font; audit FSFont, DRA-font, and VQ-Font separately.
-7. Complete font-license and human-evaluation ethics details.
-
-The dependency-ordered run plan, stopping rules, compute accounting, and PI decisions are in [`EXPERIMENT_EXECUTION_PLAN.md`](EXPERIMENT_EXECUTION_PLAN.md).
+Empty table cells denote missing measurements. The abstract and conclusion presently describe the method; their empirical summary is added after the results are available.
+The draft does not treat old E12 scores as the result of the currently training evaluator.
+The primary episode is the confirmed new Ref8; the ongoing old-Ref8 board is tracked as a separate exploratory batch.
+The paper is a research draft, not a completed submission package. Font permissions, human evaluation, external baselines, and final submission requirements remain to be completed.

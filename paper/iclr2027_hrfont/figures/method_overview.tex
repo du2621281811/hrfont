@@ -1,0 +1,24 @@
+% Editable LaTeX schematic; labels and equations are the source of truth.
+\begingroup\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{p{0.25\linewidth}p{0.62\linewidth}}
+\toprule
+\textbf{Inputs} & \textbf{Conditions for the generator}\\
+\midrule
+Neutral target glyph &
+$x_c^0 \longrightarrow E_c(x_c^0)$ \quad Character identity\\[5pt]
+Same-character bank \newline + reference similarity &
+$\displaystyle \Delta_c^s=\sum_j\alpha_j
+ [E_c^s(B_{j,c})-E_c^s(x_c^0)]$\newline
+Mean-Delta: anchor-relative variation\\[6pt]
+Reference appearance \newline + target-content query &
+$\{\psi(r_i)\},\,u_c \longrightarrow H \longrightarrow \hat a_{f,c}$\newline
+TC: predicted target-character appearance\\[6pt]
+\midrule
+\textbf{Synthesis} &
+$G'_j=G_j+W_o\hat a_{f,c}$\newline
+Content + Mean-Delta + completed global / local references\newline
+$\longrightarrow$ diffusion denoising $\longrightarrow \hat y_{f,c}$\\[5pt]
+\bottomrule
+\end{tabular}
+\endgroup

@@ -1,5 +1,7 @@
 # 实验一览（合作者速查）
 
+2026-09-14 最新接续排程与现场状态：[G_NEXT_8V100_PLAN_20260914.md](../reports/G_NEXT_8V100_PLAN_20260914.md)。先完成旧 Ref8 评测，再自动接两个8卡CONT（各5k）；新方法/消融等待 PI review。该文件优先于下文历史执行记录。
+
 > **一个仓即可：** `git clone git@github.com:du2621281811/hrfont.git`（网页 [`hrfont`](https://github.com/du2621281811/hrfont)）。  
 > 项目管理：[`PROJECT_MANAGEMENT.md`](PROJECT_MANAGEMENT.md) · 登记表：[`../provenance/REGISTRY.md`](../provenance/REGISTRY.md)
 

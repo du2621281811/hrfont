@@ -7,6 +7,9 @@
 
 ## 当前状态
 
+- **2026-09-14 18:11 +08 现场更新：** pilot8、TC-G2、TC-G2RL 均 DONE；当前执行机在跑旧 Ref8 的多-shot 评测。已部署无抢占接续队列（PID 3040490）：评测结束后 G2-CONT +5k → G2RL-CONT +5k，8×V100。详见 [本轮权威计划](reports/G_NEXT_8V100_PLAN_20260914.md)。以下较早快照不代表当前运行状态。
+- **三贡献论文更新：** [论文入口](paper/iclr2027_hrfont/README.md) / [改稿说明](paper/iclr2027_hrfont/REVISION_NOTES_20260914.md)。当前稿=任务与评测 + Mean-Delta + TC-v2，结果待补；旧 D/R 排程已替代。
+
 - **G 系进度同步（2026-09-14）：** 主臂 G0b@10k / G0c@20k / G1 / G2 / G2-RL@10k 与 1GPU pilot 已完成。**当前 8 卡队列：** pilot8 DONE → **TC-G2 RUNNING** → TC-G2RL QUEUED。快照 [`reports/G_PROGRESS_SNAPSHOT_20260914.md`](reports/G_PROGRESS_SNAPSHOT_20260914.md) · 决策 [`reports/G_QUEUE_DECISIONS_20260914.md`](reports/G_QUEUE_DECISIONS_20260914.md)。
 - **测试集看板（已进 Git）：** [`reports/g_v0913_shot/index.html`](reports/g_v0913_shot/index.html)（协议同 f03 test16×strat；L1/SSIM 仅诊断）。枢纽 `/g_shot/`。
 - **TC-v2：** 规格 [`reports/G_STYLE_COMPLETION_PLAN_20260914.md`](reports/G_STYLE_COMPLETION_PLAN_20260914.md)；实现/交接 [handoff](reports/TC_V2_EXECUTION_HANDOFF_20260914.md) / [review](reports/TC_V2_LUNA_IMPLEMENTATION_REVIEW_20260914.md)。缓存+H head 已建；联合训练在 8 卡队列中。
