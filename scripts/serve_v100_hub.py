@@ -21,6 +21,7 @@ ROOT = Path("/root/projects/hrfont")
 SNAP = ROOT / "reports/v0913_dashboard"
 GSNAP = ROOT / "reports/g_dashboard"
 GSHOT = ROOT / "reports/g_v0913_shot"
+GSHOT_K1248 = ROOT / "reports/g_v0913_shot_k1248"
 BOARD = ROOT / "reports/f03_test16_strat"
 HUB = ROOT / "reports/v100_hub"
 
@@ -33,15 +34,16 @@ a{color:#9cf} .warn{color:#fd6} .ok{color:#7d7} code{color:#c8a24b}
 .hero{font-size:18px;margin:18px 0;padding:14px 16px;border:1px solid #345;background:#16202a}
 </style>
 <h1>V100 看板枢纽</h1>
-<p class="hero ok"><b>G 系 0913 对照看板（直接点）：</b>
-  <a href="/g_shot/">打开 G v0913 看板</a>
-  · <a href="/g_shot/index.html">备用直链</a></p>
+<p class="hero ok"><b>G 系 k1248 看板（直接点）：</b>
+  <a href="/g_shot_k1248/">打开 k=1/2/4/8 old-Ref8</a>
+  · <a href="/g_shot/">旧 1/8 板</a></p>
 <p class="note">服务端已就绪。在 Cursor 里打开本页后点上方链接即可（相对路径，图片会正常加载）。
 若外置浏览器空白：Ports 面板确认 <code>19000</code> 已转发，再开
-<code>http://127.0.0.1:19000/g_shot/</code>。</p>
+<code>http://127.0.0.1:19000/g_shot_k1248/</code>。</p>
 <h2>页</h2>
 <ul>
-<li><a href="/g_shot/"><b>G v0913</b> one/few-shot · vs dirty F2/F2-RL</a>（主看板）</li>
+<li><a href="/g_shot_k1248/"><b>G v0913 k1248</b> · old Ref8 · 1/2/4/8-shot</a>（本轮主看板）</li>
+<li><a href="/g_shot/"><b>G v0913</b> one/few-shot · vs dirty F2/F2-RL</a>（旧板）</li>
 <li><a href="/f2vec_shot_board.html">F2 / F2-RL / F2-VEC 对照</a></li>
 <li><a href="/g/">Group G 训练进度</a></li>
 <li><a href="/v0913/">v0913_clean 训练看板</a></li>
@@ -65,7 +67,8 @@ class HubHandler(SimpleHTTPRequestHandler):
         path = self.path.split("?")[0]
         if path in {"/", "/v0913/", "/v0913/status.json", "/v0913/index.html",
                     "/g/", "/g/status.json", "/g/index.html",
-                    "/g_shot/", "/g_shot/index.html"}:
+                    "/g_shot/", "/g_shot/index.html",
+                    "/g_shot_k1248/", "/g_shot_k1248/index.html"}:
             self.send_header("Cache-Control", "no-store")
         super().end_headers()
 
@@ -79,6 +82,11 @@ class HubHandler(SimpleHTTPRequestHandler):
         if request_path in {"/g", "/g/"}:
             self.send_response(302)
             self.send_header("Location", "/g/index.html")
+            self.end_headers()
+            return
+        if request_path in {"/g_shot_k1248", "/g_shot_k1248/"}:
+            self.send_response(302)
+            self.send_header("Location", "/g_shot_k1248/index.html")
             self.end_headers()
             return
         if request_path in {"/g_shot", "/g_shot/"}:
@@ -95,6 +103,9 @@ class HubHandler(SimpleHTTPRequestHandler):
         if request_path == "/v0913" or request_path.startswith("/v0913/"):
             rel = request_path[len("/v0913") :].lstrip("/")
             return str(_safe(SNAP, rel or "index.html"))
+        if request_path == "/g_shot_k1248" or request_path.startswith("/g_shot_k1248/"):
+            rel = request_path[len("/g_shot_k1248") :].lstrip("/")
+            return str(_safe(GSHOT_K1248, rel or "index.html"))
         if request_path == "/g_shot" or request_path.startswith("/g_shot/"):
             rel = request_path[len("/g_shot") :].lstrip("/")
             return str(_safe(GSHOT, rel or "index.html"))

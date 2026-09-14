@@ -35,13 +35,20 @@ OUT = ROOT / "reports/f03_test16_strat"
 EVAL_SPLIT = "test"
 
 
-def configure_split(split: str) -> None:
-    """Point generate/metrics at test16 or val16. Never mix output dirs."""
+def configure_split(split: str, out: Path | None = None) -> None:
+    """Point generate/metrics at test/val/train. Never mix output dirs."""
     global EVAL_SPLIT, OUT
-    if split not in ("test", "val"):
-        raise SystemExit(f"split must be test|val, got {split!r}")
+    if split not in ("test", "val", "train"):
+        raise SystemExit(f"split must be test|val|train, got {split!r}")
     EVAL_SPLIT = split
-    OUT = ROOT / ("reports/f03_test16_strat" if split == "test" else "reports/f03_val16_strat")
+    if out is not None:
+        OUT = out
+    elif split == "test":
+        OUT = ROOT / "reports/f03_test16_strat"
+    elif split == "val":
+        OUT = ROOT / "reports/f03_val16_strat"
+    else:
+        OUT = ROOT / "reports/f03_train_strat"
 REF8 = list("永和书风骨韵天地")
 REF8_CPS = [f"u{ord(c):04X}" for c in REF8]
 STYLE1_CPS = [f"u{ord('永'):04X}"]
@@ -300,8 +307,12 @@ def cp_of(ch: str) -> str:
 
 
 def fonts() -> list[str]:
-    src = TEST_STEMS if EVAL_SPLIT == "test" else VAL_STEMS
-    return [l.strip() for l in src.read_text().splitlines() if l.strip()]
+    if EVAL_SPLIT == "test":
+        return [l.strip() for l in TEST_STEMS.read_text().splitlines() if l.strip()]
+    if EVAL_SPLIT == "val":
+        return [l.strip() for l in VAL_STEMS.read_text().splitlines() if l.strip()]
+    split = json.loads(SPLIT.read_text(encoding="utf-8"))
+    return list(split["stems"]["train"])
 
 
 def script_bucket(ch: str) -> str:
@@ -530,14 +541,22 @@ def pack_style_delta(
     delta_oneshot: bool = False,
     local_cache=None,
     legacy_mode_d: bool = False,
+    style_k: int | None = None,
 ):
     """One episode R for Es, α query, and α prototypes.
 
     True 1-shot: R={永}. 8-shot: R=ref8. Historical *_s1 Mode D
     (Es=永, Δ=ref8) only when legacy_mode_d=True.
+    Optional style_k in 1..8 uses REF8[:k] for both Es and Δ (true-k).
     """
-    style_refs = STYLE1_CPS if style_oneshot else REF8_CPS
-    delta_refs = STYLE1_CPS if delta_oneshot else REF8_CPS
+    if style_k is not None:
+        if not 1 <= int(style_k) <= 8:
+            raise ValueError(f"style_k must be 1..8, got {style_k}")
+        style_refs = REF8_CPS[: int(style_k)]
+        delta_refs = style_refs
+    else:
+        style_refs = STYLE1_CPS if style_oneshot else REF8_CPS
+        delta_refs = STYLE1_CPS if delta_oneshot else REF8_CPS
     if style_refs != delta_refs and not legacy_mode_d:
         raise RuntimeError(
             f"style R and alpha R must be the same (got style={style_refs} alpha={delta_refs}); "
@@ -577,6 +596,21 @@ def sidecar_style_extra(mid: str) -> dict:
     oneshot = bool(spec.get("style_oneshot"))
     delta_oneshot = bool(spec.get("delta_oneshot"))
     legacy_mode_d = bool(spec.get("legacy_mode_d"))
+    style_k = spec.get("style_k")
+    if style_k is not None:
+        k = int(style_k)
+        style_chars = "".join(REF8[:k])
+        delta_chars = style_chars
+        return {
+            "style_k": k,
+            "delta_k": k,
+            "style_chars": style_chars,
+            "delta_chars": delta_chars,
+            "style_oneshot": k == 1,
+            "delta_oneshot": k == 1,
+            "legacy_mode_d": False,
+            "style_alpha_aligned": True,
+        }
     if oneshot and not delta_oneshot and not legacy_mode_d:
         delta_oneshot = True
     delta_k = 1 if delta_oneshot else 8
@@ -701,6 +735,8 @@ def make_dpm_adapter(fd, torch, style_pattn: bool = False):
             if self.style_pattn:
                 kw["style_seq_tokens"] = cond[6]
                 kw["style_seq_mask"] = cond[7]
+            if len(cond) > 8 and cond[8] is not None:
+                kw["tc_global_residual"] = cond[8]
             noise, _ = self.fd(x_t, timesteps, **kw)
             return noise
 
@@ -981,6 +1017,12 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     style_rl128 = bool(spec.get("style_rl128"))
     delta_oneshot = bool(spec.get("delta_oneshot"))
     legacy_mode_d = bool(spec.get("legacy_mode_d"))
+    style_k = spec.get("style_k")
+    if style_k is not None:
+        style_k = int(style_k)
+        style_oneshot = style_k == 1
+        delta_oneshot = style_k == 1
+    tc_enabled = bool(spec.get("tc_enabled"))
     n_total = len(stems) * len(STRATIFIED)
     update_status(
         {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]}
@@ -1059,6 +1101,19 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         if not proj_p.is_file():
             raise FileNotFoundError(proj_p)
         fd.local_style_proj.load_state_dict(torch.load(proj_p, map_location="cpu", weights_only=True))
+    tc_cache = None
+    if tc_enabled:
+        from src import TCV2Cache, TCV2Global9Adapter, TCV2Head
+
+        fd.tc_head = TCV2Head()
+        fd.tc_global_adapter = TCV2Global9Adapter()
+        for name, mod in (("tc_head.pth", fd.tc_head), ("tc_global_adapter.pth", fd.tc_global_adapter)):
+            p = ckpt / name
+            if not p.is_file():
+                raise FileNotFoundError(p)
+            mod.load_state_dict(torch.load(p, map_location="cpu", weights_only=True), strict=True)
+        tc_cache = TCV2Cache(Path(spec["tc_cache"]))
+        log(mid, f"TC enabled cache={spec['tc_cache']}")
     T._ban_encoder_forward(fd)
     device_t = torch.device(device)
     fd.to(device_t).eval()
@@ -1084,6 +1139,7 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
             delta_oneshot=delta_oneshot,
             local_cache=local_cache,
             legacy_mode_d=legacy_mode_d,
+            style_k=style_k,
         )
         n_up_prefix = 9
         if style_rl128:
@@ -1094,6 +1150,21 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
             style_seq, style_mask = T._pack_up_style(
                 fd, style, prefix_seq, prefix_mask, local_raw, local_mask, cfg_mask=None
             )
+        tc_residual = None
+        if tc_enabled:
+            refs = REF8_CPS[:style_k] if style_k is not None else (
+                STYLE1_CPS if style_oneshot else REF8_CPS
+            )
+            samples = {
+                "split": [EVAL_SPLIT],
+                "font_stem": [font],
+                "char_cp": [cp_of(ch)],
+                "ref_chars": [refs],
+            }
+            tc_residual, _, _ = T._tc_conditions(
+                tc_cache, ec, samples, fd.tc_head, fd.tc_global_adapter, keep, device_t,
+                include_target=False,
+            )
         return {
             "style": style,
             "structure": structure,
@@ -1101,6 +1172,7 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
             "style_seq": style_seq,
             "style_mask": style_mask,
             "n_up_prefix": n_up_prefix,
+            "tc_residual": tc_residual,
         }
 
     def sample_one(packed):
@@ -1111,8 +1183,10 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         content = packed["content"]
         style_seq = packed["style_seq"]
         style_mask = packed["style_mask"]
+        tc_residual = packed.get("tc_residual")
+        tc_uncond = torch.zeros_like(tc_residual) if tc_residual is not None else None
         if use_style_seq:
-            cond = [img, img, style, structure, content, None, style_seq, style_mask]
+            cond = [img, img, style, structure, content, None, style_seq, style_mask, tc_residual]
             if style_rl128:
                 # RL128: zero G (9). PRL: zero P (n_max=8). Mask L off (no Linear bias leak).
                 n_p = int(packed.get("n_up_prefix") or 9)
@@ -1129,6 +1203,7 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
                     None,
                     uncond_seq,
                     uncond_mask,
+                    tc_uncond,
                 ]
             else:
                 uncond = [
@@ -1140,9 +1215,10 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
                     None,
                     torch.zeros_like(style_seq),
                     style_mask.clone(),
+                    tc_uncond,
                 ]
         else:
-            cond = [img, img, style, structure, content, None]
+            cond = [img, img, style, structure, content, None, None, None, tc_residual]
             uncond = [
                 torch.ones_like(img),
                 torch.ones_like(img),
@@ -1150,6 +1226,9 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
                 [torch.zeros_like(x) for x in structure],
                 [torch.zeros_like(x) for x in content],
                 None,
+                None,
+                None,
+                tc_uncond,
             ]
 
         def get_t_input(t_continuous):
@@ -1296,13 +1375,19 @@ def generate_f1(device: str, stems: list[str], overwrite: bool, mid: str = "F1_8
     scheduler = build_ddpm_scheduler(args)
     noise_schedule = NoiseScheduleVP(schedule="discrete", betas=scheduler.betas)
     keep = torch.zeros(1, dtype=torch.bool, device=device_t)
-    # Default 1-shot (永). style_oneshot=False → REF8 mean for few-shot boards.
-    style_oneshot = bool(spec.get("style_oneshot", True))
-    refs = STYLE1_CPS if style_oneshot else REF8_CPS
+    # Default 1-shot (永). style_k / style_oneshot=False → REF8[:k] / REF8.
+    style_k = spec.get("style_k")
+    if style_k is not None:
+        style_k = int(style_k)
+        style_oneshot = style_k == 1
+        refs = REF8_CPS[:style_k]
+    else:
+        style_oneshot = bool(spec.get("style_oneshot", True))
+        refs = STYLE1_CPS if style_oneshot else REF8_CPS
 
     def pack_one(font: str, ch: str):
         samples = {
-            "split": ["test"],
+            "split": [EVAL_SPLIT],
             "font_stem": [font],
             "char_cp": [cp_of(ch)],
             "ref_chars": [refs],

@@ -1,0 +1,942 @@
+[
+  {
+    "mid": "G1_s2",
+    "kind": "f1",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "G1_s4",
+    "kind": "f1",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "G2_s2",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "G2_s4",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "G2RL_s2",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "G2RL_s4",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "pilot_s2",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "pilot_s4",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "pilot8_s1",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "pilot8_s2",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "pilot8_s4",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "pilot8_s8",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "TCG2_s1",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "TCG2_s2",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "TCG2_s4",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "TCG2_s8",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "TCG2RL_s1",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "TCG2RL_s2",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "TCG2RL_s4",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  },
+  {
+    "mid": "TCG2RL_s8",
+    "kind": "f2",
+    "splits": [
+      {
+        "split": "test",
+        "stems": [
+          "FZBuGTJW",
+          "FZChuangHJW_DB",
+          "FZCuanBZBKSJW",
+          "FZDeSHJW_515H",
+          "FZDouNTJW_Te",
+          "FZFeiHHJW-H",
+          "FZFengYKSJ",
+          "FZHanWZKJW",
+          "FZHuoYYJW-T",
+          "FZJianLTJW_Te",
+          "FZJingLTJW-H",
+          "FZJingYLLTJW",
+          "FZLingFKSJW-B",
+          "FZLiuGQKJW-L",
+          "FZMaWDBSJW",
+          "FZTJLSJW"
+        ]
+      },
+      {
+        "split": "train",
+        "stems": [
+          "FZPTYJW",
+          "FZDuHJW_Cu",
+          "FZShuLTJW-H",
+          "FZYiMSJW-T",
+          "FZFeiSJW-EL"
+        ]
+      },
+      {
+        "split": "val",
+        "stems": [
+          "FZYouHK_511M",
+          "FZLTHProGBK_H",
+          "FZJunYTJW-H",
+          "FZBangSKKXJW",
+          "FZKANGJW"
+        ]
+      }
+    ]
+  }
+]

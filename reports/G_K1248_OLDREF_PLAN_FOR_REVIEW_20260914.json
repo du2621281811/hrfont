@@ -1,0 +1,233 @@
+{
+  "title": "G multi-shot eval plan for review (OLD ref8)",
+  "updated_at": "2026-09-14T16:30:03.664224+08:00",
+  "status": "AWAITING_USER_REVIEW",
+  "ref8": "永和书风骨韵天地",
+  "shot_sets": {
+    "1": "永",
+    "2": "永和",
+    "4": "永和书风",
+    "8": "永和书风骨韵天地"
+  },
+  "episode_rule": "Es and Delta use the same ref subset for each shot k",
+  "content": {
+    "set": "stratified47",
+    "n": 47,
+    "chars": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "A",
+      "G",
+      "M",
+      "Q",
+      "R",
+      "W",
+      "B",
+      "C",
+      "O",
+      "a",
+      "o",
+      "d",
+      "p",
+      "q",
+      "b",
+      "e",
+      "g",
+      "c",
+      "i",
+      "l",
+      "n",
+      "u",
+      "à",
+      "é",
+      "ü",
+      "ā",
+      "ě",
+      "あ",
+      "か",
+      "さ",
+      "ん",
+      "ア",
+      "カ",
+      "ン",
+      "ㄅ",
+      "ㄆ",
+      "ㄚ"
+    ]
+  },
+  "fonts": {
+    "test16": [
+      "FZBuGTJW",
+      "FZChuangHJW_DB",
+      "FZCuanBZBKSJW",
+      "FZDeSHJW_515H",
+      "FZDouNTJW_Te",
+      "FZFeiHHJW-H",
+      "FZFengYKSJ",
+      "FZHanWZKJW",
+      "FZHuoYYJW-T",
+      "FZJianLTJW_Te",
+      "FZJingLTJW-H",
+      "FZJingYLLTJW",
+      "FZLingFKSJW-B",
+      "FZLiuGQKJW-L",
+      "FZMaWDBSJW",
+      "FZTJLSJW"
+    ],
+    "train5": [
+      "FZPTYJW",
+      "FZDuHJW_Cu",
+      "FZShuLTJW-H",
+      "FZYiMSJW-T",
+      "FZFeiSJW-EL"
+    ],
+    "val5": [
+      "FZYouHK_511M",
+      "FZLTHProGBK_H",
+      "FZJunYTJW-H",
+      "FZBangSKKXJW",
+      "FZKANGJW"
+    ]
+  },
+  "sampling": {
+    "sampler": "dpmsolver++",
+    "steps": 20,
+    "cfg": 7.5,
+    "seed": 3407,
+    "order": 2,
+    "method": "multistep",
+    "note": "unchanged vs f03 / current g_v0913_shot protocol"
+  },
+  "ckpt_policy": "best when available (pilot/TC best@2500); else listed global_step",
+  "models": [
+    {
+      "label": "G0b@10k",
+      "ckpt": "G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+      "kind": "image",
+      "shots": [
+        1
+      ]
+    },
+    {
+      "label": "G0c@20k",
+      "ckpt": "G0c-F0-V0913-BS256-A-S3407/global_step_20000",
+      "kind": "image",
+      "shots": [
+        1
+      ]
+    },
+    {
+      "label": "G1@10k",
+      "ckpt": "G1-F1-V0913-A-S3407/global_step_10000",
+      "kind": "f1",
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ]
+    },
+    {
+      "label": "G2@10k",
+      "ckpt": "G2-F2-V0913-A-S3407/global_step_10000",
+      "kind": "f2",
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ]
+    },
+    {
+      "label": "G2-RL@10k",
+      "ckpt": "G2-RL-V0913-A-S3407/global_step_10000",
+      "kind": "f2rl",
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ]
+    },
+    {
+      "label": "pilot@best1k",
+      "ckpt": "G-RL-pilot-V0913-A-S3407/global_step_1000",
+      "kind": "f2rl",
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ]
+    },
+    {
+      "label": "pilot8@best2500",
+      "ckpt": "G-RL-pilot-8gpu-V0913-A-S3407/best",
+      "kind": "f2rl",
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ]
+    },
+    {
+      "label": "TC-G2@best2500",
+      "ckpt": "G-TC-G2-8gpu-V0913-A-S3407/best",
+      "kind": "f2+tc",
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ]
+    },
+    {
+      "label": "TC-G2RL@best2500",
+      "ckpt": "G-TC-G2RL-8gpu-V0913-A-S3407/best",
+      "kind": "f2rl+tc",
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ]
+    }
+  ],
+  "accel": {
+    "batch_per_gpu": 8,
+    "gpus": 8,
+    "fallback_batch": [
+      4,
+      1
+    ]
+  },
+  "workload": {
+    "arms": 30,
+    "fonts": 26,
+    "chars": 47,
+    "images": 36660,
+    "eta_infer_min_conservative": 45,
+    "eta_infer_min_optimistic": 25,
+    "eta_total_with_board_min": "40-70"
+  },
+  "board": {
+    "out": "reports/g_v0913_shot_k1248/",
+    "display_chars": "CURATED 17 for HTML; metrics on full 47",
+    "reuse_dirty_f2": false,
+    "note": "new board dir so old 1/8 board stays intact"
+  },
+  "explicit_non_goals": [
+    "Do NOT use 山水云月金石心文 for this round",
+    "Do NOT change CFG/steps/seed",
+    "Do NOT include dirty F2/F2-RL unless requested"
+  ]
+}

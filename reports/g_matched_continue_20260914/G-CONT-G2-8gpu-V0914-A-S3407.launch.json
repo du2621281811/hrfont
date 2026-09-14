@@ -1,0 +1,35 @@
+{
+  "command": [
+    "/root/miniforge3/envs/boogu/bin/python",
+    "/root/projects/hrfont/scripts/launch_g_joint_8gpu.py",
+    "--yes",
+    "--run_id",
+    "G-CONT-G2-8gpu-V0914-A-S3407",
+    "--arm",
+    "F2",
+    "--parent",
+    "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/global_step_10000",
+    "--max_steps",
+    "5000",
+    "--port",
+    "29551",
+    "--no-tc"
+  ],
+  "git_head": "a955bb9eab0e5cd8066e6187f0b8e413c6e1db4e",
+  "parent": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/global_step_10000",
+  "parent_unet_sha256": "fc5625ad38fa0922d27b9853c8c59b55d3ad5e53dc6906cc38c69a8f603c39fc",
+  "launcher_sha256": "dd2fb63f496e9dc6e176aecc44fbaa8712c8b1f54f7bf2b33cdbb82c823de472",
+  "train_sha256": "270eb20071e8be6752f53781217042f522a0c4d5130bc059386228ae57d62801",
+  "tracked_changes": "code/variants/cn2west_f2_vec/FontDiffuser/train.py |   9 ++\n scripts/eval_f03_test16_strat.py                   | 115 ++++++++++++++++++---\n 2 files changed, 109 insertions(+), 15 deletions(-)",
+  "free_gib": 31.171142578125,
+  "idle_background_pids": [
+    1397110,
+    1397113,
+    1397116,
+    1397119,
+    1397122,
+    1397125,
+    1397128,
+    1397131
+  ]
+}

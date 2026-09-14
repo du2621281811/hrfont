@@ -1,0 +1,15 @@
+{
+  "ts": "2026-09-14T11:46:35.253018+00:00",
+  "pid": 3044385,
+  "state": "RUNNING",
+  "completed": [
+    {
+      "run_id": "G-CONT-G2-8gpu-V0914-A-S3407",
+      "state": "DONE",
+      "rc": 0
+    }
+  ],
+  "run_id": "G-CONT-G2RL-8gpu-V0914-A-S3407",
+  "child_pid": 3077561,
+  "heartbeat": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/heartbeat.json"
+}
