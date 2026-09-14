@@ -4,6 +4,33 @@
   "hub_blurb": "所有可视化报告的入口。精简介绍写在 REPORT_CATALOG.json；详情页负责深度内容。新增报告只改目录再 build。",
   "pages": [
     {
+      "id": "h_10k_execution",
+      "title": "H 系列 · 每臂10k执行规格",
+      "blurb": "效果优先H3起跑；统一10k配方、七臂70k预算和训后推理。",
+      "path": "H_EXECUTION_20260915.md",
+      "tags": ["H", "training", "plan"],
+      "status": "live",
+      "updated": "2026-09-15"
+    },
+    {
+      "id": "h3_2k_review",
+      "title": "H3@2k · 首轮shot与风格检查",
+      "blurb": "16字体×4字×k1/4/8；4-shot均值略优，描边和装饰问题仍待改善。",
+      "path": "H3_2K_REVIEW_20260915.md",
+      "tags": ["H3", "val", "review"],
+      "status": "live",
+      "updated": "2026-09-15"
+    },
+    {
+      "id": "h3_2k_images",
+      "title": "H3@2k · 192张原图对照",
+      "blurb": "GT与EMA生成逐项对照，固定单组嵌套参考；不是完整多参考组结论。",
+      "path": "h_20260915/H3_step2000/review.html",
+      "tags": ["H3", "shot", "eye"],
+      "status": "live",
+      "updated": "2026-09-15"
+    },
+    {
       "id": "tonight_20260914",
       "title": "通宵实验看板 · F0/F2-CLEAN + E12-b",
       "blurb": "收敛曲线、脏/净 val 对照、E12 φ/membership；数据自动重建。",
@@ -510,6 +537,11 @@
     }
   ],
   "groups": [
+    {
+      "id": "h_series",
+      "title": "H 系列（每臂10k，效果优先）",
+      "page_ids": ["h_10k_execution", "h3_2k_review", "h3_2k_images"]
+    },
     {
       "id": "tonight",
       "title": "今晚实验（2026-09-14）",

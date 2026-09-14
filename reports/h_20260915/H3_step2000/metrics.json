@@ -1,0 +1,3733 @@
+{
+  "summary": {
+    "1": {
+      "l1": 0.06311466054467019,
+      "ssim": 0.7932008810450264,
+      "edge_l1": 0.038482123054564
+    },
+    "4": {
+      "l1": 0.06143455088022165,
+      "ssim": 0.7972013678093698,
+      "edge_l1": 0.03819810465211049
+    },
+    "8": {
+      "l1": 0.06151795150071848,
+      "ssim": 0.7968292763248531,
+      "edge_l1": 0.038300352956866845
+    }
+  },
+  "rows": [
+    {
+      "index": 0,
+      "font": "FZBangSKKXJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZBangSKKXJW__u0030__r0__k1.png",
+      "seed": 382755,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0030.png",
+      "l1": 0.10480749607086182,
+      "ssim": 0.7031570157802047,
+      "edge_l1": 0.058025021106004715
+    },
+    {
+      "index": 42,
+      "font": "FZBangSKKXJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZBangSKKXJW__u0067__r0__k8.png",
+      "seed": 399033,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0067.png",
+      "l1": 0.11015710234642029,
+      "ssim": 0.7185085029337651,
+      "edge_l1": 0.05912059545516968
+    },
+    {
+      "index": 305,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZCaoQBLSJW__u0041__r0__k4.png",
+      "seed": 3952,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0041.png",
+      "l1": 0.06600924581289291,
+      "ssim": 0.8162107569209489,
+      "edge_l1": 0.029412511736154556
+    },
+    {
+      "index": 590,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZFWZhuZiHeiB__u0030__r0__k1.png",
+      "seed": 552161,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0030.png",
+      "l1": 0.03518688678741455,
+      "ssim": 0.8389867345386405,
+      "edge_l1": 0.035742100328207016
+    },
+    {
+      "index": 632,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZFWZhuZiHeiB__u0067__r0__k8.png",
+      "seed": 694091,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0067.png",
+      "l1": 0.0976230576634407,
+      "ssim": 0.7107703737518838,
+      "edge_l1": 0.04898776486515999
+    },
+    {
+      "index": 895,
+      "font": "FZHengFSJW-T",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZHengFSJW-T__u0041__r0__k4.png",
+      "seed": 534009,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0041.png",
+      "l1": 0.03457031399011612,
+      "ssim": 0.8739307335932037,
+      "edge_l1": 0.04185429587960243
+    },
+    {
+      "index": 1180,
+      "font": "FZJunYTJW-H",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZJunYTJW-H__u0030__r0__k1.png",
+      "seed": 843220,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0030.png",
+      "l1": 0.032828669995069504,
+      "ssim": 0.8502413838094942,
+      "edge_l1": 0.030601046979427338
+    },
+    {
+      "index": 1222,
+      "font": "FZJunYTJW-H",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZJunYTJW-H__u0067__r0__k8.png",
+      "seed": 704534,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0067.png",
+      "l1": 0.06773088127374649,
+      "ssim": 0.7349480019339878,
+      "edge_l1": 0.044279102236032486
+    },
+    {
+      "index": 1279,
+      "font": "FZKANGJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZKANGJW__u0041__r0__k4.png",
+      "seed": 215941,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0041.png",
+      "l1": 0.09845409542322159,
+      "ssim": 0.7254107756032,
+      "edge_l1": 0.03735564649105072
+    },
+    {
+      "index": 1358,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZKuaiHTJW_Te__u0030__r0__k1.png",
+      "seed": 484756,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0030.png",
+      "l1": 0.071905218064785,
+      "ssim": 0.7369499348293261,
+      "edge_l1": 0.040378205478191376
+    },
+    {
+      "index": 1400,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZKuaiHTJW_Te__u0067__r0__k8.png",
+      "seed": 135569,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0067.png",
+      "l1": 0.07228987663984299,
+      "ssim": 0.7304508411965621,
+      "edge_l1": 0.04094923287630081
+    },
+    {
+      "index": 1626,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZLTHProGBK_H__u0041__r0__k4.png",
+      "seed": 316278,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0041.png",
+      "l1": 0.02377280965447426,
+      "ssim": 0.8818778067961953,
+      "edge_l1": 0.02881045453250408
+    },
+    {
+      "index": 1874,
+      "font": "FZMiFXSJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZMiFXSJW__u0030__r0__k1.png",
+      "seed": 574125,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0030.png",
+      "l1": 0.07825690507888794,
+      "ssim": 0.78081073906627,
+      "edge_l1": 0.0329018235206604
+    },
+    {
+      "index": 1916,
+      "font": "FZMiFXSJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZMiFXSJW__u0067__r0__k8.png",
+      "seed": 172850,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0067.png",
+      "l1": 0.053804125636816025,
+      "ssim": 0.8312272922691536,
+      "edge_l1": 0.03607605770230293
+    },
+    {
+      "index": 2179,
+      "font": "FZQingYSJW-T",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZQingYSJW-T__u0041__r0__k4.png",
+      "seed": 866311,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0041.png",
+      "l1": 0.08010238409042358,
+      "ssim": 0.7441901028029445,
+      "edge_l1": 0.040657591074705124
+    },
+    {
+      "index": 2464,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZSongKBXKJW-EB__u0030__r0__k1.png",
+      "seed": 148940,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0030.png",
+      "l1": 0.11346422135829926,
+      "ssim": 0.6838911340541343,
+      "edge_l1": 0.043169088661670685
+    },
+    {
+      "index": 2506,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZSongKBXKJW-EB__u0067__r0__k8.png",
+      "seed": 105018,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0067.png",
+      "l1": 0.06142343580722809,
+      "ssim": 0.7893453818412379,
+      "edge_l1": 0.04391361400485039
+    },
+    {
+      "index": 2769,
+      "font": "FZSuHJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZSuHJW__u0041__r0__k4.png",
+      "seed": 534452,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0041.png",
+      "l1": 0.07411959767341614,
+      "ssim": 0.7222015698780551,
+      "edge_l1": 0.04265233501791954
+    },
+    {
+      "index": 3017,
+      "font": "FZYouHK_511M",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZYouHK_511M__u0030__r0__k1.png",
+      "seed": 116704,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0030.png",
+      "l1": 0.014491847716271877,
+      "ssim": 0.9315772229310751,
+      "edge_l1": 0.0205521360039711
+    },
+    {
+      "index": 3059,
+      "font": "FZYouHK_511M",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZYouHK_511M__u0067__r0__k8.png",
+      "seed": 460622,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0067.png",
+      "l1": 0.023225165903568268,
+      "ssim": 0.8896874139622106,
+      "edge_l1": 0.032319407910108566
+    },
+    {
+      "index": 3322,
+      "font": "FZZHJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZHJW__u0041__r0__k4.png",
+      "seed": 576599,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0041.png",
+      "l1": 0.043007899075746536,
+      "ssim": 0.8461182946990421,
+      "edge_l1": 0.04011140018701553
+    },
+    {
+      "index": 3607,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZanMTJW_Te__u0030__r0__k1.png",
+      "seed": 851475,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0030.png",
+      "l1": 0.05675423890352249,
+      "ssim": 0.7855372899473938,
+      "edge_l1": 0.039333444088697433
+    },
+    {
+      "index": 3649,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZanMTJW_Te__u0067__r0__k8.png",
+      "seed": 974405,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0067.png",
+      "l1": 0.04865281283855438,
+      "ssim": 0.8220479973722286,
+      "edge_l1": 0.04684501886367798
+    },
+    {
+      "index": 3875,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZhongYSJW_Te__u0041__r0__k4.png",
+      "seed": 33179,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0041.png",
+      "l1": 0.06421738862991333,
+      "ssim": 0.7817510618619333,
+      "edge_l1": 0.0393914058804512
+    },
+    {
+      "index": 0,
+      "font": "FZBangSKKXJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZBangSKKXJW__u0030__r0__k4.png",
+      "seed": 382755,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0030.png",
+      "l1": 0.14460231363773346,
+      "ssim": 0.6070958610607744,
+      "edge_l1": 0.06111973524093628
+    },
+    {
+      "index": 65,
+      "font": "FZBangSKKXJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZBangSKKXJW__u00E9__r0__k1.png",
+      "seed": 374852,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u00E9.png",
+      "l1": 0.149802565574646,
+      "ssim": 0.6158983145352934,
+      "edge_l1": 0.061203937977552414
+    },
+    {
+      "index": 305,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZCaoQBLSJW__u0041__r0__k8.png",
+      "seed": 3952,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0041.png",
+      "l1": 0.06676027923822403,
+      "ssim": 0.8135746479979975,
+      "edge_l1": 0.029839804396033287
+    },
+    {
+      "index": 590,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZFWZhuZiHeiB__u0030__r0__k4.png",
+      "seed": 552161,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0030.png",
+      "l1": 0.034840937703847885,
+      "ssim": 0.8401485186745447,
+      "edge_l1": 0.035755056887865067
+    },
+    {
+      "index": 655,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZFWZhuZiHeiB__u00E9__r0__k1.png",
+      "seed": 109806,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u00E9.png",
+      "l1": 0.05275607481598854,
+      "ssim": 0.7967328934216136,
+      "edge_l1": 0.043538279831409454
+    },
+    {
+      "index": 895,
+      "font": "FZHengFSJW-T",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZHengFSJW-T__u0041__r0__k8.png",
+      "seed": 534009,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0041.png",
+      "l1": 0.031489141285419464,
+      "ssim": 0.8900650820813866,
+      "edge_l1": 0.03663190081715584
+    },
+    {
+      "index": 1180,
+      "font": "FZJunYTJW-H",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZJunYTJW-H__u0030__r0__k4.png",
+      "seed": 843220,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0030.png",
+      "l1": 0.04593758285045624,
+      "ssim": 0.8068462499273487,
+      "edge_l1": 0.03737922012805939
+    },
+    {
+      "index": 1245,
+      "font": "FZJunYTJW-H",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZJunYTJW-H__u00E9__r0__k1.png",
+      "seed": 334741,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u00E9.png",
+      "l1": 0.06508076190948486,
+      "ssim": 0.7718053413710273,
+      "edge_l1": 0.03797239437699318
+    },
+    {
+      "index": 1279,
+      "font": "FZKANGJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZKANGJW__u0041__r0__k8.png",
+      "seed": 215941,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0041.png",
+      "l1": 0.09972255676984787,
+      "ssim": 0.7226301385921702,
+      "edge_l1": 0.037417229264974594
+    },
+    {
+      "index": 1358,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZKuaiHTJW_Te__u0030__r0__k4.png",
+      "seed": 484756,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0030.png",
+      "l1": 0.07164479047060013,
+      "ssim": 0.7378361174683616,
+      "edge_l1": 0.04062637686729431
+    },
+    {
+      "index": 1423,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZKuaiHTJW_Te__u00E9__r0__k1.png",
+      "seed": 222076,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u00E9.png",
+      "l1": 0.07323708385229111,
+      "ssim": 0.7373979093232291,
+      "edge_l1": 0.04394984617829323
+    },
+    {
+      "index": 1626,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZLTHProGBK_H__u0041__r0__k8.png",
+      "seed": 316278,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0041.png",
+      "l1": 0.023231975734233856,
+      "ssim": 0.8848991138680256,
+      "edge_l1": 0.026847636327147484
+    },
+    {
+      "index": 1874,
+      "font": "FZMiFXSJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZMiFXSJW__u0030__r0__k4.png",
+      "seed": 574125,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0030.png",
+      "l1": 0.06642496585845947,
+      "ssim": 0.8083483614179708,
+      "edge_l1": 0.031638119369745255
+    },
+    {
+      "index": 1939,
+      "font": "FZMiFXSJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZMiFXSJW__u00E9__r0__k1.png",
+      "seed": 741311,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u00E9.png",
+      "l1": 0.04570695757865906,
+      "ssim": 0.8569757526373912,
+      "edge_l1": 0.027753368020057678
+    },
+    {
+      "index": 2179,
+      "font": "FZQingYSJW-T",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZQingYSJW-T__u0041__r0__k8.png",
+      "seed": 866311,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0041.png",
+      "l1": 0.07781395316123962,
+      "ssim": 0.7484737204461935,
+      "edge_l1": 0.03951377794146538
+    },
+    {
+      "index": 2464,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZSongKBXKJW-EB__u0030__r0__k4.png",
+      "seed": 148940,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0030.png",
+      "l1": 0.06101451814174652,
+      "ssim": 0.7817898060661281,
+      "edge_l1": 0.03883785754442215
+    },
+    {
+      "index": 2529,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZSongKBXKJW-EB__u00E9__r0__k1.png",
+      "seed": 926122,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u00E9.png",
+      "l1": 0.04879961907863617,
+      "ssim": 0.8286645612794484,
+      "edge_l1": 0.03599616140127182
+    },
+    {
+      "index": 2769,
+      "font": "FZSuHJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZSuHJW__u0041__r0__k8.png",
+      "seed": 534452,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0041.png",
+      "l1": 0.0768718495965004,
+      "ssim": 0.7147522935553217,
+      "edge_l1": 0.042543575167655945
+    },
+    {
+      "index": 3017,
+      "font": "FZYouHK_511M",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZYouHK_511M__u0030__r0__k4.png",
+      "seed": 116704,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0030.png",
+      "l1": 0.013762510381639004,
+      "ssim": 0.9352854142950009,
+      "edge_l1": 0.019689254462718964
+    },
+    {
+      "index": 3082,
+      "font": "FZYouHK_511M",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZYouHK_511M__u00E9__r0__k1.png",
+      "seed": 25010,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u00E9.png",
+      "l1": 0.01226809248328209,
+      "ssim": 0.9469672840482694,
+      "edge_l1": 0.018387051299214363
+    },
+    {
+      "index": 3322,
+      "font": "FZZHJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZHJW__u0041__r0__k8.png",
+      "seed": 576599,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0041.png",
+      "l1": 0.042416855692863464,
+      "ssim": 0.8471651691529055,
+      "edge_l1": 0.04061025381088257
+    },
+    {
+      "index": 3607,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZanMTJW_Te__u0030__r0__k4.png",
+      "seed": 851475,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0030.png",
+      "l1": 0.05120762437582016,
+      "ssim": 0.8021609036112638,
+      "edge_l1": 0.038553908467292786
+    },
+    {
+      "index": 3672,
+      "font": "FZZanMTJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZanMTJW_Te__u00E9__r0__k1.png",
+      "seed": 586950,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u00E9.png",
+      "l1": 0.06158854067325592,
+      "ssim": 0.8047117443963533,
+      "edge_l1": 0.04331294819712639
+    },
+    {
+      "index": 3875,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZhongYSJW_Te__u0041__r0__k8.png",
+      "seed": 33179,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0041.png",
+      "l1": 0.0668087899684906,
+      "ssim": 0.7741982934708189,
+      "edge_l1": 0.04037722572684288
+    },
+    {
+      "index": 0,
+      "font": "FZBangSKKXJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZBangSKKXJW__u0030__r0__k8.png",
+      "seed": 382755,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0030.png",
+      "l1": 0.15436963737010956,
+      "ssim": 0.5869889376518557,
+      "edge_l1": 0.05983522906899452
+    },
+    {
+      "index": 65,
+      "font": "FZBangSKKXJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZBangSKKXJW__u00E9__r0__k4.png",
+      "seed": 374852,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u00E9.png",
+      "l1": 0.15462876856327057,
+      "ssim": 0.6044950899400701,
+      "edge_l1": 0.06124331057071686
+    },
+    {
+      "index": 337,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZCaoQBLSJW__u0067__r0__k1.png",
+      "seed": 198138,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0067.png",
+      "l1": 0.06486460566520691,
+      "ssim": 0.8139798931813408,
+      "edge_l1": 0.028535030782222748
+    },
+    {
+      "index": 590,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZFWZhuZiHeiB__u0030__r0__k8.png",
+      "seed": 552161,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0030.png",
+      "l1": 0.03541070967912674,
+      "ssim": 0.8393566746804402,
+      "edge_l1": 0.03534925356507301
+    },
+    {
+      "index": 655,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZFWZhuZiHeiB__u00E9__r0__k4.png",
+      "seed": 109806,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u00E9.png",
+      "l1": 0.04056117311120033,
+      "ssim": 0.8362907948792648,
+      "edge_l1": 0.03933229669928551
+    },
+    {
+      "index": 927,
+      "font": "FZHengFSJW-T",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZHengFSJW-T__u0067__r0__k1.png",
+      "seed": 978826,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0067.png",
+      "l1": 0.059340961277484894,
+      "ssim": 0.7941917606907893,
+      "edge_l1": 0.04106255620718002
+    },
+    {
+      "index": 1180,
+      "font": "FZJunYTJW-H",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZJunYTJW-H__u0030__r0__k8.png",
+      "seed": 843220,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0030.png",
+      "l1": 0.05492791533470154,
+      "ssim": 0.7808047970826522,
+      "edge_l1": 0.04138363525271416
+    },
+    {
+      "index": 1245,
+      "font": "FZJunYTJW-H",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZJunYTJW-H__u00E9__r0__k4.png",
+      "seed": 334741,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u00E9.png",
+      "l1": 0.06492544710636139,
+      "ssim": 0.7888005994724827,
+      "edge_l1": 0.03407711908221245
+    },
+    {
+      "index": 1311,
+      "font": "FZKANGJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZKANGJW__u0067__r0__k1.png",
+      "seed": 116176,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0067.png",
+      "l1": 0.09001140296459198,
+      "ssim": 0.7418261954757459,
+      "edge_l1": 0.04004988074302673
+    },
+    {
+      "index": 1358,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZKuaiHTJW_Te__u0030__r0__k8.png",
+      "seed": 484756,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0030.png",
+      "l1": 0.07051078230142593,
+      "ssim": 0.7410507849527902,
+      "edge_l1": 0.0400720052421093
+    },
+    {
+      "index": 1423,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZKuaiHTJW_Te__u00E9__r0__k4.png",
+      "seed": 222076,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u00E9.png",
+      "l1": 0.07109545171260834,
+      "ssim": 0.7433692694554777,
+      "edge_l1": 0.04262571036815643
+    },
+    {
+      "index": 1658,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZLTHProGBK_H__u0067__r0__k1.png",
+      "seed": 532360,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0067.png",
+      "l1": 0.02985217235982418,
+      "ssim": 0.861009356005236,
+      "edge_l1": 0.030408425256609917
+    },
+    {
+      "index": 1874,
+      "font": "FZMiFXSJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZMiFXSJW__u0030__r0__k8.png",
+      "seed": 574125,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0030.png",
+      "l1": 0.06914020329713821,
+      "ssim": 0.8033131760025669,
+      "edge_l1": 0.03159544989466667
+    },
+    {
+      "index": 1939,
+      "font": "FZMiFXSJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZMiFXSJW__u00E9__r0__k4.png",
+      "seed": 741311,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u00E9.png",
+      "l1": 0.040843717753887177,
+      "ssim": 0.8635870264796163,
+      "edge_l1": 0.027835717424750328
+    },
+    {
+      "index": 2211,
+      "font": "FZQingYSJW-T",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZQingYSJW-T__u0067__r0__k1.png",
+      "seed": 460777,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0067.png",
+      "l1": 0.05972690135240555,
+      "ssim": 0.7990883797573393,
+      "edge_l1": 0.050688404589891434
+    },
+    {
+      "index": 2464,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZSongKBXKJW-EB__u0030__r0__k8.png",
+      "seed": 148940,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0030.png",
+      "l1": 0.06037028133869171,
+      "ssim": 0.7806089611516566,
+      "edge_l1": 0.03879046440124512
+    },
+    {
+      "index": 2529,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZSongKBXKJW-EB__u00E9__r0__k4.png",
+      "seed": 926122,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u00E9.png",
+      "l1": 0.04219728708267212,
+      "ssim": 0.8510028083928278,
+      "edge_l1": 0.03158821165561676
+    },
+    {
+      "index": 2801,
+      "font": "FZSuHJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZSuHJW__u0067__r0__k1.png",
+      "seed": 422667,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0067.png",
+      "l1": 0.08463923633098602,
+      "ssim": 0.7317624635123297,
+      "edge_l1": 0.04938163980841637
+    },
+    {
+      "index": 3017,
+      "font": "FZYouHK_511M",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZYouHK_511M__u0030__r0__k8.png",
+      "seed": 116704,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0030.png",
+      "l1": 0.014659926295280457,
+      "ssim": 0.9291592279413543,
+      "edge_l1": 0.02062447927892208
+    },
+    {
+      "index": 3082,
+      "font": "FZYouHK_511M",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZYouHK_511M__u00E9__r0__k4.png",
+      "seed": 25010,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u00E9.png",
+      "l1": 0.01428291667252779,
+      "ssim": 0.9389155988605741,
+      "edge_l1": 0.019047068431973457
+    },
+    {
+      "index": 3354,
+      "font": "FZZHJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZHJW__u0067__r0__k1.png",
+      "seed": 820477,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0067.png",
+      "l1": 0.056116387248039246,
+      "ssim": 0.8196701032963774,
+      "edge_l1": 0.043857596814632416
+    },
+    {
+      "index": 3607,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZanMTJW_Te__u0030__r0__k8.png",
+      "seed": 851475,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0030.png",
+      "l1": 0.045188672840595245,
+      "ssim": 0.821503089659189,
+      "edge_l1": 0.039631348103284836
+    },
+    {
+      "index": 3672,
+      "font": "FZZanMTJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZanMTJW_Te__u00E9__r0__k4.png",
+      "seed": 586950,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u00E9.png",
+      "l1": 0.057349544018507004,
+      "ssim": 0.8238237571543273,
+      "edge_l1": 0.04118632152676582
+    },
+    {
+      "index": 3907,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZhongYSJW_Te__u0067__r0__k1.png",
+      "seed": 321181,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0067.png",
+      "l1": 0.13979141414165497,
+      "ssim": 0.6154071082558275,
+      "edge_l1": 0.04987715557217598
+    },
+    {
+      "index": 10,
+      "font": "FZBangSKKXJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZBangSKKXJW__u0041__r0__k1.png",
+      "seed": 661155,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0041.png",
+      "l1": 0.1263003945350647,
+      "ssim": 0.6624195990592845,
+      "edge_l1": 0.05999401584267616
+    },
+    {
+      "index": 65,
+      "font": "FZBangSKKXJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZBangSKKXJW__u00E9__r0__k8.png",
+      "seed": 374852,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u00E9.png",
+      "l1": 0.15422452986240387,
+      "ssim": 0.6030605134303142,
+      "edge_l1": 0.061074599623680115
+    },
+    {
+      "index": 337,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZCaoQBLSJW__u0067__r0__k4.png",
+      "seed": 198138,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0067.png",
+      "l1": 0.06518629193305969,
+      "ssim": 0.81339583553713,
+      "edge_l1": 0.027784178033471107
+    },
+    {
+      "index": 600,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZFWZhuZiHeiB__u0041__r0__k1.png",
+      "seed": 301792,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0041.png",
+      "l1": 0.05399305745959282,
+      "ssim": 0.7730310300500826,
+      "edge_l1": 0.03938881307840347
+    },
+    {
+      "index": 655,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZFWZhuZiHeiB__u00E9__r0__k8.png",
+      "seed": 109806,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u00E9.png",
+      "l1": 0.03829444572329521,
+      "ssim": 0.8455656462300049,
+      "edge_l1": 0.038457587361335754
+    },
+    {
+      "index": 927,
+      "font": "FZHengFSJW-T",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZHengFSJW-T__u0067__r0__k4.png",
+      "seed": 978826,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0067.png",
+      "l1": 0.05914309248328209,
+      "ssim": 0.7949379142497581,
+      "edge_l1": 0.04102853685617447
+    },
+    {
+      "index": 1190,
+      "font": "FZJunYTJW-H",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZJunYTJW-H__u0041__r0__k1.png",
+      "seed": 337258,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0041.png",
+      "l1": 0.05156122148036957,
+      "ssim": 0.7835071893789337,
+      "edge_l1": 0.03613077104091644
+    },
+    {
+      "index": 1245,
+      "font": "FZJunYTJW-H",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZJunYTJW-H__u00E9__r0__k8.png",
+      "seed": 334741,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u00E9.png",
+      "l1": 0.0636306032538414,
+      "ssim": 0.7948948054745235,
+      "edge_l1": 0.03429511934518814
+    },
+    {
+      "index": 1311,
+      "font": "FZKANGJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZKANGJW__u0067__r0__k4.png",
+      "seed": 116176,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0067.png",
+      "l1": 0.0920279324054718,
+      "ssim": 0.7459052799048074,
+      "edge_l1": 0.03904899209737778
+    },
+    {
+      "index": 1368,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZKuaiHTJW_Te__u0041__r0__k1.png",
+      "seed": 354706,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0041.png",
+      "l1": 0.04373255744576454,
+      "ssim": 0.8172841206538409,
+      "edge_l1": 0.035140760242938995
+    },
+    {
+      "index": 1423,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZKuaiHTJW_Te__u00E9__r0__k8.png",
+      "seed": 222076,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u00E9.png",
+      "l1": 0.07351239025592804,
+      "ssim": 0.7378681406532599,
+      "edge_l1": 0.04288797453045845
+    },
+    {
+      "index": 1658,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZLTHProGBK_H__u0067__r0__k4.png",
+      "seed": 532360,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0067.png",
+      "l1": 0.028254780918359756,
+      "ssim": 0.8671877704397959,
+      "edge_l1": 0.02987590804696083
+    },
+    {
+      "index": 1884,
+      "font": "FZMiFXSJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZMiFXSJW__u0041__r0__k1.png",
+      "seed": 392656,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0041.png",
+      "l1": 0.09022416919469833,
+      "ssim": 0.751750795441167,
+      "edge_l1": 0.034086503088474274
+    },
+    {
+      "index": 1939,
+      "font": "FZMiFXSJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZMiFXSJW__u00E9__r0__k8.png",
+      "seed": 741311,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u00E9.png",
+      "l1": 0.040126293897628784,
+      "ssim": 0.8672669339264214,
+      "edge_l1": 0.027434207499027252
+    },
+    {
+      "index": 2211,
+      "font": "FZQingYSJW-T",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZQingYSJW-T__u0067__r0__k4.png",
+      "seed": 460777,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0067.png",
+      "l1": 0.05567938834428787,
+      "ssim": 0.8146839246317927,
+      "edge_l1": 0.04811658337712288
+    },
+    {
+      "index": 2474,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZSongKBXKJW-EB__u0041__r0__k1.png",
+      "seed": 530913,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0041.png",
+      "l1": 0.04785071313381195,
+      "ssim": 0.8066998751765758,
+      "edge_l1": 0.03795508295297623
+    },
+    {
+      "index": 2529,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZSongKBXKJW-EB__u00E9__r0__k8.png",
+      "seed": 926122,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u00E9.png",
+      "l1": 0.041152212768793106,
+      "ssim": 0.8515609106654896,
+      "edge_l1": 0.0318676233291626
+    },
+    {
+      "index": 2801,
+      "font": "FZSuHJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZSuHJW__u0067__r0__k4.png",
+      "seed": 422667,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0067.png",
+      "l1": 0.09110668301582336,
+      "ssim": 0.708184303922557,
+      "edge_l1": 0.050265952944755554
+    },
+    {
+      "index": 3027,
+      "font": "FZYouHK_511M",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZYouHK_511M__u0041__r0__k1.png",
+      "seed": 13224,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0041.png",
+      "l1": 0.020488664507865906,
+      "ssim": 0.9012779663916557,
+      "edge_l1": 0.02581010013818741
+    },
+    {
+      "index": 3082,
+      "font": "FZYouHK_511M",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZYouHK_511M__u00E9__r0__k8.png",
+      "seed": 25010,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u00E9.png",
+      "l1": 0.014162071980535984,
+      "ssim": 0.9380213175308934,
+      "edge_l1": 0.018361994996666908
+    },
+    {
+      "index": 3354,
+      "font": "FZZHJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZHJW__u0067__r0__k4.png",
+      "seed": 820477,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0067.png",
+      "l1": 0.057197630405426025,
+      "ssim": 0.8184955107084659,
+      "edge_l1": 0.041269078850746155
+    },
+    {
+      "index": 3617,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZanMTJW_Te__u0041__r0__k1.png",
+      "seed": 33648,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0041.png",
+      "l1": 0.08418947458267212,
+      "ssim": 0.7157135163210793,
+      "edge_l1": 0.04481714591383934
+    },
+    {
+      "index": 3672,
+      "font": "FZZanMTJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZanMTJW_Te__u00E9__r0__k8.png",
+      "seed": 586950,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u00E9.png",
+      "l1": 0.062471065670251846,
+      "ssim": 0.8028055463739492,
+      "edge_l1": 0.04184094816446304
+    },
+    {
+      "index": 3907,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZhongYSJW_Te__u0067__r0__k4.png",
+      "seed": 321181,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0067.png",
+      "l1": 0.12827691435813904,
+      "ssim": 0.6246604731679878,
+      "edge_l1": 0.04919172450900078
+    },
+    {
+      "index": 10,
+      "font": "FZBangSKKXJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZBangSKKXJW__u0041__r0__k4.png",
+      "seed": 661155,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0041.png",
+      "l1": 0.13325504958629608,
+      "ssim": 0.6483350284003814,
+      "edge_l1": 0.0583355687558651
+    },
+    {
+      "index": 295,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZCaoQBLSJW__u0030__r0__k1.png",
+      "seed": 12211,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0030.png",
+      "l1": 0.09027905762195587,
+      "ssim": 0.7589656223477531,
+      "edge_l1": 0.029228458181023598
+    },
+    {
+      "index": 337,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZCaoQBLSJW__u0067__r0__k8.png",
+      "seed": 198138,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0067.png",
+      "l1": 0.06636965274810791,
+      "ssim": 0.8084093936990061,
+      "edge_l1": 0.029050085693597794
+    },
+    {
+      "index": 600,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZFWZhuZiHeiB__u0041__r0__k4.png",
+      "seed": 301792,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0041.png",
+      "l1": 0.05049487203359604,
+      "ssim": 0.7800233143845425,
+      "edge_l1": 0.03936753794550896
+    },
+    {
+      "index": 885,
+      "font": "FZHengFSJW-T",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZHengFSJW-T__u0030__r0__k1.png",
+      "seed": 538531,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0030.png",
+      "l1": 0.04704988747835159,
+      "ssim": 0.8574992766030661,
+      "edge_l1": 0.03367103636264801
+    },
+    {
+      "index": 927,
+      "font": "FZHengFSJW-T",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZHengFSJW-T__u0067__r0__k8.png",
+      "seed": 978826,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0067.png",
+      "l1": 0.059526484459638596,
+      "ssim": 0.7942928106661664,
+      "edge_l1": 0.040700964629650116
+    },
+    {
+      "index": 1190,
+      "font": "FZJunYTJW-H",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZJunYTJW-H__u0041__r0__k4.png",
+      "seed": 337258,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0041.png",
+      "l1": 0.059304364025592804,
+      "ssim": 0.7787616818138439,
+      "edge_l1": 0.035277582705020905
+    },
+    {
+      "index": 1269,
+      "font": "FZKANGJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZKANGJW__u0030__r0__k1.png",
+      "seed": 678765,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0030.png",
+      "l1": 0.05494919419288635,
+      "ssim": 0.8161689474471756,
+      "edge_l1": 0.031582605093717575
+    },
+    {
+      "index": 1311,
+      "font": "FZKANGJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZKANGJW__u0067__r0__k8.png",
+      "seed": 116176,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0067.png",
+      "l1": 0.09030500054359436,
+      "ssim": 0.7471288029891074,
+      "edge_l1": 0.03885588422417641
+    },
+    {
+      "index": 1368,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZKuaiHTJW_Te__u0041__r0__k4.png",
+      "seed": 354706,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0041.png",
+      "l1": 0.03862251713871956,
+      "ssim": 0.8329248917836068,
+      "edge_l1": 0.031345464289188385
+    },
+    {
+      "index": 1616,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZLTHProGBK_H__u0030__r0__k1.png",
+      "seed": 557212,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0030.png",
+      "l1": 0.02203669771552086,
+      "ssim": 0.8913899476603138,
+      "edge_l1": 0.02573787420988083
+    },
+    {
+      "index": 1658,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZLTHProGBK_H__u0067__r0__k8.png",
+      "seed": 532360,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0067.png",
+      "l1": 0.028757743537425995,
+      "ssim": 0.8644449948645527,
+      "edge_l1": 0.030623218044638634
+    },
+    {
+      "index": 1884,
+      "font": "FZMiFXSJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZMiFXSJW__u0041__r0__k4.png",
+      "seed": 392656,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0041.png",
+      "l1": 0.08448860794305801,
+      "ssim": 0.7679100960760614,
+      "edge_l1": 0.032123688608407974
+    },
+    {
+      "index": 2169,
+      "font": "FZQingYSJW-T",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZQingYSJW-T__u0030__r0__k1.png",
+      "seed": 914530,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0030.png",
+      "l1": 0.05952095240354538,
+      "ssim": 0.7967282308863453,
+      "edge_l1": 0.04156865179538727
+    },
+    {
+      "index": 2211,
+      "font": "FZQingYSJW-T",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZQingYSJW-T__u0067__r0__k8.png",
+      "seed": 460777,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0067.png",
+      "l1": 0.05113910511136055,
+      "ssim": 0.8300223643037818,
+      "edge_l1": 0.045300353318452835
+    },
+    {
+      "index": 2474,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZSongKBXKJW-EB__u0041__r0__k4.png",
+      "seed": 530913,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0041.png",
+      "l1": 0.04372361674904823,
+      "ssim": 0.8228460212026315,
+      "edge_l1": 0.03784985840320587
+    },
+    {
+      "index": 2759,
+      "font": "FZSuHJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZSuHJW__u0030__r0__k1.png",
+      "seed": 590509,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0030.png",
+      "l1": 0.05804653465747833,
+      "ssim": 0.8005014712348868,
+      "edge_l1": 0.043205518275499344
+    },
+    {
+      "index": 2801,
+      "font": "FZSuHJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZSuHJW__u0067__r0__k8.png",
+      "seed": 422667,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0067.png",
+      "l1": 0.09310874342918396,
+      "ssim": 0.7054565092914012,
+      "edge_l1": 0.049689725041389465
+    },
+    {
+      "index": 3027,
+      "font": "FZYouHK_511M",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZYouHK_511M__u0041__r0__k4.png",
+      "seed": 13224,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0041.png",
+      "l1": 0.01962869241833687,
+      "ssim": 0.9038452566324261,
+      "edge_l1": 0.025669122114777565
+    },
+    {
+      "index": 3312,
+      "font": "FZZHJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZHJW__u0030__r0__k1.png",
+      "seed": 218130,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0030.png",
+      "l1": 0.03120659850537777,
+      "ssim": 0.8913053696526697,
+      "edge_l1": 0.03296537697315216
+    },
+    {
+      "index": 3354,
+      "font": "FZZHJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZHJW__u0067__r0__k8.png",
+      "seed": 820477,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0067.png",
+      "l1": 0.05635850876569748,
+      "ssim": 0.8223043268792372,
+      "edge_l1": 0.039508119225502014
+    },
+    {
+      "index": 3617,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZanMTJW_Te__u0041__r0__k4.png",
+      "seed": 33648,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0041.png",
+      "l1": 0.07733140885829926,
+      "ssim": 0.725117183419121,
+      "edge_l1": 0.044551052153110504
+    },
+    {
+      "index": 3865,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZhongYSJW_Te__u0030__r0__k1.png",
+      "seed": 811937,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0030.png",
+      "l1": 0.09002970159053802,
+      "ssim": 0.7263188354134714,
+      "edge_l1": 0.04282792657613754
+    },
+    {
+      "index": 3907,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZhongYSJW_Te__u0067__r0__k8.png",
+      "seed": 321181,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0067.png",
+      "l1": 0.1284300833940506,
+      "ssim": 0.6261344720426121,
+      "edge_l1": 0.04929989203810692
+    },
+    {
+      "index": 10,
+      "font": "FZBangSKKXJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZBangSKKXJW__u0041__r0__k8.png",
+      "seed": 661155,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0041.png",
+      "l1": 0.1373276710510254,
+      "ssim": 0.6429760917725458,
+      "edge_l1": 0.05831179395318031
+    },
+    {
+      "index": 295,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZCaoQBLSJW__u0030__r0__k4.png",
+      "seed": 12211,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0030.png",
+      "l1": 0.09038542956113815,
+      "ssim": 0.7568771397378612,
+      "edge_l1": 0.029558738693594933
+    },
+    {
+      "index": 360,
+      "font": "FZCaoQBLSJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZCaoQBLSJW__u00E9__r0__k1.png",
+      "seed": 789996,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u00E9.png",
+      "l1": 0.06451398134231567,
+      "ssim": 0.8063177918329659,
+      "edge_l1": 0.030569545924663544
+    },
+    {
+      "index": 600,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZFWZhuZiHeiB__u0041__r0__k8.png",
+      "seed": 301792,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0041.png",
+      "l1": 0.04714988172054291,
+      "ssim": 0.790365461138354,
+      "edge_l1": 0.03857637941837311
+    },
+    {
+      "index": 885,
+      "font": "FZHengFSJW-T",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZHengFSJW-T__u0030__r0__k4.png",
+      "seed": 538531,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0030.png",
+      "l1": 0.020228246226906776,
+      "ssim": 0.9388132420471973,
+      "edge_l1": 0.024455346167087555
+    },
+    {
+      "index": 950,
+      "font": "FZHengFSJW-T",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZHengFSJW-T__u00E9__r0__k1.png",
+      "seed": 610442,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u00E9.png",
+      "l1": 0.03150743991136551,
+      "ssim": 0.8885414625611803,
+      "edge_l1": 0.0315750315785408
+    },
+    {
+      "index": 1190,
+      "font": "FZJunYTJW-H",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZJunYTJW-H__u0041__r0__k8.png",
+      "seed": 337258,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0041.png",
+      "l1": 0.04628012701869011,
+      "ssim": 0.7979372451328243,
+      "edge_l1": 0.035850994288921356
+    },
+    {
+      "index": 1269,
+      "font": "FZKANGJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZKANGJW__u0030__r0__k4.png",
+      "seed": 678765,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0030.png",
+      "l1": 0.0777347981929779,
+      "ssim": 0.7810912656709387,
+      "edge_l1": 0.03140817582607269
+    },
+    {
+      "index": 1334,
+      "font": "FZKANGJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZKANGJW__u00E9__r0__k1.png",
+      "seed": 329902,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u00E9.png",
+      "l1": 0.04536909610033035,
+      "ssim": 0.8427975535838,
+      "edge_l1": 0.03457896038889885
+    },
+    {
+      "index": 1368,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZKuaiHTJW_Te__u0041__r0__k8.png",
+      "seed": 354706,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0041.png",
+      "l1": 0.038805484771728516,
+      "ssim": 0.8301593955990804,
+      "edge_l1": 0.031567856669425964
+    },
+    {
+      "index": 1616,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZLTHProGBK_H__u0030__r0__k4.png",
+      "seed": 557212,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0030.png",
+      "l1": 0.022855816408991814,
+      "ssim": 0.8884424140420774,
+      "edge_l1": 0.025393860414624214
+    },
+    {
+      "index": 1681,
+      "font": "FZLTHProGBK_H",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZLTHProGBK_H__u00E9__r0__k1.png",
+      "seed": 484298,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u00E9.png",
+      "l1": 0.021007372066378593,
+      "ssim": 0.908849504181352,
+      "edge_l1": 0.022372450679540634
+    },
+    {
+      "index": 1884,
+      "font": "FZMiFXSJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZMiFXSJW__u0041__r0__k8.png",
+      "seed": 392656,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0041.png",
+      "l1": 0.08336439728736877,
+      "ssim": 0.7657624639755455,
+      "edge_l1": 0.03261265158653259
+    },
+    {
+      "index": 2169,
+      "font": "FZQingYSJW-T",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZQingYSJW-T__u0030__r0__k4.png",
+      "seed": 914530,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0030.png",
+      "l1": 0.05863545462489128,
+      "ssim": 0.8020655020999861,
+      "edge_l1": 0.041955430060625076
+    },
+    {
+      "index": 2234,
+      "font": "FZQingYSJW-T",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZQingYSJW-T__u00E9__r0__k1.png",
+      "seed": 310902,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u00E9.png",
+      "l1": 0.051089752465486526,
+      "ssim": 0.8056913332404952,
+      "edge_l1": 0.03974116966128349
+    },
+    {
+      "index": 2474,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZSongKBXKJW-EB__u0041__r0__k8.png",
+      "seed": 530913,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0041.png",
+      "l1": 0.04139858856797218,
+      "ssim": 0.8290803642826695,
+      "edge_l1": 0.03702026233077049
+    },
+    {
+      "index": 2759,
+      "font": "FZSuHJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZSuHJW__u0030__r0__k4.png",
+      "seed": 590509,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0030.png",
+      "l1": 0.07035759836435318,
+      "ssim": 0.7622941700675698,
+      "edge_l1": 0.04476398602128029
+    },
+    {
+      "index": 2824,
+      "font": "FZSuHJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZSuHJW__u00E9__r0__k1.png",
+      "seed": 52128,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u00E9.png",
+      "l1": 0.0739578977227211,
+      "ssim": 0.7573317434068777,
+      "edge_l1": 0.04490033537149429
+    },
+    {
+      "index": 3027,
+      "font": "FZYouHK_511M",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZYouHK_511M__u0041__r0__k8.png",
+      "seed": 13224,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0041.png",
+      "l1": 0.02015676163136959,
+      "ssim": 0.9023292613926857,
+      "edge_l1": 0.026095328852534294
+    },
+    {
+      "index": 3312,
+      "font": "FZZHJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZHJW__u0030__r0__k4.png",
+      "seed": 218130,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0030.png",
+      "l1": 0.03340822458267212,
+      "ssim": 0.8769775629369542,
+      "edge_l1": 0.036771707236766815
+    },
+    {
+      "index": 3377,
+      "font": "FZZHJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZHJW__u00E9__r0__k1.png",
+      "seed": 516706,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u00E9.png",
+      "l1": 0.052668847143650055,
+      "ssim": 0.8214069569088163,
+      "edge_l1": 0.0436553992331028
+    },
+    {
+      "index": 3617,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZanMTJW_Te__u0041__r0__k8.png",
+      "seed": 33648,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0041.png",
+      "l1": 0.07578381150960922,
+      "ssim": 0.7300005056990114,
+      "edge_l1": 0.04390253871679306
+    },
+    {
+      "index": 3865,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZhongYSJW_Te__u0030__r0__k4.png",
+      "seed": 811937,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0030.png",
+      "l1": 0.08387033641338348,
+      "ssim": 0.733449725065133,
+      "edge_l1": 0.04371150583028793
+    },
+    {
+      "index": 3930,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZhongYSJW_Te__u00E9__r0__k1.png",
+      "seed": 680389,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u00E9.png",
+      "l1": 0.08983566612005234,
+      "ssim": 0.7280911749183051,
+      "edge_l1": 0.04258733242750168
+    },
+    {
+      "index": 42,
+      "font": "FZBangSKKXJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZBangSKKXJW__u0067__r0__k1.png",
+      "seed": 399033,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0067.png",
+      "l1": 0.10358498245477676,
+      "ssim": 0.738591017241177,
+      "edge_l1": 0.05588787794113159
+    },
+    {
+      "index": 295,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZCaoQBLSJW__u0030__r0__k8.png",
+      "seed": 12211,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0030.png",
+      "l1": 0.095643550157547,
+      "ssim": 0.7444817526326163,
+      "edge_l1": 0.030587218701839447
+    },
+    {
+      "index": 360,
+      "font": "FZCaoQBLSJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZCaoQBLSJW__u00E9__r0__k4.png",
+      "seed": 789996,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u00E9.png",
+      "l1": 0.06400888413190842,
+      "ssim": 0.80792798939244,
+      "edge_l1": 0.03038986772298813
+    },
+    {
+      "index": 632,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZFWZhuZiHeiB__u0067__r0__k1.png",
+      "seed": 694091,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0067.png",
+      "l1": 0.09411551803350449,
+      "ssim": 0.7212815148975557,
+      "edge_l1": 0.04514055699110031
+    },
+    {
+      "index": 885,
+      "font": "FZHengFSJW-T",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZHengFSJW-T__u0030__r0__k8.png",
+      "seed": 538531,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0030.png",
+      "l1": 0.023548560217022896,
+      "ssim": 0.9285138384583923,
+      "edge_l1": 0.026415042579174042
+    },
+    {
+      "index": 950,
+      "font": "FZHengFSJW-T",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZHengFSJW-T__u00E9__r0__k4.png",
+      "seed": 610442,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u00E9.png",
+      "l1": 0.02788713574409485,
+      "ssim": 0.9019541990473567,
+      "edge_l1": 0.030313512310385704
+    },
+    {
+      "index": 1222,
+      "font": "FZJunYTJW-H",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZJunYTJW-H__u0067__r0__k1.png",
+      "seed": 704534,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0067.png",
+      "l1": 0.0547802597284317,
+      "ssim": 0.7861584750978735,
+      "edge_l1": 0.0364614799618721
+    },
+    {
+      "index": 1269,
+      "font": "FZKANGJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZKANGJW__u0030__r0__k8.png",
+      "seed": 678765,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0030.png",
+      "l1": 0.06646411865949631,
+      "ssim": 0.8011024365710007,
+      "edge_l1": 0.03174087032675743
+    },
+    {
+      "index": 1334,
+      "font": "FZKANGJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZKANGJW__u00E9__r0__k4.png",
+      "seed": 329902,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u00E9.png",
+      "l1": 0.039533551782369614,
+      "ssim": 0.8562604432587421,
+      "edge_l1": 0.03241889178752899
+    },
+    {
+      "index": 1400,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZKuaiHTJW_Te__u0067__r0__k1.png",
+      "seed": 135569,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0067.png",
+      "l1": 0.07571911811828613,
+      "ssim": 0.7165076711558535,
+      "edge_l1": 0.0421961173415184
+    },
+    {
+      "index": 1616,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZLTHProGBK_H__u0030__r0__k8.png",
+      "seed": 557212,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0030.png",
+      "l1": 0.024446401745080948,
+      "ssim": 0.8812084389629722,
+      "edge_l1": 0.02705465629696846
+    },
+    {
+      "index": 1681,
+      "font": "FZLTHProGBK_H",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZLTHProGBK_H__u00E9__r0__k4.png",
+      "seed": 484298,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u00E9.png",
+      "l1": 0.02060951106250286,
+      "ssim": 0.9105608169778139,
+      "edge_l1": 0.02472471445798874
+    },
+    {
+      "index": 1916,
+      "font": "FZMiFXSJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZMiFXSJW__u0067__r0__k1.png",
+      "seed": 172850,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0067.png",
+      "l1": 0.06411910057067871,
+      "ssim": 0.813315654364357,
+      "edge_l1": 0.03593761846423149
+    },
+    {
+      "index": 2169,
+      "font": "FZQingYSJW-T",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZQingYSJW-T__u0030__r0__k8.png",
+      "seed": 914530,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0030.png",
+      "l1": 0.056835513561964035,
+      "ssim": 0.8079950427423436,
+      "edge_l1": 0.04200785979628563
+    },
+    {
+      "index": 2234,
+      "font": "FZQingYSJW-T",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZQingYSJW-T__u00E9__r0__k4.png",
+      "seed": 310902,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u00E9.png",
+      "l1": 0.0484255850315094,
+      "ssim": 0.8182968712036292,
+      "edge_l1": 0.036988843232393265
+    },
+    {
+      "index": 2506,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZSongKBXKJW-EB__u0067__r0__k1.png",
+      "seed": 105018,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0067.png",
+      "l1": 0.06954997032880783,
+      "ssim": 0.7829773934433062,
+      "edge_l1": 0.03969429433345795
+    },
+    {
+      "index": 2759,
+      "font": "FZSuHJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZSuHJW__u0030__r0__k8.png",
+      "seed": 590509,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0030.png",
+      "l1": 0.07110863924026489,
+      "ssim": 0.7600362168969267,
+      "edge_l1": 0.045487869530916214
+    },
+    {
+      "index": 2824,
+      "font": "FZSuHJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZSuHJW__u00E9__r0__k4.png",
+      "seed": 52128,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u00E9.png",
+      "l1": 0.0768105685710907,
+      "ssim": 0.7460996398013153,
+      "edge_l1": 0.04832981526851654
+    },
+    {
+      "index": 3059,
+      "font": "FZYouHK_511M",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZYouHK_511M__u0067__r0__k1.png",
+      "seed": 460622,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0067.png",
+      "l1": 0.022923476994037628,
+      "ssim": 0.8903099544049097,
+      "edge_l1": 0.029496503993868828
+    },
+    {
+      "index": 3312,
+      "font": "FZZHJW",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZHJW__u0030__r0__k8.png",
+      "seed": 218130,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0030.png",
+      "l1": 0.030242376029491425,
+      "ssim": 0.8891982038700982,
+      "edge_l1": 0.03441522270441055
+    },
+    {
+      "index": 3377,
+      "font": "FZZHJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZHJW__u00E9__r0__k4.png",
+      "seed": 516706,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u00E9.png",
+      "l1": 0.052070144563913345,
+      "ssim": 0.824635565028144,
+      "edge_l1": 0.04512041062116623
+    },
+    {
+      "index": 3649,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZanMTJW_Te__u0067__r0__k1.png",
+      "seed": 974405,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0067.png",
+      "l1": 0.052148014307022095,
+      "ssim": 0.8040449309202953,
+      "edge_l1": 0.045696135610342026
+    },
+    {
+      "index": 3865,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0030",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZhongYSJW_Te__u0030__r0__k8.png",
+      "seed": 811937,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0030.png",
+      "l1": 0.08443371206521988,
+      "ssim": 0.7324181506722476,
+      "edge_l1": 0.043791092932224274
+    },
+    {
+      "index": 3930,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZhongYSJW_Te__u00E9__r0__k4.png",
+      "seed": 680389,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u00E9.png",
+      "l1": 0.07876625657081604,
+      "ssim": 0.753384855415353,
+      "edge_l1": 0.04162125661969185
+    },
+    {
+      "index": 42,
+      "font": "FZBangSKKXJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZBangSKKXJW__u0067__r0__k4.png",
+      "seed": 399033,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZBangSKKXJW/FZBangSKKXJW+u0067.png",
+      "l1": 0.10852524638175964,
+      "ssim": 0.7186181132569556,
+      "edge_l1": 0.058484453707933426
+    },
+    {
+      "index": 305,
+      "font": "FZCaoQBLSJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZCaoQBLSJW__u0041__r0__k1.png",
+      "seed": 3952,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u0041.png",
+      "l1": 0.06811938434839249,
+      "ssim": 0.8102385847555518,
+      "edge_l1": 0.03007613867521286
+    },
+    {
+      "index": 360,
+      "font": "FZCaoQBLSJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZCaoQBLSJW__u00E9__r0__k8.png",
+      "seed": 789996,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZCaoQBLSJW/FZCaoQBLSJW+u00E9.png",
+      "l1": 0.06441355496644974,
+      "ssim": 0.8065602569027738,
+      "edge_l1": 0.030853334814310074
+    },
+    {
+      "index": 632,
+      "font": "FZFWZhuZiHeiB",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZFWZhuZiHeiB__u0067__r0__k4.png",
+      "seed": 694091,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZFWZhuZiHeiB/FZFWZhuZiHeiB+u0067.png",
+      "l1": 0.09797284007072449,
+      "ssim": 0.7122816526335436,
+      "edge_l1": 0.04685189947485924
+    },
+    {
+      "index": 895,
+      "font": "FZHengFSJW-T",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZHengFSJW-T__u0041__r0__k1.png",
+      "seed": 534009,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u0041.png",
+      "l1": 0.034504782408475876,
+      "ssim": 0.8808026977073126,
+      "edge_l1": 0.038389258086681366
+    },
+    {
+      "index": 950,
+      "font": "FZHengFSJW-T",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZHengFSJW-T__u00E9__r0__k8.png",
+      "seed": 610442,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZHengFSJW-T/FZHengFSJW-T+u00E9.png",
+      "l1": 0.02966579794883728,
+      "ssim": 0.8965895941734162,
+      "edge_l1": 0.03079964406788349
+    },
+    {
+      "index": 1222,
+      "font": "FZJunYTJW-H",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZJunYTJW-H__u0067__r0__k4.png",
+      "seed": 704534,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZJunYTJW-H/FZJunYTJW-H+u0067.png",
+      "l1": 0.060051143169403076,
+      "ssim": 0.7576075628326013,
+      "edge_l1": 0.04251345247030258
+    },
+    {
+      "index": 1279,
+      "font": "FZKANGJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZKANGJW__u0041__r0__k1.png",
+      "seed": 215941,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u0041.png",
+      "l1": 0.10172589868307114,
+      "ssim": 0.7144330358407858,
+      "edge_l1": 0.03775688633322716
+    },
+    {
+      "index": 1334,
+      "font": "FZKANGJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZKANGJW__u00E9__r0__k8.png",
+      "seed": 329902,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKANGJW/FZKANGJW+u00E9.png",
+      "l1": 0.0389680340886116,
+      "ssim": 0.8568901867137996,
+      "edge_l1": 0.03354169428348541
+    },
+    {
+      "index": 1400,
+      "font": "FZKuaiHTJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZKuaiHTJW_Te__u0067__r0__k4.png",
+      "seed": 135569,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZKuaiHTJW_Te/FZKuaiHTJW_Te+u0067.png",
+      "l1": 0.0754876434803009,
+      "ssim": 0.7203134159879752,
+      "edge_l1": 0.04194212332367897
+    },
+    {
+      "index": 1626,
+      "font": "FZLTHProGBK_H",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZLTHProGBK_H__u0041__r0__k1.png",
+      "seed": 316278,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u0041.png",
+      "l1": 0.02414087764918804,
+      "ssim": 0.8801185090120388,
+      "edge_l1": 0.028653264045715332
+    },
+    {
+      "index": 1681,
+      "font": "FZLTHProGBK_H",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZLTHProGBK_H__u00E9__r0__k8.png",
+      "seed": 484298,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZLTHProGBK_H/FZLTHProGBK_H+u00E9.png",
+      "l1": 0.02037845551967621,
+      "ssim": 0.9115291874690695,
+      "edge_l1": 0.02458982914686203
+    },
+    {
+      "index": 1916,
+      "font": "FZMiFXSJW",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZMiFXSJW__u0067__r0__k4.png",
+      "seed": 172850,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZMiFXSJW/FZMiFXSJW+u0067.png",
+      "l1": 0.053649235516786575,
+      "ssim": 0.8307521148563024,
+      "edge_l1": 0.03443244472146034
+    },
+    {
+      "index": 2179,
+      "font": "FZQingYSJW-T",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZQingYSJW-T__u0041__r0__k1.png",
+      "seed": 866311,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u0041.png",
+      "l1": 0.083133764564991,
+      "ssim": 0.7350956603552122,
+      "edge_l1": 0.03940853103995323
+    },
+    {
+      "index": 2234,
+      "font": "FZQingYSJW-T",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZQingYSJW-T__u00E9__r0__k8.png",
+      "seed": 310902,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZQingYSJW-T/FZQingYSJW-T+u00E9.png",
+      "l1": 0.04806645214557648,
+      "ssim": 0.8193326248987406,
+      "edge_l1": 0.037058115005493164
+    },
+    {
+      "index": 2506,
+      "font": "FZSongKBXKJW-EB",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZSongKBXKJW-EB__u0067__r0__k4.png",
+      "seed": 105018,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSongKBXKJW-EB/FZSongKBXKJW-EB+u0067.png",
+      "l1": 0.06154641881585121,
+      "ssim": 0.7883602532027247,
+      "edge_l1": 0.0447387620806694
+    },
+    {
+      "index": 2769,
+      "font": "FZSuHJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZSuHJW__u0041__r0__k1.png",
+      "seed": 534452,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u0041.png",
+      "l1": 0.06314805895090103,
+      "ssim": 0.7580922037045158,
+      "edge_l1": 0.039776768535375595
+    },
+    {
+      "index": 2824,
+      "font": "FZSuHJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZSuHJW__u00E9__r0__k8.png",
+      "seed": 52128,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZSuHJW/FZSuHJW+u00E9.png",
+      "l1": 0.07661186158657074,
+      "ssim": 0.7500621437056855,
+      "edge_l1": 0.04893256351351738
+    },
+    {
+      "index": 3059,
+      "font": "FZYouHK_511M",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZYouHK_511M__u0067__r0__k4.png",
+      "seed": 460622,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZYouHK_511M/FZYouHK_511M+u0067.png",
+      "l1": 0.022403493523597717,
+      "ssim": 0.8935831473271137,
+      "edge_l1": 0.03164118155837059
+    },
+    {
+      "index": 3322,
+      "font": "FZZHJW",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZHJW__u0041__r0__k1.png",
+      "seed": 576599,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u0041.png",
+      "l1": 0.04828687012195587,
+      "ssim": 0.8287270214389107,
+      "edge_l1": 0.0418880321085453
+    },
+    {
+      "index": 3377,
+      "font": "FZZHJW",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZHJW__u00E9__r0__k8.png",
+      "seed": 516706,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZHJW/FZZHJW+u00E9.png",
+      "l1": 0.05252884700894356,
+      "ssim": 0.8227686885945689,
+      "edge_l1": 0.04548724368214607
+    },
+    {
+      "index": 3649,
+      "font": "FZZanMTJW_Te",
+      "cp": "u0067",
+      "group": 0,
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "png": "FZZanMTJW_Te__u0067__r0__k4.png",
+      "seed": 974405,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZanMTJW_Te/FZZanMTJW_Te+u0067.png",
+      "l1": 0.0432925671339035,
+      "ssim": 0.8315381123234742,
+      "edge_l1": 0.04426656290888786
+    },
+    {
+      "index": 3875,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u0041",
+      "group": 0,
+      "k": 1,
+      "refs": [
+        "u6C38"
+      ],
+      "png": "FZZhongYSJW_Te__u0041__r0__k1.png",
+      "seed": 33179,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u0041.png",
+      "l1": 0.07665100693702698,
+      "ssim": 0.7473322320457838,
+      "edge_l1": 0.045628003776073456
+    },
+    {
+      "index": 3930,
+      "font": "FZZhongYSJW_Te",
+      "cp": "u00E9",
+      "group": 0,
+      "k": 8,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE",
+        "u9AA8",
+        "u97F5",
+        "u5929",
+        "u5730"
+      ],
+      "png": "FZZhongYSJW_Te__u00E9__r0__k8.png",
+      "seed": 680389,
+      "target": "/root/projects/hrfont/data/fontdiffuser-p253-t295-s338-cn2west-v2/val/TargetImage/FZZhongYSJW_Te/FZZhongYSJW_Te+u00E9.png",
+      "l1": 0.07735737413167953,
+      "ssim": 0.7550087299641588,
+      "edge_l1": 0.04172016680240631
+    }
+  ]
+}

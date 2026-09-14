@@ -30,7 +30,7 @@ code { font-size:12px; }
 <header>
   <h1>HR-Font 报告导航</h1>
   <p class="lede">所有可视化报告的入口。精简介绍写在 REPORT_CATALOG.json；详情页负责深度内容。新增报告只改目录再 build。</p>
-  <p class="lede">生成 2026-09-14T16:55:21Z · 源 REPORT_CATALOG.json</p>
+  <p class="lede">生成 2026-09-14T18:26:11Z · 源 REPORT_CATALOG.json</p>
 </header>
 <div class="how">
   <b>防漏更新：</b>改报告 → 改 <code>reports/REPORT_CATALOG.json</code> 一条 →
@@ -38,7 +38,25 @@ code { font-size:12px; }
   查漏：<code>python3 scripts/build_report_hub.py --check</code>
 </div>
 <main>
-<section><h2>今晚实验（2026-09-14）</h2><div class='grid'><article class="card">
+<section><h2>H 系列（每臂10k，效果优先）</h2><div class='grid'><article class="card">
+  <h3>H 系列 · 每臂10k执行规格 </h3>
+  <p class="blurb">效果优先H3起跑；统一10k配方、七臂70k预算和训后推理。</p>
+  <p class="meta"><span class="tag">H</span> <span class="tag">training</span> <span class="tag">plan</span> · live · 更新 2026-09-15</p>
+  <p class="links"><a href="../H_EXECUTION_20260915.md">打开文件</a></p>
+  <p class="path"><code>H_EXECUTION_20260915.md</code></p>
+</article><article class="card">
+  <h3>H3@2k · 首轮shot与风格检查 </h3>
+  <p class="blurb">16字体×4字×k1/4/8；4-shot均值略优，描边和装饰问题仍待改善。</p>
+  <p class="meta"><span class="tag">H3</span> <span class="tag">val</span> <span class="tag">review</span> · live · 更新 2026-09-15</p>
+  <p class="links"><a href="../H3_2K_REVIEW_20260915.md">打开文件</a></p>
+  <p class="path"><code>H3_2K_REVIEW_20260915.md</code></p>
+</article><article class="card">
+  <h3>H3@2k · 192张原图对照 </h3>
+  <p class="blurb">GT与EMA生成逐项对照，固定单组嵌套参考；不是完整多参考组结论。</p>
+  <p class="meta"><span class="tag">H3</span> <span class="tag">shot</span> <span class="tag">eye</span> · live · 更新 2026-09-15</p>
+  <p class="links"><a href="../h_20260915/H3_step2000/review.html">打开文件</a></p>
+  <p class="path"><code>h_20260915/H3_step2000/review.html</code></p>
+</article></div></section><section><h2>今晚实验（2026-09-14）</h2><div class='grid'><article class="card">
   <h3>通宵实验看板 · F0/F2-CLEAN + E12-b </h3>
   <p class="blurb">收敛曲线、脏/净 val 对照、E12 φ/membership；数据自动重建。</p>
   <p class="meta"><span class="tag">tonight</span> <span class="tag">F0</span> <span class="tag">F2</span> <span class="tag">E12</span> <span class="tag">clean</span> · live · 更新 2026-09-14</p>

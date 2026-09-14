@@ -1,0 +1,788 @@
+{
+  "state": "APPLIED",
+  "files": [
+    {
+      "path": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/last_state/unet.pth",
+      "size": 302072269,
+      "mtime_ns": 1789317433748962719,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789317434157001525,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789317434233008753,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/last_state/trainer_state.pt",
+      "size": 778531446,
+      "mtime_ns": 1789317435617140386,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G0c-F0-V0913-BS256-A-S3407/last_state/unet.pth",
+      "size": 302072269,
+      "mtime_ns": 1789356410446481732,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G0c-F0-V0913-BS256-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789356410826518183,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G0c-F0-V0913-BS256-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789356410890524322,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G0c-F0-V0913-BS256-A-S3407/last_state/trainer_state.pt",
+      "size": 778531446,
+      "mtime_ns": 1789356412202650173,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789348306302248367,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789348306966311639,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789348307206334508,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789348307210334889,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/last_state/local_style_proj.pth",
+      "size": 1315,
+      "mtime_ns": 1789348307210334889,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/last_state/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789348307210334889,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/last_state/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789348307210334889,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/last_state/trainer_state.pt",
+      "size": 631842862,
+      "mtime_ns": 1789348308442452286,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/global_step_10000/trainer_state.pt",
+      "size": 631842862,
+      "mtime_ns": 1789348230455021827,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/best/trainer_state.pt",
+      "size": 631842862,
+      "mtime_ns": 1789348305578179377,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789326425466712002,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789326428254979713,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789326428322986242,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789326428326986626,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/last_state/local_style_proj.pth",
+      "size": 1315,
+      "mtime_ns": 1789326428326986626,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/last_state/trainer_state.pt",
+      "size": 631842862,
+      "mtime_ns": 1789326429479097244,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/global_step_10000/trainer_state.pt",
+      "size": 631842862,
+      "mtime_ns": 1789326262703083704,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/best/trainer_state.pt",
+      "size": 631842862,
+      "mtime_ns": 1789326424930660534,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789338713632882699,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789338714064924186,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789338714128930332,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789338714132930716,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/last_state/local_style_proj.pth",
+      "size": 1054701,
+      "mtime_ns": 1789338714136931101,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/last_state/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789338714136931101,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/last_state/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789338714136931101,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/last_state/trainer_state.pt",
+      "size": 633949964,
+      "mtime_ns": 1789338715481060171,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/global_step_10000/trainer_state.pt",
+      "size": 633949964,
+      "mtime_ns": 1789338522738552409,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/best/trainer_state.pt",
+      "size": 633949964,
+      "mtime_ns": 1789338712996821622,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789385259577511594,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789385259965548698,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789385260029554818,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789385260029554818,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/last_state/local_style_proj.pth",
+      "size": 1315,
+      "mtime_ns": 1789385260029554818,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/last_state/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789385260029554818,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/last_state/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789385260029554818,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/last_state/trainer_state.pt",
+      "size": 631842862,
+      "mtime_ns": 1789385261309677218,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_2500/trainer_state.pt",
+      "size": 631842798,
+      "mtime_ns": 1789383282371281562,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/best/trainer_state.pt",
+      "size": 631842798,
+      "mtime_ns": 1789383456663970598,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789388979181252539,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789388979577290325,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789388979641296433,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789388979645296815,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/last_state/local_style_proj.pth",
+      "size": 1054701,
+      "mtime_ns": 1789388979649297197,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/last_state/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789388979649297197,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/last_state/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789388979649297197,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/last_state/trainer_state.pt",
+      "size": 633949900,
+      "mtime_ns": 1789388980753402543,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_2500/trainer_state.pt",
+      "size": 633949900,
+      "mtime_ns": 1789387036615610324,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/best/trainer_state.pt",
+      "size": 633949900,
+      "mtime_ns": 1789387195482809762,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_5000/trainer_state.pt",
+      "size": 633949836,
+      "mtime_ns": 1789388814349527239,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789369502186362603,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789369502586400868,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789369502650406990,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789369502650406990,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/last_state/local_style_proj.pth",
+      "size": 1315,
+      "mtime_ns": 1789369502650406990,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/last_state/tc_head.pth",
+      "size": 4149561,
+      "mtime_ns": 1789369502662408138,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/last_state/tc_global_adapter.pth",
+      "size": 3676149,
+      "mtime_ns": 1789369502674409286,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/last_state/trainer_state.pt",
+      "size": 647494174,
+      "mtime_ns": 1789369503986534792,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/global_step_2500/trainer_state.pt",
+      "size": 647494174,
+      "mtime_ns": 1789367507161910525,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/best/trainer_state.pt",
+      "size": 647494174,
+      "mtime_ns": 1789367684886703744,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/global_step_5000/trainer_state.pt",
+      "size": 647494174,
+      "mtime_ns": 1789369318376779832,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789373212326279751,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789373212802325505,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789373212866331656,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789373212866331656,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/last_state/local_style_proj.pth",
+      "size": 1054701,
+      "mtime_ns": 1789373212870332041,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/last_state/tc_head.pth",
+      "size": 4149561,
+      "mtime_ns": 1789373212882333194,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/last_state/tc_global_adapter.pth",
+      "size": 3676149,
+      "mtime_ns": 1789373212890333963,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/last_state/trainer_state.pt",
+      "size": 649601276,
+      "mtime_ns": 1789373214210460843,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/global_step_2500/trainer_state.pt",
+      "size": 649601212,
+      "mtime_ns": 1789371219694773099,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/best/trainer_state.pt",
+      "size": 649601212,
+      "mtime_ns": 1789371388186969576,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/global_step_5000/trainer_state.pt",
+      "size": 649601212,
+      "mtime_ns": 1789373049266605410,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789342780972659617,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789342781440704165,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789342781512711019,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789342781512711019,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/last_state/local_style_proj.pth",
+      "size": 1054701,
+      "mtime_ns": 1789342781512711019,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/last_state/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789342781516711400,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/last_state/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789342781516711400,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/last_state/trainer_state.pt",
+      "size": 633948137,
+      "mtime_ns": 1789342783076859894,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_1000/trainer_state.pt",
+      "size": 633948137,
+      "mtime_ns": 1789339364551392079,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/best/trainer_state.pt",
+      "size": 633948137,
+      "mtime_ns": 1789339551205318536,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_5000/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789342599951432575,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_5000/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789342600111447801,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_5000/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789342600127449323,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_5000/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789342600127449323,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_5000/local_style_proj.pth",
+      "size": 1054701,
+      "mtime_ns": 1789342600127449323,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_5000/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789342600127449323,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_5000/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789342600127449323,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_5000/trainer_state.pt",
+      "size": 633948137,
+      "mtime_ns": 1789342601351565801,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789365773405252597,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/last_state/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789365773813291593,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/last_state/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789365773881298092,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789365773889298857,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/last_state/local_style_proj.pth",
+      "size": 1054701,
+      "mtime_ns": 1789365773893299240,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/last_state/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789365773893299240,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/last_state/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789365773893299240,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/last_state/trainer_state.pt",
+      "size": 633950092,
+      "mtime_ns": 1789365775061410874,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_2500/trainer_state.pt",
+      "size": 633950028,
+      "mtime_ns": 1789363873758934408,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/best/trainer_state.pt",
+      "size": 633950028,
+      "mtime_ns": 1789364031022081613,
+      "reason": "inference/warm-start only; historical optimizer no longer needed"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_5000/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789365616138222433,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_5000/style_encoder.pth",
+      "size": 82410945,
+      "mtime_ns": 1789365616270235050,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_5000/content_encoder.pth",
+      "size": 4766471,
+      "mtime_ns": 1789365616282236196,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_5000/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789365616282236196,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_5000/local_style_proj.pth",
+      "size": 1054701,
+      "mtime_ns": 1789365616282236196,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_5000/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789365616282236196,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_5000/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789365616282236196,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/global_step_5000/trainer_state.pt",
+      "size": 633950028,
+      "mtime_ns": 1789365617270330632,
+      "reason": "pilot final not selected; measured best milestone retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789400686043288445,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407/last_state/ref_reader.pth",
+      "size": 1585976,
+      "mtime_ns": 1789400686047288829,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789400686047288829,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407/last_state/local_style_proj.pth",
+      "size": 1315,
+      "mtime_ns": 1789400686047288829,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407/last_state/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789400686047288829,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407/last_state/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789400686047288829,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407/last_state/trainer_state.pt",
+      "size": 635014295,
+      "mtime_ns": 1789400687143394022,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407/last_state/unet.pth",
+      "size": 315845739,
+      "mtime_ns": 1789400888878752708,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407/last_state/ref_reader.pth",
+      "size": 1585976,
+      "mtime_ns": 1789400888890753859,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407/last_state/support_adapter.pth",
+      "size": 1309,
+      "mtime_ns": 1789400888894754244,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407/last_state/local_style_proj.pth",
+      "size": 1054701,
+      "mtime_ns": 1789400888894754244,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407/last_state/tc_head.pth",
+      "size": 1261,
+      "mtime_ns": 1789400888894754244,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407/last_state/tc_global_adapter.pth",
+      "size": 1321,
+      "mtime_ns": 1789400888894754244,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    },
+    {
+      "path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407/last_state/trainer_state.pt",
+      "size": 637121397,
+      "mtime_ns": 1789400890094869397,
+      "reason": "completed smoke or redundant final snapshot; milestones retained"
+    }
+  ],
+  "logical_bytes": 29084163919,
+  "retained_resume": [
+    "G-CONT-G2-8gpu-V0914-A-S3407/global_step_5000",
+    "G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+    "G0c-F0-V0913-BS256-A-S3407/global_step_20000"
+  ],
+  "count": 129,
+  "free_before": 20205965312,
+  "free_after": 49290375168
+}

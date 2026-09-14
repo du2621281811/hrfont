@@ -2,7 +2,7 @@
 
 > 所有可视化报告的入口。精简介绍写在 REPORT_CATALOG.json；详情页负责深度内容。新增报告只改目录再 build。
 
-生成：`2026-09-14T16:55:21Z` · 源：`reports/REPORT_CATALOG.json` · 重建：`python3 scripts/build_report_hub.py`
+生成：`2026-09-14T18:26:11Z` · 源：`reports/REPORT_CATALOG.json` · 重建：`python3 scripts/build_report_hub.py`
 
 ## 怎么用（防漏更新）
 
@@ -10,6 +10,14 @@
 2. **重建导航** → `python3 scripts/build_report_hub.py`
 3. **查漏** → `python3 scripts/build_report_hub.py --check`（未登记 HTML 会列在 `hub/unregistered.json`）
 4. **打开** → `reports/hub/index.html` 或 http://127.0.0.1:8780/
+
+## H 系列（每臂10k，效果优先）
+
+| 报告 | 简介 | 打开 |
+|------|------|------|
+| **H 系列 · 每臂10k执行规格** | 效果优先H3起跑；统一10k配方、七臂70k预算和训后推理。 | [文件](H_EXECUTION_20260915.md) · ✓ |
+| **H3@2k · 首轮shot与风格检查** | 16字体×4字×k1/4/8；4-shot均值略优，描边和装饰问题仍待改善。 | [文件](H3_2K_REVIEW_20260915.md) · ✓ |
+| **H3@2k · 192张原图对照** | GT与EMA生成逐项对照，固定单组嵌套参考；不是完整多参考组结论。 | [文件](h_20260915/H3_step2000/review.html) · ✓ |
 
 ## 今晚实验（2026-09-14）
 
