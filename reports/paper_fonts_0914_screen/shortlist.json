@@ -1,0 +1,1573 @@
+{
+  "stats": {
+    "generated_at": "2026-09-14T09:15:45.001421+00:00",
+    "n_pool": 6796,
+    "n_keyword": 624,
+    "n_candidates_scored": 168,
+    "n_ok": 157,
+    "n_excluded_known": 18,
+    "fail": {
+      "cmap": 11
+    },
+    "by_cat": {
+      "caoshu": 7,
+      "cartoon": 16,
+      "display": 12,
+      "lishu": 30,
+      "shouxie": 40,
+      "weibei": 17,
+      "xingkai": 30,
+      "zhuan": 5
+    }
+  },
+  "shortlist": [
+    {
+      "rank": 1,
+      "disp": "方正字迹-牟氏瘦隶简体",
+      "clean": "FZZJ-MSSLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2055_FZZJ-MSSLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.22635952456084976,
+      "distinct": 0.06638581385119183,
+      "cn_fill": 0.06877170138888888,
+      "lat_fill": 0.053204571759259266,
+      "miss_lat": []
+    },
+    {
+      "rank": 2,
+      "disp": "方正字迹-张士超魏碑简体",
+      "clean": "FZZJ-ZSCWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/729_FZZJ-ZSCWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.17319489735997107,
+      "distinct": 0.091594073811756,
+      "cn_fill": 0.19299045138888887,
+      "lat_fill": 0.15956548996913578,
+      "miss_lat": []
+    },
+    {
+      "rank": 3,
+      "disp": "方正王铎行草 简",
+      "clean": "FZWangDXCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20733_FZWangDXCJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.11300044984255503,
+      "distinct": 0.02459515340699532,
+      "cn_fill": 0.1340060763888889,
+      "lat_fill": 0.11886332947530866,
+      "miss_lat": []
+    },
+    {
+      "rank": 4,
+      "disp": "手迹黄草体",
+      "clean": "fzsj_1966704",
+      "path": "/root/font_files_0914/founder_fonts_download/29811_fzsj_1966704.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.25976193348614646,
+      "distinct": 0.009570194416719665,
+      "cn_fill": 0.119921875,
+      "lat_fill": 0.08877073688271603,
+      "miss_lat": [
+        "ě"
+      ]
+    },
+    {
+      "rank": 5,
+      "disp": "方正VDL LOGO超粗黑 简",
+      "clean": "FZVDLLOGOCCHJW",
+      "path": "/root/font_files_0914/founder_fonts_download/25557_FZVDLLOGOCCHJW.TTF",
+      "cat": "display",
+      "mismatch": 0.34045673839511215,
+      "distinct": 0.4960175010332037,
+      "cn_fill": 0.5852647569444445,
+      "lat_fill": 0.38600742669753085,
+      "miss_lat": []
+    },
+    {
+      "rank": 6,
+      "disp": "方正憨仔卡通体 简",
+      "clean": "FZHanZKTTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/27873_FZHanZKTTJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.02148328839816854,
+      "distinct": 0.06841795793938685,
+      "cn_fill": 0.16903211805555557,
+      "lat_fill": 0.1654007523148148,
+      "miss_lat": []
+    },
+    {
+      "rank": 7,
+      "disp": "方正字迹-朱涛毛笔正楷简体",
+      "clean": "FZZJ-ZTMBZKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/733_FZZJ-ZTMBZKJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.24233044435273093,
+      "distinct": 0.02525747635530192,
+      "cn_fill": 0.10516493055555556,
+      "lat_fill": 0.07968026620370369,
+      "miss_lat": []
+    },
+    {
+      "rank": 8,
+      "disp": "方正字迹-周崇谦小篆简体",
+      "clean": "FZZJ-ZCQXZJW",
+      "path": "/root/font_files_0914/founder_fonts_download/725_FZZJ-ZCQXZJW.TTF",
+      "cat": "zhuan",
+      "mismatch": 0.22071728347958802,
+      "distinct": 0.0177681281360363,
+      "cn_fill": 0.11375868055555556,
+      "lat_fill": 0.0886501736111111,
+      "miss_lat": []
+    },
+    {
+      "rank": 9,
+      "disp": "方正字迹-兴华隶书 简",
+      "clean": "FZZJ-XHLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22958_FZZJ-XHLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.23449920508744035,
+      "distinct": 0.035564031547741196,
+      "cn_fill": 0.1365017361111111,
+      "lat_fill": 0.1044921875,
+      "miss_lat": []
+    },
+    {
+      "rank": 10,
+      "disp": "方正字迹-山林魏碑 简",
+      "clean": "FZZJ-SLWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/27847_FZZJ-SLWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.18508816275257736,
+      "distinct": 0.0538504276037156,
+      "cn_fill": 0.1574001736111111,
+      "lat_fill": 0.12826726466049385,
+      "miss_lat": []
+    },
+    {
+      "rank": 11,
+      "disp": "方正字迹-欧阳长迪行楷 简",
+      "clean": "FZZJ-OYCDXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20678_FZZJ-OYCDXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.28476546284765464,
+      "distinct": 0.04328174661435543,
+      "cn_fill": 0.0871310763888889,
+      "lat_fill": 0.062319155092592594,
+      "miss_lat": []
+    },
+    {
+      "rank": 12,
+      "disp": "方正章草简体",
+      "clean": "FZZHCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/663_FZZHCJW.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.3404919037830431,
+      "distinct": 0.030273540514402418,
+      "cn_fill": 0.13372395833333334,
+      "lat_fill": 0.08819203317901234,
+      "miss_lat": []
+    },
+    {
+      "rank": 13,
+      "disp": "阿里健康体2.0 中文 45 R",
+      "clean": "AlibabaHealthFont20CN-45R",
+      "path": "/root/font_files_0914/founder_fonts_download/28007_AlibabaHealthFont20CN-45R.TTF",
+      "cat": "display",
+      "mismatch": 0.39724748346827315,
+      "distinct": 0.08892672643749176,
+      "cn_fill": 0.18851996527777778,
+      "lat_fill": 0.11363088348765432,
+      "miss_lat": []
+    },
+    {
+      "rank": 14,
+      "disp": "方正字迹-胖胖隶 简",
+      "clean": "FZZJ-PPLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/28367_FZZJ-PPLJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.2736146999712892,
+      "distinct": 0.026089781555271488,
+      "cn_fill": 0.1259765625,
+      "lat_fill": 0.09150752314814814,
+      "miss_lat": []
+    },
+    {
+      "rank": 15,
+      "disp": "方正字迹-学贞简帛简体",
+      "clean": "FZZJ-XZJBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/721_FZZJ-XZJBJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.2526346663430226,
+      "distinct": 0.14456990597837344,
+      "cn_fill": 0.23841145833333335,
+      "lat_fill": 0.17818045910493824,
+      "miss_lat": []
+    },
+    {
+      "rank": 16,
+      "disp": "东方美学艺术小篆",
+      "clean": "FZSJ-DONGFMXYSXZ",
+      "path": "/root/font_files_0914/founder_fonts_download/34833_FZSJ-DONGFMXYSXZ.ttf",
+      "cat": "zhuan",
+      "mismatch": 0.38128438626446604,
+      "distinct": 0.053337420720761655,
+      "cn_fill": 0.1525173611111111,
+      "lat_fill": 0.09436487268518517,
+      "miss_lat": []
+    },
+    {
+      "rank": 17,
+      "disp": "方正好太王碑隶书 简",
+      "clean": "FZHaoTWBLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22601_FZHaoTWBLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.29598238397939264,
+      "distinct": 0.07140321371735618,
+      "cn_fill": 0.17411024305555559,
+      "lat_fill": 0.12257667824074076,
+      "miss_lat": []
+    },
+    {
+      "rank": 18,
+      "disp": "方正字迹-陶建华魏碑简体",
+      "clean": "FZZJ-TJHWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2057_FZZJ-TJHWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.32952727673892657,
+      "distinct": 0.018627874623895924,
+      "cn_fill": 0.13114149305555556,
+      "lat_fill": 0.08792679398148148,
+      "miss_lat": []
+    },
+    {
+      "rank": 19,
+      "disp": "方正字迹-严祖喜行楷简体",
+      "clean": "FZZJ-YZXXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2058_FZZJ-YZXXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.3394552125707904,
+      "distinct": 0.004938472037101843,
+      "cn_fill": 0.12092013888888889,
+      "lat_fill": 0.07987316743827161,
+      "miss_lat": []
+    },
+    {
+      "rank": 20,
+      "disp": "方正字迹-杜慧田草书简体",
+      "clean": "FZZJ-DHTCSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/685_FZZJ-DHTCSJW.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.3886667653882225,
+      "distinct": 0.03741152779556965,
+      "cn_fill": 0.09769965277777777,
+      "lat_fill": 0.05972704475308642,
+      "miss_lat": []
+    },
+    {
+      "rank": 21,
+      "disp": "方正琥珀简体",
+      "clean": "FZHPJW",
+      "path": "/root/font_files_0914/founder_fonts_download/213_FZHPJW.TTF",
+      "cat": "display",
+      "mismatch": 0.4412244107053299,
+      "distinct": 0.33645155971235263,
+      "cn_fill": 0.42309027777777775,
+      "lat_fill": 0.2364125192901234,
+      "miss_lat": []
+    },
+    {
+      "rank": 22,
+      "disp": "方正胖胖黑 简",
+      "clean": "FZPangPHJW",
+      "path": "/root/font_files_0914/founder_fonts_download/1838_FZPangPHJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.28355444683826575,
+      "distinct": 0.2849582341054167,
+      "cn_fill": 0.3827690972222222,
+      "lat_fill": 0.2742332175925926,
+      "miss_lat": []
+    },
+    {
+      "rank": 23,
+      "disp": "方正字迹-启笛小楷简体",
+      "clean": "FZZJ-QDXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/765_FZZJ-QDXKJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.28040624225910327,
+      "distinct": 0.04634070963804991,
+      "cn_fill": 0.08760850694444444,
+      "lat_fill": 0.06304253472222222,
+      "miss_lat": []
+    },
+    {
+      "rank": 24,
+      "disp": "方正悬针篆变简体",
+      "clean": "FZXZZBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/374_FZXZZBJW.TTF",
+      "cat": "zhuan",
+      "mismatch": 0.47782274336181163,
+      "distinct": 0.11694393670792307,
+      "cn_fill": 0.20913628472222223,
+      "lat_fill": 0.10920621141975308,
+      "miss_lat": []
+    }
+  ],
+  "all_ok": [
+    {
+      "disp": "方正憨仔卡通体 简",
+      "clean": "FZHanZKTTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/27873_FZHanZKTTJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.02148328839816854,
+      "distinct": 0.06841795793938685
+    },
+    {
+      "disp": "方正王铎行草 简",
+      "clean": "FZWangDXCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20733_FZWangDXCJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.11300044984255503,
+      "distinct": 0.02459515340699532
+    },
+    {
+      "disp": "方正字迹-张士超魏碑简体",
+      "clean": "FZZJ-ZSCWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/729_FZZJ-ZSCWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.17319489735997107,
+      "distinct": 0.091594073811756
+    },
+    {
+      "disp": "方正字迹-山林魏碑 简",
+      "clean": "FZZJ-SLWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/27847_FZZJ-SLWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.18508816275257736,
+      "distinct": 0.0538504276037156
+    },
+    {
+      "disp": "方正字迹-周崇谦小篆简体",
+      "clean": "FZZJ-ZCQXZJW",
+      "path": "/root/font_files_0914/founder_fonts_download/725_FZZJ-ZCQXZJW.TTF",
+      "cat": "zhuan",
+      "mismatch": 0.22071728347958802,
+      "distinct": 0.0177681281360363
+    },
+    {
+      "disp": "方正字迹-牟氏瘦隶简体",
+      "clean": "FZZJ-MSSLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2055_FZZJ-MSSLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.22635952456084976,
+      "distinct": 0.06638581385119183
+    },
+    {
+      "disp": "方正字迹-兴华隶书 简",
+      "clean": "FZZJ-XHLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22958_FZZJ-XHLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.23449920508744035,
+      "distinct": 0.035564031547741196
+    },
+    {
+      "disp": "方正字迹-朱涛毛笔正楷简体",
+      "clean": "FZZJ-ZTMBZKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/733_FZZJ-ZTMBZKJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.24233044435273093,
+      "distinct": 0.02525747635530192
+    },
+    {
+      "disp": "方正字迹-学贞简帛简体",
+      "clean": "FZZJ-XZJBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/721_FZZJ-XZJBJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.2526346663430226,
+      "distinct": 0.14456990597837344
+    },
+    {
+      "disp": "手迹黄草体",
+      "clean": "fzsj_1966704",
+      "path": "/root/font_files_0914/founder_fonts_download/29811_fzsj_1966704.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.25976193348614646,
+      "distinct": 0.009570194416719665
+    },
+    {
+      "disp": "方正字迹-胖胖隶 简",
+      "clean": "FZZJ-PPLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/28367_FZZJ-PPLJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.2736146999712892,
+      "distinct": 0.026089781555271488
+    },
+    {
+      "disp": "方正字迹-启笛小楷简体",
+      "clean": "FZZJ-QDXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/765_FZZJ-QDXKJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.28040624225910327,
+      "distinct": 0.04634070963804991
+    },
+    {
+      "disp": "方正胖胖黑 简",
+      "clean": "FZPangPHJW",
+      "path": "/root/font_files_0914/founder_fonts_download/1838_FZPangPHJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.28355444683826575,
+      "distinct": 0.2849582341054167
+    },
+    {
+      "disp": "方正字汇-卡通泡泡体 简",
+      "clean": "FZZH-KTPPTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/28505_FZZH-KTPPTJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.28360821892564286,
+      "distinct": 0.1662033115213491
+    },
+    {
+      "disp": "方正字迹-欧阳长迪行楷 简",
+      "clean": "FZZJ-OYCDXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20678_FZZJ-OYCDXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.28476546284765464,
+      "distinct": 0.04328174661435543
+    },
+    {
+      "disp": "方正好太王碑隶书 简",
+      "clean": "FZHaoTWBLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22601_FZHaoTWBLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.29598238397939264,
+      "distinct": 0.07140321371735618
+    },
+    {
+      "disp": "方正字迹-李太平根隶简体",
+      "clean": "FZZJ-LTPGLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/735_FZZJ-LTPGLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.3000087009484032,
+      "distinct": 0.03310022122284156
+    },
+    {
+      "disp": "方正字迹-朱涛钢笔行书简体",
+      "clean": "FZZJ-ZTGBXSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/731_FZZJ-ZTGBXSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.3115395805231558,
+      "distinct": 0.04200386756974003
+    },
+    {
+      "disp": "方正字迹-朱涛毛笔隶书 简",
+      "clean": "FZZJ-ZTMBLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22640_FZZJ-ZTMBLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.31510380055297815,
+      "distinct": 0.025712847945951443
+    },
+    {
+      "disp": "方正字迹-范笑歌古隶 简",
+      "clean": "FZZJ-FXGGLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20413_FZZJ-FXGGLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.3253038462065469,
+      "distinct": 0.08231970675913249
+    },
+    {
+      "disp": "方正隶变简体",
+      "clean": "FZLBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/216_FZLBJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.32801598772371204,
+      "distinct": 0.028639474787174775
+    },
+    {
+      "disp": "方正字迹-陶建华魏碑简体",
+      "clean": "FZZJ-TJHWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2057_FZZJ-TJHWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.32952727673892657,
+      "distinct": 0.018627874623895924
+    },
+    {
+      "disp": "方正字迹-豪放行书简体",
+      "clean": "fzzj-hfxsjw",
+      "path": "/root/font_files_0914/founder_fonts_download/701_fzzj-hfxsjw.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.3296099385997886,
+      "distinct": 0.026588960791615726
+    },
+    {
+      "disp": "方正字迹-童佬简体",
+      "clean": "FZZJ-TLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/746_FZZJ-TLJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.3313631626937606,
+      "distinct": 0.052202601029748816
+    },
+    {
+      "disp": "方正字迹-严祖喜行楷简体",
+      "clean": "FZZJ-YZXXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2058_FZZJ-YZXXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.3394552125707904,
+      "distinct": 0.004938472037101843
+    },
+    {
+      "disp": "方正VDL LOGO超粗黑 简",
+      "clean": "FZVDLLOGOCCHJW",
+      "path": "/root/font_files_0914/founder_fonts_download/25557_FZVDLLOGOCCHJW.TTF",
+      "cat": "display",
+      "mismatch": 0.34045673839511215,
+      "distinct": 0.4960175010332037
+    },
+    {
+      "disp": "方正章草简体",
+      "clean": "FZZHCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/663_FZZHCJW.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.3404919037830431,
+      "distinct": 0.030273540514402418
+    },
+    {
+      "disp": "方正字迹-钢笔伟楷简体",
+      "clean": "FZZJ-GBWKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/896_FZZJ-GBWKJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.357896289739618,
+      "distinct": 0.035291338667248075
+    },
+    {
+      "disp": "方正字迹-老潘硬笔简体",
+      "clean": "FZZJ-LPYBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/748_FZZJ-LPYBJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.3611984321030776,
+      "distinct": 0.013635896826236484
+    },
+    {
+      "disp": "方正字迹-少壮简体",
+      "clean": "FZZJ-SZJW",
+      "path": "/root/font_files_0914/founder_fonts_download/892_FZZJ-SZJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.362764952072364,
+      "distinct": 0.022192615936796774
+    },
+    {
+      "disp": "方正乙瑛碑隶书 简",
+      "clean": "FZYiYBLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22597_FZYiYBLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.3631954401430264,
+      "distinct": 0.029087937819587795
+    },
+    {
+      "disp": "方正字迹-四海行书简体",
+      "clean": "FZZJ-SHXSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/898_FZZJ-SHXSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.3644143923432472,
+      "distinct": 0.036008754385393194
+    },
+    {
+      "disp": "方正字迹-徐杰行草 简",
+      "clean": "FZZJ-XJXCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/3534_FZZJ-XJXCJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.36510745394128885,
+      "distinct": 0.017178592131790772
+    },
+    {
+      "disp": "方正字迹-冯金城简体",
+      "clean": "FZZJ-FJCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/696_FZZJ-FJCJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.36646288562032153,
+      "distinct": 0.008043220654513562
+    },
+    {
+      "disp": "方正字迹-张颢硬笔楷体简体",
+      "clean": "FZZJ-ZHYBKTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/697_FZZJ-ZHYBKTJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.377355127813423,
+      "distinct": 0.036059859048882564
+    },
+    {
+      "disp": "东方美学艺术小篆",
+      "clean": "FZSJ-DONGFMXYSXZ",
+      "path": "/root/font_files_0914/founder_fonts_download/34833_FZSJ-DONGFMXYSXZ.ttf",
+      "cat": "zhuan",
+      "mismatch": 0.38128438626446604,
+      "distinct": 0.053337420720761655
+    },
+    {
+      "disp": "方正字迹-徐杰隶书 简",
+      "clean": "FZZJ-XJLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/23039_FZZJ-XJLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.3814934721428723,
+      "distinct": 0.020544808641517247
+    },
+    {
+      "disp": "方正行楷简体",
+      "clean": "FZXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/225_FZXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.38158796673521383,
+      "distinct": 0.08094111688010965
+    },
+    {
+      "disp": "方正字迹-度知度体简体",
+      "clean": "FZZJ-DZDTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/755_FZZJ-DZDTJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.3819233224437686,
+      "distinct": 0.027343120559615144
+    },
+    {
+      "disp": "方正字迹-杜慧田草书简体",
+      "clean": "FZZJ-DHTCSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/685_FZZJ-DHTCSJW.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.3886667653882225,
+      "distinct": 0.03741152779556965
+    },
+    {
+      "disp": "方正字迹-杜慧田硬笔楷书简体",
+      "clean": "FZZJ-DHTYBKSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/684_FZZJ-DHTYBKSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.3906346680809689,
+      "distinct": 0.02051545536226608
+    },
+    {
+      "disp": "方正邓黑隶简体",
+      "clean": "FZDengHLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/855_FZDengHLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.39281777454163014,
+      "distinct": 0.13227085427098523
+    },
+    {
+      "disp": "方正字迹-韩敏隶书 简",
+      "clean": "FZZJ-HMLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22603_FZZJ-HMLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.39411778285661503,
+      "distinct": 0.023208638834377848
+    },
+    {
+      "disp": "方正卡通简体",
+      "clean": "FZKATJW",
+      "path": "/root/font_files_0914/founder_fonts_download/255_FZKATJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.39428461311750446,
+      "distinct": 0.12037088521628826
+    },
+    {
+      "disp": "方正字迹-陈亚发隶书 简",
+      "clean": "FZZJ-CYFLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/21604_FZZJ-CYFLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.3947337760689736,
+      "distinct": 0.08523313821386716
+    },
+    {
+      "disp": "方正字迹-范笑歌魏碑 简",
+      "clean": "FZZJ-FXGWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20473_FZZJ-FXGWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.39477108237781566,
+      "distinct": 0.07768563233140108
+    },
+    {
+      "disp": "阿里健康体2.0 中文 45 R",
+      "clean": "AlibabaHealthFont20CN-45R",
+      "path": "/root/font_files_0914/founder_fonts_download/28007_AlibabaHealthFont20CN-45R.TTF",
+      "cat": "display",
+      "mismatch": 0.39724748346827315,
+      "distinct": 0.08892672643749176
+    },
+    {
+      "disp": "方正字迹-陈代明行楷简体",
+      "clean": "FZZJ-CDMXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2043_2527_FZZJ-CDMXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.39820620985824495,
+      "distinct": 0.0792129911618631
+    },
+    {
+      "disp": "方正隶书简体",
+      "clean": "FZLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/219_FZLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.3998373073025018,
+      "distinct": 0.06837746609963047
+    },
+    {
+      "disp": "方正启体简体",
+      "clean": "FZQTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/278_FZQTJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.4006063585709604,
+      "distinct": 0.036551168901873536
+    },
+    {
+      "disp": "方正字迹-佛君包装简体",
+      "clean": "FZZJ-FJBZJW",
+      "path": "/root/font_files_0914/founder_fonts_download/709_FZZJ-FJBZJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.401126982046914,
+      "distinct": 0.06377546167522441
+    },
+    {
+      "disp": "方正字迹-侃夫体行楷 简",
+      "clean": "FZZJ-KFTXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20472_FZZJ-KFTXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.4043825621132354,
+      "distinct": 0.023599086672340175
+    },
+    {
+      "disp": "方正字迹-海体楷书简体",
+      "clean": "FZZJ-HTKSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/890_FZZJ-HTKSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.41082830869928677,
+      "distinct": 0.030805300645865535
+    },
+    {
+      "disp": "方正字迹-顾建平隶书 简",
+      "clean": "FZZJ-GJPLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20174_FZZJ-GJPLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.41179926149714674,
+      "distinct": 0.044883557764718786
+    },
+    {
+      "disp": "方正字迹-邢体草书简体",
+      "clean": "FZZJ-XTCSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/691_FZZJ-XTCSJW.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.413601827250268,
+      "distinct": 0.05575725930769396
+    },
+    {
+      "disp": "方正字迹-韩山林隶书 简",
+      "clean": "FZZJ-HSLLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/23175_FZZJ-HSLLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.4160984848484848,
+      "distinct": 0.08119009712399108
+    },
+    {
+      "disp": "方正字迹-姚铁力魏碑 简",
+      "clean": "FZZJ-YTLWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22030_FZZJ-YTLWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.41819477256534304,
+      "distinct": 0.014852053783975284
+    },
+    {
+      "disp": "方正字迹-德年行书简体",
+      "clean": "FZZJ-DNXSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/727_FZZJ-DNXSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.42012361001416626,
+      "distinct": 0.10199954828706326
+    },
+    {
+      "disp": "方正字迹-王伟钢笔行书简体",
+      "clean": "FZZJ-WWGBXSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/753_FZZJ-WWGBXSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.42409103524840397,
+      "distinct": 0.029228208876526572
+    },
+    {
+      "disp": "方正字迹-清泉魏碑 简",
+      "clean": "FZZJ-QQWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/23035_FZZJ-QQWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.42453096087153663,
+      "distinct": 0.10196540350482584
+    },
+    {
+      "disp": "方正字汇-卡通漫画体 简",
+      "clean": "FZZH-KTMHTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/34653_FZZH-KTMHTJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.42590059279525755,
+      "distinct": 0.06752780680684296
+    },
+    {
+      "disp": "方正字迹-曾柏求新魏碑简体",
+      "clean": "FZZJ-ZBQXWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2041_FZZJ-ZBQXWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.42638609995537696,
+      "distinct": 0.05836566027415
+    },
+    {
+      "disp": "方正字迹-新风魏碑 简",
+      "clean": "FZZJ-XFWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/34633_FZZJ-XFWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.42771588209709255,
+      "distinct": 0.036941979812224086
+    },
+    {
+      "disp": "字加卡通体 简",
+      "clean": "ZJKATONGTJ",
+      "path": "/root/font_files_0914/founder_fonts_download/1000945_ZJKATONGTJ.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.42853176779680524,
+      "distinct": 0.25618019018845534
+    },
+    {
+      "disp": "方正字迹-洪俊硬笔行草简体",
+      "clean": "FZZJ-HJYBXCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2046_FZZJ-HJYBXCJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.42919519045111465,
+      "distinct": 0.01991487471781135
+    },
+    {
+      "disp": "方正泰山金刚经隶书 简",
+      "clean": "FZTaiSJGJLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22610_3076_FZTaiSJGJLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.4313834538315048,
+      "distinct": 0.03271169602147897
+    },
+    {
+      "disp": "方正字迹-彦辰清酒简体",
+      "clean": "FZZJ-YCQJJW",
+      "path": "/root/font_files_0914/founder_fonts_download/710_FZZJ-YCQJJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.4336997356337832,
+      "distinct": 0.05190054449551969
+    },
+    {
+      "disp": "方正字迹-曾正国行楷简体",
+      "clean": "FZZJ-ZZGXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/837_FZZJ-ZZGXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.4356162686243535,
+      "distinct": 0.05675203435554773
+    },
+    {
+      "disp": "方正石门颂隶书 简",
+      "clean": "FZShiMSLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22598_FZShiMSLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.43815635939323216,
+      "distinct": 0.08366134275132421
+    },
+    {
+      "disp": "方正字迹-志勇魏碑简体",
+      "clean": "FZZJ-ZYWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/720_FZZJ-ZYWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.4386700705081449,
+      "distinct": 0.04273738048086765
+    },
+    {
+      "disp": "方正琥珀简体",
+      "clean": "FZHPJW",
+      "path": "/root/font_files_0914/founder_fonts_download/213_FZHPJW.TTF",
+      "cat": "display",
+      "mismatch": 0.4412244107053299,
+      "distinct": 0.33645155971235263
+    },
+    {
+      "disp": "书体坊禚效锋行草 简",
+      "clean": "STFZXFXCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20942_STFZXFXCJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.4426370503328097,
+      "distinct": 0.09817075872922974
+    },
+    {
+      "disp": "方正字迹-仿颜简体",
+      "clean": "FZZJ-FYJW",
+      "path": "/root/font_files_0914/founder_fonts_download/1781_FZZJ-FYJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.4428049926771156,
+      "distinct": 0.01577078629229977
+    },
+    {
+      "disp": "方正字迹-童体毛笔简体",
+      "clean": "FZZJ-TTMBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/694_FZZJ-TTMBJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.4446037663703279,
+      "distinct": 0.043720682907775525
+    },
+    {
+      "disp": "方正新综艺黑 简 UltraBold",
+      "clean": "FZXinZYHJW_UB",
+      "path": "/root/font_files_0914/founder_fonts_download/21964_FZXinZYHJW_UB.TTF",
+      "cat": "display",
+      "mismatch": 0.44528963688419815,
+      "distinct": 0.3897012064618732
+    },
+    {
+      "disp": "方正字迹-叶根友特楷简体",
+      "clean": "FZZJ-YGYTKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/716_FZZJ-YGYTKJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.45029650436953805,
+      "distinct": 0.14317659569402
+    },
+    {
+      "disp": "方正字迹-仿欧简体",
+      "clean": "FZZJ-FOJW",
+      "path": "/root/font_files_0914/founder_fonts_download/1779_FZZJ-FOJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.4516704922213722,
+      "distinct": 0.016220308308397772
+    },
+    {
+      "disp": "方正彩云简体",
+      "clean": "FZCYJW",
+      "path": "/root/font_files_0914/founder_fonts_download/210_FZCYJW.TTF",
+      "cat": "display",
+      "mismatch": 0.45329439355723716,
+      "distinct": 0.05752234114950369
+    },
+    {
+      "disp": "方正字迹-贺飞行草 简",
+      "clean": "FZZJ-HFXCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20940_FZZJ-HFXCJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.45558365446371213,
+      "distinct": 0.014315295226899845
+    },
+    {
+      "disp": "方正字迹-张乃仁行楷简体",
+      "clean": "FZZJ-ZNRXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/717_FZZJ-ZNRXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.4568977445689773,
+      "distinct": 0.03444244206979553
+    },
+    {
+      "disp": "方正祥隶简体",
+      "clean": "FZXIANGLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/302_FZXIANGLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.45879104388018493,
+      "distinct": 0.09606798741051231
+    },
+    {
+      "disp": "阿里健康体2.0 中文 85 B",
+      "clean": "AlibabaHealthFont20CN-85B",
+      "path": "/root/font_files_0914/founder_fonts_download/28008_AlibabaHealthFont20CN-85B.TTF",
+      "cat": "display",
+      "mismatch": 0.4600025516713448,
+      "distinct": 0.25592040936435934
+    },
+    {
+      "disp": "方正新综艺黑 简 Light",
+      "clean": "FZXinZYHJW_L",
+      "path": "/root/font_files_0914/founder_fonts_download/21957_FZXinZYHJW_L.TTF",
+      "cat": "display",
+      "mismatch": 0.46322497029916837,
+      "distinct": 0.1079598328087039
+    },
+    {
+      "disp": "方正苏新诗好太王碑隶书 简",
+      "clean": "FZSuXSHTWBLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/25613_FZSuXSHTWBLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.4668385068187635,
+      "distinct": 0.030024702949177407
+    },
+    {
+      "disp": "方正字迹-栋隶简体",
+      "clean": "FZZJ-DLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2045_FZZJ-DLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.46818416968442833,
+      "distinct": 0.10783877018308703
+    },
+    {
+      "disp": "方正美黑简体",
+      "clean": "FZMHJW",
+      "path": "/root/font_files_0914/founder_fonts_download/267_FZMHJW.TTF",
+      "cat": "display",
+      "mismatch": 0.47094629018850725,
+      "distinct": 0.18318886406429374
+    },
+    {
+      "disp": "方正字迹-白关手绘简体",
+      "clean": "FZZJ-BGSHJW",
+      "path": "/root/font_files_0914/founder_fonts_download/1789_FZZJ-BGSHJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.47249395182497106,
+      "distinct": 0.03246042037036455
+    },
+    {
+      "disp": "方正悬针篆变简体",
+      "clean": "FZXZZBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/374_FZXZZBJW.TTF",
+      "cat": "zhuan",
+      "mismatch": 0.47782274336181163,
+      "distinct": 0.11694393670792307
+    },
+    {
+      "disp": "方正流行体简体",
+      "clean": "FZLXTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/264_FZLXTJW.TTF",
+      "cat": "display",
+      "mismatch": 0.4818982495740115,
+      "distinct": 0.11531499932631588
+    },
+    {
+      "disp": "方正字迹-周东芬草书 简",
+      "clean": "FZZJ-ZDFCSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/25988_FZZJ-ZDFCSJW.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.48255519973032196,
+      "distinct": 0.01366748871199503
+    },
+    {
+      "disp": "方正字汇-篆艺新书 简",
+      "clean": "FZZH-ZYXSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/28362_FZZH-ZYXSJW.TTF",
+      "cat": "zhuan",
+      "mismatch": 0.48547979797979796,
+      "distinct": 0.06036875362883762
+    },
+    {
+      "disp": "方正字迹-吕建德魏碑简体",
+      "clean": "FZZJ-LJDWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/707_FZZJ-LJDWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.48621713316369797,
+      "distinct": 0.021143281426389583
+    },
+    {
+      "disp": "方正字迹-梁建华魏碑 简",
+      "clean": "FZZJ-LJHWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/23034_FZZJ-LJHWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.48785882896713395,
+      "distinct": 0.03682516892452388
+    },
+    {
+      "disp": "方正字迹-玉轮魏碑 简",
+      "clean": "FZZJ-YLWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/25877_FZZJ-YLWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.49119489422054124,
+      "distinct": 0.08586730253382617
+    },
+    {
+      "disp": "方正大草简体",
+      "clean": "FZDCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/605_FZDCJW.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.49394939493949397,
+      "distinct": 0.056847895655532596
+    },
+    {
+      "disp": "抹茶喵呜甜趣卡通集",
+      "clean": "FZSJ-MOCMWTQKTJ",
+      "path": "/root/font_files_0914/founder_fonts_download/34870_FZSJ-MOCMWTQKTJ.ttf",
+      "cat": "cartoon",
+      "mismatch": 0.4958724298825822,
+      "distinct": 0.13125460555374674
+    },
+    {
+      "disp": "方正字迹-潇洒隶书简体",
+      "clean": "FZZJ-XSLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/712_FZZJ-XSLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.4967924923381492,
+      "distinct": 0.023411149435941005
+    },
+    {
+      "disp": "方正字迹-吕建德行楷简体",
+      "clean": "FZZJ-LJDXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/705_FZZJ-LJDXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.49808370119426476,
+      "distinct": 0.03578126014675931
+    },
+    {
+      "disp": "方正字迹-杜慧田毛笔楷书简体",
+      "clean": "FZZJ-DHTMBKSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/683_FZZJ-DHTMBKSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.49863190085305,
+      "distinct": 0.02511169200952692
+    },
+    {
+      "disp": "方正字迹-牟氏黑隶简体",
+      "clean": "FZZJ-MSHLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2054_FZZJ-MSHLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.499017780183214,
+      "distinct": 0.15020652875034413
+    },
+    {
+      "disp": "方正黑隶简体_粗",
+      "clean": "FZHeiLJW_Cu",
+      "path": "/root/font_files_0914/founder_fonts_download/617_FZHeiLJW_Cu.TTF",
+      "cat": "lishu",
+      "mismatch": 0.5020877041424986,
+      "distinct": 0.1310099363696212
+    },
+    {
+      "disp": "方正字迹-尚巍行楷简体",
+      "clean": "FZZJ-SWXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/1849_FZZJ-SWXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5062795856696186,
+      "distinct": 0.02744862866959679
+    },
+    {
+      "disp": "方正字迹-张浩荣行楷 简",
+      "clean": "FZZJ-ZHRXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/3530_FZZJ-ZHRXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5069024494533017,
+      "distinct": 0.05408720345601105
+    },
+    {
+      "disp": "方正字迹-典雅楷体简体",
+      "clean": "FZZJ-DYKTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/680_FZZJ-DYKTJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5090720002971382,
+      "distinct": 0.014733830722459691
+    },
+    {
+      "disp": "方正华隶简体",
+      "clean": "FZHLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/247_FZHLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.5133841258720846,
+      "distinct": 0.15546312095937032
+    },
+    {
+      "disp": "方正北魏楷书简体",
+      "clean": "FZBWKSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/234_FZBWKSJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.5157653228449688,
+      "distinct": 0.07708058620752577
+    },
+    {
+      "disp": "方正经黑手写简体",
+      "clean": "FZJHSXJW",
+      "path": "/root/font_files_0914/founder_fonts_download/481_FZJHSXJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5196282270240836,
+      "distinct": 0.09548181690938615
+    },
+    {
+      "disp": "方正字迹-翰逸行楷 简",
+      "clean": "FZZJ-HYXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/21196_FZZJ-HYXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5207681843076977,
+      "distinct": 0.035474193168263016
+    },
+    {
+      "disp": "方正字迹-曾正国楷体简体",
+      "clean": "FZZJ-ZZGKTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/678_FZZJ-ZZGKTJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5215111428911928,
+      "distinct": 0.010394202085134387
+    },
+    {
+      "disp": "书体坊文征明行草 简",
+      "clean": "STFWZMXCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20921_STFWZMXCJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5234961168882455,
+      "distinct": 0.06500097253929513
+    },
+    {
+      "disp": "方正字迹-元童楷隶简体",
+      "clean": "FZZJ-YTKLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/714_FZZJ-YTKLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.5236476071305515,
+      "distinct": 0.18158436649341297
+    },
+    {
+      "disp": "方正字迹-清代碑体简体",
+      "clean": "FZZJ-QDBTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/899_FZZJ-QDBTJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5242072278548214,
+      "distinct": 0.08111843945643557
+    },
+    {
+      "disp": "方正字迹-张爨简体",
+      "clean": "FZZJ-ZCJW",
+      "path": "/root/font_files_0914/founder_fonts_download/751_FZZJ-ZCJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5245484719168929,
+      "distinct": 0.06462478662724574
+    },
+    {
+      "disp": "方正手迹-小欢卡通体",
+      "clean": "FZSJ-XHKTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/3812_FZSJ-XHKTJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.5260322172741766,
+      "distinct": 0.10737174933549748
+    },
+    {
+      "disp": "方正字迹-黎凡行书简体",
+      "clean": "FZZJ-LFXSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/723_FZZJ-LFXSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5273646698122598,
+      "distinct": 0.022717371869452486
+    },
+    {
+      "disp": "彩云易散琉璃脆",
+      "clean": "fzsj_2118757",
+      "path": "/root/font_files_0914/founder_fonts_download/30614_fzsj_2118757.TTF",
+      "cat": "display",
+      "mismatch": 0.5281177003800162,
+      "distinct": 0.0401452239455424
+    },
+    {
+      "disp": "方正巴龙草书黑体繁体",
+      "clean": "FZBaLCSHTFW",
+      "path": "/root/font_files_0914/founder_fonts_download/34658_FZBaLCSHTFW.TTF",
+      "cat": "caoshu",
+      "mismatch": 0.5285372181201358,
+      "distinct": 0.12543143414255647
+    },
+    {
+      "disp": "方正胖胖白 简",
+      "clean": "FZPANGPBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/1837_FZPANGPBJW.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.5288696511204701,
+      "distinct": 0.08225092769405609
+    },
+    {
+      "disp": "方正字迹-逸龙行楷 简",
+      "clean": "FZZJ-YLXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20411_FZZJ-YLXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.531045200913755,
+      "distinct": 0.01476515321209543
+    },
+    {
+      "disp": "方正启功行楷 简",
+      "clean": "FZQiGXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20702_FZQiGXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5333499667332002,
+      "distinct": 0.030936118269182977
+    },
+    {
+      "disp": "方正字迹-曾柏求行楷简体",
+      "clean": "FZZJ-ZBQXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2039_FZZJ-ZBQXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5348508492208879,
+      "distinct": 0.10579344640853638
+    },
+    {
+      "disp": "方正黑隶简体",
+      "clean": "FZHeiLJW",
+      "path": "/root/font_files_0914/founder_fonts_download/614_FZHeiLJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.5374463574789308,
+      "distinct": 0.08265531807612121
+    },
+    {
+      "disp": "方正浩宇行楷",
+      "clean": "FZSJ-FZHAOYXK",
+      "path": "/root/font_files_0914/founder_fonts_download/21839_FZSJ-FZHAOYXK.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5377018952892576,
+      "distinct": 0.02886158814312188
+    },
+    {
+      "disp": "方正字迹-新手书",
+      "clean": "FZZJ-XSS",
+      "path": "/root/font_files_0914/founder_fonts_download/750_FZZJ-XSS.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5401157267466967,
+      "distinct": 0.16185065329330367
+    },
+    {
+      "disp": "方正丁子同行楷 简",
+      "clean": "FZDingZTXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20585_FZDingZTXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5422021693555739,
+      "distinct": 0.06025107980910431
+    },
+    {
+      "disp": "方正字迹-颜世举隶书体 简",
+      "clean": "FZZJ-YSJLSTJW",
+      "path": "/root/font_files_0914/founder_fonts_download/2064_FZZJ-YSJLSTJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.5465963987703119,
+      "distinct": 0.029804424677657933
+    },
+    {
+      "disp": "方正字迹-柳正枢行楷 简",
+      "clean": "FZZJ-LZSXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/18467_FZZJ-LZSXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5523529242043913,
+      "distinct": 0.06942166958674822
+    },
+    {
+      "disp": "方正综艺简体",
+      "clean": "FZZYJW",
+      "path": "/root/font_files_0914/founder_fonts_download/231_FZZYJW.TTF",
+      "cat": "display",
+      "mismatch": 0.5543198744280801,
+      "distinct": 0.3572214703061123
+    },
+    {
+      "disp": "方正小篆体",
+      "clean": "FZXZTFW",
+      "path": "/root/font_files_0914/founder_fonts_download/305_FZXZTFW.TTF",
+      "cat": "zhuan",
+      "mismatch": 0.5544753086419754,
+      "distinct": 0.06511700771496748
+    },
+    {
+      "disp": "方正字迹-赵安简体",
+      "clean": "FZZJ-ZAJW",
+      "path": "/root/font_files_0914/founder_fonts_download/902_FZZJ-ZAJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5563579225381542,
+      "distinct": 0.0567285502617989
+    },
+    {
+      "disp": "方正字迹-清泉新魏碑 简",
+      "clean": "FZZJ-QQXWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/23866_FZZJ-QQXWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.5580338703015283,
+      "distinct": 0.062473944756560165
+    },
+    {
+      "disp": "方正手迹-悦然行楷 简",
+      "clean": "FZSJ-YRXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20385_FZSJ-YRXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.560096618357488,
+      "distinct": 0.016458050969840446
+    },
+    {
+      "disp": "方正字迹-邱氏粗瘦金书简体",
+      "clean": "FZZJ-QSCSJSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/682_FZZJ-QSCSJSJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5612016775183173,
+      "distinct": 0.035323385274528545
+    },
+    {
+      "disp": "方正字迹-张士超新魏碑 简",
+      "clean": "FZZJ-ZSCXWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/21199_FZZJ-ZSCXWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.562466299120751,
+      "distinct": 0.10797500489920069
+    },
+    {
+      "disp": "方正字迹-邢体隶二简体",
+      "clean": "FZZJ-XTLEJW",
+      "path": "/root/font_files_0914/founder_fonts_download/689_FZZJ-XTLEJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.5695398507134448,
+      "distinct": 0.09294312022015797
+    },
+    {
+      "disp": "方正字迹-李凤武隶书 简",
+      "clean": "FZZJ-LFWLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20280_FZZJ-LFWLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.570819378099892,
+      "distinct": 0.028985336261107577
+    },
+    {
+      "disp": "方正字迹-兰梓硬笔隶书 简",
+      "clean": "FZZJ-LanZYBLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/21432_FZZJ-LanZYBLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.5768777456337726,
+      "distinct": 0.023887906815695137
+    },
+    {
+      "disp": "方正字迹-陈朱行楷 简",
+      "clean": "FZZJ-CZXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/3586_FZZJ-CZXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5798664373479602,
+      "distinct": 0.04361413883015383
+    },
+    {
+      "disp": "方正字汇-赵永海魏碑 简",
+      "clean": "FZZH-ZYHWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/22612_FZZH-ZYHWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.5829566490163159,
+      "distinct": 0.1269651755992185
+    },
+    {
+      "disp": "方正字迹-周密行楷 简",
+      "clean": "FZZJ-ZMXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/20282_FZZJ-ZMXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.5834706205381657,
+      "distinct": 0.03137647733405413
+    },
+    {
+      "disp": "方正字迹-墨侠魏碑 简",
+      "clean": "FZZJ-MXWBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/29076_FZZJ-MXWBJW.TTF",
+      "cat": "weibei",
+      "mismatch": 0.5836158958361589,
+      "distinct": 0.05668148700272206
+    },
+    {
+      "disp": "手迹猫如山卡通体",
+      "clean": "dcb96f0d",
+      "path": "/root/font_files_0914/founder_fonts_download/23348_dcb96f0d.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.584612343611925,
+      "distinct": 0.10878493166688111
+    },
+    {
+      "disp": "方正字迹-百乐硬笔简体",
+      "clean": "FZZJ-BLYBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/665_FZZJ-BLYBJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.597988315051203,
+      "distinct": 0.11071970437318962
+    },
+    {
+      "disp": "肚子胖胖生活旺旺",
+      "clean": "fzsj_2178341",
+      "path": "/root/font_files_0914/founder_fonts_download/31232_fzsj_2178341.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.5991378578823211,
+      "distinct": 0.037416302839530916
+    },
+    {
+      "disp": "方正字迹-佩安硬笔简体",
+      "clean": "FZZJ-PANYBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/703_FZZJ-PANYBJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.6005402865867983,
+      "distinct": 0.026315130439496057
+    },
+    {
+      "disp": "方正字迹-子实行楷简体",
+      "clean": "FZZJ-ZSXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/719_FZZJ-ZSXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.6138715006085897,
+      "distinct": 0.018687402374570034
+    },
+    {
+      "disp": "方正字迹-刘鑫标犷简体",
+      "clean": "FZZJ-LXBGJW",
+      "path": "/root/font_files_0914/founder_fonts_download/894_FZZJ-LXBGJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.6181332971481556,
+      "distinct": 0.10996234045593713
+    },
+    {
+      "disp": "白白胖胖可爱滴我",
+      "clean": "fzsj_3071766",
+      "path": "/root/font_files_0914/founder_fonts_download/33673_fzsj_3071766.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.6203623218400319,
+      "distinct": 0.07908820288258997
+    },
+    {
+      "disp": "如风似月行楷",
+      "clean": "FZSJ-RUFSYXK",
+      "path": "/root/font_files_0914/founder_fonts_download/21722_FZSJ-RUFSYXK.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.6281435040055731,
+      "distinct": 0.06742023499790566
+    },
+    {
+      "disp": "杜康体",
+      "clean": "FZSJ-DUKT",
+      "path": "/root/font_files_0914/founder_fonts_download/21315_FZSJ-DUKT.TTF",
+      "cat": "display",
+      "mismatch": 0.6286520505381968,
+      "distinct": 0.04802169793295181
+    },
+    {
+      "disp": "方正字迹-贺飞行楷 简",
+      "clean": "FZZJ-HFXKJW",
+      "path": "/root/font_files_0914/founder_fonts_download/3506_FZZJ-HFXKJW.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.6299464316571626,
+      "distinct": 0.027814678960586967
+    },
+    {
+      "disp": "方正字迹-童体硬笔简体",
+      "clean": "FZZJ-TTYBJW",
+      "path": "/root/font_files_0914/founder_fonts_download/695_FZZJ-TTYBJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.6334921750904877,
+      "distinct": 0.0491876115199002
+    },
+    {
+      "disp": "方正字迹-邢体隶一简体",
+      "clean": "FZZJ-XTLYJW",
+      "path": "/root/font_files_0914/founder_fonts_download/687_FZZJ-XTLYJW.TTF",
+      "cat": "shouxie",
+      "mismatch": 0.642512077294686,
+      "distinct": 0.15256169315738433
+    },
+    {
+      "disp": "生活旺旺白白胖胖",
+      "clean": "fzsj_2174731",
+      "path": "/root/font_files_0914/founder_fonts_download/31135_fzsj_2174731.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.64608507711956,
+      "distinct": 0.10924137390694637
+    },
+    {
+      "disp": "白白胖胖好找对象",
+      "clean": "fzsj_2284619",
+      "path": "/root/font_files_0914/founder_fonts_download/31733_fzsj_2284619.TTF",
+      "cat": "cartoon",
+      "mismatch": 0.6470292992032123,
+      "distinct": 0.09791996244792496
+    },
+    {
+      "disp": "方正字迹-清泉隶书 简",
+      "clean": "FZZJ-QQLSJW",
+      "path": "/root/font_files_0914/founder_fonts_download/25816_FZZJ-QQLSJW.TTF",
+      "cat": "lishu",
+      "mismatch": 0.663563584348468,
+      "distinct": 0.1043703067252729
+    },
+    {
+      "disp": "晴雅行楷",
+      "clean": "FZSJ-QINGYAXK",
+      "path": "/root/font_files_0914/founder_fonts_download/21721_FZSJ-QINGYAXK.TTF",
+      "cat": "xingkai",
+      "mismatch": 0.666244692354353,
+      "distinct": 0.07081927762539349
+    }
+  ]
+}

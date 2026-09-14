@@ -1,0 +1,139 @@
+{
+  "title": "论文展示推荐短名单（眼看后）",
+  "n": 8,
+  "recommended": [
+    {
+      "rank": 1,
+      "clean": "FZHanZKTTJW",
+      "disp": "方正憨仔卡通体 简",
+      "cat": "cartoon",
+      "path": "/root/font_files_0914/founder_fonts_download/27873_FZHanZKTTJW.TTF",
+      "mismatch": 0.02148328839816854,
+      "distinct": 0.06841795793938685,
+      "note": "强推荐：中西都圆胖卡通，一致性最好，论文对比很跳",
+      "eye": "pass",
+      "split": "test",
+      "split_label": "测试集（新增）",
+      "in_260": false
+    },
+    {
+      "rank": 2,
+      "clean": "FZWangDXCJW",
+      "disp": "方正王铎行草 简",
+      "cat": "xingkai",
+      "path": "/root/font_files_0914/founder_fonts_download/20733_FZWangDXCJW.TTF",
+      "mismatch": 0.11300044984255503,
+      "distinct": 0.02459515340699532,
+      "note": "强推荐：中西都是毛笔行草，书法类展示佳",
+      "eye": "pass",
+      "split": "test",
+      "split_label": "测试集（新增）",
+      "in_260": false
+    },
+    {
+      "rank": 3,
+      "clean": "FZZJ-ZTMBZKJW",
+      "disp": "方正字迹-朱涛毛笔正楷简体",
+      "cat": "shouxie",
+      "path": "/root/font_files_0914/founder_fonts_download/733_FZZJ-ZTMBZKJW.TTF",
+      "mismatch": 0.24233044435273093,
+      "distinct": 0.02525747635530192,
+      "note": "推荐：毛笔正楷，拉丁也是手写斜体，风格对齐",
+      "eye": "pass",
+      "split": "test",
+      "split_label": "测试集（新增）",
+      "in_260": false
+    },
+    {
+      "rank": 4,
+      "clean": "FZZJ-OYCDXKJW",
+      "disp": "方正字迹-欧阳长迪行楷 简",
+      "cat": "xingkai",
+      "path": "/root/font_files_0914/founder_fonts_download/20678_FZZJ-OYCDXKJW.TTF",
+      "mismatch": 0.28476546284765464,
+      "distinct": 0.04328174661435543,
+      "note": "推荐：枯笔行楷，中西同调，细节多",
+      "eye": "pass",
+      "split": "test",
+      "split_label": "测试集（新增）",
+      "in_260": false
+    },
+    {
+      "rank": 5,
+      "clean": "FZPangPHJW",
+      "disp": "方正胖胖黑 简",
+      "cat": "cartoon",
+      "path": "/root/font_files_0914/founder_fonts_download/1838_FZPangPHJW.TTF",
+      "mismatch": 0.28355444683826575,
+      "distinct": 0.2849582341054167,
+      "note": "推荐：泡泡黑，中西同构，极端粗体压力测试",
+      "eye": "pass",
+      "split": "test",
+      "split_label": "测试集（新增）",
+      "in_260": false
+    },
+    {
+      "rank": 6,
+      "clean": "FZHPJW",
+      "disp": "方正琥珀简体",
+      "cat": "display",
+      "path": "/root/font_files_0914/founder_fonts_download/213_FZHPJW.TTF",
+      "mismatch": 0.4412244107053299,
+      "distinct": 0.33645155971235263,
+      "note": "推荐：琥珀圆头粗体，展示感强（墨量指标偏高但仍同族感）",
+      "eye": "pass",
+      "split": "test",
+      "split_label": "测试集（新增）",
+      "in_260": false
+    },
+    {
+      "rank": 7,
+      "clean": "FZVDLLOGOCCHJW",
+      "disp": "方正VDL LOGO超粗黑 简",
+      "cat": "display",
+      "path": "/root/font_files_0914/founder_fonts_download/25557_FZVDLLOGOCCHJW.TTF",
+      "mismatch": 0.34045673839511215,
+      "distinct": 0.4960175010332037,
+      "note": "可选：超粗黑 logo，风格极跳；拉丁更圆、中文更方",
+      "eye": "optional",
+      "split": "test",
+      "split_label": "测试集（新增）",
+      "in_260": false
+    },
+    {
+      "rank": 8,
+      "clean": "FZZH-KTPPTJW",
+      "disp": "方正字汇-卡通泡泡体 简",
+      "cat": "cartoon",
+      "path": "/root/font_files_0914/founder_fonts_download/28505_FZZH-KTPPTJW.TTF",
+      "mismatch": 0.28360821892564286,
+      "distinct": 0.1662033115213491,
+      "note": "可选：卡通泡泡体，与胖胖黑同族展示可二选一",
+      "eye": "optional",
+      "split": "test",
+      "split_label": "测试集（新增）",
+      "in_260": false
+    }
+  ],
+  "reject_examples": [
+    {
+      "clean": "FZZJ-ZSCWBJW",
+      "reason": "CN魏碑毛笔 vs Latin 几何无衬线，GT 不一致，不宜作文内 fair GT"
+    },
+    {
+      "clean": "FZZJ-MSSLJW",
+      "reason": "CN瘦隶毛笔 vs Latin 几何无衬线"
+    },
+    {
+      "clean": "FZZJ-ZCQXZJW",
+      "reason": "CN小篆 vs Latin 现代无衬线"
+    },
+    {
+      "clean": "FZZHCJW",
+      "reason": "CN章草连笔强 vs Latin 普通手写，力度/飞白不对齐"
+    }
+  ],
+  "how_to_read": "优先 eye=pass；先看审查页 CN 与 Latin 是否同一设计语言，再跑模型。mismatch 只是墨量代理。",
+  "review_url": "http://172.19.45.13:19000/reports/paper_fonts_0914_screen/",
+  "split_rule": "原260=训练228/验证16/测试16；本短名单均不在260，归为测试集（新增）"
+}

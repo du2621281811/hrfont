@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HR-Font 报告导航</title>
+<style>
+:root { --bg:#eef1f5; --card:#fff; --line:#d5dbe3; --muted:#5c6570; --ink:#1a1a1a; --accent:#1f4a6f; --warn:#9a6b12; }
+* { box-sizing:border-box; }
+body { margin:0; font:14px/1.45 system-ui,sans-serif; background:var(--bg); color:var(--ink); }
+header { background:var(--card); border-bottom:1px solid var(--line); padding:18px 20px; }
+h1 { margin:0; font-size:1.35rem; }
+.lede { color:var(--muted); margin:.5rem 0 0; max-width:52rem; }
+.how { background:#fff8e8; border:1px solid #e6d7a8; margin:14px 20px; padding:10px 12px; font-size:13px; }
+main { max-width:1100px; margin:0 auto; padding:8px 16px 48px; }
+h2 { font-size:1.05rem; margin:22px 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:12px 14px; }
+.card h3 { margin:0 0 6px; font-size:0.98rem; }
+.blurb { margin:0; color:var(--ink); }
+.meta,.path { color:var(--muted); font-size:12px; margin:6px 0 0; }
+.tag { display:inline-block; border:1px solid var(--line); padding:0 6px; margin-right:4px; font-size:11px; }
+.links a { color:var(--accent); margin-right:8px; }
+.miss { color:#8b2e2e; font-size:12px; }
+.warn { background:#fbeeee; border:1px solid #e0b4b4; padding:10px 14px; border-radius:6px; margin-top:20px; }
+code { font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>HR-Font 报告导航</h1>
+  <p class="lede">所有可视化报告的入口。精简介绍写在 REPORT_CATALOG.json；详情页负责深度内容。新增报告只改目录再 build。</p>
+  <p class="lede">生成 2026-09-14T16:55:21Z · 源 REPORT_CATALOG.json</p>
+</header>
+<div class="how">
+  <b>防漏更新：</b>改报告 → 改 <code>reports/REPORT_CATALOG.json</code> 一条 →
+  <code>python3 scripts/build_report_hub.py</code> → 本页自动更新。
+  查漏：<code>python3 scripts/build_report_hub.py --check</code>
+</div>
+<main>
+<section><h2>今晚实验（2026-09-14）</h2><div class='grid'><article class="card">
+  <h3>通宵实验看板 · F0/F2-CLEAN + E12-b </h3>
+  <p class="blurb">收敛曲线、脏/净 val 对照、E12 φ/membership；数据自动重建。</p>
+  <p class="meta"><span class="tag">tonight</span> <span class="tag">F0</span> <span class="tag">F2</span> <span class="tag">E12</span> <span class="tag">clean</span> · live · 更新 2026-09-14</p>
+  <p class="links"><a href="../tonight_20260914_dashboard/index.html">打开文件</a> · <a href="http://127.0.0.1:8790/index.html">端口 8790</a></p>
+  <p class="path"><code>tonight_20260914_dashboard/index.html</code></p>
+</article><article class="card">
+  <h3>F2 中间测试图 · 脏 vs CLEAN </h3>
+  <p class="blurb">test16×TIMELINE_CHARS 中途 ckpt 并排；协议同 DPM++20/CFG7.5/seed3407。进度更新不跳字体。</p>
+  <p class="meta"><span class="tag">tonight</span> <span class="tag">F2</span> <span class="tag">mid</span> <span class="tag">eye</span> · live · 更新 2026-09-14</p>
+  <p class="links"><a href="../f03_test16_strat/timeline_f2_clean.html">打开文件</a> · <a href="http://127.0.0.1:8791/timeline_f2_clean.html">端口 8791</a></p>
+  <p class="path"><code>f03_test16_strat/timeline_f2_clean.html</code></p>
+</article><article class="card">
+  <h3>F2C 中间图（挂在 8790 目录） </h3>
+  <p class="blurb">与 f2c_mid_board 同内容镜像，方便从通宵看板同端口打开。</p>
+  <p class="meta"><span class="tag">tonight</span> <span class="tag">mirror</span> · live · 更新 2026-09-14</p>
+  <p class="links"><a href="../tonight_20260914_dashboard/timeline_f2_clean.html">打开文件</a> · <a href="http://127.0.0.1:8790/timeline_f2_clean.html">端口 8790</a></p>
+  <p class="path"><code>tonight_20260914_dashboard/timeline_f2_clean.html</code></p>
+</article><article class="card">
+  <h3>通宵 MORNING 文本看板 </h3>
+  <p class="blurb">watchdog 阶段快照；事故见 incidents.jsonl。</p>
+  <p class="meta"><span class="tag">tonight</span> <span class="tag">text</span> · live · 更新 2026-09-14</p>
+  <p class="links"><a href="../watchdog_tonight_20260914/MORNING.md">打开文件</a></p>
+  <p class="path"><code>watchdog_tonight_20260914/MORNING.md</code></p>
+</article><article class="card">
+  <h3>F0/F2 clean STATUS.md </h3>
+  <p class="blurb">脏/净对齐 val 表与 cache 状态。</p>
+  <p class="meta"><span class="tag">tonight</span> <span class="tag">F0</span> <span class="tag">F2</span> <span class="tag">text</span> · live · 更新 2026-09-14</p>
+  <p class="links"><a href="../f0f2_clean_v0913/STATUS.md">打开文件</a></p>
+  <p class="path"><code>f0f2_clean_v0913/STATUS.md</code></p>
+</article><article class="card">
+  <h3>E12-b STATUS.md </h3>
+  <p class="blurb">φ best AUC + membership val/test。</p>
+  <p class="meta"><span class="tag">tonight</span> <span class="tag">E12</span> <span class="tag">text</span> · live · 更新 2026-09-14</p>
+  <p class="links"><a href="../e12_b/STATUS.md">打开文件</a></p>
+  <p class="path"><code>e12_b/STATUS.md</code></p>
+</article></div></section><section><h2>正式评测与导师板</h2><div class='grid'><article class="card">
+  <h3>F0/F2/F3 Glyph Board（test16 主评测） </h3>
+  <p class="blurb">协议 A 终点图板 + L1/SSIM/LPIPS 诊断；正式比较主入口。</p>
+  <p class="meta"><span class="tag">eval</span> <span class="tag">F0</span> <span class="tag">F2</span> <span class="tag">F3</span> <span class="tag">mentor</span> · live · 更新 2026-09-09</p>
+  <p class="links"><a href="../f03_test16_strat/index.html">打开文件</a> · <a href="http://127.0.0.1:8791/index.html">端口 8791</a></p>
+  <p class="path"><code>f03_test16_strat/index.html</code></p>
+</article><article class="card">
+  <h3>Demo-8 · 1-shot / 8-shot 对照 </h3>
+  <p class="blurb">核心模型冻结 Demo-8 一眼板；与 test16 全量互补。</p>
+  <p class="meta"><span class="tag">eval</span> <span class="tag">Demo8</span> <span class="tag">mentor</span> · live · 更新 2026-09-09</p>
+  <p class="links"><a href="../f03_test16_strat/core_shot_board.html">打开文件</a> · <a href="http://127.0.0.1:8791/core_shot_board.html">端口 8791</a></p>
+  <p class="path"><code>f03_test16_strat/core_shot_board.html</code></p>
+</article><article class="card">
+  <h3>Multi-shot 眼板 </h3>
+  <p class="blurb">多样本条件对照；与 Demo-8 / test16 互补。</p>
+  <p class="meta"><span class="tag">eval</span> <span class="tag">shot</span> · live · 更新 2026-09-13</p>
+  <p class="links"><a href="../f03_test16_strat/multi_shot_board.html">打开文件</a> · <a href="http://127.0.0.1:8791/multi_shot_board.html">端口 8791</a></p>
+  <p class="path"><code>f03_test16_strat/multi_shot_board.html</code></p>
+</article><article class="card">
+  <h3>对照组精选看图 </h3>
+  <p class="blurb">PI 精选字形对。</p>
+  <p class="meta"><span class="tag">eval</span> <span class="tag">mentor</span> · live · 更新 2026-09-09</p>
+  <p class="links"><a href="../f03_test16_strat/pi_highlights.html">打开文件</a> · <a href="http://127.0.0.1:8791/pi_highlights.html">端口 8791</a></p>
+  <p class="path"><code>f03_test16_strat/pi_highlights.html</code></p>
+</article><article class="card">
+  <h3>F2Vec 眼板 </h3>
+  <p class="blurb">F2 向量侧诊断看图。</p>
+  <p class="meta"><span class="tag">eval</span> <span class="tag">F2</span> · live · 更新 2026-09-13</p>
+  <p class="links"><a href="../f03_test16_strat/f2vec_eye_board.html">打开文件</a> · <a href="http://127.0.0.1:8791/f2vec_eye_board.html">端口 8791</a></p>
+  <p class="path"><code>f03_test16_strat/f2vec_eye_board.html</code></p>
+</article><article class="card">
+  <h3>F0/F2/F3 Val16 分层板 </h3>
+  <p class="blurb">val16 分层评测入口（非 test16 正式终点）。</p>
+  <p class="meta"><span class="tag">eval</span> <span class="tag">val</span> · live · 更新 2026-09-13</p>
+  <p class="links"><a href="../f03_val16_strat/index.html">打开文件</a></p>
+  <p class="path"><code>f03_val16_strat/index.html</code></p>
+</article><article class="card">
+  <h3>Compare Portal（方法状态总览） </h3>
+  <p class="blurb">各臂 ready/queued 与指标摘要。</p>
+  <p class="meta"><span class="tag">portal</span> <span class="tag">mentor</span> · live · 更新 2026-09-09</p>
+  <p class="links"><a href="../compare_portal/index.html">打开文件</a></p>
+  <p class="path"><code>compare_portal/index.html</code></p>
+</article><article class="card">
+  <h3>多实验并排对照 </h3>
+  <p class="blurb">跨 run / 方法一眼对照。</p>
+  <p class="meta"><span class="tag">compare</span> · live · 更新 2026-09-13</p>
+  <p class="links"><a href="../multi_exp_compare/index.html">打开文件</a></p>
+  <p class="path"><code>multi_exp_compare/index.html</code></p>
+</article><article class="card">
+  <h3>F3 ckpt 视觉对照 </h3>
+  <p class="blurb">Official / F0 / F3 视觉并排。</p>
+  <p class="meta"><span class="tag">F3</span> <span class="tag">eye</span> · live · 更新 2026-09-08</p>
+  <p class="links"><a href="../f3_ckpt_dashboard/index.html">打开文件</a></p>
+  <p class="path"><code>f3_ckpt_dashboard/index.html</code></p>
+</article><article class="card">
+  <h3>导师简报 2026-09-07 </h3>
+  <p class="blurb">阶段性导师汇报页（历史）。</p>
+  <p class="meta"><span class="tag">mentor</span> <span class="tag">archive</span> · archive · 更新 2026-09-07</p>
+  <p class="links"><a href="../mentor_briefing_20260907/index.html">打开文件</a></p>
+  <p class="path"><code>mentor_briefing_20260907/index.html</code></p>
+</article><article class="card">
+  <h3>补充测试 6 套 · Paper6 OOD（肉眼） </h3>
+  <p class="blurb">不在原260的6套新增测试字体；未查中西文风格一致性。可肉眼观察，算指标须再确认。</p>
+  <p class="meta"><span class="tag">ood</span> <span class="tag">paper6</span> <span class="tag">eye</span> <span class="tag">F0</span> <span class="tag">F2</span> · live · 更新 2026-09-14</p>
+  <p class="links"><a href="../paper6_0914_f0f2/index.html">打开文件</a> · <a href="http://127.0.0.1:8780/">端口 8780</a></p>
+  <p class="path"><code>paper6_0914_f0f2/index.html</code></p>
+</article></div></section><section><h2>训练监控</h2><div class='grid'><article class="card">
+  <h3>F0–F3 训练看板 </h3>
+  <p class="blurb">各臂 step/loss/ETA/GPU。</p>
+  <p class="meta"><span class="tag">train</span> <span class="tag">dashboard</span> · live · 更新 2026-09-10</p>
+  <p class="links"><a href="../f123_dashboard/index.html">打开文件</a></p>
+  <p class="path"><code>f123_dashboard/index.html</code></p>
+</article><article class="card">
+  <h3>F2 脏臂训练过程时间线 </h3>
+  <p class="blurb">脏 F2 从 5k→75k 的中间结果（历史基线）。</p>
+  <p class="meta"><span class="tag">F2</span> <span class="tag">mid</span> <span class="tag">dirty</span> · live · 更新 2026-09-09</p>
+  <p class="links"><a href="../f03_test16_strat/timeline_f2.html">打开文件</a> · <a href="http://127.0.0.1:8791/timeline_f2.html">端口 8791</a></p>
+  <p class="path"><code>f03_test16_strat/timeline_f2.html</code></p>
+</article><article class="card">
+  <h3>F2P 40k 对照 </h3>
+  <p class="blurb">F2P 40k 视觉/指标对照。</p>
+  <p class="meta"><span class="tag">F2</span> <span class="tag">compare</span> · live · 更新 2026-09-12</p>
+  <p class="links"><a href="../f2p_40k_compare/index.html">打开文件</a></p>
+  <p class="path"><code>f2p_40k_compare/index.html</code></p>
+</article></div></section><section><h2>E12 打分器</h2><div class='grid'><article class="card">
+  <h3>E12 v5.1 眼板（train228） </h3>
+  <p class="blurb">同域打分器错误样例；v51 冻结基线。</p>
+  <p class="meta"><span class="tag">E12</span> <span class="tag">eye</span> · live · 更新 2026-09-08</p>
+  <p class="links"><a href="../e12_eye_probe_v51_train228_s3407/index.html">打开文件</a></p>
+  <p class="path"><code>e12_eye_probe_v51_train228_s3407/index.html</code></p>
+</article><article class="card">
+  <h3>E12 v4 眼板（外部池） </h3>
+  <p class="blurb">外部 OFL 池诊断；与 E12-b 不同合同。</p>
+  <p class="meta"><span class="tag">E12</span> <span class="tag">external</span> · live · 更新 2026-09-07</p>
+  <p class="links"><a href="../e12_eye_probe_v4_s3407/index.html">打开文件</a></p>
+  <p class="path"><code>e12_eye_probe_v4_s3407/index.html</code></p>
+</article><article class="card">
+  <h3>E12-b STATUS.md </h3>
+  <p class="blurb">φ best AUC + membership val/test。</p>
+  <p class="meta"><span class="tag">tonight</span> <span class="tag">E12</span> <span class="tag">text</span> · live · 更新 2026-09-14</p>
+  <p class="links"><a href="../e12_b/STATUS.md">打开文件</a></p>
+  <p class="path"><code>e12_b/STATUS.md</code></p>
+</article></div></section><section><h2>工具与探针</h2><div class='grid'><article class="card">
+  <h3>字符集挑选器 </h3>
+  <p class="blurb">选字工具页。</p>
+  <p class="meta"><span class="tag">tool</span> · live · 更新 2026-09-03</p>
+  <p class="links"><a href="../charset_picker/index.html">打开文件</a></p>
+  <p class="path"><code>charset_picker/index.html</code></p>
+</article><article class="card">
+  <h3>Style / Domain 探针 </h3>
+  <p class="blurb">风格域分布探针板。</p>
+  <p class="meta"><span class="tag">probe</span> · live · 更新 2026-09-13</p>
+  <p class="links"><a href="../style_domain_probe/index.html">打开文件</a></p>
+  <p class="path"><code>style_domain_probe/index.html</code></p>
+</article><article class="card">
+  <h3>Delta Retrieve 板 </h3>
+  <p class="blurb">检索差量可视化。</p>
+  <p class="meta"><span class="tag">retrieve</span> · live · 更新 2026-09-07</p>
+  <p class="links"><a href="../f03_test16_strat/delta_retrieve/index.html">打开文件</a></p>
+  <p class="path"><code>f03_test16_strat/delta_retrieve/index.html</code></p>
+</article></div></section><section><h2>历史归档（少用）</h2><div class='grid'><article class="card">
+  <h3>通用 timeline.html（旧） </h3>
+  <p class="blurb">早期通用时间线；优先用 timeline_f2 / timeline_f2_clean。</p>
+  <p class="meta"><span class="tag">archive</span> <span class="tag">mid</span> · archive · 更新 2026-09-07</p>
+  <p class="links"><a href="../f03_test16_strat/timeline.html">打开文件</a> · <a href="http://127.0.0.1:8791/timeline.html">端口 8791</a></p>
+  <p class="path"><code>f03_test16_strat/timeline.html</code></p>
+</article><article class="card">
+  <h3>Series750 权重浏览 </h3>
+  <p class="blurb">750 系列权重浏览页。</p>
+  <p class="meta"><span class="tag">browse</span> <span class="tag">archive</span> · archive · 更新 2026-09-09</p>
+  <p class="links"><a href="../series750_weight_browse/index.html">打开文件</a></p>
+  <p class="path"><code>series750_weight_browse/index.html</code></p>
+</article><article class="card">
+  <h3>离线协作包入口 </h3>
+  <p class="blurb">离线带走的协作导航；含 f123_board。</p>
+  <p class="meta"><span class="tag">collab</span> <span class="tag">archive</span> · archive · 更新 2026-09-09</p>
+  <p class="links"><a href="../collab_offline/index.html">打开文件</a></p>
+  <p class="path"><code>collab_offline/index.html</code></p>
+</article><article class="card">
+  <h3>离线包 · F123 板 </h3>
+  <p class="blurb">collab_offline 内嵌训练板副本。</p>
+  <p class="meta"><span class="tag">collab</span> <span class="tag">archive</span> · archive · 更新 2026-09-07</p>
+  <p class="links"><a href="../collab_offline/f123_board/index.html">打开文件</a></p>
+  <p class="path"><code>collab_offline/f123_board/index.html</code></p>
+</article><article class="card">
+  <h3>E1 FT v2 看板 </h3>
+  <p class="blurb">早期 E1 fine-tune 看板（历史）。</p>
+  <p class="meta"><span class="tag">E1</span> <span class="tag">archive</span> · archive · 更新 2026-09-04</p>
+  <p class="links"><a href="../e1_ft_v2_dashboard/index.html">打开文件</a></p>
+  <p class="path"><code>e1_ft_v2_dashboard/index.html</code></p>
+</article><article class="card">
+  <h3>通宵正式预览（旧） </h3>
+  <p class="blurb">早期 overnight formal preview。</p>
+  <p class="meta"><span class="tag">archive</span> · archive · 更新 2026-09-03</p>
+  <p class="links"><a href="../hrfont_overnight/formal_preview/index.html">打开文件</a></p>
+  <p class="path"><code>hrfont_overnight/formal_preview/index.html</code></p>
+</article><article class="card">
+  <h3>StageA MVP 视觉（旧） </h3>
+  <p class="blurb">早期 StageA 视觉页。</p>
+  <p class="meta"><span class="tag">archive</span> · archive · 更新 2026-09-03</p>
+  <p class="links"><a href="../hrfont_stagea_mvp_visual/index.html">打开文件</a></p>
+  <p class="path"><code>hrfont_stagea_mvp_visual/index.html</code></p>
+</article><article class="card">
+  <h3>FD Protocol 报告（retrain_v2） </h3>
+  <p class="blurb">协议报告历史页。</p>
+  <p class="meta"><span class="tag">archive</span> <span class="tag">protocol</span> · archive · 更新 2026-09-02</p>
+  <p class="links"><a href="../retrain_v2/fd_protocol_report/index.html">打开文件</a></p>
+  <p class="path"><code>retrain_v2/fd_protocol_report/index.html</code></p>
+</article></div></section>
+<section class='warn'><h2>未登记 HTML（8）</h2><ul><li><code>e12_paper/human_board/index.html</code></li><li><code>font_probe_FZBangSKLTJW/index.html</code></li><li><code>font_probe_FZBangSKLTJW/timeline_f2.html</code></li><li><code>font_probe_FZBangSKLTJW/timeline_f2_clean.html</code></li><li><code>g_v0913_shot/ref8_proposal/index.html</code></li><li><code>g_v0913_shot_k1248/index.html</code></li><li><code>paper_fonts_0914_screen/index.html</code></li><li><code>v100_hub/index.html</code></li></ul><p class='meta'>请补进 REPORT_CATALOG.json 后重新 build</p></section>
+</main>
+</body>
+</html>

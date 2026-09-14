@@ -1,0 +1,15 @@
+{
+  "id": "paper6_ood_supplement_0914",
+  "title": "补充测试 6 套（Paper6 OOD）",
+  "in_260": false,
+  "split_label": "测试集（新增）",
+  "stems_file": "stems.txt",
+  "board": "index.html",
+  "eye_ok": true,
+  "metrics_ok": false,
+  "style_consistency_checked": false,
+  "warning_zh": "未检查中西文风格一致性。可用于肉眼观察；算指标需要进一步确认，不可直接写入正式表。",
+  "warning_en": "CN–Western style consistency not reviewed. Eye inspection OK; do not use for formal metrics until confirmed.",
+  "protocol": "timeline_f2_clean-aligned DPM++20 CFG7.5 seed3407; no G2/G2-RL",
+  "doc": "../PAPER6_OOD_SUPPLEMENT_20260914.md"
+}

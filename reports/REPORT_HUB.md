@@ -2,7 +2,7 @@
 
 > 所有可视化报告的入口。精简介绍写在 REPORT_CATALOG.json；详情页负责深度内容。新增报告只改目录再 build。
 
-生成：`2026-09-14T12:56:52Z` · 源：`reports/REPORT_CATALOG.json` · 重建：`python3 scripts/build_report_hub.py`
+生成：`2026-09-14T16:55:21Z` · 源：`reports/REPORT_CATALOG.json` · 重建：`python3 scripts/build_report_hub.py`
 
 ## 怎么用（防漏更新）
 
@@ -36,6 +36,7 @@
 | **多实验并排对照** | 跨 run / 方法一眼对照。 | [文件](multi_exp_compare/index.html) · ✓ |
 | **F3 ckpt 视觉对照** | Official / F0 / F3 视觉并排。 | [文件](f3_ckpt_dashboard/index.html) · ✓ |
 | **导师简报 2026-09-07** | 阶段性导师汇报页（历史）。 | [文件](mentor_briefing_20260907/index.html) · ✓ |
+| **补充测试 6 套 · Paper6 OOD（肉眼）** | 不在原260的6套新增测试字体；未查中西文风格一致性。可肉眼观察，算指标须再确认。 | [文件](paper6_0914_f0f2/index.html) · [:8780](http://127.0.0.1:8780/) · ✓ |
 
 ## 训练监控
 
@@ -86,5 +87,7 @@
 - `font_probe_FZBangSKLTJW/index.html`
 - `font_probe_FZBangSKLTJW/timeline_f2.html`
 - `font_probe_FZBangSKLTJW/timeline_f2_clean.html`
-- `paper6_0914_f0f2/index.html`
+- `g_v0913_shot/ref8_proposal/index.html`
+- `g_v0913_shot_k1248/index.html`
 - `paper_fonts_0914_screen/index.html`
+- `v100_hub/index.html`
