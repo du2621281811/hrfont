@@ -41,6 +41,7 @@ def main():
     ap.add_argument('--execute', action='store_true')
     ap.add_argument('--wait-pid', type=int, required=True)
     ap.add_argument('--idle-background-pids', required=True)
+    ap.add_argument('--attempt', type=int, default=1)
     a = ap.parse_args()
     if not a.execute:
         print(json.dumps([command(*row) for row in ARMS], indent=2))
@@ -50,12 +51,20 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     lock = (OUT / 'queue.lock').open('a')
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    if (OUT / 'status.json').exists():
+        old = json.loads((OUT / 'status.json').read_text())
+        if old.get('state') != 'NEEDS_ATTENTION':
+            raise RuntimeError('existing queue is not in a failed state; inspect before restarting')
+        archive = OUT / f'prior_attempt_{a.attempt}.status.json'
+        if archive.exists():
+            raise RuntimeError('attempt identifier already used')
+        shutil.copy2(OUT / 'status.json', archive)
     backgrounds = [int(x) for x in a.idle_background_pids.split(',')]
     completed = []
 
     def status(state, **kw):
         payload = dict(state=state, time=datetime.now(timezone.utc).isoformat(), pid=os.getpid(),
-                       code_root=str(CODE), completed=completed, **kw)
+                       code_root=str(CODE), attempt=a.attempt, completed=completed, **kw)
         tmp = OUT / 'status.tmp'
         tmp.write_text(json.dumps(payload, indent=2) + '\n')
         tmp.replace(OUT / 'status.json')
@@ -93,6 +102,8 @@ def main():
         run('P0', [PY, str(CODE / 'scripts/eval_g_ref_panel.py'), '--out', str(OUT / 'P0')])
         for tag, arm in [('SMOKE-A1', 'F2'), ('SMOKE-B1', 'F2RL')]:
             idle()
+            if a.attempt > 1:
+                tag += f'-T{a.attempt}'
             name, cmd = command(tag, arm, True, smoke=True)
             run(tag, cmd)
             rows = [json.loads(x) for x in (ROOT / 'runs' / name / 'train_log.jsonl').read_text().splitlines()]

@@ -13,6 +13,10 @@ PY = '/root/miniforge3/envs/boogu/bin/python'
 
 
 def worker(job, out):
+    # Fail before loading eight GPU models if metric dependencies are missing.
+    from PIL import Image
+    import numpy as np
+    from skimage.metrics import structural_similarity
     sys.path.insert(0, str(CODE / 'scripts'))
     import eval_f03_test16_strat as E
     from v0913_clean_lib import load_phase_pairs
@@ -28,10 +32,10 @@ def worker(job, out):
                 es_cache=ROOT / 'artifacts/g0/es_spatial', ec_cache=ROOT / 'artifacts/g0/ec_multiscale',
                 es_local_cache=ROOT / 'artifacts/g0/es_local', tc_cache=str(ROOT / 'artifacts/tc_v2_cache'))
     E.METHODS[job['id']] = spec
-    E.generate_f2('cuda:0', job['fonts'], False, mid=job['id'])
-    from PIL import Image
-    import numpy as np
-    from skimage.metrics import structural_similarity
+    complete = all(E.pred_path(job['id'], font, char).is_file()
+                   for font in job['fonts'] for char in job['chars'])
+    if not complete:
+        E.generate_f2('cuda:0', job['fonts'], False, mid=job['id'])
     allowed = {(r['font'], r['char']) for r in load_phase_pairs(ROOT / 'manifests/v0913_clean', 'val')[0]}
     rows = []
     for font in job['fonts']:
@@ -49,6 +53,7 @@ def worker(job, out):
 
 
 def main():
+    from skimage.metrics import structural_similarity  # preflight, before worker dispatch
     ap = argparse.ArgumentParser()
     ap.add_argument('--out', required=True, type=Path)
     ap.add_argument('--worker', type=Path)
@@ -84,6 +89,8 @@ def main():
     logs = []
     for gpu, job in enumerate(jobs):
         jp = a.out / (job['id'] + '.job.json')
+        if jp.exists() and json.loads(jp.read_text()) != job:
+            raise RuntimeError(f'existing panel job has different inputs: {jp}')
         jp.write_text(json.dumps(job, ensure_ascii=False, indent=2) + '\n')
         log = (a.out / (job['id'] + '.log')).open('a')
         logs.append(log)

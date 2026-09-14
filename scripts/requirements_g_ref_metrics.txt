@@ -1,0 +1,5 @@
+# Add with --no-deps to the existing boogu environment; do not upgrade training packages.
+scikit-image==0.24.0
+imageio==2.34.2
+tifffile==2024.8.30
+lazy-loader==0.4
