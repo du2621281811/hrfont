@@ -154,6 +154,7 @@ class FontDataset(Dataset):
 
         content_image = self._open_content(content)
 
+        # One episode R for Es, α query, and α prototypes. Do not draw a second set.
         style_map = self.style_by_font_char[font]
         if self.phase == "train":
             n = random.randint(self.nshot_min, self.nshot_max)

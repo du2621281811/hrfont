@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""G0: v0913_clean F0, 8-GPU DDP, global batch 256.
+"""G0b: v0913_clean F0, 8-GPU DDP, global batch 256.
 
-8×32=256. LR linear-scales from 1e-5 @ bs=8 → 3.2e-4.
-Does not overwrite F0-CLEAN-V0913-* .
+8×32=256. lr=1e-5 (no batch scale). constant_with_warmup / 500.
+Does not overwrite F0-CLEAN-* or the failed G0-F0-V0913-BS256-A-S3407.
 """
 from __future__ import annotations
 
@@ -24,9 +24,15 @@ CLEAN_MAP = ROOT / "manifests/v0913_clean"
 GPUS = "0,1,2,3,4,5,6,7"
 NPROC = 8
 PER_DEVICE = 32
-BASE_BS = 8
-BASE_LR = 1e-5
-RUN_ID = "G0-F0-V0913-BS256-A-S3407"
+LR = 1e-5
+WARMUP = 500
+SCHEDULER = "constant_with_warmup"
+RUN_ID = "G0b-F0-V0913-BS256-A-S3407"
+FORBIDDEN = {
+    "G0-F0-V0913-BS256-A-S3407",
+    "F0-CLEAN-V0913-A-S3407",
+    "F0-CLEAN-V0913-BS128-A-S3407",
+}
 ACCEL_PORT = "29521"
 
 
@@ -36,7 +42,7 @@ def main() -> int:
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--max_steps", type=int, default=10_000)
-    ap.add_argument("--warmup", type=int, default=500)
+    ap.add_argument("--warmup", type=int, default=WARMUP)
     ap.add_argument("--ckpt_interval", type=int, default=2500)
     ap.add_argument("--state_interval", type=int, default=500)
     ap.add_argument("--run_id", type=str, default=RUN_ID)
@@ -48,6 +54,9 @@ def main() -> int:
     if nproc != NPROC:
         print(f"expected {NPROC} GPUs, got {nproc}: {args.gpus}", file=sys.stderr)
         return 2
+    if args.run_id in FORBIDDEN and not args.resume:
+        print(f"refuse to write {args.run_id}", file=sys.stderr)
+        return 2
 
     run_id = args.run_id
     max_steps = args.max_steps
@@ -55,13 +64,12 @@ def main() -> int:
     if args.smoke:
         max_steps = 20
         ckpt_interval = 20
-        run_id = f"smoke-G0-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+        run_id = f"smoke-G0b-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
     elif not args.yes:
         print("Refusing full train without --yes (use --smoke first, or pass --yes).", file=sys.stderr)
         return 2
 
     global_bs = PER_DEVICE * nproc
-    lr = BASE_LR * (global_bs / BASE_BS)
     out_dir = RUNS / run_id
     resume_from = args.resume_from.strip()
     if out_dir.exists() and not args.resume and not resume_from:
@@ -86,7 +94,7 @@ def main() -> int:
     meta = {
         "run_id": run_id,
         "variant": "cn2west_f0_rsifree",
-        "experiment": "G0",
+        "experiment": "G0b",
         "group": "G",
         "seed": 3407,
         "gpus": args.gpus,
@@ -94,17 +102,20 @@ def main() -> int:
         "train_batch_size_per_device": PER_DEVICE,
         "gradient_accumulation_steps": 1,
         "global_batch": global_bs,
-        "lr": lr,
-        "lr_rule": "linear_scale from 1e-5 @ bs=8",
+        "lr": LR,
+        "lr_rule": "absolute 1e-5; do not scale AdamW lr with batch",
+        "lr_scheduler": SCHEDULER,
         "warmup": args.warmup,
+        "adamw": {"beta1": 0.9, "beta2": 0.999, "weight_decay": 0.01, "eps": 1e-8, "max_grad_norm": 1.0},
         "max_steps": max_steps,
         "mixed_precision": "fp16",
         "dataset_id": "v0913_clean",
         "v0913_clean_map": str(CLEAN_MAP),
         "phase_1_ckpt_dir": str(OFFICIAL_CKPT),
         "resume_from": resume_from or None,
+        "replaces": "G0-F0-V0913-BS256-A-S3407",
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "note": "8×32=256. Does not overwrite F0-CLEAN-V0913-*. Next: G2, then G1+G2-PRL.",
+        "note": "8×32=256. lr=1e-5 constant_with_warmup. Does not overwrite failed G0 or F0-CLEAN-*.",
     }
     (out_dir / "launch_meta.json").write_text(
         json.dumps(meta, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
@@ -128,8 +139,8 @@ def main() -> int:
         "--train_batch_size", str(PER_DEVICE),
         "--gradient_accumulation_steps", "1",
         "--max_train_steps", str(max_steps),
-        "--learning_rate", f"{lr:.8g}",
-        "--lr_scheduler", "linear",
+        "--learning_rate", f"{LR:.8g}",
+        "--lr_scheduler", SCHEDULER,
         "--lr_warmup_steps", str(args.warmup),
         "--phase_1_ckpt_dir", str(OFFICIAL_CKPT),
         "--mixed_precision", "fp16",

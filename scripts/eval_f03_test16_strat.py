@@ -122,6 +122,7 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_75000",
         "style_oneshot": True,
+        "legacy_mode_d": True,
     },
     "F2_80000_s1": {
         "label": "F2@80k style1",
@@ -129,6 +130,7 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F2-DELTARSI-A-S3407/global_step_80000",
         "style_oneshot": True,
+        "legacy_mode_d": True,
     },
     "F2_40000": {
         "label": "F2@40k",
@@ -168,6 +170,7 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f123_rsi/FontDiffuser",
         "ckpt": ROOT / "runs/F3-JOINT-DS-A-S3407/global_step_80000",
         "style_oneshot": True,
+        "legacy_mode_d": True,
     },
     "F2_80000_k1": {
         "label": "F2@80k 1-shot",
@@ -274,6 +277,7 @@ METHODS = {
         "variant": ROOT / "code/variants/cn2west_f2_vec/FontDiffuser",
         "ckpt": ROOT / "runs/F2-VEC-MT-A-S3407/global_step_40000",
         "style_oneshot": True,
+        "legacy_mode_d": True,
     },
 }
 F1_RUN = ROOT / "runs/F1-OFFRSI-A-S3407"
@@ -525,31 +529,46 @@ def pack_style_delta(
     style_pattn: bool = False,
     delta_oneshot: bool = False,
     local_cache=None,
+    legacy_mode_d: bool = False,
 ):
-    """Style Es uses k=1「永」 when style_oneshot.
+    """One episode R for Es, α query, and α prototypes.
 
-    Historical *_s1 arms keep Δ on ref8 (`delta_oneshot=False`).
-    True 1-shot compare arms set `delta_oneshot=True` so Es and Δ both see 永.
+    True 1-shot: R={永}. 8-shot: R=ref8. Historical *_s1 Mode D
+    (Es=永, Δ=ref8) only when legacy_mode_d=True.
     """
+    style_refs = STYLE1_CPS if style_oneshot else REF8_CPS
+    delta_refs = STYLE1_CPS if delta_oneshot else REF8_CPS
+    if style_refs != delta_refs and not legacy_mode_d:
+        raise RuntimeError(
+            f"style R and alpha R must be the same (got style={style_refs} alpha={delta_refs}); "
+            "use delta_oneshot=style_oneshot, or legacy_mode_d only for historical *_s1 boards"
+        )
     base = {
         "split": [EVAL_SPLIT],
         "font_stem": [font],
         "char_cp": [cp_of(ch)],
     }
-    style_refs = STYLE1_CPS if style_oneshot else REF8_CPS
-    delta_refs = STYLE1_CPS if delta_oneshot else REF8_CPS
-    style, _, style_seq, style_mask, local_raw, local_mask = T._style_conditions(
+    style_samples = {**base, "ref_chars": [style_refs]}
+    delta_samples = {**base, "ref_chars": [delta_refs]}
+    style, queries_style, style_seq, style_mask, local_raw, local_mask = T._style_conditions(
         es,
-        {**base, "ref_chars": [style_refs]},
+        style_samples,
         device,
         style_pattn=style_pattn,
         local_cache=local_cache,
     )
-    _, queries, *_ = T._style_conditions(es, {**base, "ref_chars": [delta_refs]}, device, style_pattn=False)
-    structure = T._structure_features(
-        es, ec, library, {**base, "ref_chars": [delta_refs]}, queries, cfg, keep, device
-    )
-    content = T._content_features(ec, {**base, "ref_chars": [delta_refs]}, keep, device)
+    if style_refs == delta_refs:
+        queries = queries_style
+        structure = T._structure_features(
+            es, ec, library, style_samples, queries, cfg, keep, device
+        )
+        content = T._content_features(ec, style_samples, keep, device)
+    else:
+        _, queries, *_ = T._style_conditions(es, delta_samples, device, style_pattn=False)
+        structure = T._structure_features(
+            es, ec, library, delta_samples, queries, cfg, keep, device
+        )
+        content = T._content_features(ec, delta_samples, keep, device)
     return style, structure, content, style_seq, style_mask, local_raw, local_mask
 
 
@@ -557,14 +576,21 @@ def sidecar_style_extra(mid: str) -> dict:
     spec = METHODS[mid]
     oneshot = bool(spec.get("style_oneshot"))
     delta_oneshot = bool(spec.get("delta_oneshot"))
+    legacy_mode_d = bool(spec.get("legacy_mode_d"))
+    if oneshot and not delta_oneshot and not legacy_mode_d:
+        delta_oneshot = True
     delta_k = 1 if delta_oneshot else 8
+    style_chars = "永" if oneshot else "".join(REF8)
+    delta_chars = "永" if delta_oneshot else "".join(REF8)
     return {
         "style_k": 1 if oneshot else 8,
         "delta_k": delta_k,
-        "style_chars": "永" if oneshot else "".join(REF8),
-        "delta_chars": "永" if delta_oneshot else "".join(REF8),
+        "style_chars": style_chars,
+        "delta_chars": delta_chars,
         "style_oneshot": oneshot,
         "delta_oneshot": delta_oneshot,
+        "legacy_mode_d": legacy_mode_d,
+        "style_alpha_aligned": style_chars == delta_chars,
     }
 
 
@@ -707,6 +733,7 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
     style_oneshot = bool(spec.get("style_oneshot"))
     style_pattn = bool(spec.get("style_pattn"))
     delta_oneshot = bool(spec.get("delta_oneshot"))
+    legacy_mode_d = bool(spec.get("legacy_mode_d"))
     bank_path = Path(spec.get("support_bank") or (ROOT / "artifacts/f0/support_bank.json"))
     n_total = len(stems) * len(STRATIFIED)
     update_status({"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]})
@@ -801,6 +828,7 @@ def generate_f3(device: str, stems: list[str], overwrite: bool, mid: str = "F3_8
             style_oneshot,
             style_pattn=style_pattn,
             delta_oneshot=delta_oneshot,
+            legacy_mode_d=legacy_mode_d,
         )
         vecs = []
         for scp in list(bank.get(cp_of(ch), []))[: cfg.support_k]:
@@ -940,7 +968,7 @@ def f2_timeline_steps() -> list[int]:
 
 
 def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_75000") -> None:
-    """Δ only, no Support. style_oneshot=True → Es from 永 only; Δ still ref8.
+    """Δ only, no Support. Es and α share one R unless spec.legacy_mode_d.
     style_pattn=True → F2-P per-ref style seq on up-path cross-attn.
     style_rl128=True → local L128. Together with style_pattn → F2-PRL (h + L, no G).
     """
@@ -952,6 +980,7 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
     style_pattn = bool(spec.get("style_pattn"))
     style_rl128 = bool(spec.get("style_rl128"))
     delta_oneshot = bool(spec.get("delta_oneshot"))
+    legacy_mode_d = bool(spec.get("legacy_mode_d"))
     n_total = len(stems) * len(STRATIFIED)
     update_status(
         {"method": mid, "phase": "loading", "done": 0, "skipped": 0, "total": n_total, "label": spec["label"]}
@@ -978,8 +1007,8 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
         f"style_pattn={style_pattn}; style_rl128={style_rl128}"
         f"{'; PRL' if style_pattn and style_rl128 else ''})",
     )
-    es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
-    ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
+    es = EsCache(Path(spec.get("es_cache") or (ROOT / "artifacts/f0/es_spatial_f0")))
+    ec = EcCache(Path(spec.get("ec_cache") or (ROOT / "artifacts/f0/ec_multiscale_f0")))
     local_cache = None
     if style_rl128:
         local_dir = Path(spec.get("es_local_cache") or (ROOT / "artifacts/f0/es_local_f0_block2_pool4"))
@@ -1054,6 +1083,7 @@ def generate_f2(device: str, stems: list[str], overwrite: bool, mid: str = "F2_7
             style_pattn=style_pattn,
             delta_oneshot=delta_oneshot,
             local_cache=local_cache,
+            legacy_mode_d=legacy_mode_d,
         )
         n_up_prefix = 9
         if style_rl128:
@@ -1218,8 +1248,8 @@ def generate_f1(device: str, stems: list[str], overwrite: bool, mid: str = "F1_8
     from src.model import FontDiffuserModel
 
     log(mid, f"load Es/Ec + LibraryEs (F1: official RSI, no support) ckpt={ckpt.name}")
-    es = EsCache(ROOT / "artifacts/f0/es_spatial_f0")
-    ec = EcCache(ROOT / "artifacts/f0/ec_multiscale_f0")
+    es = EsCache(Path(spec.get("es_cache") or (ROOT / "artifacts/f0/es_spatial_f0")))
+    ec = EcCache(Path(spec.get("ec_cache") or (ROOT / "artifacts/f0/ec_multiscale_f0")))
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
     train_fonts = sorted(split["stems"]["train"])
     library = T._LibraryEs(es, train_fonts, T._style_chars_from_cache(es))
@@ -1266,15 +1296,16 @@ def generate_f1(device: str, stems: list[str], overwrite: bool, mid: str = "F1_8
     scheduler = build_ddpm_scheduler(args)
     noise_schedule = NoiseScheduleVP(schedule="discrete", betas=scheduler.betas)
     keep = torch.zeros(1, dtype=torch.bool, device=device_t)
-    # 1-shot: official structure uses refs[0]; style Es also only 永 → fair vs F0/E1 Mode A
-    ref_one = [f"u{ord('永'):04X}"]
+    # Default 1-shot (永). style_oneshot=False → REF8 mean for few-shot boards.
+    style_oneshot = bool(spec.get("style_oneshot", True))
+    refs = STYLE1_CPS if style_oneshot else REF8_CPS
 
     def pack_one(font: str, ch: str):
         samples = {
             "split": ["test"],
             "font_stem": [font],
             "char_cp": [cp_of(ch)],
-            "ref_chars": [ref_one],
+            "ref_chars": [refs],
         }
         style, queries, *_ = T._style_conditions(es, samples, device_t)
         structure = T._structure_features(es, ec, library, samples, queries, cfg, keep, device_t)
@@ -1332,7 +1363,7 @@ def generate_f1(device: str, stems: list[str], overwrite: bool, mid: str = "F1_8
                 continue
             pred = sample_one(pack_one(stem, ch))
             pred.save(out_p)
-            write_sidecar(mid, stem, ch, style_p)
+            write_sidecar(mid, stem, ch, style_p, extra=sidecar_style_extra(mid) if mid in METHODS else None)
             done += 1
             if (done + skipped) % 20 == 0:
                 rate = done / max(1e-6, time.time() - t0)

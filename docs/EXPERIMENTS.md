@@ -29,8 +29,9 @@
 | `F0-RSIFREE-FT-A-S3407` | RSI-free parent | **completed 100k；dirty 协议 A parent（勿覆盖）** | **`code/variants/cn2west_f0_rsifree`** |
 | `F0-CLEAN-V0913-A-S3407` | 同一 F0，数据换成 `v0913_clean`（50/38/12） | **interrupted**（给 G0 腾卡；目录保留） | **`code/variants/cn2west_f0_rsifree`** |
 | `F0-CLEAN-V0913-BS128-A-S3407` | F0-c-128：同数据 4 卡 DDP，32×4=128，lr×16 | **interrupted**（给 G0 腾卡；目录保留） | **`code/variants/cn2west_f0_rsifree`** |
-| `G0-F0-V0913-BS256-A-S3407` | Group G parent：8×32=256，lr 3.2e-4，10k，主看 5k | **starting**；看板 `http://127.0.0.1:19000/g/` | **`code/variants/cn2west_f0_rsifree`** |
-| `G2 / G1 / G2-PRL` | G0@10k parent + `artifacts/g0`；先 G2，再 G1∥G2-PRL；各 10k | **queued**；`scripts/watchdog_g.py` | **`code/variants/cn2west_f123_rsi`** |
+| `G0-F0-V0913-BS256-A-S3407` | 旧 G0 parent：8×32=256，lr 3.2e-4 | **failed NaN**；目录保留 | **`code/variants/cn2west_f0_rsifree`** |
+| `G0b-F0-V0913-BS256-A-S3407` | 同 batch；lr 1e-5，10k | **completed 10k** | **`code/variants/cn2west_f0_rsifree`** |
+| `G2 → G2-RL → G-RL-pilot → G1 → G0c` | 串行；pilot 等 git READY；决策 `G_QUEUE_DECISIONS_20260914.md` | **G2 running**；其余排队 | **`cn2west_f123_rsi` + `launch_g0`** |
 | `F1/F2/F2-RL/F2-PRL-CLEAN-V0913` | F0-clean parent + 新 Es/Ec | **parked**；v0913 watchdog 已停 | **`code/variants/cn2west_f123_rsi`** |
 | `F1-OFFRSI-A-S3407` | official-reference RSI 对照 | **completed 80k；正式比较仍待统一汇总** | **`code/variants/cn2west_f123_rsi`** |
 | `F2-DELTARSI-A-S3407` | 旧 mean-Delta | **completed 80k；作为下一版 mean-Delta baseline** | **`code/variants/cn2west_f123_rsi`** |
@@ -46,12 +47,12 @@
 
 ## 方法方向（PI 2026-09-13 更新）
 
-- **2026-09-14 方案与实现更新：** G 系改为效果优先，RL短验证后推进独立 TC-v2；权威规格为 [`G_STYLE_COMPLETION_PLAN_20260914.md`](../reports/G_STYLE_COMPLETION_PLAN_20260914.md)。旧 Es-teacher + Delta-input 补全候选已被该设计替代。Luna 已加入默认关闭的 TC 实现与专用采样入口；CPU 测试不代表已完成 G 实验。实际命令和先行 GPU smoke 见[执行交接](../reports/TC_V2_EXECUTION_HANDOFF_20260914.md)，review 见[实现记录](../reports/TC_V2_LUNA_IMPLEMENTATION_REVIEW_20260914.md)。未修改执行机 watchdog，不将计划 ID 计为已有实验。
+- **2026-09-14 方案与执行更新：** G 系效果优先 + TC-v2 规格见 [`G_STYLE_COMPLETION_PLAN_20260914.md`](../reports/G_STYLE_COMPLETION_PLAN_20260914.md)。Luna TC 实现/交接见 [handoff](../reports/TC_V2_EXECUTION_HANDOFF_20260914.md) / [review](../reports/TC_V2_LUNA_IMPLEMENTATION_REVIEW_20260914.md)。执行机已完成主臂 G0b→G2→G2-RL→G1→G0c，并在跑 8 卡队列 pilot→TC-G2→TC-G2RL（见 [`G_QUEUE_DECISIONS_20260914.md`](../reports/G_QUEUE_DECISIONS_20260914.md) / [`G_PROGRESS_SNAPSHOT_20260914.md`](../reports/G_PROGRESS_SNAPSHOT_20260914.md)）。test16 看板：`reports/g_v0913_shot/`。
 - 规格：[`../reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md`](../reports/HRFONT_DELTA_REF_FINAL_DESIGN_20260911.md)
 - 当前主线：Mean-Delta。Set-Delta 因时间预算弃用，以上规格作为历史设计保留。
 - Support：不进入论文主方法；own-font support 只作额外观测工程模式或 oracle upper bound。
 - 实验 ID、variant ID 与 provenance 在实现 review 通过后再登记；当前没有对应 checkpoint 或结果。
-- 旧 Set-Delta / absolute-set / Round D–R 不再排期。当前快验使用 Group G 的 G0/G2/G1/G2-PRL。CGE × vector 和新直接监督候选仍待 PI review，见 `../reports/DIRTY_DATA_AND_DIRECT_SUPERVISION_20260913.md`。
+- 旧 Set-Delta / absolute-set / Round D–R 不再排期。当前快验为 Group G（G0b/G1/G2/G2-RL + 8卡 TC）。CGE × vector 与直接监督候选见 `../reports/DIRTY_DATA_AND_DIRECT_SUPERVISION_20260913.md`。
 
 ## 数据与权重
 

@@ -4,7 +4,7 @@
   "experiment_id": "G2-PRL-V0913-A-S3407",
   "group": "G",
   "created_at": "2026-09-13T13:25:00+00:00",
-  "status": "queued_after_g2",
+  "status": "cancelled",
   "max_train_steps": 10000,
   "variant": "cn2west_f123_rsi",
   "arm": "F2PRL",
@@ -23,6 +23,7 @@
     "fp16": true,
     "offset_coefficient": 0.5
   },
-  "pipeline": "G0 → cache → G2 → (G1 ∥ G2-PRL)",
-  "note": "Starts after G2 completes. Parallel with G1. Needs es_local from artifacts/g0."
+  "pipeline": "G0 → cache → G2 → (G1 ∥ G2-RL)",
+  "replaced_by": "G2-RL-V0913-A-S3407",
+  "note": "Cancelled 2026-09-13. Group G third arm is G2-RL (F2RL), not F2-P+L."
 }

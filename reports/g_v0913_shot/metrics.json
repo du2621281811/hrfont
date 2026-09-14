@@ -1,0 +1,229 @@
+{
+  "computed_at": "2026-09-14T06:15:25.055065+00:00",
+  "protocol": "v0913 test16 × stratified47 · DPM++20 CFG7.5 seed3407 · G caches for G* ; dirty F2/F2RL linked",
+  "fonts": [
+    "FZBuGTJW",
+    "FZChuangHJW_DB",
+    "FZCuanBZBKSJW",
+    "FZDeSHJW_515H",
+    "FZDouNTJW_Te",
+    "FZFeiHHJW-H",
+    "FZFengYKSJ",
+    "FZHanWZKJW",
+    "FZHuoYYJW-T",
+    "FZJianLTJW_Te",
+    "FZJingLTJW-H",
+    "FZJingYLLTJW",
+    "FZLingFKSJW-B",
+    "FZLiuGQKJW-L",
+    "FZMaWDBSJW",
+    "FZTJLSJW"
+  ],
+  "chars": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "A",
+    "G",
+    "M",
+    "Q",
+    "R",
+    "W",
+    "B",
+    "C",
+    "O",
+    "a",
+    "o",
+    "d",
+    "p",
+    "q",
+    "b",
+    "e",
+    "g",
+    "c",
+    "i",
+    "l",
+    "n",
+    "u",
+    "à",
+    "é",
+    "ü",
+    "ā",
+    "ě",
+    "あ",
+    "か",
+    "さ",
+    "ん",
+    "ア",
+    "カ",
+    "ン",
+    "ㄅ",
+    "ㄆ",
+    "ㄚ"
+  ],
+  "methods": {
+    "G0b_s1": {
+      "label": "G0b@10k",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.06737133365575264,
+        "SSIM_mean": 0.6613235716816989,
+        "coverage_mean": 0.13019780007941792,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "G0c_s1": {
+      "label": "G0c@20000",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.06540365964161886,
+        "SSIM_mean": 0.6792207838610765,
+        "coverage_mean": 0.13188239925014758,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "G1_s1": {
+      "label": "G1@10k 1-shot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.0675181372176628,
+        "SSIM_mean": 0.6684718706020887,
+        "coverage_mean": 0.13096081167811754,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "G1_s8": {
+      "label": "G1@10k 8-shot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.07000319278449751,
+        "SSIM_mean": 0.6596573299649072,
+        "coverage_mean": 0.13624186775081276,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "G2_s1": {
+      "label": "G2@10k 1-shot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.06734011545616321,
+        "SSIM_mean": 0.671749204352617,
+        "coverage_mean": 0.13244787626514484,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "G2_s8": {
+      "label": "G2@10k 8-shot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.07001198687035828,
+        "SSIM_mean": 0.6628759499005181,
+        "coverage_mean": 0.1377495659722223,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "G2RL_s1": {
+      "label": "G2-RL@10k 1-shot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.0673706487330182,
+        "SSIM_mean": 0.6736918679943823,
+        "coverage_mean": 0.13368199846705064,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "G2RL_s8": {
+      "label": "G2-RL@10k 8-shot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.0698075491403715,
+        "SSIM_mean": 0.6689877378397641,
+        "coverage_mean": 0.13925004963615545,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "pilot_s1": {
+      "label": "pilot@best1k 1-shot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.06928243806853177,
+        "SSIM_mean": 0.6737461126151871,
+        "coverage_mean": 0.14259717143173742,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "pilot_s8": {
+      "label": "pilot@best1k 8-shot",
+      "overall": {
+        "n": 752,
+        "L1_mean": 0.07328904280377097,
+        "SSIM_mean": 0.6664884880586388,
+        "coverage_mean": 0.14686775658429388,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "F2_80000": {
+      "label": "dirty F2@80k 8-shot",
+      "overall": {
+        "n": 912,
+        "L1_mean": 0.07069550284691024,
+        "SSIM_mean": 0.6460189940106622,
+        "coverage_mean": 0.13260893050225384,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "F2_80000_k1": {
+      "label": "dirty F2@80k 1-shot",
+      "overall": {
+        "n": 536,
+        "L1_mean": 0.07092474717924845,
+        "SSIM_mean": 0.6235145537650522,
+        "coverage_mean": 0.11405132540422895,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "F2RL_40000": {
+      "label": "dirty F2-RL@40k 8-shot",
+      "overall": {
+        "n": 536,
+        "L1_mean": 0.07309113386427678,
+        "SSIM_mean": 0.6161739159472731,
+        "coverage_mean": 0.12118120335820903,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    },
+    "F2RL_40000_k1": {
+      "label": "dirty F2-RL@40k 1-shot",
+      "overall": {
+        "n": 536,
+        "L1_mean": 0.07179330587352334,
+        "SSIM_mean": 0.6129323625341996,
+        "coverage_mean": 0.11568378809079594,
+        "LPIPS_mean": null,
+        "blank_rate": 0.0
+      }
+    }
+  },
+  "n_items": 10040,
+  "caveat": "L1/SSIM vs GT are diagnostics only. Dirty F2/F2-RL use old F0 caches; G* use G0b caches."
+}

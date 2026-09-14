@@ -18,7 +18,7 @@ SERVICES = (
         "name": "board19000",
         "port": 19000,
         "cwd": SCRIPTS,
-        "argv": [str(PY), str(SCRIPTS / "serve_19000_board.py"), "--host", "0.0.0.0", "--port", "19000"],
+        "argv": [str(PY), str(SCRIPTS / "serve_v100_hub.py"), "--host", "0.0.0.0", "--port", "19000"],
     },
     {
         "name": "portal19001",

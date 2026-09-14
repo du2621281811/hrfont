@@ -4,7 +4,7 @@
   "experiment_id": "G0-F0-V0913-BS256-A-S3407",
   "group": "G",
   "created_at": "2026-09-13T13:25:00+00:00",
-  "status": "starting",
+  "status": "failed_nan",
   "max_train_steps": 10000,
   "variant": "cn2west_f0_rsifree",
   "dataset_id": "v0913_clean",
@@ -32,7 +32,8 @@
     "secondary_step": 10000,
     "also_save": 2500
   },
-  "next": ["G2-F2-V0913-A-S3407", "G1-F1-V0913-A-S3407", "G2-PRL-V0913-A-S3407"],
+  "replaced_by": "G0b-F0-V0913-BS256-A-S3407",
+  "failed_at_step": 1450,
   "design": "reports/G0_DESIGN_20260913.md",
-  "note": "Group G parent. 8×32=256. After G0+cache: G2 first, then G1 and G2-PRL in parallel."
+  "note": "Failed: 8/8 NaN from step 1450; global_step_2500 weights all NaN. Linear-scaled lr 3.2e-4. Directory kept, not overwritten."
 }

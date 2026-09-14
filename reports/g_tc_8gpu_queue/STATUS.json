@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-09-14T14:45:16.733523+08:00",
+  "queue": "run_g_tc_8gpu_queue.sh",
+  "steps": [
+    {
+      "run_id": "G-RL-pilot-8gpu-V0913-A-S3407",
+      "status": "DONE",
+      "heartbeat": {
+        "ts": "2026-09-14T14:00:12",
+        "status": "running",
+        "step": 5000,
+        "loss": 0.023976413533091545
+      },
+      "val": [
+        {
+          "step": 2500,
+          "val_loss": 0.0020706798784730796,
+          "best": {
+            "step": 2500,
+            "val": 0.0020706798784730796
+          }
+        },
+        {
+          "step": 5000,
+          "val_loss": 0.0021346072111794972,
+          "best": {
+            "step": 2500,
+            "val": 0.0020706798784730796
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "G-TC-G2-8gpu-V0913-A-S3407",
+      "status": "RUNNING",
+      "heartbeat": {
+        "ts": "2026-09-14T14:44:22",
+        "status": "running",
+        "step": 3400,
+        "loss": 0.0194123312830925
+      },
+      "val": [
+        {
+          "step": 2500,
+          "val_loss": 0.0020891029759745163,
+          "best": {
+            "step": 2500,
+            "val": 0.0020891029759745163
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "G-TC-G2RL-8gpu-V0913-A-S3407",
+      "status": "QUEUED"
+    }
+  ]
+}

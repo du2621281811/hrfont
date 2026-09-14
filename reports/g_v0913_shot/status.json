@@ -1,0 +1,125 @@
+{
+  "methods": {
+    "G0b_s1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "G0b@10k",
+      "updated_at": "2026-09-14T03:51:02+00:00",
+      "rate_per_s": 0.551,
+      "eta_s": 21,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1365.5
+    },
+    "G0c_s1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "G0c@20000",
+      "updated_at": "2026-09-14T03:52:13+00:00",
+      "rate_per_s": 0.524,
+      "eta_s": 22,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1436.7
+    },
+    "G2_s8": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "G2@10k 8-shot",
+      "updated_at": "2026-09-14T03:50:26+00:00",
+      "rate_per_s": 0.57,
+      "eta_s": 21,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1319.4
+    },
+    "G2RL_s1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "G2-RL@10k 1-shot",
+      "updated_at": "2026-09-14T03:50:52+00:00",
+      "rate_per_s": 0.559,
+      "eta_s": 21,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1346.1
+    },
+    "G1_s1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "G1@10k 1-shot",
+      "updated_at": "2026-09-14T03:49:30+00:00",
+      "rate_per_s": 0.595,
+      "eta_s": 20,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1263.2
+    },
+    "G1_s8": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "G1@10k 8-shot",
+      "updated_at": "2026-09-14T03:49:33+00:00",
+      "rate_per_s": 0.593,
+      "eta_s": 20,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1267.3
+    },
+    "G2RL_s8": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "G2-RL@10k 8-shot",
+      "updated_at": "2026-09-14T03:51:52+00:00",
+      "rate_per_s": 0.536,
+      "eta_s": 22,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1405.7
+    },
+    "G2_s1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "G2@10k 1-shot",
+      "updated_at": "2026-09-14T03:50:01+00:00",
+      "rate_per_s": 0.581,
+      "eta_s": 20,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1294.3
+    },
+    "pilot_s1": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "pilot@best1k 1-shot",
+      "updated_at": "2026-09-14T04:16:25+00:00",
+      "rate_per_s": 0.528,
+      "eta_s": 22,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1424.4
+    },
+    "pilot_s8": {
+      "phase": "done",
+      "done": 752,
+      "skipped": 0,
+      "total": 752,
+      "label": "pilot@best1k 8-shot",
+      "updated_at": "2026-09-14T04:15:39+00:00",
+      "rate_per_s": 0.545,
+      "eta_s": 22,
+      "last": "FZTJLSJW ü",
+      "elapsed_s": 1378.9
+    }
+  },
+  "updated_at": "2026-09-14T04:16:25+00:00"
+}

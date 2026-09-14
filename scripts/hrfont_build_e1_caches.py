@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Build resume-safe Es spatial + Ec multi-scale caches from E1@100k.
+"""Build resume-safe Es spatial + Ec multi-scale caches.
 
 Usage:
   python scripts/hrfont_build_e1_caches.py --which es --device cuda --gpu 2
   python scripts/hrfont_build_e1_caches.py --which ec --device cuda --gpu 3
+  # G0 8-GPU path (orchestrated by rebuild_g0_caches.py):
+  #   --mode init | shard --begin i --end j | finalize
 """
 from __future__ import annotations
 
@@ -13,7 +15,10 @@ import os
 import sys
 import time
 import traceback
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+
+_LOAD_EXEC = ThreadPoolExecutor(max_workers=8)
 
 import numpy as np
 import torch
@@ -112,8 +117,14 @@ def collect_ec_jobs(data_root: Path, split: dict) -> list[tuple[str, Path]]:
     return jobs
 
 
+def load_rgb_batch(paths: list[Path]) -> torch.Tensor:
+    if len(paths) <= 2:
+        return torch.stack([load_rgb(path) for path in paths])
+    return torch.stack(list(_LOAD_EXEC.map(load_rgb, paths)))
+
+
 def encode_es_batch(model, paths: list[Path], device: str) -> tuple[np.ndarray, np.ndarray]:
-    images = torch.stack([load_rgb(path) for path in paths]).to(device)
+    images = load_rgb_batch(paths).to(device)
     with torch.no_grad():
         spatial, pooled, _ = model(images)
         pooled = F.normalize(pooled.float(), dim=1)
@@ -121,7 +132,7 @@ def encode_es_batch(model, paths: list[Path], device: str) -> tuple[np.ndarray, 
 
 
 def encode_ec_batch(model, paths: list[Path], device: str) -> list[np.ndarray]:
-    images = torch.stack([load_rgb(path) for path in paths]).to(device)
+    images = load_rgb_batch(paths).to(device)
     with torch.no_grad():
         final, residuals = model(images)
         scales = list(residuals) + [final]
@@ -135,8 +146,15 @@ def encode_ec_batch(model, paths: list[Path], device: str) -> list[np.ndarray]:
     return out
 
 
-def run_loop(kind: str, jobs: list[tuple[str, Path]], model, device: str, out_dir: Path,
-             batch_size: int, encoder_sha: str, extra_manifest: dict) -> None:
+def _marker(kind: str, out_dir: Path) -> Path:
+    return out_dir / ("spatial.dat" if kind == "es" else "s0.dat")
+
+
+def shard_progress_path(out_dir: Path, begin: int, end: int) -> Path:
+    return out_dir / f"progress_shard_{begin}_{end}.json"
+
+
+def init_tables(kind: str, jobs: list[tuple[str, Path]], out_dir: Path) -> int:
     table = MemmapTable(out_dir)
     keys = [key for key, _ in jobs]
     if table.keys_path.exists():
@@ -146,7 +164,59 @@ def run_loop(kind: str, jobs: list[tuple[str, Path]], model, device: str, out_di
     else:
         table.set_keys(keys)
     n = len(keys)
-    mode = "r+" if (out_dir / ("spatial.dat" if kind == "es" else "s0.dat")).exists() else "w+"
+    if _marker(kind, out_dir).exists():
+        print(f"{kind}: init skip, arrays exist n={n}", flush=True)
+        return n
+    if kind == "es":
+        table.open_array("spatial", (n, *ES_SPATIAL), "w+")
+        table.open_array("pooled", (n, *ES_POOLED), "w+")
+    else:
+        for i, shape in enumerate(EC_SHAPES):
+            table.open_array(f"s{i}", (n, *shape), "w+")
+    table.flush()
+    table.save_progress(0, n)
+    print(f"{kind}: init {out_dir} n={n}", flush=True)
+    return n
+
+
+def write_kind_manifest(kind: str, table: MemmapTable, n: int, encoder_sha: str, extra_manifest: dict) -> None:
+    payload = {
+        "kind": kind,
+        "entries": n,
+        "encoder_sha256": encoder_sha,
+        "dtype": "float16",
+        "created_unix": int(time.time()),
+        **extra_manifest,
+    }
+    if kind == "es":
+        payload["spatial_shape"] = [n, *ES_SPATIAL]
+        payload["pooled_shape"] = [n, *ES_POOLED]
+        payload["es_checkpoint_sha256"] = encoder_sha
+    else:
+        payload["scale_shapes"] = [[n, *shape] for shape in EC_SHAPES]
+        payload["ec_checkpoint_sha256"] = encoder_sha
+    table.save_manifest(payload)
+
+
+def run_loop(kind: str, jobs: list[tuple[str, Path]], model, device: str, out_dir: Path,
+             batch_size: int, encoder_sha: str, extra_manifest: dict,
+             begin: int = 0, end: int = 0, write_manifest: bool = True) -> None:
+    table = MemmapTable(out_dir)
+    keys = [key for key, _ in jobs]
+    if table.keys_path.exists():
+        existing = table.load_keys()
+        if existing != keys:
+            raise RuntimeError(f"{out_dir} keys mismatch; delete directory to rebuild")
+    else:
+        table.set_keys(keys)
+    n = len(keys)
+    stop = end if end > 0 else n
+    if begin < 0 or stop > n or begin > stop:
+        raise RuntimeError(f"bad range begin={begin} end={stop} n={n}")
+    is_shard = begin > 0 or stop < n or not write_manifest
+    mode = "r+" if _marker(kind, out_dir).exists() else "w+"
+    if is_shard and mode != "r+":
+        raise RuntimeError(f"{kind} shard requires init first: {out_dir}")
     if kind == "es":
         spatial = table.open_array("spatial", (n, *ES_SPATIAL), mode)
         pooled = table.open_array("pooled", (n, *ES_POOLED), mode)
@@ -154,12 +224,26 @@ def run_loop(kind: str, jobs: list[tuple[str, Path]], model, device: str, out_di
     else:
         arrays = [table.open_array(f"s{i}", (n, *shape), mode) for i, shape in enumerate(EC_SHAPES)]
         spatial = pooled = None
-    start = table.load_progress()
-    print(f"{kind}: resume {start}/{n} device={device} batch={batch_size}", flush=True)
+    shard_path = shard_progress_path(out_dir, begin, stop)
+    if is_shard:
+        start = begin
+        if shard_path.exists():
+            done = int(json.loads(shard_path.read_text(encoding="utf-8")).get("done", begin))
+            if begin <= done <= stop:
+                start = done
+    else:
+        start = table.load_progress()
+        if start < begin:
+            start = begin
+    print(
+        f"{kind}: range {start}:{stop}/{n} device={device} batch={batch_size} shard={is_shard}",
+        flush=True,
+    )
     index = start
     current_bs = batch_size
-    while index < n:
-        chunk = jobs[index:index + current_bs]
+    t0 = time.time()
+    while index < stop:
+        chunk = jobs[index:min(index + current_bs, stop)]
         paths = [path for _, path in chunk]
         try:
             if kind == "es":
@@ -178,29 +262,33 @@ def run_loop(kind: str, jobs: list[tuple[str, Path]], model, device: str, out_di
                 continue
             raise
         index += len(chunk)
-        if index % 1024 == 0 or index == n:
+        if index % 1024 == 0 or index == stop:
             table.flush()
-            table.save_progress(index, n)
-            print(f"{kind}: {index}/{n} ({100.0 * index / n:.1f}%)", flush=True)
+            if is_shard:
+                shard_path.write_text(
+                    json.dumps({"done": index, "begin": begin, "end": stop, "total": n}) + "\n",
+                    encoding="utf-8",
+                )
+            else:
+                table.save_progress(index, n)
+            rate = (index - start) / max(1e-6, time.time() - t0)
+            print(
+                f"{kind}: {index}/{stop} of {n} ({100.0 * index / n:.1f}%) {rate:.1f}/s",
+                flush=True,
+            )
     table.flush()
-    table.save_progress(n, n)
-    payload = {
-        "kind": kind,
-        "entries": n,
-        "encoder_sha256": encoder_sha,
-        "dtype": "float16",
-        "created_unix": int(time.time()),
-        **extra_manifest,
-    }
-    if kind == "es":
-        payload["spatial_shape"] = [n, *ES_SPATIAL]
-        payload["pooled_shape"] = [n, *ES_POOLED]
-        payload["es_checkpoint_sha256"] = encoder_sha
+    if is_shard:
+        shard_path.write_text(
+            json.dumps({"done": stop, "begin": begin, "end": stop, "total": n}) + "\n",
+            encoding="utf-8",
+        )
     else:
-        payload["scale_shapes"] = [[n, *shape] for shape in EC_SHAPES]
-        payload["ec_checkpoint_sha256"] = encoder_sha
-    table.save_manifest(payload)
-    print(f"{kind}: wrote {out_dir}", flush=True)
+        table.save_progress(n, n)
+    if write_manifest:
+        write_kind_manifest(kind, table, n, encoder_sha, extra_manifest)
+        print(f"{kind}: wrote {out_dir}", flush=True)
+    else:
+        print(f"{kind}: shard done {begin}:{stop} -> {out_dir}", flush=True)
 
 
 def verify_es(model, jobs, cache_dir: Path, device: str, n_check: int, seed: int = 3407) -> None:
@@ -298,6 +386,9 @@ def main() -> int:
     parser.add_argument("--gpu", type=int)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--verify-n", type=int, default=8)
+    parser.add_argument("--mode", choices=("full", "init", "shard", "finalize"), default="full")
+    parser.add_argument("--begin", type=int, default=0, help="inclusive start for shard mode")
+    parser.add_argument("--end", type=int, default=0, help="exclusive end; 0 = all remaining")
     args = parser.parse_args()
     if args.gpu is not None:
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
@@ -313,16 +404,43 @@ def main() -> int:
         "split_counts": {k: len(v) for k, v in split.items()},
     }
     kinds = ("es", "ec") if args.which == "both" else (args.which,)
+    if args.mode == "shard" and args.which == "both":
+        raise SystemExit("shard mode requires --which es or --which ec")
     for kind in kinds:
         jobs = collect_es_jobs(args.data_root, split) if kind == "es" else collect_ec_jobs(args.data_root, split)
         out = args.es_out if kind == "es" else args.ec_out
+        if args.mode == "init":
+            init_tables(kind, jobs, out)
+            continue
         attempts = 0
         while True:
             attempts += 1
             try:
+                if args.mode == "finalize":
+                    table = MemmapTable(out)
+                    table.load_keys()
+                    if not args.ckpt_dir.is_dir():
+                        raise RuntimeError(f"missing ckpt {args.ckpt_dir}")
+                    sha = sha256_file(
+                        args.ckpt_dir / ("style_encoder.pth" if kind == "es" else "content_encoder.pth")
+                    )
+                    table.save_progress(len(jobs), len(jobs))
+                    write_kind_manifest(kind, table, len(jobs), sha, extra)
+                    if args.verify_n:
+                        model, enc_sha = load_encoder(kind, args.ckpt_dir, args.device)
+                        if enc_sha != sha:
+                            raise RuntimeError("finalize encoder sha mismatch")
+                        (verify_es if kind == "es" else verify_ec)(
+                            model, jobs, out, args.device, args.verify_n)
+                    print(f"{kind}: finalize {out}", flush=True)
+                    break
                 model, sha = load_encoder(kind, args.ckpt_dir, args.device)
-                run_loop(kind, jobs, model, args.device, out, args.batch_size, sha, extra)
-                if args.verify_n:
+                run_loop(
+                    kind, jobs, model, args.device, out, args.batch_size, sha, extra,
+                    begin=args.begin, end=args.end,
+                    write_manifest=(args.mode == "full"),
+                )
+                if args.mode == "full" and args.verify_n:
                     (verify_es if kind == "es" else verify_ec)(
                         model, jobs, out, args.device, args.verify_n)
                 break

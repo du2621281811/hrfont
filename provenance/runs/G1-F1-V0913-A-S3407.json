@@ -10,18 +10,21 @@
   "arm": "F1",
   "rsi_source": "official",
   "dataset_id": "v0913_clean",
-  "parent": "runs/G0-F0-V0913-BS256-A-S3407/global_step_10000",
+  "parent": "runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000",
   "caches": "artifacts/g0",
   "output_dir": "runs/G1-F1-V0913-A-S3407",
-  "gpu": 1,
+  "gpus": [0, 1, 2, 3, 4, 5, 6, 7],
   "train": {
     "seed": 3407,
-    "batch_size": 8,
+    "num_processes": 8,
+    "batch_size_per_device": 8,
+    "global_batch": 64,
     "lr": 1e-5,
+    "lr_scheduler": "constant_with_warmup",
     "warmup": 500,
     "fp16": true,
     "offset_coefficient": 0.5
   },
-  "pipeline": "G0 → cache → G2 → (G1 ∥ G2-PRL)",
-  "note": "Starts after G2 completes. Parallel with G2-PRL."
+  "pipeline": "G0b → cache → G2 → G1 → G2-RL",
+  "note": "8-GPU serial after G2. Not parallel with G2-RL (cache contention)."
 }

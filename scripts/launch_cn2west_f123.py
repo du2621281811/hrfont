@@ -67,7 +67,7 @@ CLEAN_RUN = {
 G_RUN = {
     "F1": "G1-F1-V0913-A-S3407",
     "F2": "G2-F2-V0913-A-S3407",
-    "F2PRL": "G2-PRL-V0913-A-S3407",
+    "F2RL": "G2-RL-V0913-A-S3407",
 }
 
 
@@ -85,7 +85,13 @@ def main() -> int:
     ap.add_argument("--max_steps", type=int, default=40_000,
                     help="PI 2026-09-12: new arms train/eval at 40k (was 80k).")
     ap.add_argument("--lr", type=float, default=1e-5)
+    ap.add_argument(
+        "--lr_scheduler", default="",
+        help="empty: constant_with_warmup if max_steps<=10000 else linear. Do not linear-scale AdamW lr with batch.",
+    )
     ap.add_argument("--warmup", type=int, default=5000)
+    ap.add_argument("--allow_high_lr", action="store_true",
+                    help="Permit lr > 8e-5. Death line on V100 fp16 + per-device 32 was ~1.17e-4.")
     ap.add_argument("--seed", type=int, default=3407, help="PI freeze: single seed only")
     ap.add_argument("--source_drop", type=float, default=0.25)
     ap.add_argument("--support_drop", type=float, default=0.20)
@@ -120,6 +126,18 @@ def main() -> int:
     if not args.smoke and not args.yes:
         print("Refusing full train without --yes (use --smoke first, or pass --yes).", file=sys.stderr)
         return 2
+    if args.lr > 8e-5 and not args.allow_high_lr:
+        print(
+            f"refuse lr={args.lr:g} > 8e-5 (G0 3.2e-4 and F0-c-128 1.6e-4 both NaN'd; "
+            f"death ~1.17e-4). Pass --allow_high_lr only with a written reason.",
+            file=sys.stderr,
+        )
+        return 2
+    sched = args.lr_scheduler or ("constant_with_warmup" if args.max_steps <= 10_000 else "linear")
+    if args.max_steps <= 10_000 and not args.warmup:
+        args.warmup = 500
+    elif args.max_steps <= 10_000 and args.warmup == 5000:
+        args.warmup = 500
 
     def resolve(p: str) -> Path:
         q = Path(p)
@@ -180,6 +198,7 @@ def main() -> int:
         "effective_batch": args.batch_size * args.gradient_accumulation_steps,
         "max_steps": args.max_steps,
         "lr": args.lr,
+        "lr_scheduler": sched,
         "warmup": args.warmup,
         "source_drop": args.source_drop,
         "support_drop": args.support_drop,
@@ -219,7 +238,7 @@ def main() -> int:
         "--gradient_accumulation_steps", str(args.gradient_accumulation_steps),
         "--max_train_steps", str(args.max_steps),
         "--learning_rate", str(args.lr),
-        "--lr_scheduler", "linear",
+        "--lr_scheduler", sched,
         "--lr_warmup_steps", str(args.warmup),
         "--mixed_precision", "fp16",
         "--ckpt_interval", str(args.ckpt_interval),

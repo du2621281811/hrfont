@@ -40,6 +40,11 @@ def arg_parse():
                         help="The saving directory.")
     parser.add_argument("--device", type=str, default="cuda:0")
     parser.add_argument("--ttf_path", type=str, default="ttf/KaiXinSongA.ttf")
+    parser.add_argument(
+        "--allow_official_single_style",
+        action="store_true",
+        help="Escape hatch for the official one-image demo. F1/F2/F3 must not use this path.",
+    )
     args = parser.parse_args()
     style_image_size = args.style_image_size
     content_image_size = args.content_image_size
@@ -130,6 +135,12 @@ def load_fontdiffuer_pipeline(args):
 
 
 def sampling(args, pipe, content_image=None, style_image=None):
+    if not getattr(args, "allow_official_single_style", False):
+        raise SystemExit(
+            "cn2west_f123_rsi/sample.py encodes one style image and has no α/R. "
+            "F1/F2/F3 inference must use scripts/eval_f03_test16_strat.py so Es and α "
+            "share the same ref_chars. Pass --allow_official_single_style only for the official demo."
+        )
     if not args.demo:
         os.makedirs(args.save_image_dir, exist_ok=True)
         # saving sampling config

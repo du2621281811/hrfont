@@ -14,7 +14,10 @@ import json
 import os
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+
+_LOAD_EXEC = ThreadPoolExecutor(max_workers=8)
 
 import numpy as np
 import torch
@@ -78,7 +81,10 @@ def load_encoder(ckpt: Path, device: str):
 
 
 def encode_batch(model, paths: list[Path], device: str) -> np.ndarray:
-    images = torch.stack([load_rgb(p) for p in paths]).to(device)
+    if len(paths) <= 2:
+        images = torch.stack([load_rgb(p) for p in paths]).to(device)
+    else:
+        images = torch.stack(list(_LOAD_EXEC.map(load_rgb, paths))).to(device)
     captured: dict[str, torch.Tensor] = {}
 
     def hook(_mod, _inp, out):
