@@ -38,7 +38,7 @@
 ## 编译与审校
 
 已用现有 pdfLaTeX / latexmk 编译为9页PDF（含参考文献和附录），逐页渲染检查公式、表格、标题、占位图和引用；修复了贡献列表引导句跨页孤立的问题。最终日志无undefined citation/reference和overfull box。结果表为空是本轮要求。
-接续队列8项单元检查通过；默认dry-run、py_compile通过；执行机launcher/train SHA与本地一致。清洗计数重新核验：train56429、test47合法704。这里只声称脚本与排程检查，不声称新CONT已经完成。
+接续队列12项单元检查通过（包含背景GPU上下文、未知新进程和显存保护）；默认dry-run、py_compile通过；执行机launcher/train SHA与本地一致。清洗计数重新核验：train56429、test47合法704。这里只声称脚本与排程检查，不声称新CONT已经完成。
 新架构图采用可编辑LaTeX，未调用生成式图片模型；图内没有伪造实验输出。
 论文写作skill用于统一叙事和证据顺序；训练skill用于匹配parent/batch/learning rate与短验证阶段。通用训练配方不覆盖项目已经验证的V100设置。
 

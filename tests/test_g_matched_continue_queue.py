@@ -52,6 +52,26 @@ class QueueTest(unittest.TestCase):
             with self.assertRaises(PermissionError):
                 queue.busy(3007083)
 
+    def test_explicit_background_guard(self):
+        with patch.object(queue, "capture", side_effect=["999", "0, 30000\n" * 8]), \
+             patch.object(queue.os, "kill", side_effect=ProcessLookupError):
+            self.assertFalse(queue.busy(3007083, (999,)))
+
+    def test_background_becomes_active(self):
+        with patch.object(queue, "capture", side_effect=["999", "20, 30000\n" * 8]), \
+             patch.object(queue.os, "kill", side_effect=ProcessLookupError):
+            self.assertTrue(queue.busy(3007083, (999,)))
+
+    def test_background_low_memory(self):
+        with patch.object(queue, "capture", side_effect=["999", "0, 12000\n" * 8]), \
+             patch.object(queue.os, "kill", side_effect=ProcessLookupError):
+            self.assertTrue(queue.busy(3007083, (999,)))
+
+    def test_new_pid_blocks(self):
+        with patch.object(queue, "capture", return_value="999\n1000"), \
+             patch.object(queue.os, "kill", side_effect=ProcessLookupError):
+            self.assertTrue(queue.busy(3007083, (999,)))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Bounded 8-V100 continuation queue; dry-run by default, never kills jobs.
 
-Waits for the incumbent evaluation process AND all CUDA compute clients to
-finish, then runs two existing-recipe +5k controls sequentially. No Git overlay,
+Waits for the incumbent evaluation process and other active CUDA clients to
+finish, then runs two existing-recipe +5k controls sequentially. Explicitly
+listed background contexts require low utilization and >=16 GiB free per GPU.
+No Git overlay,
 checkpoint removal, unbounded training, or automatic scientific selection.
 """
 from __future__ import annotations
@@ -46,7 +48,7 @@ def capture(cmd):
     return subprocess.check_output(cmd, text=True, cwd=ROOT).strip()
 
 
-def busy(wait_pid):
+def busy(wait_pid, background_pids=()):
     # nvidia-smi failure is an error, never interpreted as an idle server.
     clients = capture(['nvidia-smi', '--query-compute-apps=pid', '--format=csv,noheader,nounits'])
     try:
@@ -54,7 +56,24 @@ def busy(wait_pid):
         incumbent_alive = True
     except ProcessLookupError:
         incumbent_alive = False
-    return incumbent_alive or bool(clients)
+    if incumbent_alive:
+        return True
+    pids = {int(line.strip()) for line in clients.splitlines() if line.strip()}
+    if pids - set(background_pids):
+        return True
+    if pids:
+        # Container NVIDIA output can retain host-namespace background contexts.
+        # Never infer that [Not Found] is dead. Only an operator-specified set
+        # may coexist, and only after the resource guard passes twice.
+        rows = capture(['nvidia-smi', '--query-gpu=utilization.gpu,memory.free',
+                        '--format=csv,noheader,nounits']).splitlines()
+        if len(rows) != 8:
+            raise RuntimeError('expected exactly eight GPUs')
+        for row in rows:
+            util, free_mib = map(int, row.split(','))
+            if util > 5 or free_mib < 16384:
+                return True
+    return False
 
 
 def main():
@@ -62,12 +81,17 @@ def main():
     ap.add_argument('--execute', action='store_true')
     ap.add_argument('--wait-pid', type=int, default=0)
     ap.add_argument('--poll-seconds', type=int, default=30)
+    ap.add_argument('--idle-background-pids', default='',
+                    help='operator-verified idle host PID contexts; no processes are killed')
     args = ap.parse_args()
     if not args.execute:
         print(json.dumps([command(run) for run in RUNS], indent=2))
         return 0
     if args.wait_pid <= 1 or args.poll_seconds < 10:
         ap.error('execution requires a verified incumbent --wait-pid > 1 and poll >= 10')
+    background_pids = tuple(int(p) for p in args.idle_background_pids.split(',') if p)
+    if any(p <= 1 for p in background_pids):
+        ap.error('background PIDs must be positive process IDs > 1')
     out = ROOT / 'reports/g_matched_continue_20260914'
     out.mkdir(parents=True, exist_ok=True)
     lock = (out / 'queue.lock').open('a')
@@ -85,7 +109,7 @@ def main():
         tmp.replace(out / 'status.json')
         print(json.dumps(payload), flush=True)
 
-    status('WAITING', incumbent_pid=args.wait_pid)
+    status('WAITING', incumbent_pid=args.wait_pid, idle_background_pids=background_pids)
     for run in RUNS:
         name = run[0]
         run_dir = ROOT / 'runs' / name
@@ -105,7 +129,7 @@ def main():
                 status('STOPPED_BEFORE_NEXT_JOB')
                 return 0
             try:
-                occupied = busy(args.wait_pid)
+                occupied = busy(args.wait_pid, background_pids)
             except Exception as exc:
                 status('WAITING_PROBE_ERROR', error=str(exc))
                 time.sleep(args.poll_seconds)
@@ -129,6 +153,7 @@ def main():
             'train_sha256': digest(ROOT / 'code/variants/cn2west_f123_rsi/FontDiffuser/train.py'),
             'tracked_changes': capture(['git', 'diff', '--stat']),
             'free_gib': free,
+            'idle_background_pids': background_pids,
         }
         (out / (name + '.launch.json')).write_text(json.dumps(provenance, indent=2) + '\n')
         status('RUNNING', run_id=name, **provenance)
