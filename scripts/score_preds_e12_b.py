@@ -20,7 +20,7 @@ import torch
 from PIL import Image
 from torch.nn import functional as F
 
-ROOT = Path("/root/projects/hrfont")
+ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "eval_framework"))
 from models import MembershipVerifier, load_phi_checkpoint  # noqa: E402
 

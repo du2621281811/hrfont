@@ -1,5 +1,7 @@
 # E12-b STATUS
 - updated: 2026-09-14T07:24:19.028676+00:00
+- weights release: https://github.com/du2621281811/hrfont/releases/tag/e12-b-v0913-20260914
+- weights handoff: reports/e12_b/WEIGHTS_HANDOFF.md
 - cache: artifacts/e12/cache_v0913_b (fonts≈223)
 - phi run: runs/e12_phi_s2_b_s3407
 - phi latest val_auc points: [(250, 0.8868408203125), (500, 0.97161865234375), (750, 0.9654541015625), (1000, 0.95281982421875), (1250, 0.9493408203125), (1500, 0.9639892578125), (1750, 0.9171142578125), (2000, 0.9072265625)]
