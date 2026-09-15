@@ -2,26 +2,26 @@
   "run_id": "I2-V0915-S3407",
   "series": "I",
   "server_path": "/root/projects/hrfont/runs/I2-V0915-S3407",
-  "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
+  "snapshot_utc": "2026-09-15T08:20:30.034001+00:00",
   "status": "recorded_not_live_verified",
   "done": null,
   "stopped": null,
   "heartbeat": {
     "state": "TRAINING",
-    "time": 1789456545.9782956,
-    "step": 700,
-    "attempt": 700,
-    "loss": 0.02536274865269661,
-    "eps": 0.0018261466175317764,
-    "perceptual": 1.8429147005081177,
-    "completion": 0.18725022673606873,
-    "comp_coef": 0.006999999999999999,
-    "grad_norm": 0.20217092335224152,
-    "reader_grad": 0.003335814567905026,
-    "router_grad": 5.862867426206095e-05,
-    "encoder_grad": 0.001228485294565383,
-    "aux_loss_rank": 0.06992145627737045,
-    "gate": 0.7,
+    "time": 1789460239.9029026,
+    "step": 2300,
+    "attempt": 2300,
+    "loss": 0.03546395152807236,
+    "eps": 0.001753471908159554,
+    "perceptual": 3.0952250957489014,
+    "completion": 0.18832014501094818,
+    "comp_coef": 0.01,
+    "grad_norm": 0.3207765817642212,
+    "reader_grad": 0.0059653183722937,
+    "router_grad": 8.514698014567303e-05,
+    "encoder_grad": 0.0013058290307826517,
+    "aux_loss_rank": 0.0297870934009552,
+    "gate": 1.0,
     "lr": [
       0.0001,
       2e-05,
@@ -29,11 +29,11 @@
       0.0001
     ],
     "skips": 0,
-    "scale": 1024.0,
+    "scale": 2048.0,
     "ddp_spread": 0.0,
-    "update_seconds": 2.1111624240875244,
-    "peak_mib": 8691.06005859375,
-    "elapsed_seconds": 1570.1456143856049
+    "update_seconds": 2.158846616744995,
+    "peak_mib": 8697.5107421875,
+    "elapsed_seconds": 5264.070172786713
   },
   "config": {
     "arm": "I2",
@@ -69,5 +69,17 @@
     "overfit": false,
     "resume": null
   },
-  "inference": []
+  "inference": [
+    {
+      "step": 2000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 2000,
+        "seconds": 56.22376799583435
+      },
+      "server_path": "/root/projects/hrfont/runs/I2-V0915-S3407/eval_step_2000",
+      "portable_report": "experiments/I/I2/step00002000/review.html"
+    }
+  ]
 }

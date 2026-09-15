@@ -1,9 +1,10 @@
 {
   "model": "I2",
   "run_id": "I2-V0915-S3407",
-  "status": "RUNNING_FORMAL_FIRST100_VERIFIED",
-  "observed_at": "2026-09-15T15:16:00+08:00",
-  "observed_step": 700,
+  "status": "RUNNING_AFTER_2K_INFERENCE",
+  "observed_at": "2026-09-15T16:21:00+08:00",
+  "observed_step": 2400,
+  "current_health": "eight ranks at2400/2400, skips0, ddp_spread0, gradients nonzero; gate1, TC coefficient.01; complete state_step_2000 verified without restore test",
   "first_100_update_check": "passed: 100/100 successful updates, skips0, ddp_spread0, reader/encoder/router gradients nonzero; current eight-rank check at300 also passes",
   "measured_seconds_per_update_100_to_300": 2.2106209445,
   "first_recovery_checkpoint": "state_step_500 complete marker plus model/EMA/trainer files verified; last_state points here; no new restore test performed",
@@ -22,5 +23,7 @@
   "cn_content_version": "v0913_clean+I2_CN_Noto83_Pillow12.2",
   "cn_content_status": "fresh rebuild activated; 338 PNG hashes and 1690 FP16 feature tensors exactly match audited version; previous assets retained as backup",
   "ddp_preflight": "I-SMOKE-I2-V0915-S3407 DONE: 20/20 updates, 55.07 seconds; latest periodic log at step10 shows skips0 and ddp_spread0 across eight ranks",
-  "generation_quality": "not evaluated"
+  "generation_quality": "2k val192 complete; matched I1@2k: I2 slightly worse aggregate L1/SSIM/edge at1/4/8shot; 88/192 images and7/16 font means improve in L1; early Latin panel, not full-script conclusion",
+  "latest_inference": "reports/experiments/I/I2/step00002000",
+  "matched_review": "reports/I2_2K_MATCHED_REVIEW_20260915.md"
 }
