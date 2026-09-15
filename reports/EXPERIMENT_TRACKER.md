@@ -1,6 +1,6 @@
 # HRFont 跨系列实验追踪（持续更新入口）
 
-更新：2026-09-16。**I3/I4/E12-c独立实现、分桶与数据划分已部署；I3八卡80步及恢复80→84、I4八卡10步通过，E12-c与最终推理预检收尾中。** [真实实施状态](I34_IMPLEMENTATION_STATUS_20260915.md)、[执行手册](I34_EXECUTION_RUNBOOK_20260916.md)。I0/I1/I2两种协议推理全部完成；新增I2 matched4888、I0 formal4096已取回验收。本轮只执行I3→E12-c→I4，不派发G/H/额外消融、不改论文。新checkpoint盘已经PI批准。
+更新：2026-09-16。**全部端到端预检通过，正式I3已达八卡100/100成功更新，skips0、DDP差0；E12-c和I4已进入同一后台接续队列。** [真实启动回执](I34_DISPATCH_20260916.json)、[执行手册](I34_EXECUTION_RUNBOOK_20260916.md)。I0/I1/I2两种协议推理全部完成；新增I2 matched4888、I0 formal4096已验收并push c218b7484。本轮只执行I3→E12-c→I4，不派发G/H/额外消融、不改论文。新checkpoint盘已经PI批准，每小时低上下文巡检已切换。
 
 本次审阅入口：[I2重建批准证据](review_20260915/I2_RENDER_APPROVAL_20260915.json)、[I2构建规则](review_20260915/I2_RENDER_REVIEW.md)、[E12-c实验计划（待review、未派发）](E12C_PLAN_20260915.md)、[最新E12代码审核](review_20260915/E12_REVIEW.md)。本次用户明确批准后，已归档解除渲染专用STOP；其他失败/磁盘条件仍需停队列。
 
@@ -17,9 +17,9 @@
 | I0 | 统一预训练底座 | G0b@10000别名，不新增训练；matched4888和formal4096均完成并归档 | I0使用父unet原权重，不标为新EMA；两协议不混算 | [同款原图](experiments/I/I0/step00010000_k1248/review.html)、[formal4096](experiments/I/I0/step00010000/review.html) |
 | I1 | 在线多尺度TC + 动态set-delta | **10k训练及原4096最终推理完成；另有同款4888图完整归档，传输后6395登记文件SHA通过** | k1248 test四shot的L1/SSIM/edge均小幅优于I0；L1下降1.13%–3.71%。该test板1shot仍最好，shot收益不单调；不等同笔触/特效问题解决 | [同款原图](experiments/I/I1/step00010000_k1248/review.html)、[匹配报告](I01_K1248_AND_I2_RESUME_20260915.md)、[原4096图](experiments/I/I1/step00010000/review.html) |
 | I2 | I1架构 + 中文留一目标辅助任务 | **10k成功更新、formal4096、matched4888全部完成并归档**，8rank最终无跳步/DDP差 | 尚无显著风格改善结论；matched test同样不是shot单调增益 | [matched原图](experiments/I/I2/step00010000_k1248/review.html)、[4096原图](experiments/I/I2/step00010000/review.html) |
-| I3 | I0独立初始化；I1结构 + 直接token墨迹监督/输出细节loss + 字符校准难例采样 | 实现/分桶/8卡短过拟合及恢复已通过；整队列准入收尾中 | 预检loss下降且实际token/ref编码器收到梯度；正式效果待验证 | [执行手册](I34_EXECUTION_RUNBOOK_20260916.md) |
+| I3 | I0独立初始化；I1结构 + 直接token墨迹监督/输出细节loss + 字符校准难例采样 | **I3-V0916-S3407正式8卡训练中，已核验100/100步**；后接formal4096和matched4888 | 初100步loss0.10409，零AMP跳步/参数分歧，各新模块梯度正常；未有正式视觉效果结论 | [启动回执](I34_DISPATCH_20260916.json) |
 | I4 | 同一个I0独立初始化；I3主任务 + I2同款中文辅助任务 | 实现和8卡10步中文辅助预检通过；正式排在E12-c后 | I4:I3=I2:I1；主64+中文32、辅助权重0.5；不继承训练后I3 | [执行顺序](I3_E12C_I4_AUTHORIZATION_20260915.md) |
-| E12-c | 轻量跨文字字体相容性评测＋独立人评 | 两阶段入口及178/22/23实例划分已实现，短流程预检中；正式排I3后/I4前 | A2000+B1000；本次known-family映射为空并记unknown，人评后续不阻塞I4 | [执行手册](I34_EXECUTION_RUNBOOK_20260916.md) · [人评协议](E12C_HUMAN_PROTOCOL_20260915.md) |
+| E12-c | 轻量跨文字字体相容性评测＋独立人评 | 178/22/23实例划分及A20+B20短流程通过；正式A2000+B1000已排I3后/I4前 | 本次known-family映射为空并记unknown；预检非正式效果，人评后续不阻塞I4 | [执行手册](I34_EXECUTION_RUNBOOK_20260916.md) · [人评协议](E12C_HUMAN_PROTOCOL_20260915.md) |
 
 ## 不混淆的规则
 
@@ -30,6 +30,8 @@
 5. 每次里程碑：导出状态 → 同步原图 → 更新本表结论 → 非force Git提交与推送。每小时巡检负责发现进度/故障，执行机监护器维持10秒安全检查。权重留执行机，Git保存配置、哈希及位置，不往Git塞多GB训练状态。
 
 ## 更新记录
+
+- 2026-09-16：I34/E12c实现及旧推理结果push c218b7484，最终准入push 1edf2f2be；全部短流程通过，正式队列PID3457564、I3 torchrun PID3457570。8rank均100步、loss0.10409、skips0、DDP0，前100步循环120.27秒（后续以稳定吞吐更新预估）。I3/I4独立初始化，E12c位于中间。root15.77GiB、获批checkpoint盘124.58GiB；未删除旧权重。小时巡检ACTIVE并指向新摘要。
 
 - 2026-09-15 23:15 +08：I2完成10k和formal4096，4352预测/GT PNG逐图解码、4364源文件登记哈希并通过传输checksum核验；与I1的4096键一致。I2 k1248八卡运行，I0 formal4096待补。PI要求排I4作为I3+中文辅助，计划同步但未派发，暂不做去分桶/旧TC消融。
 
