@@ -1,4 +1,5 @@
 """Train-only Han content extension, separate from immutable V0913 main caches."""
+import argparse
 import json
 from pathlib import Path
 import torch
@@ -8,10 +9,14 @@ from i_runtime import ROOT,T,PARENT0,args_for,sha256_file,atomic_json,DataContex
 from scripts.build_cn2west_v2_proto_abc import render_glyph_AB
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--out',type=Path,default=ROOT/'artifacts/i_20260915/cn_content',
+                        help='Use a fresh directory for a non-destructive rebuild.')
+    opts=parser.parse_args()
     torch.set_num_threads(1)
     assert Image.__version__=='12.2.0' and pil_features.version('freetype2')=='2.14.3', 'use the isolated pinned render_deps PYTHONPATH'
     args=args_for(PARENT0)
-    root=ROOT/'artifacts/i_20260915/cn_content'
+    root=opts.out
     if (root/'COMPLETE.json').exists():
         print('CN extension already complete'); return
     root.mkdir(parents=True,exist_ok=True)

@@ -1,0 +1,21 @@
+{
+  "status": "VERIFIED",
+  "time_utc": "2026-09-15T05:39:56.539254+00:00",
+  "authorization": "PI message 2026-09-15 approves Protocol A Han rebuild and I2 scheduling",
+  "png_exact": 338,
+  "feature_tensors_exact": 1690,
+  "font_sha256": "5dcd1c336cc9344cb77c03a0cd8982ca8a7dc97d620fd6c9c434e02dcb1ceeb3",
+  "parent_ec_sha256": "a780e70b88ea52751dbbc454b731706c2d94ebf1c0971b57f049212f6984e88c",
+  "features_sha256": "843b492cbfda59366c647f813424044823e59c07b5ae5acb6087645820e8fa13",
+  "scope": "New Han neutral content only; old western PNG and main caches unchanged",
+  "historical_western_pixel_reproduction": "unresolved; accepted as separate from the approved Han extension",
+  "activated": true,
+  "active_path": "/root/projects/hrfont/artifacts/i_20260915/cn_content",
+  "backup_path": "/root/projects/hrfont/artifacts/i_20260915/cn_content_before_approval_20260915",
+  "queue_order": [
+    "I1 training and inference",
+    "I2 preflight then training and inference",
+    "I0 inference"
+  ],
+  "stop_archived_as": "/root/projects/hrfont/reports/i_20260915/STOP_RENDER_REVIEW_APPROVED_20260915.txt"
+}
