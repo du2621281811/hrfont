@@ -38,8 +38,24 @@ def guard():
     return ready
 
 
+def gpu_admission():
+    # Observed before/during/after smoke: idle host-namespace contexts, invisible in this container.
+    # They are not ours to terminate. Reject new contexts or insufficient capacity instead.
+    baseline={1397110,1397113,1397116,1397119,1397122,1397125,1397128,1397131}
+    raw=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid','--format=csv,noheader,nounits'],text=True)
+    pids={int(s.strip()) for s in raw.splitlines() if s.strip()}
+    assert pids<=baseline, 'New GPU context: '+str(pids-baseline)
+    assert not any(Path(f'/proc/{pid}').exists() for pid in pids), 'Baseline namespace/ownership changed'
+    rows=subprocess.check_output(['nvidia-smi','--query-gpu=index,memory.free,utilization.gpu',
+                                 '--format=csv,noheader,nounits'],text=True).splitlines()
+    parsed=[[int(x.strip()) for x in row.split(',')] for row in rows]
+    assert len(parsed)==8 and all(free>=12000 and util<=5 for _,free,util in parsed),parsed
+    write(OUT/'gpu_admission.json',dict(time=time.time(),existing_host_pids=sorted(pids),
+        index_free_mib_util=parsed,policy='Preserve observed idle external contexts; no termination'))
+
+
 def run(name,args,lock,extra_env=None):
-    guard();log=OUT/(name+'.log')
+    guard();gpu_admission();log=OUT/(name+'.log')
     assert not log.exists(), 'Do not silently repeat an existing stage: '+name
     with log.open('x') as f:
         env=os.environ.copy();env.update(extra_env or {})
@@ -88,8 +104,7 @@ def main():
     with (ROOT/'reports/i_20260915/queue.lock').open('a+') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         guard()
-        gpu=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid','--format=csv,noheader'],text=True).strip()
-        assert not gpu, 'GPU worker still active: '+gpu
+        gpu_admission()
         if not a.execute:print('DRY_RUN_PASSED');return
         assert not (OUT/'state.json').exists(), 'Inspect existing queue instead of duplicating it'
         try:

@@ -65,7 +65,7 @@
   "e12c_manifest_sha256": "8ea1a56df5adc0ba6f66137a6398417b43c9762c088fe8ca46f7dee7c2262ec4",
   "code_sha256": {
     "scripts/archive_experiments.py": "aa2d7d4dda822b601e8908f542b7e522ede2398343397f41c67b9364bec6c43e",
-    "scripts/archive_i34_k1248.py": "d0ffc691c6ff115906d86f15c14e25a47821fb9bda90e13c60e28e4bc41682ba",
+    "scripts/archive_i34_k1248.py": "6ce052215892b9b8a973216865083ff248e6766d77a7b6ff5da7c6868b3ce833",
     "scripts/archive_i_k1248.py": "a49984eb20c9c4a8a79a6dba228a1bb084d7b20cb139367384e26b5b714b5884",
     "scripts/audit_fd_official_render.py": "ff96722b17c58dd106e218ce1c34cda1adb5480bfdea9aba8923df599004af77",
     "scripts/audit_i2_render_20260915.py": "a295b75b61c839cd28c2e3e98548838a4e59392f837129eb67fa101d2408e97e",
@@ -205,7 +205,7 @@
     "scripts/queue_g_matched_continue_20260914.py": "3acd5873d03a4558fda101b9d43a7f021c90392959571b93ebc2dbc5b33e078d",
     "scripts/queue_g_ref_20260914.py": "480c8a6bd8830306d4fcd5f9dde8555809a3ff3b3d551c060d61daa8e719394a",
     "scripts/queue_h_20260915.py": "fca2fb1d3f76cd25d2acbe8a0065b02ce8b19a19cc2ff70c9d8efb82a735e4cc",
-    "scripts/queue_i34_20260916.py": "ae4afe45867d7d48e6d37eb549fc33d2b60ce24fb8aed16802ea2e8e6dbff583",
+    "scripts/queue_i34_20260916.py": "2073515b96e42d4b2ebe3448a018a5940bc7543a4010a5093dca1b8aab9065af",
     "scripts/queue_i_20260915.py": "b65f9bb36b703419f5b8e87842120b32baf17dc25263ef8578c88ead5b46790c",
     "scripts/rebuild_g0_caches.py": "2d2d85275bc6b095bdeeaace3d49ec3074cb7211633be17c9f41bb658da711cb",
     "scripts/rebuild_glyph_board_fair_axes.py": "1e964a1b9e048afad73e5cb1a48c3d0f101668b9a749c1e1512d00805093e69d",
@@ -261,5 +261,6 @@
     "scripts/watchdog_f2_rl128.py": "bfffcd7b1c2915b6239e6f3fd7f8dc18f12fc8da5a5448cee3599e1cf38a2c83",
     "scripts/watchdog_g.py": "c5b112f4622b80959eb66552f861391865e3b30d42bcd7e40f806c7e77e0a6e9"
   },
+  "queue_only_revision": "After numerical tests, GPU admission revised to preserve eight preexisting invisible idle contexts (1832 MiB each), require >=12000 MiB free and <=5% utilization on all eight GPUs, and reject new PIDs. No model/training/inference numerical code changed. Explicit live dry-run is additionally required.",
   "status": "PASSED"
 }
