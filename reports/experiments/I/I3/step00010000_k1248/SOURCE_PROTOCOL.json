@@ -1,0 +1,425 @@
+{
+  "created_at": "2026-09-14T12:52:54.772211+00:00",
+  "ref8": "永和书风骨韵天地",
+  "shot_sets": {
+    "1": "永",
+    "2": "永和",
+    "4": "永和书风",
+    "8": "永和书风骨韵天地"
+  },
+  "sampling": {
+    "sampler": "dpmsolver++",
+    "steps": 20,
+    "cfg": 7.5,
+    "seed": 3407
+  },
+  "fonts": {
+    "test": [
+      "FZBuGTJW",
+      "FZChuangHJW_DB",
+      "FZCuanBZBKSJW",
+      "FZDeSHJW_515H",
+      "FZDouNTJW_Te",
+      "FZFeiHHJW-H",
+      "FZFengYKSJ",
+      "FZHanWZKJW",
+      "FZHuoYYJW-T",
+      "FZJianLTJW_Te",
+      "FZJingLTJW-H",
+      "FZJingYLLTJW",
+      "FZLingFKSJW-B",
+      "FZLiuGQKJW-L",
+      "FZMaWDBSJW",
+      "FZTJLSJW"
+    ],
+    "train5": [
+      "FZPTYJW",
+      "FZDuHJW_Cu",
+      "FZShuLTJW-H",
+      "FZYiMSJW-T",
+      "FZFeiSJW-EL"
+    ],
+    "val5": [
+      "FZYouHK_511M",
+      "FZLTHProGBK_H",
+      "FZJunYTJW-H",
+      "FZBangSKKXJW",
+      "FZKANGJW"
+    ]
+  },
+  "chars": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "A",
+    "G",
+    "M",
+    "Q",
+    "R",
+    "W",
+    "B",
+    "C",
+    "O",
+    "a",
+    "o",
+    "d",
+    "p",
+    "q",
+    "b",
+    "e",
+    "g",
+    "c",
+    "i",
+    "l",
+    "n",
+    "u",
+    "à",
+    "é",
+    "ü",
+    "ā",
+    "ě",
+    "あ",
+    "か",
+    "さ",
+    "ん",
+    "ア",
+    "カ",
+    "ン",
+    "ㄅ",
+    "ㄆ",
+    "ㄚ"
+  ],
+  "reuse_from": "/root/projects/hrfont/reports/g_v0913_shot/preds",
+  "reuse": {},
+  "methods": {
+    "G0b_s1": {
+      "label": "G0b@10k",
+      "kind": "image",
+      "ckpt": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "G0c_s1": {
+      "label": "G0c@20k",
+      "kind": "image",
+      "ckpt": "/root/projects/hrfont/runs/G0c-F0-V0913-BS256-A-S3407/global_step_20000",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "G1_s1": {
+      "label": "G1 1-shot",
+      "kind": "f1",
+      "ckpt": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/global_step_10000",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "G1_s2": {
+      "label": "G1 2-shot",
+      "kind": "f1",
+      "ckpt": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/global_step_10000",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "G1_s4": {
+      "label": "G1 4-shot",
+      "kind": "f1",
+      "ckpt": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/global_step_10000",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "G1_s8": {
+      "label": "G1 8-shot",
+      "kind": "f1",
+      "ckpt": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407/global_step_10000",
+      "style_k": 8,
+      "tc_enabled": false
+    },
+    "G2_s1": {
+      "label": "G2 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/global_step_10000",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "G2_s2": {
+      "label": "G2 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/global_step_10000",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "G2_s4": {
+      "label": "G2 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/global_step_10000",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "G2_s8": {
+      "label": "G2 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407/global_step_10000",
+      "style_k": 8,
+      "tc_enabled": false
+    },
+    "G2RL_s1": {
+      "label": "G2RL 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/global_step_10000",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "G2RL_s2": {
+      "label": "G2RL 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/global_step_10000",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "G2RL_s4": {
+      "label": "G2RL 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/global_step_10000",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "G2RL_s8": {
+      "label": "G2RL 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407/global_step_10000",
+      "style_k": 8,
+      "tc_enabled": false
+    },
+    "pilot_s1": {
+      "label": "pilot 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_1000",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "pilot_s2": {
+      "label": "pilot 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_1000",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "pilot_s4": {
+      "label": "pilot 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_1000",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "pilot_s8": {
+      "label": "pilot 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407/global_step_1000",
+      "style_k": 8,
+      "tc_enabled": false
+    },
+    "pilot8_s1": {
+      "label": "pilot8 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/best",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "pilot8_s2": {
+      "label": "pilot8 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/best",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "pilot8_s4": {
+      "label": "pilot8 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/best",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "pilot8_s8": {
+      "label": "pilot8 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407/best",
+      "style_k": 8,
+      "tc_enabled": false
+    },
+    "TCG2_s1": {
+      "label": "TCG2 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/best",
+      "style_k": 1,
+      "tc_enabled": true
+    },
+    "TCG2_s2": {
+      "label": "TCG2 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/best",
+      "style_k": 2,
+      "tc_enabled": true
+    },
+    "TCG2_s4": {
+      "label": "TCG2 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/best",
+      "style_k": 4,
+      "tc_enabled": true
+    },
+    "TCG2_s8": {
+      "label": "TCG2 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407/best",
+      "style_k": 8,
+      "tc_enabled": true
+    },
+    "TCG2RL_s1": {
+      "label": "TCG2RL 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/best",
+      "style_k": 1,
+      "tc_enabled": true
+    },
+    "TCG2RL_s2": {
+      "label": "TCG2RL 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/best",
+      "style_k": 2,
+      "tc_enabled": true
+    },
+    "TCG2RL_s4": {
+      "label": "TCG2RL 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/best",
+      "style_k": 4,
+      "tc_enabled": true
+    },
+    "TCG2RL_s8": {
+      "label": "TCG2RL 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407/best",
+      "style_k": 8,
+      "tc_enabled": true
+    },
+    "CONT_G2_2500_s1": {
+      "label": "CONT_G2_2500 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_2500",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "CONT_G2_2500_s2": {
+      "label": "CONT_G2_2500 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_2500",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "CONT_G2_2500_s4": {
+      "label": "CONT_G2_2500 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_2500",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "CONT_G2_2500_s8": {
+      "label": "CONT_G2_2500 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_2500",
+      "style_k": 8,
+      "tc_enabled": false
+    },
+    "CONT_G2_5000_s1": {
+      "label": "CONT_G2_5000 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_5000",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "CONT_G2_5000_s2": {
+      "label": "CONT_G2_5000 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_5000",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "CONT_G2_5000_s4": {
+      "label": "CONT_G2_5000 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_5000",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "CONT_G2_5000_s8": {
+      "label": "CONT_G2_5000 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_5000",
+      "style_k": 8,
+      "tc_enabled": false
+    },
+    "CONT_G2RL_2500_s1": {
+      "label": "CONT_G2RL_2500 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_2500",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "CONT_G2RL_2500_s2": {
+      "label": "CONT_G2RL_2500 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_2500",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "CONT_G2RL_2500_s4": {
+      "label": "CONT_G2RL_2500 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_2500",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "CONT_G2RL_2500_s8": {
+      "label": "CONT_G2RL_2500 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_2500",
+      "style_k": 8,
+      "tc_enabled": false
+    },
+    "CONT_G2RL_5000_s1": {
+      "label": "CONT_G2RL_5000 1-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_5000",
+      "style_k": 1,
+      "tc_enabled": false
+    },
+    "CONT_G2RL_5000_s2": {
+      "label": "CONT_G2RL_5000 2-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_5000",
+      "style_k": 2,
+      "tc_enabled": false
+    },
+    "CONT_G2RL_5000_s4": {
+      "label": "CONT_G2RL_5000 4-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_5000",
+      "style_k": 4,
+      "tc_enabled": false
+    },
+    "CONT_G2RL_5000_s8": {
+      "label": "CONT_G2RL_5000 8-shot",
+      "kind": "f2",
+      "ckpt": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407/global_step_5000",
+      "style_k": 8,
+      "tc_enabled": false
+    }
+  }
+}

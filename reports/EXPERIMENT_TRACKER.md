@@ -1,6 +1,6 @@
 # HRFont 跨系列实验追踪（持续更新入口）
 
-更新：2026-09-16。**全部端到端预检通过，正式I3已达八卡100/100成功更新，skips0、DDP差0；E12-c和I4已进入同一后台接续队列。** [真实启动回执](I34_DISPATCH_20260916.json)、[执行手册](I34_EXECUTION_RUNBOOK_20260916.md)。I0/I1/I2两种协议推理全部完成；新增I2 matched4888、I0 formal4096已验收并push c218b7484。本轮只执行I3→E12-c→I4，不派发G/H/额外消融、不改论文。新checkpoint盘已经PI批准，每小时低上下文巡检已切换。
+更新：2026-09-16 04:41 +08。**I3的10k训练、formal4096、matched4888及四个中间面板全部完成验收；归档部署遗漏已修复，E12-c阶段A已开始，I4随后自动接续。** [完成与恢复记录](I3_COMPLETE_AND_QUEUE_RECOVERY_20260916.md)。原训练代码、权重和两套推理未重跑；11,831个登记文件传输SHA通过。本轮不派发G/H/额外消融，不改论文，小时巡检继续。
 
 本次审阅入口：[I2重建批准证据](review_20260915/I2_RENDER_APPROVAL_20260915.json)、[I2构建规则](review_20260915/I2_RENDER_REVIEW.md)、[E12-c实验计划（待review、未派发）](E12C_PLAN_20260915.md)、[最新E12代码审核](review_20260915/E12_REVIEW.md)。本次用户明确批准后，已归档解除渲染专用STOP；其他失败/磁盘条件仍需停队列。
 
@@ -17,9 +17,9 @@
 | I0 | 统一预训练底座 | G0b@10000别名，不新增训练；matched4888和formal4096均完成并归档 | I0使用父unet原权重，不标为新EMA；两协议不混算 | [同款原图](experiments/I/I0/step00010000_k1248/review.html)、[formal4096](experiments/I/I0/step00010000/review.html) |
 | I1 | 在线多尺度TC + 动态set-delta | **10k训练及原4096最终推理完成；另有同款4888图完整归档，传输后6395登记文件SHA通过** | k1248 test四shot的L1/SSIM/edge均小幅优于I0；L1下降1.13%–3.71%。该test板1shot仍最好，shot收益不单调；不等同笔触/特效问题解决 | [同款原图](experiments/I/I1/step00010000_k1248/review.html)、[匹配报告](I01_K1248_AND_I2_RESUME_20260915.md)、[原4096图](experiments/I/I1/step00010000/review.html) |
 | I2 | I1架构 + 中文留一目标辅助任务 | **10k成功更新、formal4096、matched4888全部完成并归档**，8rank最终无跳步/DDP差 | 尚无显著风格改善结论；matched test同样不是shot单调增益 | [matched原图](experiments/I/I2/step00010000_k1248/review.html)、[4096原图](experiments/I/I2/step00010000/review.html) |
-| I3 | I0独立初始化；I1结构 + 直接token墨迹监督/输出细节loss + 字符校准难例采样 | **I3-V0916-S3407正式8卡训练中，已核验100/100步**；后接formal4096和matched4888 | 初100步loss0.10409，零AMP跳步/参数分歧，各新模块梯度正常；未有正式视觉效果结论 | [启动回执](I34_DISPATCH_20260916.json) |
+| I3 | I0独立初始化；I1结构 + 直接token墨迹监督/输出细节loss + 字符校准难例采样 | **10k训练及两套最终推理全部完成归档**，8rank零跳步/分歧 | 相对I1 test边缘误差小幅改善，L1/SSIM混合，未证实显著风格收益 | [结果与恢复](I3_COMPLETE_AND_QUEUE_RECOVERY_20260916.md)、[matched图](experiments/I/I3/step00010000_k1248/review.html) |
 | I4 | 同一个I0独立初始化；I3主任务 + I2同款中文辅助任务 | 实现和8卡10步中文辅助预检通过；正式排在E12-c后 | I4:I3=I2:I1；主64+中文32、辅助权重0.5；不继承训练后I3 | [执行顺序](I3_E12C_I4_AUTHORIZATION_20260915.md) |
-| E12-c | 轻量跨文字字体相容性评测＋独立人评 | 178/22/23实例划分及A20+B20短流程通过；正式A2000+B1000已排I3后/I4前 | 本次known-family映射为空并记unknown；预检非正式效果，人评后续不阻塞I4 | [执行手册](I34_EXECUTION_RUNBOOK_20260916.md) · [人评协议](E12C_HUMAN_PROTOCOL_20260915.md) |
+| E12-c | 轻量跨文字字体相容性评测＋独立人评 | **正式阶段A运行中，已实测370步、AMP跳步0**；之后B1000，再接I4 | 本次known-family映射为空并记unknown；正式自动验证、人评结论尚未产生 | [恢复与进度](I3_COMPLETE_AND_QUEUE_RECOVERY_20260916.md) · [人评协议](E12C_HUMAN_PROTOCOL_20260915.md) |
 
 ## 不混淆的规则
 
@@ -30,6 +30,8 @@
 5. 每次里程碑：导出状态 → 同步原图 → 更新本表结论 → 非force Git提交与推送。每小时巡检负责发现进度/故障，执行机监护器维持10秒安全检查。权重留执行机，Git保存配置、哈希及位置，不往Git塞多GB训练状态。
 
 ## 更新记录
+
+- 2026-09-16 04:41 +08：I3完成10k/4096/4888，归档时发现漏部署CPU sealer而安全退出；补齐后逐字节校验已有副本并封存所有结果，11,831文件及11,741 PNG本地验收通过。恢复PID3476802已启动E12-c阶段A370步、skips0，下一阶段仍为B1000→I4，未重跑I3、未修改冻结训练代码。
 
 - 2026-09-16：I34/E12c实现及旧推理结果push c218b7484，最终准入push 1edf2f2be；全部短流程通过，正式队列PID3457564、I3 torchrun PID3457570。8rank均100步、loss0.10409、skips0、DDP0，前100步循环120.27秒（后续以稳定吞吐更新预估）。I3/I4独立初始化，E12c位于中间。root15.77GiB、获批checkpoint盘124.58GiB；未删除旧权重。小时巡检ACTIVE并指向新摘要。
 

@@ -1,0 +1,44 @@
+{
+  "time": 1789504780.0751584,
+  "prior_state": {
+    "state": "I3_K1248",
+    "pid": 3457564,
+    "child_pid": 3471747,
+    "started": 1789501255.560643,
+    "checked": 1789502747.1099863,
+    "stop_requested": false,
+    "command": [
+      "/root/miniforge3/envs/boogu/bin/python",
+      "-m",
+      "torch.distributed.run",
+      "--standalone",
+      "--nproc_per_node=8",
+      "scripts/eval_i34_k1248.py",
+      "--arm",
+      "I3",
+      "--run-id",
+      "I3-V0916-S3407"
+    ]
+  },
+  "prior_failure": {
+    "error": "CalledProcessError(2, ['/root/miniforge3/envs/boogu/bin/python', '/root/projects/hrfont_i34_20260915.bJikwQ/scripts/seal_i_eval_archive.py', '/root/projects/hrfont/reports/experiments/I/I3/step00002000', '--run-id', 'I3-V0916-S3407', '--step', '2000', '--ema-sha256', 'b769090636d0bae78d660ebf514d3dcedceb1adb2e477c8d90726c0f78bf263d', '--expected', '192'])",
+    "time": 1789502772.4228954
+  },
+  "verified_files": {
+    "step00010000_k1248": 6395,
+    "step00002000": 268,
+    "step00004000": 268,
+    "step00006000": 268,
+    "step00008000": 268,
+    "step00010000": 4364
+  },
+  "recovery_sha256": "e93f59ae9b00ac895ce593ad985191ed36aa93ec3285fb8605ad81da9bb6d872",
+  "dependencies_sha256": {
+    "seal_i_eval_archive.py": "695b33d99c16d73ed2f50fb26de8a0da3c4bf16930e2ee4a16db08d8bb39a5cc",
+    "archive_i34_k1248.py": "6ce052215892b9b8a973216865083ff248e6766d77a7b6ff5da7c6868b3ce833",
+    "train_e12c.py": "46b6227af72aa6a2f78dac17041f169a1f804300124d3018cf99d2f86aa5cfd7",
+    "train_i34.py": "b3062024af8d1dd46616b30c99e4b26cf96a489de574206322ac831c69811d13",
+    "eval_i34_k1248.py": "a9cf0f590d63f23f660f34397b6828308797f9983502b2de560261b40d8168ee"
+  },
+  "note": "Missing deployment-only sealer added; frozen numerical code and checkpoints unchanged; no I3 rerun"
+}
