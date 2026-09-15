@@ -1,24 +1,7 @@
 {
   "pid": 3360111,
-  "time": 1789465748.4516397,
+  "time": 1789466559.2232394,
   "code": "/root/projects/hrfont_i_20260915.zvbB1H",
-  "state": "RUNNING",
-  "task": "I2",
-  "child_pid": 3380115,
-  "command": [
-    "/root/miniforge3/envs/boogu/bin/python",
-    "-m",
-    "torch.distributed.run",
-    "--nproc_per_node=8",
-    "--master_port=29573",
-    "/root/projects/hrfont_i_20260915.zvbB1H/scripts/train_i.py",
-    "--arm",
-    "I2",
-    "--run-id",
-    "I2-V0915-S3407",
-    "--limit",
-    "10000",
-    "--microbatch",
-    "8"
-  ]
+  "state": "NEEDS_ATTENTION",
+  "error": "[Errno 2] No such file or directory: '/root/projects/hrfont/runs/I2-V0915-S3407/DONE.json'"
 }
