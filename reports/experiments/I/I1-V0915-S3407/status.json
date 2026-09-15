@@ -2,9 +2,17 @@
   "run_id": "I1-V0915-S3407",
   "series": "I",
   "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407",
-  "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
-  "status": "recorded_not_live_verified",
-  "done": null,
+  "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
+  "status": "completed",
+  "done": {
+    "status": "completed",
+    "step": 10000,
+    "attempt": 10000,
+    "arm": "I1",
+    "inference_complete": true,
+    "smoke": false,
+    "seconds": 10679.693895339966
+  },
   "stopped": null,
   "heartbeat": {
     "state": "INFERENCE",
@@ -46,6 +54,17 @@
     "resume": null
   },
   "inference": [
+    {
+      "step": 10000,
+      "complete": {
+        "status": "completed",
+        "images": 4096,
+        "step": 10000,
+        "seconds": 1181.5927760601044
+      },
+      "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407/eval_step_10000",
+      "portable_report": "experiments/I/I1/step00010000/review.html"
+    },
     {
       "step": 2000,
       "complete": {

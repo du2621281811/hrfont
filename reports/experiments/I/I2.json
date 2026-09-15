@@ -1,11 +1,14 @@
 {
   "model": "I2",
   "run_id": "I2-V0915-S3407",
-  "status": "APPROVED_QUEUED_AFTER_I1",
+  "status": "RUNNING_FORMAL_EARLY_UPDATES",
+  "observed_at": "2026-09-15T14:50:00+08:00",
+  "observed_step": 7,
+  "first_100_update_check": "pending",
   "approval_time": "2026-09-15T13:39:56+08:00",
   "hold_marker_archived": "/root/projects/hrfont/reports/i_20260915/STOP_RENDER_REVIEW_APPROVED_20260915.txt",
   "approval_evidence": "reports/review_20260915/I2_RENDER_APPROVAL_20260915.json",
-  "release_condition": "PI approved Protocol A extension; full CPU rebuild verified and activated; 20-step DDP preflight still required",
+  "release_condition": "PI approved Protocol A extension; full CPU rebuild verified and activated; 20-step DDP preflight completed before formal launch",
   "render_audit": "reports/review_20260915/render_audit_20260915.json: 338/338 exact match; historical western reproduction separate and unresolved",
   "parent_alias": "I0",
   "parent": "G0b-F0-V0913-BS256-A-S3407/global_step_10000",
@@ -16,6 +19,6 @@
   "cn_aux_loss_weight": 0.5,
   "cn_content_version": "v0913_clean+I2_CN_Noto83_Pillow12.2",
   "cn_content_status": "fresh rebuild activated; 338 PNG hashes and 1690 FP16 feature tensors exactly match audited version; previous assets retained as backup",
-  "ddp_preflight": "20 updates required and automatically run by queue before I2 formal dispatch",
+  "ddp_preflight": "I-SMOKE-I2-V0915-S3407 DONE: 20/20 updates, 55.07 seconds; latest periodic log at step10 shows skips0 and ddp_spread0 across eight ranks",
   "generation_quality": "not evaluated"
 }

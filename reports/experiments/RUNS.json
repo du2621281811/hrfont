@@ -1,11 +1,11 @@
 {
-  "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+  "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
   "runs": [
     {
       "run_id": "F0-CLEAN-V0913-A-S3407",
       "series": "F",
       "server_path": "/root/projects/hrfont/runs/F0-CLEAN-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
@@ -21,7 +21,7 @@
       "run_id": "F0-CLEAN-V0913-BS128-A-S3407",
       "series": "F",
       "server_path": "/root/projects/hrfont/runs/F0-CLEAN-V0913-BS128-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
@@ -33,7 +33,7 @@
       "run_id": "F0-RSIFREE-FT-A-S3407",
       "series": "F",
       "server_path": "/root/projects/hrfont/runs/F0-RSIFREE-FT-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 100000,
@@ -49,7 +49,7 @@
       "run_id": "F2-VEC-MT-A-S3407",
       "series": "F",
       "server_path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 40000,
@@ -73,7 +73,7 @@
       "run_id": "G-CONT-G2-8gpu-V0914-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -97,7 +97,7 @@
       "run_id": "G-CONT-G2RL-8gpu-V0914-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -121,7 +121,7 @@
       "run_id": "G-REF-A0-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-A0-V0914-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 2500,
@@ -145,7 +145,7 @@
       "run_id": "G-REF-A1-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-A1-V0914-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 2500,
@@ -169,7 +169,7 @@
       "run_id": "G-REF-B0-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-B0-V0914-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
@@ -186,7 +186,7 @@
       "run_id": "G-REF-SMOKE-A1-T2-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 100,
@@ -210,7 +210,7 @@
       "run_id": "G-REF-SMOKE-B1-T2-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 100,
@@ -234,7 +234,7 @@
       "run_id": "G-RL-pilot-8gpu-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -258,7 +258,7 @@
       "run_id": "G-RL-pilot-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -282,7 +282,7 @@
       "run_id": "G-TC-G2-8gpu-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -306,7 +306,7 @@
       "run_id": "G-TC-G2RL-8gpu-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -330,7 +330,7 @@
       "run_id": "G0-F0-V0913-BS256-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G0-F0-V0913-BS256-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
@@ -346,7 +346,7 @@
       "run_id": "G0b-F0-V0913-BS256-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 10000,
@@ -366,7 +366,7 @@
       "run_id": "G0c-F0-V0913-BS256-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G0c-F0-V0913-BS256-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 20000,
@@ -382,7 +382,7 @@
       "run_id": "G1-F1-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 10000,
@@ -406,7 +406,7 @@
       "run_id": "G2-F2-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 10000,
@@ -430,7 +430,7 @@
       "run_id": "G2-RL-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "global_step": 10000,
@@ -454,7 +454,7 @@
       "run_id": "H-SMOKE-H3-V0915-S3407",
       "series": "H",
       "server_path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -509,7 +509,7 @@
       "run_id": "H0-V0915-S3407",
       "series": "H",
       "server_path": "/root/projects/hrfont/runs/H0-V0915-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -620,7 +620,7 @@
       "run_id": "H3-V0915-S3407",
       "series": "H",
       "server_path": "/root/projects/hrfont/runs/H3-V0915-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -731,7 +731,7 @@
       "run_id": "H4-V0915-S3407",
       "series": "H",
       "server_path": "/root/projects/hrfont/runs/H4-V0915-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "stopped",
       "done": null,
       "stopped": {
@@ -848,7 +848,7 @@
       "run_id": "I-SMOKE-I1-V0915-S3407",
       "series": "I",
       "server_path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -902,12 +902,101 @@
       "inference": []
     },
     {
+      "run_id": "I-SMOKE-I2-V0915-S3407",
+      "series": "I",
+      "server_path": "/root/projects/hrfont/runs/I-SMOKE-I2-V0915-S3407",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
+      "status": "completed",
+      "done": {
+        "status": "completed",
+        "step": 20,
+        "attempt": 20,
+        "arm": "I2",
+        "inference_complete": false,
+        "smoke": true,
+        "seconds": 55.07179093360901
+      },
+      "stopped": null,
+      "heartbeat": {
+        "state": "TRAINING",
+        "time": 1789454863.2410088,
+        "step": 10,
+        "attempt": 10,
+        "loss": 0.17874711751937866,
+        "eps": 0.001564831123687327,
+        "perceptual": 3.3494131565093994,
+        "completion": 0.3020830750465393,
+        "comp_coef": 0.0001,
+        "grad_norm": 0.6993447542190552,
+        "reader_grad": 1.611933285930044e-05,
+        "router_grad": 0.00015616591382924946,
+        "encoder_grad": 4.846578596553121e-07,
+        "aux_loss_rank": 0.10193222016096115,
+        "gate": 0.01,
+        "lr": [
+          2.0000000000000003e-06,
+          4.0000000000000003e-07,
+          4.0000000000000003e-07,
+          2.0000000000000003e-06
+        ],
+        "skips": 0,
+        "scale": 1024.0,
+        "ddp_spread": 0.0,
+        "update_seconds": 2.2145609855651855,
+        "peak_mib": 8676.90869140625,
+        "elapsed_seconds": 27.412508010864258
+      },
+      "config": {
+        "arm": "I2",
+        "limit": 20,
+        "global_batch": 64,
+        "per_gpu": 8,
+        "accumulation": 1,
+        "parent": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+        "parent_unet_sha256": "4a418058c3df6707d3311de378f95a1b0d2fb2939129b218de7f2b2980e01c23",
+        "code_root": "/root/projects/hrfont_i_20260915.zvbB1H",
+        "code_sha256": {
+          "scripts/train_i.py": "a12f54452330856111c59b973ceef126396e230fc83a49837cd8d43709324c8d",
+          "scripts/hrfont_i.py": "3a907632772a064255f98504b815670ef78a3b9ca084675aebe99f9d8c09d0cd",
+          "scripts/i_runtime.py": "ece35833a8fe88d26ea3ef75e633fef81d79332d318f68f8156fc37f92339f95",
+          "scripts/i_eval.py": "1ecc29af1f26e2d43633b1249c55618f1d4e693e1618dd1057c6162b8eeee295"
+        },
+        "cache_manifest_sha256": "d3a607b407cd7fbda261578185a7401c08a52c9f9355d5d9361b6992c4cce48c",
+        "clean_sha256": "79e2654490dd251bd7d174bb6f7236fdd0f10f1c5b4ce9b893e2114d59a03f47",
+        "seed": 3407,
+        "schedule": "500 warmup; flat to5k; cosine to10% at10k",
+        "unet_lr": 2e-05,
+        "new_lr": 0.0001,
+        "cn_aux_batch": 32,
+        "cn_loss_weight": 0.5,
+        "comp_weight": 0.01,
+        "transition": 1000,
+        "joint_cfg": 0.1,
+        "source_drop": 0.25,
+        "precision": "fp16 scaler1024 FP32 logits/loss/optimizer",
+        "native_resolution": 96,
+        "teacher": "train-only VGG enc2 pool12 with fixed channel calibration",
+        "smoke": true,
+        "overfit": false,
+        "resume": null
+      },
+      "inference": []
+    },
+    {
       "run_id": "I1-V0915-S3407",
       "series": "I",
       "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407",
-      "snapshot_utc": "2026-09-15T06:26:58.572084+00:00",
-      "status": "recorded_not_live_verified",
-      "done": null,
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
+      "status": "completed",
+      "done": {
+        "status": "completed",
+        "step": 10000,
+        "attempt": 10000,
+        "arm": "I1",
+        "inference_complete": true,
+        "smoke": false,
+        "seconds": 10679.693895339966
+      },
       "stopped": null,
       "heartbeat": {
         "state": "INFERENCE",
@@ -949,6 +1038,17 @@
         "resume": null
       },
       "inference": [
+        {
+          "step": 10000,
+          "complete": {
+            "status": "completed",
+            "images": 4096,
+            "step": 10000,
+            "seconds": 1181.5927760601044
+          },
+          "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407/eval_step_10000",
+          "portable_report": "experiments/I/I1/step00010000/review.html"
+        },
         {
           "step": 2000,
           "complete": {
@@ -994,6 +1094,79 @@
           "portable_report": "experiments/I/I1/step00008000/review.html"
         }
       ]
+    },
+    {
+      "run_id": "I2-V0915-S3407",
+      "series": "I",
+      "server_path": "/root/projects/hrfont/runs/I2-V0915-S3407",
+      "snapshot_utc": "2026-09-15T06:49:56.807614+00:00",
+      "status": "recorded_not_live_verified",
+      "done": null,
+      "stopped": null,
+      "heartbeat": {
+        "state": "TRAINING",
+        "time": 1789454995.3675344,
+        "step": 7,
+        "attempt": 7,
+        "loss": 0.1710091233253479,
+        "eps": 0.00199103238992393,
+        "perceptual": 3.1232662200927734,
+        "completion": 0.30055904388427734,
+        "comp_coef": 7.000000000000001e-05,
+        "grad_norm": 0.6293685436248779,
+        "reader_grad": 1.0612622276874988e-05,
+        "router_grad": 0.0001376650221548375,
+        "encoder_grad": 2.809884884794943e-07,
+        "aux_loss_rank": 0.03995201364159584,
+        "gate": 0.007,
+        "lr": [
+          1.4000000000000001e-06,
+          2.8e-07,
+          2.8e-07,
+          1.4000000000000001e-06
+        ],
+        "skips": 0,
+        "scale": 1024.0,
+        "ddp_spread": 0.0,
+        "update_seconds": 2.27892804145813,
+        "peak_mib": 8642.20458984375,
+        "elapsed_seconds": 19.5349280834198
+      },
+      "config": {
+        "arm": "I2",
+        "limit": 10000,
+        "global_batch": 64,
+        "per_gpu": 8,
+        "accumulation": 1,
+        "parent": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+        "parent_unet_sha256": "4a418058c3df6707d3311de378f95a1b0d2fb2939129b218de7f2b2980e01c23",
+        "code_root": "/root/projects/hrfont_i_20260915.zvbB1H",
+        "code_sha256": {
+          "scripts/train_i.py": "a12f54452330856111c59b973ceef126396e230fc83a49837cd8d43709324c8d",
+          "scripts/hrfont_i.py": "3a907632772a064255f98504b815670ef78a3b9ca084675aebe99f9d8c09d0cd",
+          "scripts/i_runtime.py": "ece35833a8fe88d26ea3ef75e633fef81d79332d318f68f8156fc37f92339f95",
+          "scripts/i_eval.py": "1ecc29af1f26e2d43633b1249c55618f1d4e693e1618dd1057c6162b8eeee295"
+        },
+        "cache_manifest_sha256": "d3a607b407cd7fbda261578185a7401c08a52c9f9355d5d9361b6992c4cce48c",
+        "clean_sha256": "79e2654490dd251bd7d174bb6f7236fdd0f10f1c5b4ce9b893e2114d59a03f47",
+        "seed": 3407,
+        "schedule": "500 warmup; flat to5k; cosine to10% at10k",
+        "unet_lr": 2e-05,
+        "new_lr": 0.0001,
+        "cn_aux_batch": 32,
+        "cn_loss_weight": 0.5,
+        "comp_weight": 0.01,
+        "transition": 1000,
+        "joint_cfg": 0.1,
+        "source_drop": 0.25,
+        "precision": "fp16 scaler1024 FP32 logits/loss/optimizer",
+        "native_resolution": 96,
+        "teacher": "train-only VGG enc2 pool12 with fixed channel calibration",
+        "smoke": false,
+        "overfit": false,
+        "resume": null
+      },
+      "inference": []
     }
   ],
   "note": "Heartbeat is an observation, not liveness proof. Official running/queued state is in I queue status; historical absence of DONE is not proof of failure."
