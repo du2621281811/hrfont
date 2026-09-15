@@ -1,10 +1,12 @@
 {
   "model": "I2",
   "run_id": "I2-V0915-S3407",
-  "status": "RUNNING_AFTER_2K_INFERENCE",
-  "observed_at": "2026-09-15T16:54:00+08:00",
-  "observed_step": 3300,
-  "current_health": "eight ranks at3300/3300, skips0, ddp_spread0, gradients nonzero; gate1, TC coefficient.01; complete state_step_3000 verified without restore test; disk13GiB above10GiB pause threshold",
+  "status": "RUNNING_AFTER_4K_INFERENCE",
+  "observed_at": "2026-09-15T17:34:11+08:00",
+  "observed_step": 4300,
+  "followup_observed_at": "2026-09-15T17:37:21+08:00",
+  "followup_heartbeat_step": 4400,
+  "current_health": "eight ranks at4300/4300, skips0, ddp_spread0, gradients nonzero; gate1, TC coefficient.01, scale4096; complete state_step_4000 verified without restore test; disk13GiB above10GiB pause threshold",
   "first_100_update_check": "passed: 100/100 successful updates, skips0, ddp_spread0, reader/encoder/router gradients nonzero; current eight-rank check at300 also passes",
   "measured_seconds_per_update_100_to_300": 2.2106209445,
   "first_recovery_checkpoint": "state_step_500 complete marker plus model/EMA/trainer files verified; last_state points here; no new restore test performed",
@@ -23,7 +25,7 @@
   "cn_content_version": "v0913_clean+I2_CN_Noto83_Pillow12.2",
   "cn_content_status": "fresh rebuild activated; 338 PNG hashes and 1690 FP16 feature tensors exactly match audited version; previous assets retained as backup",
   "ddp_preflight": "I-SMOKE-I2-V0915-S3407 DONE: 20/20 updates, 55.07 seconds; latest periodic log at step10 shows skips0 and ddp_spread0 across eight ranks",
-  "generation_quality": "2k val192 complete; matched I1@2k: I2 slightly worse aggregate L1/SSIM/edge at1/4/8shot; 88/192 images and7/16 font means improve in L1; early Latin panel, not full-script conclusion",
-  "latest_inference": "reports/experiments/I/I2/step00002000",
-  "matched_review": "reports/I2_2K_MATCHED_REVIEW_20260915.md"
+  "generation_quality": "4k val192 complete; matched I1@4k: I2 slightly worse aggregate L1/SSIM/edge at1/4/8shot; 86/192 images and6/16 font means improve in L1. Versus I2@2k, edge improves atall3shots but L1/SSIM slightly worsen. Three-font A/8shot spot check still misses outline/calligraphic detail; not a full-script conclusion",
+  "latest_inference": "reports/experiments/I/I2/step00004000",
+  "matched_review": "reports/I2_4K_MATCHED_REVIEW_20260915.md"
 }
