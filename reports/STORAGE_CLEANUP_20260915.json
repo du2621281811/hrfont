@@ -1,0 +1,2344 @@
+{
+  "checked_at": "2026-09-15T10:41:17.886696+00:00",
+  "initial": {
+    "time": "2026-09-15T10:35:23.917787+00:00",
+    "mode": "execute",
+    "files": 70,
+    "groups": {
+      "migration_tars": {
+        "files": 3,
+        "allocated_gib": 3.4066238403320312
+      },
+      "smoke_weights": {
+        "files": 25,
+        "allocated_gib": 6.016208648681641
+      },
+      "F2_VEC_early_checkpoints": {
+        "files": 42,
+        "allocated_gib": 6.813793182373047
+      }
+    },
+    "unique_allocated_bytes": 17433944064,
+    "open_candidate_handles": 0,
+    "open_handle_check_scope": "processes visible to this container",
+    "archive_inventory": {
+      "01_small.tar": {
+        "regular_files": 13,
+        "missing": [],
+        "size_changed": [],
+        "hashes_verified": 13
+      },
+      "03_es_cache.tar": {
+        "regular_files": 5,
+        "missing": [],
+        "size_changed": [],
+        "hashes_verified": 5
+      },
+      "04_f0_best.tar": {
+        "regular_files": 7,
+        "missing": [],
+        "size_changed": [],
+        "hashes_verified": 7
+      }
+    },
+    "protected_files_checked": 40,
+    "disk_free_before": 8379936768,
+    "status": "PARTIAL_NEEDS_REVIEW",
+    "authorization": "PI explicitly approved A1,A2,B1 only; no A3 or resume",
+    "deleted": [
+      "/root/projects/hrfont/artifacts/migrate_v100/01_small.tar",
+      "/root/projects/hrfont/artifacts/migrate_v100/03_es_cache.tar",
+      "/root/projects/hrfont/artifacts/migrate_v100/04_f0_best.tar"
+    ],
+    "planned_files": [
+      {
+        "path": "/root/projects/hrfont/artifacts/migrate_v100/01_small.tar",
+        "bytes": 687872000,
+        "nlink": 1,
+        "group": "migration_tars",
+        "before": {
+          "device": 52,
+          "inode": 5401932103,
+          "bytes": 687872000,
+          "mtime_ns": 1789145046605761800,
+          "nlink": 1,
+          "allocated_bytes": 687874048
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/artifacts/migrate_v100/03_es_cache.tar",
+        "bytes": 1802168320,
+        "nlink": 1,
+        "group": "migration_tars",
+        "before": {
+          "device": 52,
+          "inode": 5401932134,
+          "bytes": 1802168320,
+          "mtime_ns": 1789145626332835800,
+          "nlink": 1,
+          "allocated_bytes": 1802170368
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/artifacts/migrate_v100/04_f0_best.tar",
+        "bytes": 1167790080,
+        "nlink": 1,
+        "group": "migration_tars",
+        "before": {
+          "device": 52,
+          "inode": 5401932118,
+          "bytes": 1167790080,
+          "mtime_ns": 1789146483022274800,
+          "nlink": 1,
+          "allocated_bytes": 1167790080
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/state_step_100/model.pth",
+        "bytes": 318981823,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 7547260084,
+          "bytes": 318981823,
+          "mtime_ns": 1789407479639626500,
+          "nlink": 2,
+          "allocated_bytes": 318984192
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/state_step_100/ema.pth",
+        "bytes": 318980185,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 7547260085,
+          "bytes": 318980185,
+          "mtime_ns": 1789407480103670800,
+          "nlink": 2,
+          "allocated_bytes": 318984192
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/state_step_100/trainer.pt",
+        "bytes": 637988297,
+        "nlink": 1,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 7547260086,
+          "bytes": 637988297,
+          "mtime_ns": 1789407481199775500,
+          "nlink": 1,
+          "allocated_bytes": 637988864
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/global_step_100/model.pth",
+        "bytes": 318981823,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 7547260084,
+          "bytes": 318981823,
+          "mtime_ns": 1789407479639626500,
+          "nlink": 2,
+          "allocated_bytes": 318984192
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/global_step_100/ema.pth",
+        "bytes": 318980185,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 7547260085,
+          "bytes": 318980185,
+          "mtime_ns": 1789407480103670800,
+          "nlink": 2,
+          "allocated_bytes": 318984192
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/state_step_120/model.pth",
+        "bytes": 318981823,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 10277753011,
+          "bytes": 318981823,
+          "mtime_ns": 1789407595618707000,
+          "nlink": 2,
+          "allocated_bytes": 318984192
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/state_step_120/ema.pth",
+        "bytes": 318980185,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 10277753012,
+          "bytes": 318980185,
+          "mtime_ns": 1789407596122755000,
+          "nlink": 2,
+          "allocated_bytes": 318984192
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/state_step_120/trainer.pt",
+        "bytes": 637988297,
+        "nlink": 1,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 10277753013,
+          "bytes": 637988297,
+          "mtime_ns": 1789407597182856400,
+          "nlink": 1,
+          "allocated_bytes": 637988864
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/global_step_120/model.pth",
+        "bytes": 318981823,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 10277753011,
+          "bytes": 318981823,
+          "mtime_ns": 1789407595618707000,
+          "nlink": 2,
+          "allocated_bytes": 318984192
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/global_step_120/ema.pth",
+        "bytes": 318980185,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 10277753012,
+          "bytes": 318980185,
+          "mtime_ns": 1789407596122755000,
+          "nlink": 2,
+          "allocated_bytes": 318984192
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/state_step_100/model.pth",
+        "bytes": 325578923,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 5386734339,
+          "bytes": 325578923,
+          "mtime_ns": 1789443500117221000,
+          "nlink": 2,
+          "allocated_bytes": 325582848
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/state_step_100/ema.pth",
+        "bytes": 325576987,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 5386734340,
+          "bytes": 325576987,
+          "mtime_ns": 1789443500601267700,
+          "nlink": 2,
+          "allocated_bytes": 325578752
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/state_step_100/trainer.pt",
+        "bytes": 651481885,
+        "nlink": 1,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 5386734341,
+          "bytes": 651481885,
+          "mtime_ns": 1789443501657369600,
+          "nlink": 1,
+          "allocated_bytes": 651485184
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/global_step_100/model.pth",
+        "bytes": 325578923,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 5386734339,
+          "bytes": 325578923,
+          "mtime_ns": 1789443500117221000,
+          "nlink": 2,
+          "allocated_bytes": 325582848
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/global_step_100/ema.pth",
+        "bytes": 325576987,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 5386734340,
+          "bytes": 325576987,
+          "mtime_ns": 1789443500601267700,
+          "nlink": 2,
+          "allocated_bytes": 325578752
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/state_step_120/model.pth",
+        "bytes": 325578923,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 11361705407,
+          "bytes": 325578923,
+          "mtime_ns": 1789443656468307000,
+          "nlink": 2,
+          "allocated_bytes": 325582848
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/state_step_120/ema.pth",
+        "bytes": 325576987,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 11361698032,
+          "bytes": 325576987,
+          "mtime_ns": 1789443656996358000,
+          "nlink": 2,
+          "allocated_bytes": 325578752
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/state_step_120/trainer.pt",
+        "bytes": 651481949,
+        "nlink": 1,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 11361698033,
+          "bytes": 651481949,
+          "mtime_ns": 1789443658148469000,
+          "nlink": 1,
+          "allocated_bytes": 651485184
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/global_step_120/model.pth",
+        "bytes": 325578923,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 11361705407,
+          "bytes": 325578923,
+          "mtime_ns": 1789443656468307000,
+          "nlink": 2,
+          "allocated_bytes": 325582848
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407/global_step_120/ema.pth",
+        "bytes": 325576987,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 11361698032,
+          "bytes": 325576987,
+          "mtime_ns": 1789443656996358000,
+          "nlink": 2,
+          "allocated_bytes": 325578752
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I2-V0915-S3407/state_step_20/model.pth",
+        "bytes": 325578923,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 23689441,
+          "bytes": 325578923,
+          "mtime_ns": 1789454889294177300,
+          "nlink": 2,
+          "allocated_bytes": 325582848
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I2-V0915-S3407/state_step_20/ema.pth",
+        "bytes": 325576987,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 23689442,
+          "bytes": 325576987,
+          "mtime_ns": 1789454889794225000,
+          "nlink": 2,
+          "allocated_bytes": 325578752
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I2-V0915-S3407/state_step_20/trainer.pt",
+        "bytes": 651482077,
+        "nlink": 1,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 23689443,
+          "bytes": 651482077,
+          "mtime_ns": 1789454890894329000,
+          "nlink": 1,
+          "allocated_bytes": 651485184
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I2-V0915-S3407/global_step_20/model.pth",
+        "bytes": 325578923,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 23689441,
+          "bytes": 325578923,
+          "mtime_ns": 1789454889294177300,
+          "nlink": 2,
+          "allocated_bytes": 325582848
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/I-SMOKE-I2-V0915-S3407/global_step_20/ema.pth",
+        "bytes": 325576987,
+        "nlink": 2,
+        "group": "smoke_weights",
+        "before": {
+          "device": 52,
+          "inode": 23689442,
+          "bytes": 325576987,
+          "mtime_ns": 1789454889794225000,
+          "nlink": 2,
+          "allocated_bytes": 325578752
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943337,
+          "bytes": 315845739,
+          "mtime_ns": 1789235001729379800,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943338,
+          "bytes": 82410945,
+          "mtime_ns": 1789235001881394400,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943339,
+          "bytes": 4766471,
+          "mtime_ns": 1789235001893395700,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943340,
+          "bytes": 1309,
+          "mtime_ns": 1789235001893395700,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943341,
+          "bytes": 3433985,
+          "mtime_ns": 1789235001905396700,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/trainer_state.pt",
+        "bytes": 638701721,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943342,
+          "bytes": 638701721,
+          "mtime_ns": 1789235003113512200,
+          "nlink": 1,
+          "allocated_bytes": 638705664
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430437,
+          "bytes": 315845739,
+          "mtime_ns": 1789238180605261300,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430438,
+          "bytes": 82410945,
+          "mtime_ns": 1789238180765276400,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430439,
+          "bytes": 4766471,
+          "mtime_ns": 1789238180777277700,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430440,
+          "bytes": 1309,
+          "mtime_ns": 1789238180777277700,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430441,
+          "bytes": 3433985,
+          "mtime_ns": 1789238180785278500,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/trainer_state.pt",
+        "bytes": 638711671,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430442,
+          "bytes": 638711671,
+          "mtime_ns": 1789238181985393400,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447370,
+          "bytes": 315845739,
+          "mtime_ns": 1789240922408774000,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447373,
+          "bytes": 82410945,
+          "mtime_ns": 1789240922572789800,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447374,
+          "bytes": 4766471,
+          "mtime_ns": 1789240922584791000,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447375,
+          "bytes": 1309,
+          "mtime_ns": 1789240922584791000,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447376,
+          "bytes": 3433985,
+          "mtime_ns": 1789240922588791300,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447377,
+          "bytes": 638711607,
+          "mtime_ns": 1789240923672895700,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450090,
+          "bytes": 315845739,
+          "mtime_ns": 1789243417717385500,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450091,
+          "bytes": 82410945,
+          "mtime_ns": 1789243417821395700,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450092,
+          "bytes": 4766471,
+          "mtime_ns": 1789243417833396700,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450093,
+          "bytes": 1309,
+          "mtime_ns": 1789243417833396700,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450094,
+          "bytes": 3433985,
+          "mtime_ns": 1789243417837397200,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450095,
+          "bytes": 638711607,
+          "mtime_ns": 1789243418673477600,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748324,
+          "bytes": 315845739,
+          "mtime_ns": 1789245909007445200,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748332,
+          "bytes": 82410945,
+          "mtime_ns": 1789245909143458300,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748333,
+          "bytes": 4766471,
+          "mtime_ns": 1789245909151459000,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748334,
+          "bytes": 1309,
+          "mtime_ns": 1789245909151459000,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748335,
+          "bytes": 3433985,
+          "mtime_ns": 1789245909159459800,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748336,
+          "bytes": 638711607,
+          "mtime_ns": 1789245910087548700,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578561,
+          "bytes": 315845739,
+          "mtime_ns": 1789248369331315700,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578562,
+          "bytes": 82410945,
+          "mtime_ns": 1789248369451327200,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578563,
+          "bytes": 4766471,
+          "mtime_ns": 1789248369463328300,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578564,
+          "bytes": 1309,
+          "mtime_ns": 1789248369463328300,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578568,
+          "bytes": 3433985,
+          "mtime_ns": 1789248369471329000,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578569,
+          "bytes": 638711607,
+          "mtime_ns": 1789248370363414800,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048621,
+          "bytes": 315845739,
+          "mtime_ns": 1789250833858850800,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048629,
+          "bytes": 82410945,
+          "mtime_ns": 1789250833978862300,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048630,
+          "bytes": 4766471,
+          "mtime_ns": 1789250833986863000,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048631,
+          "bytes": 1309,
+          "mtime_ns": 1789250833986863000,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048632,
+          "bytes": 3433985,
+          "mtime_ns": 1789250833994863900,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048633,
+          "bytes": 638711607,
+          "mtime_ns": 1789250834938954200,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      }
+    ],
+    "protected_before": {
+      "/root/projects/hrfont/artifacts/h_20260915/raw12.dat": {
+        "device": 52,
+        "inode": 8077382814,
+        "bytes": 6479216640,
+        "mtime_ns": 1789407053886944300,
+        "nlink": 1,
+        "allocated_bytes": 6479216640
+      },
+      "/root/projects/hrfont/artifacts/h_20260915/teacher_stats.pt": {
+        "device": 52,
+        "inode": 8077382815,
+        "bytes": 2901,
+        "mtime_ns": 1789407069192407000,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/artifacts/h_20260915/manifest.json": {
+        "device": 52,
+        "inode": 8077382816,
+        "bytes": 259576,
+        "mtime_ns": 1789407094178794800,
+        "nlink": 1,
+        "allocated_bytes": 262144
+      },
+      "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000/unet.pth": {
+        "device": 52,
+        "inode": 13450117943,
+        "bytes": 302072269,
+        "mtime_ns": 1789317428604473300,
+        "nlink": 1,
+        "allocated_bytes": 302075904
+      },
+      "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000/style_encoder.pth": {
+        "device": 52,
+        "inode": 13450117933,
+        "bytes": 82410945,
+        "mtime_ns": 1789317428764488700,
+        "nlink": 1,
+        "allocated_bytes": 82411520
+      },
+      "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000/content_encoder.pth": {
+        "device": 52,
+        "inode": 13450117941,
+        "bytes": 4766471,
+        "mtime_ns": 1789317428776489700,
+        "nlink": 1,
+        "allocated_bytes": 4767744
+      },
+      "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000/trainer_state.pt": {
+        "device": 52,
+        "inode": 13450117944,
+        "bytes": 778531446,
+        "mtime_ns": 1789317430096615400,
+        "nlink": 1,
+        "allocated_bytes": 778534912
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/state_step_10000/model.pth": {
+        "device": 52,
+        "inode": 8074524593,
+        "bytes": 325578923,
+        "mtime_ns": 1789453547743202300,
+        "nlink": 2,
+        "allocated_bytes": 325582848
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/state_step_10000/ema.pth": {
+        "device": 52,
+        "inode": 8074524594,
+        "bytes": 325576987,
+        "mtime_ns": 1789453548239249200,
+        "nlink": 2,
+        "allocated_bytes": 325578752
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/state_step_10000/trainer.pt": {
+        "device": 52,
+        "inode": 8074524595,
+        "bytes": 651481949,
+        "mtime_ns": 1789453549347353900,
+        "nlink": 1,
+        "allocated_bytes": 651485184
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/state_step_10000/checkpoint.json": {
+        "device": 52,
+        "inode": 8074524596,
+        "bytes": 75,
+        "mtime_ns": 1789453549351354400,
+        "nlink": 2,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/global_step_10000/model.pth": {
+        "device": 52,
+        "inode": 8074524593,
+        "bytes": 325578923,
+        "mtime_ns": 1789453547743202300,
+        "nlink": 2,
+        "allocated_bytes": 325582848
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/global_step_10000/ema.pth": {
+        "device": 52,
+        "inode": 8074524594,
+        "bytes": 325576987,
+        "mtime_ns": 1789453548239249200,
+        "nlink": 2,
+        "allocated_bytes": 325578752
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/global_step_10000/checkpoint.json": {
+        "device": 52,
+        "inode": 8074524596,
+        "bytes": 75,
+        "mtime_ns": 1789453549351354400,
+        "nlink": 2,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5146/model.pth": {
+        "device": 52,
+        "inode": 12403986051,
+        "bytes": 325578923,
+        "mtime_ns": 1789466545648843500,
+        "nlink": 1,
+        "allocated_bytes": 325582848
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5146/ema.pth": {
+        "device": 52,
+        "inode": 12403986052,
+        "bytes": 325576987,
+        "mtime_ns": 1789466546144891400,
+        "nlink": 1,
+        "allocated_bytes": 325578752
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5146/trainer.pt": {
+        "device": 52,
+        "inode": 12403986053,
+        "bytes": 651481885,
+        "mtime_ns": 1789466547277000400,
+        "nlink": 1,
+        "allocated_bytes": 651485184
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5146/checkpoint.json": {
+        "device": 52,
+        "inode": 12403986054,
+        "bytes": 73,
+        "mtime_ns": 1789466547281001000,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5000/model.pth": {
+        "device": 52,
+        "inode": 11975125327,
+        "bytes": 325578923,
+        "mtime_ns": 1789466215152977000,
+        "nlink": 1,
+        "allocated_bytes": 325582848
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5000/ema.pth": {
+        "device": 52,
+        "inode": 11975125328,
+        "bytes": 325576987,
+        "mtime_ns": 1789466215673026800,
+        "nlink": 1,
+        "allocated_bytes": 325578752
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5000/trainer.pt": {
+        "device": 52,
+        "inode": 11975125329,
+        "bytes": 651481949,
+        "mtime_ns": 1789466216925146600,
+        "nlink": 1,
+        "allocated_bytes": 651485184
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5000/checkpoint.json": {
+        "device": 52,
+        "inode": 11975125330,
+        "bytes": 73,
+        "mtime_ns": 1789466216925146600,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/unet.pth": {
+        "device": 52,
+        "inode": 2162342105,
+        "bytes": 315845739,
+        "mtime_ns": 1789253307894190300,
+        "nlink": 1,
+        "allocated_bytes": 315846656
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/style_encoder.pth": {
+        "device": 52,
+        "inode": 2162342106,
+        "bytes": 82410945,
+        "mtime_ns": 1789253308002200800,
+        "nlink": 1,
+        "allocated_bytes": 82411520
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/content_encoder.pth": {
+        "device": 52,
+        "inode": 2162342107,
+        "bytes": 4766471,
+        "mtime_ns": 1789253308014201900,
+        "nlink": 1,
+        "allocated_bytes": 4767744
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/support_adapter.pth": {
+        "device": 52,
+        "inode": 2162342108,
+        "bytes": 1309,
+        "mtime_ns": 1789253308014201900,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/vec_head.pth": {
+        "device": 52,
+        "inode": 2162342109,
+        "bytes": 3433985,
+        "mtime_ns": 1789253308022202600,
+        "nlink": 1,
+        "allocated_bytes": 3436544
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/trainer_state.pt": {
+        "device": 52,
+        "inode": 2162342110,
+        "bytes": 638711543,
+        "mtime_ns": 1789253308962292200,
+        "nlink": 1,
+        "allocated_bytes": 638713856
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/unet.pth": {
+        "device": 52,
+        "inode": 6484988712,
+        "bytes": 315845739,
+        "mtime_ns": 1789250996958440400,
+        "nlink": 1,
+        "allocated_bytes": 315846656
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/style_encoder.pth": {
+        "device": 52,
+        "inode": 6484988713,
+        "bytes": 82410945,
+        "mtime_ns": 1789250997354478300,
+        "nlink": 1,
+        "allocated_bytes": 82411520
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/content_encoder.pth": {
+        "device": 52,
+        "inode": 6484988714,
+        "bytes": 4766471,
+        "mtime_ns": 1789250997418484500,
+        "nlink": 1,
+        "allocated_bytes": 4767744
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/support_adapter.pth": {
+        "device": 52,
+        "inode": 6484988715,
+        "bytes": 1309,
+        "mtime_ns": 1789250997418484500,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/vec_head.pth": {
+        "device": 52,
+        "inode": 6484988716,
+        "bytes": 3433985,
+        "mtime_ns": 1789250997430485500,
+        "nlink": 1,
+        "allocated_bytes": 3436544
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/trainer_state.pt": {
+        "device": 52,
+        "inode": 6484988717,
+        "bytes": 638711607,
+        "mtime_ns": 1789250998302569000,
+        "nlink": 1,
+        "allocated_bytes": 638713856
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/unet.pth": {
+        "device": 52,
+        "inode": 4338206190,
+        "bytes": 315845739,
+        "mtime_ns": 1789253472749890800,
+        "nlink": 1,
+        "allocated_bytes": 315846656
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/style_encoder.pth": {
+        "device": 52,
+        "inode": 4338206191,
+        "bytes": 82410945,
+        "mtime_ns": 1789253473181931800,
+        "nlink": 1,
+        "allocated_bytes": 82411520
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/content_encoder.pth": {
+        "device": 52,
+        "inode": 4338206192,
+        "bytes": 4766471,
+        "mtime_ns": 1789253473253938700,
+        "nlink": 1,
+        "allocated_bytes": 4767744
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/support_adapter.pth": {
+        "device": 52,
+        "inode": 4338206193,
+        "bytes": 1309,
+        "mtime_ns": 1789253473253938700,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/vec_head.pth": {
+        "device": 52,
+        "inode": 4338206194,
+        "bytes": 3433985,
+        "mtime_ns": 1789253473265940000,
+        "nlink": 1,
+        "allocated_bytes": 3436544
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/trainer_state.pt": {
+        "device": 52,
+        "inode": 4338206195,
+        "bytes": 638711543,
+        "mtime_ns": 1789253474422050000,
+        "nlink": 1,
+        "allocated_bytes": 638713856
+      }
+    },
+    "error": "[Errno 2] No such file or directory: '/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407/state_step_100/model.pth'",
+    "finished": "2026-09-15T10:35:24.311082+00:00"
+  },
+  "b1": {
+    "status": "COMPLETED",
+    "time": "2026-09-15T10:40:48.733746+00:00",
+    "files": 42,
+    "allocated_bytes": 7316254720,
+    "protected_files_checked": 40,
+    "metadata_files_checked": 0,
+    "visible_open_handles": 0,
+    "disk_free_before": 12028276736,
+    "deleted": [
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/unet.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/style_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/content_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/support_adapter.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/vec_head.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/trainer_state.pt",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/unet.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/style_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/content_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/support_adapter.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/vec_head.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/trainer_state.pt",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/unet.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/style_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/content_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/support_adapter.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/vec_head.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/trainer_state.pt",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/unet.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/style_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/content_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/support_adapter.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/vec_head.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/trainer_state.pt",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/unet.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/style_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/content_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/support_adapter.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/vec_head.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/trainer_state.pt",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/unet.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/style_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/content_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/support_adapter.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/vec_head.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/trainer_state.pt",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/unet.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/style_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/content_encoder.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/support_adapter.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/vec_head.pth",
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/trainer_state.pt"
+    ],
+    "planned_files": [
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943337,
+          "bytes": 315845739,
+          "mtime_ns": 1789235001729379800,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943338,
+          "bytes": 82410945,
+          "mtime_ns": 1789235001881394400,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943339,
+          "bytes": 4766471,
+          "mtime_ns": 1789235001893395700,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943340,
+          "bytes": 1309,
+          "mtime_ns": 1789235001893395700,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943341,
+          "bytes": 3433985,
+          "mtime_ns": 1789235001905396700,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_5000/trainer_state.pt",
+        "bytes": 638701721,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 12965943342,
+          "bytes": 638701721,
+          "mtime_ns": 1789235003113512200,
+          "nlink": 1,
+          "allocated_bytes": 638705664
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430437,
+          "bytes": 315845739,
+          "mtime_ns": 1789238180605261300,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430438,
+          "bytes": 82410945,
+          "mtime_ns": 1789238180765276400,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430439,
+          "bytes": 4766471,
+          "mtime_ns": 1789238180777277700,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430440,
+          "bytes": 1309,
+          "mtime_ns": 1789238180777277700,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430441,
+          "bytes": 3433985,
+          "mtime_ns": 1789238180785278500,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_10000/trainer_state.pt",
+        "bytes": 638711671,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 5989430442,
+          "bytes": 638711671,
+          "mtime_ns": 1789238181985393400,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447370,
+          "bytes": 315845739,
+          "mtime_ns": 1789240922408774000,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447373,
+          "bytes": 82410945,
+          "mtime_ns": 1789240922572789800,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447374,
+          "bytes": 4766471,
+          "mtime_ns": 1789240922584791000,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447375,
+          "bytes": 1309,
+          "mtime_ns": 1789240922584791000,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447376,
+          "bytes": 3433985,
+          "mtime_ns": 1789240922588791300,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_15000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 16128447377,
+          "bytes": 638711607,
+          "mtime_ns": 1789240923672895700,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450090,
+          "bytes": 315845739,
+          "mtime_ns": 1789243417717385500,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450091,
+          "bytes": 82410945,
+          "mtime_ns": 1789243417821395700,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450092,
+          "bytes": 4766471,
+          "mtime_ns": 1789243417833396700,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450093,
+          "bytes": 1309,
+          "mtime_ns": 1789243417833396700,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450094,
+          "bytes": 3433985,
+          "mtime_ns": 1789243417837397200,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_20000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 9150450095,
+          "bytes": 638711607,
+          "mtime_ns": 1789243418673477600,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748324,
+          "bytes": 315845739,
+          "mtime_ns": 1789245909007445200,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748332,
+          "bytes": 82410945,
+          "mtime_ns": 1789245909143458300,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748333,
+          "bytes": 4766471,
+          "mtime_ns": 1789245909151459000,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748334,
+          "bytes": 1309,
+          "mtime_ns": 1789245909151459000,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748335,
+          "bytes": 3433985,
+          "mtime_ns": 1789245909159459800,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_25000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 14517748336,
+          "bytes": 638711607,
+          "mtime_ns": 1789245910087548700,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578561,
+          "bytes": 315845739,
+          "mtime_ns": 1789248369331315700,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578562,
+          "bytes": 82410945,
+          "mtime_ns": 1789248369451327200,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578563,
+          "bytes": 4766471,
+          "mtime_ns": 1789248369463328300,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578564,
+          "bytes": 1309,
+          "mtime_ns": 1789248369463328300,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578568,
+          "bytes": 3433985,
+          "mtime_ns": 1789248369471329000,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_30000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 2711578569,
+          "bytes": 638711607,
+          "mtime_ns": 1789248370363414800,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/unet.pth",
+        "bytes": 315845739,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048621,
+          "bytes": 315845739,
+          "mtime_ns": 1789250833858850800,
+          "nlink": 1,
+          "allocated_bytes": 315846656
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/style_encoder.pth",
+        "bytes": 82410945,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048629,
+          "bytes": 82410945,
+          "mtime_ns": 1789250833978862300,
+          "nlink": 1,
+          "allocated_bytes": 82411520
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/content_encoder.pth",
+        "bytes": 4766471,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048630,
+          "bytes": 4766471,
+          "mtime_ns": 1789250833986863000,
+          "nlink": 1,
+          "allocated_bytes": 4767744
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/support_adapter.pth",
+        "bytes": 1309,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048631,
+          "bytes": 1309,
+          "mtime_ns": 1789250833986863000,
+          "nlink": 1,
+          "allocated_bytes": 4096
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/vec_head.pth",
+        "bytes": 3433985,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048632,
+          "bytes": 3433985,
+          "mtime_ns": 1789250833994863900,
+          "nlink": 1,
+          "allocated_bytes": 3436544
+        }
+      },
+      {
+        "path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_35000/trainer_state.pt",
+        "bytes": 638711607,
+        "nlink": 1,
+        "group": "F2_VEC_early_checkpoints",
+        "before": {
+          "device": 52,
+          "inode": 13991048633,
+          "bytes": 638711607,
+          "mtime_ns": 1789250834938954200,
+          "nlink": 1,
+          "allocated_bytes": 638713856
+        }
+      }
+    ],
+    "prior_receipt": "/root/projects/hrfont/reports/storage_cleanup_20260915.json",
+    "authorization": "PI approved A1,A2,B1; this continuation deletes B1 only",
+    "protected_before": {
+      "/root/projects/hrfont/artifacts/h_20260915/raw12.dat": {
+        "device": 52,
+        "inode": 8077382814,
+        "bytes": 6479216640,
+        "mtime_ns": 1789407053886944300,
+        "nlink": 1,
+        "allocated_bytes": 6479216640
+      },
+      "/root/projects/hrfont/artifacts/h_20260915/teacher_stats.pt": {
+        "device": 52,
+        "inode": 8077382815,
+        "bytes": 2901,
+        "mtime_ns": 1789407069192407000,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/artifacts/h_20260915/manifest.json": {
+        "device": 52,
+        "inode": 8077382816,
+        "bytes": 259576,
+        "mtime_ns": 1789407094178794800,
+        "nlink": 1,
+        "allocated_bytes": 262144
+      },
+      "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000/unet.pth": {
+        "device": 52,
+        "inode": 13450117943,
+        "bytes": 302072269,
+        "mtime_ns": 1789317428604473300,
+        "nlink": 1,
+        "allocated_bytes": 302075904
+      },
+      "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000/style_encoder.pth": {
+        "device": 52,
+        "inode": 13450117933,
+        "bytes": 82410945,
+        "mtime_ns": 1789317428764488700,
+        "nlink": 1,
+        "allocated_bytes": 82411520
+      },
+      "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000/content_encoder.pth": {
+        "device": 52,
+        "inode": 13450117941,
+        "bytes": 4766471,
+        "mtime_ns": 1789317428776489700,
+        "nlink": 1,
+        "allocated_bytes": 4767744
+      },
+      "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000/trainer_state.pt": {
+        "device": 52,
+        "inode": 13450117944,
+        "bytes": 778531446,
+        "mtime_ns": 1789317430096615400,
+        "nlink": 1,
+        "allocated_bytes": 778534912
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/state_step_10000/model.pth": {
+        "device": 52,
+        "inode": 8074524593,
+        "bytes": 325578923,
+        "mtime_ns": 1789453547743202300,
+        "nlink": 2,
+        "allocated_bytes": 325582848
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/state_step_10000/ema.pth": {
+        "device": 52,
+        "inode": 8074524594,
+        "bytes": 325576987,
+        "mtime_ns": 1789453548239249200,
+        "nlink": 2,
+        "allocated_bytes": 325578752
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/state_step_10000/trainer.pt": {
+        "device": 52,
+        "inode": 8074524595,
+        "bytes": 651481949,
+        "mtime_ns": 1789453549347353900,
+        "nlink": 1,
+        "allocated_bytes": 651485184
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/state_step_10000/checkpoint.json": {
+        "device": 52,
+        "inode": 8074524596,
+        "bytes": 75,
+        "mtime_ns": 1789453549351354400,
+        "nlink": 2,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/global_step_10000/model.pth": {
+        "device": 52,
+        "inode": 8074524593,
+        "bytes": 325578923,
+        "mtime_ns": 1789453547743202300,
+        "nlink": 2,
+        "allocated_bytes": 325582848
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/global_step_10000/ema.pth": {
+        "device": 52,
+        "inode": 8074524594,
+        "bytes": 325576987,
+        "mtime_ns": 1789453548239249200,
+        "nlink": 2,
+        "allocated_bytes": 325578752
+      },
+      "/root/projects/hrfont/runs/I1-V0915-S3407/global_step_10000/checkpoint.json": {
+        "device": 52,
+        "inode": 8074524596,
+        "bytes": 75,
+        "mtime_ns": 1789453549351354400,
+        "nlink": 2,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5146/model.pth": {
+        "device": 52,
+        "inode": 12403986051,
+        "bytes": 325578923,
+        "mtime_ns": 1789466545648843500,
+        "nlink": 1,
+        "allocated_bytes": 325582848
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5146/ema.pth": {
+        "device": 52,
+        "inode": 12403986052,
+        "bytes": 325576987,
+        "mtime_ns": 1789466546144891400,
+        "nlink": 1,
+        "allocated_bytes": 325578752
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5146/trainer.pt": {
+        "device": 52,
+        "inode": 12403986053,
+        "bytes": 651481885,
+        "mtime_ns": 1789466547277000400,
+        "nlink": 1,
+        "allocated_bytes": 651485184
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5146/checkpoint.json": {
+        "device": 52,
+        "inode": 12403986054,
+        "bytes": 73,
+        "mtime_ns": 1789466547281001000,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5000/model.pth": {
+        "device": 52,
+        "inode": 11975125327,
+        "bytes": 325578923,
+        "mtime_ns": 1789466215152977000,
+        "nlink": 1,
+        "allocated_bytes": 325582848
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5000/ema.pth": {
+        "device": 52,
+        "inode": 11975125328,
+        "bytes": 325576987,
+        "mtime_ns": 1789466215673026800,
+        "nlink": 1,
+        "allocated_bytes": 325578752
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5000/trainer.pt": {
+        "device": 52,
+        "inode": 11975125329,
+        "bytes": 651481949,
+        "mtime_ns": 1789466216925146600,
+        "nlink": 1,
+        "allocated_bytes": 651485184
+      },
+      "/root/projects/hrfont/runs/I2-V0915-S3407/state_step_5000/checkpoint.json": {
+        "device": 52,
+        "inode": 11975125330,
+        "bytes": 73,
+        "mtime_ns": 1789466216925146600,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/unet.pth": {
+        "device": 52,
+        "inode": 2162342105,
+        "bytes": 315845739,
+        "mtime_ns": 1789253307894190300,
+        "nlink": 1,
+        "allocated_bytes": 315846656
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/style_encoder.pth": {
+        "device": 52,
+        "inode": 2162342106,
+        "bytes": 82410945,
+        "mtime_ns": 1789253308002200800,
+        "nlink": 1,
+        "allocated_bytes": 82411520
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/content_encoder.pth": {
+        "device": 52,
+        "inode": 2162342107,
+        "bytes": 4766471,
+        "mtime_ns": 1789253308014201900,
+        "nlink": 1,
+        "allocated_bytes": 4767744
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/support_adapter.pth": {
+        "device": 52,
+        "inode": 2162342108,
+        "bytes": 1309,
+        "mtime_ns": 1789253308014201900,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/vec_head.pth": {
+        "device": 52,
+        "inode": 2162342109,
+        "bytes": 3433985,
+        "mtime_ns": 1789253308022202600,
+        "nlink": 1,
+        "allocated_bytes": 3436544
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/global_step_40000/trainer_state.pt": {
+        "device": 52,
+        "inode": 2162342110,
+        "bytes": 638711543,
+        "mtime_ns": 1789253308962292200,
+        "nlink": 1,
+        "allocated_bytes": 638713856
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/unet.pth": {
+        "device": 52,
+        "inode": 6484988712,
+        "bytes": 315845739,
+        "mtime_ns": 1789250996958440400,
+        "nlink": 1,
+        "allocated_bytes": 315846656
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/style_encoder.pth": {
+        "device": 52,
+        "inode": 6484988713,
+        "bytes": 82410945,
+        "mtime_ns": 1789250997354478300,
+        "nlink": 1,
+        "allocated_bytes": 82411520
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/content_encoder.pth": {
+        "device": 52,
+        "inode": 6484988714,
+        "bytes": 4766471,
+        "mtime_ns": 1789250997418484500,
+        "nlink": 1,
+        "allocated_bytes": 4767744
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/support_adapter.pth": {
+        "device": 52,
+        "inode": 6484988715,
+        "bytes": 1309,
+        "mtime_ns": 1789250997418484500,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/vec_head.pth": {
+        "device": 52,
+        "inode": 6484988716,
+        "bytes": 3433985,
+        "mtime_ns": 1789250997430485500,
+        "nlink": 1,
+        "allocated_bytes": 3436544
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/best/trainer_state.pt": {
+        "device": 52,
+        "inode": 6484988717,
+        "bytes": 638711607,
+        "mtime_ns": 1789250998302569000,
+        "nlink": 1,
+        "allocated_bytes": 638713856
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/unet.pth": {
+        "device": 52,
+        "inode": 4338206190,
+        "bytes": 315845739,
+        "mtime_ns": 1789253472749890800,
+        "nlink": 1,
+        "allocated_bytes": 315846656
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/style_encoder.pth": {
+        "device": 52,
+        "inode": 4338206191,
+        "bytes": 82410945,
+        "mtime_ns": 1789253473181931800,
+        "nlink": 1,
+        "allocated_bytes": 82411520
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/content_encoder.pth": {
+        "device": 52,
+        "inode": 4338206192,
+        "bytes": 4766471,
+        "mtime_ns": 1789253473253938700,
+        "nlink": 1,
+        "allocated_bytes": 4767744
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/support_adapter.pth": {
+        "device": 52,
+        "inode": 4338206193,
+        "bytes": 1309,
+        "mtime_ns": 1789253473253938700,
+        "nlink": 1,
+        "allocated_bytes": 4096
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/vec_head.pth": {
+        "device": 52,
+        "inode": 4338206194,
+        "bytes": 3433985,
+        "mtime_ns": 1789253473265940000,
+        "nlink": 1,
+        "allocated_bytes": 3436544
+      },
+      "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407/last_state/trainer_state.pt": {
+        "device": 52,
+        "inode": 4338206195,
+        "bytes": 638711543,
+        "mtime_ns": 1789253474422050000,
+        "nlink": 1,
+        "allocated_bytes": 638713856
+      }
+    },
+    "metadata_before": {},
+    "concurrent_change": "A2 entire SMOKE directories disappeared outside this script; actor unknown",
+    "other_workload": "An independently started I0 evaluation was observed; not modified or stopped",
+    "finished": "2026-09-15T10:40:49.133070+00:00",
+    "protected_unchanged": true,
+    "metadata_unchanged": true,
+    "disk_free_after": 19344498688,
+    "training_resumed_by_this_script": false,
+    "recoverability": "No backup/trash created; historical weights not guaranteed recoverable"
+  },
+  "remaining_approved_files": [],
+  "disk_free": 19341266944,
+  "smoke_dirs": {
+    "H-SMOKE-H3-V0915-S3407": false,
+    "I-SMOKE-I1-V0915-S3407": false,
+    "I-SMOKE-I2-V0915-S3407": false
+  }
+}
