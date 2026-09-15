@@ -1,11 +1,11 @@
 {
-  "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+  "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
   "runs": [
     {
       "run_id": "F0-CLEAN-V0913-A-S3407",
       "series": "F",
       "server_path": "/root/projects/hrfont/runs/F0-CLEAN-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
@@ -21,7 +21,7 @@
       "run_id": "F0-CLEAN-V0913-BS128-A-S3407",
       "series": "F",
       "server_path": "/root/projects/hrfont/runs/F0-CLEAN-V0913-BS128-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
@@ -33,7 +33,7 @@
       "run_id": "F0-RSIFREE-FT-A-S3407",
       "series": "F",
       "server_path": "/root/projects/hrfont/runs/F0-RSIFREE-FT-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 100000,
@@ -49,7 +49,7 @@
       "run_id": "F2-VEC-MT-A-S3407",
       "series": "F",
       "server_path": "/root/projects/hrfont/runs/F2-VEC-MT-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 40000,
@@ -73,7 +73,7 @@
       "run_id": "G-CONT-G2-8gpu-V0914-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -97,7 +97,7 @@
       "run_id": "G-CONT-G2RL-8gpu-V0914-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -121,7 +121,7 @@
       "run_id": "G-REF-A0-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-A0-V0914-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 2500,
@@ -145,7 +145,7 @@
       "run_id": "G-REF-A1-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-A1-V0914-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 2500,
@@ -169,7 +169,7 @@
       "run_id": "G-REF-B0-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-B0-V0914-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
@@ -186,7 +186,7 @@
       "run_id": "G-REF-SMOKE-A1-T2-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-SMOKE-A1-T2-V0914-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 100,
@@ -210,7 +210,7 @@
       "run_id": "G-REF-SMOKE-B1-T2-V0914-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 100,
@@ -234,7 +234,7 @@
       "run_id": "G-RL-pilot-8gpu-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -258,7 +258,7 @@
       "run_id": "G-RL-pilot-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -282,7 +282,7 @@
       "run_id": "G-TC-G2-8gpu-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-TC-G2-8gpu-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -306,7 +306,7 @@
       "run_id": "G-TC-G2RL-8gpu-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G-TC-G2RL-8gpu-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 5000,
@@ -330,7 +330,7 @@
       "run_id": "G0-F0-V0913-BS256-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G0-F0-V0913-BS256-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
@@ -346,7 +346,7 @@
       "run_id": "G0b-F0-V0913-BS256-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 10000,
@@ -366,7 +366,7 @@
       "run_id": "G0c-F0-V0913-BS256-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G0c-F0-V0913-BS256-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 20000,
@@ -382,7 +382,7 @@
       "run_id": "G1-F1-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 10000,
@@ -406,7 +406,7 @@
       "run_id": "G2-F2-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G2-F2-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 10000,
@@ -430,7 +430,7 @@
       "run_id": "G2-RL-V0913-A-S3407",
       "series": "G",
       "server_path": "/root/projects/hrfont/runs/G2-RL-V0913-A-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "global_step": 10000,
@@ -454,7 +454,7 @@
       "run_id": "H-SMOKE-H3-V0915-S3407",
       "series": "H",
       "server_path": "/root/projects/hrfont/runs/H-SMOKE-H3-V0915-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -509,7 +509,7 @@
       "run_id": "H0-V0915-S3407",
       "series": "H",
       "server_path": "/root/projects/hrfont/runs/H0-V0915-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -620,7 +620,7 @@
       "run_id": "H3-V0915-S3407",
       "series": "H",
       "server_path": "/root/projects/hrfont/runs/H3-V0915-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -731,7 +731,7 @@
       "run_id": "H4-V0915-S3407",
       "series": "H",
       "server_path": "/root/projects/hrfont/runs/H4-V0915-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "stopped",
       "done": null,
       "stopped": {
@@ -848,7 +848,7 @@
       "run_id": "I-SMOKE-I1-V0915-S3407",
       "series": "I",
       "server_path": "/root/projects/hrfont/runs/I-SMOKE-I1-V0915-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -905,7 +905,7 @@
       "run_id": "I-SMOKE-I2-V0915-S3407",
       "series": "I",
       "server_path": "/root/projects/hrfont/runs/I-SMOKE-I2-V0915-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -986,7 +986,7 @@
       "run_id": "I1-V0915-S3407",
       "series": "I",
       "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "completed",
       "done": {
         "status": "completed",
@@ -1099,38 +1099,38 @@
       "run_id": "I2-V0915-S3407",
       "series": "I",
       "server_path": "/root/projects/hrfont/runs/I2-V0915-S3407",
-      "snapshot_utc": "2026-09-15T07:04:19.008242+00:00",
+      "snapshot_utc": "2026-09-15T07:17:09.326455+00:00",
       "status": "recorded_not_live_verified",
       "done": null,
       "stopped": null,
       "heartbeat": {
         "state": "TRAINING",
-        "time": 1789455656.327022,
-        "step": 300,
-        "attempt": 300,
-        "loss": 0.052767492830753326,
-        "eps": 0.00189213827252388,
-        "perceptual": 2.253157377243042,
-        "completion": 0.21572130918502808,
-        "comp_coef": 0.003,
-        "grad_norm": 0.26157912611961365,
-        "reader_grad": 0.00043136416246298377,
-        "router_grad": 0.0002544264757002377,
-        "encoder_grad": 0.0001542169330234787,
-        "aux_loss_rank": 0.043463222682476044,
-        "gate": 0.3,
+        "time": 1789456545.9782956,
+        "step": 700,
+        "attempt": 700,
+        "loss": 0.02536274865269661,
+        "eps": 0.0018261466175317764,
+        "perceptual": 1.8429147005081177,
+        "completion": 0.18725022673606873,
+        "comp_coef": 0.006999999999999999,
+        "grad_norm": 0.20217092335224152,
+        "reader_grad": 0.003335814567905026,
+        "router_grad": 5.862867426206095e-05,
+        "encoder_grad": 0.001228485294565383,
+        "aux_loss_rank": 0.06992145627737045,
+        "gate": 0.7,
         "lr": [
-          6e-05,
-          1.2e-05,
-          1.2e-05,
-          6e-05
+          0.0001,
+          2e-05,
+          2e-05,
+          0.0001
         ],
         "skips": 0,
         "scale": 1024.0,
         "ddp_spread": 0.0,
-        "update_seconds": 2.2124972343444824,
-        "peak_mib": 8680.15869140625,
-        "elapsed_seconds": 680.4942336082458
+        "update_seconds": 2.1111624240875244,
+        "peak_mib": 8691.06005859375,
+        "elapsed_seconds": 1570.1456143856049
       },
       "config": {
         "arm": "I2",
