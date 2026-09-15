@@ -2,38 +2,14 @@
   "run_id": "I1-V0915-S3407",
   "series": "I",
   "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407",
-  "snapshot_utc": "2026-09-15T05:08:28.633962+00:00",
+  "snapshot_utc": "2026-09-15T05:55:44.091506+00:00",
   "status": "recorded_not_live_verified",
   "done": null,
   "stopped": null,
   "heartbeat": {
-    "state": "TRAINING",
-    "time": 1789448824.9140463,
-    "step": 5000,
-    "attempt": 5000,
-    "loss": 0.03127029165625572,
-    "eps": 0.001897101174108684,
-    "perceptual": 2.7295937538146973,
-    "completion": 0.16813406348228455,
-    "comp_coef": 0.01,
-    "grad_norm": 0.2405843734741211,
-    "reader_grad": 0.0028711246818165746,
-    "router_grad": 7.55661600714443e-05,
-    "encoder_grad": 0.0006858167899915379,
-    "aux_loss_rank": 0.0,
-    "gate": 1.0,
-    "lr": [
-      0.0001,
-      2e-05,
-      2e-05,
-      0.0001
-    ],
-    "skips": 0,
-    "scale": 4096.0,
-    "ddp_spread": 0.0,
-    "update_seconds": 0.9747660160064697,
-    "peak_mib": 8712.802734375,
-    "elapsed_seconds": 4772.676828384399
+    "state": "INFERENCE",
+    "step": 8000,
+    "time": 1789451671.1045785
   },
   "config": {
     "arm": "I1",
@@ -91,6 +67,28 @@
       },
       "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407/eval_step_4000",
       "portable_report": "experiments/I/I1/step00004000/review.html"
+    },
+    {
+      "step": 6000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 6000,
+        "seconds": 60.64110016822815
+      },
+      "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407/eval_step_6000",
+      "portable_report": "experiments/I/I1/step00006000/review.html"
+    },
+    {
+      "step": 8000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 8000,
+        "seconds": 58.84831213951111
+      },
+      "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407/eval_step_8000",
+      "portable_report": "experiments/I/I1/step00008000/review.html"
     }
   ]
 }
