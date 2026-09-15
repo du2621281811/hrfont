@@ -1,0 +1,83 @@
+{
+  "basis": "Git code/config/charset reconstruction; execution E12 cache unavailable on V100 host",
+  "configured_cn": 104,
+  "cached_cn": 102,
+  "used_cn": 31,
+  "used_cn_chars": [
+    "永",
+    "和",
+    "书",
+    "风",
+    "骨",
+    "韵",
+    "天",
+    "地",
+    "一",
+    "二",
+    "三",
+    "十",
+    "人",
+    "上",
+    "下",
+    "中",
+    "分",
+    "力",
+    "冬",
+    "东",
+    "南",
+    "北",
+    "右",
+    "前",
+    "后",
+    "去",
+    "出",
+    "关",
+    "低",
+    "云",
+    "光"
+  ],
+  "val_first128_font_counts": {
+    "FZBaiZDZ115JW": 31,
+    "FZBaiZJKJW": 31,
+    "FZBangSKLTJW": 31,
+    "FZBaoHTJW_Da": 31,
+    "FZBenMXYTJW_Italic": 4
+  },
+  "expected_same_font_off_diagonal_unordered_pairs_per_batch": 12.508790072388832,
+  "candidate_related_stems": {
+    "FZYouHK": [
+      {
+        "font": "FZYouHK_513B",
+        "split": "train"
+      },
+      {
+        "font": "FZYouHK_508R",
+        "split": "val"
+      },
+      {
+        "font": "FZYouHK_509R",
+        "split": "val"
+      },
+      {
+        "font": "FZYouHK_510M",
+        "split": "val"
+      },
+      {
+        "font": "FZYouHK_512B",
+        "split": "test"
+      }
+    ]
+  },
+  "human_n": 39,
+  "human_ratings_counts": {
+    "4.0": 14,
+    "2.0": 6,
+    "5.0": 6,
+    "3.0": 5,
+    "1.0": 8
+  },
+  "published_spearman": -0.06740890688257913,
+  "corrected_spearman_average_ranks": -0.08075036379148261,
+  "published_kendall": -0.06872852233676977,
+  "corrected_kendall_tau_b": -0.06091011157101512
+}

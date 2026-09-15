@@ -1,0 +1,3192 @@
+{
+  "sizes": {
+    "target295": 83,
+    "han338_only": 84,
+    "joint633": 83
+  },
+  "original_content_size": 83,
+  "font_sha256": "5dcd1c336cc9344cb77c03a0cd8982ca8a7dc97d620fd6c9c434e02dcb1ceeb3",
+  "pinned_font_matches": true,
+  "pillow": "12.2.0",
+  "freetype": "2.14.3",
+  "cn_n": 338,
+  "cn_all_equal": true,
+  "cn_all_hashes_match": true,
+  "cn_items": [
+    {
+      "cp": "u4E00",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E09",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E0A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E0B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E0D",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E0E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E16",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E1A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E1C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E24",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E2A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E2D",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E3A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E3B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E3D",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E48",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E4B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E50",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E5F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E66",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E86",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E8B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E8C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E8E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E91",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4E9B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4EB2",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4EBA",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4EC0",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4ECE",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4ED6",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4EE5",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4EEC",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4F1A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4F46",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4F4E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4F4F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4F53",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4F5C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4F60",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4F7F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4FAF",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u4FE1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5019",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u501F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5047",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u504F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5065",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5144",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5149",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u515C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5168",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u516C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5171",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5173",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5176",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5185",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u519B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u51AC",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u51B7",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u51DD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u51FA",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5206",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u521B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5229",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5230",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5236",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u523B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u524D",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5267",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u529B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u529F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u52A8",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u52AA",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u52C7",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u52E4",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5316",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5317",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u533B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5341",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5357",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u53BB",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u53C8",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u53CB",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u53D1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u53EA",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u53EF",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u53F2",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u53F3",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5408",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u540C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u540D",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u540E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5411",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u548C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u54B3",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5589",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u56E0",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u56E2",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u56FD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u571F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5728",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5730",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u575A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u57CE",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u590F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5916",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u591A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5927",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5929",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5931",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5934",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u594B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5973",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5979",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u597D",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5982",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u59B9",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u59CB",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u59D0",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5B50",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5B66",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5B83",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5B87",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5B89",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5B99",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5B9A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5B9E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5BB6",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5BCC",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5BD2",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5BF9",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5C06",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5C0F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5C11",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5C31",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5C55",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5C71",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5DE5",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5DE6",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5DF2",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E02",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E08",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E0C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E73",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E74",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E76",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E78",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E84",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E94",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5E97",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5EB7",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5F00",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5F0A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5F1F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5F3A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5F53",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5F88",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5F97",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5FC3",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u5FEB",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6027",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u606D",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u606F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u60C5",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u60DC",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u60F3",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u610F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u611F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6155",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6162",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6167",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u620F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6210",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6211",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6218",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6240",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u624B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6280",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u628A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6301",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u636E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6377",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u63A2",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6539",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u653E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u653F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6562",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6570",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6587",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u65B0",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u65B9",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u65E0",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u65E5",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u65E7",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u65F6",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u660E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u661F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6625",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u662F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u667A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6696",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6697",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6700",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6708",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6709",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u670B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u671B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6728",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u672A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u672C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u673A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6751",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u675F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6765",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6811",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6821",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6837",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6865",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u68A6",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u695A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6B4C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6B63",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6B64",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6B65",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6BCD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6C11",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6C34",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6C38",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6CA1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6CD5",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6D3B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6D45",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6DF1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6E05",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u6E29",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u706B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u70B9",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7136",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7231",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7236",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7269",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u73B0",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7406",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u751F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7528",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7531",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7535",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7537",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u753B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u754C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u767D",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7684",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u76F8",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u770B",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u771F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7740",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u77E5",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u77ED",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u77F3",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u798F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u79CB",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u79CD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u79D1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7A7A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7B2C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7B49",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7E41",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7EA2",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7ECF",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7ED3",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7EFF",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7F51",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u7F8E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8001",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8005",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u800C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u80FD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u81EA",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u821E",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8239",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u827A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u82B1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8349",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8363",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u836F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u84DD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u884C",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8863",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u88AB",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u897F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8981",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u89C1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8BCD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8BD7",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8BDA",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8BDD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8BF4",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8C0A",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8C10",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8D25",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8D77",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8DEF",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8F66",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8FC7",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8FD1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8FD8",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8FD9",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8FDB",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u8FDC",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9020",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9053",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u90A3",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u90E8",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u90FD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u91CC",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u91CD",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u91D1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u94C1",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u94DC",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u94F6",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9519",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u957F",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u95EE",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u95F4",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u96E8",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u96EA",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9762",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9769",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u97F3",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u97F5",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u98CE",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u98DE",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u98DF",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9AA8",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9AD8",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9EC4",
+      "equal": true,
+      "hash_matches_manifest": true
+    },
+    {
+      "cp": "u9ED1",
+      "equal": true,
+      "hash_matches_manifest": true
+    }
+  ],
+  "legacy_n": 295,
+  "legacy_equal": 86,
+  "legacy_worst": {
+    "cp": "u311B",
+    "equal": false,
+    "mae": 8.1689453125
+  },
+  "legacy_items": [
+    {
+      "cp": "u0030",
+      "equal": false,
+      "mae": 0.3212890625
+    },
+    {
+      "cp": "u0031",
+      "equal": false,
+      "mae": 0.14322916666666666
+    },
+    {
+      "cp": "u0032",
+      "equal": false,
+      "mae": 0.16590711805555555
+    },
+    {
+      "cp": "u0033",
+      "equal": false,
+      "mae": 0.14735243055555555
+    },
+    {
+      "cp": "u0034",
+      "equal": false,
+      "mae": 0.038628472222222224
+    },
+    {
+      "cp": "u0035",
+      "equal": false,
+      "mae": 0.2038845486111111
+    },
+    {
+      "cp": "u0036",
+      "equal": false,
+      "mae": 0.8268229166666666
+    },
+    {
+      "cp": "u0037",
+      "equal": false,
+      "mae": 0.13899739583333334
+    },
+    {
+      "cp": "u0038",
+      "equal": false,
+      "mae": 0.2126736111111111
+    },
+    {
+      "cp": "u0039",
+      "equal": false,
+      "mae": 0.23470052083333334
+    },
+    {
+      "cp": "u0041",
+      "equal": false,
+      "mae": 0.1869574652777778
+    },
+    {
+      "cp": "u0042",
+      "equal": false,
+      "mae": 0.36328125
+    },
+    {
+      "cp": "u0043",
+      "equal": false,
+      "mae": 0.0851779513888889
+    },
+    {
+      "cp": "u0044",
+      "equal": false,
+      "mae": 0.2928602430555556
+    },
+    {
+      "cp": "u0045",
+      "equal": false,
+      "mae": 0.19173177083333334
+    },
+    {
+      "cp": "u0046",
+      "equal": false,
+      "mae": 0.19173177083333334
+    },
+    {
+      "cp": "u0047",
+      "equal": false,
+      "mae": 0.08246527777777778
+    },
+    {
+      "cp": "u0048",
+      "equal": false,
+      "mae": 0.2647569444444444
+    },
+    {
+      "cp": "u0049",
+      "equal": false,
+      "mae": 0.1323784722222222
+    },
+    {
+      "cp": "u004A",
+      "equal": false,
+      "mae": 0.1400824652777778
+    },
+    {
+      "cp": "u004B",
+      "equal": false,
+      "mae": 0.2862413194444444
+    },
+    {
+      "cp": "u004C",
+      "equal": false,
+      "mae": 0.1494140625
+    },
+    {
+      "cp": "u004D",
+      "equal": false,
+      "mae": 0.4230685763888889
+    },
+    {
+      "cp": "u004E",
+      "equal": false,
+      "mae": 0.24131944444444445
+    },
+    {
+      "cp": "u004F",
+      "equal": false,
+      "mae": 0.0720486111111111
+    },
+    {
+      "cp": "u0050",
+      "equal": false,
+      "mae": 4.563368055555555
+    },
+    {
+      "cp": "u0051",
+      "equal": false,
+      "mae": 0.12977430555555555
+    },
+    {
+      "cp": "u0052",
+      "equal": false,
+      "mae": 0.3358289930555556
+    },
+    {
+      "cp": "u0053",
+      "equal": false,
+      "mae": 0.1537543402777778
+    },
+    {
+      "cp": "u0054",
+      "equal": false,
+      "mae": 0.07975260416666667
+    },
+    {
+      "cp": "u0055",
+      "equal": false,
+      "mae": 0.1480034722222222
+    },
+    {
+      "cp": "u0056",
+      "equal": false,
+      "mae": 0.034613715277777776
+    },
+    {
+      "cp": "u0057",
+      "equal": false,
+      "mae": 0.2202690972222222
+    },
+    {
+      "cp": "u0058",
+      "equal": false,
+      "mae": 0.15223524305555555
+    },
+    {
+      "cp": "u0059",
+      "equal": false,
+      "mae": 0.1548394097222222
+    },
+    {
+      "cp": "u005A",
+      "equal": false,
+      "mae": 0.1484375
+    },
+    {
+      "cp": "u0061",
+      "equal": false,
+      "mae": 0.12076822916666667
+    },
+    {
+      "cp": "u0062",
+      "equal": false,
+      "mae": 0.17078993055555555
+    },
+    {
+      "cp": "u0063",
+      "equal": false,
+      "mae": 0.13248697916666666
+    },
+    {
+      "cp": "u0064",
+      "equal": false,
+      "mae": 0.3263888888888889
+    },
+    {
+      "cp": "u0065",
+      "equal": false,
+      "mae": 0.2043185763888889
+    },
+    {
+      "cp": "u0066",
+      "equal": false,
+      "mae": 0.009874131944444444
+    },
+    {
+      "cp": "u0067",
+      "equal": false,
+      "mae": 0.2036675347222222
+    },
+    {
+      "cp": "u0068",
+      "equal": false,
+      "mae": 0.1318359375
+    },
+    {
+      "cp": "u0069",
+      "equal": false,
+      "mae": 0.11458333333333333
+    },
+    {
+      "cp": "u006A",
+      "equal": false,
+      "mae": 0.04796006944444445
+    },
+    {
+      "cp": "u006B",
+      "equal": false,
+      "mae": 0.0015190972222222222
+    },
+    {
+      "cp": "u006C",
+      "equal": false,
+      "mae": 0.13172743055555555
+    },
+    {
+      "cp": "u006D",
+      "equal": false,
+      "mae": 0.10438368055555555
+    },
+    {
+      "cp": "u006E",
+      "equal": false,
+      "mae": 0.09168836805555555
+    },
+    {
+      "cp": "u006F",
+      "equal": false,
+      "mae": 0.18489583333333334
+    },
+    {
+      "cp": "u0070",
+      "equal": false,
+      "mae": 0.17936197916666666
+    },
+    {
+      "cp": "u0071",
+      "equal": false,
+      "mae": 0.3248697916666667
+    },
+    {
+      "cp": "u0072",
+      "equal": false,
+      "mae": 0.11165364583333333
+    },
+    {
+      "cp": "u0073",
+      "equal": false,
+      "mae": 0.1362847222222222
+    },
+    {
+      "cp": "u0074",
+      "equal": false,
+      "mae": 0.05392795138888889
+    },
+    {
+      "cp": "u0075",
+      "equal": false,
+      "mae": 0.09765625
+    },
+    {
+      "cp": "u0076",
+      "equal": false,
+      "mae": 0.06922743055555555
+    },
+    {
+      "cp": "u0077",
+      "equal": false,
+      "mae": 0.19173177083333334
+    },
+    {
+      "cp": "u0078",
+      "equal": false,
+      "mae": 0.05490451388888889
+    },
+    {
+      "cp": "u0079",
+      "equal": false,
+      "mae": 0.18977864583333334
+    },
+    {
+      "cp": "u007A",
+      "equal": false,
+      "mae": 0.05588107638888889
+    },
+    {
+      "cp": "u00E0",
+      "equal": false,
+      "mae": 0.1689453125
+    },
+    {
+      "cp": "u00E1",
+      "equal": false,
+      "mae": 0.16124131944444445
+    },
+    {
+      "cp": "u00E8",
+      "equal": false,
+      "mae": 0.2868923611111111
+    },
+    {
+      "cp": "u00E9",
+      "equal": false,
+      "mae": 0.2358940972222222
+    },
+    {
+      "cp": "u00EA",
+      "equal": false,
+      "mae": 0.22157118055555555
+    },
+    {
+      "cp": "u00ED",
+      "equal": false,
+      "mae": 0.13932291666666666
+    },
+    {
+      "cp": "u00F2",
+      "equal": false,
+      "mae": 0.2123480902777778
+    },
+    {
+      "cp": "u00F3",
+      "equal": false,
+      "mae": 0.23372395833333334
+    },
+    {
+      "cp": "u00F9",
+      "equal": false,
+      "mae": 0.1633029513888889
+    },
+    {
+      "cp": "u00FA",
+      "equal": false,
+      "mae": 0.12196180555555555
+    },
+    {
+      "cp": "u00FC",
+      "equal": false,
+      "mae": 0.9307725694444444
+    },
+    {
+      "cp": "u0101",
+      "equal": false,
+      "mae": 0.1976996527777778
+    },
+    {
+      "cp": "u0113",
+      "equal": false,
+      "mae": 0.2683376736111111
+    },
+    {
+      "cp": "u011B",
+      "equal": false,
+      "mae": 0.2736545138888889
+    },
+    {
+      "cp": "u012B",
+      "equal": false,
+      "mae": 0.1616753472222222
+    },
+    {
+      "cp": "u0144",
+      "equal": false,
+      "mae": 0.1220703125
+    },
+    {
+      "cp": "u0148",
+      "equal": false,
+      "mae": 0.14420572916666666
+    },
+    {
+      "cp": "u014D",
+      "equal": false,
+      "mae": 0.2598741319444444
+    },
+    {
+      "cp": "u016B",
+      "equal": false,
+      "mae": 0.1615668402777778
+    },
+    {
+      "cp": "u01CE",
+      "equal": false,
+      "mae": 0.1762152777777778
+    },
+    {
+      "cp": "u01D0",
+      "equal": false,
+      "mae": 0.18098958333333334
+    },
+    {
+      "cp": "u01D2",
+      "equal": false,
+      "mae": 0.24576822916666666
+    },
+    {
+      "cp": "u01D4",
+      "equal": false,
+      "mae": 0.17024739583333334
+    },
+    {
+      "cp": "u01D6",
+      "equal": false,
+      "mae": 0.15625
+    },
+    {
+      "cp": "u01D8",
+      "equal": false,
+      "mae": 0.16883680555555555
+    },
+    {
+      "cp": "u01DA",
+      "equal": false,
+      "mae": 0.18077256944444445
+    },
+    {
+      "cp": "u01DC",
+      "equal": false,
+      "mae": 0.1577690972222222
+    },
+    {
+      "cp": "u3041",
+      "equal": false,
+      "mae": 0.03993055555555555
+    },
+    {
+      "cp": "u3042",
+      "equal": false,
+      "mae": 0.037434895833333336
+    },
+    {
+      "cp": "u3043",
+      "equal": false,
+      "mae": 0.008355034722222222
+    },
+    {
+      "cp": "u3044",
+      "equal": false,
+      "mae": 0.013888888888888888
+    },
+    {
+      "cp": "u3045",
+      "equal": false,
+      "mae": 0.016493055555555556
+    },
+    {
+      "cp": "u3046",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3047",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3048",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3049",
+      "equal": false,
+      "mae": 0.048828125
+    },
+    {
+      "cp": "u304A",
+      "equal": false,
+      "mae": 0.09190538194444445
+    },
+    {
+      "cp": "u304B",
+      "equal": false,
+      "mae": 0.2429470486111111
+    },
+    {
+      "cp": "u304C",
+      "equal": false,
+      "mae": 0.5048828125
+    },
+    {
+      "cp": "u304D",
+      "equal": false,
+      "mae": 0.0037977430555555555
+    },
+    {
+      "cp": "u304E",
+      "equal": false,
+      "mae": 0.049153645833333336
+    },
+    {
+      "cp": "u304F",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3050",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3051",
+      "equal": false,
+      "mae": 0.04275173611111111
+    },
+    {
+      "cp": "u3052",
+      "equal": false,
+      "mae": 0.03125
+    },
+    {
+      "cp": "u3053",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3054",
+      "equal": false,
+      "mae": 0.014865451388888888
+    },
+    {
+      "cp": "u3055",
+      "equal": false,
+      "mae": 0.032877604166666664
+    },
+    {
+      "cp": "u3056",
+      "equal": false,
+      "mae": 0.011501736111111112
+    },
+    {
+      "cp": "u3057",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3058",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3059",
+      "equal": false,
+      "mae": 0.022569444444444444
+    },
+    {
+      "cp": "u305A",
+      "equal": false,
+      "mae": 0.08430989583333333
+    },
+    {
+      "cp": "u305B",
+      "equal": false,
+      "mae": 0.5613064236111112
+    },
+    {
+      "cp": "u305C",
+      "equal": false,
+      "mae": 7.940212673611111
+    },
+    {
+      "cp": "u305D",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u305E",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u305F",
+      "equal": false,
+      "mae": 0.0020616319444444445
+    },
+    {
+      "cp": "u3060",
+      "equal": false,
+      "mae": 0.0007595486111111111
+    },
+    {
+      "cp": "u3061",
+      "equal": false,
+      "mae": 0.021809895833333332
+    },
+    {
+      "cp": "u3062",
+      "equal": false,
+      "mae": 0.026150173611111112
+    },
+    {
+      "cp": "u3063",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3064",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3065",
+      "equal": false,
+      "mae": 0.019314236111111112
+    },
+    {
+      "cp": "u3066",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3067",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3068",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3069",
+      "equal": false,
+      "mae": 0.020941840277777776
+    },
+    {
+      "cp": "u306A",
+      "equal": false,
+      "mae": 0.004991319444444444
+    },
+    {
+      "cp": "u306B",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u306C",
+      "equal": false,
+      "mae": 0.03407118055555555
+    },
+    {
+      "cp": "u306D",
+      "equal": false,
+      "mae": 0.029188368055555556
+    },
+    {
+      "cp": "u306E",
+      "equal": false,
+      "mae": 0.021375868055555556
+    },
+    {
+      "cp": "u306F",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3070",
+      "equal": false,
+      "mae": 0.005642361111111111
+    },
+    {
+      "cp": "u3071",
+      "equal": false,
+      "mae": 0.004774305555555556
+    },
+    {
+      "cp": "u3072",
+      "equal": false,
+      "mae": 0.017252604166666668
+    },
+    {
+      "cp": "u3073",
+      "equal": false,
+      "mae": 0.014865451388888888
+    },
+    {
+      "cp": "u3074",
+      "equal": false,
+      "mae": 0.013129340277777778
+    },
+    {
+      "cp": "u3075",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3076",
+      "equal": false,
+      "mae": 0.0026041666666666665
+    },
+    {
+      "cp": "u3077",
+      "equal": false,
+      "mae": 0.0029296875
+    },
+    {
+      "cp": "u3078",
+      "equal": false,
+      "mae": 0.0224609375
+    },
+    {
+      "cp": "u3079",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u307A",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u307B",
+      "equal": false,
+      "mae": 0.11555989583333333
+    },
+    {
+      "cp": "u307C",
+      "equal": false,
+      "mae": 0.002387152777777778
+    },
+    {
+      "cp": "u307D",
+      "equal": false,
+      "mae": 0.0015190972222222222
+    },
+    {
+      "cp": "u307E",
+      "equal": false,
+      "mae": 0.009982638888888888
+    },
+    {
+      "cp": "u307F",
+      "equal": false,
+      "mae": 0.029947916666666668
+    },
+    {
+      "cp": "u3080",
+      "equal": false,
+      "mae": 0.04210069444444445
+    },
+    {
+      "cp": "u3081",
+      "equal": false,
+      "mae": 0.004014756944444444
+    },
+    {
+      "cp": "u3082",
+      "equal": false,
+      "mae": 7.317816840277778
+    },
+    {
+      "cp": "u3083",
+      "equal": false,
+      "mae": 0.0068359375
+    },
+    {
+      "cp": "u3084",
+      "equal": false,
+      "mae": 0.0015190972222222222
+    },
+    {
+      "cp": "u3085",
+      "equal": false,
+      "mae": 0.0498046875
+    },
+    {
+      "cp": "u3086",
+      "equal": false,
+      "mae": 0.00043402777777777775
+    },
+    {
+      "cp": "u3087",
+      "equal": false,
+      "mae": 0.006510416666666667
+    },
+    {
+      "cp": "u3088",
+      "equal": false,
+      "mae": 0.007161458333333333
+    },
+    {
+      "cp": "u3089",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u308A",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u308B",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u308C",
+      "equal": false,
+      "mae": 0.3054470486111111
+    },
+    {
+      "cp": "u308D",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u308E",
+      "equal": false,
+      "mae": 0.0642361111111111
+    },
+    {
+      "cp": "u308F",
+      "equal": false,
+      "mae": 0.0166015625
+    },
+    {
+      "cp": "u3090",
+      "equal": false,
+      "mae": 0.004991319444444444
+    },
+    {
+      "cp": "u3091",
+      "equal": false,
+      "mae": 0.024739583333333332
+    },
+    {
+      "cp": "u3092",
+      "equal": false,
+      "mae": 0.043294270833333336
+    },
+    {
+      "cp": "u3093",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30A1",
+      "equal": false,
+      "mae": 0.003146701388888889
+    },
+    {
+      "cp": "u30A2",
+      "equal": false,
+      "mae": 0.009657118055555556
+    },
+    {
+      "cp": "u30A3",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30A4",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30A5",
+      "equal": false,
+      "mae": 0.0035807291666666665
+    },
+    {
+      "cp": "u30A6",
+      "equal": false,
+      "mae": 0.013780381944444444
+    },
+    {
+      "cp": "u30A7",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30A8",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30A9",
+      "equal": false,
+      "mae": 0.055230034722222224
+    },
+    {
+      "cp": "u30AA",
+      "equal": false,
+      "mae": 0.029839409722222224
+    },
+    {
+      "cp": "u30AB",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30AC",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30AD",
+      "equal": false,
+      "mae": 0.0849609375
+    },
+    {
+      "cp": "u30AE",
+      "equal": false,
+      "mae": 0.076171875
+    },
+    {
+      "cp": "u30AF",
+      "equal": false,
+      "mae": 0.023654513888888888
+    },
+    {
+      "cp": "u30B0",
+      "equal": false,
+      "mae": 0.028862847222222224
+    },
+    {
+      "cp": "u30B1",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30B2",
+      "equal": false,
+      "mae": 0.006401909722222222
+    },
+    {
+      "cp": "u30B3",
+      "equal": false,
+      "mae": 0.0006510416666666666
+    },
+    {
+      "cp": "u30B4",
+      "equal": false,
+      "mae": 0.024305555555555556
+    },
+    {
+      "cp": "u30B5",
+      "equal": false,
+      "mae": 0.2058376736111111
+    },
+    {
+      "cp": "u30B6",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30B7",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30B8",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30B9",
+      "equal": false,
+      "mae": 0.011176215277777778
+    },
+    {
+      "cp": "u30BA",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30BB",
+      "equal": false,
+      "mae": 0.037651909722222224
+    },
+    {
+      "cp": "u30BC",
+      "equal": false,
+      "mae": 0.03634982638888889
+    },
+    {
+      "cp": "u30BD",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30BE",
+      "equal": false,
+      "mae": 0.0029296875
+    },
+    {
+      "cp": "u30BF",
+      "equal": false,
+      "mae": 0.0018446180555555555
+    },
+    {
+      "cp": "u30C0",
+      "equal": false,
+      "mae": 0.03439670138888889
+    },
+    {
+      "cp": "u30C1",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30C2",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30C3",
+      "equal": false,
+      "mae": 0.022026909722222224
+    },
+    {
+      "cp": "u30C4",
+      "equal": false,
+      "mae": 0.025607638888888888
+    },
+    {
+      "cp": "u30C5",
+      "equal": false,
+      "mae": 0.010525173611111112
+    },
+    {
+      "cp": "u30C6",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30C7",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30C8",
+      "equal": false,
+      "mae": 0.009657118055555556
+    },
+    {
+      "cp": "u30C9",
+      "equal": false,
+      "mae": 0.041015625
+    },
+    {
+      "cp": "u30CA",
+      "equal": false,
+      "mae": 0.0517578125
+    },
+    {
+      "cp": "u30CB",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30CC",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30CD",
+      "equal": false,
+      "mae": 0.0029296875
+    },
+    {
+      "cp": "u30CE",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30CF",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30D0",
+      "equal": false,
+      "mae": 0.004014756944444444
+    },
+    {
+      "cp": "u30D1",
+      "equal": false,
+      "mae": 0.004340277777777778
+    },
+    {
+      "cp": "u30D2",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30D3",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30D4",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30D5",
+      "equal": false,
+      "mae": 0.021592881944444444
+    },
+    {
+      "cp": "u30D6",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30D7",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30D8",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30D9",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30DA",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30DB",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30DC",
+      "equal": false,
+      "mae": 0.001736111111111111
+    },
+    {
+      "cp": "u30DD",
+      "equal": false,
+      "mae": 0.001736111111111111
+    },
+    {
+      "cp": "u30DE",
+      "equal": false,
+      "mae": 0.020941840277777776
+    },
+    {
+      "cp": "u30DF",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30E0",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30E1",
+      "equal": false,
+      "mae": 0.027560763888888888
+    },
+    {
+      "cp": "u30E2",
+      "equal": false,
+      "mae": 0.10405815972222222
+    },
+    {
+      "cp": "u30E3",
+      "equal": false,
+      "mae": 0.04676649305555555
+    },
+    {
+      "cp": "u30E4",
+      "equal": false,
+      "mae": 0.049370659722222224
+    },
+    {
+      "cp": "u30E5",
+      "equal": false,
+      "mae": 0.0026041666666666665
+    },
+    {
+      "cp": "u30E6",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30E7",
+      "equal": false,
+      "mae": 0.0015190972222222222
+    },
+    {
+      "cp": "u30E8",
+      "equal": false,
+      "mae": 0.007161458333333333
+    },
+    {
+      "cp": "u30E9",
+      "equal": false,
+      "mae": 0.008246527777777778
+    },
+    {
+      "cp": "u30EA",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30EB",
+      "equal": false,
+      "mae": 0.3683810763888889
+    },
+    {
+      "cp": "u30EC",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30ED",
+      "equal": false,
+      "mae": 0.0022786458333333335
+    },
+    {
+      "cp": "u30EE",
+      "equal": false,
+      "mae": 0.011284722222222222
+    },
+    {
+      "cp": "u30EF",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30F0",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30F1",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30F2",
+      "equal": false,
+      "mae": 0.005750868055555556
+    },
+    {
+      "cp": "u30F3",
+      "equal": false,
+      "mae": 0.017578125
+    },
+    {
+      "cp": "u30F4",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30F5",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u30F6",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3105",
+      "equal": false,
+      "mae": 0.00043402777777777775
+    },
+    {
+      "cp": "u3106",
+      "equal": false,
+      "mae": 0.032769097222222224
+    },
+    {
+      "cp": "u3107",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3108",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3109",
+      "equal": false,
+      "mae": 0.00010850694444444444
+    },
+    {
+      "cp": "u310A",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u310B",
+      "equal": false,
+      "mae": 0.0018446180555555555
+    },
+    {
+      "cp": "u310C",
+      "equal": false,
+      "mae": 0.003689236111111111
+    },
+    {
+      "cp": "u310D",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u310E",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u310F",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3110",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3111",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3112",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3113",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3114",
+      "equal": false,
+      "mae": 0.13292100694444445
+    },
+    {
+      "cp": "u3115",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3116",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3117",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3118",
+      "equal": false,
+      "mae": 0.03526475694444445
+    },
+    {
+      "cp": "u3119",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u311A",
+      "equal": false,
+      "mae": 0.0283203125
+    },
+    {
+      "cp": "u311B",
+      "equal": false,
+      "mae": 8.1689453125
+    },
+    {
+      "cp": "u311C",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u311D",
+      "equal": false,
+      "mae": 0.00390625
+    },
+    {
+      "cp": "u311E",
+      "equal": false,
+      "mae": 0.011067708333333334
+    },
+    {
+      "cp": "u311F",
+      "equal": false,
+      "mae": 0.008463541666666666
+    },
+    {
+      "cp": "u3120",
+      "equal": false,
+      "mae": 0.005208333333333333
+    },
+    {
+      "cp": "u3121",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3122",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3123",
+      "equal": false,
+      "mae": 0.033203125
+    },
+    {
+      "cp": "u3124",
+      "equal": false,
+      "mae": 0.0030381944444444445
+    },
+    {
+      "cp": "u3125",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3126",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3127",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3128",
+      "equal": true,
+      "mae": 0.0
+    },
+    {
+      "cp": "u3129",
+      "equal": false,
+      "mae": 0.001193576388888889
+    }
+  ],
+  "interpretation": "Han PNGs match joint-inventory Protocol A under the pinned current renderer. Historical western PNG reproduction is a separate check; no legacy images modified."
+}

@@ -18,12 +18,12 @@
 We introduce \method, a framework for extending a font family to new scripts from a few Chinese reference glyphs.
 The central challenge is to translate a family's visual language into characters whose structures differ from those observed.
 \method addresses this challenge through two complementary forms of conditioning.
-Mean-Delta expresses same-character examples from a font bank as a multi-scale variation prior relative to neutral content.
-Target-character appearance completion learns how reference appearance should be expressed in the requested glyph, using target-glyph appearance descriptors as training supervision.
+Dynamic Delta expresses same-character examples from a font bank as anchor-relative structural variations and learns to combine them as generation unfolds.
+Target-character appearance completion reads multi-scale local reference features to predict a spatial appearance representation of the requested glyph, supervised by training-target features.
 The resulting conditions guide a diffusion generator toward recognizable characters with a coherent family identity.
 We also formulate a cross-script completion benchmark that evaluates character identity, reference consistency, and family compatibility, with script-aware data curation and controlled reference budgets.
 % Insert the quantitative conclusion after matched generation results and the
-% calibrated evaluator are available. Missing measurements remain blank.
+% evaluator review are complete. Missing measurements remain blank.
 \end{abstract}
 
 \section{Introduction}
@@ -41,9 +41,10 @@ These approaches provide useful ingredients for completion.
 The cross-script setting makes a further distinction important: available glyph variations describe possible designs, whereas the reference images specify the family to which the result should belong.
 
 We develop \method around this distinction.
-The first component, \emph{Mean-Delta}, represents a requested character through anchor-relative feature changes supported by a font bank.
-The neutral rendering supplies identity, and the residual supplies an adaptable variation prior.
-The second component, \emph{\tc} (TC), predicts an appearance descriptor for the requested character from its neutral content and the observed references.
+The first component, \emph{Dynamic Delta}, represents a requested character through anchor-relative feature changes supported by a font bank.
+The neutral rendering supplies identity, while a learned router combines the available variations at each spatial location and denoising step.
+The second component, \emph{\tc} (TC), predicts a spatial appearance representation for the requested character from its neutral content and the observed references.
+Its online reference reader preserves local evidence before organizing that evidence around the target character.
 Training glyphs provide direct supervision for this prediction.
 Together, these components connect \emph{how the character can vary} with \emph{how the family's appearance should be realized}.
 Figure~\ref{fig:overview} summarizes the model.
@@ -51,7 +52,7 @@ Figure~\ref{fig:overview} summarizes the model.
 \begin{figure}[t]
 \centering
 \input{figures/method_overview.tex}
-\caption{Two complementary conditions for cross-script completion. Mean-Delta summarizes bank-supported changes relative to the neutral target glyph. TC predicts target-glyph appearance from reference descriptors and a content query. A diffusion generator combines both with reference features. The target image supervises TC during training; generation uses the requested content and observed references.}
+\caption{Two complementary conditions for cross-script completion. Dynamic Delta selects and combines anchor-relative structural variations from a font bank. TC reads local reference evidence into a target-aligned appearance memory. A diffusion generator uses both conditions alongside neutral content and global reference features. Training-target features supervise the appearance memory.}
 \label{fig:overview}
 \end{figure}
 
@@ -64,8 +65,8 @@ Script-aware curation establishes which font--character pairs provide meaningful
 Our contributions are:
 \begin{itemize}
 \item A cross-script font completion formulation and evaluation protocol that distinguish character identity, reference consistency, and family compatibility.
-\item Mean-Delta, an anchor-relative, multi-scale glyph variation prior that connects a neutral content representation to corresponding examples in a training font bank.
-\item Target-character appearance completion, a supervised predictor that translates reference appearance into a target-conditioned descriptor for diffusion synthesis.
+\item Dynamic Delta, an anchor-relative glyph variation space with spatially and temporally adaptive combination of corresponding training-bank examples.
+\item Target-character appearance completion, an online local-reference reader that learns a target-aligned appearance memory through direct feature supervision.
 \end{itemize}
 
 \section{Related Work}
@@ -78,18 +79,16 @@ This prediction connects reference observations to the target character before t
 
 \paragraph{Font-bank content representations.}
 CF-Font projects content features into a space spanned by corresponding glyphs from basis fonts~\citep{wang2023cffont}.
-Mean-Delta shares the use of same-character bank evidence.
+Dynamic Delta shares the use of same-character bank evidence.
 Its interface expresses that evidence as a residual from a fixed neutral anchor and consumes the residual through the structural conditioning path, alongside separately supplied neutral content.
-The shared anchor keeps the content input stable while the residual conditions its adaptation.
+The shared anchor keeps the content input stable while a denoising-conditioned router adapts the mixture of residuals.
 Our evaluation tests this interface under shared bank access and training budgets.
 
 \paragraph{Appearance transfer and completion.}
-Feature moments provide a compact appearance representation in neural style transfer; AdaIN aligns content-feature statistics with those of a style image~\citep{huang2017adain}.
-Reference attention retrieves useful features from observed glyphs.
-TC adds a predictive objective: estimate how those observations are expressed by a different character.
-The target-content query and target-glyph supervision give this objective a concrete meaning.
-Multi-scale feature statistics provide the appearance representation, and the generator receives the prediction as an additive update to its global reference tokens.
-Local reference features remain available for spatially detailed synthesis.
+Feature statistics provide appearance representations in neural style transfer~\citep{huang2017adain}, while local attention retrieves features from observed glyphs~\citep{tang2022fsfont}.
+TC organizes such observations into a target-aligned spatial memory.
+Its distinctive learning objective predicts the feature map of a different character in the same family.
+This supervision shapes both reference extraction and target-conditioned aggregation, and the resulting memory enters the generator through an additional reference-attention readout.
 
 \section{Cross-Script Font Completion}
 \label{sec:task}
@@ -117,21 +116,19 @@ The released protocol records pair validity, donor eligibility, and the referenc
 \section{Method}
 \label{sec:method}
 \subsection{Overview}
-We use a conditional diffusion generator with frozen content and style encoders, $E_c$ and $E_s$.
-The content encoder supplies multi-scale features of the neutral target.
-The style encoder supplies global reference tokens and, for the local-reference configuration, local reference features.
-Mean-Delta conditions the structural interaction path.
-TC updates the global reference tokens with predicted target-character appearance.
+We use a conditional diffusion generator with a frozen content encoder $E_c$ and a frozen global style encoder $E_s$.
+The content encoder supplies multi-scale features of the neutral target; the global style encoder supplies reference tokens and bank-retrieval descriptors.
+A separate trainable local encoder $E_\ell$, initialized from the early blocks of $E_s$, reads the reference pixels online.
+Dynamic Delta conditions structural interaction, while TC turns local evidence into target-aligned appearance tokens.
 The denoiser thus receives
 \begin{equation}
- \hat\epsilon=\epsilon_\theta\bigl(x_t,t,E_c(x_c^0),\Delta_c(\Rset_f),
-                       G'(\Rset_f,c),L(\Rset_f)\bigr).
+ \hat\epsilon=\epsilon_\theta\bigl(x_t,t,E_c(x_c^0),\Delta_{c,t}(\Rset_f),
+                       G(\Rset_f),A(\Rset_f,c)\bigr).
  \label{eq:denoiser}
 \end{equation}
-Here $x_t$ is the noisy target image, $G'$ denotes the appearance-completed global tokens, and $L$ denotes local reference tokens when present.
-We evaluate both global and global-plus-local configurations using the same TC definition.
+Here $x_t$ is the noisy target image, $G$ contains nine global reference tokens, and $A$ contains 144 appearance tokens arranged around the target's $12\times12$ content grid.
 
-\subsection{Mean-Delta: a glyph variation prior}
+\subsection{Dynamic Delta: a structural variation space}
 The bank supplies examples of how the requested character is realized in different fonts.
 To prioritize a relevant neighborhood, we compare the target references with bank renderings of the same reference characters:
 \begin{align}
@@ -146,91 +143,107 @@ $\bar E_s$ is a pooled descriptor.
 $\mathcal J_c$ contains the top-$K$ eligible training fonts after removing the episode font and script-invalid donors.
 The implementation uses $K=10$ and $\tau=0.07$.
 
-For each content scale $s$, Mean-Delta is
+For each content scale $s$, we retain a set of anchor-relative candidates:
 \begin{equation}
- \Delta_c^s=\sum_{j\in\mathcal J_c}\alpha_j
-       \left[E_c^s(B_{j,c})-E_c^s(x_c^0)\right].
+ d_{j,c}^s=E_c^s(B_{j,c})-E_c^s(x_c^0),\qquad j\in\mathcal J_c.
  \label{eq:delta}
 \end{equation}
 Every donor renders the same requested character.
 Subtracting a common anchor expresses the bank evidence in coordinates relative to the content already available to the generator.
-The resulting multi-scale tensors feed the deformable structural interaction modules.
+These candidates define a bank-supported space of possible changes to the neutral structure.
+Retrieval supplies an initial distribution $\alpha$, and a learned router adapts that distribution to the current synthesis state.
+At location $p$ of structural module $\ell$, the router computes
+\begin{align}
+ q_{\ell,t,p} &= Q_\ell(h_{\ell,t})_p+C_\ell(E_c^s(x_c^0))_p
+                 +R_\ell(\bar G)+T_\ell(t),\\
+ w_{j,\ell,t,p} &= \operatorname{softmax}_{j}\!\left[
+       \log\alpha_j+\gamma_\ell\cos(q_{\ell,t,p},K_\ell(d_{j,c}^s)_p)\right],\\
+ \Delta_{c,\ell,t,p} &= \sum_{j\in\mathcal J_c}w_{j,\ell,t,p}\,d_{j,c,p}^s.
+ \label{eq:dynamic_delta}
+\end{align}
+$h_{\ell,t}$ is the generator's content-side hidden state, $\bar G$ is the mean global reference token, and $\gamma_\ell$ is learned.
+The resulting residual drives deformable structural interaction with the neutral content.
 
-Retrieval defines a reference-conditioned prior over available variations.
-Similarity in the observed script is a useful ranking signal; the generator learns how the resulting prior applies to the target script.
-The donor residual is therefore an adaptable condition rather than a prescribed target design.
-Uniform-weight and absolute-feature controls test the contribution of neighborhood weighting and the anchor-relative interface.
+The weights are nonnegative and sum to one: adaptation selects within the available residual variations at each location.
+Reference similarity narrows the search neighborhood; target content and the evolving denoising state determine how it is used.
+This separates neighborhood retrieval from cross-script realization.
+Mean-Delta is recovered by fixing $w_j=\alpha_j$, providing a direct comparison for learned combination.
 
 \subsection{Target-character appearance completion}
 \label{sec:tc}
-TC learns the appearance of a target character from reference observations.
-Its input pairs a descriptor of each reference with a query describing the requested content.
-Its teacher is the appearance descriptor of the corresponding training target.
+TC learns how local reference observations should be expressed in the requested character.
+It first extracts evidence at multiple scales, then arranges that evidence into a target-conditioned memory shared by appearance prediction and synthesis.
 
-\paragraph{Appearance representation.}
-Let $\phi_\ell(x)$ denote three frozen VGG16~\citep{Simonyan15} feature maps with channel counts $64$, $128$, and $256$.
-We summarize each map by its spatial channel means and population standard deviations:
-\begin{equation}
- \psi(x)=\mathop{\mathrm{concat}}_{\ell=1}^{3}
-       \left[\mu_{HW}(\phi_\ell(x)),\sigma_{HW}(\phi_\ell(x))\right]
-       \in\mathbb R^{896}.
-\end{equation}
-Training-target statistics define a per-dimension standardization $S$ shared by reference descriptors and target teachers.
-The descriptors summarize multi-scale activation strength and variability.
-They give TC a compact appearance target while the diffusion generator handles the spatial arrangement of strokes.
+\paragraph{Online local evidence.}
+For each reference, $E_\ell$ produces a $24\times24\times128$ feature map and a $12\times12\times256$ map.
+A $1\times1$ projection maps the shallower features to 256 channels.
+Flattening and concatenating both maps yields 720 tokens per reference.
+All valid references form a joint evidence sequence $V_f\in\mathbb R^{720n\times256}$.
+The encoder processes valid images only, and attention masks padded positions.
+Thus, observations remain available individually until the target-conditioned readout.
 
-\paragraph{Content-conditioned prediction.}
-The five pooled content scales form $u_c\in\mathbb R^{707}$.
-Linear projections map $u_c$ and the standardized reference descriptors into a 256-dimensional attention space:
+\paragraph{Target-aligned memory.}
+The neutral content grid $U_c\in\mathbb R^{144\times256}$ defines one query per target location.
+Learned positional slots $P$ complement this content signal:
 \begin{align}
- q_c &= W_q u_c,\qquad v_i=W_r S(\psi(r_i)),\\
- h_c &= \operatorname{LN}\!\left(q_c+
-          \operatorname{MHA}(q_c,\{v_i\},\{v_i\})\right),\\
- \hat a_{f,c} &= \operatorname{MLP}([h_c;q_c])\in\mathbb R^{896}.
+ Q_c &= W_q U_c+P,\\
+ H_{f,c} &= \operatorname{Attn}(Q_c,W_kV_f,W_vV_f),\\
+ M_{f,c} &= H_{f,c}+\operatorname{MLP}(\operatorname{LN}(H_{f,c})),\\
+ A_{f,c} &= W_o M_{f,c},\qquad \hat F_{f,c}=W_a M_{f,c}.
  \label{eq:tc}
 \end{align}
-The attention uses eight heads and masks padded references.
-The content query also enters the prediction MLP directly, allowing character-dependent predictions even for a single reference.
-The same family can consequently yield different descriptors for different requested characters.
+Attention uses four heads, per-head query/key normalization, and FP32 softmax.
+$A_{f,c}\in\mathbb R^{144\times1024}$ conditions synthesis, while $\hat F_{f,c}\in\mathbb R^{144\times128}$ is the supervised appearance readout.
+The target queries can select different local evidence even when only one reference glyph is available.
 
 \paragraph{Supervision and injection.}
-For training target $y_{f,c}$, the teacher is $a^*_{f,c}=S(\psi(y_{f,c}))$.
+For training target $y_{f,c}$, a frozen VGG16~\citep{Simonyan15} feature extractor supplies
+$F^*_{f,c}=S(\operatorname{Pool}_{12\times12}(\phi_2(y_{f,c})))$.
+The second feature map has 128 channels; $S$ uses per-channel statistics fitted on clean training targets.
+Retaining the spatial grid supervises where target-specific appearance should be expressed.
 TC minimizes
 \begin{equation}
  \mathcal L_{\mathrm{comp}}=
-   \operatorname{SmoothL1}\!\left(\hat a_{f,c},
-                                \operatorname{stopgrad}(a^*_{f,c})\right).
+   \operatorname{SmoothL1}\!\left(\hat F_{f,c},
+                                \operatorname{stopgrad}(F^*_{f,c})\right).
  \label{eq:completion}
 \end{equation}
-A learned projection $W_o:\mathbb R^{896}\rightarrow\mathbb R^{1024}$ converts the prediction into a shared residual for the existing nine global tokens:
+At each up-path reference-attention layer, the generator reads the global tokens and the appearance memory separately:
 \begin{equation}
- G'_j=G_j+W_o\hat a_{f,c},\qquad j=1,\ldots,9.
+ Z=\operatorname{CA}(h,G)+\eta\,r(u)\operatorname{CA}(h,A_{f,c}).
  \label{eq:injection}
 \end{equation}
-$W_o$ includes a bias; its weights and bias start at zero.
-This initialization begins joint optimization from the parent generator.
-The global tokens retain their existing spatial information, and local reference tokens supply additional detail.
-TC is trained on reference descriptors and neutral content, so it learns a target-appearance mapping complementary to the bank-derived variation condition.
+The two reads share attention projections.
+A learned gain $\eta$, initialized at $0.01$, and a 1,000-update ramp $r(u)$ introduce the new appearance path gradually.
+The global tokens summarize family context, while the spatial memory supplies target-specific local evidence.
+The supervised readout and the synthesis tokens share $M_{f,c}$, so both objectives shape the online reference encoder and its aggregation.
 
 \subsection{Training and generation}
-Training first fits the appearance predictor using cached descriptors.
-Joint training then optimizes the predictor, its output projection, and the denoiser:
+We jointly optimize the local reader, Delta router, and denoiser from a pretrained generation checkpoint:
 \begin{equation}
  \mathcal L=\mathcal L_{\mathrm{diff}}
        +0.01\mathcal L_{\mathrm{perc}}
-       +0.5\mathcal L_{\mathrm{off}}
-       +0.01\mathcal L_{\mathrm{comp}}.
+       +0.25\mathcal L_{\mathrm{off}}
+       +0.01\,r(u)\mathcal L_{\mathrm{comp}}.
 \end{equation}
 $\mathcal L_{\mathrm{diff}}$ is the epsilon-prediction mean squared error;
-the perceptual and offset terms follow the inherited generation backbone.
-The content, style, and VGG encoders stay frozen.
+The perceptual term averages three VGG feature losses; $\mathcal L_{\mathrm{off}}$ is the raw offset regularizer returned by the backbone.
+The content, global style, and VGG encoders stay frozen; the local reference encoder is trainable.
 Each training episode uses one to eight Chinese references and a valid target glyph from the same font.
 
 The TC teacher is used only for its supervised loss.
-The denoiser always receives the predicted descriptor, including during training.
-Classifier-free condition dropout masks the TC residual together with the reference condition, while the completion loss uses the original observed inputs.
-The structural condition follows the shared source-drop policy.
-At inference, TC is evaluated once for each content--reference pair and reused across denoising steps.
+The denoiser always receives the predicted appearance memory, including during training.
+Classifier-free condition dropout jointly removes the global reference, local appearance, neutral-content, and structural conditions from the denoiser.
+The completion loss retains its observed inputs; an additional source-drop event removes structural offsets.
+At inference, TC is evaluated once for each content--reference pair and reused across denoising steps, while Delta weights adapt at every structural module and step.
+
+\paragraph{Within-script auxiliary supervision.}
+We also study same-family Chinese completion as an auxiliary training task.
+A Chinese target is sampled from an eligible training font, and its character is excluded from the reference set.
+The auxiliary task shares the reader and denoiser, uses neutral Chinese content, and supervises appearance with the same objective.
+Its structural-bank offsets are disabled, keeping the auxiliary signal focused on reference-based completion.
+The combined objective is $\mathcal L_{\mathrm{main}}+0.5\mathcal L_{\mathrm{CN}}$.
+Cross-script validation determines whether this additional supervision improves the main task.
 
 \section{Experiments}
 \label{sec:experiments}
@@ -242,33 +255,35 @@ The current clean training mapping retains 56,429 target pairs.
 The stratified evaluation panel spans 47 characters covering Latin, diacritics, kana, and phonetic symbols; validity filtering retains 704 test pairs.
 
 Reference-budget evaluation uses nested sets of 1, 2, 4, and 8 characters.
-All methods in a comparison receive the same ordered reference set, and Mean-Delta retrieval uses that episode's references.
+All methods in a comparison receive the same ordered reference set, and Delta retrieval uses that episode's references.
 The main reference manifest and checkpoint selection are finalized on validation data.
 The appendix records reference characters, bank eligibility, sampler, and provenance.
 
 \paragraph{Training settings.}
 The current joint experiments use eight V100 GPUs, eight samples per device, FP16 arithmetic, and gradient clipping at 1.0.
-The denoiser learning rate is $10^{-5}$; new TC parameters use $10^{-4}$.
-Short joint stages run for 5,000 updates with 200 warmup updates and checkpoints at 2,500 and 5,000.
-TC pretraining uses batch size 256, learning rate $3\times10^{-4}$, and up to 2,000 updates.
-Matched continuation controls start from the same parent weights with the same training schedule.
+The effective main-task batch size is 64.
+The denoiser and inherited structural modules use a peak learning rate of $2\times10^{-5}$; the local reader and router use $10^{-4}$.
+Joint training runs for 10,000 successful updates, with 500 warmup updates, a plateau through update 5,000, and cosine decay to 10\% of the peak rate.
+The auxiliary experiment adds 32 Chinese examples per update and starts independently from the same parent weights.
+EMA weights are evaluated every 2,000 updates.
 Complete resolved settings appear in Appendix~\ref{app:repro}.
 
 \subsection{Comparisons and measurements}
 External comparisons cover conditional diffusion (FontDiffuser), cross-language transfer (FTransGAN), font-bank content fusion (CF-Font), and fine-grained reference attention (FSFont).
 Each method is accompanied by its reference budget, bank access, pretraining data, and cross-script adaptation.
-Internal comparisons hold the content/style encoders and reference interface fixed while changing the structural source or TC.
+Internal comparisons isolate dynamic structural combination, local appearance completion, and auxiliary supervision using shared initial weights and data protocols.
 The strongest validation baseline is retained in the main comparison.
 
 We report character recognition accuracy, blind paired style preference, and family compatibility.
 Human comparison displays the neutral target and the same reference set with randomized method positions and an explicit tie option.
-The learned compatibility evaluator is trained and calibrated separately from the generator; its definition, calibration, and agreement with human judgments are reported with the final results.
+The learned compatibility score uses a separately trained cross-script encoder and cosine similarity between a generated glyph and a Chinese-reference prototype.
+We distinguish its font-retrieval validation from agreement with human judgments of generated appearance.
 L1, SSIM, and LPIPS provide paired reconstruction diagnostics.
 Results are aggregated by font and script over the same valid examples.
 
 \begin{table}[t]
 \centering\small
-\caption{Main comparison under the cross-script protocol. Identity and style preference are percentages; family compatibility uses the calibrated evaluator. Empty cells await completed evaluation.}
+\caption{Main comparison under the cross-script protocol. Identity and style preference are percentages; family compatibility uses the cross-script cosine score. Empty cells await completed evaluation.}
 \label{tab:main}
 \begin{tabular}{lrrrr}
 \toprule
@@ -286,39 +301,37 @@ Mean-Delta baseline & -- & -- & -- & --\\
 
 \subsection{Contribution studies}
 \paragraph{Glyph variation prior.}
-Matched structural-source experiments compare the reference-derived structural input with Mean-Delta while preserving the reference interface.
-A same-bank absolute-feature control tests anchor-relative conditioning.
-A uniform-weight control measures the contribution of reference-based donor ranking.
-Each comparison uses the same training budget and reports identity and appearance jointly.
+We compare dynamic combination with fixed Mean-Delta weights over the same retrieved candidates.
+This comparison preserves bank access, anchor-relative features, and the appearance interface.
+A same-bank absolute-feature control tests anchor-relative conditioning, while a shared-schedule structural-source comparison establishes the benefit of bank-supported variations.
 
 \paragraph{Target-character appearance completion.}
-We compare TC with ordinary continuation from each of the G2 and G2-RL parents.
-These pairs test the incremental value of appearance completion on global and global-plus-local reference interfaces.
-We also evaluate a reference-only predictor with a constant content query and a same-capacity branch trained without target-descriptor supervision.
-The reference-only predictor tests character conditioning.
-The latter control measures the value of the complete supervised initialization and training recipe.
+We compare the full reader with a same-capacity branch trained using the generation objective alone.
+A learned-slot-only query tests the role of target content, and a frozen-local-encoder variant tests adaptation of reference extraction.
+These comparisons retain the 144-token interface, reference pixels, and training schedule.
 
 \paragraph{Complementarity.}
-A factorial experiment varies Mean-Delta and TC under a fixed reference interface.
-The comparison tests their separate and combined effects on family compatibility and reference consistency.
-The initialization and structural-source treatment are shared within this study.
-This is a training comparison; inference-time condition removal is reported separately as sensitivity analysis.
+Shared-parent variants separately add the structural and appearance components, followed by the full model.
+The Chinese auxiliary study then measures whether additional same-family completion improves cross-script synthesis.
+All variants are evaluated with identical reference episodes and diffusion noise.
+Inference-time condition removal provides a separate sensitivity analysis of the trained model.
 
 \begin{table}[t]
 \centering\small
-\caption{Contribution studies. Each row identifies one experiment and its outcome; the execution plan stages these studies after the paired TC continuations.}
+\caption{Contribution studies. The execution plan prioritizes the full model and auxiliary study, followed by targeted shared-budget comparisons.}
 \label{tab:ablations}
 \begin{tabular}{p{0.24\linewidth}p{0.56\linewidth}r}
 \toprule
 Question & Matched comparison & Result\\
 \midrule
-Structural source & Mean-Delta versus reference-derived structure & --\\
+Structural source & Bank-supported Delta versus reference-derived structure & --\\
 Residual interface & Anchor-relative versus absolute bank features & --\\
-Retrieval weighting & Similarity-weighted versus uniform donors & --\\
-TC increment & TC versus parent continuation, on each interface & --\\
-Character conditioning & Content query versus constant query & --\\
-Appearance supervision & Supervised TC versus capacity-matched branch & --\\
-Complementarity & Mean-Delta $\times$ TC training study & --\\
+Dynamic combination & Routed versus fixed Mean-Delta, same donors & --\\
+Appearance supervision & Spatial teacher versus generation loss only & --\\
+Character conditioning & Content-plus-slot versus slot-only queries & --\\
+Reference adaptation & Trainable versus frozen local encoder & --\\
+Complementarity & Shared-parent structural / appearance / full model & --\\
+Auxiliary supervision & Full model with versus without Chinese completion & --\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -339,20 +352,20 @@ Figure~\ref{fig:qualitative} reserves the comparison layout for the completed ou
 
 \section{Discussion}
 The two conditions provide different forms of information.
-Mean-Delta brings target-character examples into the generator's content coordinates.
-TC learns a target-specific appearance prediction from observed references.
+Dynamic Delta brings target-character examples into the generator's content coordinates and adapts their combination during synthesis.
+TC learns a target-specific spatial appearance prediction from observed references.
 Their combination gives the generator a structural prior and a supervised appearance destination.
 The contribution studies measure how these roles translate into image quality.
 
 The current representation operates on $96\times96$ raster glyphs.
-Spatial feature statistics summarize appearance compactly but do not specify the location of every ornament or terminal.
-Fine decorative placement remains a synthesis problem for the denoiser and its local reference interface.
+Spatial appearance supervision connects local reference evidence to target locations.
+The denoiser integrates this evidence into complete strokes, terminals, and decorative patterns.
 Bank coverage also determines the available examples for rare target designs.
 Extending the formulation to higher-resolution glyphs and complete typographic layout is a natural next step.
 
 \section{Conclusion}
 \method frames cross-script font generation as coherent family completion.
-Mean-Delta provides a bank-supported variation prior relative to neutral content, and target-character appearance completion predicts how reference observations apply to the requested glyph.
+Dynamic Delta provides an adaptive bank-supported variation prior relative to neutral content, and target-character appearance completion predicts how local reference observations apply to the requested glyph.
 The accompanying evaluation separates identity, reference consistency, and family compatibility.
 Together, the formulation and two conditioning components establish a practical framework for extending a font's visual language across scripts.
 % Add the empirical conclusion after the result tables are populated.
@@ -388,17 +401,19 @@ Setting & Value\\
 Image resolution & $96\times96$ RGB, Protocol A\\
 Font split & 228 / 16 / 16\\
 Valid training target pairs & 56,429\\
-Mean-Delta retrieval & top-10, temperature 0.07\\
-TC reference descriptor & VGG16 means and population stds, 896 dimensions\\
-TC content descriptor & five pooled content scales, 707 dimensions\\
-TC predictor & width 256, eight-head attention, MLP\\
-TC output & shared 1024-dimensional residual on nine global tokens\\
+Delta retrieval & top-10, temperature 0.07\\
+Delta router & width 32; location/module/time-conditioned weights\\
+TC local evidence & $24^2+12^2=720$ tokens per reference\\
+TC memory & 144 target queries, width 256, four attention heads\\
+TC output / teacher & $144\times1024$ / $144\times128$\\
+Reference injection & additive up-path attention; gain initialized at 0.01\\
 Optimizer & AdamW, $(0.9,0.999)$, $\epsilon=10^{-8}$, weight decay 0.01\\
 Joint batch / precision & $8\times8=64$ / FP16\\
-Joint learning rates & denoiser $10^{-5}$; TC $10^{-4}$\\
-Schedule & constant after 200 warmup updates; 5,000 updates\\
+Joint learning rates & inherited $2\times10^{-5}$; new $10^{-4}$\\
+Schedule & 500 warmup; plateau to 5k; cosine decay to 10k\\
 Gradient clipping & 1.0\\
-Loss coefficients & perceptual 0.01; offset 0.5; completion 0.01\\
+Loss coefficients & perceptual 0.01; raw offset 0.25; completion 0.01\\
+Auxiliary Chinese study & batch 32; weight 0.5; shared main batch 64\\
 Reference / source dropout & 0.10 / 0.25\\
 Parent checkpoint hashes & --\\
 Mapping and cache hashes & --\\
@@ -409,13 +424,19 @@ Inference latency & --\\
 \end{table}
 
 \paragraph{Implementation details.}
-VGG descriptors use ImageNet normalization and FP32 statistics.
-Only clean training targets fit descriptor standardization.
-The predictor is pretrained for at most 2,000 updates with 100 warmup updates.
-Joint stages load parent weights and create a new optimizer and scheduler.
-The local-reference learning rate is preserved within each matched pair.
-The default joint configuration uses the denoiser rate for existing local projections.
-The separate local-reference pilot uses $10^{-4}$ for its new local projection.
+VGG inputs use ImageNet normalization; the teacher is adaptively pooled to $12\times12$ and standardized using clean training-target channel statistics.
+Joint stages load the same parent checkpoint and create a new optimizer and scheduler.
+The local encoder is a trainable copy of the first three global-style encoder blocks.
+Reference attention uses normalized 64-dimensional query/key heads with FP32 logits and softmax.
+Delta uses 32-dimensional routing features, with $1\times1$ hidden/content projections and a $3\times3$ candidate projection.
+Its time embedding maps $[t/1000,(t/1000)^2]$ through a two-layer MLP; the routing strength starts at 0.1.
+EMA decay rises to a maximum of 0.999, and the completion coefficient and local attention contribution ramp over 1,000 updates.
+
+\paragraph{Run correspondence.}
+The I0 reference is the 10,000-update G0b V0913 checkpoint.
+I1 trains the full method; I2 adds Chinese auxiliary supervision and initializes independently from I0.
+The Chinese auxiliary neutral inventory contains 338 glyphs rendered with the Protocol-A rule at font size 83; its images and frozen-content features have a separate manifest.
+Chinese targets and references reuse the original training PNGs, and target characters are excluded from their reference sets.
 
 \paragraph{Randomness and uncertainty.}
 Training uses random state 3407.
@@ -425,11 +446,12 @@ These intervals describe variation across evaluated fonts.
 
 \paragraph{Reference episodes and sampler.}
 The primary nested episode is specified by Unicode code points:
-U+5C71, U+6C34, U+4E91, U+6708, U+91D1, U+77F3, U+5FC3, U+6587.
+U+6C38, U+548C, U+4E66, U+98CE, U+9AA8, U+97F5, U+5929, U+5730.
 The 1/2/4/8-shot sets use prefixes of this list.
-Earlier exploratory boards used a different reference episode and retain separate provenance.
-The intended common inference protocol is DPM-Solver++ order 2, 20 steps, and guidance scale 7.5.
-The TC sampling path is validated against the common protocol before final paired reporting.
+The periodic validation panel uses 192 outputs at 1/4/8 shots.
+The scheduled final validation panel comprises 16 validation fonts, 16 valid target characters per font, four reference episodes, and four budgets, yielding 4,096 outputs.
+Inference uses DPM-Solver++ order 2, 20 steps, and guidance scale 7.5.
+The larger 47-character protocol remains a separate evaluation panel with its own valid-pair manifest.
 
 \paragraph{Model selection.}
 Validation panels guide model and checkpoint selection using appearance, readability, and identity.
@@ -437,14 +459,31 @@ The final selection uses the full clean validation split.
 Exploratory test visualizations are retained with their dates; subsequent selection uses validation data.
 All reported methods are scored over an explicitly intersected valid sample set.
 
-\section{Evaluation Completion}
-The learned evaluator is currently being trained.
-Its architecture, training data, disjoint calibration split, score definition, and human-agreement results will be inserted here when finalized.
-The human study will specify sample size, rating instructions, ties, exclusions, consent, and font-clustered uncertainty.
-The main tables intentionally reserve numerical results until the matched runs and this evaluation are complete.
+\section{Cross-Script Compatibility Evaluation}
+\label{app:evaluator}
+The current E12-b encoder $\phi$ is a ResNet-18 trained from random initialization on paired Chinese and Latin ground-truth glyphs.
+It maps each $96\times96$ image to a unit-normalized 512-dimensional feature.
+Training uses symmetric cross-script InfoNCE at temperature 0.07.
+The scorer's data are drawn from 223 usable fonts in the generator's training partition; the generator's validation and test font files are excluded from scorer fitting.
+The internal scorer split contains 156/33/34 font files for training, validation, and testing.
+For a scoring reference set $\Rset_f$, define
+\begin{equation}
+ p_f=\frac{\sum_{r\in\Rset_f}\phi(r)}{\|\sum_{r\in\Rset_f}\phi(r)\|_2},
+ \qquad S(\hat y,\Rset_f)=\frac{1+\langle\phi(\hat y),p_f\rangle}{2}.
+\end{equation}
+The score evaluates compatibility with the supplied references and requires no target image at scoring time.
+Its retrieval study ranks Chinese reference prototypes using Latin glyph queries.
+Its verification study compares same-font and different-font pairs.
+The primary encoder study covers 52 Latin letters; script-specific validation accompanies extensions of this score to other target scripts.
 
+A separate membership head combines query features with mean/max-pooled reference features and predicts same-font membership.
+Its temperature is fitted on internal validation data; we treat this probability as a supplementary diagnostic.
+Human evaluation measures visual agreement on generated outputs through blinded, paired judgments and font-clustered uncertainty.
+Numerical evaluator validation and generation results will be added after the current protocol review and paired evaluation are finalized.
+
+\clearpage
 \section{Additional Results}
-\begin{table}[ht]
+\begin{table}[!ht]
 \centering\small
 \caption{Reference-budget evaluation of the selected \method checkpoint.}
 \begin{tabular}{lrrrr}

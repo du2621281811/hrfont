@@ -1,7 +1,10 @@
 {
   "model": "I2",
   "run_id": "I2-V0915-S3407",
-  "status": "QUEUED_AFTER_I1_TRAIN_AND_INFERENCE",
+  "status": "HOLD_FOR_PI_RENDER_REVIEW",
+  "hold_marker": "/root/projects/hrfont/reports/i_20260915/STOP",
+  "release_condition": "PI approves Protocol A joint633 inventory at size83; never remove hold automatically",
+  "render_audit": "reports/review_20260915/render_audit_20260915.json: 338/338 exact match; historical western reproduction separate and unresolved",
   "parent_alias": "I0",
   "parent": "G0b-F0-V0913-BS256-A-S3407/global_step_10000",
   "initialization": "independent from I1, same pretrained parent and architecture initialization",

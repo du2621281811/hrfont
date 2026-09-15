@@ -1,18 +1,20 @@
 # HR-Font: Completing Font Families across Scripts
 
-2026-09-14 revision. Main document: [main.tex](main.tex).
+2026-09-15 I-series revision. Main document: [main.tex](main.tex).
 Review PDF: [hrfont_iclr2027_draft.pdf](output/pdf/hrfont_iclr2027_draft.pdf).
 
-The draft presents three contributions: cross-script completion and evaluation, Mean-Delta, and target-character appearance completion (TC-v2).
-It follows the implemented architecture. Quantitative results remain blank while matched evaluation and the learned evaluator are completed.
+The draft presents three contributions: cross-script completion and evaluation, Dynamic Delta, and online spatial target-character appearance completion (TC).
+It follows the implemented I1 architecture. I2 is an auxiliary-supervision study awaiting rendering approval, not a fourth contribution. Results remain blank until matched generation and evaluator validation are finalized.
 
 ## Collaborator entry points
 
-- [Changes and rationale](REVISION_NOTES_20260914.md)
-- [Authoritative 8-V100 plan](../../reports/G_NEXT_8V100_PLAN_20260914.md)
+- [Changes and rationale](REVISION_NOTES_20260915_I.md)
+- [Authoritative 8-V100 plan](../../reports/I_EXECUTION_20260915.md)
 - [Remaining paper work](RESULTS_TODO.md)
 - [Current review checklist](PAPER_ISSUE_TRACKER.md)
-- [TC implementation design](../../reports/G_STYLE_COMPLETION_PLAN_20260914.md)
+- [Paper experimental plan](EXPERIMENT_EXECUTION_PLAN.md)
+- [I2 rendering audit](../../reports/review_20260915/I2_RENDER_REVIEW.md)
+- [Latest E12 audit](../../reports/review_20260915/E12_REVIEW.md)
 
 ## Build
 
@@ -22,11 +24,11 @@ It follows the implemented architecture. Quantitative results remain blank while
 Use pdfLaTeX and set the Overleaf main document to main.tex. The conference style files are preserved.
 Figures 1 and 2 are editable LaTeX sources in figures/method_overview.tex and figures/qualitative_layout.tex. No image-generation service or external plot dependency is required for this revision.
 
-The older Python-generated Set-Delta / Graphics-Ref diagrams and the September 12 review notes remain as historical assets. They are not included in the active draft and must not be regenerated into the current paper. Earlier versions of the overwritten planning files are recoverable from Git history.
+Older Python-generated Set-Delta / Graphics-Ref diagrams and previous review notes remain historical assets. The active diagram reflects the current I implementation, not those earlier proposals. Earlier planning versions remain in Git history.
 
 ## Results and review
 
 Empty table cells denote missing measurements. The abstract and conclusion presently describe the method; their empirical summary is added after the results are available.
-The draft does not treat old E12 scores as the result of the currently training evaluator.
-The primary episode is the confirmed new Ref8; the ongoing old-Ref8 board is tracked as a separate exploratory batch.
+E12-b is trained, but internal retrieval and human-correlation results require the documented review before final use. The initial human pilot is not empty and does not establish positive visual agreement.
+The current I primary episode is 永和书风骨韵天地, exactly as implemented; the final4096 panel is validation. Other reference sets retain separate provenance.
 The paper is a research draft, not a completed submission package. Font permissions, human evaluation, external baselines, and final submission requirements remain to be completed.

@@ -1,23 +1,22 @@
-# Paper review checklist — 2026-09-14
+# Paper review checklist — 2026-09-15
 
-## Closed in this revision
+## Resolved in this draft
 
-- Replaced Set-Delta / Graphics-Ref with the implemented Mean-Delta / TC-v2 method throughout.
-- Reframed introduction around extending a font family; unified exactly three contributions.
-- Added the actual TC descriptor dimensions, attention, supervision, initialization, injection, and training recipe.
-- Removed old E12 numerical claims from the current evidence narrative.
-- Replaced the old D/R plan with the 8-V100 effect-first plan and matched continuation controls.
-- Replaced active diagrams with editable LaTeX schematics and real-result blank slots.
-- Kept seeds in reproducibility details instead of foregrounding them.
-- Preserved conference style files.
+- Preserved title, font-family completion motivation, and exactly three contributions.
+- Updated Mean-Delta to dynamic anchor-relative candidates; retained fixed Mean-Delta control.
+- Replaced old896-moment/shared9-token TC with online720-token/ref→144-slot memory and spatial VGG supervision.
+- Distinguished frozen global Es/Ec from trainable local copy; corrected optimizer/loss/schedule/CFG.
+- Replaced old G2 continuation plan with I full-model-first and targeted studies.
+- Corrected actual reference characters and validation panel identity.
+- Updated E12 to trained cosine encoder; separated membership calibration and human evidence.
+- Kept missing results blank, conference style unchanged, and figures editable.
 
-## Open for PI review
+## PI review
 
-- Choose global or global-plus-local reference configuration from clean validation quality.
-- Confirm the primary new-Ref8 episode while retaining the ongoing old-Ref8 batch separately.
-- Approve the next short ablations and whether to budget the four-arm complementarity study.
-- Complete learned-evaluator specification/calibration and human-study design.
-- Complete baseline reproduction, permission checks, and numerical results.
-- Verify current ICLR submission requirements before submission; this revision updates scientific content, not venue policy.
+1. Accept joint633-inventory Protocol A size83 for I2, or require historical pixel/environment reproduction before launch.
+2. Confirm Dynamic Delta as the presentation name for the current structural variation route.
+3. Define E12 target: specific font/weight instance versus design-family compatibility; approve fixes separately.
+4. Choose I checkpoint after validation; approve only informative ablations.
+5. Complete baselines, human study, numerical outcomes and submission checks.
 
-Build / visual QA evidence is recorded in [revision notes](REVISION_NOTES_20260914.md). Older September 12 issue IDs refer to the previous draft and are historical.
+See [changes and rationale](REVISION_NOTES_20260915_I.md) and [E12 audit](../../reports/review_20260915/E12_REVIEW.md). Previous notes remain historical.
