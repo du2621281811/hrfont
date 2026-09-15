@@ -31,6 +31,7 @@
 | `F2-DELTARSI-A-S3407` | 旧 mean-Delta | **completed 80k；作为下一版 mean-Delta baseline** | **`code/variants/cn2west_f123_rsi`** |
 | `F3-JOINT-DS-A-S3407` | 旧 mean-Delta + own-font Support | **completed 80k；legacy，不作为相同信息预算主方法** | **`code/variants/cn2west_f123_rsi`** |
 | F2-P / F3b-P | per-ref h tokens（去 ref 均值）；规格 `reports/DESIGN_F2P_F3BP_20260910.md` | **训练代码已进仓**；跑 `scripts/launch_cn2west_f123.py --arm F2P|F3bP`；队列 `scripts/queue_f2p_f3bp.py`；现有 probe 是 F2@40k vs F2-P@25k、仅图像无结论。正式 `sample.py` 与 run provenance待补；**不作为下一版 Set-Delta parent** | **`code/variants/cn2west_f123_rsi`** |
+| `V1-BEZIER-*` | 中性轮廓 cubic Bézier 变形 + metrics + 可微 raster supervision | **架构和CPU合同测试已完成，尚未构建正式vector sidecar或训练**；见 `docs/BEZIER_VARIANT.md` | **`code/variants/hrfont_bezier`** |
 | `FT-P251-REF8-CN2WEST-V2` | 旧 planned 名（已由 E1/p260 取代） | TBD | **`code/variants/cn2west_ft_v2`** |
 
 官方超参 / Loss / 渲染：`COLLABORATOR_GUIDE.md`。

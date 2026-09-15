@@ -20,6 +20,7 @@
 | `cn2west_stage_a` | `code/variants/cn2west_stage_a/` | `docs/patches/cn2west_stage_a.diff` | legacy Stage-A（已 STOP） |
 | `cn2west_f0_rsifree` | `code/variants/cn2west_f0_rsifree/` | StyleUpBlockNoRSI；P1 drop RSI/DCN | **active** F0 |
 | `cn2west_f123_rsi` | `code/variants/cn2west_f123_rsi/` | StyleRSIUpBlockIdentitySafe（zero-init 1×1 residual conv）；`--arm` 三臂共用一条 code path | **active** F1/F2/F3 |
+| `hrfont_bezier` | `code/variants/hrfont_bezier/FontDiffuser/` | 冻结 raster backbone + cubic Bézier condition bridge/outline decoder/soft rasterizer；固定拓扑 MVP | **implemented_untrained**；无 checkpoint/结果声明 |
 
 ## Experiments / Runs
 
