@@ -1,0 +1,148 @@
+{
+  "time": 1789471907.4031017,
+  "free_gib": 17.8,
+  "low_disk": false,
+  "coordinators": [
+    {
+      "pid": 3413028,
+      "script": "I_queue"
+    },
+    {
+      "pid": 3413115,
+      "script": "train_i.py"
+    }
+  ],
+  "queue": {
+    "state": "NEEDS_ATTENTION",
+    "error": "[Errno 2] No such file or directory: '/root/projects/hrfont/runs/I2-V0915-S3407/DONE.json'"
+  },
+  "continuation": {
+    "state": "RUNNING",
+    "task": "I2-resume-5146",
+    "child_pid": 3413115,
+    "free_bytes": 19115905024,
+    "time": 1789471904.9282055
+  },
+  "current_inference": {
+    "state": "COMPLETE",
+    "arms": [
+      "I0",
+      "I1"
+    ],
+    "shots": "1,2,4,8",
+    "time": 1789471249.0340397
+  },
+  "inference_progress": [],
+  "k1248_done": {
+    "I0": {
+      "1": {
+        "status": "completed",
+        "images": 1222,
+        "expected": 1222
+      },
+      "2": {
+        "status": "completed",
+        "images": 1222,
+        "expected": 1222
+      },
+      "4": {
+        "status": "completed",
+        "images": 1222,
+        "expected": 1222
+      },
+      "8": {
+        "status": "completed",
+        "images": 1222,
+        "expected": 1222
+      }
+    },
+    "I1": {
+      "1": {
+        "status": "completed",
+        "images": 1222,
+        "expected": 1222
+      },
+      "2": {
+        "status": "completed",
+        "images": 1222,
+        "expected": 1222
+      },
+      "4": {
+        "status": "completed",
+        "images": 1222,
+        "expected": 1222
+      },
+      "8": {
+        "status": "completed",
+        "images": 1222,
+        "expected": 1222
+      }
+    },
+    "I2": {
+      "1": null,
+      "2": null,
+      "4": null,
+      "8": null
+    }
+  },
+  "i2": {
+    "state": "TRAINING",
+    "step": 5200,
+    "attempt": 5200
+  },
+  "i2_heartbeat_age_s": 131,
+  "rank_health": {
+    "ranks_read": 8,
+    "step": [
+      5200,
+      5200
+    ],
+    "attempt": [
+      5200,
+      5200
+    ],
+    "skips": [
+      0,
+      0
+    ],
+    "scale": [
+      4096,
+      4096
+    ],
+    "ddp_spread": [
+      0,
+      0
+    ],
+    "reader_grad": [
+      0.007243287099879199,
+      0.007243287099879199
+    ],
+    "encoder_grad": [
+      0.0022655196632663807,
+      0.0022655196632663807
+    ],
+    "router_grad": [
+      0.0000603027671204915,
+      0.0000603027671204915
+    ],
+    "lr": [
+      0.00009964516155915151,
+      0.000019929032311830303,
+      0.000019929032311830303,
+      0.00009964516155915151
+    ]
+  },
+  "last_state": "state_step_5146",
+  "checkpoint": {
+    "step": 5146,
+    "attempt": 5146,
+    "arm": "I2",
+    "complete": true
+  },
+  "i2_done": null,
+  "stops": {
+    "queue": false,
+    "I2": false
+  },
+  "note": "DONE claims and old heartbeat are hints; verify images/process exit at transitions, read-only probe"
+}

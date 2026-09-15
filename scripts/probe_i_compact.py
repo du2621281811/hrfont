@@ -73,7 +73,7 @@ def probe():
                        if p.endswith('.py') and ('train_i' in p or 'eval_i' in p)]
             if scripts:
                 live.append({'pid': int(pid), 'script': scripts[0]})
-        elif 'queue_i_' in args:
+        elif 'queue_i_' in args or 'resume_i_completion_20260915.py' in args:
             live.append({'pid': int(pid), 'script': 'I_queue'})
     state = small_json(OUT / 'k1248_infer_status.json')
     task = state.get('task') if isinstance(state, dict) else None
@@ -88,6 +88,7 @@ def probe():
     hb = RUN / 'heartbeat.json'
     return dict(time=time.time(), free_gib=round(free / 2**30, 2), low_disk=free < 10 * 2**30,
                 coordinators=live, queue=select(small_json(OUT / 'status.json'), ('state', 'task', 'error', 'probe_error')),
+                continuation=select(small_json(OUT / 'resume_status.json'), ('state', 'task', 'child_pid', 'error', 'free_bytes', 'time', 'probe_error')),
                 current_inference=state, inference_progress=progress, k1248_done=done,
                 i2=select(small_json(hb), ('state', 'step', 'attempt', 'probe_error')),
                 i2_heartbeat_age_s=round(time.time() - hb.stat().st_mtime) if hb.exists() else None,

@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-09-15T11:25:27.465807+00:00",
+  "resume_step": 5146,
+  "limit": 10000,
+  "optimizer_entries": 910,
+  "rng_ranks": 8,
+  "scaler": {
+    "scale": 4096.0,
+    "growth_factor": 2.0,
+    "backoff_factor": 0.5,
+    "growth_interval": 2000,
+    "_growth_tracker": 1146
+  },
+  "code_sha256": {
+    "scripts/train_i.py": "a12f54452330856111c59b973ceef126396e230fc83a49837cd8d43709324c8d",
+    "scripts/hrfont_i.py": "3a907632772a064255f98504b815670ef78a3b9ca084675aebe99f9d8c09d0cd",
+    "scripts/i_runtime.py": "ece35833a8fe88d26ea3ef75e633fef81d79332d318f68f8156fc37f92339f95",
+    "scripts/i_eval.py": "1ecc29af1f26e2d43633b1249c55618f1d4e693e1618dd1057c6162b8eeee295"
+  },
+  "stops": {
+    "/root/projects/hrfont/reports/i_20260915/STOP": {
+      "inode": 12964772870,
+      "mtime_ns": 1789466543924677197,
+      "size": 0
+    },
+    "/root/projects/hrfont/runs/I2-V0915-S3407/STOP": {
+      "inode": 3254297241,
+      "mtime_ns": 1789466543924677197,
+      "size": 0
+    }
+  },
+  "checkpoint_sha256": {
+    "model.pth": "2eace242ef97341ff153131af1aa1758750b0ba9743e0f8e5ea710d70e0b76cd",
+    "ema.pth": "d8857a30d2208b80d16eed482c6f2ffa322a427500deb389f4bcc074c65f05ed",
+    "trainer.pt": "683e83e318b796db208550c15bf0364f50fe924f21ff052c0d5b86cadddb2c40",
+    "checkpoint.json": "10da9611bf3121bb5b616fc9988c8090998f5a55905c5fca851cbabdaf0d97a0"
+  },
+  "cn_png_verified": 338,
+  "cn_features_sha256": "843b492cbfda59366c647f813424044823e59c07b5ae5acb6087645820e8fa13",
+  "free_bytes": 19232002048,
+  "evaluator_sha256": {
+    "eval_i_k1248.py": "328745184594c2da8e6f31610c8c45db0163f4598a02bd238545a01807857819",
+    "eval_i2_k1248.py": "4bf11f497834cdd42d286352184e45bf8fe6d1bbb8d4e4f94cb374fc71cd89df"
+  }
+}
