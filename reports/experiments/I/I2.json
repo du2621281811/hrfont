@@ -1,0 +1,16 @@
+{
+  "model": "I2",
+  "run_id": "I2-V0915-S3407",
+  "status": "QUEUED_AFTER_I1_TRAIN_AND_INFERENCE",
+  "parent_alias": "I0",
+  "parent": "G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+  "initialization": "independent from I1, same pretrained parent and architecture initialization",
+  "max_successful_updates": 10000,
+  "global_main_batch": 64,
+  "global_cn_aux_batch": 32,
+  "cn_aux_loss_weight": 0.5,
+  "cn_content_version": "v0913_clean+I2_CN_Noto83_Pillow12.2",
+  "cn_content_status": "338 PNGs and frozen Ec features complete; CPU forward/backward and leave-target-out checked",
+  "ddp_preflight": "20 updates required and automatically run by queue before I2 formal dispatch",
+  "generation_quality": "not evaluated"
+}

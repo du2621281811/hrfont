@@ -1,0 +1,14 @@
+{
+  "font": "FZCQJW",
+  "target": "u6765",
+  "refs": [
+    "u6155",
+    "u5931",
+    "u670B"
+  ],
+  "excluded_target_from_ref": true,
+  "delta_offset": 0.0,
+  "online_encoder_grad": 0.0017966495118687893,
+  "loss": 3.110872745513916,
+  "note": "CPU interface/gradient test, synthetic loss; not quality or DDP proof"
+}

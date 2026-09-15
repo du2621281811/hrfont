@@ -18,6 +18,12 @@ def write(path,payload):
     path.parent.mkdir(parents=True,exist_ok=True)
     tmp=path.with_suffix(path.suffix+'.tmp'); tmp.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n');tmp.replace(path)
 
+def digest(path):
+    h=hashlib.sha256()
+    with path.open('rb') as f:
+        for chunk in iter(lambda:f.read(1024*1024),b''):h.update(chunk)
+    return h.hexdigest()
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,default=Path('/root/projects/hrfont'));a=p.parse_args()
     out=a.root/'reports/experiments'; out.mkdir(parents=True,exist_ok=True)
@@ -39,7 +45,9 @@ def main():
                 if not (dest/'ARCHIVE.json').exists():
                     shutil.copytree(ev,dest,dirs_exist_ok=True)
                     files={str(f.relative_to(dest)):hashlib.sha256(f.read_bytes()).hexdigest() for f in dest.rglob('*') if f.is_file()}
-                    write(dest/'ARCHIVE.json',dict(run_id=run.name,step=step,source=str(ev),files_sha256=files))
+                    checkpoint=run/f'global_step_{step}/ema.pth'
+                    write(dest/'ARCHIVE.json',dict(run_id=run.name,step=step,source=str(ev),files_sha256=files,
+                        ema_checkpoint=str(checkpoint),ema_sha256=digest(checkpoint) if checkpoint.is_file() else None))
                 path=str(dest.relative_to(a.root/'reports'))+'/review.html'
             elif series=='H':
                 path=f'h_20260915/{model}_step{step}/review.html'

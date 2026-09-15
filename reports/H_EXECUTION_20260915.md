@@ -67,3 +67,6 @@ H0–H4共同父权重 `/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/
 - 真实父模型接口测试：g=0输出最大绝对差0；固定Delta、1ref与重复8ref输出差0；N的16和144 token版本、DPM20调用均PASS。
 - 独立推理重试入口为 `scripts/eval_h_checkpoint.py`，使用torchrun八卡，`--checkpoint <run/global_step_N> --out <new review dir>`，默认4096张标准val，`--quick`为192张。不需要重训。
 - 多臂存储维护：`scripts/prune_h_rolling_states.py` 默认只预览，`--apply`只清理已完成10k且推理DONE的正式H run里过期rolling state，保留最后完整恢复状态及所有推理milestone。既有G或其他数据不在其白名单。
+# 已停止的历史排程
+
+2026-09-15：用户决定H→I。H0/H3各完成10k，H4安全停止9522，其他H臂取消。下文保留为原始执行记录，**不得继续派发**；当前安排见 [I执行规格](I_EXECUTION_20260915.md) 和 [跨系列追踪](EXPERIMENT_TRACKER.md)。

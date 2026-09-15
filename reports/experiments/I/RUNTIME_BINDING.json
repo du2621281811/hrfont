@@ -1,0 +1,13 @@
+{
+  "runtime": "/root/projects/hrfont_i_20260915.zvbB1H",
+  "git_delivery_initial": "7eff8eecfd040c8d10f0903d1986a5b9287ebee6",
+  "queue_pid": 3360111,
+  "initial_i1_torchrun_pid": 3360112,
+  "core_files_verified_identical_to_git": {
+    "code/variants/cn2west_f123_rsi/FontDiffuser/src/modules/unet_blocks.py": "9ec20249c157528724993091d532538b93dee31193156d2bac43193347721cc1",
+    "code/variants/cn2west_f123_rsi/FontDiffuser/train.py": "29d7f6f230d556970e25df2d1b486bd20d07c24aa0a0d4bc812a9d3965154bbf",
+    "code/variants/cn2west_f123_rsi/FontDiffuser/src/model.py": "1097160af848b120daab2e7603ee8e259a79395dac82c2a5fb869657ccbebcc6"
+  },
+  "i_training_module_hashes": "see I1-V0915-S3407/status.json config.code_sha256",
+  "notes": "I1 running model/trainer/data/eval files not changed after dispatch. Later changes only standalone CN asset preparation, tests, reports and artifact exporter. The sparse Git publication worktree omits core paths locally, but the core source is tracked in Git; no missing-vendor-source claim."
+}

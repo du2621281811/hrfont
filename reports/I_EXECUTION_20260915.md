@@ -51,7 +51,16 @@ CFG 10%：content/global/local/Delta 联合无条件化；source drop 25%：关�
 
 I2：`L = mean(L_main over64) + 0.5 mean(L_CN over32)`。中文任务是同字体、不同 content 的重建，ref 必须排除目标字；使用相同生成器和 TC。目标/参考仅来自清洗后有效训练字体的338汉字池，不加入 val/test 字体。
 
-中文中性图及其冻结 Ec 特征由 `prepare_i_cn.py` 单独生成到 `artifacts/i_20260915/cn_content/`。保持原 Noto 字体及83px渲染字号；重绘全部既有西文 ContentImage 做逐像素核对，逐字保存MAE与二值IoU。当前Pillow11.3/FreeType2.13.3不同于原生成12.2/2.14.3，A/g样本平均灰度误差约0.19/0.20（0–255），二值IoU约.993/.998；不宣称像素完全相同。扩展验收每字MAE≤0.3、IoU≥.98，否则停下排查。记录字体、Ec、feature和运行库版本。**不修改 V0913 原 PNG/缓存/评测协议。** 中文是 I2 的显式训练扩展，不描述成原 V0913 数据自带任务。
+中文中性图及其冻结 Ec 特征由 `prepare_i_cn.py` 单独生成到 `artifacts/i_20260915/cn_content/`。定义为新扩展 **v0913_clean+I2_CN_Noto83_Pillow12.2**：当前Noto字体文件固定哈希、83px、96px画布、居中及6px边距，Pillow12.2/FreeType2.14.3独立安装到快照`render_deps/`，不替换训练环境的Pillow。准备在CPU运行，不占用I1的GPU。
+
+重绘了295个既有西文ContentImage做审计：86字逐像素相同，少数字符差异超出抗锯齿（最大平均灰度误差8.17/255、最低二值IoU约.769），即使固定Pillow/FreeType版本也存在，**原因尚未确定，不能声称复现历史渲染**。原“重绘完全匹配”检查没有通过，保留此发现；它不用于替换任何主任务资产。由于338汉字中性图原本不存在，I2明确使用上述新版本中性锚点，而非冒称从原cache续接。验收对象相应是新汉字图本身：338唯一字符、非空、前景留白不越界、完整Ec键和字体/PNG/特征哈希；记录全部旧西文审计误差供review。**原V0913 PNG、Ec/Es缓存、训练主任务和val/test均不修改。** 这不是主数据清洗版本变更，也不证明原训练数据存在错误。
+
+准备命令（仅准备进程使用隔离Pillow）：
+
+```bash
+PYTHONPATH=/root/projects/hrfont_i_20260915.zvbB1H/render_deps \
+ /root/miniforge3/envs/boogu/bin/python scripts/prepare_i_cn.py
+```
 
 ## 配方、执行和验收
 
