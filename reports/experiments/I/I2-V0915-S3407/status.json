@@ -2,42 +2,49 @@
   "run_id": "I2-V0915-S3407",
   "series": "I",
   "server_path": "/root/projects/hrfont/runs/I2-V0915-S3407",
-  "snapshot_utc": "2026-09-15T10:04:10.994509+00:00",
-  "status": "stopped",
-  "done": null,
+  "snapshot_utc": "2026-09-15T15:15:42+00:00",
+  "status": "completed",
+  "done": {
+    "status": "completed",
+    "step": 10000,
+    "attempt": 10000,
+    "arm": "I2",
+    "inference_complete": true,
+    "smoke": false,
+    "seconds": 12865.921794652939
+  },
   "stopped": {
     "step": 5146,
     "attempt": 5146,
     "status": "safely_stopped"
   },
   "heartbeat": {
-    "state": "TRAINING",
-    "time": 1789466443.2263677,
-    "step": 5100,
-    "attempt": 5100,
-    "loss": 0.027550332248210907,
-    "eps": 0.0017557009123265743,
-    "perceptual": 2.3822312355041504,
-    "completion": 0.16783083975315094,
+    "state": "TRAINING_FINAL_LOG",
+    "step": 10000,
+    "attempt": 10000,
+    "loss": 0.029436787590384483,
+    "eps": 0.001571121159940958,
+    "perceptual": 2.594264507293701,
+    "completion": 0.17565903067588806,
     "comp_coef": 0.01,
-    "grad_norm": 0.25033506751060486,
-    "reader_grad": 0.0085016233690604,
-    "router_grad": 5.0627517276845376e-05,
-    "encoder_grad": 0.001896274314036487,
-    "aux_loss_rank": 0.12261562049388885,
-    "gate": 1.0,
+    "grad_norm": 0.16789951920509338,
+    "reader_grad": 0.0036954273890305697,
+    "router_grad": 0.00003504981628084804,
+    "encoder_grad": 0.001108452957072151,
+    "aux_loss_rank": 0.02748076245188713,
+    "gate": 1,
     "lr": [
-      9.991120277927223e-05,
-      1.9982240555854448e-05,
-      1.9982240555854448e-05,
-      9.991120277927223e-05
+      0.00001,
+      0.0000020000000000000003,
+      0.0000020000000000000003,
+      0.00001
     ],
     "skips": 0,
-    "scale": 4096.0,
-    "ddp_spread": 0.0,
-    "update_seconds": 2.209566593170166,
-    "peak_mib": 8711.615234375,
-    "elapsed_seconds": 11467.393671989441
+    "scale": 32768,
+    "ddp_spread": 0,
+    "update_seconds": 2.236253499984741,
+    "peak_mib": 8712.224609375,
+    "elapsed_seconds": 11639.719269514084
   },
   "config": {
     "arm": "I2",
@@ -58,7 +65,7 @@
     "clean_sha256": "79e2654490dd251bd7d174bb6f7236fdd0f10f1c5b4ce9b893e2114d59a03f47",
     "seed": 3407,
     "schedule": "500 warmup; flat to5k; cosine to10% at10k",
-    "unet_lr": 2e-05,
+    "unet_lr": 0.00002,
     "new_lr": 0.0001,
     "cn_aux_batch": 32,
     "cn_loss_weight": 0.5,
@@ -95,6 +102,18 @@
       },
       "server_path": "/root/projects/hrfont/runs/I2-V0915-S3407/eval_step_4000",
       "portable_report": "experiments/I/I2/step00004000/review.html"
+    },
+    {
+      "step": 10000,
+      "complete": {
+        "status": "completed",
+        "images": 4096,
+        "step": 10000,
+        "seconds": 1222.897724866867
+      },
+      "server_path": "/root/projects/hrfont/runs/I2-V0915-S3407/eval_step_10000",
+      "portable_report": "experiments/I/I2/step00010000/review.html"
     }
-  ]
+  ],
+  "note": "I2 training and formal4096 complete. Historical stopped at5146 retained for provenance; k1248 currently running under original supervisor. Last training row is not a liveness claim."
 }
