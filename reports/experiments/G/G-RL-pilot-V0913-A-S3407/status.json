@@ -1,0 +1,24 @@
+{
+  "run_id": "G-RL-pilot-V0913-A-S3407",
+  "series": "G",
+  "server_path": "/root/projects/hrfont/runs/G-RL-pilot-V0913-A-S3407",
+  "snapshot_utc": "2026-09-15T03:49:28.999158+00:00",
+  "status": "completed",
+  "done": {
+    "global_step": 5000,
+    "status": "completed",
+    "best": {
+      "step": 1000,
+      "val": 0.002121864414982346
+    }
+  },
+  "stopped": null,
+  "heartbeat": {
+    "ts": "2026-09-14T07:36:36",
+    "status": "running",
+    "step": 5000,
+    "loss": 0.026605021208524704
+  },
+  "config": null,
+  "inference": []
+}

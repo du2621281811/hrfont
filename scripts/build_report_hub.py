@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-ROOT = Path("/root/projects/hrfont")
+ROOT = Path(__file__).resolve().parents[1]
 REP = ROOT / "reports"
 CATALOG = REP / "REPORT_CATALOG.json"
 HUB_DIR = REP / "hub"

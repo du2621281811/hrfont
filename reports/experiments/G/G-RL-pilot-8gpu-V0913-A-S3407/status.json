@@ -1,0 +1,24 @@
+{
+  "run_id": "G-RL-pilot-8gpu-V0913-A-S3407",
+  "series": "G",
+  "server_path": "/root/projects/hrfont/runs/G-RL-pilot-8gpu-V0913-A-S3407",
+  "snapshot_utc": "2026-09-15T03:49:28.999158+00:00",
+  "status": "completed",
+  "done": {
+    "global_step": 5000,
+    "status": "completed",
+    "best": {
+      "step": 2500,
+      "val": 0.0020706798784730796
+    }
+  },
+  "stopped": null,
+  "heartbeat": {
+    "ts": "2026-09-14T14:00:12",
+    "status": "running",
+    "step": 5000,
+    "loss": 0.023976413533091545
+  },
+  "config": null,
+  "inference": []
+}

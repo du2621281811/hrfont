@@ -1,0 +1,24 @@
+{
+  "run_id": "G-REF-SMOKE-B1-T2-V0914-S3407",
+  "series": "G",
+  "server_path": "/root/projects/hrfont/runs/G-REF-SMOKE-B1-T2-V0914-S3407",
+  "snapshot_utc": "2026-09-15T03:49:28.999158+00:00",
+  "status": "completed",
+  "done": {
+    "global_step": 100,
+    "status": "completed",
+    "best": {
+      "step": null,
+      "val": null
+    }
+  },
+  "stopped": null,
+  "heartbeat": {
+    "ts": "2026-09-14T23:48:08",
+    "status": "running",
+    "step": 100,
+    "loss": 0.005745286121964455
+  },
+  "config": null,
+  "inference": []
+}

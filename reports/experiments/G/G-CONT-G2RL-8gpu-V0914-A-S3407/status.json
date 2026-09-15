@@ -1,0 +1,24 @@
+{
+  "run_id": "G-CONT-G2RL-8gpu-V0914-A-S3407",
+  "series": "G",
+  "server_path": "/root/projects/hrfont/runs/G-CONT-G2RL-8gpu-V0914-A-S3407",
+  "snapshot_utc": "2026-09-15T03:49:28.999158+00:00",
+  "status": "completed",
+  "done": {
+    "global_step": 5000,
+    "status": "completed",
+    "best": {
+      "step": 2500,
+      "val": 0.002072397289416832
+    }
+  },
+  "stopped": null,
+  "heartbeat": {
+    "ts": "2026-09-14T20:26:50",
+    "status": "running",
+    "step": 5000,
+    "loss": 0.025593727827072144
+  },
+  "config": null,
+  "inference": []
+}

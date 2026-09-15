@@ -1,0 +1,12 @@
+{
+  "duplicate8_max_abs": 0.00390625,
+  "permutation_max_abs": 0.0,
+  "cfg_max_abs": 0.0,
+  "gradients": {
+    "online_encoder": 0.0015872460974319625,
+    "reader": 0.005736466779166184,
+    "router": 0.00014131995314205302
+  },
+  "DPM20": "PASS",
+  "note": "interface/gradient smoke, not visual quality; RSI gate temporarily .001"
+}

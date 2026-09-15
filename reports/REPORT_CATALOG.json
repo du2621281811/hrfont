@@ -4,9 +4,45 @@
   "hub_blurb": "所有可视化报告的入口。精简介绍写在 REPORT_CATALOG.json；详情页负责深度内容。新增报告只改目录再 build。",
   "pages": [
     {
+      "id": "experiment_tracker",
+      "title": "全部实验 · 持续追踪总表",
+      "blurb": "按系列记录动机、lineage、进展、效果与验证结论；当前H已停止，I接续。",
+      "path": "EXPERIMENT_TRACKER.md",
+      "tags": ["I", "H", "G", "tracking"],
+      "status": "live",
+      "updated": "2026-09-15"
+    },
+    {
+      "id": "i_execution",
+      "title": "I 系列 · 在线TC与动态Delta执行规格",
+      "blurb": "I0=G0b@10k；I1完整新方法，I2加中文辅助；各10k、8卡顺序执行。",
+      "path": "I_EXECUTION_20260915.md",
+      "tags": ["I", "training", "plan"],
+      "status": "live",
+      "updated": "2026-09-15"
+    },
+    {
+      "id": "experiment_archive",
+      "title": "按系列检索 · 推理原图与运行记录",
+      "blurb": "H全部14个阶段、10496张预测及GT/指标；I后续阶段按模型/步数归档。",
+      "path": "experiments/README.md",
+      "tags": ["I", "H", "archive"],
+      "status": "live",
+      "updated": "2026-09-15"
+    },
+    {
+      "id": "h_closeout",
+      "title": "H 系列收尾 · H0/H3最终与H4停止",
+      "blurb": "H0/H3完成10k与4096图推理；H4安全停止9522；其余臂取消。",
+      "path": "H_CLOSEOUT_20260915.md",
+      "tags": ["H", "review"],
+      "status": "live",
+      "updated": "2026-09-15"
+    },
+    {
       "id": "h_10k_execution",
       "title": "H 系列 · 每臂10k执行规格",
-      "blurb": "效果优先H3起跑；统一10k配方、七臂70k预算和训后推理。",
+      "blurb": "历史规格：H已经由I系列替代，剩余实验取消；见总追踪表与H收尾。",
       "path": "H_EXECUTION_20260915.md",
       "tags": ["H", "training", "plan"],
       "status": "live",

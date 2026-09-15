@@ -1,0 +1,11 @@
+{
+  "model": "I0",
+  "kind": "checkpoint_alias_only",
+  "original_run_id": "G0b-F0-V0913-BS256-A-S3407",
+  "checkpoint_step": 10000,
+  "checkpoint": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+  "unet_sha256": "4a418058c3df6707d3311de378f95a1b0d2fb2939129b218de7f2b2980e01c23",
+  "new_training_updates": 0,
+  "formal_i_protocol_inference": "queued after I1 and I2; do not relabel historical G0 outputs",
+  "not_equal_to": ["H0", "G0-F0-V0913-BS256-A-S3407", "G0c-F0-V0913-BS256-A-S3407"]
+}

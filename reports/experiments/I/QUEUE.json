@@ -1,0 +1,24 @@
+{
+  "pid": 3360111,
+  "time": 1789444162.7720823,
+  "code": "/root/projects/hrfont_i_20260915.zvbB1H",
+  "state": "RUNNING",
+  "task": "I1",
+  "child_pid": 3360112,
+  "command": [
+    "/root/miniforge3/envs/boogu/bin/python",
+    "-m",
+    "torch.distributed.run",
+    "--nproc_per_node=8",
+    "--master_port=29573",
+    "/root/projects/hrfont_i_20260915.zvbB1H/scripts/train_i.py",
+    "--arm",
+    "I1",
+    "--run-id",
+    "I1-V0915-S3407",
+    "--limit",
+    "10000",
+    "--microbatch",
+    "8"
+  ]
+}

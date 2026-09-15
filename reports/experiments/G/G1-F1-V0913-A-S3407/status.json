@@ -1,0 +1,24 @@
+{
+  "run_id": "G1-F1-V0913-A-S3407",
+  "series": "G",
+  "server_path": "/root/projects/hrfont/runs/G1-F1-V0913-A-S3407",
+  "snapshot_utc": "2026-09-15T03:49:28.999158+00:00",
+  "status": "completed",
+  "done": {
+    "global_step": 10000,
+    "status": "completed",
+    "best": {
+      "step": 10000,
+      "val": 0.0022131463069678106
+    }
+  },
+  "stopped": null,
+  "heartbeat": {
+    "ts": "2026-09-14T09:10:25",
+    "status": "running",
+    "step": 10000,
+    "loss": 0.01474924385547638
+  },
+  "config": null,
+  "inference": []
+}

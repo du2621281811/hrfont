@@ -1,0 +1,20 @@
+{
+  "run_id": "G0b-F0-V0913-BS256-A-S3407",
+  "series": "G",
+  "server_path": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407",
+  "snapshot_utc": "2026-09-15T03:49:28.999158+00:00",
+  "status": "completed",
+  "done": {
+    "global_step": 10000,
+    "max_train_steps": 10000,
+    "status": "completed"
+  },
+  "stopped": null,
+  "heartbeat": {
+    "step": 9996,
+    "status": "running",
+    "pid": 2627107
+  },
+  "config": null,
+  "inference": []
+}

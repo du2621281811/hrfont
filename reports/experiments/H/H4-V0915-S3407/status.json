@@ -1,0 +1,117 @@
+{
+  "run_id": "H4-V0915-S3407",
+  "series": "H",
+  "server_path": "/root/projects/hrfont/runs/H4-V0915-S3407",
+  "snapshot_utc": "2026-09-15T03:49:28.999158+00:00",
+  "status": "stopped",
+  "done": null,
+  "stopped": {
+    "step": 9522,
+    "attempt": 9522,
+    "status": "safely_stopped"
+  },
+  "heartbeat": {
+    "state": "TRAINING",
+    "time": 1789442423.9544623,
+    "step": 9500,
+    "attempt": 9500,
+    "loss": 0.025953928008675575,
+    "eps": 0.002088933950290084,
+    "perceptual": 2.3719184398651123,
+    "completion": 0.294114887714386,
+    "comp_coef": 0.0,
+    "grad_norm": 0.18380090594291687,
+    "reader_grad": 0.008777069031964123,
+    "gate": 1.0,
+    "lr": [
+      2.4404913533436184e-06,
+      2.4404913533436184e-06,
+      1.2202456766718093e-05,
+      1.2202456766718093e-05
+    ],
+    "skips": 0,
+    "scale": 16384.0,
+    "ddp_spread": 0.0,
+    "update_seconds": 1.076535940170288,
+    "peak_mib": 4806.689453125,
+    "elapsed_seconds": 10501.76022362709
+  },
+  "config": {
+    "arm": "H4",
+    "limit": 10000,
+    "global_batch": 64,
+    "per_gpu": 4,
+    "accumulation": 2,
+    "parent": "/root/projects/hrfont/runs/G-CONT-G2-8gpu-V0914-A-S3407/global_step_5000",
+    "parent_unet_sha256": "7932f00b4dd79aad79795313c97b335a0728ca182df95699dd1e258d38ae9a40",
+    "code_root": "/root/projects/hrfont_h_20260915.AkAWHq",
+    "code_sha256": {
+      "scripts/train_h.py": "3b480f6390974c4f37b9fccbf93caa91697cb8c426ea49f8cbe57b66cf3ccd7e",
+      "scripts/hrfont_h.py": "345e39640460303db78d7942c3ddcecfbc34b430bb7e2a1569be17630183e4fc",
+      "scripts/h_runtime.py": "14e4559786b55888f77401bcd7c013aa1ed2effc2013e08c17d96781b08d0454",
+      "scripts/h_eval.py": "20e7feebd451b80359dbbf0772cc3d467e5cc5cd8eab476b47d6001445f3fc2c"
+    },
+    "cache_manifest_sha256": "d3a607b407cd7fbda261578185a7401c08a52c9f9355d5d9361b6992c4cce48c",
+    "clean_sha256": "79e2654490dd251bd7d174bb6f7236fdd0f10f1c5b4ce9b893e2114d59a03f47",
+    "seed": 3407,
+    "schedule": "500 warmup; flat to5k; cosine to10% at10k",
+    "unet_lr": 2e-05,
+    "new_lr": 0.0001,
+    "comp_weight": 0,
+    "transition": 1000,
+    "joint_cfg": 0.1,
+    "source_drop": 0.25,
+    "precision": "fp16 scaler1024 FP32 logits/loss/optimizer",
+    "native_resolution": 96,
+    "teacher": "train-only VGG enc2 pool12 with fixed channel calibration",
+    "smoke": false,
+    "overfit": false,
+    "resume": null
+  },
+  "inference": [
+    {
+      "step": 2000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 2000,
+        "seconds": 51.97900199890137
+      },
+      "server_path": "/root/projects/hrfont/runs/H4-V0915-S3407/eval_step_2000",
+      "portable_report": "h_20260915/H4_step2000/review.html"
+    },
+    {
+      "step": 4000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 4000,
+        "seconds": 51.95994591712952
+      },
+      "server_path": "/root/projects/hrfont/runs/H4-V0915-S3407/eval_step_4000",
+      "portable_report": "h_20260915/H4_step4000/review.html"
+    },
+    {
+      "step": 6000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 6000,
+        "seconds": 50.68992328643799
+      },
+      "server_path": "/root/projects/hrfont/runs/H4-V0915-S3407/eval_step_6000",
+      "portable_report": "h_20260915/H4_step6000/review.html"
+    },
+    {
+      "step": 8000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 8000,
+        "seconds": 51.27083349227905
+      },
+      "server_path": "/root/projects/hrfont/runs/H4-V0915-S3407/eval_step_8000",
+      "portable_report": "h_20260915/H4_step8000/review.html"
+    }
+  ]
+}
