@@ -2,24 +2,24 @@
   "run_id": "I1-V0915-S3407",
   "series": "I",
   "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407",
-  "snapshot_utc": "2026-09-15T04:05:47.494137+00:00",
+  "snapshot_utc": "2026-09-15T04:53:20.534365+00:00",
   "status": "recorded_not_live_verified",
   "done": null,
   "stopped": null,
   "heartbeat": {
     "state": "TRAINING",
-    "time": 1789445084.8935533,
-    "step": 1100,
-    "attempt": 1100,
-    "loss": 0.026927782222628593,
-    "eps": 0.002292569261044264,
-    "perceptual": 2.121016025543213,
-    "completion": 0.19259324669837952,
+    "time": 1789447990.42303,
+    "step": 4100,
+    "attempt": 4100,
+    "loss": 0.026652581989765167,
+    "eps": 0.001684975461103022,
+    "perceptual": 2.2876696586608887,
+    "completion": 0.16221284866333008,
     "comp_coef": 0.01,
-    "grad_norm": 0.19223278760910034,
-    "reader_grad": 0.002716854886551966,
-    "router_grad": 6.527882134898906e-05,
-    "encoder_grad": 0.0007976768169996378,
+    "grad_norm": 0.22381636500358582,
+    "reader_grad": 0.0015113916532890992,
+    "router_grad": 0.00012591599279131884,
+    "encoder_grad": 0.00038935580529315077,
     "aux_loss_rank": 0.0,
     "gate": 1.0,
     "lr": [
@@ -29,11 +29,11 @@
       0.0001
     ],
     "skips": 0,
-    "scale": 1024.0,
+    "scale": 4096.0,
     "ddp_spread": 0.0,
-    "update_seconds": 0.983151912689209,
-    "peak_mib": 8700.01318359375,
-    "elapsed_seconds": 1032.6563551425934
+    "update_seconds": 0.9033575057983398,
+    "peak_mib": 8712.802734375,
+    "elapsed_seconds": 3938.185917854309
   },
   "config": {
     "arm": "I1",
@@ -69,5 +69,28 @@
     "overfit": false,
     "resume": null
   },
-  "inference": []
+  "inference": [
+    {
+      "step": 2000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 2000,
+        "seconds": 59.00803780555725
+      },
+      "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407/eval_step_2000",
+      "portable_report": "experiments/I/I1/step00002000/review.html"
+    },
+    {
+      "step": 4000,
+      "complete": {
+        "status": "completed",
+        "images": 192,
+        "step": 4000,
+        "seconds": 60.7222797870636
+      },
+      "server_path": "/root/projects/hrfont/runs/I1-V0915-S3407/eval_step_4000",
+      "portable_report": "experiments/I/I1/step00004000/review.html"
+    }
+  ]
 }
