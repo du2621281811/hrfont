@@ -1,0 +1,7 @@
+comparison,font_paired_logit_delta,ci95_low,ci95_high,fonts,font_wins,note
+test_final:I4-I2,0.003962147642209374,-0.013068643509285856,0.02206181876435368,16,7,"Paired font bootstrap, descriptive; small sample and multiple comparisons, no corrected significance claim"
+test_final:I2-I0,0.03588703553442486,-0.08157420084556935,0.13928373482199372,16,10,"Paired font bootstrap, descriptive; small sample and multiple comparisons, no corrected significance claim"
+test_final:I3-I1,0.002036257177601233,-0.01847649619716747,0.027460561716106117,16,8,"Paired font bootstrap, descriptive; small sample and multiple comparisons, no corrected significance claim"
+val4k:I5-I0,0.02077077306845846,-0.0687602580335806,0.10261333696374396,16,10,"Paired font bootstrap, descriptive; small sample and multiple comparisons, no corrected significance claim"
+val4k:I5-I3,-0.029907008865848187,-0.07133499431462648,0.009368012088816598,16,6,"Paired font bootstrap, descriptive; small sample and multiple comparisons, no corrected significance claim"
+val4k:I5-I4,0.0032650309149175865,-0.03444866286202644,0.043932222338238104,16,7,"Paired font bootstrap, descriptive; small sample and multiple comparisons, no corrected significance claim"
