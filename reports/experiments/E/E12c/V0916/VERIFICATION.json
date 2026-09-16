@@ -1,0 +1,14 @@
+{
+  "status": "VERIFIED",
+  "run_id": "E12C-V0916-S3407",
+  "verified_archive_files": 4,
+  "A_successful_updates": 2000,
+  "A_attempts": 2000,
+  "A_amp_skips": 0,
+  "B_successful_updates": 1000,
+  "encoder_sha256_verified_on_server": "1f68845826e67c893bcb77af8f8363f0115cfee154daef7cb9b83f8bd3b44c4d",
+  "head_sha256_verified_on_server": "1d598833064d86216f9144c323b59f2127df46214c8f5339921d1748f065c268",
+  "internal_test_cells": 12,
+  "test_result_scope": "Held-out font-instance relation recognition, not human-agreement validation",
+  "human_evaluation_complete": false
+}
