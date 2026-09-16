@@ -1,0 +1,267 @@
+{
+  "status": "REVIEWED",
+  "reviewer": "Codex visual inspection",
+  "scope": "All36 panels inspected at8 CN +8 target; uninspected groups remain base-only, not judged simple",
+  "decisions": {
+    "FZJLJW|latin": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "fine_handwriting"
+      ],
+      "reason": "Thin nonuniform handwritten stems and terminals in both scripts",
+      "cross_script_visible": true
+    },
+    "FZZhiXHJW-R|latin": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "broken_strokes"
+      ],
+      "reason": "Repeated white cuts and disconnected geometric stems in both scripts",
+      "cross_script_visible": true
+    },
+    "FZLangKBTJW1|latin": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "geometric_cuts"
+      ],
+      "reason": "Squared contours, sharp triangular joins and strong width contrast",
+      "cross_script_visible": true
+    },
+    "FZBenMKYJW|latin": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "separated_round_strokes"
+      ],
+      "reason": "Repeated rounded separated stroke segments visible across scripts",
+      "cross_script_visible": true
+    },
+    "FZXinGHJW-EL|latin": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "fine_geometric"
+      ],
+      "reason": "Very fine rectilinear stems with separated joins",
+      "cross_script_visible": true
+    },
+    "FZKeSHBTJW|latin": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "brush_terminals"
+      ],
+      "reason": "Irregular brush edges, pointed terminals and variable width",
+      "cross_script_visible": true
+    },
+    "FZShangYTJW|latin": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "broken_strokes"
+      ],
+      "reason": "Repeated open joints and white gaps with rounded geometric contours",
+      "cross_script_visible": true
+    },
+    "FZFWZhuZGDLMCJW|latin": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZTiHJW|latin": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "angular_geometry"
+      ],
+      "reason": "Strong trapezoidal/angular contours and sharp cuts shared across scripts",
+      "cross_script_visible": true
+    },
+    "FZDeSHJW_510M|latin": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZMoFHJW|latin": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZWuYTJW|latin": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZXianWXTJW-L|kana": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "fine_flourishes"
+      ],
+      "reason": "Thin looped flourishes and stroke contrast shared by Chinese and kana",
+      "cross_script_visible": true
+    },
+    "FZXieXTJW-EB|kana": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "contrasting_segmented"
+      ],
+      "reason": "Thick rounded bars contrasted with fine detached connector strokes",
+      "cross_script_visible": true
+    },
+    "FZXinZYHJW_UL|kana": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "fine_geometric"
+      ],
+      "reason": "Very fine geometric skeleton-like strokes across both scripts",
+      "cross_script_visible": true
+    },
+    "FZJuJTJW-L|kana": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZShanCPXJW|kana": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "brush_terminals"
+      ],
+      "reason": "Tapered brush terminals and variable stroke width",
+      "cross_script_visible": true
+    },
+    "FZJiangYTJW_EB|kana": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "angular_brush"
+      ],
+      "reason": "Angular tilted heavy brush strokes with pointed ends",
+      "cross_script_visible": true
+    },
+    "FZZiZLDJW|kana": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "rough_brush"
+      ],
+      "reason": "Ragged brush boundaries and broken brush texture clearly shared",
+      "cross_script_visible": true
+    },
+    "FZVDLGTMCJW-L|kana": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "star_decoration"
+      ],
+      "reason": "Repeated star/sparkle terminals and hollow diamond decoration",
+      "cross_script_visible": true
+    },
+    "FZFWZhuZGDLMCJW|kana": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZChenQTJW|kana": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZDongGSJW-L|kana": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZSongYuanK|kana": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZXianWXTJW-L|bopomofo": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "fine_flourishes"
+      ],
+      "reason": "Thin looped terminals and contrasting calligraphic curves",
+      "cross_script_visible": true
+    },
+    "FZBangSKLTJW|bopomofo": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "hollow_outline"
+      ],
+      "reason": "Outlined strokes with white interior and dark offset edge",
+      "cross_script_visible": true
+    },
+    "FZBaiZJHTJW|bopomofo": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "brush_contrast"
+      ],
+      "reason": "Rough broad brush strokes contrasted with thin tails",
+      "cross_script_visible": true
+    },
+    "FZYanZQKSJW|bopomofo": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "brush_terminals"
+      ],
+      "reason": "Tapered brush endings and curved variable-width strokes",
+      "cross_script_visible": true
+    },
+    "FZYouHK_508R|bopomofo": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZVDLXinZTJW-R|bopomofo": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "fine_handwriting"
+      ],
+      "reason": "Fine irregular hand-drawn strokes with open/uneven joints",
+      "cross_script_visible": true
+    },
+    "FZVDLJianZHJW-H|bopomofo": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "angular_geometry"
+      ],
+      "reason": "Sharp flared angular strokes and large width changes",
+      "cross_script_visible": true
+    },
+    "FZFWZhuZiHeiM|bopomofo": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZManYTJW-H|bopomofo": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZYouHK_513B|bopomofo": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    },
+    "FZWeiYHJW|bopomofo": {
+      "decision": "confirmed_detail",
+      "tags": [
+        "angular_geometry"
+      ],
+      "reason": "Exaggerated triangular stroke ends and sharp trapezoidal contours",
+      "cross_script_visible": true
+    },
+    "FZXueWRHJW|bopomofo": {
+      "decision": "base_only",
+      "tags": [],
+      "reason": "Visible panel is mainly conventional serif/sans or weight variation; no priority detail category confirmed in this pass",
+      "cross_script_visible": false
+    }
+  }
+}

@@ -1,0 +1,13 @@
+test_fixed_overfit_and_independent_main_rng (scripts.test_i56_components.TestI56) ... ok
+test_hole_and_missing_ink_both_penalized (scripts.test_i56_components.TestI56) ... ok
+test_identity_blank_solid_empty_regions (scripts.test_i56_components.TestI56) ... ok
+test_invalid (scripts.test_i56_components.TestI56) ... ok
+test_mask_target_and_alpha (scripts.test_i56_components.TestI56) ... ok
+test_regions_partition_and_outline_interior (scripts.test_i56_components.TestI56) ... ok
+test_sampling_script_caps_and_empty (scripts.test_i56_components.TestI56) ... ok
+test_tiny_detail_pool_returns_mass (scripts.test_i56_components.TestI56) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.214s
+
+OK
