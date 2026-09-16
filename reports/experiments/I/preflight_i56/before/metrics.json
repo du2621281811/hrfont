@@ -1,0 +1,274 @@
+{
+  "step": 0,
+  "checkpoint": "I0-init",
+  "detail_sha256": "c309b9feea6d5a8f4e5c5586a25cec973198c9c3f12c492214a7acc75b65e39f",
+  "rows": [
+    {
+      "id": "0_0",
+      "font": "FZBenMKYJW",
+      "cp": "u0061",
+      "refs": [
+        "u6765"
+      ],
+      "tc_detail": 0.7906177043914795,
+      "pred_detail": 0.23686304688453674,
+      "local_intervention_l1": 0.0006219646423384169,
+      "finite": true,
+      "pred_ink_fraction": 0.1362847222222222
+    },
+    {
+      "id": "0_1",
+      "font": "FZVDLGTMCJW-L",
+      "cp": "u308A",
+      "refs": [
+        "u6155",
+        "u5931",
+        "u670B"
+      ],
+      "tc_detail": 0.7336314916610718,
+      "pred_detail": 0.6666864156723022,
+      "local_intervention_l1": 0.0007815336782861292,
+      "finite": true,
+      "pred_ink_fraction": 0.08995225694444445
+    },
+    {
+      "id": "1_0",
+      "font": "FZXianWXTJW-L",
+      "cp": "u3081",
+      "refs": [
+        "u65E7",
+        "u6D45",
+        "u59CB",
+        "u575A"
+      ],
+      "tc_detail": 0.6661485433578491,
+      "pred_detail": 0.4496460556983948,
+      "local_intervention_l1": 0.0006245177469135802,
+      "finite": true,
+      "pred_ink_fraction": 0.083984375
+    },
+    {
+      "id": "1_1",
+      "font": "FZXinGHJW-EL",
+      "cp": "u0033",
+      "refs": [
+        "u9AA8",
+        "u628A",
+        "u7531",
+        "u6865",
+        "u59CB"
+      ],
+      "tc_detail": 0.7198240160942078,
+      "pred_detail": 0.30163365602493286,
+      "local_intervention_l1": 0.0005738811728395062,
+      "finite": true,
+      "pred_ink_fraction": 0.061089409722222224
+    },
+    {
+      "id": "2_0",
+      "font": "FZLangKBTJW1",
+      "cp": "u0056",
+      "refs": [
+        "u7ECF"
+      ],
+      "tc_detail": 0.7823491096496582,
+      "pred_detail": 0.36112260818481445,
+      "local_intervention_l1": 0.0006147308460421205,
+      "finite": true,
+      "pred_ink_fraction": 0.10926649305555555
+    },
+    {
+      "id": "2_1",
+      "font": "FZLangKBTJW1",
+      "cp": "u01DC",
+      "refs": [
+        "u5065",
+        "u4E9B",
+        "u606F",
+        "u662F",
+        "u6865",
+        "u5316",
+        "u8FDB"
+      ],
+      "tc_detail": 0.7947901487350464,
+      "pred_detail": 0.35416626930236816,
+      "local_intervention_l1": 2.8084150326797384e-05,
+      "finite": true,
+      "pred_ink_fraction": 0.0998263888888889
+    },
+    {
+      "id": "3_0",
+      "font": "FZXinZYHJW_UL",
+      "cp": "u30A1",
+      "refs": [
+        "u4ECE",
+        "u7136",
+        "u767D",
+        "u5979",
+        "u5168"
+      ],
+      "tc_detail": 0.6559767723083496,
+      "pred_detail": 0.47383713722229004,
+      "local_intervention_l1": 0.0005104790758896151,
+      "finite": true,
+      "pred_ink_fraction": 0.04188368055555555
+    },
+    {
+      "id": "3_1",
+      "font": "FZVDLGTMCJW-L",
+      "cp": "u308B",
+      "refs": [
+        "u52AA",
+        "u9020",
+        "u515C",
+        "u5931",
+        "u5EB7",
+        "u65E5",
+        "u6155",
+        "u611F"
+      ],
+      "tc_detail": 0.7471433281898499,
+      "pred_detail": 0.49299710988998413,
+      "local_intervention_l1": 0.0004703385984023239,
+      "finite": true,
+      "pred_ink_fraction": 0.10492621527777778
+    },
+    {
+      "id": "4_0",
+      "font": "FZLangKBTJW1",
+      "cp": "u01D6",
+      "refs": [
+        "u5BCC"
+      ],
+      "tc_detail": 0.7937180399894714,
+      "pred_detail": 0.36098647117614746,
+      "local_intervention_l1": 3.446691176470588e-05,
+      "finite": true,
+      "pred_ink_fraction": 0.1003689236111111
+    },
+    {
+      "id": "4_1",
+      "font": "FZXinZYHJW_UL",
+      "cp": "u30DA",
+      "refs": [
+        "u5E94",
+        "u5929"
+      ],
+      "tc_detail": 0.6785348057746887,
+      "pred_detail": 0.2643686532974243,
+      "local_intervention_l1": 0.0004450912309368192,
+      "finite": true,
+      "pred_ink_fraction": 0.046440972222222224
+    },
+    {
+      "id": "5_0",
+      "font": "FZShangYTJW",
+      "cp": "u0036",
+      "refs": [
+        "u5982",
+        "u4E50",
+        "u5F88",
+        "u95EE",
+        "u9053",
+        "u63A2",
+        "u53F3",
+        "u81EA"
+      ],
+      "tc_detail": 0.7566846013069153,
+      "pred_detail": 0.6944890022277832,
+      "local_intervention_l1": 0.00033786083877995646,
+      "finite": true,
+      "pred_ink_fraction": 0.1023220486111111
+    },
+    {
+      "id": "5_1",
+      "font": "FZZiZLDJW",
+      "cp": "u3075",
+      "refs": [
+        "u53F3",
+        "u6539",
+        "u4E2D",
+        "u4E0D",
+        "u9762",
+        "u8363",
+        "u8F66"
+      ],
+      "tc_detail": 0.787760853767395,
+      "pred_detail": 0.5705318450927734,
+      "local_intervention_l1": 0.0006516090232389253,
+      "finite": true,
+      "pred_ink_fraction": 0.18934461805555555
+    },
+    {
+      "id": "6_0",
+      "font": "FZZiZLDJW",
+      "cp": "u30A4",
+      "refs": [
+        "u59CB",
+        "u767D",
+        "u5E0C",
+        "u5FC3",
+        "u540E"
+      ],
+      "tc_detail": 0.781761884689331,
+      "pred_detail": 0.425178200006485,
+      "local_intervention_l1": 0.0007978451797385621,
+      "finite": true,
+      "pred_ink_fraction": 0.13292100694444445
+    },
+    {
+      "id": "6_1",
+      "font": "FZVDLXinZTJW-R",
+      "cp": "u3122",
+      "refs": [
+        "u4EBA",
+        "u770B",
+        "u8FD1",
+        "u5206"
+      ],
+      "tc_detail": 0.7240046262741089,
+      "pred_detail": 0.5491939783096313,
+      "local_intervention_l1": 0.0009706052559912855,
+      "finite": true,
+      "pred_ink_fraction": 0.055230034722222224
+    },
+    {
+      "id": "7_0",
+      "font": "FZVDLGTMCJW-L",
+      "cp": "u305C",
+      "refs": [
+        "u7406",
+        "u4EE5",
+        "u6539",
+        "u94C1",
+        "u675F",
+        "u94DC",
+        "u5149",
+        "u5341"
+      ],
+      "tc_detail": 0.7338190674781799,
+      "pred_detail": 0.62469482421875,
+      "local_intervention_l1": 0.00025899827523602037,
+      "finite": true,
+      "pred_ink_fraction": 0.10796440972222222
+    },
+    {
+      "id": "7_1",
+      "font": "FZLangKBTJW1",
+      "cp": "u00F9",
+      "refs": [
+        "u5357",
+        "u6C34",
+        "u6240"
+      ],
+      "tc_detail": 0.8147610425949097,
+      "pred_detail": 0.2830570936203003,
+      "local_intervention_l1": 3.4041394335511986e-05,
+      "finite": true,
+      "pred_ink_fraction": 0.08875868055555555
+    }
+  ],
+  "mean_tc": 0.747595377266407,
+  "mean_pred": 0.4443407729268074,
+  "warning": "Seen training episodes; optimization/condition-use diagnostic, NOT generalization evidence"
+}
