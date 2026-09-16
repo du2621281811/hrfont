@@ -1,6 +1,6 @@
 # HRFont 跨系列实验追踪（持续更新入口）
 
-更新：2026-09-16 11:54 +08。**I4训练10k与formal4096完成；matched4888启动前被新增GPU上下文拦截，I5随前序退出而进入REVIEW_REQUIRED，尚未GPU预检或开训。** 额外ACT验证11:53已结束，但队列不会自行恢复，等待PI决定。[阻塞记录](I45_RESOURCE_BLOCK_20260916.md)。I5不加中文、I6本次不启动；[执行规格](I5_I6_EXECUTION_20260916.md)保持不变。I3/E12c已同步，不重复搬运，不改论文。
+更新：2026-09-16 13:23 +08。**PI已批准恢复，I4 matched4888已由新进程3533245启动；完成归档后自动接I5原预检与8卡训练。** I4训练10k/formal4096不重复，I5尚未GPU预检或正式开训。[恢复与历史阻塞](I45_RESOURCE_BLOCK_20260916.md)。I5不加中文、I6本次不启动；[执行规格](I5_I6_EXECUTION_20260916.md)不变。I3/E12c已同步，不重复搬运，不改论文。
 
 本次审阅入口：[I2构建规则](review_20260915/I2_RENDER_REVIEW.md)、[E12-c完整方案](E12C_PLAN_20260915.md)、[E12-c正式内部结果](E12C_COMPLETE_20260916.md)、[最新E12代码审核](review_20260915/E12_REVIEW.md)。失败/新STOP/磁盘条件仍触发安全停止。
 
@@ -18,8 +18,8 @@
 | I1 | 在线多尺度TC + 动态set-delta | **10k训练及原4096最终推理完成；另有同款4888图完整归档，传输后6395登记文件SHA通过** | k1248 test四shot的L1/SSIM/edge均小幅优于I0；L1下降1.13%–3.71%。该test板1shot仍最好，shot收益不单调；不等同笔触/特效问题解决 | [同款原图](experiments/I/I1/step00010000_k1248/review.html)、[匹配报告](I01_K1248_AND_I2_RESUME_20260915.md)、[原4096图](experiments/I/I1/step00010000/review.html) |
 | I2 | I1架构 + 中文留一目标辅助任务 | **10k成功更新、formal4096、matched4888全部完成并归档**，8rank最终无跳步/DDP差 | 尚无显著风格改善结论；matched test同样不是shot单调增益 | [matched原图](experiments/I/I2/step00010000_k1248/review.html)、[4096原图](experiments/I/I2/step00010000/review.html) |
 | I3 | I0独立初始化；I1结构 + 直接token墨迹监督/输出细节loss + 字符校准难例采样 | **10k训练及两套最终推理全部完成归档**，8rank零跳步/分歧 | 相对I1 test边缘误差小幅改善，L1/SSIM混合，未证实显著风格收益 | [结果与恢复](I3_COMPLETE_AND_QUEUE_RECOVERY_20260916.md)、[matched图](experiments/I/I3/step00010000_k1248/review.html) |
-| I4 | 同一个I0独立初始化；I3主任务 + I2同款中文辅助任务 | **训练10k、formal4096完成；matched4888因GPU准入阻塞，待恢复** | 最终跳步0/DDP差0；完整两协议比较与归档尚未完成 | [阻塞记录](I45_RESOURCE_BLOCK_20260916.md) |
-| I5 | 同I0独立初始化；真实复杂风格覆盖＋区域均衡TC/生成图细节监督，不加中文 | **REVIEW_REQUIRED；前序资源故障导致等待进程退出，GPU预检未执行** | 尚无训练效果；方法与预检/4k门槛不变 | [设计与执行](I5_I6_EXECUTION_20260916.md)、[状态](experiments/I/I5.json) |
+| I4 | 同一个I0独立初始化；I3主任务 + I2同款中文辅助任务 | **训练10k、formal4096完成；matched4888已恢复启动** | 最终跳步0/DDP差0；完整两协议比较与归档尚未完成 | [恢复记录](I45_RESOURCE_BLOCK_20260916.md) |
+| I5 | 同I0独立初始化；真实复杂风格覆盖＋区域均衡TC/生成图细节监督，不加中文 | **已批准恢复；I4剩余推理归档后自动衔接，GPU预检尚未执行** | 尚无训练效果；方法与预检/4k门槛不变 | [设计与执行](I5_I6_EXECUTION_20260916.md)、[状态](experiments/I/I5.json) |
 | I6 | I5公共架构与配方＋I2/I4同款中文辅助 | **仅预留接口，本次不启动** | 用于后续检查中文监督是否改善新配方，不继承I5训练权重 | [命名与范围](I5_I6_EXECUTION_20260916.md) |
 | E12-c | 轻量跨文字字体相容性评测＋独立人评 | **正式A2000+B1000和内部test完成归档，权重/文件SHA已核验** | 实例隔离内部R@1=0.63005、macro-AUC=0.93988；尚无人评相关性结论 | [正式结果](E12C_COMPLETE_20260916.md) · [人评协议](E12C_HUMAN_PROTOCOL_20260915.md) |
 
