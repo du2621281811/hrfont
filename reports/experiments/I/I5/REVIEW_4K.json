@@ -1,0 +1,13 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "step": 4000,
+  "baseline": "/root/projects/hrfont/reports/experiments/I/I3/step00004000",
+  "detail": 0.426009008466887,
+  "baseline_detail": 0.42145998135674745,
+  "l1": 0.06284265828435309,
+  "baseline_l1": 0.06251987193536479,
+  "ssim": 0.7931404901158623,
+  "baseline_ssim": 0.7942727210054187,
+  "rule": "Fixed val192: regional detail improves vs I3@4k, L1 regression<=2%, SSIM drop<=.005. Otherwise save and pause for review.",
+  "note": "Pragmatic early review trigger, not a statistical significance or style-quality claim"
+}
