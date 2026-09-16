@@ -60,6 +60,6 @@
 ## 6. 关联文档
 
 - 提案：[HRFONT_I7_PROPOSAL_20260916.md](HRFONT_I7_PROPOSAL_20260916.md)（本次同批入库）。
-- 证据基础：HRFONT_TRAIN_FIT_AUDIT_20260916.md（本地 Codex 工作目录产出的同日 fit audit；**尚未入库**，本文对它的引用均为关键数字直引，如需持久引用建议一并归档）。
+- 证据基础：[HRFONT_TRAIN_FIT_AUDIT_20260916.md](HRFONT_TRAIN_FIT_AUDIT_20260916.md)（同日 fit audit，本次同批入库；其引用的本地诊断脚本 `diagnostics_20260916_underfit.py` 仍在本地 Codex 目录，未入库）。
 - I5 与评测证据：[I5_4K_REVIEW_REQUIRED_20260916.md](I5_4K_REVIEW_REQUIRED_20260916.md)、[E12C_I_SERIES_EVALUATION_20260916.md](E12C_I_SERIES_EVALUATION_20260916.md)、[EXPERIMENT_TRACKER.md](EXPERIMENT_TRACKER.md)。
 - 规格口径：exec-spec（D-P2 统一 source_drop=.25；CFG 7.5 历史协议）。
