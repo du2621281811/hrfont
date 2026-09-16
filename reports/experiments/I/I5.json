@@ -1,7 +1,10 @@
 {
   "model": "I5",
   "run_id": "I5-V0916-S3407",
-  "status": "WAITING_FOR_I4_ARCHIVE",
+  "status": "REVIEW_REQUIRED",
+  "checked_at": "2026-09-16T03:54:44Z",
+  "supervisor_alive": false,
+  "blocked_reason": "I4 matched inference rejected new GPU contexts; predecessor queue exited. I5 stopped before preflight. Additional ACT validation seen on GPU1/3 has since finished; recovery awaits PI decision.",
   "supervisor_pid": 3513740,
   "code_root": "/root/projects/hrfont_i56_20260916.xUFfHO",
   "queue_directory": "/root/projects/hrfont/reports/i56_20260916",
