@@ -1,4 +1,4 @@
-"""Authorized K4-C -> K4-B -> K4-A; shared recipe, explicit v2 data identity."""
+"""Authorized family-filtered K4-A -> K4-C -> K4-B restart."""
 import argparse
 import hashlib
 import collections
@@ -141,7 +141,7 @@ def main():
     if not a.smoke:
         authorization=json.loads((ASSETS/'AUTHORIZATION.json').read_text())
         assert authorization['approved'] and a.limit==authorization['successful_updates']==10000
-        assert a.run_id==RUNS[a.arm] and authorization['order']==['K4-C','K4-B','K4-A']
+        assert a.run_id==RUNS[a.arm] and authorization['order']==['K4-A','K4-C','K4-B']
         assert json.loads((STORE/'control/PREFLIGHT_PASSED.json').read_text())['identity']==identity
     begin=time.time(); accumulation=8//world
     window_drops=torch.zeros(2,device=device);window_samples=0
@@ -270,7 +270,7 @@ def main():
                 cfg_drop_rate=float(window_drops[0])/(window_samples*world),
                 source_drop_rate=float(window_drops[1])/(window_samples*world),
                 update_seconds=time.time()-start,peak_mib=torch.cuda.max_memory_allocated()/2**20,
-                elapsed_seconds=time.time()-begin)
+                elapsed_seconds=time.time()-begin,donor_family_guard=data.library.family_policy.snapshot())
             with (out/f'rank{rank}.jsonl').open('a') as f:f.write(json.dumps(record)+'\n')
             if rank==0:
                 with (out/'train_log.jsonl').open('a') as f:f.write(json.dumps(record)+'\n')

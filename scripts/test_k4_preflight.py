@@ -12,6 +12,8 @@ OUT=STORE/'control'
 
 def contracts():
     summary={};pools=json.loads((DATA/'manifests/v2/style_pool.json').read_text())
+    families=json.loads((ASSETS/'family_groups.json').read_text())['family_by_font']
+    assert set(families)==set(pools)
     source={r['stem']:r['source'] for r in tsv(DATA/'manifests/v2/fonts.tsv')}
     for name,count,nfonts in [('v2',95976,423),('v0917',39547,200)]:
         args=configure(args_for(PARENT0),name,name);ds=dataset(args,'train');assert len(ds)==count
@@ -31,10 +33,16 @@ def contracts():
         # The worst-case reference set can remove the incomplete donors only;
         # check every legal query-font/target pair has a fully covered candidate.
         complete={f for f in {r['font'] for r in ds.rows} if len(pools[f])==338}
-        assert all(len(fs&complete)>=2 for fs in truth.values())
+        minima=[]
+        for font,cp in ds.lookup:
+            # Complete-CN candidates cover every possible sampled ref set;
+            # require a legal candidate after removing the entire query family.
+            count=sum(families[d]!=families[font] for d in truth[cp]&complete)
+            assert count>0,(name,font,cp)
+            minima.append(count)
         for f in {r['font'] for r in ds.rows}:
             assert all(p.is_file() for p in ds.style_by_font_char[f].values())
-        summary[name]=dict(pairs=count,fonts=nfonts,unique_pairs_sampled=len(seen),episode_sequence_sha256=digest.hexdigest(),exposure=dict(exposure))
+        summary[name]=dict(pairs=len(ds),fonts=nfonts,unique_pairs_sampled=len(seen),episode_sequence_sha256=digest.hexdigest(),exposure=dict(exposure),minimum_unrelated_complete_donors=min(minima))
     q=[json.loads(l) for l in (ASSETS/'v2_val_test_queries.jsonl').read_text().splitlines()]
     assert len(q)==14419
     for split,n in [('val',7331),('test',7088)]:
@@ -52,9 +60,13 @@ def gpu():
     qs=[json.loads(l) for l in (ASSETS/'v2_val_test_queries.jsonl').read_text().splitlines()]
     oldargs=args_for(PARENT0);old=LegacyContext(oldargs,device)
     newargs=configure(copy.copy(oldargs),'v2','legacy');new=DataContext(newargs,device)
+    families=new.library.family_policy.groups
+    old_train_families={families[f] for f in old.fonts}
     rows=[]
     for script,k in [('western',1),('western',2),('kana',4),('bopomofo',8)]:
-        j=next(j for j in qs if j['source']=='0913' and j['split']=='val' and j['script']==script)
+        # Equality is expected only where the new family rule removes no old
+        # donor. Family-overlap queries are intentionally changed by this fix.
+        j=next(j for j in qs if j['source']=='0913' and j['split']=='val' and j['script']==script and families[j['font']] not in old_train_families)
         rows.append(dict(**j,k=k,refs=j['ref8'][:k]))
     ds=dataset(newargs,'val');samples=[get_sample(ds,j) for j in rows];batch=batch_to(samples,device)
     scheduler=T.build_ddpm_scheduler(oldargs);checks={}
@@ -98,11 +110,12 @@ def gpu():
     atomic_json(OUT/'GPU_PARITY_PASSED.json',dict(status='PASS',checks=checks,k0_reuse_approved=True))
 
 def training_checks():
-    ref=ROOT/'runs/K4-PREFLIGHT-C';res=ROOT/'runs/K4-PREFLIGHT-C-RESUME';b=ROOT/'runs/K4-PREFLIGHT-B';a=ROOT/'runs/K4-PREFLIGHT-A'
+    ref=ROOT/'runs/K4-FAMILY-PREFLIGHT-C';res=ROOT/'runs/K4-FAMILY-PREFLIGHT-C-RESUME';b=ROOT/'runs/K4-FAMILY-PREFLIGHT-B';a=ROOT/'runs/K4-FAMILY-PREFLIGHT-A'
     logs=lambda p:{r['step']:r for r in (json.loads(l) for l in (p/'train_log.jsonl').read_text().splitlines())}
     x,y,z,w=map(logs,[ref,res,b,a])
     assert max(x)==max(y)==120 and max(z)==17 and max(w)==2
     for log in [x,y,z,w]:assert all(r['ddp_spread']<1e-4 and r['skips']==0 and r['global_batch']==64 for r in log.values())
+    for log in [x,y,z,w]:assert all(r['donor_family_guard']['calls']>0 and r['donor_family_guard']['violations']==0 and r['donor_family_guard']['minimum_eligible']>0 for r in log.values())
     errors={}
     for step in [101,102]:
         err=abs(x[step]['loss']-y[step]['loss']);assert err<1e-5,(step,err)
@@ -133,18 +146,16 @@ def training_checks():
     checks=dict(status='PASS',first_resume_losses=errors,final_relative_state_l2=relative,
                 synchronized_ranks=8,amp_skips=0,same_B_C_main_episode_sequences=True,
                 K3_rollout_gradient=True,auxiliary_router_startup=auxiliary_startup)
-    # A test-only correction may reuse actual smoke runs only when every other
-    # frozen source file is byte-identical. Never treat a changed runtime as an
-    # accepted preflight without rerunning training.
+    # This restart must run its own preflight with the actual family-filtered
+    # runtime, not reuse the former target-font-only training checks.
     current=code_identity()
     for directory in [ref,res,b,a]:
         original=json.loads((directory/'config.json').read_text())['identity']
-        assert set(original['files'])==set(current['files'])
-        changed=[n for n,h in original['files'].items() if current['files'][n]!=h]
-        assert set(changed)<= {'scripts/test_k4_preflight.py'},changed
+        assert original==current
     atomic_json(OUT/'TRAINING_CHECKS_PASSED.json',checks)
     parity=json.loads((OUT/'GPU_PARITY_PASSED.json').read_text());contracts=json.loads((OUT/'CONTRACTS_PASSED.json').read_text())
     assert parity['status']==contracts['status']=='PASS'
+    assert json.loads((OUT/'FAMILY_POLICY_PASSED.json').read_text())['status']=='PASS'
     atomic_json(OUT/'PREFLIGHT_PASSED.json',dict(status='PASS',identity=code_identity(),k0_reuse_approved=parity['k0_reuse_approved'],training=checks))
 
 if __name__=='__main__':

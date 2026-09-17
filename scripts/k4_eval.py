@@ -99,7 +99,7 @@ def run_jobs(model,data,args,scheduler,jobs,out,reuse=None,rank=0,world=1):
             f.write(''.join(json.dumps(r)+'\n' for r in new));f.flush()
         rows+=new
         atomic_json(out/f'progress_rank{rank}.json',dict(done=len(rows),total=len(shard),seconds=time.time()-start,time=time.time()))
-    atomic_json(out/f'rank{rank}.json',dict(rows=rows,seconds=time.time()-start))
+    atomic_json(out/f'rank{rank}.json',dict(rows=rows,seconds=time.time()-start,donor_family_guard=data.library.family_policy.snapshot()))
     if dist.is_initialized():dist.barrier()
     if rank==0:
         allrows=sum([json.loads((out/f'rank{r}.json').read_text())['rows'] for r in range(world)],[])

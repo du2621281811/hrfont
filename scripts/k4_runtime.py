@@ -9,11 +9,12 @@ from k_runtime import (ROOT,CODE,CACHE,PARENT0,T,model_for as legacy_model_for,
                        batch_to,seed_episode,atomic_json,sha256_file,train_sample)
 from scripts.hrfont_feature_cache import EsCache,EcCache,key_es,key_ec,ES_SPATIAL,EC_SHAPES
 from scripts.k_components import KSampler
+from scripts.k4_family import FamilyPolicy
 
 DATA=Path('/root/data1/hrfont_dataset_v2_20260917')
-STORE=Path('/root/data1/hrfont_k4_20260917')
+STORE=Path('/root/data1/hrfont_k4_family_20260918')
 ASSETS=CODE/'experiments/K4'
-RUNS={'K4-C':'K4-C-K1RECIPE-V2-S3407','K4-B':'K4-B-K3RECIPE-V2-S3407','K4-A':'K4-A-K1FT-0917-S3407'}
+RUNS={'K4-C':'K4-C-K1RECIPE-V2-FAMILY-S3407','K4-B':'K4-B-K3RECIPE-V2-FAMILY-S3407','K4-A':'K4-A-K1FT-0917-FAMILY-S3407'}
 K1_EMA=ROOT/'runs/K1-ORIGINAL-V0917-S3407/global_step_10000/ema.pth'
 
 def tsv(path):
@@ -137,17 +138,20 @@ class Library:
             self.present[i,cols]=True
         self.allowed={c:set(fs) for c,fs in donor_map.items()}
         self.bycp={c:torch.tensor([f in fs for f in self.fonts]) for c,fs in self.allowed.items()}
+        self.family_policy=FamilyPolicy(ASSETS/'family_groups.json',self.fonts)
     def select(self,cp,refs,query,font,alpha_cfg):
         cols=[self.char_index[c] for c in refs]
         valid=self.bycp[cp]&self.present[:,cols].all(1)
-        if font in self.font_index:valid[self.font_index[font]]=False
-        assert bool(valid.any()),(font,cp,refs)
+        valid=self.family_policy.exclude(font,valid)
         # Invalid prototypes are zero only as an intermediate representation;
         # they are explicitly excluded before alpha/top-k, never donor targets.
         excluded=(~valid).nonzero().flatten().tolist()
         idx,alpha,_=T.compute_alpha(query.cpu(),self.table[:,cols],self.font_index.get(font),alpha_cfg,extra_exclude=excluded)
         assert idx and all(valid[i] for i in idx)
-        return [self.fonts[i] for i in idx],alpha
+        selected=[self.fonts[i] for i in idx]
+        self.family_policy.verify(font,selected)
+        assert bool(torch.isfinite(alpha).all()) and abs(float(alpha.sum())-1)<1e-5
+        return selected,alpha
 
 class DataContext:
     def __init__(self,args,device):
@@ -158,6 +162,8 @@ class DataContext:
         else:dm=json.loads((DATA/'manifests'/args.k4_donor_name/'donor_train_by_cp.json').read_text())
         pools=json.loads((DATA/'manifests/v2/style_pool.json').read_text())
         self.library=Library(self.es,dm,pools);self.fonts=self.library.fonts
+        assert set(pools)==set(self.library.family_policy.groups)
+        assert json.loads((ASSETS/'aliases.json').read_text())==self.library.family_policy.groups
         self.alpha_cfg=T.DeltaConfig(tau=args.delta_tau,eps_alpha=args.delta_eps_alpha,k_max=args.delta_k_max,k_top=args.delta_k_top,mode=args.delta_mode,rng_seed=args.seed)
         self.pool=ThreadPoolExecutor(max_workers=4)
     @staticmethod
@@ -201,7 +207,8 @@ def data_identity(args):
     m=Path(args.v0913_clean_map)
     return dict(data={p.name:sha256_file(p) for p in sorted(m.glob('*')) if p.is_file()},
                 donor_name=args.k4_donor_name,cache={k:sha256_file(STORE/'cache'/k/'COMPLETE.json') for k in ['es','ec']},
-                detail_sha256=sha256_file(ASSETS/'detail_manifest.json'),aliases_sha256=sha256_file(ASSETS/'aliases.json'))
+                detail_sha256=sha256_file(ASSETS/'detail_manifest.json'),aliases_sha256=sha256_file(ASSETS/'aliases.json'),
+                donor_policy='exclude_known_target_family_before_alpha',family_groups_sha256=sha256_file(ASSETS/'family_groups.json'))
 
 def code_identity():
     meta=json.loads((CODE/'K4_CODE_IDENTITY.json').read_text())

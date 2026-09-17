@@ -1,15 +1,15 @@
-"""Persistent, fail-stop authorized queue: C -> B -> A -> full-v2 evaluation."""
+"""Persistent authorized family-filtered queue: A -> C -> B -> full-v2 evaluation."""
 import fcntl,json,os,subprocess,sys,time
 from pathlib import Path
 CODE=Path(__file__).resolve().parents[1]
-ROOT=Path('/root/projects/hrfont');STORE=Path('/root/data1/hrfont_k4_20260917')
+ROOT=Path('/root/projects/hrfont');STORE=Path('/root/data1/hrfont_k4_family_20260918')
 CONTROL=STORE/'control'
 
 def main():
     CONTROL.mkdir(parents=True,exist_ok=True)
     lock=(CONTROL/'LOCK').open('a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     auth=json.loads((CODE/'experiments/K4/AUTHORIZATION.json').read_text())
-    assert auth['approved'] and auth['order']==['K4-C','K4-B','K4-A']
+    assert auth['approved'] and auth['order']==['K4-A','K4-C','K4-B']
     identity=json.loads((CODE/'K4_CODE_IDENTITY.json').read_text())
     env=dict(os.environ,PYTHONPATH=str(CODE),CUDA_VISIBLE_DEVICES='0,1,2,3,4,5,6,7',OMP_NUM_THREADS='1',PYTHONDONTWRITEBYTECODE='1',PYTHONWARNINGS='ignore::FutureWarning',PYTHONUNBUFFERED='1')
     py=sys.executable;launcher=[str(Path(py).parent/'torchrun'),'--standalone','--nproc_per_node=8']
@@ -25,21 +25,28 @@ def main():
             child=subprocess.Popen(cmd,cwd=CODE,env=env,stdin=subprocess.DEVNULL,stdout=f,stderr=subprocess.STDOUT)
             status(stage,pid=child.pid);rc=child.wait()
         if rc:raise RuntimeError(f'{stage}: exit {rc}')
+        if stage.endswith('_TRAIN_10000'):
+            directory=ROOT/'runs'/cmd[cmd.index('--run-id')+1]
+            done=directory/'DONE.json'
+            if not done.exists():raise RuntimeError(f'{stage}: stopped before full training completion; no completion marker written')
+            result=json.loads(done.read_text())
+            assert result['step']==10000 and not result['smoke']
         marker.write_text(json.dumps(dict(status='completed',time=time.time(),identity=identity)))
     try:
         run('CONTRACTS',[py,'scripts/test_k4_preflight.py','contracts'])
+        run('FAMILY_POLICY',[py,'scripts/test_k4_family.py'])
         run('GPU_PARITY',[py,'scripts/test_k4_preflight.py','gpu'])
         pre=['--smoke','--state-interval','100','--checkpoint-root',str(STORE/'preflight_checkpoints')]
-        run('C_REFERENCE_120',launcher+['scripts/train_k4.py','--arm','K4-C','--run-id','K4-PREFLIGHT-C','--limit','120']+pre)
-        resume=ROOT/'runs/K4-PREFLIGHT-C-RESUME';resume.mkdir(parents=True,exist_ok=True)
-        cfg=(ROOT/'runs/K4-PREFLIGHT-C/config.json').read_text()
+        run('C_REFERENCE_120',launcher+['scripts/train_k4.py','--arm','K4-C','--run-id','K4-FAMILY-PREFLIGHT-C','--limit','120']+pre)
+        resume=ROOT/'runs/K4-FAMILY-PREFLIGHT-C-RESUME';resume.mkdir(parents=True,exist_ok=True)
+        cfg=(ROOT/'runs/K4-FAMILY-PREFLIGHT-C/config.json').read_text()
         if (resume/'config.json').exists():assert (resume/'config.json').read_text()==cfg
         else:(resume/'config.json').write_text(cfg)
-        run('C_RESUME_100_TO_120',launcher+['scripts/train_k4.py','--arm','K4-C','--run-id',resume.name,'--limit','120','--resume',str(ROOT/'runs/K4-PREFLIGHT-C/checkpoints/state_step_100'),'--eval-smoke']+pre)
-        run('B_FULL_GRADIENT_17',launcher+['scripts/train_k4.py','--arm','K4-B','--run-id','K4-PREFLIGHT-B','--limit','17']+pre)
-        run('A_WARMSTART_2',launcher+['scripts/train_k4.py','--arm','K4-A','--run-id','K4-PREFLIGHT-A','--limit','2']+pre)
+        run('C_RESUME_100_TO_120',launcher+['scripts/train_k4.py','--arm','K4-C','--run-id',resume.name,'--limit','120','--resume',str(ROOT/'runs/K4-FAMILY-PREFLIGHT-C/checkpoints/state_step_100'),'--eval-smoke']+pre)
+        run('B_FULL_GRADIENT_17',launcher+['scripts/train_k4.py','--arm','K4-B','--run-id','K4-FAMILY-PREFLIGHT-B','--limit','17']+pre)
+        run('A_WARMSTART_2',launcher+['scripts/train_k4.py','--arm','K4-A','--run-id','K4-FAMILY-PREFLIGHT-A','--limit','2']+pre)
         run('PREFLIGHT_ACCEPTANCE',[py,'scripts/test_k4_preflight.py','training_checks'])
-        runs={'K4-C':'K4-C-K1RECIPE-V2-S3407','K4-B':'K4-B-K3RECIPE-V2-S3407','K4-A':'K4-A-K1FT-0917-S3407'}
+        runs={'K4-C':'K4-C-K1RECIPE-V2-FAMILY-S3407','K4-B':'K4-B-K3RECIPE-V2-FAMILY-S3407','K4-A':'K4-A-K1FT-0917-FAMILY-S3407'}
         for arm in auth['order']:
             args=launcher+['scripts/train_k4.py','--arm',arm,'--run-id',runs[arm],'--limit','10000']
             directory=ROOT/'runs'/runs[arm]
