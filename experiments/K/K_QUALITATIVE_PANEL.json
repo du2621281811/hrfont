@@ -1,0 +1,202 @@
+{
+  "selection": "Frozen from GT before formal K1 training; no K1 outcome based selection. Descriptive visual tags, not a style classifier. Primary metrics retain every clean test row.",
+  "manifest_sha256": {
+    "test": "63b43bcab5d4bf3f2536164bff5d47320098eaceefd0b8c6f874d438d7e93294",
+    "val": "fc9037c52851e36af08c59864168dcdb21d9c61cb1986b894e7bc648b430a142"
+  },
+  "cases": [
+    {
+      "category": "ordinary",
+      "index": 11,
+      "font": "FZBuGTJW",
+      "cp": "u0042",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 462223
+    },
+    {
+      "category": "heavy",
+      "index": 859,
+      "font": "FZDeSHJW_515H",
+      "cp": "u0042",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 329282
+    },
+    {
+      "category": "light",
+      "index": 3248,
+      "font": "FZLiuGQKJW-L",
+      "cp": "u0041",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 281797
+    },
+    {
+      "category": "rounded terminals",
+      "index": 2569,
+      "font": "FZJingLTJW-H",
+      "cp": "u0041",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 862622
+    },
+    {
+      "category": "sharp terminals",
+      "index": 2864,
+      "font": "FZJingYLLTJW",
+      "cp": "u0041",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 368120
+    },
+    {
+      "category": "serif",
+      "index": 2953,
+      "font": "FZLingFKSJW-B",
+      "cp": "u0041",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 211503
+    },
+    {
+      "category": "hollow outlined stroke",
+      "index": 11,
+      "font": "FZBangSKKXJW",
+      "cp": "u0042",
+      "script": "western",
+      "split": "val",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 303486
+    },
+    {
+      "category": "broken stroke",
+      "index": 2327,
+      "font": "FZJianLTJW_Te",
+      "cp": "u0051",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 889218
+    },
+    {
+      "category": "decorative stripes",
+      "index": 1375,
+      "font": "FZFeiHHJW-H",
+      "cp": "u0042",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 392253
+    },
+    {
+      "category": "unusual local connection",
+      "index": 2222,
+      "font": "FZHuoYYJW-T",
+      "cp": "u0041",
+      "script": "western",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 875084
+    },
+    {
+      "category": "kana",
+      "index": 1463,
+      "font": "FZFeiHHJW-H",
+      "cp": "u304B",
+      "script": "kana",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 845085
+    },
+    {
+      "category": "bopomofo",
+      "index": 1622,
+      "font": "FZFeiHHJW-H",
+      "cp": "u3105",
+      "script": "bopomofo",
+      "split": "test",
+      "k": 4,
+      "refs": [
+        "u6C38",
+        "u548C",
+        "u4E66",
+        "u98CE"
+      ],
+      "seed": 310192
+    }
+  ],
+  "coverage": "Final primary TEST2816 plus supplementary full VAL192 EMA; outlined glyph case is validation, reported separately."
+}
