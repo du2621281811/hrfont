@@ -1,0 +1,11 @@
+{
+  "version": "K3-AUTHORIZED-20260917-v1",
+  "approved": true,
+  "source": "User explicitly requested full K3 training and launch in the current turn",
+  "successful_updates": 10000,
+  "world_size": 8,
+  "parent": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+  "quality_early_stop": false,
+  "periodic_validation_every": 2000,
+  "final_inference": "original47 and default128 Train/Val/Test x 1/2/4/8 shots"
+}
