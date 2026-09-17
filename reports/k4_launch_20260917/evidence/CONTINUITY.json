@@ -1,0 +1,11 @@
+{
+  "status": "TRAINING_SOURCE_UNCHANGED",
+  "old_commit": "01de1f4e692f7faf94384759994ae295a399fe6e",
+  "new_commit": "6ddd2171f50d3ed7f5678a270c5f34f9120cc538",
+  "changed_files": [
+    "scripts/test_k4_preflight.py"
+  ],
+  "unchanged_file_count": 309,
+  "reason": "Correct zero-conv startup gradient assertion; first aux image-router gradient is zero by construction; next auxiliary event must have finite nonzero cross-rank gradient energy.",
+  "time": 1789658049.5590763
+}

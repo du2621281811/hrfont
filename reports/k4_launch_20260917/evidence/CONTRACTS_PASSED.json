@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "samplers": {
+    "v2": {
+      "pairs": 95976,
+      "fonts": 423,
+      "unique_pairs_sampled": 90403,
+      "episode_sequence_sha256": "134a6b2ffcbe64d7b920ac25d22a945f90148f540c985dfa672d090220d813ad",
+      "exposure": {
+        "0917|kana|True": 117537,
+        "0913|western|False": 77812,
+        "0917|western|True": 163777,
+        "0913|kana|False": 67484,
+        "0913|bopomofo|False": 25270,
+        "0917|western|False": 52188,
+        "0917|bopomofo|True": 37877,
+        "0917|kana|False": 32516,
+        "0913|kana|True": 22463,
+        "0913|western|True": 26223,
+        "0917|bopomofo|False": 4730,
+        "0913|bopomofo|True": 12123
+      }
+    },
+    "v0917": {
+      "pairs": 39547,
+      "fonts": 200,
+      "unique_pairs_sampled": 39526,
+      "episode_sequence_sha256": "52f0076fac0e9f3164d779983702c14ee1a26c0bf5df1cf9dee1ae713298ec41",
+      "exposure": {
+        "0917|western|False": 130000,
+        "0917|bopomofo|True": 50000,
+        "0917|western|True": 190000,
+        "0917|kana|False": 100000,
+        "0917|kana|True": 140000,
+        "0917|bopomofo|False": 30000
+      }
+    }
+  }
+}
