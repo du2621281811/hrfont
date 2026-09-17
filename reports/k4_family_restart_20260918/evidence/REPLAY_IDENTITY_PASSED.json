@@ -1,0 +1,86 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "update": 1,
+      "rank": 0,
+      "sha256": "7b429c2281b6ecb894c02047ceb4606c7141ed7cbcad7e67e5b6165ba9493abc"
+    },
+    {
+      "update": 1,
+      "rank": 1,
+      "sha256": "8f90bf43907fbd39503041cd5f81ae5de7a56dd97329c70a05601b4938956ccf"
+    },
+    {
+      "update": 1,
+      "rank": 2,
+      "sha256": "ca8f4cc7efc57f3c7afdb43cbc9ef8179a5c9e84909037f180c5e05b73f7361c"
+    },
+    {
+      "update": 1,
+      "rank": 3,
+      "sha256": "7efefc548599efbd809f8ee8ae2cafbb2b0f1188c8a41103ff67aceb8f3c9764"
+    },
+    {
+      "update": 1,
+      "rank": 4,
+      "sha256": "783537b0de57e7563079a9ff9a87e7204da14d004087e98015f7dec10d27574e"
+    },
+    {
+      "update": 1,
+      "rank": 5,
+      "sha256": "93c093bb5067a961f95161fa3ecc89e06073450713a7f8948d5e9cb2feedbfdf"
+    },
+    {
+      "update": 1,
+      "rank": 6,
+      "sha256": "24e08fdd87be400cfaa532b3d8f4adc1872d92591bf9544b05603a866048488c"
+    },
+    {
+      "update": 1,
+      "rank": 7,
+      "sha256": "759a446849b9aa7efa8e2ec9bdd8b9f0ff803d6898bb64a8cef2e624f9b104a9"
+    },
+    {
+      "update": 2,
+      "rank": 0,
+      "sha256": "5066229bf51e268ea91f52ef6bf063964b83b699fdec21d717150e484a05594f"
+    },
+    {
+      "update": 2,
+      "rank": 1,
+      "sha256": "5eb3b8a29577ddae6d631d3c8070e6a4cefa2c1332bbe40216e3c03f4e5b1243"
+    },
+    {
+      "update": 2,
+      "rank": 2,
+      "sha256": "c89b964a31a15e7ff7cc6e640b1a62b4adfee5dd30ee1edbe9162dc4c7b13091"
+    },
+    {
+      "update": 2,
+      "rank": 3,
+      "sha256": "8e4798999f1e1b82a56faed18349cff4baba38c4a6c46d4350bde463ec581b6a"
+    },
+    {
+      "update": 2,
+      "rank": 4,
+      "sha256": "ad8d9f30f69665c6f49b7b9e47a2e2c41cdfe51fa7c341467d34d505d444c8fd"
+    },
+    {
+      "update": 2,
+      "rank": 5,
+      "sha256": "6832027b3dfacfafdfed431ba095b52d8df9c95c8a0b293592948985eaa93009"
+    },
+    {
+      "update": 2,
+      "rank": 6,
+      "sha256": "6c44390af60f915593732591fafe5e8ad35b18dfe5e0e69a64bf402df7c30641"
+    },
+    {
+      "update": 2,
+      "rank": 7,
+      "sha256": "f7de6112dfd0a336b4e1889e4ce22a4e6ff6a0eed8e8b34a7e73e5d5f8e42ee2"
+    }
+  ],
+  "scope": "All eight ranks, first two executed updates: exact font/char/refs/noise/timestep/CFG/source identity."
+}

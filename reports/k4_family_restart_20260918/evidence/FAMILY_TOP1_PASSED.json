@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "checks": [
+    [
+      "FZDeSHJW_507R",
+      "topk"
+    ],
+    [
+      "FZDeSHJW_507R",
+      "soft"
+    ],
+    [
+      "FZDeSHJW_507R",
+      "threshold"
+    ],
+    [
+      "FZDeSHJW_515H",
+      "topk"
+    ],
+    [
+      "FZDeSHJW_515H",
+      "soft"
+    ],
+    [
+      "FZDeSHJW_515H",
+      "threshold"
+    ]
+  ],
+  "scope": "Force top-k/truncation budget 1 while same-family donors have highest similarity; unrelated donor must still be returned with alpha 1."
+}

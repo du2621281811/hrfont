@@ -1,0 +1,5961 @@
+{
+  "results": {
+    "v2": {
+      "queries": 2560,
+      "active_queries": 2358,
+      "queries_with_family_donor": 510,
+      "active_queries_with_family_donor": 471,
+      "affected_query_fonts": 80,
+      "family_pairs": [
+        {
+          "query": "FZChaoLTJW",
+          "donor": "FZChaoLTJW_Te",
+          "occurrences": 37
+        },
+        {
+          "query": "FZLuoMTJW-L",
+          "donor": "FZLuoMTJW-R",
+          "occurrences": 31
+        },
+        {
+          "query": "FZLuoMTJW-R",
+          "donor": "FZLuoMTJW-L",
+          "occurrences": 31
+        },
+        {
+          "query": "FZVDLJingQSJ-T",
+          "donor": "FZVDLJingQSJ-L",
+          "occurrences": 29
+        },
+        {
+          "query": "FZLuoMXTJW-EB",
+          "donor": "FZLuoMXTJW-M",
+          "occurrences": 28
+        },
+        {
+          "query": "FZXianWTJW_Zhun",
+          "donor": "FZXianWTJW",
+          "occurrences": 28
+        },
+        {
+          "query": "FZLuoMXTJW-M",
+          "donor": "FZLuoMXTJW-EB",
+          "occurrences": 27
+        },
+        {
+          "query": "FZXinGHJW-UL",
+          "donor": "FZXinGHJW-EL",
+          "occurrences": 22
+        },
+        {
+          "query": "FZQianWTJW",
+          "donor": "FZQianWTJW_Xian",
+          "occurrences": 21
+        },
+        {
+          "query": "FZQianWTJW_Te",
+          "donor": "FZQianWTJW",
+          "occurrences": 21
+        },
+        {
+          "query": "FZVDLJingQSJ-L",
+          "donor": "FZVDLJingQSJ-T",
+          "occurrences": 20
+        },
+        {
+          "query": "FZQianWTJW",
+          "donor": "FZQianWTJW_Te",
+          "occurrences": 20
+        },
+        {
+          "query": "FZQianWTJW_Xian",
+          "donor": "FZQianWTJW",
+          "occurrences": 18
+        },
+        {
+          "query": "FZQianWTJW_Te",
+          "donor": "FZQianWTJW_Xian",
+          "occurrences": 9
+        },
+        {
+          "query": "FZMengHHXJW-EB",
+          "donor": "FZMengHHXJW-EL",
+          "occurrences": 8
+        },
+        {
+          "query": "FZSongYJW",
+          "donor": "FZSongYuanK",
+          "occurrences": 7
+        },
+        {
+          "query": "FZMaLTJW",
+          "donor": "FZMaLTJW_Da",
+          "occurrences": 6
+        },
+        {
+          "query": "FZDeSHJW_510M",
+          "donor": "FZDeSHJW_511M",
+          "occurrences": 6
+        },
+        {
+          "query": "FZDeSHJW_510M",
+          "donor": "FZDeSHJW_509R",
+          "occurrences": 6
+        },
+        {
+          "query": "FZDeSHJW_510M",
+          "donor": "FZDeSHJW_508R",
+          "occurrences": 6
+        },
+        {
+          "query": "FZJingWTJW_Cu",
+          "donor": "FZJingWTJW",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_513B",
+          "donor": "FZYouHJW_513B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_513B",
+          "donor": "FZYouHJW_512B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_513B",
+          "donor": "FZYouHK_512B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_513B",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_511M",
+          "donor": "FZYouHJW_512B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_511M",
+          "donor": "FZYouHK_512B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_511M",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_511M",
+          "donor": "FZYouHK_510M",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_511M",
+          "donor": "FZYouHJW_513B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_511M",
+          "donor": "FZYouHK_513B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_511M",
+          "donor": "FZYouHJW_509R",
+          "occurrences": 5
+        },
+        {
+          "query": "FZBaiZJHTJW",
+          "donor": "FZBaiZJHTJW-L",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouSJJW_507R",
+          "donor": "FZYouSJJW_508R",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouSJJW_507R",
+          "donor": "FZYouSJJW_509R",
+          "occurrences": 5
+        },
+        {
+          "query": "FZQiMTJW",
+          "donor": "FZQiMTJW_Zhun",
+          "occurrences": 5
+        },
+        {
+          "query": "FZQiMTJW",
+          "donor": "FZQiMTJW_Xian",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_512B",
+          "donor": "FZYouHK_512B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_512B",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_512B",
+          "donor": "FZYouHJW_513B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_512B",
+          "donor": "FZYouHK_513B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_512B",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHJW_512B",
+          "donor": "FZYouHK_510M",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_508R",
+          "donor": "FZYouHJW_508R",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_508R",
+          "donor": "FZYouHJW_509R",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_508R",
+          "donor": "FZYouHK_509R",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_508R",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 5
+        },
+        {
+          "query": "FZYouHK_508R",
+          "donor": "FZYouHK_510M",
+          "occurrences": 5
+        },
+        {
+          "query": "FZFengZTJW-M",
+          "donor": "FZFengZTJW-B",
+          "occurrences": 5
+        },
+        {
+          "query": "FZPiaoTJW_Xi",
+          "donor": "FZPiaoTJW",
+          "occurrences": 5
+        },
+        {
+          "query": "FZAiSJW_Xian",
+          "donor": "FZAiSJW",
+          "occurrences": 4
+        },
+        {
+          "query": "FZJingWTJW_Xian",
+          "donor": "FZJingWTJW",
+          "occurrences": 4
+        },
+        {
+          "query": "FZFengRSTJW-B",
+          "donor": "FZFengRSTJW-R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_510M",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_510M",
+          "donor": "FZYouHJW_509R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_510M",
+          "donor": "FZYouHK_509R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_510M",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_510M",
+          "donor": "FZYouHJW_512B",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_510M",
+          "donor": "FZYouHK_512B",
+          "occurrences": 4
+        },
+        {
+          "query": "FZDeSHJW_512B",
+          "donor": "FZDeSHJW_513B",
+          "occurrences": 4
+        },
+        {
+          "query": "FZDeSHJW_512B",
+          "donor": "FZDeSHJW_511M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZDeSHJW_512B",
+          "donor": "FZDeSHJW_510M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHJW_509R",
+          "donor": "FZYouHK_509R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHJW_509R",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHJW_509R",
+          "donor": "FZYouHK_510M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHJW_509R",
+          "donor": "FZYouHJW_508R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHJW_509R",
+          "donor": "FZYouHK_508R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHJW_509R",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_509R",
+          "donor": "FZYouHJW_509R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_509R",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_509R",
+          "donor": "FZYouHK_510M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_509R",
+          "donor": "FZYouHJW_508R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_509R",
+          "donor": "FZYouHK_508R",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouHK_509R",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZFengZTJW-B",
+          "donor": "FZFengZTJW-EB",
+          "occurrences": 4
+        },
+        {
+          "query": "FZFengZTJW-B",
+          "donor": "FZFengZTJW-M",
+          "occurrences": 4
+        },
+        {
+          "query": "FZFengZTJW-M",
+          "donor": "FZFengZTJW-EB",
+          "occurrences": 4
+        },
+        {
+          "query": "FZChaoLTJW_Te",
+          "donor": "FZChaoLTJW",
+          "occurrences": 4
+        },
+        {
+          "query": "FZQiMTJW_Xian",
+          "donor": "FZQiMTJW",
+          "occurrences": 4
+        },
+        {
+          "query": "FZQiMTJW_Xian",
+          "donor": "FZQiMTJW_Zhun",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYouSJJW_509R",
+          "donor": "FZYouSJJW_508R",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouSJJW_509R",
+          "donor": "FZYouSJJW_507R",
+          "occurrences": 3
+        },
+        {
+          "query": "FZPiaoTJW_Cu",
+          "donor": "FZPiaoTJW",
+          "occurrences": 3
+        },
+        {
+          "query": "FZSiLTJW_Xian",
+          "donor": "FZSiLTJW_Cu",
+          "occurrences": 3
+        },
+        {
+          "query": "FZDeSHJW_511M",
+          "donor": "FZDeSHJW_510M",
+          "occurrences": 3
+        },
+        {
+          "query": "FZDeSHJW_511M",
+          "donor": "FZDeSHJW_512B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZDeSHJW_511M",
+          "donor": "FZDeSHJW_509R",
+          "occurrences": 3
+        },
+        {
+          "query": "FZSiNTJW-UB",
+          "donor": "FZSiNTJW-H",
+          "occurrences": 3
+        },
+        {
+          "query": "FZDeSHJW_514H",
+          "donor": "FZDeSHJW_513B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZDeSHJW_514H",
+          "donor": "FZDeSHJW_512B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHK_509R",
+          "donor": "FZYouHJW_512B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHK_509R",
+          "donor": "FZYouHK_512B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHK_508R",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHJW_510M",
+          "donor": "FZYouHK_510M",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHJW_510M",
+          "donor": "FZYouHJW_509R",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHJW_510M",
+          "donor": "FZYouHK_509R",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHJW_510M",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHJW_510M",
+          "donor": "FZYouHJW_512B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZYouHJW_510M",
+          "donor": "FZYouHK_512B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZWanBTJW",
+          "donor": "FZWanBTJW_Xian",
+          "occurrences": 3
+        },
+        {
+          "query": "FZJingWTJW",
+          "donor": "FZJingWTJW_Cu",
+          "occurrences": 3
+        },
+        {
+          "query": "FZMaLTJW_Da",
+          "donor": "FZMaLTJW",
+          "occurrences": 3
+        },
+        {
+          "query": "FZSiNTJW-H",
+          "donor": "FZSiNTJW-UB",
+          "occurrences": 3
+        },
+        {
+          "query": "FZDeSHJW_510M",
+          "donor": "FZDeSHJW_512B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZPiaoTJW_Cu",
+          "donor": "FZPiaoTJW_Xi",
+          "occurrences": 2
+        },
+        {
+          "query": "FZAiSJW_Cu",
+          "donor": "FZAiSJW",
+          "occurrences": 2
+        },
+        {
+          "query": "FZDeSHJW_509R",
+          "donor": "FZDeSHJW_508R",
+          "occurrences": 2
+        },
+        {
+          "query": "FZDeSHJW_509R",
+          "donor": "FZDeSHJW_510M",
+          "occurrences": 2
+        },
+        {
+          "query": "FZDeSHJW_509R",
+          "donor": "FZDeSHJW_507R",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYingCTJW_Xian",
+          "donor": "FZYingCTJW",
+          "occurrences": 2
+        },
+        {
+          "query": "FZTieXHJW_Zhun",
+          "donor": "FZTieXHJW",
+          "occurrences": 2
+        },
+        {
+          "query": "FZFengZTJW-EB",
+          "donor": "FZFengZTJW-B",
+          "occurrences": 2
+        },
+        {
+          "query": "FZFengZTJW-EB",
+          "donor": "FZFengZTJW-M",
+          "occurrences": 2
+        },
+        {
+          "query": "FZFengRSTJW-R",
+          "donor": "FZFengRSTJW-B",
+          "occurrences": 2
+        },
+        {
+          "query": "FZDeSHJW_511M",
+          "donor": "FZDeSHJW_513B",
+          "occurrences": 2
+        },
+        {
+          "query": "FZQiMTJW_Zhun",
+          "donor": "FZQiMTJW",
+          "occurrences": 2
+        },
+        {
+          "query": "FZQiMTJW_Zhun",
+          "donor": "FZQiMTJW_Xian",
+          "occurrences": 2
+        },
+        {
+          "query": "FZLouLTJW-EB",
+          "donor": "FZLouLTJW-R",
+          "occurrences": 2
+        },
+        {
+          "query": "FZDeSHJW_513B",
+          "donor": "FZDeSHJW_512B",
+          "occurrences": 2
+        },
+        {
+          "query": "FZDeSHJW_513B",
+          "donor": "FZDeSHJW_511M",
+          "occurrences": 2
+        },
+        {
+          "query": "FZPiaoTJW_Xi",
+          "donor": "FZPiaoTJW_Cu",
+          "occurrences": 2
+        },
+        {
+          "query": "FZXianWTJW",
+          "donor": "FZXianWTJW_Zhun",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouHJW_509R",
+          "donor": "FZYouHJW_512B",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouHJW_509R",
+          "donor": "FZYouHK_512B",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYingCTJW",
+          "donor": "FZYingCTJW_Xian",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouSJJW_508R",
+          "donor": "FZYouSJJW_507R",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouSJJW_508R",
+          "donor": "FZYouSJJW_509R",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouHJW_508R",
+          "donor": "FZYouHK_508R",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouHJW_508R",
+          "donor": "FZYouHJW_509R",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouHJW_508R",
+          "donor": "FZYouHK_509R",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouHJW_508R",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouHJW_508R",
+          "donor": "FZYouHK_510M",
+          "occurrences": 2
+        },
+        {
+          "query": "FZLingDTJW-L",
+          "donor": "FZLingDTJW-B",
+          "occurrences": 2
+        },
+        {
+          "query": "FZYouHK_513B",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHK_513B",
+          "donor": "FZYouHK_510M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYinSJW-DB",
+          "donor": "FZYinSJW-R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYinSJW-R",
+          "donor": "FZYinSJW-DB",
+          "occurrences": 1
+        },
+        {
+          "query": "FZQianWTJW_Xian",
+          "donor": "FZQianWTJW_Te",
+          "occurrences": 1
+        },
+        {
+          "query": "FZTieXHJW",
+          "donor": "FZTieXHJW_Zhun",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_512B",
+          "donor": "FZYouHJW_509R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHK_510M",
+          "donor": "FZYouHJW_508R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZDeSHJW_507R",
+          "donor": "FZDeSHJW_508R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZDeSHJW_507R",
+          "donor": "FZDeSHJW_509R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZJingWTJW",
+          "donor": "FZJingWTJW_Xian",
+          "occurrences": 1
+        },
+        {
+          "query": "FZSongYuanK",
+          "donor": "FZSongYJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZHuoLTJW_Te",
+          "donor": "FZHuoLTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZFeiYTJW_Te",
+          "donor": "FZFeiYTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZWanBTJW_Xian",
+          "donor": "FZWanBTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZXiangPZTJW",
+          "donor": "FZXiangPZTJW_Xian",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_510M",
+          "donor": "FZYouHJW_508R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_510M",
+          "donor": "FZYouHK_508R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZSiLTJW_Cu",
+          "donor": "FZSiLTJW_Xian",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_513B",
+          "donor": "FZYouHK_513B",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_513B",
+          "donor": "FZYouHJW_512B",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_513B",
+          "donor": "FZYouHK_512B",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_513B",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZTieXHJW_Xi",
+          "donor": "FZTieXHJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZDeSHJW_508R",
+          "donor": "FZDeSHJW_507R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZDeSHJW_508R",
+          "donor": "FZDeSHJW_509R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZDeSHJW_508R",
+          "donor": "FZDeSHJW_510M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZLiangHJW-EB",
+          "donor": "FZLiangHJW-L",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHK_512B",
+          "donor": "FZYouHJW_512B",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHK_512B",
+          "donor": "FZYouHJW_513B",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHK_512B",
+          "donor": "FZYouHK_513B",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHK_512B",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHK_512B",
+          "donor": "FZYouHJW_510M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHK_512B",
+          "donor": "FZYouHK_510M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZHuoLTJW",
+          "donor": "FZHuoLTJW_Te",
+          "occurrences": 1
+        },
+        {
+          "query": "FZHanSTJW_Te",
+          "donor": "FZHanSTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZAiSJW",
+          "donor": "FZAiSJW_Xian",
+          "occurrences": 1
+        },
+        {
+          "query": "FZAiSJW",
+          "donor": "FZAiSJW_Cu",
+          "occurrences": 1
+        },
+        {
+          "query": "FZBaoCTJW_Te",
+          "donor": "FZBaoCTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_511M",
+          "donor": "FZYouHK_509R",
+          "occurrences": 1
+        },
+        {
+          "query": "FZDeSHJW_509R",
+          "donor": "FZDeSHJW_511M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYouHJW_508R",
+          "donor": "FZYouHJW_511M",
+          "occurrences": 1
+        },
+        {
+          "query": "FZJingWTJW_Xian",
+          "donor": "FZJingWTJW_Cu",
+          "occurrences": 1
+        }
+      ],
+      "interpretation": "Replay of first 40 actually executed C updates; Python refs and CUDA source/CFG masks use original seeds."
+    },
+    "v0917": {
+      "queries": 1024,
+      "active_queries": 945,
+      "queries_with_family_donor": 252,
+      "active_queries_with_family_donor": 231,
+      "affected_query_fonts": 47,
+      "family_pairs": [
+        {
+          "query": "FZLuoMXTJW-EB",
+          "donor": "FZLuoMXTJW-M",
+          "occurrences": 22
+        },
+        {
+          "query": "FZLuoMTJW-R",
+          "donor": "FZLuoMTJW-L",
+          "occurrences": 20
+        },
+        {
+          "query": "FZVDLJingQSJ-L",
+          "donor": "FZVDLJingQSJ-T",
+          "occurrences": 20
+        },
+        {
+          "query": "FZVDLJingQSJ-T",
+          "donor": "FZVDLJingQSJ-L",
+          "occurrences": 18
+        },
+        {
+          "query": "FZQianWTJW_Te",
+          "donor": "FZQianWTJW",
+          "occurrences": 16
+        },
+        {
+          "query": "FZLuoMXTJW-M",
+          "donor": "FZLuoMXTJW-EB",
+          "occurrences": 16
+        },
+        {
+          "query": "FZQianWTJW_Xian",
+          "donor": "FZQianWTJW",
+          "occurrences": 16
+        },
+        {
+          "query": "FZQianWTJW_Te",
+          "donor": "FZQianWTJW_Xian",
+          "occurrences": 10
+        },
+        {
+          "query": "FZLuoMTJW-L",
+          "donor": "FZLuoMTJW-R",
+          "occurrences": 10
+        },
+        {
+          "query": "FZQianWTJW",
+          "donor": "FZQianWTJW_Xian",
+          "occurrences": 8
+        },
+        {
+          "query": "FZQianWTJW",
+          "donor": "FZQianWTJW_Te",
+          "occurrences": 8
+        },
+        {
+          "query": "FZXiangPZTJW",
+          "donor": "FZXiangPZTJW_Xian",
+          "occurrences": 7
+        },
+        {
+          "query": "FZFengZTJW-B",
+          "donor": "FZFengZTJW-EB",
+          "occurrences": 7
+        },
+        {
+          "query": "FZFengZTJW-B",
+          "donor": "FZFengZTJW-M",
+          "occurrences": 7
+        },
+        {
+          "query": "FZFengZTJW-EB",
+          "donor": "FZFengZTJW-B",
+          "occurrences": 6
+        },
+        {
+          "query": "FZFengZTJW-EB",
+          "donor": "FZFengZTJW-M",
+          "occurrences": 6
+        },
+        {
+          "query": "FZXiangPZTJW_Da",
+          "donor": "FZXiangPZTJW",
+          "occurrences": 6
+        },
+        {
+          "query": "FZMengHHXJW-EB",
+          "donor": "FZMengHHXJW-EL",
+          "occurrences": 5
+        },
+        {
+          "query": "FZAiSJW",
+          "donor": "FZAiSJW_Xian",
+          "occurrences": 5
+        },
+        {
+          "query": "FZAiSJW",
+          "donor": "FZAiSJW_Cu",
+          "occurrences": 5
+        },
+        {
+          "query": "FZQiMTJW_Xian",
+          "donor": "FZQiMTJW",
+          "occurrences": 5
+        },
+        {
+          "query": "FZQiMTJW_Xian",
+          "donor": "FZQiMTJW_Zhun",
+          "occurrences": 5
+        },
+        {
+          "query": "FZLingDTJW-B",
+          "donor": "FZLingDTJW-L",
+          "occurrences": 4
+        },
+        {
+          "query": "FZJingWTJW_Cu",
+          "donor": "FZJingWTJW",
+          "occurrences": 4
+        },
+        {
+          "query": "FZYinSJW-R",
+          "donor": "FZYinSJW-DB",
+          "occurrences": 4
+        },
+        {
+          "query": "FZDiHTJ_Te",
+          "donor": "FZDiHTJ_Zhun",
+          "occurrences": 4
+        },
+        {
+          "query": "FZSiLTJW_Xian",
+          "donor": "FZSiLTJW_Cu",
+          "occurrences": 4
+        },
+        {
+          "query": "FZQianWTJW_Xian",
+          "donor": "FZQianWTJW_Te",
+          "occurrences": 4
+        },
+        {
+          "query": "FZZuoZYXTJW-R",
+          "donor": "FZZuoZYXTJW-B",
+          "occurrences": 4
+        },
+        {
+          "query": "FZJingWTJW_Xian",
+          "donor": "FZJingWTJW",
+          "occurrences": 3
+        },
+        {
+          "query": "FZFengZTJW-M",
+          "donor": "FZFengZTJW-B",
+          "occurrences": 3
+        },
+        {
+          "query": "FZFengZTJW-M",
+          "donor": "FZFengZTJW-EB",
+          "occurrences": 3
+        },
+        {
+          "query": "FZJingWTJW",
+          "donor": "FZJingWTJW_Cu",
+          "occurrences": 3
+        },
+        {
+          "query": "FZJingWTJW",
+          "donor": "FZJingWTJW_Xian",
+          "occurrences": 3
+        },
+        {
+          "query": "FZLouLTJW-EB",
+          "donor": "FZLouLTJW-R",
+          "occurrences": 3
+        },
+        {
+          "query": "FZAiSJW_Cu",
+          "donor": "FZAiSJW",
+          "occurrences": 2
+        },
+        {
+          "query": "FZSiLTJW_Cu",
+          "donor": "FZSiLTJW_Xian",
+          "occurrences": 2
+        },
+        {
+          "query": "FZLiangHJW-EB",
+          "donor": "FZLiangHJW-L",
+          "occurrences": 2
+        },
+        {
+          "query": "FZXiangPZTJW_Xian",
+          "donor": "FZXiangPZTJW",
+          "occurrences": 2
+        },
+        {
+          "query": "FZFengRSTJW-B",
+          "donor": "FZFengRSTJW-R",
+          "occurrences": 2
+        },
+        {
+          "query": "fzsj_1275635",
+          "donor": "fzsj_2017088",
+          "occurrences": 2
+        },
+        {
+          "query": "FZQiMTJW",
+          "donor": "FZQiMTJW_Zhun",
+          "occurrences": 2
+        },
+        {
+          "query": "FZQiMTJW",
+          "donor": "FZQiMTJW_Xian",
+          "occurrences": 2
+        },
+        {
+          "query": "FZPiaoTJW_Cu",
+          "donor": "FZPiaoTJW",
+          "occurrences": 2
+        },
+        {
+          "query": "FZPiaoTJW_Cu",
+          "donor": "FZPiaoTJW_Xi",
+          "occurrences": 2
+        },
+        {
+          "query": "FZPiaoTJW_Xi",
+          "donor": "FZPiaoTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZPiaoTJW_Xi",
+          "donor": "FZPiaoTJW_Cu",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYingCTJW",
+          "donor": "FZYingCTJW_Xian",
+          "occurrences": 1
+        },
+        {
+          "query": "FZDiHTJ_Zhun",
+          "donor": "FZDiHTJ_Te",
+          "occurrences": 1
+        },
+        {
+          "query": "FZWanBTJW",
+          "donor": "FZWanBTJW_Xian",
+          "occurrences": 1
+        },
+        {
+          "query": "FZWanBTJW_Xian",
+          "donor": "FZWanBTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZDiHTJ_Xian",
+          "donor": "FZDiHTJ_Zhun",
+          "occurrences": 1
+        },
+        {
+          "query": "FZAiSJW_Xian",
+          "donor": "FZAiSJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZAiSJW_Xian",
+          "donor": "FZAiSJW_Cu",
+          "occurrences": 1
+        },
+        {
+          "query": "fzsj_2017088",
+          "donor": "fzsj_1275635",
+          "occurrences": 1
+        },
+        {
+          "query": "FZMengHHXJW-EL",
+          "donor": "FZMengHHXJW-EB",
+          "occurrences": 1
+        },
+        {
+          "query": "FZQiMTJW_Zhun",
+          "donor": "FZQiMTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZQiMTJW_Zhun",
+          "donor": "FZQiMTJW_Xian",
+          "occurrences": 1
+        },
+        {
+          "query": "FZYingCTJW_Xian",
+          "donor": "FZYingCTJW",
+          "occurrences": 1
+        },
+        {
+          "query": "FZPiaoTJW",
+          "donor": "FZPiaoTJW_Xi",
+          "occurrences": 1
+        },
+        {
+          "query": "FZPiaoTJW",
+          "donor": "FZPiaoTJW_Cu",
+          "occurrences": 1
+        },
+        {
+          "query": "FZVDLJingQSJ-H",
+          "donor": "FZVDLJingQSJ-L",
+          "occurrences": 1
+        }
+      ],
+      "interpretation": "Counterfactual audit of old planned A recipe; A had not started."
+    }
+  },
+  "examples": [
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 0,
+      "font": "FZQianWTJW",
+      "cp": "u3085",
+      "refs": [
+        "u6155",
+        "u5931",
+        "u670B"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW_Xian",
+          0.10183851420879364
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW_Xian",
+        "FZChaoLTJW",
+        "FZQINGSTJW",
+        "FZAiSJW_Xian",
+        "ZJZhuangSHJ-T",
+        "FZLouLTJW-R",
+        "FZDongGSJW-L",
+        "FZQingLTJW_Xian",
+        "FZYingCTJW_Xian",
+        "FZAiSJW"
+      ],
+      "alpha": [
+        0.10183851420879364,
+        0.10056014358997345,
+        0.09994547814130783,
+        0.09989926218986511,
+        0.09985868632793427,
+        0.09974151849746704,
+        0.09970547258853912,
+        0.09959162771701813,
+        0.09945571422576904,
+        0.09940356016159058
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 0,
+      "font": "FZLuoMXTJW-EB",
+      "cp": "u0059",
+      "refs": [
+        "u6377",
+        "u4F60",
+        "u5185"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-M",
+          0.10113640874624252
+        ]
+      ],
+      "selected": [
+        "FZLuoMXTJW-M",
+        "FZLingDTJW-B",
+        "FZPiaoYSJW",
+        "FZYinSJW-R",
+        "FZYinSJW-DB",
+        "FZMaLTJW",
+        "FZLiuCTJW",
+        "FZLiangHJW-L",
+        "FZLingDTJW-L",
+        "FZShuYTJW-L"
+      ],
+      "alpha": [
+        0.10113640874624252,
+        0.10038477927446365,
+        0.1001167893409729,
+        0.10009463876485825,
+        0.10000494867563248,
+        0.09995251148939133,
+        0.09970592707395554,
+        0.09961060434579849,
+        0.09958542883396149,
+        0.09940799325704575
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 1,
+      "font": "FZLuoMTJW-L",
+      "cp": "u0044",
+      "refs": [
+        "u5019",
+        "u98DF",
+        "u5589",
+        "u4F4E",
+        "u515C",
+        "u6821",
+        "u6155",
+        "u4E1C"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-R",
+          0.10188452154397964
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-R",
+        "FZXinZYHJW_UL",
+        "FZXinGHJW-UL",
+        "FZXinHJYKXZJW",
+        "FZTieXHJW_Xi",
+        "FZLangYJW-L",
+        "FZManYTJW-T",
+        "FZZuoZYXTJW-R",
+        "FZQianWTJW_Xian",
+        "FZMengHHXJW-EL"
+      ],
+      "alpha": [
+        0.10188452154397964,
+        0.10052520781755447,
+        0.10034245252609253,
+        0.10007801651954651,
+        0.09998118877410889,
+        0.09993667155504227,
+        0.09971561282873154,
+        0.0993025153875351,
+        0.09913720935583115,
+        0.09909666329622269
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 1,
+      "font": "FZJingWTJW_Cu",
+      "cp": "u00E1",
+      "refs": [
+        "u675F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZJingWTJW",
+          0.09962472319602966
+        ]
+      ],
+      "selected": [
+        "FZJiangYTJW_EB",
+        "FZChaoZTJW_EB",
+        "FZKuaiYTJW_Te",
+        "FZZJ-MSTJW",
+        "FZDeSHJW_510M",
+        "FZFWZhuZiHeiE",
+        "FZJingWTJW",
+        "FZDeSHJW_509R",
+        "FZYouHJW_513B",
+        "FZYouHK_513B"
+      ],
+      "alpha": [
+        0.10107321292161942,
+        0.10077224671840668,
+        0.10035056620836258,
+        0.10033439099788666,
+        0.09965445846319199,
+        0.09965275228023529,
+        0.09962472319602966,
+        0.09957057982683182,
+        0.09948354214429855,
+        0.09948354214429855
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 2,
+      "font": "FZLuoMXTJW-M",
+      "cp": "u30EB",
+      "refs": [
+        "u667A",
+        "u673A",
+        "u5E94",
+        "u7F8E",
+        "u6218"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-EB",
+          0.10133399069309235
+        ]
+      ],
+      "selected": [
+        "FZLingDTJW-L",
+        "FZLuoMXTJW-EB",
+        "FZXianWXTJW-L",
+        "FZLuoMTJW-L",
+        "FZLuoMTJW-R",
+        "FZFengBPYTJW",
+        "FZTieXHJW_Xi",
+        "FZMengHHXJW-EL",
+        "FZLiangHJW-L",
+        "FZXinZYHJW_UL"
+      ],
+      "alpha": [
+        0.10159942507743835,
+        0.10133399069309235,
+        0.10115952044725418,
+        0.09996981918811798,
+        0.09969372302293777,
+        0.09968050569295883,
+        0.09938681125640869,
+        0.09919222444295883,
+        0.09901633858680725,
+        0.09896762669086456
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 3,
+      "font": "FZAiSJW_Xian",
+      "cp": "u30B8",
+      "refs": [
+        "u884C",
+        "u4E8E",
+        "u4E91",
+        "u4E48",
+        "u8BF4",
+        "u56FD",
+        "u95F4"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZAiSJW",
+          0.10110900551080704
+        ]
+      ],
+      "selected": [
+        "FZAiSJW",
+        "FZDiHTJ_Xian",
+        "FZWanBTJW_Xian",
+        "FZQiMTJW_Xian",
+        "FZDongGSJW-L",
+        "FZQingLTJW_Xian",
+        "FZShuiYJW",
+        "FZShiTSJW",
+        "FZXinGHJW-EL",
+        "FZTanHTJW"
+      ],
+      "alpha": [
+        0.10110900551080704,
+        0.10048629343509674,
+        0.10011820495128632,
+        0.09999702125787735,
+        0.09997738152742386,
+        0.0999261885881424,
+        0.09975328296422958,
+        0.09961049258708954,
+        0.09958693385124207,
+        0.09943519532680511
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 4,
+      "font": "FZLuoMXTJW-M",
+      "cp": "u3109",
+      "refs": [
+        "u5E94",
+        "u5929"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-EB",
+          0.10121267288923264
+        ]
+      ],
+      "selected": [
+        "FZXianWXTJW-L",
+        "FZLuoMXTJW-EB",
+        "FZLuoMTJW-L",
+        "FZLuoMTJW-R",
+        "FZFengBPYTJW",
+        "FZXinZYHJW_UL",
+        "FZXinGHJW-UL",
+        "FZMengHHXJW-EL",
+        "FZYouYSJW-R",
+        "FZFengZTJW-M"
+      ],
+      "alpha": [
+        0.10191956162452698,
+        0.10121267288923264,
+        0.10082779824733734,
+        0.10009678453207016,
+        0.09992557018995285,
+        0.09967678040266037,
+        0.09942235052585602,
+        0.09936575591564178,
+        0.09878354519605637,
+        0.09876922518014908
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 4,
+      "font": "FZLuoMTJW-R",
+      "cp": "u30E7",
+      "refs": [
+        "u5341",
+        "u515C",
+        "u9ED1",
+        "u65E7"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-L",
+          0.10252649337053299
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-L",
+        "FZXianWTJW",
+        "FZDongGSJW-L",
+        "FZTieXHJW_Xi",
+        "FZMengHHXJW-EL",
+        "FZShuYTJW-L",
+        "FZXianWTJW_Zhun",
+        "FZXinZYHJW_UL",
+        "FZFeiSJW-EL",
+        "FZLuoMXTJW-EB"
+      ],
+      "alpha": [
+        0.10252649337053299,
+        0.10038430988788605,
+        0.09997130930423737,
+        0.09967780858278275,
+        0.09964938461780548,
+        0.09959836304187775,
+        0.09959342330694199,
+        0.09955639392137527,
+        0.09954053163528442,
+        0.09950200468301773
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 6,
+      "font": "FZYouHK_513B",
+      "cp": "u3114",
+      "refs": [
+        "u53EF",
+        "u7F8E",
+        "u957F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouHJW_513B",
+          0.10165072977542877
+        ],
+        [
+          "FZYouHJW_512B",
+          0.10099183022975922
+        ],
+        [
+          "FZYouHK_512B",
+          0.10099183022975922
+        ],
+        [
+          "FZYouHJW_511M",
+          0.09996823221445084
+        ],
+        [
+          "FZYouHJW_510M",
+          0.09882184863090515
+        ],
+        [
+          "FZYouHK_510M",
+          0.09882184863090515
+        ]
+      ],
+      "selected": [
+        "FZYouHJW_513B",
+        "FZYouHJW_512B",
+        "FZYouHK_512B",
+        "FZLTHProJW_H",
+        "FZYouHJW_511M",
+        "FZBaoHTJW_Da",
+        "FZDengXHJW-B",
+        "FZFWZhuZiHeiE",
+        "FZYouHJW_510M",
+        "FZYouHK_510M"
+      ],
+      "alpha": [
+        0.10165072977542877,
+        0.10099183022975922,
+        0.10099183022975922,
+        0.10006962716579437,
+        0.09996823221445084,
+        0.09995431452989578,
+        0.09965667873620987,
+        0.09907304495573044,
+        0.09882184863090515,
+        0.09882184863090515
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 6,
+      "font": "FZYouHJW_511M",
+      "cp": "u0048",
+      "refs": [
+        "u68A6",
+        "u90A3",
+        "u6CD5",
+        "u8001",
+        "u667A",
+        "u706B",
+        "u504F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouHJW_512B",
+          0.10050329566001892
+        ],
+        [
+          "FZYouHK_512B",
+          0.10050329566001892
+        ],
+        [
+          "FZYouHJW_510M",
+          0.10034441202878952
+        ],
+        [
+          "FZYouHK_510M",
+          0.10034441202878952
+        ],
+        [
+          "FZYouHJW_513B",
+          0.09954320639371872
+        ],
+        [
+          "FZYouHK_513B",
+          0.09954320639371872
+        ],
+        [
+          "FZYouHJW_509R",
+          0.09932775795459747
+        ]
+      ],
+      "selected": [
+        "FZYouHJW_512B",
+        "FZYouHK_512B",
+        "FZYouHJW_510M",
+        "FZYouHK_510M",
+        "FZDeSHJW_509R",
+        "FZDeSHJW_510M",
+        "FZDeSHJW_508R",
+        "FZYouHJW_513B",
+        "FZYouHK_513B",
+        "FZYouHJW_509R"
+      ],
+      "alpha": [
+        0.10050329566001892,
+        0.10050329566001892,
+        0.10034441202878952,
+        0.10034441202878952,
+        0.10023996978998184,
+        0.09984021633863449,
+        0.09981022775173187,
+        0.09954320639371872,
+        0.09954320639371872,
+        0.09932775795459747
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 6,
+      "font": "FZYouSJJW_509R",
+      "cp": "u0062",
+      "refs": [
+        "u63A2",
+        "u88AB",
+        "u94C1",
+        "u8F66",
+        "u96E8",
+        "u4F46",
+        "u59D0",
+        "u620F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouSJJW_508R",
+          0.10251378268003464
+        ],
+        [
+          "FZYouSJJW_507R",
+          0.10156479477882385
+        ]
+      ],
+      "selected": [
+        "FZYouSJJW_508R",
+        "FZYouSJJW_507R",
+        "FZVariable-YouSongJ",
+        "FZVDLJingQSJ-L",
+        "FZFWZhuZiHeiM",
+        "FZFWZhuZiMinchoD",
+        "FZYanSJW",
+        "FZFWZhuZiHeiD",
+        "FZFWZhuZLSHTJWB",
+        "FZFWZhuZiHeiR"
+      ],
+      "alpha": [
+        0.10251378268003464,
+        0.10156479477882385,
+        0.10068335384130478,
+        0.09982182830572128,
+        0.09938354790210724,
+        0.09936990588903427,
+        0.09936553984880447,
+        0.09927328675985336,
+        0.09904821962118149,
+        0.09897570312023163
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 6,
+      "font": "FZLuoMXTJW-EB",
+      "cp": "u3074",
+      "refs": [
+        "u671B"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-M",
+          0.10204796493053436
+        ]
+      ],
+      "selected": [
+        "FZLuoMXTJW-M",
+        "FZLingDTJW-B",
+        "FZLuoMTJW-R",
+        "FZLingDTJW-L",
+        "FZFeiYiTJW-EB",
+        "FZFengRSTJW-B",
+        "ZJZhuangSHJ-T",
+        "FZShuYTJW-L",
+        "FZAiSJW_Cu",
+        "FZBaoCTJW_Te"
+      ],
+      "alpha": [
+        0.10204796493053436,
+        0.10110878944396973,
+        0.10026293992996216,
+        0.10009050369262695,
+        0.09972700476646423,
+        0.09956925362348557,
+        0.09937762469053268,
+        0.09931045770645142,
+        0.09929842501878738,
+        0.09920699149370193
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 7,
+      "font": "FZXinGHJW-UL",
+      "cp": "u3114",
+      "refs": [
+        "u5357",
+        "u6C34",
+        "u6240"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXinGHJW-EL",
+          0.09929725527763367
+        ]
+      ],
+      "selected": [
+        "FZXinZYHJW_UL",
+        "FZLuoMTJW-L",
+        "FZManYTJW-T",
+        "FZSiNTJW-UL",
+        "FZXianWXTJW-L",
+        "FZVDLXinZTJW-R",
+        "FZXinGHJW-EL",
+        "FZLiYHJW-EL",
+        "FZLuoMTJW-R",
+        "FZYiMSJW-T"
+      ],
+      "alpha": [
+        0.10378413647413254,
+        0.1004018485546112,
+        0.10024876147508621,
+        0.09980404376983643,
+        0.09955146908760071,
+        0.09943532943725586,
+        0.09929725527763367,
+        0.0992238000035286,
+        0.09916836768388748,
+        0.09908498823642731
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 1,
+      "rank": 7,
+      "font": "FZChaoLTJW",
+      "cp": "u30C6",
+      "refs": [
+        "u4E48"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZChaoLTJW_Te",
+          0.10124186426401138
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZChaoLTJW_Te",
+        "FZWanBTJW_Xian",
+        "FZFengZTJW-M",
+        "FZDongGSJW-L",
+        "FZXinGHJW-UL",
+        "FZQiMTJW_Xian",
+        "FZQianWTJW_Te",
+        "FZQingLTJW_Xian",
+        "FZLiangHJW-L"
+      ],
+      "alpha": [
+        0.10139752924442291,
+        0.10124186426401138,
+        0.1002947986125946,
+        0.1000405102968216,
+        0.09972330927848816,
+        0.09963537752628326,
+        0.09951487183570862,
+        0.09943262487649918,
+        0.09936513006687164,
+        0.09935395419597626
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 0,
+      "font": "FZPiaoTJW_Cu",
+      "cp": "u0046",
+      "refs": [
+        "u4E24",
+        "u4E0B",
+        "u5173"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZPiaoTJW",
+          0.10158348083496094
+        ],
+        [
+          "FZPiaoTJW_Xi",
+          0.10013226419687271
+        ]
+      ],
+      "selected": [
+        "FZPiaoTJW",
+        "FZLiangHJW-EB",
+        "FZPiaoTJW_Xi",
+        "FZLingDTJW-B",
+        "FZChaoLTJW_Te",
+        "FZXieXTJW-EB",
+        "FZHanSTJW_Te",
+        "FZCQJW",
+        "FZAiSJW_Cu",
+        "FZJianZTJW-B"
+      ],
+      "alpha": [
+        0.10158348083496094,
+        0.10105600208044052,
+        0.10013226419687271,
+        0.099847711622715,
+        0.09976937621831894,
+        0.09973037242889404,
+        0.09962713718414307,
+        0.0996013879776001,
+        0.09933843463659286,
+        0.09931380301713943
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 0,
+      "font": "FZAiSJW_Xian",
+      "cp": "u0144",
+      "refs": [
+        "u8F66",
+        "u7A7A",
+        "u5DF2"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZAiSJW",
+          0.1009819358587265
+        ]
+      ],
+      "selected": [
+        "FZAiSJW",
+        "FZDiHTJ_Xian",
+        "FZQiMTJW_Xian",
+        "FZWanBTJW_Xian",
+        "FZQingLTJW_Xian",
+        "FZLouLTJW-R",
+        "FZXinGHJW-EL",
+        "FZYingCTJW_Xian",
+        "FZVDLJiaoRHJW-T",
+        "FZShuiYJW"
+      ],
+      "alpha": [
+        0.1009819358587265,
+        0.10043822973966599,
+        0.10028834640979767,
+        0.10004694759845734,
+        0.10000297427177429,
+        0.09974798560142517,
+        0.09972307085990906,
+        0.09971459954977036,
+        0.09961185604333878,
+        0.09944404661655426
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 0,
+      "font": "FZSiLTJW_Xian",
+      "cp": "u006D",
+      "refs": [
+        "u5C0F",
+        "u6162",
+        "u6E05",
+        "u515C",
+        "u6708",
+        "u4E2D",
+        "u4E0A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZSiLTJW_Cu",
+          0.1000850647687912
+        ]
+      ],
+      "selected": [
+        "FZWanBTJW_Xian",
+        "FZLiuCTJW",
+        "FZSiLTJW_Cu",
+        "FZSiBTJW",
+        "FZShuiYJW",
+        "FZFengRSTJW-R",
+        "FZJingWTJW_Xian",
+        "FZYouYSJW-R",
+        "FZKuaiSTJW",
+        "FZPiaoYSJW"
+      ],
+      "alpha": [
+        0.10029010474681854,
+        0.10028427094221115,
+        0.1000850647687912,
+        0.10000739991664886,
+        0.09995876997709274,
+        0.09991597384214401,
+        0.09990721195936203,
+        0.09989035129547119,
+        0.09985272586345673,
+        0.09980806708335876
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 0,
+      "font": "FZAiSJW_Cu",
+      "cp": "u0075",
+      "refs": [
+        "u5E02",
+        "u6167",
+        "u77ED",
+        "u628A",
+        "u82B1",
+        "u98DF",
+        "u597D",
+        "u673A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZAiSJW",
+          0.10051368921995163
+        ]
+      ],
+      "selected": [
+        "FZCQJW",
+        "FZAiSJW",
+        "FZXiaoSSJW_Te",
+        "FZLiDXYTJW",
+        "FZYiHJW",
+        "FZSiBTJW_Te",
+        "FZHanSTJW_Te",
+        "FZShiTSJW_Te",
+        "FZDiHTJ_Zhun",
+        "FZYASHJW_Cu"
+      ],
+      "alpha": [
+        0.10083118826150894,
+        0.10051368921995163,
+        0.10031718015670776,
+        0.10019833594560623,
+        0.09978228807449341,
+        0.09977267682552338,
+        0.09970247745513916,
+        0.09966360032558441,
+        0.09964648634195328,
+        0.09957210719585419
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 0,
+      "font": "FZXinGHJW-UL",
+      "cp": "u30D6",
+      "refs": [
+        "u675F",
+        "u59B9",
+        "u753B",
+        "u4EB2",
+        "u5BCC",
+        "u81EA",
+        "u8BF4"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXinGHJW-EL",
+          0.09949859231710434
+        ]
+      ],
+      "selected": [
+        "FZXinZYHJW_UL",
+        "FZLuoMTJW-L",
+        "FZSiNTJW-UL",
+        "FZQingLTJW_Xian",
+        "FZManYTJW-T",
+        "FZMengHHXJW-EL",
+        "FZXinGHJW-EL",
+        "FZChaoLTJW",
+        "FZLiYHJW-EL",
+        "FZDongGSJW-L"
+      ],
+      "alpha": [
+        0.10351298749446869,
+        0.1000138372182846,
+        0.0998741090297699,
+        0.0998152643442154,
+        0.09968331456184387,
+        0.09961803257465363,
+        0.09949859231710434,
+        0.09944679588079453,
+        0.09935436397790909,
+        0.09918282181024551
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 1,
+      "font": "FZQianWTJW_Te",
+      "cp": "u0063",
+      "refs": [
+        "u504F",
+        "u5730",
+        "u52C7",
+        "u4E1C",
+        "u8FDC",
+        "u5C11",
+        "u5149"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10093938559293747
+        ],
+        [
+          "FZQianWTJW_Xian",
+          0.0998683050274849
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZJianZTJW-B",
+        "FZPiaoTJW",
+        "FZSiBTJW_Te",
+        "FZQINGSTJW",
+        "FZQianWTJW_Xian",
+        "FZZhuoYTJW",
+        "FZQiMTJW",
+        "FZQiMTJW_Zhun",
+        "FZChaoLTJW_Te"
+      ],
+      "alpha": [
+        0.10093938559293747,
+        0.100225530564785,
+        0.09989459812641144,
+        0.09988126158714294,
+        0.09987640380859375,
+        0.0998683050274849,
+        0.09985792636871338,
+        0.09984544664621353,
+        0.09981365501880646,
+        0.09979747235774994
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 1,
+      "font": "FZVDLJingQSJ-L",
+      "cp": "u0035",
+      "refs": [
+        "u661F",
+        "u8FC7",
+        "u706B",
+        "u767D"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-T",
+          0.0996321588754654
+        ]
+      ],
+      "selected": [
+        "FZYouSJJW_507R",
+        "FZVariable-YouSongJ",
+        "FZYouSJJW_508R",
+        "FZYanSJW",
+        "FZYouSJJW_509R",
+        "FZVDLJingQSJ-T",
+        "FZWuYTJW",
+        "FZFWZhuZiMinchoD",
+        "FZSongYJW",
+        "FZSongYuanK"
+      ],
+      "alpha": [
+        0.10076574236154556,
+        0.1006593182682991,
+        0.10056375712156296,
+        0.10024002194404602,
+        0.09997966885566711,
+        0.0996321588754654,
+        0.09955617040395737,
+        0.09955370426177979,
+        0.09952475130558014,
+        0.09952475130558014
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 2,
+      "font": "FZXianWTJW_Zhun",
+      "cp": "u30C0",
+      "refs": [
+        "u4E2A",
+        "u4E3D",
+        "u5341",
+        "u5E73",
+        "u7528",
+        "u6B4C"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXianWTJW",
+          0.10273706912994385
+        ]
+      ],
+      "selected": [
+        "FZXianWTJW",
+        "FZLouLTJW-R",
+        "FZSiBTJW",
+        "FZAiSJW_Xian",
+        "FZLuoMTJW-R",
+        "FZFeiYTJW",
+        "FZDongGSJW-L",
+        "FZPiaoYSJW",
+        "FZAiSJW",
+        "FZYingCTJW"
+      ],
+      "alpha": [
+        0.10273706912994385,
+        0.10059307515621185,
+        0.1004306972026825,
+        0.09958653151988983,
+        0.0995400995016098,
+        0.09949246048927307,
+        0.09944180399179459,
+        0.0994262546300888,
+        0.09940274059772491,
+        0.09934929013252258
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 2,
+      "font": "FZLuoMTJW-R",
+      "cp": "u30A6",
+      "refs": [
+        "u798F",
+        "u751F",
+        "u65E7"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-L",
+          0.10173066705465317
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-L",
+        "FZFeiSJW-EL",
+        "FZYingCTJW_Xian",
+        "FZLiangHJW-L",
+        "FZShuYTJW-L",
+        "ZJZhuangSHJ-T",
+        "FZXinZYHJW_UL",
+        "FZXinGHJW-UL",
+        "FZDongGSJW-L",
+        "FZYiMSJW-T"
+      ],
+      "alpha": [
+        0.10173066705465317,
+        0.10035157948732376,
+        0.09994795173406601,
+        0.0998915433883667,
+        0.09985934942960739,
+        0.09977700561285019,
+        0.09976901113986969,
+        0.09974789619445801,
+        0.09952772408723831,
+        0.09939730167388916
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 2,
+      "font": "FZDeSHJW_509R",
+      "cp": "u30D2",
+      "refs": [
+        "u4E91",
+        "u4F7F",
+        "u4EEC",
+        "u6811"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZDeSHJW_508R",
+          0.10051766037940979
+        ],
+        [
+          "FZDeSHJW_510M",
+          0.10042385756969452
+        ],
+        [
+          "FZDeSHJW_507R",
+          0.09941189736127853
+        ]
+      ],
+      "selected": [
+        "FZDeSHJW_508R",
+        "FZYouHJW_511M",
+        "FZDeSHJW_510M",
+        "FZYouHJW_512B",
+        "FZYouHK_512B",
+        "FZYouHJW_510M",
+        "FZYouHK_510M",
+        "FZDeSHJW_507R",
+        "FZYouHJW_513B",
+        "FZYouHK_513B"
+      ],
+      "alpha": [
+        0.10051766037940979,
+        0.10051354020833969,
+        0.10042385756969452,
+        0.1002064049243927,
+        0.1002064049243927,
+        0.10002394765615463,
+        0.10002394765615463,
+        0.09941189736127853,
+        0.0993361696600914,
+        0.0993361696600914
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 3,
+      "font": "FZXianWTJW_Zhun",
+      "cp": "u01DC",
+      "refs": [
+        "u670B",
+        "u540E",
+        "u65E7",
+        "u5E84"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXianWTJW",
+          0.10246123373508453
+        ]
+      ],
+      "selected": [
+        "FZXianWTJW",
+        "FZLouLTJW-R",
+        "FZSiBTJW",
+        "FZFeiYTJW",
+        "FZAiSJW",
+        "FZDongGSJW-L",
+        "FZYingCTJW",
+        "FZYingCTJW_Xian",
+        "FZPiaoYSJW",
+        "ZJZhuangSHJ-T"
+      ],
+      "alpha": [
+        0.10246123373508453,
+        0.10046804696321487,
+        0.10044362396001816,
+        0.09976904094219208,
+        0.09967765212059021,
+        0.09951513260602951,
+        0.09950924664735794,
+        0.09941022098064423,
+        0.09938567131757736,
+        0.09936008602380753
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 3,
+      "font": "FZMaLTJW",
+      "cp": "u308C",
+      "refs": [
+        "u5316",
+        "u6B4C",
+        "u4E16",
+        "u96E8"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZMaLTJW_Da",
+          0.10023990273475647
+        ]
+      ],
+      "selected": [
+        "FZPiaoYSJW",
+        "FZFengZTJW-M",
+        "FZMaLTJW_Da",
+        "FZLuoMXTJW-EB",
+        "FZYingCTJW",
+        "FZKuaiSTJW",
+        "FZFWHuanLTJW",
+        "FZLiuCTJW",
+        "FZLouLTJW-R",
+        "FZAiSJW"
+      ],
+      "alpha": [
+        0.10128192603588104,
+        0.10032100230455399,
+        0.10023990273475647,
+        0.09994132071733475,
+        0.09982863068580627,
+        0.09982682019472122,
+        0.09978589415550232,
+        0.09970342367887497,
+        0.09955975413322449,
+        0.09951134771108627
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 4,
+      "font": "FZBaiZJHTJW",
+      "cp": "u3116",
+      "refs": [
+        "u59CB",
+        "u4E86"
+      ],
+      "active": false,
+      "same_family_donors": [
+        [
+          "FZBaiZJHTJW-L",
+          0.10046972334384918
+        ]
+      ],
+      "selected": [
+        "FZBaiZJHTJW-L",
+        "FZBaiZRZTJW",
+        "FZZH-LTXXTJW",
+        "FZYunLTJW",
+        "FZZH-NYXFTJ",
+        "FZYiHTJW-EB",
+        "FZBaiZJDTJW",
+        "STFZRTXSJ",
+        "FZBaiZBYTJW",
+        "FZBaiZDZ115JW"
+      ],
+      "alpha": [
+        0.10046972334384918,
+        0.1004016250371933,
+        0.10005350410938263,
+        0.10004014521837234,
+        0.09996051341295242,
+        0.09986084699630737,
+        0.0998200923204422,
+        0.09981248527765274,
+        0.0998045802116394,
+        0.09977640956640244
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 5,
+      "font": "FZAiSJW_Cu",
+      "cp": "u006C",
+      "refs": [
+        "u53EA",
+        "u65E5",
+        "u97F3"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZAiSJW",
+          0.1001034677028656
+        ]
+      ],
+      "selected": [
+        "FZCQJW",
+        "FZXiaoSSJW_Te",
+        "FZAiSJW",
+        "FZLiDXYTJW",
+        "FZYASHJW_Cu",
+        "FZXueWRHJW",
+        "FZShiTSJW_Te",
+        "FZYaSSJW-B",
+        "FZJingKHJW",
+        "FZYiHJW"
+      ],
+      "alpha": [
+        0.1014481782913208,
+        0.10060620307922363,
+        0.1001034677028656,
+        0.10007530450820923,
+        0.10005316883325577,
+        0.09968144446611404,
+        0.09965568035840988,
+        0.09950174391269684,
+        0.09946398437023163,
+        0.099410779774189
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 5,
+      "font": "FZYingCTJW_Xian",
+      "cp": "u308E",
+      "refs": [
+        "u63A2",
+        "u6539",
+        "u6865"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYingCTJW",
+          0.10072380304336548
+        ]
+      ],
+      "selected": [
+        "FZDongGSJW-L",
+        "FZYingCTJW",
+        "FZQingLTJW_Xian",
+        "ZJZhuangSHJ-T",
+        "FZLouLTJW-R",
+        "FZQiMTJW_Xian",
+        "FZLuoMTJW-R",
+        "FZWanBTJW_Xian",
+        "FZQINGSTJW",
+        "FZChaoLTJW"
+      ],
+      "alpha": [
+        0.10111011564731598,
+        0.10072380304336548,
+        0.10027334094047546,
+        0.10016648471355438,
+        0.10005086660385132,
+        0.0998203232884407,
+        0.09980452060699463,
+        0.09946369379758835,
+        0.09937409311532974,
+        0.09921283274888992
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 2,
+      "rank": 5,
+      "font": "FZJingWTJW_Xian",
+      "cp": "u308C",
+      "refs": [
+        "u7528",
+        "u8BDA",
+        "u5DE6",
+        "u65E7",
+        "u529F",
+        "u628A"
+      ],
+      "active": false,
+      "same_family_donors": [
+        [
+          "FZJingWTJW",
+          0.10028620809316635
+        ]
+      ],
+      "selected": [
+        "FZFWZhuZiHeiL",
+        "FZJingWTJW",
+        "FZZhuoYTJW",
+        "FZGDCTJW-L",
+        "FZFWZhuZiHeiR",
+        "FZYaZTJ_Xian",
+        "FZHengWHJ-L",
+        "FZXinGHJW-EL",
+        "FZTanHTJW",
+        "FZShuiYJW"
+      ],
+      "alpha": [
+        0.1002916619181633,
+        0.10028620809316635,
+        0.10021546483039856,
+        0.10005436092615128,
+        0.10002660006284714,
+        0.09989237040281296,
+        0.09987656027078629,
+        0.0998130515217781,
+        0.09978412091732025,
+        0.09975957125425339
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 0,
+      "font": "FZLuoMTJW-R",
+      "cp": "u3089",
+      "refs": [
+        "u5168",
+        "u606D",
+        "u5B87",
+        "u5F88"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-L",
+          0.10204767435789108
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-L",
+        "ZJZhuangSHJ-T",
+        "FZDongGSJW-L",
+        "FZYingCTJW_Xian",
+        "FZShuYTJW-L",
+        "FZFeiSJW-EL",
+        "FZTieXHJW_Xi",
+        "FZXianWTJW",
+        "FZQingLTJW_Xian",
+        "FZXinZYHJW_UL"
+      ],
+      "alpha": [
+        0.10204767435789108,
+        0.10046269744634628,
+        0.09991616755723953,
+        0.0998886302113533,
+        0.09980911761522293,
+        0.09971350431442261,
+        0.09965351969003677,
+        0.09964553266763687,
+        0.09947719424962997,
+        0.09938587248325348
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 0,
+      "font": "FZQianWTJW_Te",
+      "cp": "u0067",
+      "refs": [
+        "u94DC",
+        "u8981",
+        "u540D",
+        "u5FC3",
+        "u4E4B",
+        "u53CB",
+        "u827A"
+      ],
+      "active": false,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10102273523807526
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZJianZTJW-B",
+        "FZCQJW",
+        "FZChaoLTJW_Te",
+        "FZXiaoSSJW_Te",
+        "FZAiSJW_Cu",
+        "FZShiTSJW_Te",
+        "FZXieXTJW-EB",
+        "FZAiSJW",
+        "FZSiBTJW_Te"
+      ],
+      "alpha": [
+        0.10102273523807526,
+        0.10023800283670425,
+        0.10016413778066635,
+        0.10008268803358078,
+        0.09992609173059464,
+        0.09984159469604492,
+        0.09982255101203918,
+        0.099733866751194,
+        0.0996105819940567,
+        0.09955768287181854
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 1,
+      "font": "FZTieXHJW_Zhun",
+      "cp": "u30E5",
+      "refs": [
+        "u5BF9",
+        "u7231",
+        "u529B",
+        "u4ECE",
+        "u4E0A",
+        "u65E7",
+        "u5341",
+        "u5236"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZTieXHJW",
+          0.09949516505002975
+        ]
+      ],
+      "selected": [
+        "FZMoYTJW-L",
+        "FZYongDHJW-T",
+        "FZGDCTJW-L",
+        "FZShuYTJW-L",
+        "FZRunKJW-T",
+        "FZLaGBTTJW",
+        "FZVDLJiaoRHJW-T",
+        "FZTieXHJW",
+        "FZXinGHJW-EL",
+        "FZSiNTJW-UL"
+      ],
+      "alpha": [
+        0.10111819207668304,
+        0.1009301245212555,
+        0.10028459876775742,
+        0.100267194211483,
+        0.09983325004577637,
+        0.09969376772642136,
+        0.09960681200027466,
+        0.09949516505002975,
+        0.09943606704473495,
+        0.09933494031429291
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 2,
+      "font": "FZXinGHJW-UL",
+      "cp": "u30C8",
+      "refs": [
+        "u6837",
+        "u94DC",
+        "u6280",
+        "u5F3A",
+        "u653E",
+        "u8FDB",
+        "u540D"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXinGHJW-EL",
+          0.09950181841850281
+        ]
+      ],
+      "selected": [
+        "FZXinZYHJW_UL",
+        "FZLuoMTJW-L",
+        "FZManYTJW-T",
+        "FZSiNTJW-UL",
+        "FZQingLTJW_Xian",
+        "FZMengHHXJW-EL",
+        "FZLiYHJW-EL",
+        "FZXinGHJW-EL",
+        "FZQianWTJW_Xian",
+        "FZDiHTJ_Xian"
+      ],
+      "alpha": [
+        0.10361422598361969,
+        0.10003139078617096,
+        0.09979299455881119,
+        0.09963789582252502,
+        0.09957358241081238,
+        0.09951472282409668,
+        0.0995127335190773,
+        0.09950181841850281,
+        0.099450021982193,
+        0.099370576441288
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 2,
+      "font": "FZVDLJingQSJ-L",
+      "cp": "u00ED",
+      "refs": [
+        "u53C8",
+        "u5F97",
+        "u53F2"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-T",
+          0.09905186295509338
+        ]
+      ],
+      "selected": [
+        "FZYouSJJW_507R",
+        "FZYouSJJW_508R",
+        "FZVariable-YouSongJ",
+        "FZYouSJJW_509R",
+        "FZYanSJW",
+        "FZFWZhuZiHeiM",
+        "FZFWZhuZiHeiR",
+        "FZFWZhuZiHeiD",
+        "FZVDLJingQSJ-T",
+        "FZYouHJW_508R"
+      ],
+      "alpha": [
+        0.1011824905872345,
+        0.10108546167612076,
+        0.1008499413728714,
+        0.10075178742408752,
+        0.09985615313053131,
+        0.09952852874994278,
+        0.0994655191898346,
+        0.09919450432062149,
+        0.09905186295509338,
+        0.09903381764888763
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 2,
+      "font": "FZLuoMTJW-R",
+      "cp": "u3052",
+      "refs": [
+        "u94C1",
+        "u6539",
+        "u8C0A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-L",
+          0.10200326144695282
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-L",
+        "FZXianWTJW",
+        "ZJZhuangSHJ-T",
+        "FZYingCTJW_Xian",
+        "FZShuYTJW-L",
+        "FZQingLTJW_Xian",
+        "FZDongGSJW-L",
+        "FZLouLTJW-R",
+        "FZTieXHJW_Xi",
+        "FZQiMTJW_Xian"
+      ],
+      "alpha": [
+        0.10200326144695282,
+        0.10007690638303757,
+        0.09999171644449234,
+        0.09988687187433243,
+        0.09979232400655746,
+        0.09973561763763428,
+        0.09964786469936371,
+        0.0996336117386818,
+        0.09962259232997894,
+        0.09960928559303284
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 3,
+      "font": "FZVDLJingQSJ-T",
+      "cp": "u3129",
+      "refs": [
+        "u7A7A",
+        "u606D",
+        "u9020",
+        "u5C06",
+        "u84DD"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-L",
+          0.10066618025302887
+        ]
+      ],
+      "selected": [
+        "FZVDLJingQSJ-L",
+        "FZYiMSJW-T",
+        "FZVariable-YouSongJ",
+        "FZQingKBYSJW-EL",
+        "FZYouSJJW_507R",
+        "FZHeiFJW-L",
+        "FZHengWHJ-L",
+        "FZLiYHJW-EL",
+        "FZYouYSJW-R",
+        "FZFWZhuZiHeiL"
+      ],
+      "alpha": [
+        0.10066618025302887,
+        0.1005893126130104,
+        0.10024408251047134,
+        0.09995387494564056,
+        0.09986993670463562,
+        0.0998670682311058,
+        0.09984631091356277,
+        0.09972602874040604,
+        0.09965282678604126,
+        0.09958432614803314
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 4,
+      "font": "FZYinSJW-DB",
+      "cp": "u0079",
+      "refs": [
+        "u98CE",
+        "u6539",
+        "u4FAF",
+        "u7236",
+        "u65F6",
+        "u4FE1",
+        "u4E8B",
+        "u548C"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYinSJW-R",
+          0.10160566121339798
+        ]
+      ],
+      "selected": [
+        "FZYinSJW-R",
+        "FZMaLTJW",
+        "FZLiangHJW-L",
+        "FZLingDTJW-B",
+        "FZPiaoTJW_Xi",
+        "FZPiaoYSJW",
+        "FZBoYTJW-L",
+        "FZPiaoTJW",
+        "FZFengZTJW-M",
+        "FZLuoMXTJW-EB"
+      ],
+      "alpha": [
+        0.10160566121339798,
+        0.10070330649614334,
+        0.1004413589835167,
+        0.10016443580389023,
+        0.099887415766716,
+        0.09973007440567017,
+        0.09971505403518677,
+        0.09932810068130493,
+        0.09927941858768463,
+        0.09914515912532806
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 4,
+      "font": "FZDeSHJW_511M",
+      "cp": "u307D",
+      "refs": [
+        "u767D",
+        "u7537",
+        "u6696"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZDeSHJW_510M",
+          0.1006736159324646
+        ],
+        [
+          "FZDeSHJW_512B",
+          0.10036005824804306
+        ],
+        [
+          "FZDeSHJW_509R",
+          0.09952844679355621
+        ]
+      ],
+      "selected": [
+        "FZDeSHJW_510M",
+        "FZYouHJW_513B",
+        "FZYouHK_513B",
+        "FZDeSHJW_512B",
+        "FZYouHJW_512B",
+        "FZYouHK_512B",
+        "FZDeSHJW_509R",
+        "FZYouHJW_511M",
+        "FZLTHProJW_H",
+        "FZDengXHJW-B"
+      ],
+      "alpha": [
+        0.1006736159324646,
+        0.10052520036697388,
+        0.10052520036697388,
+        0.10036005824804306,
+        0.10012947022914886,
+        0.10012947022914886,
+        0.09952844679355621,
+        0.09943594038486481,
+        0.09943082183599472,
+        0.0992617979645729
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 4,
+      "font": "FZYouSJJW_507R",
+      "cp": "u0057",
+      "refs": [
+        "u5C31",
+        "u4E5F",
+        "u8349",
+        "u667A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouSJJW_508R",
+          0.10224355012178421
+        ],
+        [
+          "FZYouSJJW_509R",
+          0.10118786245584488
+        ]
+      ],
+      "selected": [
+        "FZYouSJJW_508R",
+        "FZVariable-YouSongJ",
+        "FZYouSJJW_509R",
+        "FZVDLJingQSJ-L",
+        "FZYanSJW",
+        "FZFWZhuZiMinchoD",
+        "FZSongYJW",
+        "FZSongYuanK",
+        "FZWuYTJW",
+        "FZXLB"
+      ],
+      "alpha": [
+        0.10224355012178421,
+        0.1021835058927536,
+        0.10118786245584488,
+        0.09992557764053345,
+        0.09941864758729935,
+        0.0993354395031929,
+        0.09903709590435028,
+        0.09903709590435028,
+        0.09896015375852585,
+        0.09867112338542938
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 5,
+      "font": "FZLuoMXTJW-EB",
+      "cp": "u3112",
+      "refs": [
+        "u533B",
+        "u6E29",
+        "u5317",
+        "u6C38",
+        "u97F3",
+        "u7231",
+        "u5173"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-M",
+          0.10240247845649719
+        ]
+      ],
+      "selected": [
+        "FZLuoMXTJW-M",
+        "FZLuoMTJW-R",
+        "FZFengZTJW-M",
+        "FZLuoMTJW-L",
+        "FZShuYTJW-L",
+        "ZJZhuangSHJ-T",
+        "FZYouYSJW-R",
+        "FZMengHHXJW-EL",
+        "FZSiNTJW-UL",
+        "FZXianWXTJW-L"
+      ],
+      "alpha": [
+        0.10240247845649719,
+        0.10072098672389984,
+        0.10010036826133728,
+        0.09986933320760727,
+        0.09981991350650787,
+        0.09969281405210495,
+        0.099422886967659,
+        0.09938657283782959,
+        0.09930358082056046,
+        0.09928104281425476
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 5,
+      "font": "FZFengRSTJW-B",
+      "cp": "u30D7",
+      "refs": [
+        "u4E9B",
+        "u4E16",
+        "u4E3D",
+        "u5730",
+        "u6570",
+        "u660E",
+        "u7740",
+        "u98CE"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZFengRSTJW-R",
+          0.10023113340139389
+        ]
+      ],
+      "selected": [
+        "FZXiaoSSJW_Te",
+        "FZLiDXYTJW",
+        "FZFengRSTJW-R",
+        "FZLiuCTJW_Te",
+        "FZAiSJW_Cu",
+        "FZFengZTJW-B",
+        "FZLouLTJW-EB",
+        "FZYingCTJW",
+        "FZShiTSJW_Te",
+        "FZBingMYTJW"
+      ],
+      "alpha": [
+        0.1008589044213295,
+        0.10055062174797058,
+        0.10023113340139389,
+        0.09991800040006638,
+        0.09988074749708176,
+        0.09988055378198624,
+        0.09986037015914917,
+        0.09975861757993698,
+        0.09957212954759598,
+        0.09948898106813431
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 5,
+      "font": "FZXianWTJW_Zhun",
+      "cp": "u30DE",
+      "refs": [
+        "u6C38",
+        "u7406",
+        "u501F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXianWTJW",
+          0.10211747884750366
+        ]
+      ],
+      "selected": [
+        "FZXianWTJW",
+        "FZSiBTJW",
+        "FZLouLTJW-R",
+        "FZYingCTJW",
+        "FZFeiYTJW",
+        "FZQINGSTJW",
+        "FZYingCTJW_Xian",
+        "FZKuaiSTJW",
+        "FZPiaoYSJW",
+        "FZQiMTJW_Xian"
+      ],
+      "alpha": [
+        0.10211747884750366,
+        0.10067878663539886,
+        0.1001012921333313,
+        0.09992130845785141,
+        0.09986329823732376,
+        0.09966235607862473,
+        0.09944096207618713,
+        0.09942000359296799,
+        0.09941526502370834,
+        0.09937914460897446
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 6,
+      "font": "FZLuoMTJW-R",
+      "cp": "u310A",
+      "refs": [
+        "u5C0F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-L",
+          0.10288900136947632
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-L",
+        "FZMengHHXJW-EL",
+        "FZYiMSJW-T",
+        "FZFengZTJW-M",
+        "FZXinZYHJW_UL",
+        "FZManYTJW-T",
+        "FZXinGHJW-UL",
+        "FZVDLJingQSJ-T",
+        "FZDongGSJW-L",
+        "FZXinGHJW-EL"
+      ],
+      "alpha": [
+        0.10288900136947632,
+        0.10012912005186081,
+        0.09994432330131531,
+        0.09984515607357025,
+        0.09965964406728745,
+        0.09965432435274124,
+        0.09948103129863739,
+        0.09948074072599411,
+        0.09946832060813904,
+        0.09944839775562286
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 7,
+      "font": "FZVDLJingQSJ-L",
+      "cp": "u3059",
+      "refs": [
+        "u5E84"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-T",
+          0.09928832203149796
+        ]
+      ],
+      "selected": [
+        "FZYouSJJW_508R",
+        "FZYouSJJW_507R",
+        "FZYouSJJW_509R",
+        "FZVariable-YouSongJ",
+        "FZXLB",
+        "FZVDLJingQSJ-T",
+        "FZChenQTJW",
+        "FZFWZhuZiMinchoD",
+        "FZSongYuanK",
+        "FZShiGKSK"
+      ],
+      "alpha": [
+        0.10161370784044266,
+        0.10133790224790573,
+        0.10121195018291473,
+        0.10067526996135712,
+        0.09967531263828278,
+        0.09928832203149796,
+        0.09925973415374756,
+        0.0992375910282135,
+        0.098932184278965,
+        0.09876805543899536
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 3,
+      "rank": 7,
+      "font": "FZYinSJW-R",
+      "cp": "u0079",
+      "refs": [
+        "u5C0F",
+        "u957F",
+        "u4F4F",
+        "u5B9A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYinSJW-DB",
+          0.10204370319843292
+        ]
+      ],
+      "selected": [
+        "FZYinSJW-DB",
+        "FZLiangHJW-L",
+        "FZLingDTJW-L",
+        "FZLuoMTJW-R",
+        "FZLuoMXTJW-M",
+        "FZBoYTJW-L",
+        "FZLuoMXTJW-EB",
+        "FZLuoMTJW-L",
+        "FZMaLTJW",
+        "FZLingDTJW-B"
+      ],
+      "alpha": [
+        0.10204370319843292,
+        0.10053757578134537,
+        0.1002366691827774,
+        0.09995325654745102,
+        0.09989236295223236,
+        0.09988454729318619,
+        0.09960412234067917,
+        0.09946705400943756,
+        0.09936759620904922,
+        0.09901305288076401
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 0,
+      "font": "FZVDLJingQSJ-T",
+      "cp": "u0041",
+      "refs": [
+        "u4EE5",
+        "u5236",
+        "u5973",
+        "u5E94",
+        "u7537",
+        "u8239",
+        "u4E00"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-L",
+          0.09998511523008347
+        ]
+      ],
+      "selected": [
+        "FZQingFSJW_Xi",
+        "FZVariable-YouSongJ",
+        "FZXinGHJW-EL",
+        "FZVDLJingQSJ-L",
+        "FZYiMSJW-T",
+        "FZDiHTJ_Xian",
+        "FZHengWHJ-L",
+        "FZLiYHJW-EL",
+        "FZQingKBYSJW-EL",
+        "FZYanSJW"
+      ],
+      "alpha": [
+        0.10099751502275467,
+        0.10008661448955536,
+        0.10002736002206802,
+        0.09998511523008347,
+        0.09996223449707031,
+        0.09994945675134659,
+        0.09986846894025803,
+        0.09983894228935242,
+        0.09966248273849487,
+        0.0996217131614685
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 0,
+      "font": "FZQiMTJW",
+      "cp": "u3078",
+      "refs": [
+        "u8239",
+        "u4ED6",
+        "u897F",
+        "u70B9",
+        "u8BF4",
+        "u628A",
+        "u4FE1"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQiMTJW_Zhun",
+          0.10294456034898758
+        ],
+        [
+          "FZQiMTJW_Xian",
+          0.10091983526945114
+        ]
+      ],
+      "selected": [
+        "FZQiMTJW_Zhun",
+        "FZQiMTJW_Xian",
+        "FZYingCTJW",
+        "FZSiBTJW",
+        "FZWanBTJW",
+        "FZAiSJW",
+        "FZQINGSTJW",
+        "FZShuiYJW",
+        "FZWanBTJW_Xian",
+        "FZKuaiSTJW"
+      ],
+      "alpha": [
+        0.10294456034898758,
+        0.10091983526945114,
+        0.09977348148822784,
+        0.09976216405630112,
+        0.09970147907733917,
+        0.09946310520172119,
+        0.09945950657129288,
+        0.09945077449083328,
+        0.09935028851032257,
+        0.09917478263378143
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 1,
+      "font": "FZSongYJW",
+      "cp": "u006C",
+      "refs": [
+        "u4E3B",
+        "u7406",
+        "u7E41",
+        "u4E3D",
+        "u5357",
+        "u606F",
+        "u5589",
+        "u5DE5"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZSongYuanK",
+          0.10275829583406448
+        ]
+      ],
+      "selected": [
+        "FZSongYuanK",
+        "FZFWZhuZiMinchoD",
+        "FZQKBYSJW",
+        "FZHanSTJW",
+        "FZWuYTJW",
+        "FZYanSJW",
+        "FZVariable-YouSongJ",
+        "FZYouSJJW_507R",
+        "FZFWZhuZiABiaoTMCJW",
+        "FZYouSJJW_508R"
+      ],
+      "alpha": [
+        0.10275829583406448,
+        0.10130700469017029,
+        0.10058623552322388,
+        0.10045020282268524,
+        0.09995634108781815,
+        0.09973590075969696,
+        0.09894324094057083,
+        0.0989169180393219,
+        0.09871647506952286,
+        0.09862933307886124
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 1,
+      "font": "FZSiNTJW-UB",
+      "cp": "u3128",
+      "refs": [
+        "u524D",
+        "u5E73",
+        "u661F",
+        "u60F3",
+        "u5F3A",
+        "u5019",
+        "u5173",
+        "u4EBA"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZSiNTJW-H",
+          0.10500627011060715
+        ]
+      ],
+      "selected": [
+        "FZSiNTJW-H",
+        "FZLangKCTJW2",
+        "FZManYTJW-H",
+        "FZFuGCYJW",
+        "FZKuGHJW-H",
+        "FZVDLZhaoHJW-H",
+        "FZFWZhuZiHeiH",
+        "FZLTHProJW_H",
+        "FZXinZYHJW_EB",
+        "FZYouHJW_513B"
+      ],
+      "alpha": [
+        0.10500627011060715,
+        0.10041042417287827,
+        0.09993905574083328,
+        0.09946487843990326,
+        0.09942400455474854,
+        0.09923048317432404,
+        0.09919055551290512,
+        0.09913844615221024,
+        0.0991075336933136,
+        0.09908834844827652
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 1,
+      "font": "FZYouHK_510M",
+      "cp": "u0044",
+      "refs": [
+        "u6162",
+        "u65E5",
+        "u53BB",
+        "u4ED6",
+        "u695A",
+        "u5927"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouHJW_510M",
+          0.10102235525846481
+        ],
+        [
+          "FZYouHJW_509R",
+          0.10045476257801056
+        ],
+        [
+          "FZYouHK_509R",
+          0.10045476257801056
+        ],
+        [
+          "FZYouHJW_511M",
+          0.10030312836170197
+        ],
+        [
+          "FZYouHJW_512B",
+          0.09944894164800644
+        ],
+        [
+          "FZYouHK_512B",
+          0.09944894164800644
+        ]
+      ],
+      "selected": [
+        "FZYouHJW_510M",
+        "FZYouHJW_509R",
+        "FZYouHK_509R",
+        "FZYouHJW_511M",
+        "FZDeSHJW_508R",
+        "FZDeSHJW_507R",
+        "FZDeSHJW_509R",
+        "FZYouHJW_512B",
+        "FZYouHK_512B",
+        "FZFWZhuZiHeiD"
+      ],
+      "alpha": [
+        0.10102235525846481,
+        0.10045476257801056,
+        0.10045476257801056,
+        0.10030312836170197,
+        0.10020121186971664,
+        0.09987807273864746,
+        0.09973891824483871,
+        0.09944894164800644,
+        0.09944894164800644,
+        0.09904894232749939
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 2,
+      "font": "FZXinGHJW-UL",
+      "cp": "u307B",
+      "refs": [
+        "u4FAF",
+        "u77E5"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXinGHJW-EL",
+          0.09961622953414917
+        ]
+      ],
+      "selected": [
+        "FZXinZYHJW_UL",
+        "FZLuoMTJW-L",
+        "FZManYTJW-T",
+        "FZQianWTJW_Xian",
+        "FZXinGHJW-EL",
+        "FZLiYHJW-EL",
+        "FZQiMTJW_Xian",
+        "FZSiNTJW-UL",
+        "FZDiHTJ_Xian",
+        "FZLuoMTJW-R"
+      ],
+      "alpha": [
+        0.10342556983232498,
+        0.10014890134334564,
+        0.10010526329278946,
+        0.0998683050274849,
+        0.09961622953414917,
+        0.09952744841575623,
+        0.09946557879447937,
+        0.0993158146739006,
+        0.09927348792552948,
+        0.0992533266544342
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 2,
+      "font": "FZQianWTJW_Te",
+      "cp": "u30AB",
+      "refs": [
+        "u7B49",
+        "u7236",
+        "u5047"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10088980942964554
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZXieXTJW-EB",
+        "FZMengHHXJW-EB",
+        "FZShiTSJW_Te",
+        "FZChaoLTJW_Te",
+        "FZQiMTJW_Zhun",
+        "FZLengRSJW-B",
+        "FZJinCTJW_Te",
+        "FZAiSJW_Cu",
+        "FZXiaoSSJW_Te"
+      ],
+      "alpha": [
+        0.10088980942964554,
+        0.10035348683595657,
+        0.09999638050794601,
+        0.09995481371879578,
+        0.09989973157644272,
+        0.09984667599201202,
+        0.09980326890945435,
+        0.09978899359703064,
+        0.09975254535675049,
+        0.09971441328525543
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 3,
+      "font": "FZLuoMTJW-R",
+      "cp": "u3077",
+      "refs": [
+        "u56E0",
+        "u7A7A",
+        "u5589"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-L",
+          0.1028054729104042
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-L",
+        "FZFeiSJW-EL",
+        "FZTieXHJW_Xi",
+        "ZJZhuangSHJ-T",
+        "FZYingCTJW_Xian",
+        "FZDongGSJW-L",
+        "FZLiangHJW-L",
+        "FZXinZYHJW_UL",
+        "FZShuYTJW-L",
+        "FZLuoMXTJW-M"
+      ],
+      "alpha": [
+        0.1028054729104042,
+        0.10013622045516968,
+        0.0999905988574028,
+        0.0999346375465393,
+        0.09966443479061127,
+        0.09957817196846008,
+        0.09948581457138062,
+        0.09947281330823898,
+        0.0994659811258316,
+        0.09946588426828384
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 4,
+      "font": "FZVDLJingQSJ-T",
+      "cp": "u3045",
+      "refs": [
+        "u65E7",
+        "u5982",
+        "u5F3A",
+        "u628A",
+        "u6DF1",
+        "u653F",
+        "u5411",
+        "u8BD7"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-L",
+          0.09958942979574203
+        ]
+      ],
+      "selected": [
+        "FZQingFSJW_Xi",
+        "FZLiYHJW-EL",
+        "FZYiMSJW-T",
+        "FZHengWHJ-L",
+        "FZGDCTJW-L",
+        "FZXinGHJW-EL",
+        "FZDiHTJ_Xian",
+        "FZVDLXinZTJW-R",
+        "FZVDLJingQSJ-L",
+        "FZVariable-YouSongJ"
+      ],
+      "alpha": [
+        0.10097075253725052,
+        0.10042040050029755,
+        0.10032276809215546,
+        0.10005360841751099,
+        0.09995556622743607,
+        0.09988152235746384,
+        0.09971563518047333,
+        0.09960709512233734,
+        0.09958942979574203,
+        0.09948320686817169
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 5,
+      "font": "FZQianWTJW",
+      "cp": "u0074",
+      "refs": [
+        "u821E",
+        "u5B83",
+        "u673A",
+        "u7EFF",
+        "u706B",
+        "u5229",
+        "u540C",
+        "u884C"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW_Xian",
+          0.10257624089717865
+        ],
+        [
+          "FZQianWTJW_Te",
+          0.1000315472483635
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW_Xian",
+        "FZQianWTJW_Te",
+        "ZJZhuangSHJ-T",
+        "FZChaoLTJW",
+        "FZXinZYHJW_UL",
+        "FZWanBTJW_Xian",
+        "FZXinGHJW-EL",
+        "FZXinGHJW-UL",
+        "FZQINGSTJW",
+        "FZLiangHJW-L"
+      ],
+      "alpha": [
+        0.10257624089717865,
+        0.1000315472483635,
+        0.09987474232912064,
+        0.09976374357938766,
+        0.09964555501937866,
+        0.09963566809892654,
+        0.0996224582195282,
+        0.09961923211812973,
+        0.09961837530136108,
+        0.09961239248514175
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 5,
+      "font": "FZVDLJingQSJ-T",
+      "cp": "u3128",
+      "refs": [
+        "u4EC0",
+        "u5FEB",
+        "u529F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-L",
+          0.0996643453836441
+        ]
+      ],
+      "selected": [
+        "FZYiMSJW-T",
+        "FZHengWHJ-L",
+        "FZLiYHJW-EL",
+        "FZVDLXinZTJW-R",
+        "FZHeiFJW-L",
+        "FZXinGHJW-EL",
+        "FZQingKBYSJW-EL",
+        "FZFWZhuZGDLMCJW",
+        "FZVDLJingQSJ-L",
+        "FZFWZhuZGDSMCJW"
+      ],
+      "alpha": [
+        0.10088956356048584,
+        0.10029124468564987,
+        0.10019125044345856,
+        0.1000000461935997,
+        0.09999461472034454,
+        0.09977874904870987,
+        0.09977684915065765,
+        0.09975230693817139,
+        0.0996643453836441,
+        0.09966102242469788
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 6,
+      "font": "FZXianWTJW_Zhun",
+      "cp": "u01DA",
+      "refs": [
+        "u6696",
+        "u4E00",
+        "u5F3A",
+        "u6B64",
+        "u5E74",
+        "u4F46"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXianWTJW",
+          0.10256193578243256
+        ]
+      ],
+      "selected": [
+        "FZXianWTJW",
+        "FZSiBTJW",
+        "FZLouLTJW-R",
+        "FZYingCTJW_Xian",
+        "FZQingLTJW_Xian",
+        "FZDongGSJW-L",
+        "FZYingCTJW",
+        "FZQiMTJW_Xian",
+        "FZQINGSTJW",
+        "FZFeiYTJW"
+      ],
+      "alpha": [
+        0.10256193578243256,
+        0.10029717534780502,
+        0.09998136013746262,
+        0.09966748207807541,
+        0.09965094178915024,
+        0.09962253272533417,
+        0.09961521625518799,
+        0.09958434849977493,
+        0.099530890583992,
+        0.09948809444904327
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 7,
+      "font": "FZQianWTJW_Xian",
+      "cp": "u30D0",
+      "refs": [
+        "u4E2A",
+        "u4F53"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10320943593978882
+        ],
+        [
+          "FZQianWTJW_Te",
+          0.09897065907716751
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZLuoMTJW-L",
+        "FZXinGHJW-UL",
+        "FZXinZYHJW_UL",
+        "FZVDLXinZTJW-R",
+        "FZZhiXHJW-R",
+        "FZTieXHJW_Xi",
+        "FZZuoZYXTJW-B",
+        "FZSiNTJW-UL",
+        "FZQianWTJW_Te"
+      ],
+      "alpha": [
+        0.10320943593978882,
+        0.10070578008890152,
+        0.10051876306533813,
+        0.1004747748374939,
+        0.09950233995914459,
+        0.09924428164958954,
+        0.0992153212428093,
+        0.09910222142934799,
+        0.09905639290809631,
+        0.09897065907716751
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 4,
+      "rank": 7,
+      "font": "FZQianWTJW_Te",
+      "cp": "u0031",
+      "refs": [
+        "u673A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10030115395784378
+        ]
+      ],
+      "selected": [
+        "FZPiaoTJW_Cu",
+        "FZPiaoTJW",
+        "FZQianWTJW",
+        "FZYinSJW-DB",
+        "FZChaoLTJW",
+        "FZQINGSTJW",
+        "FZChaoLTJW_Te",
+        "FZLiangHJW-L",
+        "FZPiaoTJW_Xi",
+        "ZJZhuangSHJ-T"
+      ],
+      "alpha": [
+        0.10131318122148514,
+        0.10098424553871155,
+        0.10030115395784378,
+        0.09996539354324341,
+        0.0999106913805008,
+        0.09967809170484543,
+        0.09966706484556198,
+        0.09950779378414154,
+        0.09948577731847763,
+        0.09918670356273651
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 0,
+      "font": "FZDeSHJW_512B",
+      "cp": "u3091",
+      "refs": [
+        "u8FD9",
+        "u653E"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZDeSHJW_513B",
+          0.10087983310222626
+        ],
+        [
+          "FZDeSHJW_511M",
+          0.10057944059371948
+        ],
+        [
+          "FZDeSHJW_510M",
+          0.09974382817745209
+        ]
+      ],
+      "selected": [
+        "FZLTHProJW_H",
+        "FZDeSHJW_513B",
+        "FZDeSHJW_511M",
+        "FZDengXHJW-B",
+        "FZYouHJW_513B",
+        "FZYouHK_513B",
+        "FZDeSHJW_510M",
+        "FZYouHJW_512B",
+        "FZYouHK_512B",
+        "FZHeYTJW-EB"
+      ],
+      "alpha": [
+        0.10090561956167221,
+        0.10087983310222626,
+        0.10057944059371948,
+        0.10053494572639465,
+        0.09997458010911942,
+        0.09997458010911942,
+        0.09974382817745209,
+        0.09916743636131287,
+        0.09916743636131287,
+        0.09907224029302597
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 0,
+      "font": "FZTieXHJW",
+      "cp": "u0034",
+      "refs": [
+        "u5979",
+        "u4E1A",
+        "u60C5",
+        "u8BDD",
+        "u65B9",
+        "u4E8C",
+        "u827A",
+        "u8363"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZTieXHJW_Zhun",
+          0.09911928325891495
+        ]
+      ],
+      "selected": [
+        "FZManYTJW-T",
+        "FZSiNTJW-UL",
+        "fzsj_1928053",
+        "FZMoYTJW-L",
+        "FZZuoZYXTJW-B",
+        "FZLangYJW-L",
+        "FZMengHHXJW-EL",
+        "FZLangYJW-R",
+        "FZTieXHJW_Zhun",
+        "FZZhiXHJW-R"
+      ],
+      "alpha": [
+        0.10221096873283386,
+        0.1008530706167221,
+        0.1005118191242218,
+        0.10042597353458405,
+        0.09994128346443176,
+        0.09952535480260849,
+        0.09952421486377716,
+        0.09928986430168152,
+        0.09911928325891495,
+        0.09859820455312729
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 1,
+      "font": "FZMengHHXJW-EB",
+      "cp": "u0034",
+      "refs": [
+        "u533B",
+        "u90A3",
+        "u5176",
+        "u5267",
+        "u94F6",
+        "u52A8",
+        "u54B3",
+        "u5F97"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZMengHHXJW-EL",
+          0.09993290156126022
+        ]
+      ],
+      "selected": [
+        "FZJianZTJW-B",
+        "FZQiMTJW_Zhun",
+        "FZMoDTJW_Cu",
+        "FZQianWTJW_Te",
+        "FZCQJW",
+        "FZQiMTJW",
+        "FZXiangHJW-M",
+        "FZMengHHXJW-EL",
+        "FZZhiXHJW-R",
+        "FZYTJW"
+      ],
+      "alpha": [
+        0.10028433054685593,
+        0.10015310347080231,
+        0.1000065952539444,
+        0.09999401122331619,
+        0.09997131675481796,
+        0.09995425492525101,
+        0.09994395822286606,
+        0.09993290156126022,
+        0.09988440573215485,
+        0.0998750701546669
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 2,
+      "font": "FZQianWTJW_Xian",
+      "cp": "u0054",
+      "refs": [
+        "u4F4F",
+        "u6027",
+        "u4E8B",
+        "u6CA1"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10208795219659805
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZXinZYHJW_UL",
+        "FZXinGHJW-UL",
+        "FZLangYJW-L",
+        "FZLuoMTJW-L",
+        "FZXinHJYKXZJW",
+        "FZZuoZYXTJW-R",
+        "FZLuoMTJW-R",
+        "FZDongGSJW-L",
+        "FZTieXHJW_Xi"
+      ],
+      "alpha": [
+        0.10208795219659805,
+        0.10072217136621475,
+        0.10062175244092941,
+        0.09997304528951645,
+        0.09993243962526321,
+        0.09983956068754196,
+        0.09961966425180435,
+        0.09921170026063919,
+        0.09905637055635452,
+        0.09893523901700974
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 2,
+      "font": "FZQianWTJW_Te",
+      "cp": "u3055",
+      "refs": [
+        "u7B49",
+        "u5B66",
+        "u5B83",
+        "u4E0E",
+        "u897F",
+        "u6700",
+        "u5229",
+        "u6728"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10143517702817917
+        ],
+        [
+          "FZQianWTJW_Xian",
+          0.10010944306850433
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZQianWTJW_Xian",
+        "FZQINGSTJW",
+        "FZChaoLTJW_Te",
+        "FZMengHHXJW-EB",
+        "FZChaoLTJW",
+        "FZQiMTJW_Zhun",
+        "FZXianWTJW_Zhun",
+        "FZXiaoSSJW_Te",
+        "FZLengRSJW-B"
+      ],
+      "alpha": [
+        0.10143517702817917,
+        0.10010944306850433,
+        0.10010715574026108,
+        0.10010571777820587,
+        0.09994755685329437,
+        0.09973332285881042,
+        0.09965469688177109,
+        0.09965374320745468,
+        0.0996323674917221,
+        0.09962086379528046
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 3,
+      "font": "FZXianWTJW_Zhun",
+      "cp": "u30D0",
+      "refs": [
+        "u4F7F",
+        "u5C31",
+        "u4E0A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXianWTJW",
+          0.10248218476772308
+        ]
+      ],
+      "selected": [
+        "FZXianWTJW",
+        "FZLouLTJW-R",
+        "FZQiMTJW_Xian",
+        "FZQingLTJW_Xian",
+        "FZSiBTJW",
+        "FZQiMTJW",
+        "FZDongGSJW-L",
+        "FZFeiYTJW",
+        "FZYingCTJW",
+        "FZQINGSTJW"
+      ],
+      "alpha": [
+        0.10248218476772308,
+        0.1001754179596901,
+        0.10000637173652649,
+        0.0998072400689125,
+        0.09969974309206009,
+        0.09963909536600113,
+        0.09959264099597931,
+        0.09954345971345901,
+        0.0995371863245964,
+        0.09951668977737427
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 3,
+      "font": "FZVDLJingQSJ-T",
+      "cp": "u0037",
+      "refs": [
+        "u6765",
+        "u884C",
+        "u770B"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-L",
+          0.10013338178396225
+        ]
+      ],
+      "selected": [
+        "FZQingFSJW_Xi",
+        "FZDiHTJ_Xian",
+        "FZVDLJingQSJ-L",
+        "FZVariable-YouSongJ",
+        "FZXinGHJW-EL",
+        "FZVDLXinZTJW-R",
+        "FZHengWHJ-L",
+        "FZLiYHJW-EL",
+        "FZYiMSJW-T",
+        "FZYanSJW"
+      ],
+      "alpha": [
+        0.10120624303817749,
+        0.10059952735900879,
+        0.10013338178396225,
+        0.09985397756099701,
+        0.0998467355966568,
+        0.09980075806379318,
+        0.09975983947515488,
+        0.09969393163919449,
+        0.09958379715681076,
+        0.09952189773321152
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 3,
+      "font": "FZLuoMXTJW-M",
+      "cp": "u306C",
+      "refs": [
+        "u79D1",
+        "u5B83",
+        "u68A6",
+        "u5979",
+        "u8863"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-EB",
+          0.1007496640086174
+        ]
+      ],
+      "selected": [
+        "FZXianWXTJW-L",
+        "FZLingDTJW-L",
+        "FZLuoMXTJW-EB",
+        "FZLuoMTJW-L",
+        "FZFengBPYTJW",
+        "FZLiangHJW-L",
+        "FZZuoZYXTJW-B",
+        "FZLuoMTJW-R",
+        "FZTieXHJW_Xi",
+        "FZMengHHXJW-EL"
+      ],
+      "alpha": [
+        0.1018509790301323,
+        0.10170693695545197,
+        0.1007496640086174,
+        0.09984395653009415,
+        0.0995783656835556,
+        0.0994611531496048,
+        0.0994383841753006,
+        0.09922079741954803,
+        0.09907518327236176,
+        0.09907461702823639
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 4,
+      "font": "FZYouHJW_512B",
+      "cp": "u3116",
+      "refs": [
+        "u5B66",
+        "u6570",
+        "u53BB",
+        "u8DEF",
+        "u798F",
+        "u5149"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouHK_512B",
+          0.10144762694835663
+        ],
+        [
+          "FZYouHJW_511M",
+          0.10091979056596756
+        ],
+        [
+          "FZYouHJW_513B",
+          0.10079946368932724
+        ],
+        [
+          "FZYouHK_513B",
+          0.10079946368932724
+        ],
+        [
+          "FZYouHJW_510M",
+          0.09991645812988281
+        ],
+        [
+          "FZYouHK_510M",
+          0.09991645812988281
+        ],
+        [
+          "FZYouHJW_509R",
+          0.09889206290245056
+        ]
+      ],
+      "selected": [
+        "FZYouHK_512B",
+        "FZYouHJW_511M",
+        "FZYouHJW_513B",
+        "FZYouHK_513B",
+        "FZYouHJW_510M",
+        "FZYouHK_510M",
+        "FZBaoHTJW_Da",
+        "FZFWZhuZiHeiE",
+        "FZLTHProJW_H",
+        "FZYouHJW_509R"
+      ],
+      "alpha": [
+        0.10144762694835663,
+        0.10091979056596756,
+        0.10079946368932724,
+        0.10079946368932724,
+        0.09991645812988281,
+        0.09991645812988281,
+        0.09931813925504684,
+        0.09900200366973877,
+        0.09898849576711655,
+        0.09889206290245056
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 5,
+      "font": "FZQianWTJW_Te",
+      "cp": "u30A2",
+      "refs": [
+        "u4E0E",
+        "u5DE5",
+        "u53F2",
+        "u4ECE"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10109095275402069
+        ],
+        [
+          "FZQianWTJW_Xian",
+          0.09972862154245377
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZChaoLTJW",
+        "FZSiBTJW",
+        "FZChaoLTJW_Te",
+        "FZMoDTJW_Cu",
+        "FZJinCTJW_Te",
+        "FZQiMTJW_Zhun",
+        "FZLuoMTJW-R",
+        "FZQianWTJW_Xian",
+        "FZLuoMTJW-L"
+      ],
+      "alpha": [
+        0.10109095275402069,
+        0.1000882089138031,
+        0.10005337744951248,
+        0.1000489816069603,
+        0.09994523227214813,
+        0.09981558471918106,
+        0.09980292618274689,
+        0.09975326061248779,
+        0.09972862154245377,
+        0.09967280179262161
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 5,
+      "font": "FZLuoMTJW-R",
+      "cp": "u00E1",
+      "refs": [
+        "u6708",
+        "u5E78",
+        "u5236",
+        "u88AB",
+        "u594B",
+        "u6B4C",
+        "u97F5",
+        "u5E73"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-L",
+          0.10206808149814606
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-L",
+        "FZDongGSJW-L",
+        "FZXianWTJW",
+        "FZShuYTJW-L",
+        "FZFeiSJW-EL",
+        "FZYinSJW-R",
+        "FZYingCTJW_Xian",
+        "FZXinHJYKXZJW",
+        "FZXinZYHJW_UL",
+        "FZQingLTJW_Xian"
+      ],
+      "alpha": [
+        0.10206808149814606,
+        0.09995435178279877,
+        0.0999385267496109,
+        0.09992051869630814,
+        0.09986259788274765,
+        0.09984621405601501,
+        0.09981993585824966,
+        0.09960731118917465,
+        0.09949593991041183,
+        0.09948645532131195
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 5,
+      "font": "FZDeSHJW_514H",
+      "cp": "u0037",
+      "refs": [
+        "u8C0A",
+        "u9AD8",
+        "u52E4"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZDeSHJW_513B",
+          0.10116788744926453
+        ],
+        [
+          "FZDeSHJW_512B",
+          0.09991975128650665
+        ]
+      ],
+      "selected": [
+        "FZDeSHJW_513B",
+        "FZDengXHJW-B",
+        "FZVDLJianZHJW-H",
+        "FZLTHProJW_H",
+        "FZXinZYHJW_EB",
+        "FZDeSHJW_512B",
+        "FZYiSJW_Te",
+        "FZVDLZhaoHJW-H",
+        "FZZiHJW",
+        "FZCCHJW"
+      ],
+      "alpha": [
+        0.10116788744926453,
+        0.10027199983596802,
+        0.10005954653024673,
+        0.10005325078964233,
+        0.09992499649524689,
+        0.09991975128650665,
+        0.09972849488258362,
+        0.09971842169761658,
+        0.09967173635959625,
+        0.09948389232158661
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 6,
+      "font": "FZXinGHJW-UL",
+      "cp": "u311C",
+      "refs": [
+        "u6D45",
+        "u4EC0",
+        "u65E0",
+        "u8FD9"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXinGHJW-EL",
+          0.099408358335495
+        ]
+      ],
+      "selected": [
+        "FZXinZYHJW_UL",
+        "FZLuoMTJW-L",
+        "FZManYTJW-T",
+        "FZLuoMTJW-R",
+        "FZLiYHJW-EL",
+        "FZXinGHJW-EL",
+        "FZDongGSJW-L",
+        "FZMengHHXJW-EL",
+        "FZXianWXTJW-L",
+        "FZYiMSJW-T"
+      ],
+      "alpha": [
+        0.10376934707164764,
+        0.10113340616226196,
+        0.09974690526723862,
+        0.0996808186173439,
+        0.09944135695695877,
+        0.099408358335495,
+        0.09928149729967117,
+        0.09921760857105255,
+        0.09917456656694412,
+        0.09914609789848328
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 6,
+      "font": "FZLuoMTJW-L",
+      "cp": "u3072",
+      "refs": [
+        "u6539",
+        "u6B4C",
+        "u8363",
+        "u6301",
+        "u91CC",
+        "u5F0A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-R",
+          0.1022699847817421
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-R",
+        "FZTieXHJW_Xi",
+        "FZXinZYHJW_UL",
+        "FZXinGHJW-UL",
+        "FZQianWTJW_Xian",
+        "FZMengHHXJW-EL",
+        "FZSiNTJW-UL",
+        "FZDongGSJW-L",
+        "FZManYTJW-T",
+        "FZFeiSJW-EL"
+      ],
+      "alpha": [
+        0.1022699847817421,
+        0.10056841373443604,
+        0.1003972664475441,
+        0.10009343922138214,
+        0.09968923777341843,
+        0.0995282232761383,
+        0.0994655042886734,
+        0.09942292422056198,
+        0.09931299835443497,
+        0.09925202280282974
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 6,
+      "font": "FZFengZTJW-EB",
+      "cp": "u0078",
+      "refs": [
+        "u5F97",
+        "u5BCC",
+        "u5E78",
+        "u6C34"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZFengZTJW-B",
+          0.1041952520608902
+        ],
+        [
+          "FZFengZTJW-M",
+          0.10026190429925919
+        ]
+      ],
+      "selected": [
+        "FZFengZTJW-B",
+        "FZFengZTJW-M",
+        "FZLiuCTJW_Te",
+        "FZFeiYiTJW-EB",
+        "FZFengRSTJW-B",
+        "FZSiBTJW_Te",
+        "FZMaLTJW_Da",
+        "FZXiaoSSJW_Te",
+        "FZBoYTJW-B",
+        "FZCQJW"
+      ],
+      "alpha": [
+        0.1041952520608902,
+        0.10026190429925919,
+        0.09985701739788055,
+        0.099626824259758,
+        0.09958503395318985,
+        0.09939906001091003,
+        0.09939602762460709,
+        0.09926747530698776,
+        0.09921646118164062,
+        0.09919489175081253
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 7,
+      "font": "FZLuoMTJW-L",
+      "cp": "u3091",
+      "refs": [
+        "u88AB",
+        "u7231",
+        "u6765",
+        "u4ECE",
+        "u540E",
+        "u8239",
+        "u6CA1",
+        "u8F66"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-R",
+          0.10252010077238083
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-R",
+        "FZXinZYHJW_UL",
+        "FZXinGHJW-UL",
+        "FZTieXHJW_Xi",
+        "FZManYTJW-T",
+        "FZMengHHXJW-EL",
+        "FZXianWTJW",
+        "FZTieXHJW",
+        "FZSiNTJW-UL",
+        "FZFeiSJW-EL"
+      ],
+      "alpha": [
+        0.10252010077238083,
+        0.10052414983510971,
+        0.10049596428871155,
+        0.10038408637046814,
+        0.09978809952735901,
+        0.09931709617376328,
+        0.09927372634410858,
+        0.0992574468255043,
+        0.09924390912055969,
+        0.09919536858797073
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 7,
+      "font": "FZQianWTJW_Xian",
+      "cp": "u01D6",
+      "refs": [
+        "u6821",
+        "u4E3A",
+        "u5F0A",
+        "u6708"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10172832757234573
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZXinGHJW-UL",
+        "FZXinZYHJW_UL",
+        "FZLuoMTJW-L",
+        "FZSiNTJW-UL",
+        "FZLuoMTJW-R",
+        "FZQingLTJW_Xian",
+        "FZYingCTJW_Xian",
+        "FZXinHJYKXZJW",
+        "FZDongGSJW-L"
+      ],
+      "alpha": [
+        0.10172832757234573,
+        0.10032544285058975,
+        0.10014907270669937,
+        0.09995156526565552,
+        0.09989791363477707,
+        0.09980040788650513,
+        0.09964548051357269,
+        0.09959380328655243,
+        0.09945987164974213,
+        0.09944811463356018
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 5,
+      "rank": 7,
+      "font": "FZLuoMTJW-L",
+      "cp": "u3119",
+      "refs": [
+        "u5E78",
+        "u4E0B",
+        "u8D77",
+        "u836F",
+        "u529B",
+        "u97F5",
+        "u548C",
+        "u771F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-R",
+          0.10244163870811462
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-R",
+        "FZXinGHJW-UL",
+        "FZXinZYHJW_UL",
+        "FZFeiSJW-EL",
+        "FZManYTJW-T",
+        "FZLuoMXTJW-M",
+        "FZYiMSJW-T",
+        "FZSiNTJW-UL",
+        "FZMengHHXJW-EL",
+        "FZQingKBYSJW-EL"
+      ],
+      "alpha": [
+        0.10244163870811462,
+        0.10073250532150269,
+        0.10057920217514038,
+        0.09971106052398682,
+        0.09965792298316956,
+        0.09964708238840103,
+        0.09953881055116653,
+        0.09929466992616653,
+        0.09920607507228851,
+        0.09919103235006332
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 6,
+      "rank": 1,
+      "font": "FZJingWTJW_Xian",
+      "cp": "u30B5",
+      "refs": [
+        "u4E0A",
+        "u5F1F",
+        "u8363",
+        "u4E8C",
+        "u53D1"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZJingWTJW",
+          0.10006912797689438
+        ]
+      ],
+      "selected": [
+        "FZHengWHJ-L",
+        "FZYaZTJ_Xian",
+        "FZJingWTJW",
+        "FZVDLJiaoRHJW-T",
+        "FZFWZhuZiHeiL",
+        "FZGDCTJW-L",
+        "FZBaoCTJW",
+        "FZFWZhuZiHeiR",
+        "FZXinGHJW-EL",
+        "FZDiHTJ_Xian"
+      ],
+      "alpha": [
+        0.10052921622991562,
+        0.10039997100830078,
+        0.10006912797689438,
+        0.09996325522661209,
+        0.09992779046297073,
+        0.09985082596540451,
+        0.09983216226100922,
+        0.09982740134000778,
+        0.0998021736741066,
+        0.09979808330535889
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 6,
+      "rank": 1,
+      "font": "FZYouSJJW_507R",
+      "cp": "u3050",
+      "refs": [
+        "u504F",
+        "u9ED1",
+        "u5FEB",
+        "u5DE6",
+        "u5589",
+        "u5C0F"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouSJJW_508R",
+          0.10245970636606216
+        ],
+        [
+          "FZYouSJJW_509R",
+          0.10139569640159607
+        ]
+      ],
+      "selected": [
+        "FZVariable-YouSongJ",
+        "FZYouSJJW_508R",
+        "FZYouSJJW_509R",
+        "FZFWZhuZiMinchoD",
+        "FZSongYuanK",
+        "FZVDLJingQSJ-L",
+        "FZXLB",
+        "FZFWZhuZiHeiR",
+        "FZFWZhuZiHeiL",
+        "FZFWZhuZiHeiM"
+      ],
+      "alpha": [
+        0.10246986895799637,
+        0.10245970636606216,
+        0.10139569640159607,
+        0.09974519908428192,
+        0.09948167204856873,
+        0.09929655492305756,
+        0.0990859866142273,
+        0.09874535351991653,
+        0.0987340435385704,
+        0.09858585149049759
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 6,
+      "rank": 3,
+      "font": "FZVDLJingQSJ-T",
+      "cp": "u00EA",
+      "refs": [
+        "u8BDA",
+        "u533B",
+        "u821E"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-L",
+          0.10043502599000931
+        ]
+      ],
+      "selected": [
+        "FZQingFSJW_Xi",
+        "FZVDLJingQSJ-L",
+        "FZVariable-YouSongJ",
+        "FZYanSJW",
+        "FZYiMSJW-T",
+        "FZYouSJJW_507R",
+        "FZChenQTJW",
+        "FZDiHTJ_Xian",
+        "FZQingKBYSJW-EL",
+        "FZFWZhuZGDLMCJW"
+      ],
+      "alpha": [
+        0.10121463984251022,
+        0.10043502599000931,
+        0.10035144537687302,
+        0.100086510181427,
+        0.10000836104154587,
+        0.09975194185972214,
+        0.09970400482416153,
+        0.0996922180056572,
+        0.09948251396417618,
+        0.09927334636449814
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 6,
+      "rank": 4,
+      "font": "FZYouHJW_509R",
+      "cp": "u30CA",
+      "refs": [
+        "u594B"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouHK_509R",
+          0.10095060616731644
+        ],
+        [
+          "FZYouHJW_510M",
+          0.10046013444662094
+        ],
+        [
+          "FZYouHK_510M",
+          0.10046013444662094
+        ],
+        [
+          "FZYouHJW_508R",
+          0.10000188648700714
+        ],
+        [
+          "FZYouHK_508R",
+          0.10000188648700714
+        ],
+        [
+          "FZYouHJW_511M",
+          0.09922119975090027
+        ]
+      ],
+      "selected": [
+        "FZYouHK_509R",
+        "FZYouHJW_510M",
+        "FZYouHK_510M",
+        "FZDeSHJW_507R",
+        "FZYouHJW_508R",
+        "FZYouHK_508R",
+        "FZDeSHJW_508R",
+        "FZFWZhuZiHeiD",
+        "FZDeSHJW_509R",
+        "FZYouHJW_511M"
+      ],
+      "alpha": [
+        0.10095060616731644,
+        0.10046013444662094,
+        0.10046013444662094,
+        0.10006436705589294,
+        0.10000188648700714,
+        0.10000188648700714,
+        0.09995096921920776,
+        0.09946753084659576,
+        0.09942124783992767,
+        0.09922119975090027
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 6,
+      "rank": 5,
+      "font": "FZFengRSTJW-B",
+      "cp": "u0057",
+      "refs": [
+        "u4E2A",
+        "u4E0B",
+        "u628A",
+        "u5931",
+        "u95F4",
+        "u52C7",
+        "u8BDD"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZFengRSTJW-R",
+          0.10000451654195786
+        ]
+      ],
+      "selected": [
+        "FZXiaoSSJW_Te",
+        "FZLiDXYTJW",
+        "FZJianZTJW-B",
+        "FZFengRSTJW-R",
+        "FZAiSJW_Cu",
+        "FZYingCTJW",
+        "FZYASHJW_Cu",
+        "FZCQJW",
+        "FZYaSSJW-B",
+        "FZLouLTJW-EB"
+      ],
+      "alpha": [
+        0.10076675564050674,
+        0.10036557167768478,
+        0.10026723146438599,
+        0.10000451654195786,
+        0.09995703399181366,
+        0.09989757090806961,
+        0.09972850978374481,
+        0.09969893842935562,
+        0.09965711086988449,
+        0.09965682029724121
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 6,
+      "rank": 6,
+      "font": "FZYouHK_509R",
+      "cp": "u3129",
+      "refs": [
+        "u59D0",
+        "u636E",
+        "u4E09",
+        "u836F",
+        "u5929",
+        "u4E00"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouHJW_509R",
+          0.10131204128265381
+        ],
+        [
+          "FZYouHJW_510M",
+          0.10078087449073792
+        ],
+        [
+          "FZYouHK_510M",
+          0.10078087449073792
+        ],
+        [
+          "FZYouHJW_508R",
+          0.1003214493393898
+        ],
+        [
+          "FZYouHK_508R",
+          0.1003214493393898
+        ],
+        [
+          "FZYouHJW_511M",
+          0.09981746971607208
+        ],
+        [
+          "FZYouHJW_512B",
+          0.0988888293504715
+        ],
+        [
+          "FZYouHK_512B",
+          0.0988888293504715
+        ]
+      ],
+      "selected": [
+        "FZYouHJW_509R",
+        "FZYouHJW_510M",
+        "FZYouHK_510M",
+        "FZYouHJW_508R",
+        "FZYouHK_508R",
+        "FZFWZhuZiHeiD",
+        "FZYouHJW_511M",
+        "FZYouHJW_512B",
+        "FZYouHK_512B",
+        "FZFWZhuZiHeiM"
+      ],
+      "alpha": [
+        0.10131204128265381,
+        0.10078087449073792,
+        0.10078087449073792,
+        0.1003214493393898,
+        0.1003214493393898,
+        0.10006489604711533,
+        0.09981746971607208,
+        0.0988888293504715,
+        0.0988888293504715,
+        0.09882330149412155
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 6,
+      "rank": 7,
+      "font": "FZXianWTJW_Zhun",
+      "cp": "u3058",
+      "refs": [
+        "u7231",
+        "u770B",
+        "u5F00",
+        "u7269",
+        "u6765",
+        "u540C",
+        "u675F",
+        "u98DE"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZXianWTJW",
+          0.10250422358512878
+        ]
+      ],
+      "selected": [
+        "FZXianWTJW",
+        "FZSiBTJW",
+        "FZLouLTJW-R",
+        "FZFeiYTJW",
+        "FZDongGSJW-L",
+        "FZQiMTJW_Xian",
+        "FZQINGSTJW",
+        "FZKuaiSTJW",
+        "FZYingCTJW",
+        "FZQiMTJW"
+      ],
+      "alpha": [
+        0.10250422358512878,
+        0.10042493045330048,
+        0.10041659325361252,
+        0.0996130183339119,
+        0.09961101412773132,
+        0.09959734231233597,
+        0.09951863437891006,
+        0.09948598593473434,
+        0.09946350008249283,
+        0.09936480969190598
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 6,
+      "rank": 7,
+      "font": "FZBaiZJHTJW",
+      "cp": "u310D",
+      "refs": [
+        "u5934",
+        "u753B",
+        "u7269",
+        "u5C71",
+        "u98DF"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZBaiZJHTJW-L",
+          0.10006125271320343
+        ]
+      ],
+      "selected": [
+        "FZBaiZRZTJW",
+        "FZShaoLGFTJW",
+        "FZBaiZJHTJW-L",
+        "FZZH-LTXXTJW",
+        "FZBaiZBYTJW",
+        "FZYiHTJW-EB",
+        "FZBaiZJDTJW",
+        "FZYunLTJW",
+        "FZBGDT",
+        "FZZJ-TBPYTJW"
+      ],
+      "alpha": [
+        0.10041122138500214,
+        0.10027609765529633,
+        0.10006125271320343,
+        0.10003778338432312,
+        0.09995052963495255,
+        0.09994242340326309,
+        0.09991773962974548,
+        0.09984325617551804,
+        0.09980841726064682,
+        0.099751316010952
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 7,
+      "rank": 1,
+      "font": "FZQianWTJW_Te",
+      "cp": "u304B",
+      "refs": [
+        "u670B",
+        "u5E78"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10081571340560913
+        ],
+        [
+          "FZQianWTJW_Xian",
+          0.09954895079135895
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZXieXTJW-EB",
+        "FZChaoLTJW",
+        "FZChaoLTJW_Te",
+        "FZQINGSTJW",
+        "FZSiBTJW",
+        "ZJZhuangSHJ-T",
+        "FZQianWTJW_Xian",
+        "FZYingCTJW",
+        "FZQiMTJW_Xian"
+      ],
+      "alpha": [
+        0.10081571340560913,
+        0.10028160363435745,
+        0.10027605295181274,
+        0.1001456007361412,
+        0.10013195127248764,
+        0.10005024075508118,
+        0.09974528104066849,
+        0.09954895079135895,
+        0.0995463877916336,
+        0.0994582325220108
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 7,
+      "rank": 2,
+      "font": "FZYouHK_508R",
+      "cp": "u311D",
+      "refs": [
+        "u7A7A",
+        "u4E3D"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouHJW_508R",
+          0.10176168382167816
+        ],
+        [
+          "FZYouHJW_509R",
+          0.10055771470069885
+        ],
+        [
+          "FZYouHK_509R",
+          0.10055771470069885
+        ],
+        [
+          "FZYouHJW_510M",
+          0.09972303360700607
+        ],
+        [
+          "FZYouHK_510M",
+          0.09972303360700607
+        ],
+        [
+          "FZYouHJW_511M",
+          0.09893641620874405
+        ]
+      ],
+      "selected": [
+        "FZYouHJW_508R",
+        "FZFWZhuZiHeiD",
+        "FZYouHJW_509R",
+        "FZYouHK_509R",
+        "FZFWZhuZiHeiM",
+        "FZYouHJW_510M",
+        "FZYouHK_510M",
+        "FZFWZhuZiHeiR",
+        "FZYouHJW_511M",
+        "FZFWZhuZLSHTJWB"
+      ],
+      "alpha": [
+        0.10176168382167816,
+        0.10080130398273468,
+        0.10055771470069885,
+        0.10055771470069885,
+        0.10014848411083221,
+        0.09972303360700607,
+        0.09972303360700607,
+        0.09909109026193619,
+        0.09893641620874405,
+        0.09869958460330963
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 7,
+      "rank": 2,
+      "font": "FZYouHK_510M",
+      "cp": "u307A",
+      "refs": [
+        "u5065",
+        "u5408",
+        "u98CE",
+        "u5934",
+        "u6218",
+        "u4E66",
+        "u60F3"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZYouHJW_510M",
+          0.10104939341545105
+        ],
+        [
+          "FZYouHJW_509R",
+          0.10046526044607162
+        ],
+        [
+          "FZYouHK_509R",
+          0.10046526044607162
+        ],
+        [
+          "FZYouHJW_511M",
+          0.10034213215112686
+        ],
+        [
+          "FZYouHJW_512B",
+          0.09931091219186783
+        ],
+        [
+          "FZYouHK_512B",
+          0.09931091219186783
+        ],
+        [
+          "FZYouHJW_508R",
+          0.09909435361623764
+        ]
+      ],
+      "selected": [
+        "FZYouHJW_510M",
+        "FZYouHJW_509R",
+        "FZYouHK_509R",
+        "FZYouHJW_511M",
+        "FZDeSHJW_508R",
+        "FZDeSHJW_507R",
+        "FZDeSHJW_509R",
+        "FZYouHJW_512B",
+        "FZYouHK_512B",
+        "FZYouHJW_508R"
+      ],
+      "alpha": [
+        0.10104939341545105,
+        0.10046526044607162,
+        0.10046526044607162,
+        0.10034213215112686,
+        0.10027860850095749,
+        0.09985098987817764,
+        0.09983222931623459,
+        0.09931091219186783,
+        0.09931091219186783,
+        0.09909435361623764
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 7,
+      "rank": 3,
+      "font": "FZVDLJingQSJ-T",
+      "cp": "u3107",
+      "refs": [
+        "u4E9B",
+        "u70B9",
+        "u8001",
+        "u4E5F",
+        "u8C10",
+        "u65B0",
+        "u56FD",
+        "u4E2D"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZVDLJingQSJ-L",
+          0.10003269463777542
+        ]
+      ],
+      "selected": [
+        "FZLiYHJW-EL",
+        "FZYiMSJW-T",
+        "FZVDLJingQSJ-L",
+        "FZHengWHJ-L",
+        "FZQingKBYSJW-EL",
+        "FZXinGHJW-EL",
+        "FZGDCTJW-L",
+        "FZFWZhuZiHeiL",
+        "FZVDLXinZTJW-R",
+        "FZVariable-YouSongJ"
+      ],
+      "alpha": [
+        0.10052568465471268,
+        0.10049252212047577,
+        0.10003269463777542,
+        0.10001819580793381,
+        0.09998109936714172,
+        0.09994754195213318,
+        0.09994334727525711,
+        0.09978382289409637,
+        0.0996781587600708,
+        0.09959691762924194
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 7,
+      "rank": 3,
+      "font": "FZLuoMXTJW-M",
+      "cp": "u0044",
+      "refs": [
+        "u77E5",
+        "u80FD",
+        "u6811",
+        "u4F5C",
+        "u53C8",
+        "u95F4",
+        "u5FC3"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-EB",
+          0.10035435110330582
+        ]
+      ],
+      "selected": [
+        "FZXianWXTJW-L",
+        "FZLingDTJW-L",
+        "FZLuoMXTJW-EB",
+        "FZLangYJW-L",
+        "FZZuoZYXTJW-R",
+        "FZLuoMTJW-L",
+        "FZZuoZYXTJW-B",
+        "FZLuoMTJW-R",
+        "FZXinZYHJW_UL",
+        "fzsj_1966669"
+      ],
+      "alpha": [
+        0.10141371190547943,
+        0.10092906653881073,
+        0.10035435110330582,
+        0.10014134645462036,
+        0.09996386617422104,
+        0.09990448504686356,
+        0.09951157867908478,
+        0.09944157302379608,
+        0.09917950630187988,
+        0.09916049987077713
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 7,
+      "rank": 5,
+      "font": "FZChaoLTJW",
+      "cp": "u01D6",
+      "refs": [
+        "u88AB",
+        "u695A",
+        "u5973",
+        "u9020",
+        "u533B"
+      ],
+      "active": false,
+      "same_family_donors": [
+        [
+          "FZChaoLTJW_Te",
+          0.10067874938249588
+        ]
+      ],
+      "selected": [
+        "FZQINGSTJW",
+        "FZChaoLTJW_Te",
+        "FZQingLTJW_Xian",
+        "ZJZhuangSHJ-T",
+        "FZBoYTJW-L",
+        "FZPiaoTJW_Xi",
+        "FZQianWTJW",
+        "FZYingCTJW",
+        "FZQiMTJW_Xian",
+        "FZWanBTJW_Xian"
+      ],
+      "alpha": [
+        0.10106604546308517,
+        0.10067874938249588,
+        0.10043507069349289,
+        0.10007041692733765,
+        0.09985020756721497,
+        0.0998130738735199,
+        0.09966582804918289,
+        0.09960786998271942,
+        0.09946823120117188,
+        0.09934451431035995
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 7,
+      "rank": 6,
+      "font": "FZFengZTJW-B",
+      "cp": "u0041",
+      "refs": [
+        "u6162",
+        "u5931",
+        "u8BF4",
+        "u90FD",
+        "u5C06",
+        "u5149",
+        "u7136"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZFengZTJW-EB",
+          0.10366471111774445
+        ],
+        [
+          "FZFengZTJW-M",
+          0.10164104402065277
+        ]
+      ],
+      "selected": [
+        "FZFengZTJW-EB",
+        "FZFengZTJW-M",
+        "FZLouLTJW-EB",
+        "FZFengRSTJW-B",
+        "FZLiuCTJW_Te",
+        "FZMaLTJW_Da",
+        "FZAiSJW_Cu",
+        "FZDiHTJ_Zhun",
+        "FZXiaoSSJW_Te",
+        "FZShiTSJW"
+      ],
+      "alpha": [
+        0.10366471111774445,
+        0.10164104402065277,
+        0.09964033961296082,
+        0.09962846338748932,
+        0.09946014732122421,
+        0.09923162311315536,
+        0.09922348707914352,
+        0.09919954836368561,
+        0.09916171431541443,
+        0.09914885461330414
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 7,
+      "rank": 7,
+      "font": "FZFengZTJW-M",
+      "cp": "u01D6",
+      "refs": [
+        "u6C11",
+        "u628A",
+        "u65E0"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZFengZTJW-B",
+          0.10151002556085587
+        ],
+        [
+          "FZFengZTJW-EB",
+          0.0999082401394844
+        ]
+      ],
+      "selected": [
+        "FZFengZTJW-B",
+        "FZYingCTJW",
+        "FZSiBTJW",
+        "FZYingCTJW_Xian",
+        "FZFengZTJW-EB",
+        "FZMaLTJW",
+        "FZYouYSJW-R",
+        "FZKuaiSTJW",
+        "FZLiuCTJW",
+        "FZDongGSJW-L"
+      ],
+      "alpha": [
+        0.10151002556085587,
+        0.10021331906318665,
+        0.1000773161649704,
+        0.09991519898176193,
+        0.0999082401394844,
+        0.09974915534257889,
+        0.09969856590032578,
+        0.09965645521879196,
+        0.09964561462402344,
+        0.09962613880634308
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 8,
+      "rank": 0,
+      "font": "FZLuoMXTJW-M",
+      "cp": "u00F3",
+      "refs": [
+        "u575A"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-EB",
+          0.10121896862983704
+        ]
+      ],
+      "selected": [
+        "FZLuoMXTJW-EB",
+        "FZXianWXTJW-L",
+        "FZLingDTJW-L",
+        "FZYinSJW-R",
+        "FZLuoMTJW-R",
+        "FZLangYJW-L",
+        "FZMengHHXJW-EL",
+        "FZLiangHJW-L",
+        "FZLuoMTJW-L",
+        "FZQianWTJW_Xian"
+      ],
+      "alpha": [
+        0.10121896862983704,
+        0.1011805534362793,
+        0.10099516808986664,
+        0.09998450428247452,
+        0.09998440742492676,
+        0.09964971244335175,
+        0.0993419960141182,
+        0.09927428513765335,
+        0.09921351820230484,
+        0.09915685653686523
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 8,
+      "rank": 0,
+      "font": "FZLuoMTJW-L",
+      "cp": "u0113",
+      "refs": [
+        "u675F",
+        "u5411",
+        "u57CE"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMTJW-R",
+          0.1012163981795311
+        ]
+      ],
+      "selected": [
+        "FZLuoMTJW-R",
+        "FZLangYJW-L",
+        "FZTieXHJW_Xi",
+        "FZXinHJYKXZJW",
+        "FZXinZYHJW_UL",
+        "FZManYTJW-T",
+        "FZXinGHJW-UL",
+        "FZMengHHXJW-EL",
+        "FZSiNTJW-UL",
+        "FZTieXHJW"
+      ],
+      "alpha": [
+        0.1012163981795311,
+        0.10054966807365417,
+        0.10022177547216415,
+        0.10012271255254745,
+        0.09998549520969391,
+        0.09996223449707031,
+        0.09982705116271973,
+        0.09969394654035568,
+        0.09932488948106766,
+        0.09909573197364807
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 8,
+      "rank": 0,
+      "font": "FZLuoMXTJW-M",
+      "cp": "u3071",
+      "refs": [
+        "u7136",
+        "u611F",
+        "u5C31",
+        "u4E3D"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZLuoMXTJW-EB",
+          0.1002223864197731
+        ]
+      ],
+      "selected": [
+        "FZXianWXTJW-L",
+        "FZLingDTJW-L",
+        "FZLuoMXTJW-EB",
+        "FZLuoMTJW-L",
+        "FZZuoZYXTJW-B",
+        "FZMengHHXJW-EL",
+        "FZXinZYHJW_UL",
+        "FZVDLXinZTJW-R",
+        "FZMaLTJW",
+        "FZFengBPYTJW"
+      ],
+      "alpha": [
+        0.10156463086605072,
+        0.10153403133153915,
+        0.1002223864197731,
+        0.09982718527317047,
+        0.09977398067712784,
+        0.09972450882196426,
+        0.09938935935497284,
+        0.09937912225723267,
+        0.09932000190019608,
+        0.0992647036910057
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 8,
+      "rank": 2,
+      "font": "FZPiaoTJW_Xi",
+      "cp": "u006E",
+      "refs": [
+        "u957F",
+        "u9519",
+        "u8FD9",
+        "u90E8",
+        "u94C1",
+        "u5C11"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZPiaoTJW",
+          0.10274823755025864
+        ]
+      ],
+      "selected": [
+        "FZPiaoTJW",
+        "FZQINGSTJW",
+        "ZJZhuangSHJ-T",
+        "FZChaoLTJW",
+        "FZChaoLTJW_Te",
+        "FZLiangHJW-L",
+        "FZLuoMTJW-R",
+        "FZAiSJW",
+        "FZDongGSJW-L",
+        "FZFengZTJW-M"
+      ],
+      "alpha": [
+        0.10274823755025864,
+        0.1005898118019104,
+        0.10046039521694183,
+        0.10017051547765732,
+        0.09954836219549179,
+        0.09941724687814713,
+        0.09932929277420044,
+        0.09932617098093033,
+        0.09929169714450836,
+        0.09911827743053436
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 8,
+      "rank": 3,
+      "font": "FZQianWTJW_Xian",
+      "cp": "u004D",
+      "refs": [
+        "u653F",
+        "u4E2D"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZQianWTJW",
+          0.10098864138126373
+        ]
+      ],
+      "selected": [
+        "FZQianWTJW",
+        "FZXinZYHJW_UL",
+        "FZXinGHJW-UL",
+        "FZLuoMTJW-L",
+        "FZXinHJYKXZJW",
+        "FZSiNTJW-UL",
+        "FZManYTJW-T",
+        "FZLangYJW-L",
+        "FZFeiSJW-EL",
+        "FZAiSJW_Xian"
+      ],
+      "alpha": [
+        0.10098864138126373,
+        0.10065557062625885,
+        0.10043992102146149,
+        0.10005272924900055,
+        0.10000884532928467,
+        0.09986026585102081,
+        0.0997595563530922,
+        0.09964355081319809,
+        0.09929977357387543,
+        0.09929105639457703
+      ]
+    },
+    {
+      "dataset": "v2",
+      "update": 8,
+      "rank": 4,
+      "font": "FZFengRSTJW-R",
+      "cp": "u004E",
+      "refs": [
+        "u590F",
+        "u6280",
+        "u94C1"
+      ],
+      "active": true,
+      "same_family_donors": [
+        [
+          "FZFengRSTJW-B",
+          0.09992272406816483
+        ]
+      ],
+      "selected": [
+        "FZYingCTJW",
+        "FZKuaiSTJW",
+        "FZSiLTJW_Xian",
+        "FZLiuCTJW",
+        "FZYouYSJW-R",
+        "FZFengZTJW-M",
+        "FZFengRSTJW-B",
+        "FZShiTSJW",
+        "FZSiBTJW",
+        "FZLouLTJW-R"
+      ],
+      "alpha": [
+        0.10050120204687119,
+        0.10026244819164276,
+        0.10016992688179016,
+        0.10007110983133316,
+        0.09997905790805817,
+        0.09997466951608658,
+        0.09992272406816483,
+        0.09980900585651398,
+        0.09969009459018707,
+        0.09961976855993271
+      ]
+    }
+  ],
+  "stop": {
+    "step": 6265,
+    "attempt": 6265,
+    "status": "safely_stopped"
+  },
+  "sampling_boundary": "Counts cover stated replay windows, not all 6265 updates; positive weights on active examples establish actual family-donor use."
+}

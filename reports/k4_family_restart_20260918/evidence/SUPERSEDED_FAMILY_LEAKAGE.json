@@ -1,0 +1,16 @@
+{
+  "status": "SUPERSEDED_FAMILY_LEAKAGE",
+  "stop": {
+    "step": 6265,
+    "attempt": 6265,
+    "status": "safely_stopped"
+  },
+  "replacement_code": "/root/projects/hrfont_k4_family_20260918",
+  "new_order": [
+    "K4-A",
+    "K4-C",
+    "K4-B"
+  ],
+  "reason": "Confirmed positive same-family alpha donors. Old C will not be resumed or presented as corrected training; B and A never started.",
+  "historical_marker_warning": "Old queue wrote a process-exit stage marker before finding DONE absent. STOPPED.json is authoritative: only 6265/10000 updates completed."
+}
