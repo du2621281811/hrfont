@@ -1,0 +1,144 @@
+{
+  "status": "REVIEW_DRAFT_NOT_EXECUTABLE",
+  "launch_requested": false,
+  "source_commit": "933e291bb3c2389fd30b0b669f1300feb19fe1d4",
+  "arms": [
+    {
+      "arm": "K4-A",
+      "run_id": "K4-A-K1FT-0917-S3407",
+      "recipe": "K1",
+      "parent": "K1@10000 EMA",
+      "training_data": "v0917/train",
+      "train_fonts": 200,
+      "train_gt_pairs": 39547,
+      "train_donor_bank": "v0917/train",
+      "new_successful_updates": 10000,
+      "updates_since_shared_K0": 20000,
+      "auxiliary": false,
+      "parent_ema_sha256": "ab2bea2ddbd799a2fcac28ac73c20fd0a5206abe4e35b6e951b19e0f78784632",
+      "initialization": "Load complete K1 EMA train_state, frozen K0 encoders; fresh optimizer/scaler/schedule; TC and main loss ramps stay mature"
+    },
+    {
+      "arm": "K4-B",
+      "run_id": "K4-B-K3RECIPE-V2-S3407",
+      "recipe": "K3",
+      "parent": "K0@10000",
+      "training_data": "v2/train",
+      "train_fonts": 423,
+      "train_gt_pairs": 95976,
+      "train_donor_bank": "v2/train",
+      "new_successful_updates": 10000,
+      "updates_since_shared_K0": 10000,
+      "auxiliary": true,
+      "initialization": "Same K0 checkpoint and same seeded new modules as K4-C; fresh state"
+    },
+    {
+      "arm": "K4-C",
+      "run_id": "K4-C-K1RECIPE-V2-S3407",
+      "recipe": "K1",
+      "parent": "K0@10000",
+      "training_data": "v2/train",
+      "train_fonts": 423,
+      "train_gt_pairs": 95976,
+      "train_donor_bank": "v2/train",
+      "new_successful_updates": 10000,
+      "updates_since_shared_K0": 10000,
+      "auxiliary": false,
+      "initialization": "Same K0 checkpoint and same seeded new modules as K4-B; fresh state"
+    }
+  ],
+  "seed": 3407,
+  "global_batch": 64,
+  "ranks": 8,
+  "batch_per_rank": 8,
+  "main_episodes_per_arm": 640000,
+  "script_quota": {
+    "western": 32,
+    "kana": 24,
+    "bopomofo": 8
+  },
+  "confirmed_detail_quota": {
+    "western": 19,
+    "kana": 14,
+    "bopomofo": 5
+  },
+  "learning_rates": {
+    "inherited": 2e-05,
+    "reader_and_new_router": 0.0001
+  },
+  "schedule": "warmup500/flat5000/cosine10pct10000",
+  "queue_after_review": [
+    "prepare_v2_adapters_and_train_detail_review",
+    "preflight",
+    "K4-C",
+    "K4-B",
+    "K4-A",
+    "final_v2_inference",
+    "metrics_and_review"
+  ],
+  "evaluation": {
+    "splits": [
+      "val",
+      "test"
+    ],
+    "coverage": "all legal pairs",
+    "donor_bank": "v2/train for all Delta-enabled models",
+    "shots": {
+      "K0": [
+        1
+      ],
+      "K1": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "K3": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "K4-A": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "K4-B": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "K4-C": [
+        1,
+        2,
+        4,
+        8
+      ]
+    },
+    "sampler": "dpmsolver++",
+    "steps": 20,
+    "order": 2,
+    "cfg": 1.0,
+    "batch_size": 4,
+    "requested_outputs": 302799,
+    "k0_candidate_reuse": 2336,
+    "estimated_new_outputs": 300463,
+    "query_manifest_sha256": "67480ed7eef25c6de87e02ac37eb412baeec04046c7e7e7345e4395a2f74f8a2",
+    "ref_rule": "filter canonical 永和书风骨韵天地 plus 山水人 by actual per-font pool, take first 8"
+  },
+  "not_yet_implemented": [
+    "v2 runtime/cache adapters",
+    "new train-only confirmed-detail labels",
+    "K4 runner and queue",
+    "v2 full inference and metric adapters"
+  ],
+  "must_not_claim": [
+    "training started",
+    "v2 runtime passed preflight",
+    "generation quality improved",
+    "K1/K3 old PNGs match the v2 donor-bank primary protocol"
+  ]
+}
