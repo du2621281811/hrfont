@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checks": {
+    "K0_legacy_adapter_mae": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "K1_legacy_adapter_mae": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "missing_reference_fonts": [
+      "FZXLB",
+      "ZKTBanQTFU",
+      "ZKTMingXTFU",
+      "FZZJ-MJZCFU"
+    ],
+    "K4_A_complete_EMA_warmstart": true
+  },
+  "k0_reuse_approved": true
+}

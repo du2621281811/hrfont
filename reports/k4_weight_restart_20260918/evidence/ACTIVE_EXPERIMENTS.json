@@ -1,0 +1,16 @@
+{
+  "status": "WEIGHT_ONLY_PREFLIGHT_AND_RESTART",
+  "queue_pid": 3864951,
+  "queue_control": "/root/data1/hrfont_k4_weight_20260918/control",
+  "source_code": "/root/projects/hrfont_k4_weight_20260918",
+  "order": [
+    "K4-A",
+    "K4-C",
+    "K4-B"
+  ],
+  "runs": {
+    "K4-A": "K4-A-K1FT-0917-WEIGHT-S3407",
+    "K4-C": "K4-C-K1RECIPE-V2-WEIGHT-S3407",
+    "K4-B": "K4-B-K3RECIPE-V2-WEIGHT-S3407"
+  }
+}

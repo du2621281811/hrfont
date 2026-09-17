@@ -1,0 +1,64 @@
+{
+  "coverage": {
+    "fonts": 492,
+    "groups": 402,
+    "multi_member_groups": 62,
+    "fonts_in_multi_member_groups": 152
+  },
+  "split_groups": [
+    {
+      "previous_group": "FZLTHProGBK_H",
+      "weight_only_groups": {
+        "FZLTHProGBK_H": [
+          "FZLTHProGBK_H"
+        ],
+        "FZLTHProJW_H": [
+          "FZLTHProJW_H"
+        ]
+      }
+    },
+    {
+      "previous_group": "FZSongYJW",
+      "weight_only_groups": {
+        "FZSongYJW": [
+          "FZSongYJW"
+        ],
+        "FZSongYuanK": [
+          "FZSongYuanK"
+        ]
+      }
+    },
+    {
+      "previous_group": "FZYouHJW_508R",
+      "weight_only_groups": {
+        "FZYouHJW_508R": [
+          "FZYouHJW_508R",
+          "FZYouHJW_509R",
+          "FZYouHJW_510M",
+          "FZYouHJW_511M",
+          "FZYouHJW_512B",
+          "FZYouHJW_513B"
+        ],
+        "FZYouHK_508R": [
+          "FZYouHK_508R",
+          "FZYouHK_509R",
+          "FZYouHK_510M",
+          "FZYouHK_511M",
+          "FZYouHK_512B",
+          "FZYouHK_513B"
+        ]
+      }
+    },
+    {
+      "previous_group": "fzsj_1275635",
+      "weight_only_groups": {
+        "fzsj_1275635": [
+          "fzsj_1275635"
+        ],
+        "fzsj_2017088": [
+          "fzsj_2017088"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "first_resume_losses": {
+    "101": 0.0,
+    "102": 5.811452865600586e-07
+  },
+  "final_relative_state_l2": 0.00010980071802229612,
+  "synchronized_ranks": 8,
+  "amp_skips": 0,
+  "same_B_C_main_episode_sequences": true,
+  "K3_rollout_gradient": true,
+  "auxiliary_router_startup": [
+    {
+      "rank": 0,
+      "first_router_grad": 0.0,
+      "next_router_grad": 6.795975195927895e-07
+    },
+    {
+      "rank": 1,
+      "first_router_grad": 0.0,
+      "next_router_grad": 0.0
+    },
+    {
+      "rank": 2,
+      "first_router_grad": 0.0,
+      "next_router_grad": 1.1402507880120538e-05
+    },
+    {
+      "rank": 3,
+      "first_router_grad": 0.0,
+      "next_router_grad": 0.0
+    },
+    {
+      "rank": 4,
+      "first_router_grad": 0.0,
+      "next_router_grad": 0.0
+    },
+    {
+      "rank": 5,
+      "first_router_grad": 0.0,
+      "next_router_grad": 7.595330680487677e-05
+    },
+    {
+      "rank": 6,
+      "first_router_grad": 0.0,
+      "next_router_grad": 0.00013767158088739961
+    },
+    {
+      "rank": 7,
+      "first_router_grad": 0.0,
+      "next_router_grad": 0.0
+    }
+  ]
+}
