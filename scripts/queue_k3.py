@@ -9,7 +9,7 @@ def main():
     control=ROOT/'reports/k3_queue_20260917';control.mkdir(exist_ok=True)
     lock=(control/'LOCK').open('a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     approval=json.loads((CODE/'K3_AUTHORIZATION.json').read_text());assert approval['approved']
-    env=dict(os.environ,CUDA_VISIBLE_DEVICES='0,1,2,3,4,5,6,7',OMP_NUM_THREADS='1',PYTHONDONTWRITEBYTECODE='1',PYTHONWARNINGS='ignore::FutureWarning')
+    env=dict(os.environ,PYTHONPATH=str(CODE),CUDA_VISIBLE_DEVICES='0,1,2,3,4,5,6,7',OMP_NUM_THREADS='1',PYTHONDONTWRITEBYTECODE='1',PYTHONWARNINGS='ignore::FutureWarning')
     launcher=[str(Path(sys.executable).parent/'torchrun'),'--standalone','--nproc_per_node=8']
     def status(stage,**kw):
         p=control/'status.json';q=p.with_suffix('.tmp');q.write_text(json.dumps(dict(stage=stage,time=time.time(),run_id=RUN,**kw),indent=2));q.replace(p)
