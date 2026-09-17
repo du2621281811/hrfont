@@ -1,3 +1,5 @@
+> 历史启动快照。K1已完成10k；当前结果见 [K/E12结果索引](K_E12_RESULTS_INDEX_20260917.md)。
+
 # K original restart status — 2026-09-17
 
 The original K1 is running as `K1-ORIGINAL-V0917-S3407` on `sitonholy`.

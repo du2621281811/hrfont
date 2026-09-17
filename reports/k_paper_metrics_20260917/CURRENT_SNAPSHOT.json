@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-09-17T18:10:59.552035+08:00",
+  "K3": {
+    "step": 4225,
+    "attempt": 4225,
+    "time": 1789639846.8047702,
+    "skips": 0,
+    "ddp_spread": 0.0,
+    "peak_mib": 8389.6376953125
+  },
+  "matched_val_steps": [
+    2000
+  ],
+  "queues": {
+    "k3_queue_20260917": {
+      "stage": "TRAIN_10000",
+      "time": 1789635110.8481843,
+      "run_id": "K3-PURENOISE-V0917-S3407",
+      "pid": 3778040
+    },
+    "k3_publish_20260917": {
+      "stage": "WAIT_FOR_K3_DEFAULT_INFERENCE",
+      "time": 1789635911.1516147
+    },
+    "k3_stratified_20260917": {
+      "stage": "WAIT_FOR_K3_PAPER_METRICS",
+      "time": 1789638527.8226342,
+      "pid": 3790237
+    }
+  }
+}

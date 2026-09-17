@@ -1,0 +1,16 @@
+{
+  "status": "PASSED",
+  "archive_rebuild_without_GPU": {
+    "metrics_all_strata.csv": "byte-identical",
+    "paired_deltas_all_strata.csv": "byte-identical",
+    "e12_correlations.csv": "byte-identical",
+    "e12_correlations_per_query.csv": "byte-identical",
+    "e12_generation_descriptive_strata.csv": "byte-identical",
+    "per_image_stratified.csv": "byte-identical"
+  },
+  "report_links": "PASS",
+  "data_hashes": "PASS",
+  "coverage": "actual frozen sampler replay matched saved exposures; K1 unseen western font-char pairs=23",
+  "early_matched_protocol": "same except arm name; row refs/seed/target/content identical",
+  "code": "new scripts AST PASS; existing statistics checks reused"
+}

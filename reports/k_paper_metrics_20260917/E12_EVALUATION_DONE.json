@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "episodes": 5632,
+  "models": [
+    "R1_cosine",
+    "R1_head",
+    "R2_cosine",
+    "R2_head",
+    "R3_head",
+    "v1_cosine",
+    "v1_head"
+  ],
+  "model_lock_sha256": "99504d172ae116c0f804b862fc2a404381bc445807bfad50f92a5d2225862b70",
+  "candidate_sha256": "a862e937e6747597131210c68266d81884486630330ef3c1e898441677ff0bc8",
+  "source_images_sha256": "fc7776944136162d5bfc256b76e749e85b5dcd6d957db9143deacebd4fd16dd5"
+}

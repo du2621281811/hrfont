@@ -1,0 +1,135 @@
+{
+  "checked_at": "2026-09-17T18:03:06.594588+08:00",
+  "method": "Replay actual frozen KSampler AST without importing torch; reconstruct FontDataset clean target ordering; compare replayed per-font/script counts exactly against saved exposure checkpoint; no skipped updates allowed",
+  "pairs_sha256": "12ddecec77588479b7c554a488d521981e965575a49f1d0df8c9aebee01ce183",
+  "detail_sha256": "c309b9feea6d5a8f4e5c5586a25cec973198c9c3f12c492214a7acc75b65e39f",
+  "runs": {
+    "K1": {
+      "run_id": "K1-ORIGINAL-V0917-S3407",
+      "step": 10000,
+      "heartbeat_time": 1789626285.702083,
+      "attempt": 10000,
+      "skips": 0,
+      "ddp_spread": 0.0,
+      "sampler_sha256": "add9a55ceb6d22171ed04ad9be8b761775bf749038ecbe9f35c4f02a2b607b2a",
+      "code_commit": "43916c3ea91b00e99aa64372354bd46b81fd4452",
+      "verified_exposure_checkpoints": [
+        1000,
+        2000,
+        3000,
+        4000,
+        5000,
+        6000,
+        7000,
+        8000,
+        9000,
+        10000
+      ],
+      "groups": {
+        "western": {
+          "unique_characters": 89,
+          "seen_characters": 89,
+          "unseen_characters": [],
+          "char_exposures_min": 3414,
+          "char_exposures_max": 3736,
+          "all_chars_first_seen_step": 15,
+          "total_draws": 320000,
+          "eligible_font_character_pairs": 19847,
+          "seen_font_character_pairs": 19824,
+          "font_character_coverage": 0.9988411346803043
+        },
+        "kana": {
+          "unique_characters": 169,
+          "seen_characters": 169,
+          "unseen_characters": [],
+          "char_exposures_min": 1327,
+          "char_exposures_max": 1531,
+          "all_chars_first_seen_step": 37,
+          "total_draws": 240000,
+          "eligible_font_character_pairs": 31772,
+          "seen_font_character_pairs": 30621,
+          "font_character_coverage": 0.9637731335767342
+        },
+        "bopomofo": {
+          "unique_characters": 37,
+          "seen_characters": 37,
+          "unseen_characters": [],
+          "char_exposures_min": 2070,
+          "char_exposures_max": 2284,
+          "all_chars_first_seen_step": 17,
+          "total_draws": 80000,
+          "eligible_font_character_pairs": 4810,
+          "seen_font_character_pairs": 4804,
+          "font_character_coverage": 0.9987525987525988
+        }
+      },
+      "scope": "main sampler only; K3 auxiliary pairs excluded"
+    },
+    "K3": {
+      "run_id": "K3-PURENOISE-V0917-S3407",
+      "step": 3857,
+      "heartbeat_time": 1789639387.599862,
+      "attempt": 3857,
+      "skips": 0,
+      "ddp_spread": 0.0,
+      "sampler_sha256": "add9a55ceb6d22171ed04ad9be8b761775bf749038ecbe9f35c4f02a2b607b2a",
+      "code_commit": "f65ceb52a49fbfe2ac3dc41a9ce1e2572e0f6c35",
+      "verified_exposure_checkpoints": [
+        1000,
+        2000,
+        3000
+      ],
+      "groups": {
+        "western": {
+          "unique_characters": 89,
+          "seen_characters": 89,
+          "unseen_characters": [],
+          "char_exposures_min": 1239,
+          "char_exposures_max": 1471,
+          "all_chars_first_seen_step": 15,
+          "total_draws": 123424,
+          "eligible_font_character_pairs": 19847,
+          "seen_font_character_pairs": 18437,
+          "font_character_coverage": 0.9289565173577871
+        },
+        "kana": {
+          "unique_characters": 169,
+          "seen_characters": 169,
+          "unseen_characters": [],
+          "char_exposures_min": 494,
+          "char_exposures_max": 644,
+          "all_chars_first_seen_step": 37,
+          "total_draws": 92568,
+          "eligible_font_character_pairs": 31772,
+          "seen_font_character_pairs": 23115,
+          "font_character_coverage": 0.7275273826010323
+        },
+        "bopomofo": {
+          "unique_characters": 37,
+          "seen_characters": 37,
+          "unseen_characters": [],
+          "char_exposures_min": 770,
+          "char_exposures_max": 910,
+          "all_chars_first_seen_step": 17,
+          "total_draws": 30856,
+          "eligible_font_character_pairs": 4810,
+          "seen_font_character_pairs": 4432,
+          "font_character_coverage": 0.9214137214137215
+        }
+      },
+      "scope": "main sampler only; K3 auxiliary pairs excluded"
+    }
+  },
+  "western_inventory": {
+    "fonts": 223,
+    "unique_characters": 89,
+    "uppercase": 26,
+    "lowercase": 26,
+    "digits": 10,
+    "extended_latin": 27,
+    "characters": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzàáèéêíòóùúüāēěīńňōūǎǐǒǔǖǘǚǜ",
+    "all_62_basic_present_in_every_font": true,
+    "punctuation_present": false,
+    "non_Latin_alphabets_covered": false
+  }
+}

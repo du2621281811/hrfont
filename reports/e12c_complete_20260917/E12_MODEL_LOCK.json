@@ -1,0 +1,27 @@
+{
+  "primary": "R1_cosine",
+  "selection": "internal validation script-shot macro AUC; within .005 choose fixed simplicity order",
+  "values": {
+    "R1_cosine": 0.9709923801049544,
+    "R1_head": 0.9540163917277095,
+    "R2_cosine": 0.970329823677241,
+    "R2_head": 0.954444505466781,
+    "R3_head": 0.9714967051015083
+  },
+  "candidates_sha256": "a862e937e6747597131210c68266d81884486630330ef3c1e898441677ff0bc8",
+  "manifest_sha256": "cf91814f6f6c138af2884060b1b47999dc688ce95345fd265935720170003644",
+  "model_sha256": {
+    "R1": {
+      "A_best.pt": "b2c8eb69c5c76eca21a149afe95c4a49fe21e3363825138b1515c4812c452aab",
+      "B_best.pt": "1830c216bd9b8ace2905cbac6d6808dfc370288abf4091514d12482982ea5ac8"
+    },
+    "R2": {
+      "A_best.pt": "bf5ba256fdad77fdba9f578bc311d2644ec9b3156013f8884b252bdad39cd73f",
+      "B_best.pt": "95d2d95c0cf07491e1af5cb7b94a76e13cc2dfe41765c80417a23c0bb848dd88"
+    },
+    "R3": {
+      "A_best.pt": "bf5ba256fdad77fdba9f578bc311d2644ec9b3156013f8884b252bdad39cd73f",
+      "B_best.pt": "c9068fba778accfd77ee5bce74573eadf54a2d2825e1d5de5cefa472c243e32d"
+    }
+  }
+}
