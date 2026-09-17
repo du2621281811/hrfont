@@ -1,0 +1,128 @@
+{
+  "v0917": {
+    "dataset_id": "v0917_split",
+    "status": "built_for_user_review",
+    "counts": {
+      "train": {
+        "fonts": 200,
+        "effective_fonts": 200,
+        "pairs": 39547,
+        "latin": 17012,
+        "kana": 20870,
+        "bopomofo": 1665
+      },
+      "val": {
+        "fonts": 16,
+        "effective_fonts": 16,
+        "pairs": 3208,
+        "latin": 1370,
+        "kana": 1690,
+        "bopomofo": 148
+      },
+      "test": {
+        "fonts": 16,
+        "effective_fonts": 16,
+        "pairs": 3208,
+        "latin": 1370,
+        "kana": 1690,
+        "bopomofo": 148
+      }
+    },
+    "files": {
+      "donor_train.json": "3a37d07882e4c180fd3be08d9fcdfa0a2eb12039ab51472f4cde32fda7e61f27",
+      "donor_train_by_cp.json": "b2e904ea2d84f1f5809c6eebaad50d316db48add322e8622f925243650021c5a",
+      "fonts.tsv": "62c904f5021014763e04c3da4e83415973cb1e70c12c98e2efb5b63a477b4322",
+      "pairs_test.tsv": "6797749c1ca97e7831db11c55fdf0745e6aef491fc9d6ac747179026e298641f",
+      "pairs_train.tsv": "4e5432d9721b63af3f3b9c2750db9ec202d6aa8992d2fbe9579d7999e3341ce2",
+      "pairs_val.tsv": "fc11f5ae106a6bca1e3b103fcbfd6b39133087bfae3c9c43008645bb138d8d38",
+      "reference_compatibility.json": "8e6ebaab25207f32020ca35a7b5625bc99e2aee6497a110a7adeca3e79af9f4f",
+      "sample_weights.json": "f8164fc816c76a1e6894c88e7bab262ba14b02e19170a2ef8f4c616fc16df4b3",
+      "split.json": "1d897c0a6f061059be013734ac8ab34bae67d96746af29fe9160b21f0a1097c2",
+      "style_pool.json": "9a1c2607c3754a6aeb9d71b597405bfdf5d18f7d5a8134aba7c03669a0ddce1a"
+    },
+    "required_pair_filter": true,
+    "required_donor_filter": "donor_train_by_cp.json",
+    "note": "The old 5 excluded train fonts remain excluded. Do not enumerate original dirty PNG roots as training targets."
+  },
+  "v2": {
+    "dataset_id": "v2",
+    "status": "built_for_user_review",
+    "counts": {
+      "train": {
+        "fonts": 428,
+        "effective_fonts": 423,
+        "pairs": 95976,
+        "latin": 36859,
+        "kana": 52642,
+        "bopomofo": 6475
+      },
+      "val": {
+        "fonts": 32,
+        "effective_fonts": 32,
+        "pairs": 7331,
+        "latin": 2794,
+        "kana": 4056,
+        "bopomofo": 481
+      },
+      "test": {
+        "fonts": 32,
+        "effective_fonts": 32,
+        "pairs": 7088,
+        "latin": 2794,
+        "kana": 3887,
+        "bopomofo": 407
+      }
+    },
+    "files": {
+      "donor_train.json": "e1ff491a712c95f4d6af2ec4547842ba5231462d8d3b9fa57251f8e547ae4e6a",
+      "donor_train_by_cp.json": "2de3673d88615a1b0e6ea5cb669b5147e0527e8dc455da7f923375f0bfdf3f77",
+      "fonts.tsv": "cddce2face1df72678cf021ad414c3bbf17ccd5373b0d8d926f9f72a39d424d9",
+      "pairs_test.tsv": "638911689aeb38603cda484438d2a66f4b21505950bea30009237d62d3833186",
+      "pairs_train.tsv": "8970b59baf15e75c7ba041d11f8cd3314da4d6f35c129ef338143c786518b6aa",
+      "pairs_val.tsv": "752ea3b3bfaf9c451078e8f7b43560413ec4fd7d491c88d11f551cbfa186db96",
+      "reference_compatibility.json": "8e6ebaab25207f32020ca35a7b5625bc99e2aee6497a110a7adeca3e79af9f4f",
+      "sample_weights.json": "8519dddd695580ed7f162df9576f027cf9e80d2ba13e7dbc65a901b7ab06dfb1",
+      "split.json": "f3d244f21c66bfbbe58edf578acb86044833f57259baa5c4cb85b19c081d4516",
+      "style_pool.json": "cacc066c7d19ae768e243f3b1df1fb22cb1475bfa0c64f6da08f1f9170a70d1d"
+    },
+    "required_pair_filter": true,
+    "required_donor_filter": "donor_train_by_cp.json",
+    "note": "The old 5 excluded train fonts remain excluded. Do not enumerate original dirty PNG roots as training targets."
+  },
+  "old_frozen_counts": {
+    "train": {
+      "all": 56429,
+      "latin": 19847,
+      "kana": 31772,
+      "bopomofo": 4810
+    },
+    "val": {
+      "all": 4123,
+      "latin": 1424,
+      "kana": 2366,
+      "bopomofo": 333
+    },
+    "test": {
+      "all": 3880,
+      "latin": 1424,
+      "kana": 2197,
+      "bopomofo": 259
+    },
+    "eval47": {
+      "all": 752,
+      "keep": 704,
+      "drop": 48
+    },
+    "fonts": {
+      "train_effective": 223,
+      "train_exclude": 5,
+      "val": 16,
+      "test": 16
+    }
+  },
+  "new_render_rejections": [],
+  "documented_missing_pairs": 70,
+  "old_pngs_hashed": 153197,
+  "source_commit": "4ececb4300bba7aed703d1505f8021afbf7a1537",
+  "zip_sha256": "25de9f1759df0b6ae86cb85464aefa4f6707400ff6ebb42331cf8c00394c6b14"
+}

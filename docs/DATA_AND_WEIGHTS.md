@@ -62,3 +62,13 @@ Git 只跟踪清单与指纹；大文件用 symlink 或外盘。
 
 训练时跳过各字体 `missing_chars`；审核探针 ≠ 295 全表。
 
+## 0917独立划分与融合v2（2026-09-17，待用户review）
+
+已按232正式名单构建PNG及独立200/16/16划分，再与冻结0913的同名split合并为 **v2**；没有修改`v0913_clean`本身。
+
+- [0917独立清单](../manifests/v0917_split/README.md)：45,963个合法target GT。
+- [v2清单](../manifests/v2/README.md)：名义428/32/32字体，110,395个target GT；旧train的5个排除字体仍排除。
+- [完整报告与验证](../reports/dataset_v2_20260917/REPORT.md)：旧153,197个PNG及新124,033个PNG验证通过，旧split/pair不变。
+- V100图像根：`/root/data1/hrfont_dataset_v2_20260917/{v0917,v2}`；图册：同目录`review/{index.html,v0917.html}`。
+
+4个新增字体缺少部分简体中文参考，须使用`style_pool.json`；不能直接套原固定ref8。训练donor须按`donor_train_by_cp.json`逐字过滤。数据已构建供review，尚未启动v2训练，现有K族实验仍使用其冻结数据。

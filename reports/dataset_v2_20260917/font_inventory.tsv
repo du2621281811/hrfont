@@ -1,0 +1,493 @@
+stem	display_name	source	split	family	target_n	style_n	missing_text	note
+4314d6a5	手迹I Cat体	0917	train	4314d6a5	89	338		按人工勾选语种生成GT
+5f132397	手迹南门体	0917	train	5f132397	62	338		按人工勾选语种生成GT
+FZAiSJW	方正爱莎简体	0917	train	FZAiSJW	258	338		按人工勾选语种生成GT
+FZAiSJW_Cu	方正爱莎简体 Bold	0917	train	FZAiSJW_Cu	258	338		按人工勾选语种生成GT
+FZAiSJW_Xian	方正爱莎简体 ExtraLight	0917	train	FZAiSJW_Xian	258	338		按人工勾选语种生成GT
+FZBGDT	方正不孤独体	0917	train	FZBGDT	295	338		按人工勾选语种生成GT
+FZBITMAPFENGJW	方正点阵冯简体	0917	train	FZBITMAPFENGJW	268	338		按人工勾选语种生成GT
+FZBaDSRXKJW	方正八大山人行楷 简	0917	train	FZBaDSRXKJW	258	338		按人工勾选语种生成GT
+FZBaiZBYTJW	FZBaiZBYTJW	0913	train	FZBaiZBYTJW	295	338		0913 原划分、原GT保留
+FZBaiZDZ113JW	方正白舟大髭113 简	0917	train	FZBaiZDZ113JW	295	338		按人工勾选语种生成GT
+FZBaiZDZ115JW	FZBaiZDZ115JW	0913	train	FZBaiZDZ115JW	295	338		0913 原划分、原GT保留
+FZBaiZJDTJW	方正白舟京都体 简	0917	train	FZBaiZJDTJW	295	338		按人工勾选语种生成GT
+FZBaiZJHTJW	FZBaiZJHTJW	0913	train	FZBaiZJHTJW	295	338		0913 原划分、原GT保留
+FZBaiZJHTJW-L	方正白舟劲海体 简 Light	0917	train	FZBaiZJHTJW-L	295	338		按人工勾选语种生成GT
+FZBaiZJKJW	FZBaiZJKJW	0913	train	FZBaiZJKJW	295	338		0913 原划分、原GT保留
+FZBaiZRZTJW	FZBaiZRZTJW	0913	train	FZBaiZRZTJW	295	338		0913 原划分、原GT保留
+FZBaiZWGTJW	FZBaiZWGTJW	0913	train	FZBaiZWGTJW	295	338		0913 原划分、原GT保留
+FZBangSKLTJW	FZBangSKLTJW	0913	train	FZBangSKLTJW	295	338		0913 原划分、原GT保留
+FZBaoCTJW	方正宝城体 简	0917	train	FZBaoCTJW	258	338		按人工勾选语种生成GT
+FZBaoCTJW_Te	FZBaoCTJW_Te	0913	train	FZBaoCTJW	258	338		0913 原划分、原GT保留
+FZBaoHTJW_Da	FZBaoHTJW_Da	0913	train	FZBaoHTJW	295	338		0913 原划分、原GT保留
+FZBenMKYJW	FZBenMKYJW	0913	train	FZBenMKYJW	89	338		0913 原划分、原GT保留
+FZBenMWYJW	FZBenMWYJW	0913	train	FZBenMWYJW	0	338		0913 原排除字体，保留归属，不参与训练/评估
+FZBenMXYTJW_Italic	FZBenMXYTJW_Italic	0913	train	FZBenMXYTJW	89	338		0913 原划分、原GT保留
+FZBenMZZZHJW	FZBenMZZZHJW	0913	train	FZBenMZZZHJW	295	338		0913 原划分、原GT保留
+FZBiaoYTJW	FZBiaoYTJW	0913	train	FZBiaoYTJW	295	338		0913 原划分、原GT保留
+FZBingMYTJW	方正兵马俑体 简	0917	train	FZBingMYTJW	258	338		按人工勾选语种生成GT
+FZBoRDKJW	方正般若大楷 简	0917	train	FZBoRDKJW	126	338		按人工勾选语种生成GT
+FZBoYTJW-B	方正波影体 简 Bold	0917	train	FZBoYTJW-B	89	338		按人工勾选语种生成GT
+FZBoYTJW-L	方正波影体 简 Light	0917	train	FZBoYTJW-L	89	338		按人工勾选语种生成GT
+FZCCHJW	FZCCHJW	0913	train	FZCCHJW	89	338		0913 原划分、原GT保留
+FZCHYJW	FZCHYJW	0913	train	FZCHYJW	0	338		0913 原排除字体，保留归属，不参与训练/评估
+FZCQJW	FZCQJW	0913	train	FZCQJW	89	338		0913 原划分、原GT保留
+FZCangYHJW	FZCangYHJW	0913	train	FZCangYHJW	295	338		0913 原划分、原GT保留
+FZChaoLTJW	方正潮流体 简	0917	train	FZChaoLTJW	258	338		按人工勾选语种生成GT
+FZChaoLTJW_Te	FZChaoLTJW_Te	0913	train	FZChaoLTJW	258	338		0913 原划分、原GT保留
+FZChaoZTJW_EB	FZChaoZTJW_EB	0913	train	FZChaoZTJW	258	338		0913 原划分、原GT保留
+FZChenQTJW	FZChenQTJW	0913	train	FZChenQTJW	258	338		0913 原划分、原GT保留
+FZChiDTJW	FZChiDTJW	0913	train	FZChiDTJW	89	338		0913 原划分、原GT保留
+FZCuYSJ_V2	FZCuYSJ_V2	0913	train	FZCuYSJ_V2	295	338		0913 原划分、原GT保留
+FZDaDXMTJW	FZDaDXMTJW	0913	train	FZDaDXMTJW	89	338		0913 原划分、原GT保留
+FZDaLTJW	方正达利体简体	0917	train	FZDaLTJW	89	338		按人工勾选语种生成GT
+FZDeSHJW_507R	FZDeSHJW_507R	0913	train	FZDeSHJW	258	338		0913 原划分、原GT保留
+FZDeSHJW_508R	FZDeSHJW_508R	0913	train	FZDeSHJW	258	338		0913 原划分、原GT保留
+FZDeSHJW_509R	FZDeSHJW_509R	0913	train	FZDeSHJW	258	338		0913 原划分、原GT保留
+FZDeSHJW_510M	FZDeSHJW_510M	0913	train	FZDeSHJW	258	338		0913 原划分、原GT保留
+FZDeSHJW_511M	FZDeSHJW_511M	0913	train	FZDeSHJW	258	338		0913 原划分、原GT保留
+FZDeSHJW_512B	FZDeSHJW_512B	0913	train	FZDeSHJW	258	338		0913 原划分、原GT保留
+FZDeSHJW_513B	FZDeSHJW_513B	0913	train	FZDeSHJW	258	338		0913 原划分、原GT保留
+FZDeSHJW_514H	FZDeSHJW_514H	0913	train	FZDeSHJW	89	338		0913 原划分、原GT保留
+FZDengHLJW	方正邓黑隶简体	0917	train	FZDengHLJW	89	338		按人工勾选语种生成GT
+FZDengXHJW-B	FZDengXHJW-B	0913	train	FZDengXHJW	295	338		0913 原划分、原GT保留
+FZDiHTJ_Te	方正帝后体简体 Heavy	0917	train	FZDiHTJ_Te	258	338		按人工勾选语种生成GT
+FZDiHTJ_Xian	方正帝后体简体 ExtraLight	0917	train	FZDiHTJ_Xian	258	338		按人工勾选语种生成GT
+FZDiHTJ_Zhun	方正帝后体简体 Medium	0917	train	FZDiHTJ_Zhun	258	338		按人工勾选语种生成GT
+FZDongGSJW-L	FZDongGSJW-L	0913	train	FZDongGSJW	295	338		0913 原划分、原GT保留
+FZDouSDYWTJW-B	FZDouSDYWTJW-B	0913	train	FZDouSDYWTJW	295	338		0913 原划分、原GT保留
+FZDuHJW_Cu	FZDuHJW_Cu	0913	train	FZDuHJW	258	338		0913 原划分、原GT保留
+FZDunHJSJW	方正敦煌经书 简	0917	train	FZDunHJSJW	89	338		按人工勾选语种生成GT
+FZFWHuanLTJW	FZFWHuanLTJW	0913	train	FZFWHuanLTJW	295	338		0913 原划分、原GT保留
+FZFWQingYLJW	FZFWQingYLJW	0913	train	FZFWQingYLJW	295	338		0913 原划分、原GT保留
+FZFWTongQPOPTJW	FZFWTongQPOPTJW	0913	train	FZFWTongQPOPTJW	295	338		0913 原划分、原GT保留
+FZFWZhuZGDLHJW	FZFWZhuZGDLHJW	0913	train	FZFWZhuZGDLHJW	258	338		0913 原划分、原GT保留
+FZFWZhuZGDLMCJW	FZFWZhuZGDLMCJW	0913	train	FZFWZhuZGDLMCJW	295	338		0913 原划分、原GT保留
+FZFWZhuZGDSHJW	FZFWZhuZGDSHJW	0913	train	FZFWZhuZGDSHJW	258	338		0913 原划分、原GT保留
+FZFWZhuZGDSMCJW	FZFWZhuZGDSMCJW	0913	train	FZFWZhuZGDSMCJW	295	338		0913 原划分、原GT保留
+FZFWZhuZLSHTJWB	FZFWZhuZLSHTJWB	0913	train	FZFWZhuZLSHTJWB	295	338		0913 原划分、原GT保留
+FZFWZhuZiABiaoTMCJW	FZFWZhuZiABiaoTMCJW	0913	train	FZFWZhuZiABiaoTMCJW	295	338		0913 原划分、原GT保留
+FZFWZhuZiHeiD	FZFWZhuZiHeiD	0913	train	FZFWZhuZiHeiD	295	338		0913 原划分、原GT保留
+FZFWZhuZiHeiE	FZFWZhuZiHeiE	0913	train	FZFWZhuZiHeiE	295	338		0913 原划分、原GT保留
+FZFWZhuZiHeiH	FZFWZhuZiHeiH	0913	train	FZFWZhuZiHeiH	295	338		0913 原划分、原GT保留
+FZFWZhuZiHeiL	FZFWZhuZiHeiL	0913	train	FZFWZhuZiHeiL	295	338		0913 原划分、原GT保留
+FZFWZhuZiHeiM	FZFWZhuZiHeiM	0913	train	FZFWZhuZiHeiM	295	338		0913 原划分、原GT保留
+FZFWZhuZiHeiR	FZFWZhuZiHeiR	0913	train	FZFWZhuZiHeiR	295	338		0913 原划分、原GT保留
+FZFWZhuZiHeiU	FZFWZhuZiHeiU	0913	train	FZFWZhuZiHeiU	295	338		0913 原划分、原GT保留
+FZFWZhuZiMinchoD	FZFWZhuZiMinchoD	0913	train	FZFWZhuZiMinchoD	295	338		0913 原划分、原GT保留
+FZFXKTJW	FZFXKTJW	0913	train	FZFXKTJW	89	338		0913 原划分、原GT保留
+FZFeiSJW-EL	FZFeiSJW-EL	0913	train	FZFeiSJW	295	338		0913 原划分、原GT保留
+FZFeiYTJW	方正飞跃体 简	0917	train	FZFeiYTJW	258	338		按人工勾选语种生成GT
+FZFeiYTJW_Te	FZFeiYTJW_Te	0913	train	FZFeiYTJW	258	338		0913 原划分、原GT保留
+FZFeiYiTJW-EB	FZFeiYiTJW-EB	0913	train	FZFeiYiTJW	258	338		0913 原划分、原GT保留
+FZFenSTXJW	方正粉丝天下简体	0917	train	FZFenSTXJW	231	338		按人工勾选语种生成GT
+FZFengBPYTJW	方正风波飘逸体 简	0917	train	FZFengBPYTJW	295	338		按人工勾选语种生成GT
+FZFengRSTJW-B	方正风入松体 简 Bold	0917	train	FZFengRSTJW-B	258	338		按人工勾选语种生成GT
+FZFengRSTJW-R	方正风入松体 简	0917	train	FZFengRSTJW-R	258	338		按人工勾选语种生成GT
+FZFengYSJW-EL	方正风雅宋 简 ExtraLight	0917	train	FZFengYSJW-EL	89	338		按人工勾选语种生成GT
+FZFengZTJW-B	方正风姿体 简 Bold	0917	train	FZFengZTJW-B	295	338		按人工勾选语种生成GT
+FZFengZTJW-EB	FZFengZiTiS ExtraBold	0917	train	FZFengZTJW	295	338		按人工勾选语种生成GT
+FZFengZTJW-M	方正风姿体 简 Medium	0917	train	FZFengZTJW-M	295	338		按人工勾选语种生成GT
+FZFuGCHJW	FZFuGCHJW	0913	train	FZFuGCHJW	295	338		0913 原划分、原GT保留
+FZFuGCSJW	方正复古粗宋简体	0917	train	FZFuGCSJW	89	338		按人工勾选语种生成GT
+FZFuGCYJW	FZFuGCYJW	0913	train	FZFuGCYJW	295	338		0913 原划分、原GT保留
+FZGDCTJW-L	FZGDCTJW-L	0913	train	FZGDCTJW	295	338		0913 原划分、原GT保留
+FZGLJW	FZGLJW	0913	train	FZGLJW	89	338		0913 原划分、原GT保留
+FZGangYTJ	FZGangYTJ	0913	train	FZGangYTJ	295	338		0913 原划分、原GT保留
+FZGaoHeiJ	方正高黑 简	0917	train	FZGaoHeiJ	295	338		按人工勾选语种生成GT；字形偏小，请重点审阅
+FZGuangHTJW-H	FZGuangHTJW-H	0913	train	FZGuangHTJW	0	338		0913 原排除字体，保留归属，不参与训练/评估
+FZHCJW	FZHCJW	0913	train	FZHCJW	89	338		0913 原划分、原GT保留
+FZHZGBJW	FZHZGBJW	0913	train	FZHZGBJW	89	338		0913 原划分、原GT保留
+FZHanSTJW	方正翰宋体 简	0917	train	FZHanSTJW	258	338		按人工勾选语种生成GT
+FZHanSTJW_Te	FZHanSTJW_Te	0913	train	FZHanSTJW	258	338		0913 原划分、原GT保留
+FZHaoGGTTJW	FZHaoGGTTJW	0913	train	FZHaoGGTTJW	89	338		0913 原划分、原GT保留
+FZHeJYSXZJW	FZHeJYSXZJW	0913	train	FZHeJYSXZJW	0	338		0913 原排除字体，保留归属，不参与训练/评估
+FZHeYTJW-EB	FZHeYTJW-EB	0913	train	FZHeYTJW	258	338		0913 原划分、原GT保留
+FZHeiFJW-L	FZHeiFJW-L	0913	train	FZHeiFJW	295	338		0913 原划分、原GT保留
+FZHengWHJ-L	FZHengWHJ-L	0913	train	FZHengWHJ	295	338		0913 原划分、原GT保留
+FZHuaSKXTJW-H	FZHuaSKXTJW-H	0913	train	FZHuaSKXTJW	295	338		0913 原划分、原GT保留
+FZHuaSKXTJW-T	方正华思刻线体 简 Thin	0917	train	FZHuaSKXTJW-T	89	338		按人工勾选语种生成GT
+FZHuoLTJW	方正活龙体 简	0917	train	FZHuoLTJW	258	338		按人工勾选语种生成GT
+FZHuoLTJW_Te	FZHuoLTJW_Te	0913	train	FZHuoLTJW	258	338		0913 原划分、原GT保留
+FZIwataFWTJW-H	FZIwataFWTJW-H	0913	train	FZIwataFWTJW	295	338		0913 原划分、原GT保留
+FZJLJW	FZJLJW	0913	train	FZJLJW	89	338		0913 原划分、原GT保留
+FZJZJW	FZJZJW	0913	train	FZJZJW	89	338		0913 原划分、原GT保留
+FZJiHXTJW	方正几何新体 简	0917	train	FZJiHXTJW	258	338		按人工勾选语种生成GT
+FZJianQRTJW	FZJianQRTJW	0913	train	FZJianQRTJW	258	338		0913 原划分、原GT保留
+FZJianQTJW	方正剑气体 简	0917	train	FZJianQTJW	89	338		按人工勾选语种生成GT
+FZJianZTJW-B	FZJianZTJW-B	0913	train	FZJianZTJW	89	338		0913 原划分、原GT保留
+FZJiangYTJW_EB	FZJiangYTJW_EB	0913	train	FZJiangYTJW	258	338		0913 原划分、原GT保留
+FZJinCTJW	方正劲彩体 简	0917	train	FZJinCTJW	258	338		按人工勾选语种生成GT
+FZJinCTJW_Te	FZJinCTJW_Te	0913	train	FZJinCTJW	258	338		0913 原划分、原GT保留
+FZJingKHJW	FZJingKHJW	0913	train	FZJingKHJW	295	338		0913 原划分、原GT保留
+FZJingQSTJW_Cu	FZJingQSTJW_Cu	0913	train	FZJingQSTJW	258	338		0913 原划分、原GT保留
+FZJingWTJW	方正劲舞体 简	0917	train	FZJingWTJW	258	338		按人工勾选语种生成GT
+FZJingWTJW_Cu	方正劲舞体 简 Bold	0917	train	FZJingWTJW_Cu	258	338		按人工勾选语种生成GT
+FZJingWTJW_Xian	方正劲舞体 简 ExtraLight	0917	train	FZJingWTJW_Xian	258	338		按人工勾选语种生成GT
+FZJuJTJW-L	FZJuJTJW-L	0913	train	FZJuJTJW	258	338		0913 原划分、原GT保留
+FZJunTJW	FZJunTJW	0913	train	FZJunTJW	295	338		0913 原划分、原GT保留
+FZKeSHBTJW	FZKeSHBTJW	0913	train	FZKeSHBTJW	258	338		0913 原划分、原GT保留
+FZKuGHJW-H	FZKuGHJW-H	0913	train	FZKuGHJW	295	338		0913 原划分、原GT保留
+FZKuaiSTJW	方正快速体 简	0917	train	FZKuaiSTJW	258	338		按人工勾选语种生成GT
+FZKuaiSTJW_Te	FZKuaiSTJW_Te	0913	train	FZKuaiSTJW	258	338		0913 原划分、原GT保留
+FZKuaiYTJW_Te	FZKuaiYTJW_Te	0913	train	FZKuaiYTJW	258	338		0913 原划分、原GT保留
+FZLTHProJW_H	FZLTHProJW_H	0913	train	FZLTHProJW	295	338		0913 原划分、原GT保留
+FZLaGBTTJW	方正拉勾标题体 简	0917	train	FZLaGBTTJW	258	338		按人工勾选语种生成GT
+FZLaGBTTJW_Da	FZLaGBTTJW_Da	0913	train	FZLaGBTTJW	258	338		0913 原划分、原GT保留
+FZLangKBTJW1	FZLangKBTJW1	0913	train	FZLangKBTJW1	295	338		0913 原划分、原GT保留
+FZLangKCTJW2	方正朗酷长体 简	0917	train	FZLangKCTJW2	295	338		按人工勾选语种生成GT
+FZLangKFTJW3	FZLangKFTJW3	0913	train	FZLangKFTJW3	295	338		0913 原划分、原GT保留
+FZLangYJW-L	方正朗圆 简 Light	0917	train	FZLangYJW-L	89	338		按人工勾选语种生成GT
+FZLangYJW-R	方正朗圆 简	0917	train	FZLangYJW-R	89	338		按人工勾选语种生成GT
+FZLengRSJW-B	FZLengRSJW-B	0913	train	FZLengRSJW	295	338		0913 原划分、原GT保留
+FZLiDXYTJW	FZLiDXYTJW	0913	train	FZLiDXYTJW	295	338		0913 原划分、原GT保留
+FZLiHJW-EB	FZLiHJW-EB	0913	train	FZLiHJW	89	338		0913 原划分、原GT保留
+FZLiQBLSJW	FZLiQBLSJW	0913	train	FZLiQBLSJW	295	338		0913 原划分、原GT保留
+FZLiYHJW-EL	FZLiYHJW-EL	0913	train	FZLiYHJW	295	338		0913 原划分、原GT保留
+FZLiangHJW-EB	方正亮黑 简 ExtraBold	0917	train	FZLiangHJW-EB	258	338		按人工勾选语种生成GT
+FZLiangHJW-L	方正亮黑 简 Light	0917	train	FZLiangHJW-L	258	338		按人工勾选语种生成GT
+FZLingDTJW-B	方正灵动体 简 Bold	0917	train	FZLingDTJW-B	258	338		按人工勾选语种生成GT
+FZLingDTJW-L	方正灵动体 简 Light	0917	train	FZLingDTJW-L	258	338		按人工勾选语种生成GT
+FZLingFJXKJW	方正灵飞经小楷 简	0917	train	FZLingFJXKJW	169	338		按人工勾选语种生成GT
+FZLiuBSLSJW	FZLiuBSLSJW	0913	train	FZLiuBSLSJW	295	338		0913 原划分、原GT保留
+FZLiuCTJW	方正流畅体 简	0917	train	FZLiuCTJW	258	338		按人工勾选语种生成GT
+FZLiuCTJW_Te	FZLiuCTJW_Te	0913	train	FZLiuCTJW	258	338		0913 原划分、原GT保留
+FZLongKSKSJW	FZLongKSKSJW	0913	train	FZLongKSKSJW	295	338		0913 原划分、原GT保留
+FZLouLTJW-EB	方正楼兰体 简 ExtraBold	0917	train	FZLouLTJW-EB	258	338		按人工勾选语种生成GT
+FZLouLTJW-R	方正楼兰体 简	0917	train	FZLouLTJW-R	258	338		按人工勾选语种生成GT
+FZLuXTJW	FZLuXTJW	0913	train	FZLuXTJW	258	338		0913 原划分、原GT保留
+FZLuoDTJW	方正FW罗丹体 简	0917	train	FZLuoDTJW	295	338		按人工勾选语种生成GT
+FZLuoMTJW-L	方正罗曼体 简 Light	0917	train	FZLuoMTJW-L	295	338		按人工勾选语种生成GT
+FZLuoMTJW-R	方正罗曼体 简	0917	train	FZLuoMTJW-R	295	338		按人工勾选语种生成GT
+FZLuoMXTJW-EB	方正罗曼斜体 简 ExtraBold	0917	train	FZLuoMXTJW-EB	295	338		按人工勾选语种生成GT
+FZLuoMXTJW-M	方正罗曼斜体 简 Medium	0917	train	FZLuoMXTJW-M	295	338		按人工勾选语种生成GT
+FZMaKTJW	方正马克体 简	0917	train	FZMaKTJW	258	338		按人工勾选语种生成GT
+FZMaLTJW	方正玛丽体 简	0917	train	FZMaLTJW	258	338		按人工勾选语种生成GT
+FZMaLTJW_Da	FZMaLTJW_Da	0913	train	FZMaLTJW	258	338		0913 原划分、原GT保留
+FZManYTJW-H	FZManYTJW-H	0913	train	FZManYTJW	295	338		0913 原划分、原GT保留
+FZManYTJW-T	方正蛮腰体 简 Thin	0917	train	FZManYTJW-T	295	338		按人工勾选语种生成GT
+FZMengHHXJW-EB	方正梦幻火星体 简 ExtraBold	0917	train	FZMengHHXJW-EB	295	338		按人工勾选语种生成GT
+FZMengHHXJW-EL	方正梦幻火星体 简 ExtraLight	0917	train	FZMengHHXJW-EL	295	338		按人工勾选语种生成GT
+FZMengYTJW	方正萌艺体 简	0917	train	FZMengYTJW	89	338		按人工勾选语种生成GT
+FZMiaoYTJW-H	FZMiaoYTJW-H	0913	train	FZMiaoYTJW	295	338		0913 原划分、原GT保留
+FZMingCTJW-EB	FZMingCTJW-EB	0913	train	FZMingCTJW	295	338		0913 原划分、原GT保留
+FZMingMTJW-EB	FZMingMTJW-EB	0913	train	FZMingMTJW	258	338		0913 原划分、原GT保留
+FZMingZTJW-EB	FZMingZhuTiS ExtraBold	0917	train	FZMingZTJW	295	338		按人工勾选语种生成GT
+FZMoDTJW_Cu	FZMoDTJW_Cu	0913	train	FZMoDTJW	258	338		0913 原划分、原GT保留
+FZMoFHJW	FZMoFHJW	0913	train	FZMoFHJW	89	338		0913 原划分、原GT保留
+FZMoYTJW-L	FZMoYTJW-L	0913	train	FZMoYTJW	295	338		0913 原划分、原GT保留
+FZOneFamily-Bold	FZOneFamily-Bold	0913	train	FZOneFamily-Bold	295	338		0913 原划分、原GT保留
+FZOuYHGXSJW	方正欧阳荷庚行书 简	0917	train	FZOuYHGXSJW	295	338		按人工勾选语种生成GT
+FZOuYXKSJW	FZOuYXKSJW	0913	train	FZOuYXKSJW	295	338		0913 原划分、原GT保留
+FZPANGPBJW	方正胖胖白 简	0917	train	FZPANGPBJW	89	338		按人工勾选语种生成GT
+FZPTYJW	FZPTYJW	0913	train	FZPTYJW	89	338		0913 原划分、原GT保留
+FZPWJW	FZPWJW	0913	train	FZPWJW	89	338		0913 原划分、原GT保留
+FZPanDLTJW	FZPanDLTJW	0913	train	FZPanDLTJW	89	338		0913 原划分、原GT保留
+FZPangPHJW	方正胖胖黑 简	0917	train	FZPangPHJW	89	338		按人工勾选语种生成GT
+FZPiaoCTJW	FZPiaoCTJW	0913	train	FZPiaoCTJW	295	338		0913 原划分、原GT保留
+FZPiaoTJW	方正飘体 简	0917	train	FZPiaoTJW	89	338		按人工勾选语种生成GT
+FZPiaoTJW_Cu	FZPiaoTiS Bold	0917	train	FZPiaoTJW	89	338		按人工勾选语种生成GT
+FZPiaoTJW_Xi	方正飘体 简 Light	0917	train	FZPiaoTJW_Xi	89	338		按人工勾选语种生成GT
+FZPiaoYSJW	方正飘逸宋 简	0917	train	FZPiaoYSJW	258	338		按人工勾选语种生成GT
+FZQINGSTJW	方正情圣体 简	0917	train	FZQINGSTJW	258	338		按人工勾选语种生成GT
+FZQKBYSJW	FZQKBYSJW	0913	train	FZQKBYSJW	89	338		0913 原划分、原GT保留
+FZQiMTJW	方正奇妙体 简	0917	train	FZQiMTJW	258	338		按人工勾选语种生成GT
+FZQiMTJW_Xian	方正奇妙体 简 ExtraLight	0917	train	FZQiMTJW_Xian	258	338		按人工勾选语种生成GT
+FZQiMTJW_Zhun	方正奇妙体 简 Medium	0917	train	FZQiMTJW_Zhun	258	338		按人工勾选语种生成GT
+FZQiSTJW-EB	FZQiSTJW-EB	0913	train	FZQiSTJW	258	338		0913 原划分、原GT保留
+FZQianWTJW	方正前卫体 简	0917	train	FZQianWTJW	258	338		按人工勾选语种生成GT
+FZQianWTJW_Te	方正前卫体 简 Heavy	0917	train	FZQianWTJW_Te	258	338		按人工勾选语种生成GT
+FZQianWTJW_Xian	方正前卫体 简 ExtraLight	0917	train	FZQianWTJW_Xian	258	338		按人工勾选语种生成GT
+FZQiangKTJW	方正强克体 简	0917	train	FZQiangKTJW	258	338		按人工勾选语种生成GT
+FZQingFSJW_Xi	FZQingFSJW_Xi	0913	train	FZQingFSJW	258	338		0913 原划分、原GT保留
+FZQingKBYSJW-EL	FZQingKBYSJW-EL	0913	train	FZQingKBYSJW	295	338		0913 原划分、原GT保留
+FZQingLTJW_Xian	FZQingLTJW_Xian	0913	train	FZQingLTJW	258	338		0913 原划分、原GT保留
+FZQingLuTJW-EB	FZQingLuTJW-EB	0913	train	FZQingLuTJW	295	338		0913 原划分、原GT保留
+FZQiuDYRHJW	FZQiuDYRHJW	0913	train	FZQiuDYRHJW	295	338		0913 原划分、原GT保留
+FZRuiZHJW	FZRuiZHJW	0913	train	FZRuiZHJW	89	338		0913 原划分、原GT保留
+FZRuiZHLTJW	FZRuiZHLTJW	0913	train	FZRuiZHLTJW	295	338		0913 原划分、原GT保留
+FZRunKJW-T	FZRunKJW-T	0913	train	FZRunKJW	295	338		0913 原划分、原GT保留
+FZRunYYSJW	FZRunYYSJW	0913	train	FZRunYYSJW	258	338		0913 原划分、原GT保留
+FZSJ-CHAOJXHN	超级喜欢你	0917	train	FZSJ-CHAOJXHN	89	338		按人工勾选语种生成GT
+FZSJ-KEADKA	可爱得可爱	0917	train	FZSJ-KEADKA	89	338		按人工勾选语种生成GT
+FZSJ-NUANNXWC	暖暖下午茶	0917	train	FZSJ-NUANNXWC	62	338		按人工勾选语种生成GT
+FZSJ-QIYXRYY	七月夏日炎炎	0917	train	FZSJ-QIYXRYY	62	338		按人工勾选语种生成GT
+FZSJ-WOSJJ	我是静静	0917	train	FZSJ-WOSJJ	89	338		按人工勾选语种生成GT
+FZSJ-WULXEM	污力小恶魔	0917	train	FZSJ-WULXEM	73	338	āēěīńňōūǎǐǒǔǖǘǚǜ	按人工勾选语种生成GT；已知缺字已跳过
+FZSJ-XIAOHBZLL	小黑 不再流浪	0917	train	FZSJ-XIAOHBZLL	89	338		按人工勾选语种生成GT
+FZSJ-XIDPB	喜大普奔	0917	train	FZSJ-XIDPB	62	338		按人工勾选语种生成GT
+FZShanCPXJW	FZShanCPXJW	0913	train	FZShanCPXJW	258	338		0913 原划分、原GT保留
+FZShangYTJW	FZShangYTJW	0913	train	FZShangYTJW	89	338		0913 原划分、原GT保留
+FZShaoLGFTJW	方正少林功夫体 简	0917	train	FZShaoLGFTJW	295	338		按人工勾选语种生成GT
+FZShenTJHHTJW	FZShenTJHHTJW	0913	train	FZShenTJHHTJW	295	338		0913 原划分、原GT保留
+FZShengSKSJW_Zhun	方正盛世楷书简体_准	0917	train	FZShengSKSJW_Zhun	231	338		按人工勾选语种生成GT
+FZShiGKSJW	FZShiGKSJW	0913	train	FZShiGKSJW	295	338		0913 原划分、原GT保留
+FZShiGKSK	FZShiGKSK	0913	train	FZShiGKSK	295	338		0913 原划分、原GT保留
+FZShiSTJW-B	FZShiSTJW-B	0913	train	FZShiSTJW	258	338		0913 原划分、原GT保留
+FZShiTSJW	方正诗甜宋 简	0917	train	FZShiTSJW	258	338		按人工勾选语种生成GT
+FZShiTSJW_Te	FZShiTSJW_Te	0913	train	FZShiTSJW	258	338		0913 原划分、原GT保留
+FZShuLTJW-H	FZShuLTJW-H	0913	train	FZShuLTJW	295	338		0913 原划分、原GT保留
+FZShuQTJW	FZShuQTJW	0913	train	FZShuQTJW	295	338		0913 原划分、原GT保留
+FZShuYTJW-L	方正淑雅体 简 Light	0917	train	FZShuYTJW-L	295	338		按人工勾选语种生成GT
+FZShuangQTJW_Te	FZShuangQTJW_Te	0913	train	FZShuangQTJW	258	338		0913 原划分、原GT保留
+FZShuiYJW	FZShuiYJW	0913	train	FZShuiYJW	258	338		0913 原划分、原GT保留
+FZSiBTJW	方正丝帛体 简	0917	train	FZSiBTJW	258	338		按人工勾选语种生成GT
+FZSiBTJW_Te	FZSiBTJW_Te	0913	train	FZSiBTJW	258	338		0913 原划分、原GT保留
+FZSiLTJW_Cu	方正丝路体 简 Bold	0917	train	FZSiLTJW_Cu	258	338		按人工勾选语种生成GT
+FZSiLTJW_Xian	方正丝路体 简 ExtraLight	0917	train	FZSiLTJW_Xian	258	338		按人工勾选语种生成GT
+FZSiLanTJW	FZSiLanTJW	0913	train	FZSiLanTJW	295	338		0913 原划分、原GT保留
+FZSiNTJW-H	FZSiNTJW-H	0913	train	FZSiNTJW	295	338		0913 原划分、原GT保留
+FZSiNTJW-UB	FZSiNTJW-UB	0913	train	FZSiNTJW	295	338		0913 原划分、原GT保留
+FZSiNTJW-UL	FZSiNTJW-UL	0913	train	FZSiNTJW	295	338		0913 原划分、原GT保留
+FZSongYJW	FZSongYJW	0913	train	FZSongYJW	89	338		0913 原划分、原GT保留
+FZSongYuanK	FZSongYuanK	0913	train	FZSongYuanK	295	338		0913 原划分、原GT保留
+FZSuXSGYSJW	方正苏新诗古印宋 简	0917	train	FZSuXSGYSJW	89	338		按人工勾选语种生成GT
+FZSuXSMCTJW	方正苏新诗毛糙体 简	0917	train	FZSuXSMCTJW	258	338		按人工勾选语种生成GT
+FZSuXSMZTJW	方正苏新诗墨渍体 简	0917	train	FZSuXSMZTJW	258	338		按人工勾选语种生成GT
+FZTaiHTJW-H	FZTaiHTJW-H	0913	train	FZTaiHTJW	258	338		0913 原划分、原GT保留
+FZTanHTJW	方正坦黑体 简	0917	train	FZTanHTJW	258	338		按人工勾选语种生成GT
+FZTanHTJW_Da	FZTanHTJW_Da	0913	train	FZTanHTJW	258	338		0913 原划分、原GT保留
+FZTiHJW	FZTiHJW	0913	train	FZTiHJW	89	338		0913 原划分、原GT保留
+FZTieXHJW	FZTieXHJW	0913	train	FZTieXHJW	295	338		0913 原划分、原GT保留
+FZTieXHJW_Xi	方正铁线黑 简 Light	0917	train	FZTieXHJW_Xi	258	338		按人工勾选语种生成GT
+FZTieXHJW_Zhun	方正铁线黑 简 Medium	0917	train	FZTieXHJW_Zhun	258	338		按人工勾选语种生成GT
+FZVDLGTMCJW-L	FZVDLGTMCJW-L	0913	train	FZVDLGTMCJW	295	338		0913 原划分、原GT保留
+FZVDLJianZHJW-H	FZVDLJianZHJW-H	0913	train	FZVDLJianZHJW	295	338		0913 原划分、原GT保留
+FZVDLJiaoRHJW-T	FZVDLJiaoRHJW-T	0913	train	FZVDLJiaoRHJW	295	338		0913 原划分、原GT保留
+FZVDLJieYTJW-B	FZVDLJieYTJW-B	0913	train	FZVDLJieYTJW	295	338		0913 原划分、原GT保留
+FZVDLJingQSJ-H	方正VDL京千社 简 Heavy	0917	train	FZVDLJingQSJ-H	295	338		按人工勾选语种生成GT
+FZVDLJingQSJ-L	方正VDL京千社 简 Light	0917	train	FZVDLJingQSJ-L	295	338		按人工勾选语种生成GT
+FZVDLJingQSJ-T	方正VDL京千社 简 Thin	0917	train	FZVDLJingQSJ-T	295	338		按人工勾选语种生成GT
+FZVDLXinZTJW-R	FZVDLXinZTJW-R	0913	train	FZVDLXinZTJW	295	338		0913 原划分、原GT保留
+FZVDLZhaoHJW-H	FZVDLZhaoHJW-H	0913	train	FZVDLZhaoHJW	295	338		0913 原划分、原GT保留
+FZVariable-YouSongJ	FZVariable-YouSongJ	0913	train	FZVariable-YouSongJ	295	338		0913 原划分、原GT保留
+FZWBJW	FZWBJW	0913	train	FZWBJW	89	338		0913 原划分、原GT保留
+FZWZZYJW	FZWZZYJW	0913	train	FZWZZYJW	258	338		0913 原划分、原GT保留
+FZWanBTJW	方正玩伴体 简	0917	train	FZWanBTJW	258	338		按人工勾选语种生成GT
+FZWanBTJW_Xian	方正玩伴体 简 ExtraLight	0917	train	FZWanBTJW_Xian	258	338		按人工勾选语种生成GT
+FZWeiWTJW	FZWeiWTJW	0913	train	FZWeiWTJW	295	338		0913 原划分、原GT保留
+FZWeiYHJW	FZWeiYHJW	0913	train	FZWeiYHJW	295	338		0913 原划分、原GT保留
+FZWenHYBTJW	FZWenHYBTJW	0913	train	FZWenHYBTJW	89	338		0913 原划分、原GT保留
+FZWenZMXCJW	FZWenZMXCJW	0913	train	FZWenZMXCJW	295	338		0913 原划分、原GT保留
+FZWuYTJW	FZWuYTJW	0913	train	FZWuYTJW	89	338		0913 原划分、原GT保留
+FZXLB	方正秀麗	0917	train	FZXLB	256	250	ńň	按人工勾选语种生成GT；已知缺字已跳过；中文参考有缺字，须用实际参考池
+FZXiXSLSJW	FZXiXSLSJW	0913	train	FZXiXSLSJW	295	338		0913 原划分、原GT保留
+FZXianWTJW	FZXianWTJW	0913	train	FZXianWTJW	258	338		0913 原划分、原GT保留
+FZXianWTJW_Zhun	方正纤舞体 简 Medium	0917	train	FZXianWTJW_Zhun	258	338		按人工勾选语种生成GT
+FZXianWXTJW-L	FZXianWXTJW-L	0913	train	FZXianWXTJW	295	338		0913 原划分、原GT保留
+FZXianYSTJW	方正献逸书体 简	0917	train	FZXianYSTJW	89	338		按人工勾选语种生成GT
+FZXiangHJW-M	FZXiangHJW-M	0913	train	FZXiangHJW	258	338		0913 原划分、原GT保留
+FZXiangPZTJW	方正橡皮章体 简	0917	train	FZXiangPZTJW	258	338		按人工勾选语种生成GT
+FZXiangPZTJW_Da	方正橡皮章体 简 ExtraBold	0917	train	FZXiangPZTJW_Da	258	338		按人工勾选语种生成GT
+FZXiangPZTJW_Xian	方正橡皮章体 简 ExtraLight	0917	train	FZXiangPZTJW_Xian	258	338		按人工勾选语种生成GT
+FZXiaoSSJW_Te	FZXiaoSSJW_Te	0913	train	FZXiaoSSJW	258	338		0913 原划分、原GT保留
+FZXieXTJW-EB	FZXieXTJW-EB	0913	train	FZXieXTJW	295	338		0913 原划分、原GT保留
+FZXinGHJW-EL	FZXinGHJW-EL	0913	train	FZXinGHJW	295	338		0913 原划分、原GT保留
+FZXinGHJW-UL	方正新杠黑 简 UltraLight	0917	train	FZXinGHJW-UL	295	338		按人工勾选语种生成GT
+FZXinHJYKXZJW	FZXinHJYKXZJW	0913	train	FZXinHJYKXZJW	89	338		0913 原划分、原GT保留
+FZXinRTJW-EB	FZXinRTJW-EB	0913	train	FZXinRTJW	258	338		0913 原划分、原GT保留
+FZXinZYHJW_EB	FZXinZYHJW_EB	0913	train	FZXinZYHJW	295	338		0913 原划分、原GT保留
+FZXinZYHJW_UL	FZXinZYHJW_UL	0913	train	FZXinZYHJW	295	338		0913 原划分、原GT保留
+FZXingHeiJW-B	FZXingHeiJW-B	0913	train	FZXingHeiJW	295	338		0913 原划分、原GT保留
+FZXueWRHJW	FZXueWRHJW	0913	train	FZXueWRHJW	295	338		0913 原划分、原GT保留
+FZYASHJW_Cu	FZYASHJW_Cu	0913	train	FZYASHJW	295	338		0913 原划分、原GT保留
+FZYDCHJW	FZYDCHJW	0913	train	FZYDCHJW	89	338		0913 原划分、原GT保留
+FZYNJW	方正羽怒简体	0917	train	FZYNJW	89	338		按人工勾选语种生成GT
+FZYTJW	FZYTJW	0913	train	FZYTJW	89	338		0913 原划分、原GT保留
+FZYaSSJW-B	FZYaSSJW-B	0913	train	FZYaSSJW	295	338		0913 原划分、原GT保留
+FZYaZTJ_Te	方正雅珠体简体 Heavy	0917	train	FZYaZTJ_Te	258	338		按人工勾选语种生成GT
+FZYaZTJ_Xian	方正雅珠体简体 ExtraLight	0917	train	FZYaZTJ_Xian	258	338		按人工勾选语种生成GT
+FZYanSJW	FZYanSJW	0913	train	FZYanSJW	89	338		0913 原划分、原GT保留
+FZYanZQKSJW	FZYanZQKSJW	0913	train	FZYanZQKSJW	295	338		0913 原划分、原GT保留
+FZYaoDHJW	FZYaoDHJW	0913	train	FZYaoDHJW	295	338		0913 原划分、原GT保留
+FZYiBSLSJW	FZYiBSLSJW	0913	train	FZYiBSLSJW	295	338		0913 原划分、原GT保留
+FZYiHJW	FZYiHJW	0913	train	FZYiHJW	295	338		0913 原划分、原GT保留
+FZYiHTJW-EB	FZYiHTJW-EB	0913	train	FZYiHTJW	295	338		0913 原划分、原GT保留
+FZYiMSJW-T	FZYiMSJW-T	0913	train	FZYiMSJW	295	338		0913 原划分、原GT保留
+FZYiSJW_Te	FZYiSJW_Te	0913	train	FZYiSJW	258	338		0913 原划分、原GT保留
+FZYiXTJW-EB	FZYiXTJW-EB	0913	train	FZYiXTJW	295	338		0913 原划分、原GT保留
+FZYiZTJW-EB	FZYiZTJW-EB	0913	train	FZYiZTJW	295	338		0913 原划分、原GT保留
+FZYinSJW-DB	方正银宋 简 DemiBold	0917	train	FZYinSJW-DB	89	338		按人工勾选语种生成GT
+FZYinSJW-R	方正银宋 简	0917	train	FZYinSJW-R	89	338		按人工勾选语种生成GT
+FZYingCTJW	方正盈彩体 简	0917	train	FZYingCTJW	258	338		按人工勾选语种生成GT
+FZYingCTJW_Xian	方正盈彩体 简 ExtraLight	0917	train	FZYingCTJW_Xian	258	338		按人工勾选语种生成GT
+FZYongDHJW-T	FZYongDHJW-T	0913	train	FZYongDHJW	295	338		0913 原划分、原GT保留
+FZYongKTJ	FZYongKTJ	0913	train	FZYongKTJ	258	338		0913 原划分、原GT保留
+FZYooncheQWHJW-B	FZYooncheQWHJW-B	0913	train	FZYooncheQWHJW	89	338		0913 原划分、原GT保留
+FZYouHJW_508R	FZYouHJW_508R	0913	train	FZYouHJW	295	338		0913 原划分、原GT保留
+FZYouHJW_509R	FZYouHJW_509R	0913	train	FZYouHJW	295	338		0913 原划分、原GT保留
+FZYouHJW_510M	FZYouHJW_510M	0913	train	FZYouHJW	295	338		0913 原划分、原GT保留
+FZYouHJW_511M	FZYouHJW_511M	0913	train	FZYouHJW	295	338		0913 原划分、原GT保留
+FZYouHJW_512B	FZYouHJW_512B	0913	train	FZYouHJW	295	338		0913 原划分、原GT保留
+FZYouHJW_513B	FZYouHJW_513B	0913	train	FZYouHJW	295	338		0913 原划分、原GT保留
+FZYouHK_508R	FZYouHK_508R	0913	train	FZYouHK	295	338		0913 原划分、原GT保留
+FZYouHK_509R	FZYouHK_509R	0913	train	FZYouHK	295	338		0913 原划分、原GT保留
+FZYouHK_510M	FZYouHK_510M	0913	train	FZYouHK	295	338		0913 原划分、原GT保留
+FZYouHK_512B	FZYouHK_512B	0913	train	FZYouHK	295	338		0913 原划分、原GT保留
+FZYouHK_513B	FZYouHK_513B	0913	train	FZYouHK	295	338		0913 原划分、原GT保留
+FZYouSJJW_507R	FZYouSJJW_507R	0913	train	FZYouSJJW	295	338		0913 原划分、原GT保留
+FZYouSJJW_508R	FZYouSJJW_508R	0913	train	FZYouSJJW	295	338		0913 原划分、原GT保留
+FZYouSJJW_509R	FZYouSJJW_509R	0913	train	FZYouSJJW	295	338		0913 原划分、原GT保留
+FZYouSTJW-B	FZYouSTJW-B	0913	train	FZYouSTJW	295	338		0913 原划分、原GT保留
+FZYouYSJW-R	FZYouYSJW-R	0913	train	FZYouYSJW	295	338		0913 原划分、原GT保留
+FZYuLTJW-EB	FZYuLTJW-EB	0913	train	FZYuLTJW	295	338		0913 原划分、原GT保留
+FZYuYCTJW	FZYuYCTJW	0913	train	FZYuYCTJW	295	338		0913 原划分、原GT保留
+FZYunHJW-EB	FZYunHJW-EB	0913	train	FZYunHJW	295	338		0913 原划分、原GT保留
+FZYunLTJW	FZYunLTJW	0913	train	FZYunLTJW	295	338		0913 原划分、原GT保留
+FZZDHJW	FZZDHJW	0913	train	FZZDHJW	89	338		0913 原划分、原GT保留
+FZZH-AXTJW	方正字汇-傲行体 简	0917	train	FZZH-AXTJW	89	338		按人工勾选语种生成GT
+FZZH-DDYLTJW	方正字汇-大道悠乐体 简	0917	train	FZZH-DDYLTJW	89	338		按人工勾选语种生成GT
+FZZH-DFHBJW	方正字汇-刀锋黑变 简	0917	train	FZZH-DFHBJW	295	338		按人工勾选语种生成GT
+FZZH-KTMHTJW	方正字汇-卡通漫画体 简	0917	train	FZZH-KTMHTJW	89	338		按人工勾选语种生成GT
+FZZH-KTPPTJW	方正字汇-卡通泡泡体 简	0917	train	FZZH-KTPPTJW	295	338		按人工勾选语种生成GT
+FZZH-LTFKTJW	方正字汇-龙天疯狂体 简	0917	train	FZZH-LTFKTJW	258	338		按人工勾选语种生成GT
+FZZH-LTLMMTJW	方正字汇-龙天玲妹妹体 简	0917	train	FZZH-LTLMMTJW	258	338		按人工勾选语种生成GT
+FZZH-LTXXTJW	方正字汇-龙天夏夏体 简	0917	train	FZZH-LTXXTJW	295	338		按人工勾选语种生成GT
+FZZH-MXQYTJW	方正字汇-萌系巧云体 简	0917	train	FZZH-MXQYTJW	89	338		按人工勾选语种生成GT
+FZZH-NYXFTJ	方正字汇-奶油旋风体 简	0917	train	FZZH-NYXFTJ	295	338		按人工勾选语种生成GT
+FZZH-QHXKJW	方正字汇-青华行楷 简	0917	train	FZZH-QHXKJW	258	338		按人工勾选语种生成GT
+FZZH-SJDFTJW	方正字汇-三角刀锋体 简	0917	train	FZZH-SJDFTJW	89	338		按人工勾选语种生成GT
+FZZH-TTTJW	方正字汇-跳跳体 简	0917	train	FZZH-TTTJW	89	338		按人工勾选语种生成GT
+FZZH-YMTJW	方正字汇-雅萌体 简	0917	train	FZZH-YMTJW	295	338		按人工勾选语种生成GT
+FZZH-YueXSTJW-EB	FZZH-YUEXSTS EB	0917	train	FZZH-YueXSTJW	295	338		按人工勾选语种生成GT
+FZZH-ZRKTJW	方正字汇-自然楷体 简	0917	train	FZZH-ZRKTJW	258	338		按人工勾选语种生成GT
+FZZJ-BCSXJW	方正字迹-卜超手写 简	0917	train	FZZJ-BCSXJW	172	338		按人工勾选语种生成GT
+FZZJ-BXMRTJW	方正字迹-柏轩美人体 简	0917	train	FZZJ-BXMRTJW	295	338		按人工勾选语种生成GT
+FZZJ-CZYKSJW	方正字迹-陈振元楷书 简	0917	train	FZZJ-CZYKSJW	258	338		按人工勾选语种生成GT
+FZZJ-DDFDTJW	方正字迹-大道奋斗体 简	0917	train	FZZJ-DDFDTJW	89	338		按人工勾选语种生成GT
+FZZJ-FOJW	方正字迹-仿欧简体	0917	train	FZZJ-FOJW	89	338		按人工勾选语种生成GT
+FZZJ-FXGGLJW	方正字迹-范笑歌古隶 简	0917	train	FZZJ-FXGGLJW	89	338		按人工勾选语种生成GT
+FZZJ-GYJGTJW	方正字迹-谷云金刚体 简	0917	train	FZZJ-GYJGTJW	89	338		按人工勾选语种生成GT
+FZZJ-HLYHXLJW	方正字迹-黄陵野鹤行隶 简	0917	train	FZZJ-HLYHXLJW	295	338		按人工勾选语种生成GT；字形偏小，请重点审阅
+FZZJ-JKTJW	方正字迹-剑客体 简	0917	train	FZZJ-JKTJW	89	338		按人工勾选语种生成GT
+FZZJ-LSHSSJW	方正字迹-刘三宏手书 简	0917	train	FZZJ-LSHSSJW	62	338		按人工勾选语种生成GT
+FZZJ-LXBYTJW	方正字迹-刘鑫标幼体 简	0917	train	FZZJ-LXBYTJW	258	338		按人工勾选语种生成GT
+FZZJ-LXCTJW	方正字迹-赖兴才体 简	0917	train	FZZJ-LXCTJW	258	338		按人工勾选语种生成GT
+FZZJ-LXXSJW	方正字迹-流线行书 简	0917	train	FZZJ-LXXSJW	89	338		按人工勾选语种生成GT
+FZZJ-LongYTJW	方正字迹-龙吟体 简	0917	train	FZZJ-LongYTJW	89	338		按人工勾选语种生成GT
+FZZJ-MGSCTJW	方正字迹-毛广淞爨体 简	0917	train	FZZJ-MGSCTJW	295	338		按人工勾选语种生成GT
+FZZJ-MMXJJW	方正字迹-默陌信笺简体	0917	train	FZZJ-MMXJJW	89	338		按人工勾选语种生成GT
+FZZJ-MSTJW	方正字迹-卯榫体 简	0917	train	FZZJ-MSTJW	89	338		按人工勾选语种生成GT
+FZZJ-PYQYTJW	方正字迹-蒲尧卿云体 简	0917	train	FZZJ-PYQYTJW	89	338		按人工勾选语种生成GT
+FZZJ-SDXKJW	方正字迹-思道小楷 简	0917	train	FZZJ-SDXKJW	258	338		按人工勾选语种生成GT
+FZZJ-SLJMTJW	方正字迹-顺利巨墨体 简	0917	train	FZZJ-SLJMTJW	258	338		按人工勾选语种生成GT
+FZZJ-TBPYTJW	方正字迹-仝斌飘逸体 简	0917	train	FZZJ-TBPYTJW	295	338		按人工勾选语种生成GT
+FZZJ-WFSXTJ	方正字迹-晚风手写体 简	0917	train	FZZJ-WFSXTJ	295	338		按人工勾选语种生成GT
+FZZJ-XHFTJW	方正字迹-心海凤体 简	0917	train	FZZJ-XHFTJW	89	338		按人工勾选语种生成GT
+FZZJ-YYXSTJW	方正字迹-泳一行书 简	0917	train	FZZJ-YYXSTJW	258	338		按人工勾选语种生成GT
+FZZJ-ZCJW	方正字迹-张爨简体	0917	train	FZZJ-ZCJW	89	338		按人工勾选语种生成GT
+FZZJ-ZDFCSJW	方正字迹-周东芬草书 简	0917	train	FZZJ-ZDFCSJW	295	338		按人工勾选语种生成GT
+FZZJ-ZDXKJW	方正字迹-战东行楷 简	0917	train	FZZJ-ZDXKJW	169	338		按人工勾选语种生成GT
+FZZJ-ZQXKJW	方正字迹-张强行楷 简	0917	train	FZZJ-ZQXKJW	258	338		按人工勾选语种生成GT
+FZZJ-ZWJBTJW	FZZJ-ZWJBTJW	0913	train	FZZJ-ZWJBTJW	295	338		0913 原划分、原GT保留
+FZZhaoJSJSJW	FZZhaoJSJSJW	0913	train	FZZhaoJSJSJW	295	338		0913 原划分、原GT保留
+FZZhenSYJW	FZZhenSYJW	0913	train	FZZhenSYJW	258	338		0913 原划分、原GT保留
+FZZhiXHJW-R	FZZhiXHJW-R	0913	train	FZZhiXHJW	295	338		0913 原划分、原GT保留
+FZZhuMTJW	方正筑梦体 简	0917	train	FZZhuMTJW	89	338		按人工勾选语种生成GT
+FZZhuoHJW	FZZhuoHJW	0913	train	FZZhuoHJW	89	338		0913 原划分、原GT保留
+FZZhuoQHJW	FZZhuoQHJW	0913	train	FZZhuoQHJW	0	338		0913 原排除字体，保留归属，不参与训练/评估
+FZZhuoYTJW	方正卓越体 简	0917	train	FZZhuoYTJW	258	338		按人工勾选语种生成GT
+FZZiHJW	FZZiHJW	0913	train	FZZiHJW	295	338		0913 原划分、原GT保留
+FZZiRTJW-EB	FZZiRTJW-EB	0913	train	FZZiRTJW	295	338		0913 原划分、原GT保留
+FZZiZDKJW	FZZiZDKJW	0913	train	FZZiZDKJW	258	338		0913 原划分、原GT保留
+FZZiZLDJW	FZZiZLDJW	0913	train	FZZiZLDJW	258	338		0913 原划分、原GT保留
+FZZiZQXDCJW	FZZiZQXDCJW	0913	train	FZZiZQXDCJW	258	338		0913 原划分、原GT保留
+FZZuanSTJW	方正钻石体 简	0917	train	FZZuanSTJW	258	338		按人工勾选语种生成GT
+FZZuanSTJW_Da	FZZuanSTJW_Da	0913	train	FZZuanSTJW	258	338		0913 原划分、原GT保留
+FZZuoZJHJW-B	FZZuoZJHJW-B	0913	train	FZZuoZJHJW	295	338		0913 原划分、原GT保留
+FZZuoZJHJW-T	方正左佐巨黑 简 Thin	0917	train	FZZuoZJHJW-T	89	338		按人工勾选语种生成GT
+FZZuoZYXTJW-B	方正左佐雨线体 简 Bold	0917	train	FZZuoZYXTJW-B	295	338		按人工勾选语种生成GT
+FZZuoZYXTJW-R	方正左佐雨线体 简	0917	train	FZZuoZYXTJW-R	62	338		按人工勾选语种生成GT
+FZquanfuti	FZquanfuti	0913	train	FZquanfuti	258	338		0913 原划分、原GT保留
+STFZRTXSJ	书体坊张瑞图行草 简	0917	train	STFZRTXSJ	295	338		按人工勾选语种生成GT
+TSTanHJW-R	TSTanHJW-R	0913	train	TSTanHJW	295	338		0913 原划分、原GT保留
+ZJZhuangSHJ-T	字加装饰黑 简 Thin	0917	train	ZJZhuangSHJ-T	295	338		按人工勾选语种生成GT
+ZKTBanQTFU	字酷堂板橋體 繁U	0917	train	ZKTBanQTFU	258	252		按人工勾选语种生成GT；中文参考有缺字，须用实际参考池
+ZKTMingXTFU	字酷堂明行體 繁U	0917	train	ZKTMingXTFU	258	252		按人工勾选语种生成GT；中文参考有缺字，须用实际参考池
+fc4a8715	手迹志强毛笔行楷	0917	train	fc4a8715	62	338		按人工勾选语种生成GT
+fzsj_1275625	手迹玩偶体	0917	train	fzsj_1275625	62	338		按人工勾选语种生成GT
+fzsj_1275627	手迹小樱花体	0917	train	fzsj_1275627	62	338		按人工勾选语种生成GT
+fzsj_1275635	手迹小骨体	0917	train	fzsj_1275635	62	338		按人工勾选语种生成GT
+fzsj_1522777	手迹音乐体	0917	train	fzsj_1522777	62	338		按人工勾选语种生成GT
+fzsj_1928053	少女心事	0917	train	fzsj_1928053	89	338		按人工勾选语种生成GT
+fzsj_1966669	手迹我的意中人	0917	train	fzsj_1966669	62	338		按人工勾选语种生成GT
+fzsj_1966674	手迹新年新气象	0917	train	fzsj_1966674	62	338		按人工勾选语种生成GT
+fzsj_1966717	手迹笔芯体	0917	train	fzsj_1966717	73	338	āēěīńňōūǎǐǒǔǖǘǚǜ	按人工勾选语种生成GT；已知缺字已跳过
+fzsj_1966721	手迹爱心吧噗	0917	train	fzsj_1966721	73	338	āēěīńňōūǎǐǒǔǖǘǚǜ	按人工勾选语种生成GT；已知缺字已跳过
+fzsj_1966722	小人鱼的眼泪_YS	0917	train	fzsj_1966722	73	338	āēěīńňōūǎǐǒǔǖǘǚǜ	按人工勾选语种生成GT；已知缺字已跳过
+fzsj_1966797	午夜小恶鬼	0917	train	fzsj_1966797	89	338		按人工勾选语种生成GT
+fzsj_1967025	谈恋爱不如养猫	0917	train	fzsj_1967025	89	338		按人工勾选语种生成GT
+fzsj_2017088	手迹骨小骨体	0917	train	fzsj_2017088	62	338		按人工勾选语种生成GT
+fzsj_2127126	新天使之翼	0917	train	fzsj_2127126	62	338		按人工勾选语种生成GT
+fzsj_2135224	月牙美楷	0917	train	fzsj_2135224	89	338		按人工勾选语种生成GT
+fzsj_2173041	喵趣体	0917	train	fzsj_2173041	62	338		按人工勾选语种生成GT
+fzsj_2187650	洪体	0917	train	fzsj_2187650	62	338		按人工勾选语种生成GT
+fzsj_2187909	何须渡清欢	0917	train	fzsj_2187909	89	338		按人工勾选语种生成GT
+fzsj_2187928	深沉如山温煦如风	0917	train	fzsj_2187928	89	338		按人工勾选语种生成GT
+fzsj_2261418	我怕来者不是你	0917	train	fzsj_2261418	89	338		按人工勾选语种生成GT
+fzsj_2923481	清晰护眼复古像素	0917	train	fzsj_2923481	293	338	ńň	按人工勾选语种生成GT；已知缺字已跳过
+fzsj_2923966	复古像素粗体	0917	train	fzsj_2923966	293	338	ńň	按人工勾选语种生成GT；已知缺字已跳过
+FZBangSKKXJW	FZBangSKKXJW	0913	val	FZBangSKKXJW	295	338		0913 原划分、原GT保留
+FZCaoQBLSJW	FZCaoQBLSJW	0913	val	FZCaoQBLSJW	295	338		0913 原划分、原GT保留
+FZFWZhuZiHeiB	FZFWZhuZiHeiB	0913	val	FZFWZhuZiHeiB	295	338		0913 原划分、原GT保留
+FZHengFSJW-T	FZHengFSJW-T	0913	val	FZHengFSJW	295	338		0913 原划分、原GT保留
+FZHuangTJXSJW	方正黄庭坚行书 简	0917	val	FZHuangTJXSJW	295	338		按人工勾选语种生成GT
+FZJunYTJW-H	FZJunYTJW-H	0913	val	FZJunYTJW	89	338		0913 原划分、原GT保留
+FZKANGJW	FZKANGJW	0913	val	FZKANGJW	89	338		0913 原划分、原GT保留
+FZKuaiHTJW	方正快活体 简	0917	val	FZKuaiHTJW	258	338		按人工勾选语种生成GT
+FZKuaiHTJW_Te	FZKuaiHTJW_Te	0913	val	FZKuaiHTJW	258	338		0913 原划分、原GT保留
+FZLTHProGBK_H	FZLTHProGBK_H	0913	val	FZLTHProGBK	258	338		0913 原划分、原GT保留
+FZMiFXSJW	FZMiFXSJW	0913	val	FZMiFXSJW	295	338		0913 原划分、原GT保留
+FZQingYSJW-T	FZQingYSJW-T	0913	val	FZQingYSJW	295	338		0913 原划分、原GT保留
+FZSUXSFBCJW	方正苏新诗仿碑爨 简	0917	val	FZSUXSFBCJW	231	338		按人工勾选语种生成GT
+FZShouHCGTJW	方正手绘草稿体 简	0917	val	FZShouHCGTJW	89	338		按人工勾选语种生成GT
+FZShouHJW	方正手绘简体	0917	val	FZShouHJW	89	338		按人工勾选语种生成GT
+FZShouHJW_Xi	方正手绘简体_细	0917	val	FZShouHJW_Xi	89	338		按人工勾选语种生成GT
+FZSongKBXKJW-EB	FZSongKBXKJW-EB	0913	val	FZSongKBXKJW	295	338		0913 原划分、原GT保留
+FZSuHJW	FZSuHJW	0913	val	FZSuHJW	258	338		0913 原划分、原GT保留
+FZVDLQianZHJW-B	方正VDL千兆黑 简 Bold	0917	val	FZVDLQianZHJW-B	295	338		按人工勾选语种生成GT
+FZVDLQianZHJW-L	方正VDL千兆黑 简 Light	0917	val	FZVDLQianZHJW-L	295	338		按人工勾选语种生成GT
+FZXianZTJW	方正仙阵体 简	0917	val	FZXianZTJW	258	338		按人工勾选语种生成GT；字形偏小，请重点审阅
+FZYouHK_511M	FZYouHK_511M	0913	val	FZYouHK	295	338		0913 原划分、原GT保留
+FZZHJW	FZZHJW	0913	val	FZZHJW	295	338		0913 原划分、原GT保留
+FZZJ-XTJW	方正字迹-喜体 简	0917	val	FZZJ-XTJW	258	338		按人工勾选语种生成GT
+FZZanMTJW	方正赞美体 简	0917	val	FZZanMTJW	258	338		按人工勾选语种生成GT
+FZZanMTJW_Te	FZZanMTJW_Te	0913	val	FZZanMTJW	258	338		0913 原划分、原GT保留
+FZZhiQCTJW-B	方正致青春体 简 Bold	0917	val	FZZhiQCTJW-B	89	338		按人工勾选语种生成GT
+FZZhiQCTJW-L	方正致青春体 简 Light	0917	val	FZZhiQCTJW-L	89	338		按人工勾选语种生成GT
+FZZhongYSJW	方正忠义宋 简	0917	val	FZZhongYSJW	258	338		按人工勾选语种生成GT
+FZZhongYSJW_Te	FZZhongYSJW_Te	0913	val	FZZhongYSJW	258	338		0913 原划分、原GT保留
+FZZiZSFSJW	方正字斋宋非宋 简	0917	val	FZZiZSFSJW	295	338		按人工勾选语种生成GT
+fzsj_1966700	手迹成功点划体	0917	val	fzsj_1966700	62	338		按人工勾选语种生成GT
+FZBaiZHXTJW	方正白舟魂心体 简	0917	test	FZBaiZHXTJW	295	338		按人工勾选语种生成GT
+FZBuGTJW	FZBuGTJW	0913	test	FZBuGTJW	295	338		0913 原划分、原GT保留
+FZCYJW	方正彩云简体	0917	test	FZCYJW	89	338		按人工勾选语种生成GT
+FZChuangHJW_DB	FZChuangHJW_DB	0913	test	FZChuangHJW	258	338		0913 原划分、原GT保留
+FZCuanBZBKSJW	FZCuanBZBKSJW	0913	test	FZCuanBZBKSJW	295	338		0913 原划分、原GT保留
+FZDeSHJW_515H	FZDeSHJW_515H	0913	test	FZDeSHJW	258	338		0913 原划分、原GT保留
+FZDouNTJW	方正斗牛体 简	0917	test	FZDouNTJW	258	338		按人工勾选语种生成GT
+FZDouNTJW_Te	FZDouNTJW_Te	0913	test	FZDouNTJW	258	338		0913 原划分、原GT保留
+FZFeiHHJW-H	FZFeiHHJW-H	0913	test	FZFeiHHJW	295	338		0913 原划分、原GT保留
+FZFeiHHJW-T	方正飞虹黑 简 Thin	0917	test	FZFeiHHJW-T	295	338		按人工勾选语种生成GT
+FZFengYKSJ	FZFengYKSJ	0913	test	FZFengYKSJ	258	338		0913 原划分、原GT保留
+FZFuXTJW	方正复兴体 简	0917	test	FZFuXTJW	89	338		按人工勾选语种生成GT
+FZHanBTJW	方正寒冰体 简	0917	test	FZHanBTJW	258	338		按人工勾选语种生成GT
+FZHanBTJW_Da	方正寒冰体 简 ExtraBold	0917	test	FZHanBTJW_Da	258	338		按人工勾选语种生成GT
+FZHanBTJW_Xi	方正寒冰体 简 Light	0917	test	FZHanBTJW_Xi	258	338		按人工勾选语种生成GT
+FZHanWZKJW	FZHanWZKJW	0913	test	FZHanWZKJW	295	338		0913 原划分、原GT保留
+FZHuoYYJW-L	方正活意圆 简 Light	0917	test	FZHuoYYJW-L	89	338		按人工勾选语种生成GT
+FZHuoYYJW-T	FZHuoYYJW-T	0913	test	FZHuoYYJW	89	338		0913 原划分、原GT保留
+FZJianLTJW	方正健力体 简	0917	test	FZJianLTJW	258	338		按人工勾选语种生成GT
+FZJianLTJW_Te	FZJianLTJW_Te	0913	test	FZJianLTJW	258	338		0913 原划分、原GT保留
+FZJingLTJW-H	FZJingLTJW-H	0913	test	FZJingLTJW	295	338		0913 原划分、原GT保留
+FZJingYLLTJW	FZJingYLLTJW	0913	test	FZJingYLLTJW	89	338		0913 原划分、原GT保留
+FZLingFKSJW-B	FZLingFKSJW-B	0913	test	FZLingFKSJW	295	338		0913 原划分、原GT保留
+FZLiuGQKJW-L	FZLiuGQKJW-L	0913	test	FZLiuGQKJW	258	338		0913 原划分、原GT保留
+FZMaWDBSJW	FZMaWDBSJW	0913	test	FZMaWDBSJW	295	338		0913 原划分、原GT保留
+FZTJLSJW	FZTJLSJW	0913	test	FZTJLSJW	89	338		0913 原划分、原GT保留
+FZXSHJW	方正细珊瑚简体	0917	test	FZXSHJW	89	338		按人工勾选语种生成GT
+FZZJ-HLYHXWJW	方正字迹-黄陵野鹤行魏 简	0917	test	FZZJ-HLYHXWJW	295	338		按人工勾选语种生成GT
+FZZJ-KFTXKJW	方正字迹-侃夫体行楷 简	0917	test	FZZJ-KFTXKJW	258	338		按人工勾选语种生成GT
+FZZJ-MJZCFU	方正字迹-明瑾章草 繁U	0917	test	FZZJ-MJZCFU	295	252		按人工勾选语种生成GT；中文参考有缺字，须用实际参考池
+ee347e17	手迹几何空心字	0917	test	ee347e17	62	338		按人工勾选语种生成GT
+fzsj_1275648	手迹天使之翼体	0917	test	fzsj_1275648	62	338		按人工勾选语种生成GT

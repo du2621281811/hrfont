@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "old_font_assignments_unchanged": true,
+  "old_pair_rows_unchanged": true,
+  "old_target_style_content_bytes_unchanged": true,
+  "old_files_verified": 153197,
+  "new_images_verified": 124033,
+  "new_fonts": 232,
+  "deterministic_split_verified": true,
+  "forbidden_missing_or_rejected_pairs_in_targets": 0,
+  "unselected_script_pairs_in_targets": 0,
+  "old_five_excluded_fonts_still_excluded": true,
+  "known_new_group_cross_split_leakage": 0,
+  "legacy_cross_split_components": [
+    {
+      "members": [
+        "FZDeSHJW_507R",
+        "FZDeSHJW_508R",
+        "FZDeSHJW_509R",
+        "FZDeSHJW_510M",
+        "FZDeSHJW_511M",
+        "FZDeSHJW_512B",
+        "FZDeSHJW_513B",
+        "FZDeSHJW_514H",
+        "FZDeSHJW_515H"
+      ],
+      "old_splits": [
+        "test",
+        "train"
+      ],
+      "new_members": []
+    },
+    {
+      "members": [
+        "FZYouHJW_508R",
+        "FZYouHJW_509R",
+        "FZYouHJW_510M",
+        "FZYouHJW_511M",
+        "FZYouHJW_512B",
+        "FZYouHJW_513B",
+        "FZYouHK_508R",
+        "FZYouHK_509R",
+        "FZYouHK_510M",
+        "FZYouHK_511M",
+        "FZYouHK_512B",
+        "FZYouHK_513B"
+      ],
+      "old_splits": [
+        "train",
+        "val"
+      ],
+      "new_members": []
+    }
+  ],
+  "limitations": [
+    "Old raw TTFs are unavailable; historical lineage is not exhaustively verifiable.",
+    "Exact pixel and metadata checks do not prove semantic glyph correctness; visual review remains required."
+  ],
+  "new_view_links": {
+    "status": "PASS",
+    "checked_links": 144746,
+    "new_font_views_point_to_their_own_gt": true
+  }
+}

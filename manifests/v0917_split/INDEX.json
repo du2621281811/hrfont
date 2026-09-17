@@ -1,0 +1,45 @@
+{
+  "dataset_id": "v0917_split",
+  "status": "built_for_user_review",
+  "counts": {
+    "train": {
+      "fonts": 200,
+      "effective_fonts": 200,
+      "pairs": 39547,
+      "latin": 17012,
+      "kana": 20870,
+      "bopomofo": 1665
+    },
+    "val": {
+      "fonts": 16,
+      "effective_fonts": 16,
+      "pairs": 3208,
+      "latin": 1370,
+      "kana": 1690,
+      "bopomofo": 148
+    },
+    "test": {
+      "fonts": 16,
+      "effective_fonts": 16,
+      "pairs": 3208,
+      "latin": 1370,
+      "kana": 1690,
+      "bopomofo": 148
+    }
+  },
+  "files": {
+    "donor_train.json": "3a37d07882e4c180fd3be08d9fcdfa0a2eb12039ab51472f4cde32fda7e61f27",
+    "donor_train_by_cp.json": "b2e904ea2d84f1f5809c6eebaad50d316db48add322e8622f925243650021c5a",
+    "fonts.tsv": "62c904f5021014763e04c3da4e83415973cb1e70c12c98e2efb5b63a477b4322",
+    "pairs_test.tsv": "6797749c1ca97e7831db11c55fdf0745e6aef491fc9d6ac747179026e298641f",
+    "pairs_train.tsv": "4e5432d9721b63af3f3b9c2750db9ec202d6aa8992d2fbe9579d7999e3341ce2",
+    "pairs_val.tsv": "fc11f5ae106a6bca1e3b103fcbfd6b39133087bfae3c9c43008645bb138d8d38",
+    "reference_compatibility.json": "8e6ebaab25207f32020ca35a7b5625bc99e2aee6497a110a7adeca3e79af9f4f",
+    "sample_weights.json": "f8164fc816c76a1e6894c88e7bab262ba14b02e19170a2ef8f4c616fc16df4b3",
+    "split.json": "1d897c0a6f061059be013734ac8ab34bae67d96746af29fe9160b21f0a1097c2",
+    "style_pool.json": "9a1c2607c3754a6aeb9d71b597405bfdf5d18f7d5a8134aba7c03669a0ddce1a"
+  },
+  "required_pair_filter": true,
+  "required_donor_filter": "donor_train_by_cp.json",
+  "note": "The old 5 excluded train fonts remain excluded. Do not enumerate original dirty PNG roots as training targets."
+}
