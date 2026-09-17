@@ -57,7 +57,9 @@ function render(){const q=E('q').value.toLowerCase();const fs=pool.filter(x=>(!E
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--contracts',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--contracts',type=Path,required=True)
+    p.add_argument('--metadata-only',action='store_true',help='Refresh flags/HTML using existing full-resolution sheets.')
+    a=p.parse_args()
     root=a.root;out=root/'review';(out/'sheets').mkdir(parents=True,exist_ok=True)
     charset=read(a.contracts/'manifests/charset_cn2west_v2_planned.json')
     fs=rows(root/'manifests/v2/fonts.tsv');byfont={f['stem']:[] for f in fs}
@@ -71,19 +73,23 @@ def main():
         missing={cp(c) for chars in (new['missing_chars'].values() if new else []) for c in chars}
         rejected={x['cp'] for x in new['render_rejections'] if x['kind']=='target'} if new else set()
         tag='sheets/'+stem
-        sheet(root,out/(tag+'_target.png'),stem,split,charset['target_string'],'TargetImage',target_valid,missing,rejected,f'{stem} | {f["source"]} | {split} | TARGET: {len(target_valid)} / 295')
+        if not a.metadata_only:
+            sheet(root,out/(tag+'_target.png'),stem,split,charset['target_string'],'TargetImage',target_valid,missing,rejected,f'{stem} | {f["source"]} | {split} | TARGET: {len(target_valid)} / 295')
         style_missing={cp(c) for c in new['style_missing_cmap']} if new else set()
         style_rejected={x['cp'] for x in new['render_rejections'] if x['kind']=='style'} if new else set()
-        sheet(root,out/(tag+'_style.png'),stem,split,charset['style_han_338'],'StyleImage',style_valid,style_missing,style_rejected,f'{stem} | {f["source"]} | {split} | CHINESE REFERENCE: {len(style_valid)} / 338')
+        if not a.metadata_only:
+            sheet(root,out/(tag+'_style.png'),stem,split,charset['style_han_338'],'StyleImage',style_valid,style_missing,style_rejected,f'{stem} | {f["source"]} | {split} | CHINESE REFERENCE: {len(style_valid)} / 338')
+        assert (out/(tag+'_target.png')).is_file() and (out/(tag+'_style.png')).is_file()
         note='0913 原划分、原GT保留' if not new else '按人工勾选语种生成GT'
         if missing:note+='；已知缺字已跳过'
         if rejected:note+='；自动拒绝字符已跳过'
         if len(style_valid)<338:note+='；中文参考有缺字，须用实际参考池'
         mean_bbox=sum(x['bbox_ratio'] for x in new['images'])/len(new['images']) if new else None
-        if mean_bbox is not None and mean_bbox<.20:note+='；字形偏小，请重点审阅'
+        small_render=bool(new and (new['size']<=52 or mean_bbox<.20))
+        if small_render:note+='；字形偏小，请重点审阅'
         if not target_valid:note='0913 原排除字体，保留归属，不参与训练/评估'
         r=dict(**f,target_n=len(target_valid),style_n=len(style_valid),groups=sorted({x['script_group'] for x in byfont[stem]}),
-               target_sheet=tag+'_target.png',style_sheet=tag+'_style.png',has_issue=bool(missing or rejected or len(style_valid)<338 or not target_valid or (mean_bbox is not None and mean_bbox<.20)),
+               target_sheet=tag+'_target.png',style_sheet=tag+'_style.png',has_issue=bool(missing or rejected or len(style_valid)<338 or not target_valid or small_render),
                render_font_size=new['size'] if new else None,mean_bbox_ratio=mean_bbox,
                missing_text=''.join(new['missing_chars'].values()) if new else '',note=note)
         return r

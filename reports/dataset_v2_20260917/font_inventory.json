@@ -1918,11 +1918,11 @@
     ],
     "target_sheet": "sheets/FZFengBPYTJW_target.png",
     "style_sheet": "sheets/FZFengBPYTJW_style.png",
-    "has_issue": false,
+    "has_issue": true,
     "render_font_size": 46,
     "mean_bbox_ratio": 0.20725460631692114,
     "missing_text": "",
-    "note": "按人工勾选语种生成GT"
+    "note": "按人工勾选语种生成GT；字形偏小，请重点审阅"
   },
   {
     "stem": "FZFengRSTJW-B",
@@ -6406,11 +6406,11 @@
     ],
     "target_sheet": "sheets/FZXianYSTJW_target.png",
     "style_sheet": "sheets/FZXianYSTJW_style.png",
-    "has_issue": false,
+    "has_issue": true,
     "render_font_size": 52,
     "mean_bbox_ratio": 0.23072184816549554,
     "missing_text": "",
-    "note": "按人工勾选语种生成GT"
+    "note": "按人工勾选语种生成GT；字形偏小，请重点审阅"
   },
   {
     "stem": "FZXiangHJW-M",
