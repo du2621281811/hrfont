@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "dataset_id": "v0917_west_style",
+  "status": "frozen",
+  "built_at": "2026-09-17T10:17:30.099949+00:00",
+  "contract": "manifests/v0917_west_style.json",
+  "files": {
+    "QA_REPORT.json": {
+      "path": "manifests/v0917_west_style/QA_REPORT.json",
+      "bytes": 6764,
+      "sha256": "eb402d0ce0b4ce2e59d20df5ffc50444be7f7f3c38a4924ee84af1bc82e506b4"
+    },
+    "QA_REPORT.md": {
+      "path": "manifests/v0917_west_style/QA_REPORT.md",
+      "bytes": 1942,
+      "sha256": "895ed393c3516f313bffab295ddcbbd54f044e3110437505efd2bd7e13dc9824"
+    },
+    "README.md": {
+      "path": "manifests/v0917_west_style/README.md",
+      "bytes": 1124,
+      "sha256": "caa8dbfb2bccf7e5f4919c3fccfa5160990e46169de717c2668f11437d63b82d"
+    },
+    "SYNC.md": {
+      "path": "manifests/v0917_west_style/SYNC.md",
+      "bytes": 1124,
+      "sha256": "caa8dbfb2bccf7e5f4919c3fccfa5160990e46169de717c2668f11437d63b82d"
+    },
+    "families.json": {
+      "path": "manifests/v0917_west_style/families.json",
+      "bytes": 70734,
+      "sha256": "8f99e71b99e2b35e518367d505b641b966cfff2eda7c8b00bb1f85732b876e38"
+    },
+    "fonts_raw_232.json": {
+      "path": "manifests/v0917_west_style/fonts_raw_232.json",
+      "bytes": 122339,
+      "sha256": "43e886c48f783fac8ece33ce6eb75f44ce7585a8b31365753a65bed6c6573191"
+    },
+    "fonts_verified.json": {
+      "path": "manifests/v0917_west_style/fonts_verified.json",
+      "bytes": 210949,
+      "sha256": "0c4140f63b4dbe8d821f3756dad393f913d8db306b9bb098b8de2836948f76c7"
+    },
+    "stems_raw_232.txt": {
+      "path": "manifests/v0917_west_style/stems_raw_232.txt",
+      "bytes": 2837,
+      "sha256": "b726c4b9c81c8cffe9c2994ad6962312d1e95e99d97ff9dec6cd63b081d6761e"
+    },
+    "stems_verified.txt": {
+      "path": "manifests/v0917_west_style/stems_verified.txt",
+      "bytes": 2754,
+      "sha256": "2730efc941c3672a5b62931eab6429750215765b08349b7e7fc83e80f5bf7c95"
+    },
+    "v0917_west_style.json": {
+      "path": "manifests/v0917_west_style.json",
+      "bytes": 1737,
+      "sha256": "4b1ddb3122ec60ae5e9b9915a0200287f790370e0bde9cede3d058e67c170006"
+    },
+    "data/V0917_WEST_STYLE_ROOT.json": {
+      "path": "data/v0917_west_style/V0917_WEST_STYLE_ROOT.json",
+      "bytes": 317,
+      "sha256": "289892e8ec8e1dec2e7b0752ef58e9cd9096eca2de808da167f06e385b0537b5"
+    }
+  },
+  "counts": {
+    "raw_export": 232,
+    "verified_fonts": 225,
+    "verified_families": 224,
+    "excluded_fake_preview_risk": 7
+  },
+  "excluded_cleans": [
+    "fzsj_1966717",
+    "fzsj_1966721",
+    "fzsj_1966722",
+    "fzsj_2923481",
+    "fzsj_2923966",
+    "FZSJ-WULXEM",
+    "FZXLB"
+  ],
+  "target_buckets": {
+    "ascii_digits": 10,
+    "ascii_letters": 52,
+    "latin_ext_letters": 27,
+    "hiragana": 83,
+    "katakana": 86,
+    "bopomofo": 37
+  },
+  "verify_note": "Each verified font has full cmap on selected training-target buckets and non-empty Protocol-A ink samples. Preview UI probes ≠ full 295."
+}

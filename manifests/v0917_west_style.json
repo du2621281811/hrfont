@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "dataset_id": "v0917_west_style",
+  "kind": "west_style_supplement_font_manifest",
+  "status": "frozen",
+  "created_at": "2026-09-17",
+  "built_at": "2026-09-17T10:17:30.099949+00:00",
+  "note": "Metadata-only collaborator sync. TTFs stay under font_files_0914/; no fake-preview fonts. Use fonts_verified.json (225), not raw 232.",
+  "pair_map": "manifests/v0917_west_style/",
+  "pair_index": "manifests/v0917_west_style/INDEX.json",
+  "font_dir_hint": "font_files_0914/founder_fonts_download/",
+  "charset": "manifests/charset_cn2west_v2_planned.json",
+  "target_total": 295,
+  "target_buckets": {
+    "ascii_digits": 10,
+    "ascii_letters": 52,
+    "latin_ext_letters": 27,
+    "hiragana": 83,
+    "katakana": 86,
+    "bopomofo": 37
+  },
+  "counts": {
+    "raw_export": 232,
+    "verified_fonts": 225,
+    "verified_families": 224,
+    "excluded_fake_preview_risk": 7
+  },
+  "excluded_cleans": [
+    "fzsj_1966717",
+    "fzsj_1966721",
+    "fzsj_1966722",
+    "fzsj_2923481",
+    "fzsj_2923966",
+    "FZSJ-WULXEM",
+    "FZXLB"
+  ],
+  "script_selection_counts_among_verified": {
+    "latin": 223,
+    "latin_ext": 199,
+    "hiragana": 141,
+    "katakana": 140,
+    "zhuyin": 51
+  },
+  "qa": {
+    "cmap_full_on_selected_scripts": true,
+    "ink_sample_nonempty": true,
+    "file_exists": true,
+    "protocol": "A"
+  },
+  "qa_report": "manifests/v0917_west_style/QA_REPORT.md",
+  "primary_manifest": "manifests/v0917_west_style/fonts_verified.json",
+  "stems": "manifests/v0917_west_style/stems_verified.txt",
+  "related": {
+    "screen_ui": "reports/paper_fonts_0914_screen/",
+    "prior_clean_contract": "manifests/v0913_clean.json",
+    "raw_workspace_export": "manifests/supplement_west_style_232/"
+  }
+}
