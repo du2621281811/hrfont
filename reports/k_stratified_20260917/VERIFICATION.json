@@ -1,0 +1,15 @@
+{
+  "status": "PASSED",
+  "records": 28928,
+  "mean_strata": 600,
+  "existing_mean_max_abs_error": 4.958078392292009e-11,
+  "full_cross_strata_partition": "PASS",
+  "matching": "full keys plus references, seeds and source paths checked during computation",
+  "GT_tau_reproduction": "PASS",
+  "GT_tie_semantics": "PASS",
+  "difficulty_hash_and_train_thresholds": "PASS",
+  "heldout_legacy_labels": "unlabelled",
+  "python_AST": "PASS",
+  "browser": "PASS: triple filters, Train/Val/Test, GT shot invariance, all links, no JS errors",
+  "downstream": "WAIT_FOR_K3_PAPER_METRICS, PID3790237; remote AST and code SHA verified"
+}

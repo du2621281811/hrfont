@@ -1,0 +1,98 @@
+{
+  "checked_at": "2026-09-17T17:43:48.459437+08:00",
+  "runs": {
+    "K1-ORIGINAL-V0917-S3407": {
+      "config": {
+        "parent": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+        "clean_sha256": "79e2654490dd251bd7d174bb6f7236fdd0f10f1c5b4ce9b893e2114d59a03f47",
+        "detail_sha256": "c309b9feea6d5a8f4e5c5586a25cec973198c9c3f12c492214a7acc75b65e39f",
+        "sampler": "K-original-global64-attempt-keyed-v1",
+        "global_batch": 64
+      },
+      "code_commit": "43916c3ea91b00e99aa64372354bd46b81fd4452",
+      "heartbeat": {
+        "time": 1789626285.702083,
+        "step": 10000,
+        "skips": 0,
+        "ddp_spread": 0.0,
+        "script": {
+          "bopomofo": 8,
+          "western": 32,
+          "kana": 24
+        },
+        "complex": {
+          "bopomofo": 5,
+          "western": 19,
+          "kana": 14
+        },
+        "other": {
+          "bopomofo": 3,
+          "western": 13,
+          "kana": 10
+        }
+      },
+      "saved_exposure": {
+        "step": 10000,
+        "samples": 640000,
+        "script": {
+          "western": 320000,
+          "bopomofo": 80000,
+          "kana": 240000
+        }
+      },
+      "execution_file_sha256": {
+        "scripts/k_components.py": "add9a55ceb6d22171ed04ad9be8b761775bf749038ecbe9f35c4f02a2b607b2a",
+        "scripts/k_runtime.py": "61c38ed61dee579249379fa37a15d3bb6f3c61f6f42b62b3472b624fa4147b9b",
+        "scripts/h_runtime.py": "14e4559786b55888f77401bcd7c013aa1ed2effc2013e08c17d96781b08d0454",
+        "code/variants/cn2west_f123_rsi/FontDiffuser/dataset/font_dataset.py": "00ccbfb01c1cc38106ba5bc9e9c48249286abf71eba1da88a36d9f7cbf8dac23"
+      }
+    },
+    "K3-PURENOISE-V0917-S3407": {
+      "config": {
+        "parent": "/root/projects/hrfont/runs/G0b-F0-V0913-BS256-A-S3407/global_step_10000",
+        "clean_sha256": "79e2654490dd251bd7d174bb6f7236fdd0f10f1c5b4ce9b893e2114d59a03f47",
+        "detail_sha256": "c309b9feea6d5a8f4e5c5586a25cec973198c9c3f12c492214a7acc75b65e39f",
+        "sampler": "K-original-global64-attempt-keyed-v1",
+        "global_batch": 64
+      },
+      "code_commit": "f65ceb52a49fbfe2ac3dc41a9ce1e2572e0f6c35",
+      "heartbeat": {
+        "time": 1789638217.0108693,
+        "step": 2769,
+        "skips": 0,
+        "ddp_spread": 0.0,
+        "script": {
+          "bopomofo": 8,
+          "kana": 24,
+          "western": 32
+        },
+        "complex": {
+          "bopomofo": 5,
+          "kana": 14,
+          "western": 19
+        },
+        "other": {
+          "bopomofo": 3,
+          "kana": 10,
+          "western": 13
+        }
+      },
+      "saved_exposure": {
+        "step": 2000,
+        "samples": 128000,
+        "script": {
+          "western": 64000,
+          "bopomofo": 16000,
+          "kana": 48000
+        }
+      },
+      "execution_file_sha256": {
+        "scripts/k_components.py": "add9a55ceb6d22171ed04ad9be8b761775bf749038ecbe9f35c4f02a2b607b2a",
+        "scripts/k_runtime.py": "61c38ed61dee579249379fa37a15d3bb6f3c61f6f42b62b3472b624fa4147b9b",
+        "scripts/h_runtime.py": "14e4559786b55888f77401bcd7c013aa1ed2effc2013e08c17d96781b08d0454",
+        "scripts/k3_components.py": "0056073d35dd14040ccbc5e401a8cc1e29497f3e729498826cfefa857033c758",
+        "code/variants/cn2west_f123_rsi/FontDiffuser/dataset/font_dataset.py": "00ccbfb01c1cc38106ba5bc9e9c48249286abf71eba1da88a36d9f7cbf8dac23"
+      }
+    }
+  }
+}

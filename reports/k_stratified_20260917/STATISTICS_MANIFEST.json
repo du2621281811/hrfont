@@ -1,0 +1,39 @@
+{
+  "aggregation": "font macro within each cell; existing split/protocol kept separate",
+  "ci": "paired font bootstrap, 10000 draws, seed 20260917; exploratory pointwise intervals, not multiple-comparison corrected; font<5 flagged; font<2 CI unavailable",
+  "correlation": "per-query Spearman rho and frozen Kendall tau-b on [A,N,F,X] labels [3,2,1,3], then font macro; exact score ties for rho, epsilon1e-6 for frozen tau",
+  "G_rank_label": "unavailable: neither GT nor generation assumed optimal; no invented five-way total order",
+  "human_correlation": "NOT_COLLECTED",
+  "GT_correlation_is_proxy": true,
+  "GT_deduplication": "one font/codepoint, not generation model or shot; fixed ref8",
+  "difficulty_manifest_sha256": "a4a46b5211b968beb6480abbe15b1d5545a6f9eb025fc9d18ad6ca97bc1a2a26",
+  "legacy_manifest_sha256": "ff6ed211d92d223b0bfb00dfc475b6c267287fc4104647935780a8411bd37b04",
+  "script_sha256": "0a58a1bf0cdce1e0ba7b4545c67d18c0d2575ed658f88700f48dfd0fb6cfdf4d",
+  "source_files_sha256": {
+    "work/k_paper_metrics/default128_K0_test.json": "aae30a43e405e3815bb5d7c67e114fb57cc423514450a6a7f46b6cde0af65f0e",
+    "work/k_paper_metrics/default128_K0_train.json": "cfde9cbed87ff09b35f81624534ad1870729863eefa571209e87acb4bb26f492",
+    "work/k_paper_metrics/default128_K0_val.json": "480b851de83f5186e07117a1fc7965bf69755be7976ba3d08966579547cb2250",
+    "work/k_paper_metrics/default128_K1_test.json": "ff5bef5f84917edde24fe2bf421a376834261d004673ea733b6e9988adda761f",
+    "work/k_paper_metrics/default128_K1_train.json": "1a3bb9e4495f182784b410111db58adc7e5850d6eb7eb843165c26cc40ce39b6",
+    "work/k_paper_metrics/default128_K1_val.json": "1c44ac18fb125ad9b1b1f409c60accf8ecff378670421fe5c26b1d57c3016e01",
+    "work/k_paper_metrics/original47_K0_test.json": "a886000cc00703178e123cd215fd50b9445c5c9f9c1acbcc3146bc69bbf56825",
+    "work/k_paper_metrics/original47_K1_test.json": "f983b51ce41dee67a93d33036016c677bd3da2fee7fe1bd1c624cd7857dff81a",
+    "work/e12c_completed/R1_cosine_scores.json": "60f3abf1fedd7db2ac5fc08b9df027f814459b0d89a713afc966fe0608dd5c36",
+    "work/e12c_completed/R1_head_scores.json": "f2d45ed0ba881d2103f3ac1efe7a3ebb779af81536d23b7277e307cdf263b1cd",
+    "work/e12c_completed/R2_cosine_scores.json": "2beb82600651a9d0674c471403c1d4bd2cdc74c3c4f99f2628b72018e03b3fc1",
+    "work/e12c_completed/R2_head_scores.json": "d0b165129d20e2f3ebf095a4e96dc8eed6e2576cfa106be69342f089fd5f93f9",
+    "work/e12c_completed/R3_head_scores.json": "2b04b6e5b58c5acef12b24ed26789cb61a277d8e136036a7f53901864afb1866",
+    "work/e12c_completed/v1_cosine_scores.json": "4b0024e096414521287bec2597948862ece4415e18ec4019066fbead26e0f59a",
+    "work/e12c_completed/v1_head_scores.json": "4364f650f482002bea74b9567703a8383ddcabae6446d7ed4afb9ade6feab9f8"
+  },
+  "records": 28928,
+  "matched_pairs": 14464,
+  "strata": 600,
+  "paired_delta_rows": 2100,
+  "frozen_tau_max_difference": 0.0,
+  "duplicate_GT_max_float_difference": 4.76837158203125e-07,
+  "models": [
+    "K0",
+    "K1"
+  ]
+}
