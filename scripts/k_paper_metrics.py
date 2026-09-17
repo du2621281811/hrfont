@@ -1,5 +1,5 @@
 """Frozen E12-c and paired LPIPS diagnostics for existing K images; no fitting."""
-import collections, concurrent.futures, hashlib, json, os, sys, time
+import argparse, collections, concurrent.futures, hashlib, json, os, sys, time
 from pathlib import Path
 import numpy as np
 import torch
@@ -22,6 +22,9 @@ def load_image(p):
         return torch.from_numpy(np.array(im.convert('RGB'),copy=True)).permute(2,0,1).float()/255
 
 def main():
+    global STORE
+    parser=argparse.ArgumentParser();parser.add_argument('--arm',choices=['K0_K1','K3'],default='K0_K1');args=parser.parse_args()
+    if args.arm=='K3':STORE=Path('/root/data1/hrfont_k3_paper_metrics_20260917')
     torch.set_num_threads(4);device=torch.device(os.environ.get('K_METRICS_DEVICE','cuda:0'))
     STORE.mkdir(exist_ok=True);start=time.time()
     if (STORE/'DONE.json').exists():print('ALREADY_DONE');return
@@ -29,6 +32,9 @@ def main():
     refs=[f'u{ord(c):04X}' for c in '永和书风骨韵天地'];rows=[];sources={}
     specs=[('default128',arm,sp,ROOT/'reports/k_default_k1248_20260917'/arm/sp) for arm in ['K0','K1'] for sp in ['train','val','test']]
     specs += [('original47','K0','test',ROOT/'reports/k0_original_test_20260917'),('original47','K1','test',ROOT/'runs/K1-ORIGINAL-V0917-S3407/eval_step_10000')]
+    if args.arm=='K3':
+        specs=[('default128','K3',sp,ROOT/'reports/k_default_k1248_20260917/K3'/sp) for sp in ['train','val','test']]
+        specs += [('original47','K3','test',ROOT/'runs/K3-PURENOISE-V0917-S3407/eval_step_10000')]
     for protocol,arm,sp,d in specs:
         p=d/'metrics.json';sources[str(p)]=sha(p)
         for r in json.loads(p.read_text())['rows']:
@@ -71,7 +77,7 @@ def main():
         e12_weights_sha256=sha(E12/'R1/A_best.pt'),e12_model_lock_sha256=sha(E12/'MODEL_LOCK.json'),
         source_metrics_sha256=sources,script_sha256=sha(__file__),lpips='official lpips 0.1 AlexNet, native96 RGB [-1,1], no resize',
         missing={'identity':'No usable identity checkpoint found on this execution host; no OCR number fabricated.',
-                 'human_style_preference':'No blinded human judgments collected.', 'K2':'No completed K2 checkpoint found.', 'K3':'Training has not completed.'})
+                 'human_style_preference':'No blinded human judgments collected.', 'K2':'No completed K2 checkpoint found.', 'K3':'Scored completed outputs.' if args.arm=='K3' else 'Training has not completed.'})
     atomic(STORE/'DONE.json',provenance);print(json.dumps(provenance,ensure_ascii=False),flush=True)
 
 if __name__=='__main__':main()
