@@ -1,0 +1,136 @@
+{
+  "checked_at": "2026-09-17T17:09:52.110246+08:00",
+  "queue": {
+    "stage": "TRAIN_10000",
+    "time": 1789635110.8481843,
+    "run_id": "K3-PURENOISE-V0917-S3407",
+    "pid": 3778040
+  },
+  "heartbeat": {
+    "state": "TRAINING",
+    "time": 1789636179.28226,
+    "step": 913,
+    "attempt": 913,
+    "loss": 0.039108019322156906,
+    "epsilon_loss": 0.0019222551491111517,
+    "vgg_loss": 3.0457916259765625,
+    "completion_loss": 0.23151201009750366,
+    "detail_loss": 0.04040980339050293,
+    "offset_loss": 0.01107772160321474,
+    "D_region": 0.11212726682424545,
+    "D_change": 0.09015343338251114,
+    "D_add": 0.11244266480207443,
+    "D_remove": 0.06786422431468964,
+    "D_high": 0.04129054397344589,
+    "reader_grad": 0.017567304894328117,
+    "online_encoder_grad": 0.004487232770770788,
+    "router_grad": 5.950717968516983e-05,
+    "pair_reader_grad": 2.177529811859131,
+    "pair_router_grad": 0.019288411363959312,
+    "pair_loss": 1.054575800895691,
+    "pair_weight": 0.0037100340705364943,
+    "pair_ramp": 1.0,
+    "pair_unet_grad": 21.197587966918945,
+    "base_unet_grad": 0.5059364438056946,
+    "pair_seconds": 4.340213775634766,
+    "pair_meta": {
+      "fonts": [
+        "FZZhiXHJW-R",
+        "FZSiBTJW_Te"
+      ],
+      "cp": "u0049",
+      "script": "western",
+      "shot": 1,
+      "refs": [
+        "u97F3"
+      ],
+      "retries": 0
+    },
+    "pair_reconstruction": 0.7886011004447937,
+    "pair_difference": 0.2659747004508972,
+    "pair_mask_pixels": 1335.0,
+    "pair_prediction_difference": 0.08164539933204651,
+    "pair_gt_difference": 0.07824456691741943,
+    "pair_out_of_range": 0.9468497037887573,
+    "grad_norm": 0.25321874022483826,
+    "beta": 0.7304,
+    "tc_scale_p10_p50_p90": [
+      [
+        4.0,
+        4.0,
+        4.0
+      ],
+      [
+        4.0,
+        4.0,
+        4.0
+      ],
+      [
+        4.0,
+        4.0,
+        4.0
+      ],
+      [
+        4.0,
+        4.0,
+        4.0
+      ],
+      [
+        3.8380796909332275,
+        3.9100441932678223,
+        3.982008934020996
+      ],
+      [
+        2.7489442825317383,
+        2.9016518592834473,
+        3.054359197616577
+      ]
+    ],
+    "ddp_spread": 0.0,
+    "lr": [
+      2e-05,
+      2e-05,
+      0.0001,
+      0.0001
+    ],
+    "scale": 1024.0,
+    "skips": 0,
+    "global_batch": 64,
+    "local_batch": 8,
+    "script": {
+      "western": 32,
+      "kana": 24,
+      "bopomofo": 8
+    },
+    "complex": {
+      "western": 19,
+      "kana": 14,
+      "bopomofo": 5
+    },
+    "other": {
+      "western": 13,
+      "kana": 10,
+      "bopomofo": 3
+    },
+    "pairs": {
+      "western": 4,
+      "kana": 3,
+      "bopomofo": 1
+    },
+    "cfg_drop": 14,
+    "source_drop": 44,
+    "drop_window_samples": 832,
+    "cfg_drop_rate": 0.016826923076923076,
+    "source_drop_rate": 0.052884615384615384,
+    "update_seconds": 5.199267387390137,
+    "peak_mib": 8389.6376953125,
+    "elapsed_seconds": 988.2543570995331
+  },
+  "downstream": {
+    "stage": "WAIT_FOR_K3_DEFAULT_INFERENCE",
+    "time": 1789635911.1516147
+  },
+  "last_state": null,
+  "checkpoint_metadata": null,
+  "rolling_seconds_per_update": 1.058690717816353
+}

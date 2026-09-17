@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "rows": 28928,
+  "seconds": 129.1262288093567,
+  "device": "cuda:0",
+  "evaluator": "E12-c R1 cosine; fixed 8 Chinese refs for every generation shot",
+  "e12_weights_sha256": "b2c8eb69c5c76eca21a149afe95c4a49fe21e3363825138b1515c4812c452aab",
+  "e12_model_lock_sha256": "99504d172ae116c0f804b862fc2a404381bc445807bfad50f92a5d2225862b70",
+  "source_metrics_sha256": {
+    "/root/projects/hrfont/reports/k_default_k1248_20260917/K0/train/metrics.json": "81e6b5ab8f5a055e3bcec11afdb677dcb0545f13d6be9b32370d0b97facb3b9e",
+    "/root/projects/hrfont/reports/k_default_k1248_20260917/K0/val/metrics.json": "71534bd8272120bb18b1a57e9cb96c8befd71cc7c45b2450c2fbf58f44ddcc8d",
+    "/root/projects/hrfont/reports/k_default_k1248_20260917/K0/test/metrics.json": "3e2e7ea81c613d836865b6f9dfa9097771eb5a909a307527229bffc2835fe096",
+    "/root/projects/hrfont/reports/k_default_k1248_20260917/K1/train/metrics.json": "0fcba816a85895dfce5fe864f295d8bdd5ea9ff4ac021c05b44948c5b4931c8d",
+    "/root/projects/hrfont/reports/k_default_k1248_20260917/K1/val/metrics.json": "26f79994b320a1b74d1616662a20c4eddde6cebee734b0b81e1f3b8a1134c7dc",
+    "/root/projects/hrfont/reports/k_default_k1248_20260917/K1/test/metrics.json": "6e6134297aa4ec3d1fb5c297701ba3ec62702b267fcd1d7d064614469345dd46",
+    "/root/projects/hrfont/reports/k0_original_test_20260917/metrics.json": "a37971770e71fa14d6e3a85c125f0aa482c6711d9e8909fccf385dfa467590e5",
+    "/root/projects/hrfont/runs/K1-ORIGINAL-V0917-S3407/eval_step_10000/metrics.json": "4a55892a092a42b94f8d0f07f2f53d1417f746428063132edca6ffca7fba7e97"
+  },
+  "script_sha256": "f3925b54737d9f3c7504cc8074f205ace1050e68f35c5d879261140265b86495",
+  "lpips": "official lpips 0.1 AlexNet, native96 RGB [-1,1], no resize",
+  "missing": {
+    "identity": "No usable identity checkpoint found on this execution host; no OCR number fabricated.",
+    "human_style_preference": "No blinded human judgments collected.",
+    "K2": "No completed K2 checkpoint found.",
+    "K3": "Training has not completed."
+  }
+}

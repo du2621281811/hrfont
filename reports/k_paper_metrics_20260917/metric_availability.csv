@@ -1,0 +1,8 @@
+metric,status,scope
+Family compatibility / E12-c,COMPUTED,"fixed R1 encoder, ref8, cosine mapped to [0,1]; not probability or optimality"
+LPIPS-Alex,COMPUTED,"native96 paired RGB, official v0.1; not directly comparable to old resized64 LPIPS"
+L1 / SSIM / D_region / D_change / D_high,COMPUTED,"paired GT fidelity diagnostics, not uniqueness/optimality"
+Character identity accuracy,UNAVAILABLE,No usable identity checkpoint on execution host or known local clones; do not substitute E12 retrieval
+Blind human style preference,NOT_COLLECTED,GT relation checks do not replace blinded human preferences
+K2,NOT_AVAILABLE,No completed K2 run
+K3 final quality,TRAINING,10k formal run launched; no final quality score yet

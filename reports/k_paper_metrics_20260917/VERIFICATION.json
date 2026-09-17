@@ -1,0 +1,16 @@
+{
+  "k_results/index.html": {
+    "rows": 2912,
+    "referenced_files": 26800,
+    "missing_files": 0
+  },
+  "e12_ranking/index.html": {
+    "rows": 5632,
+    "referenced_files": 6848,
+    "missing_files": 0
+  },
+  "browser": "Passed interactive Train/Test, multichar, shot filters, E12 model switch, visible native96 images, no JS errors",
+  "e12_score_parity_max_abs": 0.0002301931381225586,
+  "per_image_rows": 28928,
+  "metric_source_sha_verified": true
+}
