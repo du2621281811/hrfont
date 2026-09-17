@@ -1,0 +1,14 @@
+{
+  "dataset_id": "v0917_west_style",
+  "kind": "font_manifest_and_ttf_pack",
+  "manifest": "manifests/v0917_west_style/fonts_all_232.json",
+  "missing_chars": "manifests/v0917_west_style/MISSING_CHARS.md",
+  "ttf_pack": "artifacts/v0917_west_style_ttf_232.zip",
+  "font_dir_hint": "font_files_0914/founder_fonts_download/",
+  "n_fonts": 232,
+  "n_ok": 225,
+  "n_incomplete": 7,
+  "official_n": 232,
+  "readme": "manifests/v0917_west_style/README.md",
+  "note": "正式=232；225是全满子集；7套缺字已写明仍收录。"
+}

@@ -1,0 +1,5202 @@
+{
+  "dataset_id": "supplement_west_style_232",
+  "title": "西文风格补充字体清单（人工筛选）",
+  "utc": "2026-09-17T10:06:54.462Z",
+  "n_fonts": 232,
+  "n_families": 231,
+  "render": "protocol_A",
+  "note": "仅清单与元数据；TTF/OTF 不入库。合作者需自备同批方正字体文件，按 font_file 在 founder_fonts_download/ 下对齐。scripts 与训练集 bucket 对齐：latin/latin_ext/hiragana/katakana/zhuyin；digit 含在 latin 预览中，训练 target 仍有独立 ascii_digits。",
+  "script_counts": {
+    "latin": 230,
+    "latin_ext": 206,
+    "hiragana": 144,
+    "katakana": 143,
+    "zhuyin": 53
+  },
+  "train": [
+    {
+      "clean": "4314d6a5",
+      "disp": "手迹I Cat体",
+      "family": "4314d6a5",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.455,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "23276_4314d6a5.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "5f132397",
+      "disp": "手迹南门体",
+      "family": "5f132397",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.934,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "23293_5f132397.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "ee347e17",
+      "disp": "手迹几何空心字",
+      "family": "ee347e17",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.458,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "23358_ee347e17.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fc4a8715",
+      "disp": "手迹志强毛笔行楷",
+      "family": "fc4a8715",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.642,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 0,
+        "hiragana": 0,
+        "katakana": 0,
+        "zhuyin": 0,
+        "kana": 0
+      },
+      "audit_a_fs": 84,
+      "font_file": "23369_fc4a8715.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZAiSJW",
+      "disp": "方正爱莎简体",
+      "family": "FZAiSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.451,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1809_FZAiSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZAiSJW_Cu",
+      "disp": "方正爱莎简体 Bold",
+      "family": "FZAiSJW_Cu",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.09,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1812_FZAiSJW_Cu.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZAiSJW_Xian",
+      "disp": "方正爱莎简体 ExtraLight",
+      "family": "FZAiSJW_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.006,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1807_FZAiSJW_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBaDSRXKJW",
+      "disp": "方正八大山人行楷 简",
+      "family": "FZBaDSRXKJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.656,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22607_FZBaDSRXKJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBaiZDZ113JW",
+      "disp": "方正白舟大髭113 简",
+      "family": "FZBaiZDZ113JW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.801,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22408_FZBaiZDZ113JW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBaiZHXTJW",
+      "disp": "方正白舟魂心体 简",
+      "family": "FZBaiZHXTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.243,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22409_FZBaiZHXTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBaiZJDTJW",
+      "disp": "方正白舟京都体 简",
+      "family": "FZBaiZJDTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.303,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27771_FZBaiZJDTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBaiZJHTJW-L",
+      "disp": "方正白舟劲海体 简 Light",
+      "family": "FZBaiZJHTJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.782,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34463_FZBaiZJHTJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBaoCTJW",
+      "disp": "方正宝城体 简",
+      "family": "FZBaoCTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.626,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21440_FZBaoCTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBGDT",
+      "disp": "方正不孤独体",
+      "family": "FZBGDT",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.503,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20384_FZBGDT.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBingMYTJW",
+      "disp": "方正兵马俑体 简",
+      "family": "FZBingMYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.693,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3826_FZBingMYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBITMAPFENGJW",
+      "disp": "方正点阵冯简体",
+      "family": "FZBITMAPFENGJW",
+      "scripts": [
+        "latin",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.982,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "2114_FZBITMAPFENGJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBoRDKJW",
+      "disp": "方正般若大楷 简",
+      "family": "FZBoRDKJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "zhuyin"
+      ],
+      "west_score": 4.763,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34482_FZBoRDKJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBoYTJW-B",
+      "disp": "方正波影体 简 Bold",
+      "family": "FZBoYTJW-B",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.651,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25702_FZBoYTJW-B.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZBoYTJW-L",
+      "disp": "方正波影体 简 Light",
+      "family": "FZBoYTJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.475,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25698_FZBoYTJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZChaoLTJW",
+      "disp": "方正潮流体 简",
+      "family": "FZChaoLTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.977,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3885_FZChaoLTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZCYJW",
+      "disp": "方正彩云简体",
+      "family": "FZCYJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.853,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 79,
+      "font_file": "210_FZCYJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZDaLTJW",
+      "disp": "方正达利体简体",
+      "family": "FZDaLTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.54,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "786_FZDaLTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZDengHLJW",
+      "disp": "方正邓黑隶简体",
+      "family": "FZDengHLJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.236,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "855_FZDengHLJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZDiHTJ_Te",
+      "disp": "方正帝后体简体 Heavy",
+      "family": "FZDiHTJ_Te",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.547,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "783_FZDiHTJ_Te.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZDiHTJ_Xian",
+      "disp": "方正帝后体简体 ExtraLight",
+      "family": "FZDiHTJ_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.355,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "776_FZDiHTJ_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZDiHTJ_Zhun",
+      "disp": "方正帝后体简体 Medium",
+      "family": "FZDiHTJ_Zhun",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.168,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "779_FZDiHTJ_Zhun.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZDouNTJW",
+      "disp": "方正斗牛体 简",
+      "family": "FZDouNTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.435,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20178_FZDouNTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZDunHJSJW",
+      "disp": "方正敦煌经书 简",
+      "family": "FZDunHJSJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.158,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27887_FZDunHJSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFeiHHJW-T",
+      "disp": "方正飞虹黑 简 Thin",
+      "family": "FZFeiHHJW-T",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.904,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "26680_FZFeiHHJW-T.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFeiYTJW",
+      "disp": "方正飞跃体 简",
+      "family": "FZFeiYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.723,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3564_FZFeiYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFengBPYTJW",
+      "disp": "方正风波飘逸体 简",
+      "family": "FZFengBPYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.621,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 52,
+      "font_file": "22933_FZFengBPYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFengRSTJW-B",
+      "disp": "方正风入松体 简 Bold",
+      "family": "FZFengRSTJW-B",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.611,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22025_FZFengRSTJW-B.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFengRSTJW-R",
+      "disp": "方正风入松体 简",
+      "family": "FZFengRSTJW-R",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 7.141,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22022_FZFengRSTJW-R.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFengYSJW-EL",
+      "disp": "方正风雅宋 简 ExtraLight",
+      "family": "FZFengYSJW-EL",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.761,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "23469_FZFengYSJW-EL.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFengZTJW-EB",
+      "disp": "FZFengZiTiS ExtraBold",
+      "family": "FZFengZTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 0.5,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 73,
+      "font_file": "22680_FZFengZTJW-EB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFengZTJW-B",
+      "disp": "方正风姿体 简 Bold",
+      "family": "FZFengZTJW-B",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.172,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 75,
+      "font_file": "22679_FZFengZTJW-B.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFengZTJW-M",
+      "disp": "方正风姿体 简 Medium",
+      "family": "FZFengZTJW-M",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.515,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 80,
+      "font_file": "22677_FZFengZTJW-M.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFenSTXJW",
+      "disp": "方正粉丝天下简体",
+      "family": "FZFenSTXJW",
+      "scripts": [
+        "latin",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.016,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "593_FZFenSTXJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFuGCSJW",
+      "disp": "方正复古粗宋简体",
+      "family": "FZFuGCSJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.837,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1845_FZFuGCSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZFuXTJW",
+      "disp": "方正复兴体 简",
+      "family": "FZFuXTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.77,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27888_FZFuXTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZGaoHeiJ",
+      "disp": "方正高黑 简",
+      "family": "FZGaoHeiJ",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.996,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 85,
+      "font_file": "34772_FZGaoHeiJ.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZHanBTJW",
+      "disp": "方正寒冰体 简",
+      "family": "FZHanBTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.81,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20440_FZHanBTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZHanBTJW_Da",
+      "disp": "方正寒冰体 简 ExtraBold",
+      "family": "FZHanBTJW_Da",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.366,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20444_FZHanBTJW_Da.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZHanBTJW_Xi",
+      "disp": "方正寒冰体 简 Light",
+      "family": "FZHanBTJW_Xi",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.029,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20439_FZHanBTJW_Xi.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZHanSTJW",
+      "disp": "方正翰宋体 简",
+      "family": "FZHanSTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.569,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20479_FZHanSTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZHuangTJXSJW",
+      "disp": "方正黄庭坚行书 简",
+      "family": "FZHuangTJXSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.68,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 77,
+      "font_file": "29027_FZHuangTJXSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZHuaSKXTJW-T",
+      "disp": "方正华思刻线体 简 Thin",
+      "family": "FZHuaSKXTJW-T",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.182,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27913_FZHuaSKXTJW-T.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZHuoLTJW",
+      "disp": "方正活龙体 简",
+      "family": "FZHuoLTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.558,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3755_FZHuoLTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZHuoYYJW-L",
+      "disp": "方正活意圆 简 Light",
+      "family": "FZHuoYYJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.049,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27752_FZHuoYYJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZJianLTJW",
+      "disp": "方正健力体 简",
+      "family": "FZJianLTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.288,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3539_FZJianLTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZJianQTJW",
+      "disp": "方正剑气体 简",
+      "family": "FZJianQTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.253,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34648_FZJianQTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZJiHXTJW",
+      "disp": "方正几何新体 简",
+      "family": "FZJiHXTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.901,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21223_FZJiHXTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZJinCTJW",
+      "disp": "方正劲彩体 简",
+      "family": "FZJinCTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.429,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "20160_FZJinCTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZJingWTJW",
+      "disp": "方正劲舞体 简",
+      "family": "FZJingWTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.403,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "2085_FZJingWTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZJingWTJW_Cu",
+      "disp": "方正劲舞体 简 Bold",
+      "family": "FZJingWTJW_Cu",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.107,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "2088_FZJingWTJW_Cu.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZJingWTJW_Xian",
+      "disp": "方正劲舞体 简 ExtraLight",
+      "family": "FZJingWTJW_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.883,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "2083_FZJingWTJW_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZKuaiHTJW",
+      "disp": "方正快活体 简",
+      "family": "FZKuaiHTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.528,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3510_FZKuaiHTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZKuaiSTJW",
+      "disp": "方正快速体 简",
+      "family": "FZKuaiSTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.644,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21464_FZKuaiSTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLaGBTTJW",
+      "disp": "方正拉勾标题体 简",
+      "family": "FZLaGBTTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.336,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20633_FZLaGBTTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLangKCTJW2",
+      "disp": "方正朗酷长体 简",
+      "family": "FZLangKCTJW2",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.266,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 79,
+      "font_file": "29153_FZLangKCTJW2.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLangYJW-L",
+      "disp": "方正朗圆 简 Light",
+      "family": "FZLangYJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.846,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25823_FZLangYJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLangYJW-R",
+      "disp": "方正朗圆 简",
+      "family": "FZLangYJW-R",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.193,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25824_FZLangYJW-R.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLiangHJW-EB",
+      "disp": "方正亮黑 简 ExtraBold",
+      "family": "FZLiangHJW-EB",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.36,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22405_FZLiangHJW-EB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLiangHJW-L",
+      "disp": "方正亮黑 简 Light",
+      "family": "FZLiangHJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 7.147,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22400_FZLiangHJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLingDTJW-B",
+      "disp": "方正灵动体 简 Bold",
+      "family": "FZLingDTJW-B",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.351,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22552_FZLingDTJW-B.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLingDTJW-L",
+      "disp": "方正灵动体 简 Light",
+      "family": "FZLingDTJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.172,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22548_FZLingDTJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLingFJXKJW",
+      "disp": "方正灵飞经小楷 简",
+      "family": "FZLingFJXKJW",
+      "scripts": [
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.692,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22595_FZLingFJXKJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLiuCTJW",
+      "disp": "方正流畅体 简",
+      "family": "FZLiuCTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.746,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21412_FZLiuCTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLouLTJW-EB",
+      "disp": "方正楼兰体 简 ExtraBold",
+      "family": "FZLouLTJW-EB",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.07,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22286_FZLouLTJW-EB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLouLTJW-R",
+      "disp": "方正楼兰体 简",
+      "family": "FZLouLTJW-R",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.88,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22282_FZLouLTJW-R.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLuoDTJW",
+      "disp": "方正FW罗丹体 简",
+      "family": "FZLuoDTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.883,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34634_FZLuoDTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLuoMTJW-L",
+      "disp": "方正罗曼体 简 Light",
+      "family": "FZLuoMTJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.303,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 93,
+      "font_file": "22813_FZLuoMTJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLuoMTJW-R",
+      "disp": "方正罗曼体 简",
+      "family": "FZLuoMTJW-R",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.11,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 93,
+      "font_file": "22814_FZLuoMTJW-R.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLuoMXTJW-EB",
+      "disp": "方正罗曼斜体 简 ExtraBold",
+      "family": "FZLuoMXTJW-EB",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.476,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 75,
+      "font_file": "23052_FZLuoMXTJW-EB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZLuoMXTJW-M",
+      "disp": "方正罗曼斜体 简 Medium",
+      "family": "FZLuoMXTJW-M",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.079,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 77,
+      "font_file": "23049_FZLuoMXTJW-M.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZMaKTJW",
+      "disp": "方正马克体 简",
+      "family": "FZMaKTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.234,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20654_FZMaKTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZMaLTJW",
+      "disp": "方正玛丽体 简",
+      "family": "FZMaLTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 4.328,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20710_FZMaLTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZManYTJW-T",
+      "disp": "方正蛮腰体 简 Thin",
+      "family": "FZManYTJW-T",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.85,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 95,
+      "font_file": "28033_FZManYTJW-T.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZMengHHXJW-EB",
+      "disp": "方正梦幻火星体 简 ExtraBold",
+      "family": "FZMengHHXJW-EB",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.669,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22995_FZMengHHXJW-EB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZMengHHXJW-EL",
+      "disp": "方正梦幻火星体 简 ExtraLight",
+      "family": "FZMengHHXJW-EL",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.704,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22989_FZMengHHXJW-EL.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZMengYTJW",
+      "disp": "方正萌艺体 简",
+      "family": "FZMengYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.975,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "18469_FZMengYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZMingZTJW-EB",
+      "disp": "FZMingZhuTiS ExtraBold",
+      "family": "FZMingZTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 0.5,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22687_FZMingZTJW-EB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZOuYHGXSJW",
+      "disp": "方正欧阳荷庚行书 简",
+      "family": "FZOuYHGXSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.302,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 81,
+      "font_file": "23000_FZOuYHGXSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZPANGPBJW",
+      "disp": "方正胖胖白 简",
+      "family": "FZPANGPBJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.13,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1837_FZPANGPBJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZPangPHJW",
+      "disp": "方正胖胖黑 简",
+      "family": "FZPangPHJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.82,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1838_FZPangPHJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZPiaoTJW",
+      "disp": "方正飘体 简",
+      "family": "FZPiaoTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.041,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3860_FZPiaoTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZPiaoTJW_Cu",
+      "disp": "FZPiaoTiS Bold",
+      "family": "FZPiaoTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 0.5,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3864_FZPiaoTJW_Cu.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZPiaoTJW_Xi",
+      "disp": "方正飘体 简 Light",
+      "family": "FZPiaoTJW_Xi",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.442,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3859_FZPiaoTJW_Xi.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZPiaoYSJW",
+      "disp": "方正飘逸宋 简",
+      "family": "FZPiaoYSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.675,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 80,
+      "font_file": "20872_FZPiaoYSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZQiangKTJW",
+      "disp": "方正强克体 简",
+      "family": "FZQiangKTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.513,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1817_FZQiangKTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZQianWTJW",
+      "disp": "方正前卫体 简",
+      "family": "FZQianWTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.222,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20563_FZQianWTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZQianWTJW_Te",
+      "disp": "方正前卫体 简 Heavy",
+      "family": "FZQianWTJW_Te",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.889,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20568_2164_FZQianWTJW_Te.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZQianWTJW_Xian",
+      "disp": "方正前卫体 简 ExtraLight",
+      "family": "FZQianWTJW_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 7.103,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20561_FZQianWTJW_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZQiMTJW",
+      "disp": "方正奇妙体 简",
+      "family": "FZQiMTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.292,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3766_FZQiMTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZQiMTJW_Xian",
+      "disp": "方正奇妙体 简 ExtraLight",
+      "family": "FZQiMTJW_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.878,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3764_FZQiMTJW_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZQiMTJW_Zhun",
+      "disp": "方正奇妙体 简 Medium",
+      "family": "FZQiMTJW_Zhun",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.05,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3767_FZQiMTJW_Zhun.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZQINGSTJW",
+      "disp": "方正情圣体 简",
+      "family": "FZQINGSTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.522,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20424_FZQINGSTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZShaoLGFTJW",
+      "disp": "方正少林功夫体 简",
+      "family": "FZShaoLGFTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.814,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 81,
+      "font_file": "27684_FZShaoLGFTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZShengSKSJW_Zhun",
+      "disp": "方正盛世楷书简体_准",
+      "family": "FZShengSKSJW_Zhun",
+      "scripts": [
+        "latin",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.715,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "493_FZShengSKSJW_Zhun.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZShiTSJW",
+      "disp": "方正诗甜宋 简",
+      "family": "FZShiTSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.207,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "20888_FZShiTSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZShouHCGTJW",
+      "disp": "方正手绘草稿体 简",
+      "family": "FZShouHCGTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.534,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22656_FZShouHCGTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZShouHJW",
+      "disp": "方正手绘简体",
+      "family": "FZShouHJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.74,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "653_FZShouHJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZShouHJW_Xi",
+      "disp": "方正手绘简体_细",
+      "family": "FZShouHJW_Xi",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.095,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "652_FZShouHJW_Xi.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZShuYTJW-L",
+      "disp": "方正淑雅体 简 Light",
+      "family": "FZShuYTJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.095,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "23076_FZShuYTJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSiBTJW",
+      "disp": "方正丝帛体 简",
+      "family": "FZSiBTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.508,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "11346_FZSiBTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSiLTJW_Cu",
+      "disp": "方正丝路体 简 Bold",
+      "family": "FZSiLTJW_Cu",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.239,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "2570_FZSiLTJW_Cu.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSiLTJW_Xian",
+      "disp": "方正丝路体 简 ExtraLight",
+      "family": "FZSiLTJW_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.807,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "2565_FZSiLTJW_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1275625",
+      "disp": "手迹玩偶体",
+      "family": "fzsj_1275625",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 6.711,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "29193_fzsj_1275625.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1275627",
+      "disp": "手迹小樱花体",
+      "family": "fzsj_1275627",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 6.689,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 81,
+      "font_file": "29194_fzsj_1275627.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1275635",
+      "disp": "手迹小骨体",
+      "family": "fzsj_1275635",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.729,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "29198_fzsj_1275635.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1275648",
+      "disp": "手迹天使之翼体",
+      "family": "fzsj_1275648",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.301,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "29204_fzsj_1275648.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1522777",
+      "disp": "手迹音乐体",
+      "family": "fzsj_1522777",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.176,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "29240_fzsj_1522777.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1928053",
+      "disp": "少女心事",
+      "family": "fzsj_1928053",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.046,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "29420_fzsj_1928053.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1966669",
+      "disp": "手迹我的意中人",
+      "family": "fzsj_1966669",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.73,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 0,
+        "hiragana": 0,
+        "katakana": 0,
+        "zhuyin": 0,
+        "kana": 0
+      },
+      "audit_a_fs": 84,
+      "font_file": "29781_fzsj_1966669.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1966674",
+      "disp": "手迹新年新气象",
+      "family": "fzsj_1966674",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.726,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 0,
+        "hiragana": 0,
+        "katakana": 0,
+        "zhuyin": 0,
+        "kana": 0
+      },
+      "audit_a_fs": 84,
+      "font_file": "29786_fzsj_1966674.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1966700",
+      "disp": "手迹成功点划体",
+      "family": "fzsj_1966700",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.788,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 64,
+      "font_file": "29808_fzsj_1966700.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1966717",
+      "disp": "手迹笔芯体",
+      "family": "fzsj_1966717",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.877,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 11,
+        "hiragana": 0,
+        "katakana": 0,
+        "zhuyin": 0,
+        "kana": 0
+      },
+      "audit_a_fs": 84,
+      "font_file": "29821_fzsj_1966717.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1966721",
+      "disp": "手迹爱心吧噗",
+      "family": "fzsj_1966721",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.249,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 11,
+        "hiragana": 0,
+        "katakana": 0,
+        "zhuyin": 0,
+        "kana": 0
+      },
+      "audit_a_fs": 83,
+      "font_file": "29825_fzsj_1966721.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1966722",
+      "disp": "小人鱼的眼泪_YS",
+      "family": "fzsj_1966722",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.969,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 11,
+        "hiragana": 0,
+        "katakana": 0,
+        "zhuyin": 0,
+        "kana": 0
+      },
+      "audit_a_fs": 81,
+      "font_file": "29826_fzsj_1966722.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1966797",
+      "disp": "午夜小恶鬼",
+      "family": "fzsj_1966797",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.844,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 81,
+      "font_file": "29883_fzsj_1966797.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_1967025",
+      "disp": "谈恋爱不如养猫",
+      "family": "fzsj_1967025",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.455,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "30004_fzsj_1967025.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2017088",
+      "disp": "手迹骨小骨体",
+      "family": "fzsj_2017088",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.729,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "30223_fzsj_2017088.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2127126",
+      "disp": "新天使之翼",
+      "family": "fzsj_2127126",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 6.624,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "30948_fzsj_2127126.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2135224",
+      "disp": "月牙美楷",
+      "family": "fzsj_2135224",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.006,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "30962_fzsj_2135224.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2173041",
+      "disp": "喵趣体",
+      "family": "fzsj_2173041",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 6.031,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "31107_fzsj_2173041.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2187650",
+      "disp": "洪体",
+      "family": "fzsj_2187650",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.563,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "31248_fzsj_2187650.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2187909",
+      "disp": "何须渡清欢",
+      "family": "fzsj_2187909",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.349,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "31365_fzsj_2187909.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2187928",
+      "disp": "深沉如山温煦如风",
+      "family": "fzsj_2187928",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.682,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "31374_fzsj_2187928.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2261418",
+      "disp": "我怕来者不是你",
+      "family": "fzsj_2261418",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.701,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "31647_fzsj_2261418.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2923481",
+      "disp": "清晰护眼复古像素",
+      "family": "fzsj_2923481",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 7.388,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 25,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "33133_fzsj_2923481.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "fzsj_2923966",
+      "disp": "复古像素粗体",
+      "family": "fzsj_2923966",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 7.388,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 25,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "33134_fzsj_2923966.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSJ-CHAOJXHN",
+      "disp": "超级喜欢你",
+      "family": "FZSJ-CHAOJXHN",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.754,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21310_FZSJ-CHAOJXHN.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSJ-KEADKA",
+      "disp": "可爱得可爱",
+      "family": "FZSJ-KEADKA",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.332,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21754_FZSJ-KEADKA.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSJ-NUANNXWC",
+      "disp": "暖暖下午茶",
+      "family": "FZSJ-NUANNXWC",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 7.341,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21864_FZSJ-NUANNXWC.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSJ-QIYXRYY",
+      "disp": "七月夏日炎炎",
+      "family": "FZSJ-QIYXRYY",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 7.313,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21869_FZSJ-QIYXRYY.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSJ-WOSJJ",
+      "disp": "我是静静",
+      "family": "FZSJ-WOSJJ",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.835,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21359_FZSJ-WOSJJ.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSJ-WULXEM",
+      "disp": "污力小恶魔",
+      "family": "FZSJ-WULXEM",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.869,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 11,
+        "hiragana": 0,
+        "katakana": 0,
+        "zhuyin": 0,
+        "kana": 0
+      },
+      "audit_a_fs": 81,
+      "font_file": "21885_FZSJ-WULXEM.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSJ-XIAOHBZLL",
+      "disp": "小黑 不再流浪",
+      "family": "FZSJ-XIAOHBZLL",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.455,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21280_FZSJ-XIAOHBZLL.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSJ-XIDPB",
+      "disp": "喜大普奔",
+      "family": "FZSJ-XIDPB",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.927,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21894_FZSJ-XIDPB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSUXSFBCJW",
+      "disp": "方正苏新诗仿碑爨 简",
+      "family": "FZSUXSFBCJW",
+      "scripts": [
+        "latin",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.859,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3641_FZSUXSFBCJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSuXSGYSJW",
+      "disp": "方正苏新诗古印宋 简",
+      "family": "FZSuXSGYSJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.109,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "20677_FZSuXSGYSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSuXSMCTJW",
+      "disp": "方正苏新诗毛糙体 简",
+      "family": "FZSuXSMCTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.211,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "21220_FZSuXSMCTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZSuXSMZTJW",
+      "disp": "方正苏新诗墨渍体 简",
+      "family": "FZSuXSMZTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.462,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3871_FZSuXSMZTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZTanHTJW",
+      "disp": "方正坦黑体 简",
+      "family": "FZTanHTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.627,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20949_FZTanHTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZTieXHJW_Xi",
+      "disp": "方正铁线黑 简 Light",
+      "family": "FZTieXHJW_Xi",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.915,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21594_FZTieXHJW_Xi.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZTieXHJW_Zhun",
+      "disp": "方正铁线黑 简 Medium",
+      "family": "FZTieXHJW_Zhun",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.189,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21596_FZTieXHJW_Zhun.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZVDLJingQSJ-H",
+      "disp": "方正VDL京千社 简 Heavy",
+      "family": "FZVDLJingQSJ-H",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.586,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "34795_FZVDLJingQSJ-H.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZVDLJingQSJ-L",
+      "disp": "方正VDL京千社 简 Light",
+      "family": "FZVDLJingQSJ-L",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.985,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34789_FZVDLJingQSJ-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZVDLJingQSJ-T",
+      "disp": "方正VDL京千社 简 Thin",
+      "family": "FZVDLJingQSJ-T",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.606,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "34788_FZVDLJingQSJ-T.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZVDLQianZHJW-B",
+      "disp": "方正VDL千兆黑 简 Bold",
+      "family": "FZVDLQianZHJW-B",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.309,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "28017_FZVDLQianZHJW-B.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZVDLQianZHJW-L",
+      "disp": "方正VDL千兆黑 简 Light",
+      "family": "FZVDLQianZHJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.26,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "28013_FZVDLQianZHJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZWanBTJW",
+      "disp": "方正玩伴体 简",
+      "family": "FZWanBTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.368,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3718_FZWanBTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZWanBTJW_Xian",
+      "disp": "方正玩伴体 简 ExtraLight",
+      "family": "FZWanBTJW_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.824,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3716_FZWanBTJW_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXiangPZTJW",
+      "disp": "方正橡皮章体 简",
+      "family": "FZXiangPZTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 4.995,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20807_FZXiangPZTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXiangPZTJW_Da",
+      "disp": "方正橡皮章体 简 ExtraBold",
+      "family": "FZXiangPZTJW_Da",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.311,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20811_2352_FZXiangPZTJW_Da.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXiangPZTJW_Xian",
+      "disp": "方正橡皮章体 简 ExtraLight",
+      "family": "FZXiangPZTJW_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.695,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20805_2355_FZXiangPZTJW_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXianWTJW_Zhun",
+      "disp": "方正纤舞体 简 Medium",
+      "family": "FZXianWTJW_Zhun",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.609,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21580_FZXianWTJW_Zhun.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXianYSTJW",
+      "disp": "方正献逸书体 简",
+      "family": "FZXianYSTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.532,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 58,
+      "font_file": "20674_FZXianYSTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXianZTJW",
+      "disp": "方正仙阵体 简",
+      "family": "FZXianZTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 4.902,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3828_FZXianZTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXinGHJW-UL",
+      "disp": "方正新杠黑 简 UltraLight",
+      "family": "FZXinGHJW-UL",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.685,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22523_FZXinGHJW-UL.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXLB",
+      "disp": "方正秀麗",
+      "family": "FZXLB",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.659,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 25,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "2356_FZXLB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZXSHJW",
+      "disp": "方正细珊瑚简体",
+      "family": "FZXSHJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.608,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "299_FZXSHJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZYaZTJ_Te",
+      "disp": "方正雅珠体简体 Heavy",
+      "family": "FZYaZTJ_Te",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.706,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "775_FZYaZTJ_Te.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZYaZTJ_Xian",
+      "disp": "方正雅珠体简体 ExtraLight",
+      "family": "FZYaZTJ_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.01,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "768_2405_FZYaZTJ_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZYingCTJW",
+      "disp": "方正盈彩体 简",
+      "family": "FZYingCTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.526,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20328_FZYingCTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZYingCTJW_Xian",
+      "disp": "方正盈彩体 简 ExtraLight",
+      "family": "FZYingCTJW_Xian",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 6.045,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20326_2419_FZYingCTJW_Xian.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZYinSJW-DB",
+      "disp": "方正银宋 简 DemiBold",
+      "family": "FZYinSJW-DB",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.316,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25979_FZYinSJW-DB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZYinSJW-R",
+      "disp": "方正银宋 简",
+      "family": "FZYinSJW-R",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.956,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25977_FZYinSJW-R.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZYNJW",
+      "disp": "方正羽怒简体",
+      "family": "FZYNJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.142,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "482_FZYNJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZanMTJW",
+      "disp": "方正赞美体 简",
+      "family": "FZZanMTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.61,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "3699_FZZanMTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-AXTJW",
+      "disp": "方正字汇-傲行体 简",
+      "family": "FZZH-AXTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.882,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27676_FZZH-AXTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-DDYLTJW",
+      "disp": "方正字汇-大道悠乐体 简",
+      "family": "FZZH-DDYLTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.678,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27973_FZZH-DDYLTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-DFHBJW",
+      "disp": "方正字汇-刀锋黑变 简",
+      "family": "FZZH-DFHBJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.958,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22043_FZZH-DFHBJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-KTMHTJW",
+      "disp": "方正字汇-卡通漫画体 简",
+      "family": "FZZH-KTMHTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 6.51,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34653_FZZH-KTMHTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-KTPPTJW",
+      "disp": "方正字汇-卡通泡泡体 简",
+      "family": "FZZH-KTPPTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.758,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "28505_FZZH-KTPPTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-LTFKTJW",
+      "disp": "方正字汇-龙天疯狂体 简",
+      "family": "FZZH-LTFKTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.298,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27809_FZZH-LTFKTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-LTLMMTJW",
+      "disp": "方正字汇-龙天玲妹妹体 简",
+      "family": "FZZH-LTLMMTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.655,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27736_FZZH-LTLMMTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-LTXXTJW",
+      "disp": "方正字汇-龙天夏夏体 简",
+      "family": "FZZH-LTXXTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.254,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22987_FZZH-LTXXTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-MXQYTJW",
+      "disp": "方正字汇-萌系巧云体 简",
+      "family": "FZZH-MXQYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.726,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25900_FZZH-MXQYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-NYXFTJ",
+      "disp": "方正字汇-奶油旋风体 简",
+      "family": "FZZH-NYXFTJ",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.998,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 126,
+      "font_file": "34746_FZZH-NYXFTJ.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-QHXKJW",
+      "disp": "方正字汇-青华行楷 简",
+      "family": "FZZH-QHXKJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.15,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "23370_FZZH-QHXKJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-SJDFTJW",
+      "disp": "方正字汇-三角刀锋体 简",
+      "family": "FZZH-SJDFTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.59,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27675_FZZH-SJDFTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-TTTJW",
+      "disp": "方正字汇-跳跳体 简",
+      "family": "FZZH-TTTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.772,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "29022_FZZH-TTTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-YMTJW",
+      "disp": "方正字汇-雅萌体 简",
+      "family": "FZZH-YMTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.073,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "28506_FZZH-YMTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-YueXSTJW-EB",
+      "disp": "FZZH-YUEXSTS EB",
+      "family": "FZZH-YueXSTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 0.5,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25152_FZZH-YueXSTJW-EB.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZH-ZRKTJW",
+      "disp": "方正字汇-自然楷体 简",
+      "family": "FZZH-ZRKTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.676,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 81,
+      "font_file": "27875_FZZH-ZRKTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZhiQCTJW-B",
+      "disp": "方正致青春体 简 Bold",
+      "family": "FZZhiQCTJW-B",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.583,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22659_FZZhiQCTJW-B.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZhiQCTJW-L",
+      "disp": "方正致青春体 简 Light",
+      "family": "FZZhiQCTJW-L",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.056,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22660_FZZhiQCTJW-L.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZhongYSJW",
+      "disp": "方正忠义宋 简",
+      "family": "FZZhongYSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.681,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20736_FZZhongYSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZhuMTJW",
+      "disp": "方正筑梦体 简",
+      "family": "FZZhuMTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.852,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22835_FZZhuMTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZhuoYTJW",
+      "disp": "方正卓越体 简",
+      "family": "FZZhuoYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.732,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1793_FZZhuoYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZiZSFSJW",
+      "disp": "方正字斋宋非宋 简",
+      "family": "FZZiZSFSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.71,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22584_FZZiZSFSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-BCSXJW",
+      "disp": "方正字迹-卜超手写 简",
+      "family": "FZZJ-BCSXJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana"
+      ],
+      "west_score": 5.324,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "23671_FZZJ-BCSXJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-BXMRTJW",
+      "disp": "方正字迹-柏轩美人体 简",
+      "family": "FZZJ-BXMRTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.828,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22372_FZZJ-BXMRTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-CZYKSJW",
+      "disp": "方正字迹-陈振元楷书 简",
+      "family": "FZZJ-CZYKSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.627,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20197_FZZJ-CZYKSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-DDFDTJW",
+      "disp": "方正字迹-大道奋斗体 简",
+      "family": "FZZJ-DDFDTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.583,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34589_FZZJ-DDFDTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-FOJW",
+      "disp": "方正字迹-仿欧简体",
+      "family": "FZZJ-FOJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.658,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1779_FZZJ-FOJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-FXGGLJW",
+      "disp": "方正字迹-范笑歌古隶 简",
+      "family": "FZZJ-FXGGLJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.216,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20413_FZZJ-FXGGLJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-GYJGTJW",
+      "disp": "方正字迹-谷云金刚体 简",
+      "family": "FZZJ-GYJGTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.252,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "27737_FZZJ-GYJGTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-HLYHXLJW",
+      "disp": "方正字迹-黄陵野鹤行隶 简",
+      "family": "FZZJ-HLYHXLJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.095,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 82,
+      "font_file": "27894_FZZJ-HLYHXLJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-HLYHXWJW",
+      "disp": "方正字迹-黄陵野鹤行魏 简",
+      "family": "FZZJ-HLYHXWJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.253,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "29023_FZZJ-HLYHXWJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-JKTJW",
+      "disp": "方正字迹-剑客体 简",
+      "family": "FZZJ-JKTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.939,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "23197_FZZJ-JKTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-KFTXKJW",
+      "disp": "方正字迹-侃夫体行楷 简",
+      "family": "FZZJ-KFTXKJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.637,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20472_FZZJ-KFTXKJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-LongYTJW",
+      "disp": "方正字迹-龙吟体 简",
+      "family": "FZZJ-LongYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.395,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 79,
+      "font_file": "20757_FZZJ-LongYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-LSHSSJW",
+      "disp": "方正字迹-刘三宏手书 简",
+      "family": "FZZJ-LSHSSJW",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.156,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "22944_FZZJ-LSHSSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-LXBYTJW",
+      "disp": "方正字迹-刘鑫标幼体 简",
+      "family": "FZZJ-LXBYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 4.59,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20936_FZZJ-LXBYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-LXCTJW",
+      "disp": "方正字迹-赖兴才体 简",
+      "family": "FZZJ-LXCTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.836,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22806_FZZJ-LXCTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-LXXSJW",
+      "disp": "方正字迹-流线行书 简",
+      "family": "FZZJ-LXXSJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.128,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34646_FZZJ-LXXSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-MGSCTJW",
+      "disp": "方正字迹-毛广淞爨体 简",
+      "family": "FZZJ-MGSCTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.442,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22033_FZZJ-MGSCTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-MJZCFU",
+      "disp": "方正字迹-明瑾章草 繁U",
+      "family": "FZZJ-MJZCFU",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.459,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25899_FZZJ-MJZCFU.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-MMXJJW",
+      "disp": "方正字迹-默陌信笺简体",
+      "family": "FZZJ-MMXJJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.891,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "2053_FZZJ-MMXJJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-MSTJW",
+      "disp": "方正字迹-卯榫体 简",
+      "family": "FZZJ-MSTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.818,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34558_FZZJ-MSTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-PYQYTJW",
+      "disp": "方正字迹-蒲尧卿云体 简",
+      "family": "FZZJ-PYQYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.422,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25507_FZZJ-PYQYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-SDXKJW",
+      "disp": "方正字迹-思道小楷 简",
+      "family": "FZZJ-SDXKJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.751,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22906_FZZJ-SDXKJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-SLJMTJW",
+      "disp": "方正字迹-顺利巨墨体 简",
+      "family": "FZZJ-SLJMTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.047,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22860_FZZJ-SLJMTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-TBPYTJW",
+      "disp": "方正字迹-仝斌飘逸体 简",
+      "family": "FZZJ-TBPYTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 4.951,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 83,
+      "font_file": "22027_FZZJ-TBPYTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-WFSXTJ",
+      "disp": "方正字迹-晚风手写体 简",
+      "family": "FZZJ-WFSXTJ",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 6.153,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "34728_FZZJ-WFSXTJ.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-XHFTJW",
+      "disp": "方正字迹-心海凤体 简",
+      "family": "FZZJ-XHFTJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 4.268,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 80,
+      "font_file": "22406_FZZJ-XHFTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-XTJW",
+      "disp": "方正字迹-喜体 简",
+      "family": "FZZJ-XTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 4.854,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22615_FZZJ-XTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-YYXSTJW",
+      "disp": "方正字迹-泳一行书 简",
+      "family": "FZZJ-YYXSTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.751,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 78,
+      "font_file": "28055_FZZJ-YYXSTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-ZCJW",
+      "disp": "方正字迹-张爨简体",
+      "family": "FZZJ-ZCJW",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.541,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "751_FZZJ-ZCJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-ZDFCSJW",
+      "disp": "方正字迹-周东芬草书 简",
+      "family": "FZZJ-ZDFCSJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.481,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "25988_FZZJ-ZDFCSJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-ZDXKJW",
+      "disp": "方正字迹-战东行楷 简",
+      "family": "FZZJ-ZDXKJW",
+      "scripts": [
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.692,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22627_FZZJ-ZDXKJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZJ-ZQXKJW",
+      "disp": "方正字迹-张强行楷 简",
+      "family": "FZZJ-ZQXKJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 4.969,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "22629_FZZJ-ZQXKJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZuanSTJW",
+      "disp": "方正钻石体 简",
+      "family": "FZZuanSTJW",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.328,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "20396_FZZuanSTJW.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZuoZJHJW-T",
+      "disp": "方正左佐巨黑 简 Thin",
+      "family": "FZZuoZJHJW-T",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.427,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "29133_FZZuoZJHJW-T.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZuoZYXTJW-B",
+      "disp": "方正左佐雨线体 简 Bold",
+      "family": "FZZuoZYXTJW-B",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.576,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 94,
+      "font_file": "22997_FZZuoZYXTJW-B.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "FZZuoZYXTJW-R",
+      "disp": "方正左佐雨线体 简",
+      "family": "FZZuoZYXTJW-R",
+      "scripts": [
+        "latin"
+      ],
+      "west_score": 5.33,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 95,
+      "font_file": "22163_FZZuoZYXTJW-R.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "STFZRTXSJ",
+      "disp": "书体坊张瑞图行草 简",
+      "family": "STFZRTXSJ",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.474,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 80,
+      "font_file": "34729_STFZRTXSJ.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "ZJZhuangSHJ-T",
+      "disp": "字加装饰黑 简 Thin",
+      "family": "ZJZhuangSHJ-T",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 5.649,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "1000926_ZJZhuangSHJ-T.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "ZKTBanQTFU",
+      "disp": "字酷堂板橋體 繁U",
+      "family": "ZKTBanQTFU",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.686,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 75,
+      "font_file": "21114_ZKTBanQTFU.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    },
+    {
+      "clean": "ZKTMingXTFU",
+      "disp": "字酷堂明行體 繁U",
+      "family": "ZKTMingXTFU",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.912,
+      "cover": {
+        "latin": 9,
+        "latin_ext": 27,
+        "hiragana": 5,
+        "katakana": 5,
+        "zhuyin": 5,
+        "kana": 10
+      },
+      "audit_a_fs": 84,
+      "font_file": "21113_ZKTMingXTFU.TTF",
+      "font_dir_hint": "font_files_0914/founder_fonts_download/"
+    }
+  ]
+}

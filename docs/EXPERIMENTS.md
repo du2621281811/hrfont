@@ -69,6 +69,7 @@
 | R0 ink 审查 | `data/cn2west_v2_abc_review/proto_A_ink/review.html` |
 | Ink 阈值 | `reports/R0_INK_GATE_PROPOSAL.md`（**已冻结**） |
 | Split v3 | `manifests/split_v3_228_16_16.json`（228/16/16） |
+| `v0917_west_style` | [`README`](../manifests/v0917_west_style/README.md) · [`fonts_all_232`](../manifests/v0917_west_style/fonts_all_232.json)（**正式 232**；7 套 Ext 缺字已写明；TTF 另包） |
 | `v0913_clean` | [`INDEX`](../manifests/v0913_clean/INDEX.json) · [`SYNC`](../manifests/v0913_clean/SYNC.md)（frozen pair 表；F0 已接 50/38/12） |
 | E1 训练看板（Git 快照） | `reports/e1_ft_v2_dashboard/` · `python -m http.server 8777 --directory reports` → http://127.0.0.1:8777/e1_ft_v2_dashboard/ |
 | E1 训练看板（训练机实时） | 仅训练机：`data/e1_ft_v2_dashboard` → `runs/.../viz`（不进 Git） |

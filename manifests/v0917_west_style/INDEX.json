@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "dataset_id": "v0917_west_style",
+  "status": "frozen",
+  "built_at": "2026-09-17T10:42:04.739487+00:00",
+  "policy": "232_all_with_missing_chars_documented",
+  "counts": {
+    "all": 232,
+    "ok_full_selected_target": 225,
+    "incomplete_documented": 7
+  },
+  "files": {
+    "DOWNLOAD.md": {
+      "path": "manifests/v0917_west_style/DOWNLOAD.md",
+      "bytes": 1282,
+      "sha256": "0ea9557982549baf352e7fef2810280b2137878bd1d5870f21fbb70cb8b29fbd"
+    },
+    "MISSING_CHARS.json": {
+      "path": "manifests/v0917_west_style/MISSING_CHARS.json",
+      "bytes": 5341,
+      "sha256": "7bd0a5ebb1e10dd6a056da786d29c86e1e7efafdeebc1fef4a7941a6dfe66c91"
+    },
+    "MISSING_CHARS.md": {
+      "path": "manifests/v0917_west_style/MISSING_CHARS.md",
+      "bytes": 1427,
+      "sha256": "b81132380c95a4f4a05bd3e14e93618c22befe57c1467906725e7736f585dea7"
+    },
+    "QA_REPORT.json": {
+      "path": "manifests/v0917_west_style/QA_REPORT.json",
+      "bytes": 6764,
+      "sha256": "eb402d0ce0b4ce2e59d20df5ffc50444be7f7f3c38a4924ee84af1bc82e506b4"
+    },
+    "QA_REPORT.md": {
+      "path": "manifests/v0917_west_style/QA_REPORT.md",
+      "bytes": 1167,
+      "sha256": "ee31f9b0460d5387ea146d868902abc19241a145bd7fa2f6e4796aefec444433"
+    },
+    "README.md": {
+      "path": "manifests/v0917_west_style/README.md",
+      "bytes": 2778,
+      "sha256": "b0800f8dc0d41c9a6971fbd75a39e773a339154848cb04143e1abab3e161e84a"
+    },
+    "SYNC.md": {
+      "path": "manifests/v0917_west_style/SYNC.md",
+      "bytes": 2778,
+      "sha256": "b0800f8dc0d41c9a6971fbd75a39e773a339154848cb04143e1abab3e161e84a"
+    },
+    "families.json": {
+      "path": "manifests/v0917_west_style/families.json",
+      "bytes": 70734,
+      "sha256": "8f99e71b99e2b35e518367d505b641b966cfff2eda7c8b00bb1f85732b876e38"
+    },
+    "fonts_all_232.json": {
+      "path": "manifests/v0917_west_style/fonts_all_232.json",
+      "bytes": 234758,
+      "sha256": "9b5308a0d6a389d279e4424bba5ab8cedfabb5f8663bf98049bcfa4abe56ecce"
+    },
+    "fonts_raw_232.json": {
+      "path": "manifests/v0917_west_style/fonts_raw_232.json",
+      "bytes": 122339,
+      "sha256": "43e886c48f783fac8ece33ce6eb75f44ce7585a8b31365753a65bed6c6573191"
+    },
+    "fonts_verified.json": {
+      "path": "manifests/v0917_west_style/fonts_verified.json",
+      "bytes": 226293,
+      "sha256": "0a439e2873086dd073115b5b587563612bf2daaec2fa0fa73efea7f56c390659"
+    },
+    "stems_all_232.txt": {
+      "path": "manifests/v0917_west_style/stems_all_232.txt",
+      "bytes": 2837,
+      "sha256": "b726c4b9c81c8cffe9c2994ad6962312d1e95e99d97ff9dec6cd63b081d6761e"
+    },
+    "stems_raw_232.txt": {
+      "path": "manifests/v0917_west_style/stems_raw_232.txt",
+      "bytes": 2837,
+      "sha256": "b726c4b9c81c8cffe9c2994ad6962312d1e95e99d97ff9dec6cd63b081d6761e"
+    },
+    "stems_verified.txt": {
+      "path": "manifests/v0917_west_style/stems_verified.txt",
+      "bytes": 2754,
+      "sha256": "2730efc941c3672a5b62931eab6429750215765b08349b7e7fc83e80f5bf7c95"
+    },
+    "v0917_west_style.json": {
+      "path": "manifests/v0917_west_style.json",
+      "bytes": 1985,
+      "sha256": "77adcdc93bd33e9a00e7672332049dc0cd84bdad0f90a960c3e3cd4156851899"
+    }
+  },
+  "download": "manifests/v0917_west_style/DOWNLOAD.md",
+  "readme": "manifests/v0917_west_style/README.md",
+  "important": {
+    "official_n": 232,
+    "incomplete_documented_n": 7
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "dataset_id": "v0917_west_style",
+  "n_fonts": 232,
+  "full_zip_artifact": "artifacts/v0917_west_style_ttf_232.zip",
+  "shards_dir": "artifacts/v0917_west_style_ttf_232_shards/",
+  "parts": [
+    "v0917_ttf_232.part1of4.zip",
+    "v0917_ttf_232.part2of4.zip",
+    "v0917_ttf_232.part3of4.zip",
+    "v0917_ttf_232.part4of4.zip"
+  ],
+  "meta": "v0917_ttf_232_meta.zip",
+  "docs": "manifests/v0917_west_style/DOWNLOAD.md",
+  "note": "Zip binaries are not in git; generate or rsync from the pack host."
+}

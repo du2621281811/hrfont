@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "dataset_id": "v0917_west_style",
+  "kind": "west_style_supplement_font_manifest",
+  "status": "frozen",
+  "created_at": "2026-09-17",
+  "updated_at": "2026-09-17T10:41:30.044065+00:00",
+  "note": "正式规模=232（不是225）。每套含 scripts/可用语种；7套 latin_ext 不全仍收录，缺字见 missing_chars。fonts_verified.json 仅为全满子集。说明见 manifests/v0917_west_style/README.md。",
+  "primary_manifest": "manifests/v0917_west_style/fonts_all_232.json",
+  "ok_only_subset": "manifests/v0917_west_style/fonts_verified.json",
+  "missing_chars": "manifests/v0917_west_style/MISSING_CHARS.md",
+  "stems": "manifests/v0917_west_style/stems_all_232.txt",
+  "font_dir_hint": "font_files_0914/founder_fonts_download/",
+  "ttf_pack": "artifacts/v0917_west_style_ttf_232.zip",
+  "counts": {
+    "all": 232,
+    "ok_full_selected_target": 225,
+    "incomplete_documented": 7
+  },
+  "target_total": 295,
+  "target_buckets": {
+    "ascii_digits": 10,
+    "ascii_letters": 52,
+    "latin_ext_letters": 27,
+    "hiragana": 83,
+    "katakana": 86,
+    "bopomofo": 37
+  },
+  "script_to_buckets": {
+    "latin": [
+      "ascii_digits",
+      "ascii_letters"
+    ],
+    "latin_ext": [
+      "latin_ext_letters"
+    ],
+    "hiragana": [
+      "hiragana"
+    ],
+    "katakana": [
+      "katakana"
+    ],
+    "zhuyin": [
+      "bopomofo"
+    ]
+  },
+  "download": "manifests/v0917_west_style/DOWNLOAD.md",
+  "ttf_shards": "artifacts/v0917_west_style_ttf_232_shards/",
+  "title": "v0917 西文风格补充（232 正式；缺字写明）",
+  "readme": "manifests/v0917_west_style/README.md",
+  "important": {
+    "official_n": 232,
+    "not_official_subset_n": 225,
+    "incomplete_documented_n": 7,
+    "primary_manifest": "manifests/v0917_west_style/fonts_all_232.json",
+    "do_not_use_as_official": "manifests/v0917_west_style/fonts_verified.json",
+    "skip_missing_chars_when_training": true,
+    "preview_probes_are_not_full_295": true
+  }
+}
