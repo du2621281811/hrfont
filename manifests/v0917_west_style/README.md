@@ -32,3 +32,7 @@
 ## 不全的 7 套摘要
 
 见 `MISSING_CHARS.md`（多为拼音韵母 `āēěī…` 或仅缺 `ńň`）。
+
+## TTF 下载
+
+见同目录 `DOWNLOAD.md`（整包 / 四分卷并行 / rsync）。TTF 不进 git。

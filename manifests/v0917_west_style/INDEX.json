@@ -2,7 +2,7 @@
   "schema_version": 2,
   "dataset_id": "v0917_west_style",
   "status": "frozen",
-  "built_at": "2026-09-17T10:34:16.795178+00:00",
+  "built_at": "2026-09-17T10:37:47.894836+00:00",
   "policy": "232_all_with_missing_chars_documented",
   "counts": {
     "all": 232,
@@ -10,6 +10,11 @@
     "incomplete_documented": 7
   },
   "files": {
+    "DOWNLOAD.md": {
+      "path": "manifests/v0917_west_style/DOWNLOAD.md",
+      "bytes": 1282,
+      "sha256": "0ea9557982549baf352e7fef2810280b2137878bd1d5870f21fbb70cb8b29fbd"
+    },
     "MISSING_CHARS.json": {
       "path": "manifests/v0917_west_style/MISSING_CHARS.json",
       "bytes": 5341,
@@ -32,13 +37,13 @@
     },
     "README.md": {
       "path": "manifests/v0917_west_style/README.md",
-      "bytes": 1114,
-      "sha256": "a9f9c87d76aeb8f9bc428e5981bdcd2338697f6b5986aff6956368b6f571a070"
+      "bytes": 1215,
+      "sha256": "080bde75d25f787859b90d689eac5d837836de5abdbe34ca7c217475ec776bcf"
     },
     "SYNC.md": {
       "path": "manifests/v0917_west_style/SYNC.md",
-      "bytes": 1114,
-      "sha256": "a9f9c87d76aeb8f9bc428e5981bdcd2338697f6b5986aff6956368b6f571a070"
+      "bytes": 1215,
+      "sha256": "080bde75d25f787859b90d689eac5d837836de5abdbe34ca7c217475ec776bcf"
     },
     "families.json": {
       "path": "manifests/v0917_west_style/families.json",
@@ -80,5 +85,6 @@
       "bytes": 1285,
       "sha256": "4b96d3ff3692d4080dde265acd1788be14ffdd2932c40adc11b87d58780fa544"
     }
-  }
+  },
+  "download": "manifests/v0917_west_style/DOWNLOAD.md"
 }

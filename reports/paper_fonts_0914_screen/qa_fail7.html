@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/>
+<title>v0917 QA 剔除的 7 套（假预览风险）</title>
+<style>
+:root { --bg:#f4f2ec; --ink:#1c1a16; --muted:#6a6458; --bad:#b42318; --line:#ddd6c8; }
+* { box-sizing:border-box; }
+body { margin:0; font:15px/1.45 "IBM Plex Sans","Noto Sans SC",sans-serif; color:var(--ink); background:linear-gradient(180deg,#efeae0,#f7f5f0); }
+header { padding:28px 32px 12px; max-width:1200px; margin:0 auto; }
+h1 { font:700 28px/1.2 "IBM Plex Serif",Georgia,serif; margin:0 0 8px; }
+.sub { color:var(--muted); max-width:72ch; }
+.badge { display:inline-block; background:#f8e6e4; color:var(--bad); padding:2px 8px; font-size:12px; margin-left:8px; vertical-align:middle; }
+main { max-width:1200px; margin:0 auto; padding:8px 32px 48px; display:grid; gap:28px; }
+article { border-top:1px solid var(--line); padding-top:18px; }
+h2 { margin:0 0 4px; font-size:18px; }
+.meta { color:var(--muted); font-size:13px; margin-bottom:12px; }
+.miss { color:var(--bad); font-family:ui-monospace,monospace; letter-spacing:.04em; }
+.row { display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start; }
+.probe { background:#fff; border:1px solid var(--line); padding:8px; }
+.probe img { display:block; height:72px; width:auto; image-rendering:pixelated; }
+.probe label { display:block; font-size:11px; color:var(--muted); margin-bottom:4px; }
+.strip img { width:100%; max-width:980px; height:auto; border:1px solid var(--line); background:#fff; }
+note { display:block; margin-top:8px; font-size:12px; color:var(--muted); }
+</style></head><body>
+<header>
+  <h1>v0917 剔除的 7 套<span class="badge">Ext 不全 / 假预览风险</span></h1>
+  <p class="sub">审核页 Ext 探针（约 8 字）看起来有字，但训练 target 的 latin_ext 27 不全。红叉格 = cmap 缺或空墨。正式清单只用其余 225。</p>
+</header>
+<main>
+
+<article id="fzsj_1966717">
+  <h2>fzsj_1966717 <span style="font-weight:400;color:var(--muted)">手迹笔芯体</span></h2>
+  <div class="meta">scripts=['latin', 'latin_ext'] · Ext 11/27 · 29821_fzsj_1966717.TTF</div>
+  <div class="meta">缺字：<span class="miss">āēěīńňōūǎǐǒǔǖǘǚǜ</span></div>
+  <div class="row"></div>
+  <div class="strip" style="margin-top:12px"><label style="font-size:11px;color:var(--muted)">Ext 全表 27（协议 A）</label><br/>
+    <img src="qa_fail7/fzsj_1966717_ext_full.png" alt="ext full"/>
+  </div>
+  <note>探针有墨 ≠ 全 target 可用；这些字体因此未进 fonts_verified.json。</note>
+</article>
+<article id="fzsj_1966721">
+  <h2>fzsj_1966721 <span style="font-weight:400;color:var(--muted)">手迹爱心吧噗</span></h2>
+  <div class="meta">scripts=['latin', 'latin_ext'] · Ext 11/27 · 29825_fzsj_1966721.TTF</div>
+  <div class="meta">缺字：<span class="miss">āēěīńňōūǎǐǒǔǖǘǚǜ</span></div>
+  <div class="row"></div>
+  <div class="strip" style="margin-top:12px"><label style="font-size:11px;color:var(--muted)">Ext 全表 27（协议 A）</label><br/>
+    <img src="qa_fail7/fzsj_1966721_ext_full.png" alt="ext full"/>
+  </div>
+  <note>探针有墨 ≠ 全 target 可用；这些字体因此未进 fonts_verified.json。</note>
+</article>
+<article id="fzsj_1966722">
+  <h2>fzsj_1966722 <span style="font-weight:400;color:var(--muted)">小人鱼的眼泪_YS</span></h2>
+  <div class="meta">scripts=['latin', 'latin_ext'] · Ext 11/27 · 29826_fzsj_1966722.TTF</div>
+  <div class="meta">缺字：<span class="miss">āēěīńňōūǎǐǒǔǖǘǚǜ</span></div>
+  <div class="row"></div>
+  <div class="strip" style="margin-top:12px"><label style="font-size:11px;color:var(--muted)">Ext 全表 27（协议 A）</label><br/>
+    <img src="qa_fail7/fzsj_1966722_ext_full.png" alt="ext full"/>
+  </div>
+  <note>探针有墨 ≠ 全 target 可用；这些字体因此未进 fonts_verified.json。</note>
+</article>
+<article id="fzsj_2923481">
+  <h2>fzsj_2923481 <span style="font-weight:400;color:var(--muted)">清晰护眼复古像素</span></h2>
+  <div class="meta">scripts=['latin', 'latin_ext', 'hiragana', 'katakana', 'zhuyin'] · Ext 25/27 · 33133_fzsj_2923481.TTF</div>
+  <div class="meta">缺字：<span class="miss">ńň</span></div>
+  <div class="row"></div>
+  <div class="strip" style="margin-top:12px"><label style="font-size:11px;color:var(--muted)">Ext 全表 27（协议 A）</label><br/>
+    <img src="qa_fail7/fzsj_2923481_ext_full.png" alt="ext full"/>
+  </div>
+  <note>探针有墨 ≠ 全 target 可用；这些字体因此未进 fonts_verified.json。</note>
+</article>
+<article id="fzsj_2923966">
+  <h2>fzsj_2923966 <span style="font-weight:400;color:var(--muted)">复古像素粗体</span></h2>
+  <div class="meta">scripts=['latin', 'latin_ext', 'hiragana', 'katakana', 'zhuyin'] · Ext 25/27 · 33134_fzsj_2923966.TTF</div>
+  <div class="meta">缺字：<span class="miss">ńň</span></div>
+  <div class="row"></div>
+  <div class="strip" style="margin-top:12px"><label style="font-size:11px;color:var(--muted)">Ext 全表 27（协议 A）</label><br/>
+    <img src="qa_fail7/fzsj_2923966_ext_full.png" alt="ext full"/>
+  </div>
+  <note>探针有墨 ≠ 全 target 可用；这些字体因此未进 fonts_verified.json。</note>
+</article>
+<article id="FZSJ-WULXEM">
+  <h2>FZSJ-WULXEM <span style="font-weight:400;color:var(--muted)">污力小恶魔</span></h2>
+  <div class="meta">scripts=['latin', 'latin_ext'] · Ext 11/27 · 21885_FZSJ-WULXEM.TTF</div>
+  <div class="meta">缺字：<span class="miss">āēěīńňōūǎǐǒǔǖǘǚǜ</span></div>
+  <div class="row"></div>
+  <div class="strip" style="margin-top:12px"><label style="font-size:11px;color:var(--muted)">Ext 全表 27（协议 A）</label><br/>
+    <img src="qa_fail7/FZSJ-WULXEM_ext_full.png" alt="ext full"/>
+  </div>
+  <note>探针有墨 ≠ 全 target 可用；这些字体因此未进 fonts_verified.json。</note>
+</article>
+<article id="FZXLB">
+  <h2>FZXLB <span style="font-weight:400;color:var(--muted)">方正秀麗</span></h2>
+  <div class="meta">scripts=['latin', 'latin_ext', 'hiragana', 'katakana'] · Ext 25/27 · 2356_FZXLB.TTF</div>
+  <div class="meta">缺字：<span class="miss">ńň</span></div>
+  <div class="row"></div>
+  <div class="strip" style="margin-top:12px"><label style="font-size:11px;color:var(--muted)">Ext 全表 27（协议 A）</label><br/>
+    <img src="qa_fail7/FZXLB_ext_full.png" alt="ext full"/>
+  </div>
+  <note>探针有墨 ≠ 全 target 可用；这些字体因此未进 fonts_verified.json。</note>
+</article></main></body></html>
