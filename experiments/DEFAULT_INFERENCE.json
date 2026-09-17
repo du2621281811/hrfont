@@ -1,0 +1,23 @@
+{
+  "version": "HRFONT-DEFAULT-128-CLEAN-K1248-v1",
+  "status": "DEFAULT",
+  "scope": "Default completed-checkpoint inference and visual review for K-family and future compatible experiments",
+  "manifest_root": "/root/projects/hrfont/reports/k_default_k1248_20260917",
+  "split_font_counts": {"train": 5, "val": 5, "test": 16},
+  "font_source": "/root/projects/hrfont/reports/g_v0913_shot_k1248/PROTOCOL.json",
+  "candidate_character_counts": {"western": 80, "kana": 32, "bopomofo": 16},
+  "candidate_character_total": 128,
+  "includes_previous_47_characters": true,
+  "shots": [1, 2, 4, 8],
+  "reference_order": "永和书风骨韵天地",
+  "reference_policy": "Nested prefixes of fixed reference order",
+  "sampling": {"sampler": "dpmsolver++", "steps": 20, "order": 2, "cfg": 1.0, "batch_size": 4},
+  "noise_policy": "Same deterministic per-(font,character) noise across shots and models",
+  "clean_pair_policy": "Exact legal (split,font,character) intersection; no cross-split fallback",
+  "images_per_model": {"train": 2304, "val": 2112, "test": 7232},
+  "total_images_per_model": 11648,
+  "training_split_usage": "Fit diagnostic only; never treated as generalization evidence",
+  "preserve_frozen_primary_test": true,
+  "entrypoint": "scripts/k_default_eval.py",
+  "review_builder": "scripts/build_k_default_board.py"
+}

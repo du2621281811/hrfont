@@ -1,0 +1,9 @@
+{
+  "approved": true,
+  "scope": "E12-c R1/R2/R3 and frozen GT ranking",
+  "approved_on": "2026-09-17",
+  "user_instruction": "E12-c这个看上去没啥问题，等K1推理完成就搞吧",
+  "dependency": "Original K1 and expanded default K0/K1 inference plus reviews completed",
+  "K3_training_authorized": false,
+  "review_spec_sha256": "3b902ea92a89ad0c6799945d196e7e209b9285814195201a1d9290da67e062e3"
+}
