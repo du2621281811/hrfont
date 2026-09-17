@@ -1,10 +1,25 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "dataset_id": "v0917_west_style",
   "status": "frozen",
-  "built_at": "2026-09-17T10:17:30.099949+00:00",
-  "contract": "manifests/v0917_west_style.json",
+  "built_at": "2026-09-17T10:34:16.795178+00:00",
+  "policy": "232_all_with_missing_chars_documented",
+  "counts": {
+    "all": 232,
+    "ok_full_selected_target": 225,
+    "incomplete_documented": 7
+  },
   "files": {
+    "MISSING_CHARS.json": {
+      "path": "manifests/v0917_west_style/MISSING_CHARS.json",
+      "bytes": 5341,
+      "sha256": "7bd0a5ebb1e10dd6a056da786d29c86e1e7efafdeebc1fef4a7941a6dfe66c91"
+    },
+    "MISSING_CHARS.md": {
+      "path": "manifests/v0917_west_style/MISSING_CHARS.md",
+      "bytes": 1427,
+      "sha256": "b81132380c95a4f4a05bd3e14e93618c22befe57c1467906725e7736f585dea7"
+    },
     "QA_REPORT.json": {
       "path": "manifests/v0917_west_style/QA_REPORT.json",
       "bytes": 6764,
@@ -17,18 +32,23 @@
     },
     "README.md": {
       "path": "manifests/v0917_west_style/README.md",
-      "bytes": 1124,
-      "sha256": "caa8dbfb2bccf7e5f4919c3fccfa5160990e46169de717c2668f11437d63b82d"
+      "bytes": 1114,
+      "sha256": "a9f9c87d76aeb8f9bc428e5981bdcd2338697f6b5986aff6956368b6f571a070"
     },
     "SYNC.md": {
       "path": "manifests/v0917_west_style/SYNC.md",
-      "bytes": 1124,
-      "sha256": "caa8dbfb2bccf7e5f4919c3fccfa5160990e46169de717c2668f11437d63b82d"
+      "bytes": 1114,
+      "sha256": "a9f9c87d76aeb8f9bc428e5981bdcd2338697f6b5986aff6956368b6f571a070"
     },
     "families.json": {
       "path": "manifests/v0917_west_style/families.json",
       "bytes": 70734,
       "sha256": "8f99e71b99e2b35e518367d505b641b966cfff2eda7c8b00bb1f85732b876e38"
+    },
+    "fonts_all_232.json": {
+      "path": "manifests/v0917_west_style/fonts_all_232.json",
+      "bytes": 234660,
+      "sha256": "7d0c867af3521b5b2fef3506cf6cb8fba4e8e186d1df3df416338fd04ab702e6"
     },
     "fonts_raw_232.json": {
       "path": "manifests/v0917_west_style/fonts_raw_232.json",
@@ -37,8 +57,13 @@
     },
     "fonts_verified.json": {
       "path": "manifests/v0917_west_style/fonts_verified.json",
-      "bytes": 210949,
-      "sha256": "0c4140f63b4dbe8d821f3756dad393f913d8db306b9bb098b8de2836948f76c7"
+      "bytes": 226293,
+      "sha256": "0a439e2873086dd073115b5b587563612bf2daaec2fa0fa73efea7f56c390659"
+    },
+    "stems_all_232.txt": {
+      "path": "manifests/v0917_west_style/stems_all_232.txt",
+      "bytes": 2837,
+      "sha256": "b726c4b9c81c8cffe9c2994ad6962312d1e95e99d97ff9dec6cd63b081d6761e"
     },
     "stems_raw_232.txt": {
       "path": "manifests/v0917_west_style/stems_raw_232.txt",
@@ -52,37 +77,8 @@
     },
     "v0917_west_style.json": {
       "path": "manifests/v0917_west_style.json",
-      "bytes": 1737,
-      "sha256": "4b1ddb3122ec60ae5e9b9915a0200287f790370e0bde9cede3d058e67c170006"
-    },
-    "data/V0917_WEST_STYLE_ROOT.json": {
-      "path": "data/v0917_west_style/V0917_WEST_STYLE_ROOT.json",
-      "bytes": 317,
-      "sha256": "289892e8ec8e1dec2e7b0752ef58e9cd9096eca2de808da167f06e385b0537b5"
+      "bytes": 1285,
+      "sha256": "4b96d3ff3692d4080dde265acd1788be14ffdd2932c40adc11b87d58780fa544"
     }
-  },
-  "counts": {
-    "raw_export": 232,
-    "verified_fonts": 225,
-    "verified_families": 224,
-    "excluded_fake_preview_risk": 7
-  },
-  "excluded_cleans": [
-    "fzsj_1966717",
-    "fzsj_1966721",
-    "fzsj_1966722",
-    "fzsj_2923481",
-    "fzsj_2923966",
-    "FZSJ-WULXEM",
-    "FZXLB"
-  ],
-  "target_buckets": {
-    "ascii_digits": 10,
-    "ascii_letters": 52,
-    "latin_ext_letters": 27,
-    "hiragana": 83,
-    "katakana": 86,
-    "bopomofo": 37
-  },
-  "verify_note": "Each verified font has full cmap on selected training-target buckets and non-empty Protocol-A ink samples. Preview UI probes ≠ full 295."
+  }
 }

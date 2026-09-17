@@ -1,0 +1,258 @@
+{
+  "dataset_id": "v0917_west_style",
+  "n": 7,
+  "note": "这些字体仍在 232 包内；训练/渲染时请跳过 missing_chars 中的码点。",
+  "fonts": [
+    {
+      "clean": "fzsj_1966717",
+      "disp": "手迹笔芯体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "29821_fzsj_1966717.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "fzsj_1966721",
+      "disp": "手迹爱心吧噗",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "29825_fzsj_1966721.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "fzsj_1966722",
+      "disp": "小人鱼的眼泪_YS",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "29826_fzsj_1966722.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "fzsj_2923481",
+      "disp": "清晰护眼复古像素",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "font_file": "33133_fzsj_2923481.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ńň"
+      },
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 25,
+          "n": 27,
+          "full": false
+        },
+        "hiragana": {
+          "hit": 83,
+          "n": 83,
+          "full": true
+        },
+        "katakana": {
+          "hit": 86,
+          "n": 86,
+          "full": true
+        },
+        "bopomofo": {
+          "hit": 37,
+          "n": 37,
+          "full": true
+        }
+      }
+    },
+    {
+      "clean": "fzsj_2923966",
+      "disp": "复古像素粗体",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "font_file": "33134_fzsj_2923966.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ńň"
+      },
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 25,
+          "n": 27,
+          "full": false
+        },
+        "hiragana": {
+          "hit": 83,
+          "n": 83,
+          "full": true
+        },
+        "katakana": {
+          "hit": 86,
+          "n": 86,
+          "full": true
+        },
+        "bopomofo": {
+          "hit": 37,
+          "n": 37,
+          "full": true
+        }
+      }
+    },
+    {
+      "clean": "FZSJ-WULXEM",
+      "disp": "污力小恶魔",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "21885_FZSJ-WULXEM.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "FZXLB",
+      "disp": "方正秀麗",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "font_file": "2356_FZXLB.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ńň"
+      },
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 25,
+          "n": 27,
+          "full": false
+        },
+        "hiragana": {
+          "hit": 83,
+          "n": 83,
+          "full": true
+        },
+        "katakana": {
+          "hit": 86,
+          "n": 86,
+          "full": true
+        }
+      }
+    }
+  ]
+}

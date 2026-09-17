@@ -1,34 +1,34 @@
 # v0917_west_style 同步清单
 
-**版本 id：`v0917_west_style`（记作 v0917 数据）**
+**版本 id：`v0917_west_style`（v0917 数据）**
 
-Git 只传字体清单与 QA。TTF / 审核预览 PNG **不进仓**。
+## 给合作者什么
 
-## 用哪份清单
-
-| 文件 | 用途 |
+| 内容 | 路径 |
 |------|------|
-| `fonts_verified.json` | **正式可用：225 套**（295 target 勾选语种全满 + 协议 A 墨迹抽检） |
-| `stems_verified.txt` | stem 列表 |
-| `QA_REPORT.md` | 校验报告 |
-| `fonts_raw_232.json` | 原始人工导出 232（含 7 套 Ext 不全，**勿训练**） |
+| **232 全量清单（正式）** | `fonts_all_232.json` |
+| 缺字明细 | `MISSING_CHARS.md` / `MISSING_CHARS.json` |
+| 仅全满子集（225） | `fonts_verified.json`（可选） |
+| stem | `stems_all_232.txt` |
+| TTF 包 | `artifacts/v0917_west_style_ttf_232.zip`（约 1.4G+） |
 
-合同：`manifests/v0917_west_style.json`
+## 缺字政策
 
-## 他机取文件
+- **不剔除** Ext 不全的 7 套；它们仍在 232 内。
+- 每条有 `qa_status`：`ok` 或 `incomplete_selected_target`。
+- 不全时看 `missing_chars`（按训练 bucket → 缺哪些字）。
+- 训练/渲染：**跳过缺字码点**，不要当成 295 全满。
 
-```bash
-git pull
-# 按 fonts_verified.json 的 font_file / font_sha1_12 对齐本机：
-#   font_files_0914/founder_fonts_download/<font_file>
-```
+## UI 语种 → 训练 bucket
 
-## 剔除的 7 套（假预览风险）
+| 勾选 scripts | 必须覆盖的 target |
+|--------------|-------------------|
+| latin | ascii_digits(10) + ascii_letters(52) |
+| latin_ext | latin_ext_letters(27) |
+| hiragana | hiragana(83) |
+| katakana | katakana(86) |
+| zhuyin | bopomofo(37) |
 
-勾了 latin_ext，UI 探针有字，但 Ext 全表 27 不全：
-`fzsj_1966717` `fzsj_1966721` `fzsj_1966722` `fzsj_2923481` `fzsj_2923966` `FZSJ-WULXEM` `FZXLB`
+## 不全的 7 套摘要
 
-## 与 v0913 关系
-
-v0913_clean = 既有 228/16/16 可用性映射。
-v0917_west_style = 方正补充池人工筛选后的**西文风格补充字体名单**（metadata），尚未并入 train PNG split。
+见 `MISSING_CHARS.md`（多为拼音韵母 `āēěī…` 或仅缺 `ńň`）。

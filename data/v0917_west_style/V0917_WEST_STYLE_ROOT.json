@@ -1,9 +1,11 @@
 {
   "dataset_id": "v0917_west_style",
-  "kind": "font_manifest_only",
-  "manifest": "manifests/v0917_west_style/fonts_verified.json",
+  "kind": "font_manifest_and_ttf_pack",
+  "manifest": "manifests/v0917_west_style/fonts_all_232.json",
+  "missing_chars": "manifests/v0917_west_style/MISSING_CHARS.md",
+  "ttf_pack": "artifacts/v0917_west_style_ttf_232.zip",
   "font_dir_hint": "font_files_0914/founder_fonts_download/",
-  "note": "No PNG tree for v0917 yet; collaborator sync is manifest + QA only.",
-  "n_fonts": 225,
-  "n_families": 224
+  "n_fonts": 232,
+  "n_ok": 225,
+  "n_incomplete": 7
 }

@@ -1,10 +1,10 @@
 {
   "dataset_id": "v0917_west_style",
   "version": "v0917",
-  "title": "v0917 子集：勾选语种 target 全满（225）",
+  "title": "v0917 西文风格补充字体（232 全量；缺字写明）",
   "created_at": "2026-09-17",
   "updated_at": "2026-09-17T10:34:16.750061+00:00",
-  "n_fonts": 225,
+  "n_fonts": 232,
   "n_families": 231,
   "n_ok": 225,
   "n_incomplete": 7,
@@ -49,7 +49,6 @@
     "FZSJ-WULXEM",
     "FZXLB"
   ],
-  "filter": "qa_status==ok",
   "train": [
     {
       "clean": "4314d6a5",
@@ -5237,6 +5236,126 @@
       "note": null
     },
     {
+      "clean": "fzsj_1966717",
+      "disp": "手迹笔芯体",
+      "family": "fzsj_1966717",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.877,
+      "font_file": "29821_fzsj_1966717.TTF",
+      "font_sha1_12": "42be1604f632",
+      "font_bytes": 626396,
+      "font_dir_hint": "font_files_0914/founder_fonts_download/",
+      "audit_a_fs": 84,
+      "qa_status": "incomplete_selected_target",
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      },
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "incomplete_buckets": [
+        "latin_ext_letters"
+      ],
+      "note": "勾选语种对应训练 target 未满；合作者可按 missing_chars 跳过缺字，勿把缺字当可用。"
+    },
+    {
+      "clean": "fzsj_1966721",
+      "disp": "手迹爱心吧噗",
+      "family": "fzsj_1966721",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.249,
+      "font_file": "29825_fzsj_1966721.TTF",
+      "font_sha1_12": "b1bdc6fcc101",
+      "font_bytes": 689636,
+      "font_dir_hint": "font_files_0914/founder_fonts_download/",
+      "audit_a_fs": 83,
+      "qa_status": "incomplete_selected_target",
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      },
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "incomplete_buckets": [
+        "latin_ext_letters"
+      ],
+      "note": "勾选语种对应训练 target 未满；合作者可按 missing_chars 跳过缺字，勿把缺字当可用。"
+    },
+    {
+      "clean": "fzsj_1966722",
+      "disp": "小人鱼的眼泪_YS",
+      "family": "fzsj_1966722",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.969,
+      "font_file": "29826_fzsj_1966722.TTF",
+      "font_sha1_12": "d3147204a72c",
+      "font_bytes": 608376,
+      "font_dir_hint": "font_files_0914/founder_fonts_download/",
+      "audit_a_fs": 81,
+      "qa_status": "incomplete_selected_target",
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      },
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "incomplete_buckets": [
+        "latin_ext_letters"
+      ],
+      "note": "勾选语种对应训练 target 未满；合作者可按 missing_chars 跳过缺字，勿把缺字当可用。"
+    },
+    {
       "clean": "fzsj_1966797",
       "disp": "午夜小恶鬼",
       "family": "fzsj_1966797",
@@ -5573,6 +5692,122 @@
       "note": null
     },
     {
+      "clean": "fzsj_2923481",
+      "disp": "清晰护眼复古像素",
+      "family": "fzsj_2923481",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 7.388,
+      "font_file": "33133_fzsj_2923481.TTF",
+      "font_sha1_12": "3a8a5f503dcd",
+      "font_bytes": 18909776,
+      "font_dir_hint": "font_files_0914/founder_fonts_download/",
+      "audit_a_fs": 84,
+      "qa_status": "incomplete_selected_target",
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 25,
+          "n": 27,
+          "full": false
+        },
+        "hiragana": {
+          "hit": 83,
+          "n": 83,
+          "full": true
+        },
+        "katakana": {
+          "hit": 86,
+          "n": 86,
+          "full": true
+        },
+        "bopomofo": {
+          "hit": 37,
+          "n": 37,
+          "full": true
+        }
+      },
+      "missing_chars": {
+        "latin_ext_letters": "ńň"
+      },
+      "incomplete_buckets": [
+        "latin_ext_letters"
+      ],
+      "note": "勾选语种对应训练 target 未满；合作者可按 missing_chars 跳过缺字，勿把缺字当可用。"
+    },
+    {
+      "clean": "fzsj_2923966",
+      "disp": "复古像素粗体",
+      "family": "fzsj_2923966",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "west_score": 7.388,
+      "font_file": "33134_fzsj_2923966.TTF",
+      "font_sha1_12": "01e250a9090a",
+      "font_bytes": 18857212,
+      "font_dir_hint": "font_files_0914/founder_fonts_download/",
+      "audit_a_fs": 84,
+      "qa_status": "incomplete_selected_target",
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 25,
+          "n": 27,
+          "full": false
+        },
+        "hiragana": {
+          "hit": 83,
+          "n": 83,
+          "full": true
+        },
+        "katakana": {
+          "hit": 86,
+          "n": 86,
+          "full": true
+        },
+        "bopomofo": {
+          "hit": 37,
+          "n": 37,
+          "full": true
+        }
+      },
+      "missing_chars": {
+        "latin_ext_letters": "ńň"
+      },
+      "incomplete_buckets": [
+        "latin_ext_letters"
+      ],
+      "note": "勾选语种对应训练 target 未满；合作者可按 missing_chars 跳过缺字，勿把缺字当可用。"
+    },
+    {
       "clean": "FZSJ-CHAOJXHN",
       "disp": "超级喜欢你",
       "family": "FZSJ-CHAOJXHN",
@@ -5739,6 +5974,46 @@
       "missing_chars": {},
       "incomplete_buckets": [],
       "note": null
+    },
+    {
+      "clean": "FZSJ-WULXEM",
+      "disp": "污力小恶魔",
+      "family": "FZSJ-WULXEM",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "west_score": 5.869,
+      "font_file": "21885_FZSJ-WULXEM.TTF",
+      "font_sha1_12": "4d0958384916",
+      "font_bytes": 1884920,
+      "font_dir_hint": "font_files_0914/founder_fonts_download/",
+      "audit_a_fs": 81,
+      "qa_status": "incomplete_selected_target",
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      },
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "incomplete_buckets": [
+        "latin_ext_letters"
+      ],
+      "note": "勾选语种对应训练 target 未满；合作者可按 missing_chars 跳过缺字，勿把缺字当可用。"
     },
     {
       "clean": "FZSJ-XIAOHBZLL",
@@ -6819,6 +7094,58 @@
       "missing_chars": {},
       "incomplete_buckets": [],
       "note": null
+    },
+    {
+      "clean": "FZXLB",
+      "disp": "方正秀麗",
+      "family": "FZXLB",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana"
+      ],
+      "west_score": 5.659,
+      "font_file": "2356_FZXLB.TTF",
+      "font_sha1_12": "dedc0431a6ad",
+      "font_bytes": 7172032,
+      "font_dir_hint": "font_files_0914/founder_fonts_download/",
+      "audit_a_fs": 84,
+      "qa_status": "incomplete_selected_target",
+      "coverage": {
+        "ascii_digits": {
+          "hit": 10,
+          "n": 10,
+          "full": true
+        },
+        "ascii_letters": {
+          "hit": 52,
+          "n": 52,
+          "full": true
+        },
+        "latin_ext_letters": {
+          "hit": 25,
+          "n": 27,
+          "full": false
+        },
+        "hiragana": {
+          "hit": 83,
+          "n": 83,
+          "full": true
+        },
+        "katakana": {
+          "hit": 86,
+          "n": 86,
+          "full": true
+        }
+      },
+      "missing_chars": {
+        "latin_ext_letters": "ńň"
+      },
+      "incomplete_buckets": [
+        "latin_ext_letters"
+      ],
+      "note": "勾选语种对应训练 target 未满；合作者可按 missing_chars 跳过缺字，勿把缺字当可用。"
     },
     {
       "clean": "FZXSHJW",

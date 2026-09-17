@@ -1,9 +1,8 @@
-# 工作区导出（已冻结为 v0917）
+# 工作区导出 → 已冻结为 v0917（232 全量）
 
-正式协作版本请用：
+正式协作请用：
+- `manifests/v0917_west_style/fonts_all_232.json`
+- `manifests/v0917_west_style/MISSING_CHARS.md`
+- `artifacts/v0917_west_style_ttf_232.zip`
 
-- `manifests/v0917_west_style/`
-- `manifests/v0917_west_style.json`
-- `data/v0917_west_style/V0917_WEST_STYLE_ROOT.json`
-
-本目录保留原始 232 导出与 QA 中间产物，便于追溯。
+政策：232 全给；缺字写明，不剔除。
