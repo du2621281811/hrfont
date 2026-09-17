@@ -2,7 +2,7 @@
   "schema_version": 2,
   "dataset_id": "v0917_west_style",
   "status": "frozen",
-  "built_at": "2026-09-17T10:37:47.894836+00:00",
+  "built_at": "2026-09-17T10:42:04.739487+00:00",
   "policy": "232_all_with_missing_chars_documented",
   "counts": {
     "all": 232,
@@ -32,18 +32,18 @@
     },
     "QA_REPORT.md": {
       "path": "manifests/v0917_west_style/QA_REPORT.md",
-      "bytes": 1942,
-      "sha256": "895ed393c3516f313bffab295ddcbbd54f044e3110437505efd2bd7e13dc9824"
+      "bytes": 1167,
+      "sha256": "ee31f9b0460d5387ea146d868902abc19241a145bd7fa2f6e4796aefec444433"
     },
     "README.md": {
       "path": "manifests/v0917_west_style/README.md",
-      "bytes": 1215,
-      "sha256": "080bde75d25f787859b90d689eac5d837836de5abdbe34ca7c217475ec776bcf"
+      "bytes": 2778,
+      "sha256": "b0800f8dc0d41c9a6971fbd75a39e773a339154848cb04143e1abab3e161e84a"
     },
     "SYNC.md": {
       "path": "manifests/v0917_west_style/SYNC.md",
-      "bytes": 1215,
-      "sha256": "080bde75d25f787859b90d689eac5d837836de5abdbe34ca7c217475ec776bcf"
+      "bytes": 2778,
+      "sha256": "b0800f8dc0d41c9a6971fbd75a39e773a339154848cb04143e1abab3e161e84a"
     },
     "families.json": {
       "path": "manifests/v0917_west_style/families.json",
@@ -52,8 +52,8 @@
     },
     "fonts_all_232.json": {
       "path": "manifests/v0917_west_style/fonts_all_232.json",
-      "bytes": 234660,
-      "sha256": "7d0c867af3521b5b2fef3506cf6cb8fba4e8e186d1df3df416338fd04ab702e6"
+      "bytes": 234758,
+      "sha256": "9b5308a0d6a389d279e4424bba5ab8cedfabb5f8663bf98049bcfa4abe56ecce"
     },
     "fonts_raw_232.json": {
       "path": "manifests/v0917_west_style/fonts_raw_232.json",
@@ -82,9 +82,14 @@
     },
     "v0917_west_style.json": {
       "path": "manifests/v0917_west_style.json",
-      "bytes": 1285,
-      "sha256": "4b96d3ff3692d4080dde265acd1788be14ffdd2932c40adc11b87d58780fa544"
+      "bytes": 1985,
+      "sha256": "77adcdc93bd33e9a00e7672332049dc0cd84bdad0f90a960c3e3cd4156851899"
     }
   },
-  "download": "manifests/v0917_west_style/DOWNLOAD.md"
+  "download": "manifests/v0917_west_style/DOWNLOAD.md",
+  "readme": "manifests/v0917_west_style/README.md",
+  "important": {
+    "official_n": 232,
+    "incomplete_documented_n": 7
+  }
 }

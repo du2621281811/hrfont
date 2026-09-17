@@ -45,3 +45,20 @@ Git 只跟踪清单与指纹；大文件用 symlink 或外盘。
 
 - `manifests/pipeline_v2_train_stems_42.txt`
 - `manifests/pipeline_v2_train_stems_253.txt`
+- **`manifests/v0917_west_style/`** — 西文风格补充 **232**（正式；见上节）
+
+## v0917 西文风格补充（2026-09-17）
+
+**正式名单 232 套**（不是 225）。说明：[`manifests/v0917_west_style/README.md`](../manifests/v0917_west_style/README.md)。
+
+| 项 | 内容 |
+|----|------|
+| 合同 | `manifests/v0917_west_style.json` |
+| 正式清单 | `manifests/v0917_west_style/fonts_all_232.json`（含 `scripts` / `missing_chars`） |
+| 缺字 | `manifests/v0917_west_style/MISSING_CHARS.md`（7 套 Ext 不全，**仍收录**） |
+| tag | `data-v0917` |
+| TTF | 不进 Git；`artifacts/v0917_west_style_ttf_232.zip`（见 `DOWNLOAD.md`） |
+| 与 v0913 | 补充字体元数据；**尚未**并入 `v0913_clean` PNG pair |
+
+训练时跳过各字体 `missing_chars`；审核探针 ≠ 295 全表。
+

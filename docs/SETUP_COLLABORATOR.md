@@ -11,6 +11,7 @@
 | [`EXPERIMENTS.md`](EXPERIMENTS.md) | 实验 ID ↔ 结果入口 ↔ 代码树 |
 | [`OFFICIAL_VS_OURS.md`](OFFICIAL_VS_OURS.md) | `official/` vs `ours/` vs `variants/` |
 | [`DATA_AND_WEIGHTS.md`](DATA_AND_WEIGHTS.md) | 本机数据/权重路径（大文件不进 Git） |
+| [`v0917 README`](../manifests/v0917_west_style/README.md) | **v0917 西文补充：正式 232**（含语种/缺字；TTF 另取） |
 | [`COLLABORATOR_GUIDE.md`](../COLLABORATOR_GUIDE.md) | 官方 Loss / 历史 FT 事实 |
 
 **禁止**再新建 plan / status / handoff / NEXT_STEPS。要改结论就改 `PROJECT.md` 或 `provenance/`。

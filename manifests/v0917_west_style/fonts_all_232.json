@@ -1,7 +1,7 @@
 {
   "dataset_id": "v0917_west_style",
   "version": "v0917",
-  "title": "v0917 西文风格补充字体（232 全量；缺字写明）",
+  "title": "v0917 西文风格补充（正式 232；缺字写明不剔除）",
   "created_at": "2026-09-17",
   "updated_at": "2026-09-17T10:34:16.750061+00:00",
   "n_fonts": 232,
@@ -10292,5 +10292,6 @@
       "incomplete_buckets": [],
       "note": null
     }
-  ]
+  ],
+  "important": "正式规模232；fonts_verified.json(225)仅为全满子集；见 README.md"
 }
