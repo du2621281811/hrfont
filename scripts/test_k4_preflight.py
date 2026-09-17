@@ -12,7 +12,7 @@ OUT=STORE/'control'
 
 def contracts():
     summary={};pools=json.loads((DATA/'manifests/v2/style_pool.json').read_text())
-    families=json.loads((ASSETS/'family_groups.json').read_text())['family_by_font']
+    families=json.loads((ASSETS/'weight_groups.json').read_text())['family_by_font']
     assert set(families)==set(pools)
     source={r['stem']:r['source'] for r in tsv(DATA/'manifests/v2/fonts.tsv')}
     for name,count,nfonts in [('v2',95976,423),('v0917',39547,200)]:
@@ -110,7 +110,7 @@ def gpu():
     atomic_json(OUT/'GPU_PARITY_PASSED.json',dict(status='PASS',checks=checks,k0_reuse_approved=True))
 
 def training_checks():
-    ref=ROOT/'runs/K4-FAMILY-PREFLIGHT-C';res=ROOT/'runs/K4-FAMILY-PREFLIGHT-C-RESUME';b=ROOT/'runs/K4-FAMILY-PREFLIGHT-B';a=ROOT/'runs/K4-FAMILY-PREFLIGHT-A'
+    ref=ROOT/'runs/K4-WEIGHT-PREFLIGHT-C';res=ROOT/'runs/K4-WEIGHT-PREFLIGHT-C-RESUME';b=ROOT/'runs/K4-WEIGHT-PREFLIGHT-B';a=ROOT/'runs/K4-WEIGHT-PREFLIGHT-A'
     logs=lambda p:{r['step']:r for r in (json.loads(l) for l in (p/'train_log.jsonl').read_text().splitlines())}
     x,y,z,w=map(logs,[ref,res,b,a])
     assert max(x)==max(y)==120 and max(z)==17 and max(w)==2

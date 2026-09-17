@@ -5,6 +5,16 @@ from k4_runtime import *
 from h_runtime import args_for
 
 
+def scope_regression():
+    policy=FamilyPolicy(ASSETS/'weight_groups.json',list(json.loads((ASSETS/'weight_groups.json').read_text())['family_by_font']))
+    for a,b in [('FZLuoMTJW-L','FZLuoMTJW-R'),('FZSiNTJW-H','FZSiNTJW-UL'),('FZYouHJW_508R','FZYouHJW_513B')]:
+        assert policy.family(a)==policy.family(b),(a,b)
+    for a,b in [('FZLTHProGBK_H','FZLTHProJW_H'),('FZSongYJW','FZSongYuanK'),('fzsj_1275635','fzsj_2017088'),('FZYouHJW_508R','FZYouHK_508R'),('FZLuoMTJW-L','FZLuoMXTJW-M')]:
+        valid=policy.exclude(a,torch.ones(len(policy.fonts),dtype=torch.bool))
+        assert valid[policy.fonts.index(b)] and not valid[policy.fonts.index(a)],(a,b)
+    return 'PASS'
+
+
 def regression():
     lib=Library.__new__(Library)
     lib.fonts=['FZDeSHJW_507R','FZDeSHJW_508R','FZBGDT','FZXLB']
@@ -15,12 +25,12 @@ def regression():
     lib.table=torch.tensor([[[1.,0.],[1.,0.]],[[1.,.01],[1.,.01]],[[.4,.6],[.4,.6]],[[.8,.2],[.8,.2]]])
     lib.present=torch.ones(4,2,dtype=torch.bool);lib.present[3,1]=False
     lib.bycp={'u0041':torch.ones(4,dtype=torch.bool),'u0042':torch.tensor([True,True,False,True])}
-    lib.family_policy=FamilyPolicy(ASSETS/'family_groups.json',lib.fonts)
+    lib.family_policy=FamilyPolicy(ASSETS/'weight_groups.json',lib.fonts)
     q=torch.tensor([[1.,0.],[1.,0.]])
     checked=[]
     for font in ['FZDeSHJW_507R','FZDeSHJW_515H']:
         for mode in ['topk','soft','threshold']:
-            selected,alpha=lib.select('u0041',['ref1','ref2'],q,font,T.DeltaConfig(mode=mode))
+            selected,alpha=lib.select('u0041',['ref1','ref2'],q,font,T.DeltaConfig(mode=mode,k_top=1,k_max=1))
             assert selected==['FZBGDT'] and torch.equal(alpha,torch.ones(1)),(font,mode,selected,alpha)
             checked.append([font,mode])
     for font,cp,error in [('unknown','u0041',ValueError),('FZDeSHJW_515H','u0042',RuntimeError)]:
@@ -35,7 +45,7 @@ def real_bank():
     torch.set_num_threads(1)
     pools=json.loads((DATA/'manifests/v2/style_pool.json').read_text())
     poolsets={f:set(cs) for f,cs in pools.items()};references={f:ref8(cs) for f,cs in pools.items()}
-    fam=json.loads((ASSETS/'family_groups.json').read_text())['family_by_font']
+    fam=json.loads((ASSETS/'weight_groups.json').read_text())['family_by_font']
     es=MergedEs();summary={}
     for name in ['v2','v0917']:
         dm=json.loads((DATA/'manifests'/name/'donor_train_by_cp.json').read_text())
@@ -73,4 +83,4 @@ def real_bank():
 
 
 if __name__=='__main__':
-    atomic_json(STORE/'control/FAMILY_POLICY_PASSED.json',dict(status='PASS',regression=regression(),banks=real_bank(),family_sha256=sha256_file(ASSETS/'family_groups.json')))
+    atomic_json(STORE/'control/FAMILY_POLICY_PASSED.json',dict(status='PASS',scope=scope_regression(),regression=regression(),banks=real_bank(),family_sha256=sha256_file(ASSETS/'weight_groups.json')))

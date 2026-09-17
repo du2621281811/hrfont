@@ -2,7 +2,7 @@
 import fcntl,json,os,subprocess,sys,time
 from pathlib import Path
 CODE=Path(__file__).resolve().parents[1]
-ROOT=Path('/root/projects/hrfont');STORE=Path('/root/data1/hrfont_k4_family_20260918')
+ROOT=Path('/root/projects/hrfont');STORE=Path('/root/data1/hrfont_k4_weight_20260918')
 CONTROL=STORE/'control'
 
 def main():
@@ -37,16 +37,16 @@ def main():
         run('FAMILY_POLICY',[py,'scripts/test_k4_family.py'])
         run('GPU_PARITY',[py,'scripts/test_k4_preflight.py','gpu'])
         pre=['--smoke','--state-interval','100','--checkpoint-root',str(STORE/'preflight_checkpoints')]
-        run('C_REFERENCE_120',launcher+['scripts/train_k4.py','--arm','K4-C','--run-id','K4-FAMILY-PREFLIGHT-C','--limit','120']+pre)
-        resume=ROOT/'runs/K4-FAMILY-PREFLIGHT-C-RESUME';resume.mkdir(parents=True,exist_ok=True)
-        cfg=(ROOT/'runs/K4-FAMILY-PREFLIGHT-C/config.json').read_text()
+        run('C_REFERENCE_120',launcher+['scripts/train_k4.py','--arm','K4-C','--run-id','K4-WEIGHT-PREFLIGHT-C','--limit','120']+pre)
+        resume=ROOT/'runs/K4-WEIGHT-PREFLIGHT-C-RESUME';resume.mkdir(parents=True,exist_ok=True)
+        cfg=(ROOT/'runs/K4-WEIGHT-PREFLIGHT-C/config.json').read_text()
         if (resume/'config.json').exists():assert (resume/'config.json').read_text()==cfg
         else:(resume/'config.json').write_text(cfg)
-        run('C_RESUME_100_TO_120',launcher+['scripts/train_k4.py','--arm','K4-C','--run-id',resume.name,'--limit','120','--resume',str(ROOT/'runs/K4-FAMILY-PREFLIGHT-C/checkpoints/state_step_100'),'--eval-smoke']+pre)
-        run('B_FULL_GRADIENT_17',launcher+['scripts/train_k4.py','--arm','K4-B','--run-id','K4-FAMILY-PREFLIGHT-B','--limit','17']+pre)
-        run('A_WARMSTART_2',launcher+['scripts/train_k4.py','--arm','K4-A','--run-id','K4-FAMILY-PREFLIGHT-A','--limit','2']+pre)
+        run('C_RESUME_100_TO_120',launcher+['scripts/train_k4.py','--arm','K4-C','--run-id',resume.name,'--limit','120','--resume',str(ROOT/'runs/K4-WEIGHT-PREFLIGHT-C/checkpoints/state_step_100'),'--eval-smoke']+pre)
+        run('B_FULL_GRADIENT_17',launcher+['scripts/train_k4.py','--arm','K4-B','--run-id','K4-WEIGHT-PREFLIGHT-B','--limit','17']+pre)
+        run('A_WARMSTART_2',launcher+['scripts/train_k4.py','--arm','K4-A','--run-id','K4-WEIGHT-PREFLIGHT-A','--limit','2']+pre)
         run('PREFLIGHT_ACCEPTANCE',[py,'scripts/test_k4_preflight.py','training_checks'])
-        runs={'K4-C':'K4-C-K1RECIPE-V2-FAMILY-S3407','K4-B':'K4-B-K3RECIPE-V2-FAMILY-S3407','K4-A':'K4-A-K1FT-0917-FAMILY-S3407'}
+        runs={'K4-C':'K4-C-K1RECIPE-V2-WEIGHT-S3407','K4-B':'K4-B-K3RECIPE-V2-WEIGHT-S3407','K4-A':'K4-A-K1FT-0917-WEIGHT-S3407'}
         for arm in auth['order']:
             args=launcher+['scripts/train_k4.py','--arm',arm,'--run-id',runs[arm],'--limit','10000']
             directory=ROOT/'runs'/runs[arm]
