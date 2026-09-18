@@ -138,7 +138,9 @@ def main():
     reuse=None
     if a.arm=='K0':
         passed=json.loads((STORE/'control/PREFLIGHT_PASSED.json').read_text())
-        if passed['k0_reuse_approved']:
+        # Numerical kernels changed across the recovery lineage; reuse requires
+        # a parity approval bound to this exact source identity.
+        if passed['k0_reuse_approved'] and passed['identity']==identity:
             reuse={ (r['split'],r['font'],r['cp']):r for r in [json.loads(l) for l in (ASSETS/'k0_reuse_candidates.jsonl').read_text().splitlines()] }
     jobs=expand_queries(a.arm)
     for split in ['val','test']:
