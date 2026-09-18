@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-19",
+  "diagnostic_review_authorized": true,
+  "K5-A": {
+    "authorized": true,
+    "start_after": "OLD_REVIEW_DELIVERED_AND_PREFLIGHT_PASSED",
+    "dataset": "V2",
+    "recipe": "original K1",
+    "successful_updates": 10000,
+    "initialization": "K0 G0b step10000",
+    "delta": "Es intermediate spatial difference with trainable adapter",
+    "selection": "original Top10 alpha"
+  },
+  "K5-B": {
+    "authorized": true,
+    "start_after": "K5-A_TRAINING_COMPLETED_AND_K5-B_PREFLIGHT_PASSED",
+    "dataset": "V2",
+    "recipe": "original K1",
+    "successful_updates": 10000,
+    "initialization": "K0 G0b step10000, independent of K5-A",
+    "delta": "separate Ec and Es routing and offsets with per-layer gated Es residual",
+    "selection": "original Top10 alpha"
+  },
+  "K4_training_restart_authorized": false,
+  "status": "planned_dependency_pending_not_launched",
+  "bank_donor_diagnostic": {
+    "start_after": "K5-A_AND_K5-B_COMPLETED",
+    "selection_changes_authorized": false
+  },
+  "order": [
+    "OLD_REVIEW_DELIVERY",
+    "K5-A",
+    "K5-B",
+    "POST_K5_BANK_DONOR_DIAGNOSIS",
+    "USER_REVIEW_SELECTION_CHANGE"
+  ]
+}
