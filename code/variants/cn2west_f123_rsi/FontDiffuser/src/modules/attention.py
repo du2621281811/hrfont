@@ -235,13 +235,17 @@ class CrossAttention(nn.Module):
         return self.to_out(hidden_states)
 
     def _attention(self, query, key, value, mask=None):
-        attention_scores = torch.matmul(query, key.transpose(-1, -2)) * self.scale
-        attention_scores = self._normalize_local_count(attention_scores, mask)
-        if mask is not None:
-            attention_scores = attention_scores.masked_fill(~mask, torch.finfo(attention_scores.dtype).min)
-        attention_probs = attention_scores.softmax(dim=-1)
-        hidden_states = torch.matmul(attention_probs, value)
-        hidden_states = self.reshape_batch_dim_to_heads(hidden_states)
+        # Q/K may be finite in FP16 while their unscaled dot product exceeds
+        # 65504. Scaling afterwards cannot undo Inf. Keep logits, softmax and
+        # value accumulation in FP32, then restore the activation dtype.
+        with torch.autocast(device_type=query.device.type, enabled=False):
+            attention_scores = torch.matmul(query.float(), key.float().transpose(-1, -2)) * self.scale
+            attention_scores = self._normalize_local_count(attention_scores, mask)
+            if mask is not None:
+                attention_scores = attention_scores.masked_fill(~mask, torch.finfo(attention_scores.dtype).min)
+            attention_probs = attention_scores.softmax(dim=-1)
+            hidden_states = torch.matmul(attention_probs, value.float())
+        hidden_states = self.reshape_batch_dim_to_heads(hidden_states.to(query.dtype))
         return hidden_states
 
     def _normalize_local_count(self, scores, mask):
@@ -263,17 +267,17 @@ class CrossAttention(nn.Module):
         for i in range(hidden_states.shape[0] // slice_size):
             start_idx = i * slice_size
             end_idx = (i + 1) * slice_size
-            attn_slice = (
-                torch.matmul(query[start_idx:end_idx], key[start_idx:end_idx].transpose(1, 2)) * self.scale
-            )
-            attn_slice = self._normalize_local_count(
-                attn_slice, mask[start_idx:end_idx] if mask is not None else None)
-            if mask is not None:
-                attn_slice = attn_slice.masked_fill(
-                    ~mask[start_idx:end_idx], torch.finfo(attn_slice.dtype).min
+            with torch.autocast(device_type=query.device.type, enabled=False):
+                attn_slice = (
+                    torch.matmul(query[start_idx:end_idx].float(), key[start_idx:end_idx].float().transpose(1, 2)) * self.scale
                 )
-            attn_slice = attn_slice.softmax(dim=-1)
-            attn_slice = torch.matmul(attn_slice, value[start_idx:end_idx])
+                attn_slice = self._normalize_local_count(
+                    attn_slice, mask[start_idx:end_idx] if mask is not None else None)
+                if mask is not None:
+                    attn_slice = attn_slice.masked_fill(
+                        ~mask[start_idx:end_idx], torch.finfo(attn_slice.dtype).min)
+                attn_slice = attn_slice.softmax(dim=-1)
+                attn_slice = torch.matmul(attn_slice, value[start_idx:end_idx].float())
 
             hidden_states[start_idx:end_idx] = attn_slice
 

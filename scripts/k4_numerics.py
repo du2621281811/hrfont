@@ -26,3 +26,11 @@ def guarded_forward(forward, output, metadata):
         f.write(json.dumps(record)+'\n')
     if not good:raise RuntimeError('Nonfinite loss persists in synchronized FP32 replay; see numerical_recovery logs')
     return result
+
+
+def compatible_identity(candidate, current):
+    """Accept only an exact identity in the explicitly audited migration chain."""
+    while current is not None:
+        if candidate == current:return True
+        current=current.get('compatible_parent_identity')
+    return False

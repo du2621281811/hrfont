@@ -19,7 +19,7 @@ from k4_runtime import (ROOT,CODE,CACHE,PARENT0,T,DataContext,model_for,dataset,
 from k4_runtime import ASSETS, STORE, RUNS, K1_EMA, data_identity, configure
 from scripts.hrfont_h import lr_factor
 from scripts.k_components import KSampler,raw_x0,extra_losses
-from scripts.k4_numerics import guarded_forward
+from scripts.k4_numerics import guarded_forward,compatible_identity
 
 
 def rng_state():
@@ -129,10 +129,10 @@ def main():
     if a.resume:
         previous_config=json.loads((out/'config.json').read_text())
         assert {k:v for k,v in previous_config.items() if k!='identity'}=={k:v for k,v in config.items() if k!='identity'},'Resume recipe changed'
-        assert previous_config['identity']==identity or previous_config['identity']==identity.get('compatible_parent_identity'),'Unapproved source migration'
+        assert compatible_identity(previous_config['identity'],identity),'Unapproved source migration'
         if rank==0:atomic_json(out/'RECOVERY_SOURCE.json',dict(previous_identity=previous_config['identity'],current_identity=identity,resume=str(a.resume)))
         state=torch.load(a.resume/'trainer.pt',map_location='cpu',weights_only=False)
-        assert (state['identity']==identity or state['identity']==identity.get('compatible_parent_identity')) and state['sampler']==sampler.version
+        assert compatible_identity(state['identity'],identity) and state['sampler']==sampler.version
         assert len(state['rngs'])==world
         raw.load_train_state(torch.load(a.resume/'model.pth',map_location=device,weights_only=True))
         ema=torch.load(a.resume/'ema.pth',map_location=device,weights_only=True)
@@ -147,7 +147,7 @@ def main():
         assert authorization['approved'] and a.limit==authorization['successful_updates']==10000
         assert a.run_id==RUNS[a.arm] and authorization['order']==['K4-A','K4-C','K4-B']
         proof=json.loads((STORE/'control/PREFLIGHT_PASSED.json').read_text())
-        assert proof['identity']==identity or proof['identity']==identity.get('compatible_parent_identity')
+        assert compatible_identity(proof['identity'],identity)
         if 'compatible_parent_identity' in identity:
             assert json.loads((STORE/'control/NUMERICAL_RECOVERY_TEST_PASSED.json').read_text())['identity']==identity
     begin=time.time(); accumulation=8//world
