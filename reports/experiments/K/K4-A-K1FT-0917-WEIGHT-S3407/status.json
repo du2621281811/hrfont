@@ -2,20 +2,21 @@
   "run_id": "K4-A-K1FT-0917-WEIGHT-S3407",
   "series": "K",
   "arm": "K4-A",
-  "snapshot_utc": "2026-09-18T10:02:27+08:00",
+  "snapshot_utc": "2026-09-18T12:30:00+08:00",
   "status": "running",
   "server_path": "/root/projects/hrfont/runs/K4-A-K1FT-0917-WEIGHT-S3407",
   "artifact_root": "/root/data1/hrfont_k4_weight_20260918",
   "progress": {
-    "target_step": 10000,
+    "target_step": 20000,
+    "current_step": 14100,
     "last_completed_step_before_recovery": 6400,
     "last_saved_checkpoint_step": 6000,
     "current_heartbeat": {
       "state": "TRAINING",
-      "step": 6100,
-      "attempt": 6100,
-      "elapsed_seconds_since_recovery": 86.54027271270752,
-      "update_seconds": 0.8309919834136963,
+      "step": 14100,
+      "attempt": 14100,
+      "elapsed_seconds_since_recovery": 6319.891659498215,
+      "update_seconds": 0.9481828212738037,
       "amp_skips": 0
     },
     "elapsed_seconds": 5883.529562473297,
@@ -100,6 +101,42 @@
         "reused": 0,
         "archive": "reports/experiments/K/K4-A-K1FT-0917-WEIGHT-S3407/step00006000",
         "metrics_sha256": "46dc76d08def26bc1310781d4472fcc4207954b223ac27200920b70407969ba7"
+      },
+      {
+        "step": 8000,
+        "status": "completed",
+        "rows": 192,
+        "images": 192,
+        "reused": 0,
+        "archive": "reports/experiments/K/K4-A-K1FT-0917-WEIGHT-S3407/step00008000",
+        "metrics_sha256": "ac51b476294b9a920b0f26bcf1c981bc797a4e2853e1d50a1746bfae03ba3c99"
+      },
+      {
+        "step": 10000,
+        "status": "completed",
+        "rows": 192,
+        "images": 192,
+        "reused": 0,
+        "archive": "reports/experiments/K/K4-A-K1FT-0917-WEIGHT-S3407/step00010000",
+        "metrics_sha256": "20adaeffbbed1fcbefd4bf8d9db9bc14d09b96d71fa904c0d0652c9cb662b7d4"
+      },
+      {
+        "step": 12000,
+        "status": "completed",
+        "rows": 192,
+        "images": 192,
+        "reused": 0,
+        "archive": "reports/experiments/K/K4-A-K1FT-0917-WEIGHT-S3407/step00012000",
+        "metrics_sha256": "e9c2262c14cc819ccaf98dd2e3bf8f84b612305b09ee50d8d7c4824c8ce6217"
+      },
+      {
+        "step": 14000,
+        "status": "completed",
+        "rows": 192,
+        "images": 192,
+        "reused": 0,
+        "archive": "reports/experiments/K/K4-A-K1FT-0917-WEIGHT-S3407/step00014000",
+        "metrics_sha256": "bef6f6c22fd09153499f937ffc3634b72d8fb5f0e17c3477c8114bd69ccdc4f4"
       }
     ]
   },
@@ -107,7 +144,7 @@
     "queue_control": "/root/data1/hrfont_k4_weight_20260918/control",
     "queue_status": "recovering",
     "failed_stage": "K4-A_TRAIN_10000 (prior attempt)",
-    "active_stage": "K4-A_TRAIN_10000",
+    "active_stage": "K4-A_TRAIN_20000",
     "retry": 0,
     "next_arms_not_started": [
       "K4-C",
