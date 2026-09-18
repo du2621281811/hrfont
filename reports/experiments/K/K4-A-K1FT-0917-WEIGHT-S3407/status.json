@@ -70,6 +70,39 @@
     "inference_complete": false,
     "paper_metrics_complete": false
   },
+  "inference": {
+    "split": "val",
+    "protocol": "K4-A VAL intermediate snapshots; 192 samples × 4 shots (1/2/4/8)",
+    "snapshots": [
+      {
+        "step": 2000,
+        "status": "completed",
+        "rows": 192,
+        "images": 192,
+        "reused": 0,
+        "archive": "reports/experiments/K/K4-A-K1FT-0917-WEIGHT-S3407/step00002000",
+        "metrics_sha256": "45d7b36771a2ca4db6be738db09e415fdcc42b927ed4e422007ba6cb50d87e19"
+      },
+      {
+        "step": 4000,
+        "status": "completed",
+        "rows": 192,
+        "images": 192,
+        "reused": 0,
+        "archive": "reports/experiments/K/K4-A-K1FT-0917-WEIGHT-S3407/step00004000",
+        "metrics_sha256": "5396a42e92a86ae000cade244108f90f4d76770f3c57fecfafa5709efee0b490"
+      },
+      {
+        "step": 6000,
+        "status": "completed",
+        "rows": 192,
+        "images": 192,
+        "reused": 0,
+        "archive": "reports/experiments/K/K4-A-K1FT-0917-WEIGHT-S3407/step00006000",
+        "metrics_sha256": "46dc76d08def26bc1310781d4472fcc4207954b223ac27200920b70407969ba7"
+      }
+    ]
+  },
   "queue": {
     "queue_control": "/root/data1/hrfont_k4_weight_20260918/control",
     "queue_status": "recovering",

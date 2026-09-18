@@ -30,6 +30,17 @@ step 6100，状态为 **RUNNING / INCOMPLETE**；训练尚未达到 10k，不能
 `D_change=0.0902226`、`update_seconds=0.7921`、峰值显存约 `8395 MiB`，
 AMP skip 为 `0`。这些数值只描述失败前的训练状态，不构成效果结论。
 
+## VAL 推理归档
+
+当前已有同一 K4-A run 的 3 组中间 VAL 推理，均已完整同步到 Git：
+
+- `step00002000`：192 样本，4 shots，192 张图
+- `step00004000`：192 样本，4 shots，192 张图
+- `step00006000`：192 样本，4 shots，192 张图
+
+每组包含预测图、`metrics.json`、`DONE.json`、逐 rank JSON/JSONL 和进度文件。
+这些是中间 checkpoint 的 VAL 结果，不是 10k 最终评测；10k 推理仍待训练完成。
+
 ## 可复核位置
 
 - 主 run：`/root/projects/hrfont/runs/K4-A-K1FT-0917-WEIGHT-S3407`
