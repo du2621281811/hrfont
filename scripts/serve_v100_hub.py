@@ -36,6 +36,7 @@ K4AVAL = ROOT / "reports/k4_a_val_compare_20260918"
 K4APROTOCOL = ROOT / "reports/k4_a_protocol_20260918"
 K4APROTOCOL_DATA = Path("/root/data1/hrfont_k4a_diagnostic_20260918")
 K4APROTOCOL_SOURCE = Path("/root/data1/hrfont_dataset_v2_20260917/v2")
+K4AHOLLOW = ROOT / "reports/k4_a_hollow_compare_20260918"
 KSTAGES = {
     "k1_step2000": ROOT / "reports/k1_original_step2000_review",
     "k1_val192": ROOT / "reports/k1_final_val192_review",
@@ -75,6 +76,7 @@ a{color:#9cf} .warn{color:#fd6} .ok{color:#7d7} code{color:#c8a24b}
 <li><a href="/k_all/"><b>K0 / K1 / K3 视觉对比</b> · 同一 TEST 样本横向看图</a></li>
 <li><a href="/k4_a_val/"><b>K4-A VAL 跨 step</b> · 2k / 4k / 6k 人工检查</a></li>
 <li><a href="/k4_a_protocol/"><b>K4-A 固定协议</b> · Train / Val / Test · 20k</a></li>
+<li><a href="/k4_a_hollow/"><b>K4-A 空心字</b> · 训练集跨 checkpoint · 0k–20k</a></li>
 <li><a href="/h/"><b>H v0915</b> · H3/H0/H4… fixed-val 对照</a></li>
 <li><a href="/g_shot/"><b>G v0913</b> one/few-shot · vs dirty F2/F2-RL</a></li>
 <li><a href="/f2vec_shot_board.html">F2 / F2-RL / F2-VEC 对照</a></li>
@@ -111,6 +113,7 @@ class HubHandler(SimpleHTTPRequestHandler):
                     "/k_all/", "/k_all/index.html",
                     "/k4_a_val/", "/k4_a_val/index.html",
                     "/k4_a_protocol/", "/k4_a_protocol/index.html",
+                    "/k4_a_hollow/", "/k4_a_hollow/index.html",
                     "/h/", "/h/index.html",
                     "/i/", "/i/index.html"}:
             self.send_header("Cache-Control", "no-store")
@@ -199,6 +202,11 @@ class HubHandler(SimpleHTTPRequestHandler):
             self.send_header("Location", "/k4_a_protocol/index.html")
             self.end_headers()
             return
+        if request_path in {"/k4_a_hollow", "/k4_a_hollow/"}:
+            self.send_response(302)
+            self.send_header("Location", "/k4_a_hollow/index.html")
+            self.end_headers()
+            return
         super().do_GET()
 
     def translate_path(self, path: str) -> str:
@@ -260,6 +268,19 @@ class HubHandler(SimpleHTTPRequestHandler):
             if rel.startswith("default20k/"):
                 return str(_safe(K4APROTOCOL_DATA, rel))
             return str(_safe(K4APROTOCOL, rel or "index.html"))
+        if request_path == "/k4_a_hollow" or request_path.startswith("/k4_a_hollow/"):
+            rel = request_path[len("/k4_a_hollow") :].lstrip("/")
+            if rel.startswith("source/"):
+                return str(
+                    _safe(
+                        K4APROTOCOL_SOURCE,
+                        rel[len("source/") :],
+                        extra_roots=[ROOT / "data"],
+                    )
+                )
+            if rel.startswith("hollow/"):
+                return str(_safe(K4APROTOCOL_DATA, rel))
+            return str(_safe(K4AHOLLOW, rel or "index.html"))
         for route, base in KSTAGES.items():
             if request_path == f"/{route}" or request_path.startswith(f"/{route}/"):
                 rel = request_path[len(route) + 2 :].lstrip("/")
