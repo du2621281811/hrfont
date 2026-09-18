@@ -1,5 +1,5 @@
-# K4 current status
+# K4 current execution
 
-Numerical recovery in progress; A → C → B → v2 inference and metrics.
+Authorized budget: 20000 updates per arm, A → C → B.
 
-See [live recovery report](k4_recovery_20260918/REPORT.md).
+See [live status, precision fix and convergence evidence](k4_20k_20260918/REPORT.md).

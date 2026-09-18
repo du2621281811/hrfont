@@ -1,0 +1,22 @@
+{
+  "attempt": 7375,
+  "rank": 7,
+  "module": "base.unet.up_blocks.1.sc_interpreter_offsets.0.original.cross_attention",
+  "q_finite": true,
+  "k_finite": true,
+  "q_max": 18.359375,
+  "k_max": 18.515625,
+  "fp16_raw_finite": false,
+  "fp32_raw_finite": true,
+  "fp32_raw_max": 66651.2578125,
+  "scale": 0.0625,
+  "fp32_scaled_max": 4165.70361328125,
+  "checkpoint": {
+    "step": 7200,
+    "attempt": 7200,
+    "arm": "K4-A",
+    "complete": true,
+    "sampler": "K-original-global64-attempt-keyed-v1",
+    "code_commit": "272a6ab4bd063e46af54467b3adee7e7e6f1f255"
+  }
+}
