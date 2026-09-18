@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path("/root/projects/hrfont")
 RUN = "K4-A-K1FT-0917-WEIGHT-S3407"
-STEPS = (2000, 4000, 6000, 8000, 10000, 12000, 14000)
+STEPS = (2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000)
 ARCHIVE = ROOT / "reports/experiments/K" / RUN
 OUT = ROOT / "reports/k4_a_val_compare_20260918"
 ROUTE = "/k4_a_val"
@@ -108,12 +108,12 @@ img{{width:112px;height:112px;object-fit:contain;background:#fff;display:block}}
 .empty{{color:#a33;padding:20px 4px}} small{{color:#687787}}
 </style>
 <h1>K4-A VAL · 跨 step 人工检查</h1>
-<p class="note">固定同一组 192 个 VAL 样本、参考图、Content 与 GT；横向比较 K4-A@2k / @4k / @6k / @8k / @10k / @12k / @14k。L1 越低越好，SSIM 越高越好。当前为 20k 训练前的中间 checkpoint 结果，不能当作最终结果。</p>
+<p class="note">固定同一组 192 个 VAL 样本、参考图、Content 与 GT；横向比较 K4-A@2k / @4k / @6k / @8k / @10k / @12k / @14k / @16k / @18k / @20k。L1 越低越好，SSIM 越高越好。当前为完整 20k 训练过程的阶段 checkpoint 结果，不能替代 Train / Val / Test 固定协议评测。</p>
 <div class="toolbar">
   <label>script <select id="script"><option value="">全部</option></select></label>
   <label>font <select id="font"><option value="">全部</option></select></label>
   <label>shot <select id="shot"><option value="">全部</option></select></label>
-  <label>排序 <select id="sort"><option value="sample">样本顺序</option><option value="l1">14k L1</option><option value="delta">2k→14k L1 改善</option></select></label>
+  <label>排序 <select id="sort"><option value="sample">样本顺序</option><option value="l1">20k L1</option><option value="delta">2k→20k L1 改善</option></select></label>
   <button id="reset">重置筛选</button>
 </div>
 <div id="summary" class="summary"></div>
