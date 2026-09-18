@@ -4,23 +4,27 @@
 
 ## 结论
 
-K4-A 当前没有完成 10k 训练，也没有进入推理。当前主 run
-`K4-A-K1FT-0917-WEIGHT-S3407` 在 step 6400 失败，最后可恢复 checkpoint
-为 step 6000。失败原因是 rank 6 检测到 `Nonfinite loss`；随后 NCCL watchdog
-因分布式进程未推进而终止任务。该结果应标记为 **FAILED / INCOMPLETE**，不能当作
-K4-A 的最终模型或论文指标。
+K4-A 当前没有完成 10k 训练，也没有进入推理。主 run
+`K4-A-K1FT-0917-WEIGHT-S3407` 的首次尝试在 step 6400 失败，最后可恢复
+checkpoint 为 step 6000；失败原因是 rank 6 检测到 `Nonfinite loss`，随后 NCCL
+watchdog 因分布式进程未推进而终止任务。
+
+09:56 已启动数值故障恢复流程，从 step 6000 续训。当前 8 卡进程仍处于
+`INITIALIZING`，live heartbeat 尚未推进，因此当前状态是 **RECOVERING /
+INCOMPLETE**，不能把已有结果当作 K4-A 的最终模型或论文指标。
 
 ## 当前进度
 
 | 项目 | 状态 |
 |---|---|
-| K4-A weight-only 主 run | step 6400 / 10000，FAILED |
+| K4-A weight-only 首次尝试 | step 6400 / 10000，FAILED |
 | 最后可恢复 checkpoint | step 6000 |
+| K4-A 数值恢复 | 从 step 6000 续训，当前 INITIALIZING |
 | K4-A FAMILY 相关 run | step 714，safely stopped |
 | K4-A 固定协议推理 | 未开始 |
-| K4-C | 未开始 |
-| K4-B | 未开始 |
-| GPU | 当前空闲 |
+| K4-C | 等待 K4-A 恢复完成 |
+| K4-B | 等待 K4-A 恢复完成 |
+| GPU | 8 卡已占用，恢复进程运行中 |
 
 主 run 的最后训练 telemetry：`loss=0.0368855`、`detail_loss=0.0486300`、
 `D_change=0.0902226`、`update_seconds=0.7921`、峰值显存约 `8395 MiB`，
@@ -45,4 +49,6 @@ optimizer state 和大体积图片继续保留在执行机，不复制进仓库�
 - parent：`K1-ORIGINAL-V0917-S3407/global_step_10000/ema.pth`
 - donor family guard：`K4-weight-only-v1`，violations `0`
 
-详细哈希和相关 FAMILY run 记录见同目录的 `status.json`。
+恢复预检已通过：8 ranks、同 RNG、finite backward、故障同步和 healthy path
+均通过；恢复策略不改变 recipe、数据和 parent。详细哈希、恢复身份和相关 FAMILY
+run 记录见同目录的 `status.json`。

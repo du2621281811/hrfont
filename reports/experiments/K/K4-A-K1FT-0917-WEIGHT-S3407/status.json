@@ -2,14 +2,19 @@
   "run_id": "K4-A-K1FT-0917-WEIGHT-S3407",
   "series": "K",
   "arm": "K4-A",
-  "snapshot_utc": "2026-09-18T04:01:14+08:00",
-  "status": "failed",
+  "snapshot_utc": "2026-09-18T10:01:00+08:00",
+  "status": "recovering",
   "server_path": "/root/projects/hrfont/runs/K4-A-K1FT-0917-WEIGHT-S3407",
   "artifact_root": "/root/data1/hrfont_k4_weight_20260918",
   "progress": {
     "target_step": 10000,
-    "last_heartbeat_step": 6400,
+    "last_completed_step_before_recovery": 6400,
     "last_saved_checkpoint_step": 6000,
+    "current_heartbeat": {
+      "state": "INITIALIZING",
+      "step": 0,
+      "note": "Recovery process is loading; live heartbeat has not advanced yet"
+    },
     "elapsed_seconds": 5883.529562473297,
     "update_seconds": 0.7921454906463623,
     "peak_mib": 8395.0732421875,
@@ -21,6 +26,16 @@
     "error": "RuntimeError: Nonfinite loss",
     "followup": "NCCL watchdog hang; distributed job terminated with SIGABRT",
     "log": "/root/data1/hrfont_k4_weight_20260918/control/K4-A_TRAIN_10000.log"
+  },
+  "recovery": {
+    "status": "running",
+    "started_at": "2026-09-18T09:56:11+08:00",
+    "pid": 3908960,
+    "code_root": "/root/projects/hrfont_k4_recovery_20260918",
+    "identity_commit": "272a6ab4bd063e46af54467b3adee7e7e6f1f255",
+    "resume_from": "state_step_6000",
+    "numerical_recovery_test": "PASS",
+    "policy": "Numerical fault handling and queue resilience only; recipes, data, and parents unchanged"
   },
   "config": {
     "config_path": "/root/projects/hrfont/runs/K4-A-K1FT-0917-WEIGHT-S3407/config.json",
@@ -54,8 +69,10 @@
   },
   "queue": {
     "queue_control": "/root/data1/hrfont_k4_weight_20260918/control",
-    "queue_status": "failed",
-    "failed_stage": "K4-A_TRAIN_10000",
+    "queue_status": "recovering",
+    "failed_stage": "K4-A_TRAIN_10000 (prior attempt)",
+    "active_stage": "K4-A_TRAIN_10000",
+    "retry": 0,
     "next_arms_not_started": [
       "K4-C",
       "K4-B"
