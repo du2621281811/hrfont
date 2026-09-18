@@ -17,7 +17,7 @@ from scripts.k3_components import PairSampler, pair_loss, rollout, isolated_rng,
 from k4_runtime import (ROOT,CODE,CACHE,PARENT0,T,DataContext,model_for,dataset,train_sample,
                        batch_to,seed_episode,atomic_json,sha256_file,code_identity)
 from k4_runtime import ASSETS, STORE, RUNS, K1_EMA, data_identity, configure
-from scripts.hrfont_h import lr_factor
+from scripts.k4_budget import update_factor,schedule_spec
 from scripts.k_components import KSampler,raw_x0,extra_losses
 from scripts.k4_numerics import guarded_forward,compatible_identity
 
@@ -64,7 +64,7 @@ def main():
     ap.add_argument('--arm',choices=['K4-A','K4-B','K4-C'],required=True)
     ap.add_argument('--run-id',required=True)
     ap.add_argument('--detail-manifest',type=Path,default=ASSETS/'detail_manifest.json')
-    ap.add_argument('--limit',type=int,default=10000)
+    ap.add_argument('--limit',type=int,default=20000)
     ap.add_argument('--resume',type=Path)
     ap.add_argument('--smoke',action='store_true')
     ap.add_argument('--state-interval',type=int,default=1000)
@@ -74,12 +74,13 @@ def main():
     a=ap.parse_args()
     rank,world=int(os.environ['RANK']),int(os.environ['WORLD_SIZE'])
     local=int(os.environ['LOCAL_RANK']); device=torch.device('cuda',local)
-    assert 1<=a.limit<=10000 and (world==8 or (a.smoke and world==1))
+    assert 1<=a.limit<=20000 and (world==8 or (a.smoke and world==1))
     torch.cuda.set_device(device); torch.set_num_threads(1)
     torch.backends.cudnn.benchmark=False
     torch.backends.cudnn.deterministic=True
     dist.init_process_group('nccl',timeout=datetime.timedelta(minutes=60))
     identity=code_identity()
+    authorization=json.loads((ASSETS/'AUTHORIZATION.json').read_text())
     out=ROOT/'runs'/a.run_id
     if rank==0:
         if out.exists() and any(out.iterdir()) and not a.resume: raise RuntimeError('Existing run; refusing overwrite')
@@ -119,7 +120,7 @@ def main():
         detail_sha256=sha256_file(a.detail_manifest),clean_sha256=T._clean_map_sha256(args.v0913_clean_map),
         teacher_stats_sha256=sha256_file(CACHE/'teacher_stats.pt'),identity=identity,
         sampler=KSampler.version,seed=3407,joint_cfg=.02,source_drop=.05,beta='.8' if a.arm=='K4-A' else '.8*min(update/1000,1)',
-        comp=.01,detail=.05,offset=.25,vgg=.01,schedule='warmup500/flat5000/cosine10pct10000',
+        comp=.01,detail=.05,offset=.25,vgg=.01,schedule=schedule_spec(authorization,a.arm),
         smoke=a.smoke,precision='fp16/FP32 logits and loss',ema='min(.999,1-1/(update+1))',
         pair=dict(version=PAIR_VERSION,steps=8,interval=16,pairs_per_rank=1,eta=1.,ramp=500,
             gradient_target=.10,weight_bounds=[1e-6,.5],same_ref_codepoints=True,
@@ -128,7 +129,13 @@ def main():
         gradient_sync='explicit global average after main plus auxiliary',authorized_updates=a.limit)
     if a.resume:
         previous_config=json.loads((out/'config.json').read_text())
-        assert {k:v for k,v in previous_config.items() if k!='identity'}=={k:v for k,v in config.items() if k!='identity'},'Resume recipe changed'
+        excluded={'identity'}
+        extending=previous_config['authorized_updates']==10000 and a.limit==20000
+        if extending:
+            assert a.arm=='K4-A' and authorization['budget_extension']['approved']
+            assert previous_config['schedule']=='warmup500/flat5000/cosine10pct10000'
+            excluded.update(['authorized_updates','schedule'])
+        assert {k:v for k,v in previous_config.items() if k not in excluded}=={k:v for k,v in config.items() if k not in excluded},'Resume recipe changed'
         assert compatible_identity(previous_config['identity'],identity),'Unapproved source migration'
         if rank==0:atomic_json(out/'RECOVERY_SOURCE.json',dict(previous_identity=previous_config['identity'],current_identity=identity,resume=str(a.resume)))
         state=torch.load(a.resume/'trainer.pt',map_location='cpu',weights_only=False)
@@ -140,11 +147,19 @@ def main():
         step,attempt=state['step'],state['attempt']; exposure.update(state['exposure'])
         assert sum(exposure.values())==64*step
         set_rng(state['rngs'][rank]); del state
+        if extending:
+            assert step==authorization['budget_extension']['A_anchor']['step']
+            factors=[g['lr']/g['peak_lr'] for g in optimizer.param_groups]
+            assert all(abs(f-authorization['budget_extension']['A_anchor']['factor'])<1e-12 for f in factors)
+            if rank==0:
+                atomic_json(out/'CONFIG_BEFORE_20K.json',previous_config)
+                atomic_json(out/'config.json',config)
+                atomic_json(out/'BUDGET_EXTENSION.json',authorization['budget_extension'])
         aux_weight=json.loads(calibration_path.read_text())['weight'] if pair_sampler is not None else None
     elif rank==0: atomic_json(out/'config.json',config)
     if not a.smoke:
         authorization=json.loads((ASSETS/'AUTHORIZATION.json').read_text())
-        assert authorization['approved'] and a.limit==authorization['successful_updates']==10000
+        assert authorization['approved'] and a.limit==authorization['successful_updates']==20000
         assert a.run_id==RUNS[a.arm] and authorization['order']==['K4-A','K4-C','K4-B']
         proof=json.loads((STORE/'control/PREFLIGHT_PASSED.json').read_text())
         assert compatible_identity(proof['identity'],identity)
@@ -253,7 +268,7 @@ def main():
             grads=dict(reader_grad=gradnorm(lambda n:n.startswith('reader.')),
                 online_encoder_grad=gradnorm(lambda n:n.startswith('reader.blocks.')),
                 router_grad=gradnorm(lambda n:'sc_interpreter_offsets.' in n and '.original.' not in n))
-        for g in optimizer.param_groups:g['lr']=g['peak_lr']*lr_factor(step+1)
+        for g in optimizer.param_groups:g['lr']=g['peak_lr']*update_factor(step+1,authorization,a.arm)
         scaler.step(optimizer); scaler.update(); step+=1
         exposure.update(quota['fonts'])
         window_drops+=drops;window_samples+=local_count

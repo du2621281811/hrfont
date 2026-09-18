@@ -31,7 +31,8 @@ def checkpoint_for(arm):
     if arm=='K0':return PARENT0/'unet.pth'
     if arm=='K1':return K1_EMA
     if arm=='K3':return ROOT/'runs/K3-PURENOISE-V0917-S3407/global_step_10000/ema.pth'
-    return ROOT/'runs'/RUNS[arm]/'global_step_10000/ema.pth'
+    updates=json.loads((ASSETS/'AUTHORIZATION.json').read_text())['successful_updates']
+    return ROOT/'runs'/RUNS[arm]/f'global_step_{updates}/ema.pth'
 
 def expand_queries(arm):
     shots=[1] if arm=='K0' else [1,2,4,8]
