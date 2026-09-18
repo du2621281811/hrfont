@@ -9,9 +9,9 @@ K4-A 当前没有完成 10k 训练，也没有进入推理。主 run
 checkpoint 为 step 6000；失败原因是 rank 6 检测到 `Nonfinite loss`，随后 NCCL
 watchdog 因分布式进程未推进而终止任务。
 
-09:56 已启动数值故障恢复流程，从 step 6000 续训。当前 8 卡进程仍处于
-`INITIALIZING`，live heartbeat 尚未推进，因此当前状态是 **RECOVERING /
-INCOMPLETE**，不能把已有结果当作 K4-A 的最终模型或论文指标。
+09:56 已启动数值故障恢复流程，从 step 6000 续训。当前 8 卡已恢复到
+step 6100，状态为 **RUNNING / INCOMPLETE**；训练尚未达到 10k，不能把已有
+结果当作 K4-A 的最终模型或论文指标。
 
 ## 当前进度
 
@@ -19,7 +19,7 @@ INCOMPLETE**，不能把已有结果当作 K4-A 的最终模型或论文指标�
 |---|---|
 | K4-A weight-only 首次尝试 | step 6400 / 10000，FAILED |
 | 最后可恢复 checkpoint | step 6000 |
-| K4-A 数值恢复 | 从 step 6000 续训，当前 INITIALIZING |
+| K4-A 数值恢复 | 从 step 6000 续训，当前 step 6100，RUNNING |
 | K4-A FAMILY 相关 run | step 714，safely stopped |
 | K4-A 固定协议推理 | 未开始 |
 | K4-C | 等待 K4-A 恢复完成 |

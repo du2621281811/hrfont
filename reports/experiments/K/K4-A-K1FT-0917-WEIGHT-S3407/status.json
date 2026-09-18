@@ -2,8 +2,8 @@
   "run_id": "K4-A-K1FT-0917-WEIGHT-S3407",
   "series": "K",
   "arm": "K4-A",
-  "snapshot_utc": "2026-09-18T10:01:00+08:00",
-  "status": "recovering",
+  "snapshot_utc": "2026-09-18T10:02:27+08:00",
+  "status": "running",
   "server_path": "/root/projects/hrfont/runs/K4-A-K1FT-0917-WEIGHT-S3407",
   "artifact_root": "/root/data1/hrfont_k4_weight_20260918",
   "progress": {
@@ -11,9 +11,12 @@
     "last_completed_step_before_recovery": 6400,
     "last_saved_checkpoint_step": 6000,
     "current_heartbeat": {
-      "state": "INITIALIZING",
-      "step": 0,
-      "note": "Recovery process is loading; live heartbeat has not advanced yet"
+      "state": "TRAINING",
+      "step": 6100,
+      "attempt": 6100,
+      "elapsed_seconds_since_recovery": 86.54027271270752,
+      "update_seconds": 0.8309919834136963,
+      "amp_skips": 0
     },
     "elapsed_seconds": 5883.529562473297,
     "update_seconds": 0.7921454906463623,
