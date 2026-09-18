@@ -1,0 +1,75 @@
+{
+  "run_id": "K4-A-K1FT-0917-WEIGHT-S3407",
+  "series": "K",
+  "arm": "K4-A",
+  "snapshot_utc": "2026-09-18T04:01:14+08:00",
+  "status": "failed",
+  "server_path": "/root/projects/hrfont/runs/K4-A-K1FT-0917-WEIGHT-S3407",
+  "artifact_root": "/root/data1/hrfont_k4_weight_20260918",
+  "progress": {
+    "target_step": 10000,
+    "last_heartbeat_step": 6400,
+    "last_saved_checkpoint_step": 6000,
+    "elapsed_seconds": 5883.529562473297,
+    "update_seconds": 0.7921454906463623,
+    "peak_mib": 8395.0732421875,
+    "amp_skips": 0
+  },
+  "failure": {
+    "stage": "K4-A_TRAIN_10000",
+    "rank": 6,
+    "error": "RuntimeError: Nonfinite loss",
+    "followup": "NCCL watchdog hang; distributed job terminated with SIGABRT",
+    "log": "/root/data1/hrfont_k4_weight_20260918/control/K4-A_TRAIN_10000.log"
+  },
+  "config": {
+    "config_path": "/root/projects/hrfont/runs/K4-A-K1FT-0917-WEIGHT-S3407/config.json",
+    "config_sha256": "4a34e61ba097a47d216240e95e0016c52a1cd3ae326be8f81e33ab7c1d8baaec",
+    "train_log_sha256": "fe9af4cd970b57b2fa6bc6b56774f31da9408722fd8585c8579a470eadd0755a",
+    "code_root": "/root/projects/hrfont_k4_weight_20260918",
+    "identity_commit": "779de670cf460f44e6b3e938dd8af22b27178755",
+    "parent": "/root/projects/hrfont/runs/K1-ORIGINAL-V0917-S3407/global_step_10000/ema.pth",
+    "parent_unet_sha256": "4a418058c3df6707d3311de378f95a1b0d2fb2939129b218de7f2b2980e01c23",
+    "data_donor": "v0917",
+    "seed": 3407,
+    "global_batch": 64,
+    "world_size": 8,
+    "precision": "fp16"
+  },
+  "checkpoint": {
+    "path": "/root/data1/hrfont_k4_weight_20260918/checkpoints/K4-A-K1FT-0917-WEIGHT-S3407/state_step_6000",
+    "weights_retained_on_execution_host": true,
+    "git_binary_archive": false
+  },
+  "validation": {
+    "donor_family_guard": {
+      "version": "K4-weight-only-v1",
+      "calls": 51200,
+      "masked_family_candidates": 75046,
+      "minimum_eligible": 42,
+      "violations": 0
+    },
+    "inference_complete": false,
+    "paper_metrics_complete": false
+  },
+  "queue": {
+    "queue_control": "/root/data1/hrfont_k4_weight_20260918/control",
+    "queue_status": "failed",
+    "failed_stage": "K4-A_TRAIN_10000",
+    "next_arms_not_started": [
+      "K4-C",
+      "K4-B"
+    ]
+  },
+  "related_runs": [
+    {
+      "run_id": "K4-A-K1FT-0917-FAMILY-S3407",
+      "status": "safely_stopped",
+      "last_heartbeat_step": 700,
+      "last_saved_checkpoint_step": 714,
+      "config_sha256": "cd02bcd84de4a75cfdbe3b8b1c446e1785258d7c05aea02bd1d31060b87c278e",
+      "train_log_sha256": "086ca5487b07c4702d46704126954fa480a9d58bb39078437926e1f572c286fb",
+      "artifact_root": "/root/data1/hrfont_k4_family_20260918"
+    }
+  ]
+}
