@@ -19,6 +19,7 @@ from k4_runtime import (ROOT,CODE,CACHE,PARENT0,T,DataContext,model_for,dataset,
 from k4_runtime import ASSETS, STORE, RUNS, K1_EMA, data_identity, configure
 from scripts.hrfont_h import lr_factor
 from scripts.k_components import KSampler,raw_x0,extra_losses
+from scripts.k4_numerics import guarded_forward
 
 
 def rng_state():
@@ -126,9 +127,12 @@ def main():
             aliases_sha256=sha256_file(ASSETS/'aliases.json')) if a.arm=='K4-B' else None,
         gradient_sync='explicit global average after main plus auxiliary',authorized_updates=a.limit)
     if a.resume:
-        assert json.loads((out/'config.json').read_text())==config,'Resume configuration/source changed'
+        previous_config=json.loads((out/'config.json').read_text())
+        assert {k:v for k,v in previous_config.items() if k!='identity'}=={k:v for k,v in config.items() if k!='identity'},'Resume recipe changed'
+        assert previous_config['identity']==identity or previous_config['identity']==identity.get('compatible_parent_identity'),'Unapproved source migration'
+        if rank==0:atomic_json(out/'RECOVERY_SOURCE.json',dict(previous_identity=previous_config['identity'],current_identity=identity,resume=str(a.resume)))
         state=torch.load(a.resume/'trainer.pt',map_location='cpu',weights_only=False)
-        assert state['identity']==identity and state['sampler']==sampler.version
+        assert (state['identity']==identity or state['identity']==identity.get('compatible_parent_identity')) and state['sampler']==sampler.version
         assert len(state['rngs'])==world
         raw.load_train_state(torch.load(a.resume/'model.pth',map_location=device,weights_only=True))
         ema=torch.load(a.resume/'ema.pth',map_location=device,weights_only=True)
@@ -142,7 +146,10 @@ def main():
         authorization=json.loads((ASSETS/'AUTHORIZATION.json').read_text())
         assert authorization['approved'] and a.limit==authorization['successful_updates']==10000
         assert a.run_id==RUNS[a.arm] and authorization['order']==['K4-A','K4-C','K4-B']
-        assert json.loads((STORE/'control/PREFLIGHT_PASSED.json').read_text())['identity']==identity
+        proof=json.loads((STORE/'control/PREFLIGHT_PASSED.json').read_text())
+        assert proof['identity']==identity or proof['identity']==identity.get('compatible_parent_identity')
+        if 'compatible_parent_identity' in identity:
+            assert json.loads((STORE/'control/NUMERICAL_RECOVERY_TEST_PASSED.json').read_text())['identity']==identity
     begin=time.time(); accumulation=8//world
     window_drops=torch.zeros(2,device=device);window_samples=0
     while step<a.limit:
@@ -168,19 +175,22 @@ def main():
             episode_hash=hashlib.sha256(json.dumps([samples['font_stem'],samples['char_cp'],samples['ref_chars']]).encode()+noise.detach().cpu().numpy().tobytes()+ts.cpu().numpy().tobytes()+cfg.cpu().numpy().tobytes()+source.cpu().numpy().tobytes()).hexdigest() if (a.smoke or step<2) else None
             objective_step=10000+step+1 if a.arm=='K4-A' else step+1
             gate=min(1.,objective_step/1000)
-            with torch.autocast('cuda',dtype=torch.float16):
-                pred,offset,appearance=model(noisy,ts,style,refs,query,keep,content,structure,cfg,gate)
-                clean,alpha=raw_x0(noisy,pred,scheduler.alphas_cumprod,ts)
-                gen=vgg(T.normalize_mean_std(clean.clamp(0,1)))
-                with torch.no_grad(): gt=vgg(T.normalize_mean_std(samples['nonorm_target_image']))
-                teacher=F.adaptive_avg_pool2d(gt[1].float(),12).flatten(2).transpose(1,2)
-                teacher=(teacher-raw.teacher_mean)/raw.teacher_std
-                extra,comp,detail,d=extra_losses(appearance,teacher,clean,samples['content_image']/2+.5,
-                    samples['nonorm_target_image'],~cfg,alpha,objective_step)
-                eps=F.mse_loss(pred.float(),noise.float())
-                perceptual=sum(F.mse_loss(x.float(),y.float()) for x,y in zip(gen,gt))/3
-                loss=eps+.01*perceptual+.25*offset.float()+extra
-            if not torch.isfinite(loss): raise RuntimeError('Nonfinite loss')
+            def objective(amp):
+                with torch.autocast('cuda',dtype=torch.float16,enabled=amp):
+                    pred,offset,appearance=model(noisy,ts,style,refs,query,keep,content,structure,cfg,gate)
+                    clean,alpha=raw_x0(noisy,pred,scheduler.alphas_cumprod,ts)
+                    gen=vgg(T.normalize_mean_std(clean.clamp(0,1)))
+                    with torch.no_grad(): gt=vgg(T.normalize_mean_std(samples['nonorm_target_image']))
+                    teacher=F.adaptive_avg_pool2d(gt[1].float(),12).flatten(2).transpose(1,2)
+                    teacher=(teacher-raw.teacher_mean)/raw.teacher_std
+                    extra,comp,detail,d=extra_losses(appearance,teacher,clean,samples['content_image']/2+.5,
+                        samples['nonorm_target_image'],~cfg,alpha,objective_step)
+                    eps=F.mse_loss(pred.float(),noise.float())
+                    perceptual=sum(F.mse_loss(x.float(),y.float()) for x,y in zip(gen,gt))/3
+                    loss=eps+.01*perceptual+.25*offset.float()+extra
+                return loss,(eps,perceptual,comp,detail,offset,extra,d),dict(loss=loss,epsilon=eps,vgg=perceptual,completion=comp,detail=detail,offset=offset,extra=extra)
+            loss,payload,_=guarded_forward(objective,out,dict(step=step,attempt=attempt,kind='main',fonts=samples['font_stem'],chars=samples['char_cp'],refs=samples['ref_chars'],timesteps=ts.tolist()))
+            eps,perceptual,comp,detail,offset,extra,d=payload
             scaler.scale(loss/accumulation).backward()
             total+=torch.stack([loss,eps,perceptual,comp,detail,offset.float(),
                 d['D_region'].mean(),d['D_change'].mean(),d['D_add'].mean(),d['D_remove'].mean(),
@@ -191,9 +201,11 @@ def main():
             aux_start=time.time()
             with isolated_rng(993407+attempt*1009+rank):
                 pair,meta=pair_sampler.draw(step//16,rank,device,batch_to)
-                generated,path=rollout(raw,data,pair,scheduler,gate,993407+attempt*1009+rank,trace=(step==0))
-                aux_loss,parts=pair_loss(generated,pair['nonorm_target_image'])
-                if not torch.isfinite(aux_loss):raise RuntimeError('Nonfinite full-rollout loss')
+                def auxiliary(amp):
+                    generated,path=rollout(raw,data,pair,scheduler,gate,993407+attempt*1009+rank,trace=(step==0),amp_enabled=amp)
+                    aux_loss,parts=pair_loss(generated,pair['nonorm_target_image'])
+                    return aux_loss,(generated,path,parts),dict(loss=aux_loss,**parts)
+                aux_loss,(generated,path,parts),_=guarded_forward(auxiliary,out,dict(step=step,attempt=attempt,kind='auxiliary',pair=meta))
                 aux_grads=torch.autograd.grad(aux_loss,params,allow_unused=True)
                 shared=[i for i,(n,p) in enumerate((n,p) for n,p in raw.named_parameters() if p.requires_grad) if n.startswith('base.unet.')]
                 norms=torch.stack([sum((params[i].grad.float().square().sum() for i in shared if params[i].grad is not None),generated.new_zeros(())),
@@ -306,4 +318,7 @@ def main():
     dist.barrier();dist.destroy_process_group()
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    try:main()
+    finally:
+        if dist.is_initialized():dist.destroy_process_group()

@@ -58,14 +58,14 @@ def pair_loss(pred,gt):
         mask_pixels=mask.sum(),prediction_difference=(p[0]-p[1]).abs().mean(),gt_difference=(y[0]-y[1]).abs().mean(),
         out_of_range=((pred<0)|(pred>1)).float().mean())
 
-def rollout(model,data,batch,scheduler,gate,seed,trace=False):
+def rollout(model,data,batch,scheduler,gate,seed,trace=False,amp_enabled=True):
     device=data.device;off=torch.zeros(2,device=device,dtype=torch.bool)
     style,refs,query,keep,content,structure=data.conditions(batch,off,off,need_refs=True)
-    with torch.autocast('cuda',dtype=torch.float16):context=model.conditions(style,refs,query,keep,off)
+    with torch.autocast('cuda',dtype=torch.float16,enabled=amp_enabled):context=model.conditions(style,refs,query,keep,off)
     old,local,active,_=context
     # Reapply the complete context on every recomputation, avoiding mutable-attention staleness.
     def predict(x,t,old_tokens,local_tokens):
-        with torch.autocast('cuda',dtype=torch.float16):
+        with torch.autocast('cuda',dtype=torch.float16,enabled=amp_enabled):
             pred,_=model.denoise(x,t,style,content,structure,(old_tokens,local_tokens,active,None),gate)
         return pred.float()
     z=torch.randn((1,3,96,96),device=device,generator=torch.Generator(device=device).manual_seed(seed))
