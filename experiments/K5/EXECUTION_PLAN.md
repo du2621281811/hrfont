@@ -35,7 +35,7 @@ Retain original Top10 Chinese-reference alpha for primary K5-A to isolate repres
 
 Preflight: complete donor keys, split/weight exclusion, actual train/inference bank equality; zero-difference preservation; finite adapter/router/backbone gradients across ranks after startup gates; real-input FP32/AMP forward/backward; full-state save/resume; training/eval feature equality; disk capacity estimate for new caches/checkpoints. New run and control directories with lock/PID/source identity. Never remove K4 STOP. Diagnose failures and resume complete state; do not skip data, silently change recipe, fake completion, or endlessly retry deterministic failures.
 
-Evaluate fixed train/val/test1/2/4/8shot and confirmed-detail examples at checkpoints, compare with matched V2 K1-recipe baseline if available. K4-C stopped2191 is not a matched full-budget baseline; K4-A differs in initialization/data history. Clearly label unavailable matched controls. Retain1k/2k/4k/6k/8k/10k EMA milestones plus rolling full states, subject to storage preflight without deleting unrelated artifacts.
+Evaluate fixed train/val/test1/2/4/8shot and confirmed-detail examples at checkpoints, compare with matched V2 K1-recipe baseline if available. K4-C stopped2191 is not a matched full-budget baseline; K4-A differs in initialization/data history. Clearly label unavailable matched controls. Retain2k/4k/5k/6k/8k/10k EMA milestones plus rolling full states, subject to storage preflight without deleting unrelated artifacts.
 
 ## K5-B: dual geometric and style residual (AUTHORIZED after K5-A)
 
