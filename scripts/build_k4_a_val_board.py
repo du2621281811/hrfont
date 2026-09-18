@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path("/root/projects/hrfont")
 RUN = "K4-A-K1FT-0917-WEIGHT-S3407"
-STEPS = (2000, 4000, 6000)
+STEPS = (2000, 4000, 6000, 8000, 10000, 12000, 14000)
 ARCHIVE = ROOT / "reports/experiments/K" / RUN
 OUT = ROOT / "reports/k4_a_val_compare_20260918"
 ROUTE = "/k4_a_val"
@@ -108,12 +108,12 @@ img{{width:112px;height:112px;object-fit:contain;background:#fff;display:block}}
 .empty{{color:#a33;padding:20px 4px}} small{{color:#687787}}
 </style>
 <h1>K4-A VAL · 跨 step 人工检查</h1>
-<p class="note">固定同一组 192 个 VAL 样本、参考图、Content 与 GT；横向比较 K4-A@2k / @4k / @6k。L1 越低越好，SSIM 越高越好。当前为中间 checkpoint 结果，不能当作 10k 最终结果。</p>
+<p class="note">固定同一组 192 个 VAL 样本、参考图、Content 与 GT；横向比较 K4-A@2k / @4k / @6k / @8k / @10k / @12k / @14k。L1 越低越好，SSIM 越高越好。当前为 20k 训练前的中间 checkpoint 结果，不能当作最终结果。</p>
 <div class="toolbar">
   <label>script <select id="script"><option value="">全部</option></select></label>
   <label>font <select id="font"><option value="">全部</option></select></label>
   <label>shot <select id="shot"><option value="">全部</option></select></label>
-  <label>排序 <select id="sort"><option value="sample">样本顺序</option><option value="l1">最终 L1</option><option value="delta">2k→6k L1 改善</option></select></label>
+  <label>排序 <select id="sort"><option value="sample">样本顺序</option><option value="l1">14k L1</option><option value="delta">2k→14k L1 改善</option></select></label>
   <button id="reset">重置筛选</button>
 </div>
 <div id="summary" class="summary"></div>
@@ -129,10 +129,10 @@ function fill(id,values){{const el=document.getElementById(id);for(const v of [.
 fill("script",data.map(r=>r.script));fill("font",data.map(r=>r.font));fill("shot",data.map(r=>r.k));
 document.getElementById("sort").onchange=e=>{{state.sort=e.target.value;render()}};
 document.getElementById("reset").onclick=()=>{{for(const id of ["script","font","shot","sort"])document.getElementById(id).value=id==="sort"?"sample":"";state.script="";state.font="";state.shot="";state.sort="sample";render()}};
-function selected(){{const rows=data.filter(r=>(!state.script||r.script===state.script)&&(!state.font||r.font===state.font)&&(!state.shot||String(r.k)===state.shot));if(state.sort==="l1")rows.sort((a,b)=>a.stages[2].l1-b.stages[2].l1);if(state.sort==="delta")rows.sort((a,b)=>(a.stages[0].l1-a.stages[2].l1)-(b.stages[0].l1-b.stages[2].l1));return rows}}
+function selected(){{const rows=data.filter(r=>(!state.script||r.script===state.script)&&(!state.font||r.font===state.font)&&(!state.shot||String(r.k)===state.shot));const last=data[0].stages.length-1;if(state.sort==="l1")rows.sort((a,b)=>a.stages[last].l1-b.stages[last].l1);if(state.sort==="delta")rows.sort((a,b)=>(a.stages[0].l1-a.stages[last].l1)-(b.stages[0].l1-b.stages[last].l1));return rows}}
 function render(){{const rows=selected();document.getElementById("count").textContent=rows.length+" / "+data.length+" 个固定 VAL 样本";
   const sums=data.length?data[0].stages.map((_,i)=>{{const a=rows.map(r=>r.stages[i]);return {{l1:a.reduce((s,x)=>s+x.l1,0)/Math.max(1,a.length),ssim:a.reduce((s,x)=>s+x.ssim,0)/Math.max(1,a.length)}}}}):[];
-  document.getElementById("summary").innerHTML=sums.map((x,i)=>'<div class="card"><b>K4-A@'+[2,4,6][i]+'k</b><span>L1 '+metric(x.l1)+' · SSIM '+metric(x.ssim)+'</span></div>').join("");
+  document.getElementById("summary").innerHTML=sums.map((x,i)=>'<div class="card"><b>'+data[0].stages[i].label+'</b><span>L1 '+metric(x.l1)+' · SSIM '+metric(x.ssim)+'</span></div>').join("");
   const head='<tr><th>样本</th><th>参考 / Content</th><th>GT</th>'+data[0].stages.map(s=>'<th>'+s.label+'</th>').join("")+'</tr>';
   const body=rows.map(r=>{{const prev=r.stages[0];return '<tr><td class="sample"><b>'+esc(r.font)+'</b><br>'+esc(r.cp)+' · '+esc(r.char)+'<br>'+esc(r.script)+' · '+r.k+' shot</td><td><div class="refs">'+r.reference.map(img).join("")+'</div><small>refs: '+r.refs.join(", ")+'</small><div>'+img(r.content)+'</div></td><td>'+img(r.gt)+'</td>'+r.stages.map((s,i)=>{{const d=i?s.l1-prev.l1:null;const cls=d==null?"":d<0?"delta-down":"delta-up";return '<td><div class="pred">'+img(s.src)+'</div><div class="metric">L1 <strong>'+metric(s.l1)+'</strong> · SSIM <strong>'+metric(s.ssim)+'</strong><br>vs 2k: <span class="'+cls+'">'+(d==null?"—":(d>0?"+":"")+metric(d))+'</span><br>Δ change '+metric(s.d_change)+'</div></td>'}}).join("")+'</tr>'}}).join("");
   document.getElementById("app").innerHTML='<table><thead>'+head+'</thead><tbody>'+body+'</tbody></table>';
