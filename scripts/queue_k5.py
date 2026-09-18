@@ -1,6 +1,6 @@
 import os,sys,json,time,fcntl,subprocess
 from pathlib import Path
-C=Path('/root/projects/hrfont_k5_20260919');CTRL=Path('/root/data1/hrfont_k5_20260919/control');RUN=Path('/root/projects/hrfont/runs');CK=Path('/root/data2/hrfont_k5_20260919/checkpoints')
+C=Path('/root/projects/hrfont_k5_20260919_r2');CTRL=Path('/root/data1/hrfont_k5_20260919/control');RUN=Path('/root/projects/hrfont/runs');CK=Path('/root/data2/hrfont_k5_20260919/checkpoints')
 lock=(CTRL/'QUEUE.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
 def write(p,x):
  t=p.with_suffix('.tmp');t.write_text(json.dumps(x,indent=2));t.replace(p)
@@ -24,14 +24,14 @@ def run(arm,name,smoke=False,resume=False,stop=0):
  return json.loads((RUN/name/('STOPPED.json' if stop else 'DONE.json')).read_text())
 try:
  # Prior A preflight was explicitly launched and verified by the initiating agent.
- first=RUN/'K5-A-PREFLIGHT-20260919'
+ first=RUN/'K5-A-PREFLIGHT-R2-20260919'
  while not (first/'STOPPED.json').exists():
   if time.time()-first.stat().st_mtime>1800:raise RuntimeError('Initial preflight did not finish; inspect preflight_A.log')
   time.sleep(10)
  # Wait for torchrun to release resources before resuming.
- while subprocess.run(['pgrep','-f','torchrun.*train_k5.py.*K5-A-PREFLIGHT-20260919'],stdout=subprocess.DEVNULL).returncode==0:time.sleep(3)
+ while subprocess.run(['pgrep','-f','torchrun.*train_k5.py.*K5-A-PREFLIGHT-R2-20260919'],stdout=subprocess.DEVNULL).returncode==0:time.sleep(3)
  assert run('K5-A',first.name,True,True)['step']==4
- b='K5-B-PREFLIGHT-20260919';assert run('K5-B',b,True,False,2)['step']==2;assert run('K5-B',b,True,True)['step']==4
+ b='K5-B-PREFLIGHT-R2-20260919';assert run('K5-B',b,True,False,2)['step']==2;assert run('K5-B',b,True,True)['step']==4
  for name in [first.name,b]:
   for rank in range(8):
    rows=[json.loads(x) for x in (RUN/name/f'rank{rank}.jsonl').read_text().splitlines()]

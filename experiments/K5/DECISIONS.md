@@ -15,3 +15,10 @@
 - Chose bounded256-key CPU cache plus exact online extraction instead of a large persistent Es cache; both arms share preprocessing/selection.
 - Checkpoints allocated on data2 with8GiB floor; source uses~10MiB root disk. Kept full state/RNG/scaler and original K1 schedule, manual rank-average gradients and existing FP32 nonfinite replay.
 - A first two8-rank preflight updates finite, adapter gradient nonzero, rank spread0, noAMP skips, no donor weight-family violations. Queue performs full resume and B preflight before formal runs. These preflight steps do not count toward formal10000 updates.
+
+## Preflight recovery R2 — FP16 gated branch gradient
+- R1 K5-B ran4 finite successful updates with synchronized ranks and nonzero gate gradients, but every recorded Es-adapter gradient was zero. The queue correctly withheld formal training (NEEDS_RECOVERY).
+- Hypothesis: near-zero gate plus FP16 branch computation underflows the adapter gradient. Chosen repair: compute Es routing/offset and scalar-gate combination inFP32, cast the final combined offset to the existing branch dtype. The equations, gate initialization, loss, schedule and candidate selection are unchanged.
+- R1 source/checkpoints/logs preserved. R2 source is /root/projects/hrfont_k5_20260919_r2. Rerun both arms and full-state resume rather than overwriting the failed preflight certificate. Acceptance requires nonzero Es adapter gradients after startup and nonzero B gate gradient.
+- Also handled zero-active Delta-off dual payload safely for later diagnostics; active dual inputs still require both branches.
+- Frozen Es prefix versus full encoder intermediate output checked on a real native96 train glyph inFP32: max absolute errors[0,0], shapes64x48x48 and128x24x24. Record control/FEATURE_EQUIVALENCE.json.

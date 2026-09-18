@@ -27,8 +27,16 @@ class DualOffset(nn.Module):
         self.es_gate=nn.Parameter(torch.zeros(()))
     def forward(self,hidden,payload):
         d,a,n,active,ref,t=payload;c=n.shape[1]
-        ec,es=d.split(c,dim=2)
-        return self.ec_branch(hidden,(ec,a,n,active,ref,t))+self.es_gate.tanh()*self.es_branch(hidden,(es,a,n,active,ref,t))
+        if d.shape[2]==c:
+            assert not bool(active.any()), 'Active dual payload requires both branches'
+            ec=es=d
+        else:ec,es=d.split(c,dim=2)
+        original=self.ec_branch(hidden,(ec,a,n,active,ref,t))
+        # A near-zero gate must not underflow Es branch gradients in FP16.
+        with torch.autocast(device_type=hidden.device.type,enabled=False):
+            extra=self.es_branch(hidden.float(),(es.float(),a.float(),n.float(),active,ref.float(),t))
+            combined=original.float()+self.es_gate.float().tanh()*extra.float()
+        return combined.to(original.dtype)
 
 def model_for(arm,device,output,evaluation=False):
     assert arm in ['K5-A','K5-B']
