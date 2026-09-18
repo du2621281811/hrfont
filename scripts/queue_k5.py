@@ -10,7 +10,7 @@ env=dict(os.environ,PYTHONPATH=str(C),OMP_NUM_THREADS='1',PYTHONDONTWRITEBYTECOD
 launch=[str(Path(sys.executable).parent/'torchrun'),'--standalone','--nproc_per_node=8',str(C/'scripts/train_k5.py')]
 identity=json.loads((C/'K5_CODE_IDENTITY.json').read_text())
 def run(arm,name,smoke=False,resume=False,stop=0):
- args=launch+['--arm',arm,'--run-id',name,'--limit','4' if smoke else '10000','--state-interval','2' if smoke else '200','--checkpoint-root',str(CK)]
+ args=launch+['--arm',arm,'--run-id',name,'--limit','4' if smoke else '10000','--state-interval','2' if smoke else '200','--checkpoint-root',str(Path('/root/data1/hrfont_k5_20260919/checkpoints') if (smoke and arm=='K5-B') or (not smoke and arm=='K5-A') else CK)]
  if smoke:args+=['--smoke']
  if resume:args+=['--resume',str(RUN/name/'last_state')]
  if stop:args+=['--stop-after',str(stop)]
