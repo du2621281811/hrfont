@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "arm": "K5-A",
+      "font": "FZBangSKLTJW",
+      "cp": "u0041",
+      "max_pixel_difference": 0.0,
+      "mean_pixel_difference": 0.0,
+      "changed_fraction": 0.0,
+      "amp_vs_fp32_mean": 0.07671440972222222
+    },
+    {
+      "arm": "K5-A",
+      "font": "FZPANGPBJW",
+      "cp": "u0041",
+      "max_pixel_difference": 1.0,
+      "mean_pixel_difference": 3.616898148148148e-05,
+      "changed_fraction": 3.616898148148148e-05,
+      "amp_vs_fp32_mean": 0.05580873842592592
+    },
+    {
+      "arm": "K5-A",
+      "font": "FZPTYJW",
+      "cp": "u0041",
+      "max_pixel_difference": 1.0,
+      "mean_pixel_difference": 7.233796296296296e-05,
+      "changed_fraction": 7.233796296296296e-05,
+      "amp_vs_fp32_mean": 0.046875
+    },
+    {
+      "arm": "K5-B",
+      "font": "FZBangSKLTJW",
+      "cp": "u0041",
+      "max_pixel_difference": 1.0,
+      "mean_pixel_difference": 3.616898148148148e-05,
+      "changed_fraction": 3.616898148148148e-05,
+      "amp_vs_fp32_mean": 0.06264467592592593
+    },
+    {
+      "arm": "K5-B",
+      "font": "FZPANGPBJW",
+      "cp": "u0041",
+      "max_pixel_difference": 1.0,
+      "mean_pixel_difference": 7.233796296296296e-05,
+      "changed_fraction": 7.233796296296296e-05,
+      "amp_vs_fp32_mean": 0.05063657407407408
+    },
+    {
+      "arm": "K5-B",
+      "font": "FZPTYJW",
+      "cp": "u0041",
+      "max_pixel_difference": 1.0,
+      "mean_pixel_difference": 3.616898148148148e-05,
+      "changed_fraction": 3.616898148148148e-05,
+      "amp_vs_fp32_mean": 0.03551793981481482
+    }
+  ],
+  "protocol": "20-step DPM++ order2 CFG1; common FP32 offsets; original AMP comparison retained"
+}

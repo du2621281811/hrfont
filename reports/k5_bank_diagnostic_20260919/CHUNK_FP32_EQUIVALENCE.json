@@ -1,0 +1,222 @@
+{
+  "status": "PASS",
+  "tests": [
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.0",
+      "donors": 10,
+      "max_abs": 1.2218952178955078e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.0",
+      "donors": 37,
+      "max_abs": 1.1324882507324219e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.1",
+      "donors": 10,
+      "max_abs": 1.3709068298339844e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.1",
+      "donors": 37,
+      "max_abs": 1.6093254089355469e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.2",
+      "donors": 10,
+      "max_abs": 1.1324882507324219e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.2",
+      "donors": 37,
+      "max_abs": 1.2814998626708984e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.0",
+      "donors": 10,
+      "max_abs": 2.2649765014648438e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.0",
+      "donors": 37,
+      "max_abs": 2.0265579223632812e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.1",
+      "donors": 10,
+      "max_abs": 1.5497207641601562e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.1",
+      "donors": 37,
+      "max_abs": 1.5795230865478516e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.2",
+      "donors": 10,
+      "max_abs": 1.7583370208740234e-06
+    },
+    {
+      "arm": "K5-A",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.2",
+      "donors": 37,
+      "max_abs": 2.0265579223632812e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.0.ec_branch",
+      "donors": 10,
+      "max_abs": 1.2516975402832031e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.0.ec_branch",
+      "donors": 37,
+      "max_abs": 1.3709068298339844e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.0.es_branch",
+      "donors": 10,
+      "max_abs": 1.6689300537109375e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.0.es_branch",
+      "donors": 37,
+      "max_abs": 1.9073486328125e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.1.ec_branch",
+      "donors": 10,
+      "max_abs": 1.6689300537109375e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.1.ec_branch",
+      "donors": 37,
+      "max_abs": 1.430511474609375e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.1.es_branch",
+      "donors": 10,
+      "max_abs": 2.0265579223632812e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.1.es_branch",
+      "donors": 37,
+      "max_abs": 1.6689300537109375e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.2.ec_branch",
+      "donors": 10,
+      "max_abs": 1.430511474609375e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.2.ec_branch",
+      "donors": 37,
+      "max_abs": 1.2516975402832031e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.2.es_branch",
+      "donors": 10,
+      "max_abs": 2.1457672119140625e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.1.sc_interpreter_offsets.2.es_branch",
+      "donors": 37,
+      "max_abs": 1.9073486328125e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.0.ec_branch",
+      "donors": 10,
+      "max_abs": 2.205371856689453e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.0.ec_branch",
+      "donors": 37,
+      "max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.0.es_branch",
+      "donors": 10,
+      "max_abs": 2.86102294921875e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.0.es_branch",
+      "donors": 37,
+      "max_abs": 3.814697265625e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.1.ec_branch",
+      "donors": 10,
+      "max_abs": 1.9073486328125e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.1.ec_branch",
+      "donors": 37,
+      "max_abs": 1.8477439880371094e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.1.es_branch",
+      "donors": 10,
+      "max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.1.es_branch",
+      "donors": 37,
+      "max_abs": 2.86102294921875e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.2.ec_branch",
+      "donors": 10,
+      "max_abs": 2.0265579223632812e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.2.ec_branch",
+      "donors": 37,
+      "max_abs": 1.6093254089355469e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.2.es_branch",
+      "donors": 10,
+      "max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "K5-B",
+      "module": "base.unet.up_blocks.2.sc_interpreter_offsets.2.es_branch",
+      "donors": 37,
+      "max_abs": 2.384185791015625e-06
+    }
+  ],
+  "note": "Synthetic payloads on trained modules; real-input full-generation parity still required before bank diagnosis"
+}
