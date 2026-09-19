@@ -1,0 +1,85 @@
+{
+  "rows": [
+    {
+      "arm": "K5-A",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.0",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.23281395435333252,
+      "output_rms": 0.0015703055541962385,
+      "zero_rms_diff": 0.00042069749906659126,
+      "zero_max_diff": 0.0031218528747558594,
+      "flip_spatial_rms_diff": 0.00034618505742400885,
+      "flip_spatial_max_diff": 0.0022507905960083008
+    },
+    {
+      "arm": "K5-A",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.1",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.23281395435333252,
+      "output_rms": 0.001923640607856214,
+      "zero_rms_diff": 0.0004969150759279728,
+      "zero_max_diff": 0.0027475506067276,
+      "flip_spatial_rms_diff": 0.0003528239030856639,
+      "flip_spatial_max_diff": 0.0032916367053985596
+    },
+    {
+      "arm": "K5-A",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.2",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.23281395435333252,
+      "output_rms": 0.007174050435423851,
+      "zero_rms_diff": 0.0008038183441385627,
+      "zero_max_diff": 0.0074379295110702515,
+      "flip_spatial_rms_diff": 0.0007829636451788247,
+      "flip_spatial_max_diff": 0.007163017988204956
+    },
+    {
+      "arm": "K5-A",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.0",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.3312223255634308,
+      "output_rms": 0.0004302544111851603,
+      "zero_rms_diff": 0.0004114422481507063,
+      "zero_max_diff": 0.00627802312374115,
+      "flip_spatial_rms_diff": 0.0005458664381876588,
+      "flip_spatial_max_diff": 0.006832443177700043
+    },
+    {
+      "arm": "K5-A",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.1",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.3312223255634308,
+      "output_rms": 0.0004933053278364241,
+      "zero_rms_diff": 0.0004720300203189254,
+      "zero_max_diff": 0.004251822829246521,
+      "flip_spatial_rms_diff": 0.00048097845865413547,
+      "flip_spatial_max_diff": 0.005591049790382385
+    },
+    {
+      "arm": "K5-A",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.2",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.3312223255634308,
+      "output_rms": 0.00032255545374937356,
+      "zero_rms_diff": 0.00030805100686848164,
+      "zero_max_diff": 0.0033873170614242554,
+      "flip_spatial_rms_diff": 0.0003414863022044301,
+      "flip_spatial_max_diff": 0.003931701183319092
+    }
+  ],
+  "gates": {},
+  "scope": "one real first-denoise frozen-hidden probe; descriptive not quality",
+  "time": 1789838043.9207594
+}

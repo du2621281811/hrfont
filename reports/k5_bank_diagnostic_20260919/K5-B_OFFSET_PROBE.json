@@ -1,0 +1,170 @@
+{
+  "rows": [
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.0.ec_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.12459905445575714,
+      "output_rms": 0.013471169397234917,
+      "zero_rms_diff": 0.0009413635125383735,
+      "zero_max_diff": 0.005539834499359131,
+      "flip_spatial_rms_diff": 0.00048123305896297097,
+      "flip_spatial_max_diff": 0.003997683525085449
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.0.es_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.23281395435333252,
+      "output_rms": 0.600209653377533,
+      "zero_rms_diff": 0.0453978031873703,
+      "zero_max_diff": 0.26525747776031494,
+      "flip_spatial_rms_diff": 0.014911897480487823,
+      "flip_spatial_max_diff": 0.12235119938850403
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.1.ec_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.12459905445575714,
+      "output_rms": 0.017046485096216202,
+      "zero_rms_diff": 0.0007229482871480286,
+      "zero_max_diff": 0.004346758127212524,
+      "flip_spatial_rms_diff": 0.0006155007285997272,
+      "flip_spatial_max_diff": 0.004102498292922974
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.1.es_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.23281395435333252,
+      "output_rms": 0.7392832040786743,
+      "zero_rms_diff": 0.02108854241669178,
+      "zero_max_diff": 0.11574065685272217,
+      "flip_spatial_rms_diff": 0.012497277930378914,
+      "flip_spatial_max_diff": 0.10517573356628418
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.2.ec_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.12459905445575714,
+      "output_rms": 0.042511142790317535,
+      "zero_rms_diff": 0.0015625543892383575,
+      "zero_max_diff": 0.015626855194568634,
+      "flip_spatial_rms_diff": 0.002136127557605505,
+      "flip_spatial_max_diff": 0.01936158537864685
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.1.sc_interpreter_offsets.2.es_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.23281395435333252,
+      "output_rms": 1.3092550039291382,
+      "zero_rms_diff": 0.040593963116407394,
+      "zero_max_diff": 0.28938668966293335,
+      "flip_spatial_rms_diff": 0.06163424998521805,
+      "flip_spatial_max_diff": 0.38489067554473877
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.0.ec_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.22668077051639557,
+      "output_rms": 0.10156098753213882,
+      "zero_rms_diff": 0.0022672275081276894,
+      "zero_max_diff": 0.028690770268440247,
+      "flip_spatial_rms_diff": 0.0021505062468349934,
+      "flip_spatial_max_diff": 0.030078783631324768
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.0.es_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.3312223255634308,
+      "output_rms": 2.6539416313171387,
+      "zero_rms_diff": 0.049456868320703506,
+      "zero_max_diff": 0.6358998417854309,
+      "flip_spatial_rms_diff": 0.04677070304751396,
+      "flip_spatial_max_diff": 0.5635590553283691
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.1.ec_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.22668077051639557,
+      "output_rms": 0.08662495017051697,
+      "zero_rms_diff": 0.0019516275497153401,
+      "zero_max_diff": 0.012708544731140137,
+      "flip_spatial_rms_diff": 0.001957901753485203,
+      "flip_spatial_max_diff": 0.016363978385925293
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.1.es_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.3312223255634308,
+      "output_rms": 2.2416648864746094,
+      "zero_rms_diff": 0.03985707461833954,
+      "zero_max_diff": 0.30488622188568115,
+      "flip_spatial_rms_diff": 0.03767840191721916,
+      "flip_spatial_max_diff": 0.3366338014602661
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.2.ec_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.22668077051639557,
+      "output_rms": 0.07108815014362335,
+      "zero_rms_diff": 0.001463618129491806,
+      "zero_max_diff": 0.014243125915527344,
+      "flip_spatial_rms_diff": 0.001302561373449862,
+      "flip_spatial_max_diff": 0.013689965009689331
+    },
+    {
+      "arm": "K5-B",
+      "layer": "base.unet.up_blocks.2.sc_interpreter_offsets.2.es_branch",
+      "t": [
+        999.0
+      ],
+      "delta_rms": 0.3312223255634308,
+      "output_rms": 2.005795478820801,
+      "zero_rms_diff": 0.03931441903114319,
+      "zero_max_diff": 0.3475179672241211,
+      "flip_spatial_rms_diff": 0.0355682373046875,
+      "flip_spatial_max_diff": 0.3497340679168701
+    }
+  ],
+  "gates": {
+    "base.unet.up_blocks.1.sc_interpreter_offsets.0": -0.021742621436715126,
+    "base.unet.up_blocks.1.sc_interpreter_offsets.1": -0.02278321050107479,
+    "base.unet.up_blocks.1.sc_interpreter_offsets.2": -0.029682524502277374,
+    "base.unet.up_blocks.2.sc_interpreter_offsets.0": -0.038203299045562744,
+    "base.unet.up_blocks.2.sc_interpreter_offsets.1": -0.03859073668718338,
+    "base.unet.up_blocks.2.sc_interpreter_offsets.2": -0.0354292206466198
+  },
+  "scope": "one real first-denoise frozen-hidden probe; descriptive not quality",
+  "time": 1789838058.1776047
+}
