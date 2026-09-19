@@ -24,3 +24,7 @@ Remote control: /root/data1/hrfont_k5_20260919/control
 Remote output: /root/data1/hrfont_k5_20260919/bank_diagnostic
 Runner log: bank_diagnostic_r2.log
 Execution scripts archived under experiments/K5/diagnostics; their absolute paths intentionally document the executed environment. DECISIONS files preserve prior repairs and storage decisions. RESULTS_SNAPSHOT is a partial snapshot, not a final aggregate.
+
+## Completion update 2026-09-19 16:11 UTC follow-up
+
+Generation now complete: A 288/288, B 288/288. All 576 local prediction hashes match recorded hashes. SUMMARY.csv contains per-model/font/mode means and differences from matched Top10. Six-condition local board outputs/K5_BANK_DIAGNOSTIC_20260919/index.html includes GT and fixed references; browser QA passed with zero broken images and no JavaScript errors. Screenshot spot-check completed. RESULTS_SNAPSHOT.json above remains the preserved partial snapshot. Full router/representation audits and final causal interpretation are still pending; do not equate completed PNGs with complete diagnosis.
