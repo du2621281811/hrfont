@@ -1,0 +1,32 @@
+{
+  "K5-A": {
+    "step": 10000,
+    "skips": 0,
+    "seconds": 10037.39648270607,
+    "weights": "/root/projects/hrfont/runs/K5-A-V2-K1RECIPE-S3407/global_step_10000/ema.pth",
+    "sha256": "dfc4c489087e66c4ad2656c8b4957aea3e0fa378bf3e0219b86ebe47b8ba6c93",
+    "checkpoint": {
+      "step": 10000,
+      "attempt": 10000,
+      "arm": "K5-A",
+      "complete": true,
+      "sampler": "K-original-global64-attempt-keyed-v1",
+      "code_commit": "k5-isolated-20260919-r2"
+    }
+  },
+  "K5-B": {
+    "step": 10000,
+    "skips": 0,
+    "seconds": 13566.93053483963,
+    "weights": "/root/projects/hrfont/runs/K5-B-V2-K1RECIPE-S3407/global_step_10000/ema.pth",
+    "sha256": "9a755b6e9743a6da885b6f7129415df3b8759f3f22f1a97ae21c41ae3f08c606",
+    "checkpoint": {
+      "step": 10000,
+      "attempt": 10000,
+      "arm": "K5-B",
+      "complete": true,
+      "sampler": "K-original-global64-attempt-keyed-v1",
+      "code_commit": "k5-isolated-20260919-r2"
+    }
+  }
+}
