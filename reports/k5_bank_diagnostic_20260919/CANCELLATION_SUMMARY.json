@@ -1,0 +1,66 @@
+{
+  "trajectories": 18,
+  "combined_observations": 540,
+  "rows": [
+    {
+      "font": "FZBangSKLTJW",
+      "block": "up_blocks.1",
+      "n": 90,
+      "ratio_min": 0.008235024769117546,
+      "ratio_median": 0.018036189231747803,
+      "ratio_max": 0.09285200250511214,
+      "cosine_max": -0.988578200340271,
+      "sum_parity_max": 4.656612873077393e-10
+    },
+    {
+      "font": "FZBangSKLTJW",
+      "block": "up_blocks.2",
+      "n": 90,
+      "ratio_min": 0.0005640625767801969,
+      "ratio_median": 0.0007723141575227549,
+      "ratio_max": 0.004270262991837802,
+      "cosine_max": -0.9999647736549377,
+      "sum_parity_max": 2.3283064365386963e-10
+    },
+    {
+      "font": "FZPANGPBJW",
+      "block": "up_blocks.1",
+      "n": 90,
+      "ratio_min": 0.006245692528171823,
+      "ratio_median": 0.021394619543294427,
+      "ratio_max": 0.05564645965996879,
+      "cosine_max": -0.9939578771591187,
+      "sum_parity_max": 2.3283064365386963e-10
+    },
+    {
+      "font": "FZPANGPBJW",
+      "block": "up_blocks.2",
+      "n": 90,
+      "ratio_min": 0.0005335495863372406,
+      "ratio_median": 0.0007431064555199019,
+      "ratio_max": 0.00305608787026566,
+      "cosine_max": -0.9999817609786987,
+      "sum_parity_max": 0.0
+    },
+    {
+      "font": "FZPTYJW",
+      "block": "up_blocks.1",
+      "n": 90,
+      "ratio_min": 0.009704360789756273,
+      "ratio_median": 0.021442086799449207,
+      "ratio_max": 0.06944496721047495,
+      "cosine_max": -0.9909203052520752,
+      "sum_parity_max": 9.313225746154785e-10
+    },
+    {
+      "font": "FZPTYJW",
+      "block": "up_blocks.2",
+      "n": 90,
+      "ratio_min": 0.000592654800271559,
+      "ratio_median": 0.0008735659487989656,
+      "ratio_max": 0.0025239024559203854,
+      "cosine_max": -0.9999876022338867,
+      "sum_parity_max": 1.1641532182693481e-10
+    }
+  ]
+}
