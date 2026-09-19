@@ -1,0 +1,20 @@
+{
+  "status": "AUTHORIZED_IMPLEMENTATION_PREFLIGHT_THEN_EXECUTION",
+  "authorized_at": "2026-09-19T16:52:42.312474+00:00",
+  "order": [
+    "K6-0",
+    "K6-A",
+    "K6-B"
+  ],
+  "K6_C_authorized": false,
+  "initialization": "Independent K0/G0b step10000; never K5 checkpoint",
+  "training_plan": "repo/experiments/K6/TRAINING_PLAN_REVIEW.md",
+  "K6-A": {
+    "authorized": true,
+    "successful_updates": 10000
+  },
+  "K6-B": {
+    "authorized": true,
+    "successful_updates": 10000
+  }
+}
