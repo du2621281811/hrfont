@@ -11,3 +11,10 @@
 建议保留当前训练权重与配方，后续定位 offset 后的采样/读取敏感性及 Delta-off 实际改变的其他路径。此次结果不证明 loss 导致相消，也不解释 K5-A 全部不敏感现象。尚未覆盖新字符与 1/2/8shot，不外推整个测试集。K6 仍等待科学修订 review。
 
 看板：outputs/K5_BRANCH_ABLATION_20260920/index.html（引用相邻 K5_BANK_DIAGNOSTIC_20260919/assets）。
+
+## Delta-off attribution correction
+Remote KModel.denoise sets zero_convs._k_active from structure enabled. Therefore no_delta gates the entire structural residual, not just offsets.
+
+Frozen FZBangSKLTJW/A, 4shot, seeds 3407/93407: zeroing zero_conv outputs while retaining donor/offset computation produces exactly identical PNGs to no_delta (both seeds). Offset-only zero differs from no_delta by mean 3.02488/2.03852 uint8 levels. All eight new PNG SHA256 checks pass.
+
+Thus the residual pathway matters in this case; previous Delta-off differences do not establish effective donor-dependent guidance. Offset-only weak sensitivity remains supported. Do not generalize this one-character control to all fonts or K5-A. No training changes.

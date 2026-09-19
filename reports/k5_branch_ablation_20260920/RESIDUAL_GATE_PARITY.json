@@ -1,0 +1,44 @@
+[
+  {
+    "case": "case00_seed3407",
+    "mode": "baseline",
+    "versus": "off",
+    "mean": 3.024486400462963,
+    "max": 255.0
+  },
+  {
+    "case": "case00_seed3407",
+    "mode": "zero_offset",
+    "versus": "off",
+    "mean": 3.024884259259259,
+    "max": 255.0
+  },
+  {
+    "case": "case00_seed3407",
+    "mode": "residual_off",
+    "versus": "off",
+    "mean": 0.0,
+    "max": 0.0
+  },
+  {
+    "case": "case00_seed93407",
+    "mode": "baseline",
+    "versus": "off",
+    "mean": 2.038556134259259,
+    "max": 255.0
+  },
+  {
+    "case": "case00_seed93407",
+    "mode": "zero_offset",
+    "versus": "off",
+    "mean": 2.0385199652777777,
+    "max": 255.0
+  },
+  {
+    "case": "case00_seed93407",
+    "mode": "residual_off",
+    "versus": "off",
+    "mean": 0.0,
+    "max": 0.0
+  }
+]
