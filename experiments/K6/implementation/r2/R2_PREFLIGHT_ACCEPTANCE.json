@@ -1,0 +1,26 @@
+{
+  "time": 1789871418.4070663,
+  "status": "PASS",
+  "arms": {
+    "K6-A": {
+      "records": 144,
+      "last_step": 18,
+      "max_skips": 0,
+      "max_rank_spread": 0.0,
+      "active_aux_records": 10,
+      "resumed_active_aux_records": 6,
+      "max_weighted_grad_ratio": 0.011721438728272915,
+      "full_path_gradient_verified": true
+    },
+    "K6-B": {
+      "records": 144,
+      "last_step": 18,
+      "max_skips": 0,
+      "max_rank_spread": 0.0,
+      "active_aux_records": 12,
+      "resumed_active_aux_records": 7,
+      "max_weighted_grad_ratio": 0.051127590239048004,
+      "full_path_gradient_verified": true
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "arm": "K6-A",
+      "global_gradient": -3.0,
+      "averaged_local_gradient": -3.0
+    },
+    {
+      "arm": "K6-B",
+      "global_gradient": -1.0,
+      "averaged_local_gradient": -1.0
+    }
+  ]
+}
