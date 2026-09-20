@@ -16,5 +16,7 @@
   "K6-B": {
     "authorized": true,
     "successful_updates": 10000
-  }
+  },
+  "objective_fix_authorized": true,
+  "objective_fix": "pure-noise DDIM8 every16 original batch pairs lambda0.05 ramp1000"
 }

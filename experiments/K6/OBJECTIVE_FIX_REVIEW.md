@@ -1,3 +1,5 @@
+> Execution update: User explicitly authorized applying this revision and launching K6. R2 queue is running; the historical pending-review text below is superseded. A resumed 2 to 18 successfully; B preflight in progress.
+
 # K6 新监督计算路径修订 — 待批准
 
 原计划已实施并真实执行：K6-0生成192图；train-only校准4096样本；原sampler100批一致；8rank相对监督梯度等价；K6-A 2步+完整状态恢复至4步，0跳步、rank一致。但32条rank/update记录、52个通过门控的样本，ranking loss均为0。正式10k未启动，B预检尚未启动。
