@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "dataset_id": "v0921_texiao_supplement",
+  "status": "frozen",
+  "built_at": "2026-09-21T15:29:08+00:00",
+  "policy": "315_all_with_missing_chars_documented",
+  "counts": {
+    "all": 315,
+    "ok_full_selected_target": 300,
+    "incomplete_documented": 15
+  },
+  "files": {
+    "DOWNLOAD.md": {
+      "path": "manifests/v0921_texiao_supplement/DOWNLOAD.md",
+      "bytes": 321,
+      "sha256": "6be3a93ff35f8b18b2547cda46d3f5752d9040db2305347cde3ffd49fe0f31ef"
+    },
+    "INDEX.json": {
+      "path": "manifests/v0921_texiao_supplement/INDEX.json",
+      "bytes": 3312,
+      "sha256": "11ba729aaaf367786cf530505bce2715a02fbd6fa5c93492916fc2f868a2b9d9"
+    },
+    "MISSING_CHARS.json": {
+      "path": "manifests/v0921_texiao_supplement/MISSING_CHARS.json",
+      "bytes": 7108,
+      "sha256": "67f45e51a9d31ac846c0689c36b49ca7bf2a7608843cfbc72ebb032261b63322"
+    },
+    "MISSING_CHARS.md": {
+      "path": "manifests/v0921_texiao_supplement/MISSING_CHARS.md",
+      "bytes": 2184,
+      "sha256": "01b21b331303ee1fb489dd36f73c9f5ff2a11584f089f57b8531836e9dda1dc9"
+    },
+    "QA_REPORT.json": {
+      "path": "manifests/v0921_texiao_supplement/QA_REPORT.json",
+      "bytes": 349,
+      "sha256": "b10ec2dbb114d232d47dc7b356cc67227413a615c6e2c2b8d3a1ed793b89757c"
+    },
+    "QA_REPORT.md": {
+      "path": "manifests/v0921_texiao_supplement/QA_REPORT.md",
+      "bytes": 248,
+      "sha256": "6bede83ce5c4e4878ff660c3930d4827aae5c93043e1a708d768033d0417a3b6"
+    },
+    "README.md": {
+      "path": "manifests/v0921_texiao_supplement/README.md",
+      "bytes": 2204,
+      "sha256": "a4bb64927f8056ae25ebb7dfb6703315ff063b85dc918844e352099886b862cd"
+    },
+    "SYNC.md": {
+      "path": "manifests/v0921_texiao_supplement/SYNC.md",
+      "bytes": 2204,
+      "sha256": "a4bb64927f8056ae25ebb7dfb6703315ff063b85dc918844e352099886b862cd"
+    },
+    "families.json": {
+      "path": "manifests/v0921_texiao_supplement/families.json",
+      "bytes": 17182,
+      "sha256": "22ed32b5da6fdabcbd4f9e78dfe71dce45cd93f425b2ead2c2028e4dca32eb54"
+    },
+    "fonts_all_315.json": {
+      "path": "manifests/v0921_texiao_supplement/fonts_all_315.json",
+      "bytes": 251912,
+      "sha256": "621e5ebc27fb757ffa5acdec493b6d99c1ee6509bd43e54191afeb2d65ef38d7"
+    },
+    "picks_pass2_export.json": {
+      "path": "manifests/v0921_texiao_supplement/picks_pass2_export.json",
+      "bytes": 66120,
+      "sha256": "50c3df3893343638b2831dda07029aca616f99cc9a6f3319fe340fbf5c65744b"
+    },
+    "stems_all_315.txt": {
+      "path": "manifests/v0921_texiao_supplement/stems_all_315.txt",
+      "bytes": 3150,
+      "sha256": "84a3cc363184d72b3533d2d2fdf544bf817fd49d39246ce0158f4848c1ef037a"
+    },
+    "v0921_texiao_supplement.json": {
+      "path": "manifests/v0921_texiao_supplement.json",
+      "bytes": 1765,
+      "sha256": "bd927fba40237d2242807c8095b4172b6178af14c0f2d71be19c194060c3f0e8"
+    }
+  },
+  "download": "manifests/v0921_texiao_supplement/DOWNLOAD.md",
+  "readme": "manifests/v0921_texiao_supplement/README.md",
+  "important": {
+    "official_n": 315,
+    "incomplete_documented_n": 15,
+    "ttf_not_in_git": true
+  }
+}

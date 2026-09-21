@@ -46,6 +46,7 @@ Git 只跟踪清单与指纹；大文件用 symlink 或外盘。
 - `manifests/pipeline_v2_train_stems_42.txt`
 - `manifests/pipeline_v2_train_stems_253.txt`
 - **`manifests/v0917_west_style/`** — 西文风格补充 **232**（正式；见上节）
+- **`manifests/v0921_texiao_supplement/`** — 特效字体补充 **315**（正式；见下节）
 
 ## v0917 西文风格补充（2026-09-17）
 
@@ -59,6 +60,22 @@ Git 只跟踪清单与指纹；大文件用 symlink 或外盘。
 | tag | `data-v0917` |
 | TTF | 不进 Git；`artifacts/v0917_west_style_ttf_232.zip`（见 `DOWNLOAD.md`） |
 | 与 v0913 | 补充字体元数据；**尚未**并入 `v0913_clean` PNG pair |
+
+训练时跳过各字体 `missing_chars`；审核探针 ≠ 295 全表。
+
+## v0921 特效字体补充（2026-09-21）
+
+**正式名单 315 套**（特效池人工一筛 + 协议 A 二筛）。说明：[`manifests/v0921_texiao_supplement/README.md`](../manifests/v0921_texiao_supplement/README.md)。
+
+| 项 | 内容 |
+|----|------|
+| 合同 | `manifests/v0921_texiao_supplement.json` |
+| 正式清单 | `manifests/v0921_texiao_supplement/fonts_all_315.json`（含 `scripts` / `missing_chars`） |
+| 缺字 | `manifests/v0921_texiao_supplement/MISSING_CHARS.md`（15 套不全，**仍收录**） |
+| tag | `data-v0921` |
+| 分支 | `data/v0921-texiao-supplement` |
+| TTF | **不进 Git**（见 `DOWNLOAD.md`） |
+| 与 v0913 / v0917 | 另一补充池；**尚未**并入 `v0913_clean` PNG pair |
 
 训练时跳过各字体 `missing_chars`；审核探针 ≠ 295 全表。
 

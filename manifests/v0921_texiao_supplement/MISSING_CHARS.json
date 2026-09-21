@@ -1,0 +1,315 @@
+{
+  "dataset_id": "v0921_texiao_supplement",
+  "n": 15,
+  "note": "这些字体仍在正式包内；训练/渲染时请跳过 missing_chars 中的码点。",
+  "fonts": [
+    {
+      "clean": "UN2012008",
+      "disp": "Aa不凡星爵",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2012008.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "āēěīńňōūǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 11,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2027147",
+      "disp": "Aa秀楷",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2027147.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ńň"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 25,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2023076",
+      "disp": "iSlide云犹体-iFonts联名",
+      "scripts": [
+        "latin",
+        "latin_ext",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "font_file": "UN2023076.TTF",
+      "missing_chars": {
+        "hiragana": "れろ",
+        "katakana": "ゲヴ"
+      },
+      "coverage": {
+        "hiragana": {
+          "hit": 81,
+          "n": 83,
+          "full": false
+        },
+        "katakana": {
+          "hit": 84,
+          "n": 86,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2017587",
+      "disp": "妙笔仰宜体",
+      "scripts": [
+        "latin",
+        "hiragana",
+        "katakana",
+        "zhuyin"
+      ],
+      "font_file": "UN2017587.TTF",
+      "missing_chars": {
+        "hiragana": "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをん",
+        "katakana": "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ",
+        "bopomofo": "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ"
+      },
+      "coverage": {
+        "hiragana": {
+          "hit": 0,
+          "n": 83,
+          "full": false
+        },
+        "katakana": {
+          "hit": 0,
+          "n": 86,
+          "full": false
+        },
+        "bopomofo": {
+          "hit": 0,
+          "n": 37,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2012340",
+      "disp": "妙笔伊人炫影体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2012340.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2013130",
+      "disp": "妙笔哲铭体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2013130.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2014733",
+      "disp": "妙笔夏波体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2014733.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2012809",
+      "disp": "妙笔招牌灯箱体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2012809.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2012509",
+      "disp": "妙笔江户大字体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2012509.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2015238",
+      "disp": "妙笔爱慧体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2015238.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2012587",
+      "disp": "妙笔白龙星空体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2012587.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2014720",
+      "disp": "妙笔笑春体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2014720.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2012858",
+      "disp": "妙笔雪云波荡体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2012858.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2000645",
+      "disp": "字魂186号-江户雪云体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2000645.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    },
+    {
+      "clean": "UN2000652",
+      "disp": "字魂192号-萌趣蜡笔体",
+      "scripts": [
+        "latin",
+        "latin_ext"
+      ],
+      "font_file": "UN2000652.TTF",
+      "missing_chars": {
+        "latin_ext_letters": "ǎǐǒǔǖǘǚǜ"
+      },
+      "coverage": {
+        "latin_ext_letters": {
+          "hit": 19,
+          "n": 27,
+          "full": false
+        }
+      }
+    }
+  ]
+}

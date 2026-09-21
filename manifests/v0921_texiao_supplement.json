@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "dataset_id": "v0921_texiao_supplement",
+  "kind": "texiao_supplement_font_manifest",
+  "status": "frozen",
+  "created_at": "2026-09-21",
+  "updated_at": "2026-09-21T15:29:08+00:00",
+  "note": "正式规模=315。特效池人工一筛+协议A二筛。每套含 scripts；不全仍收录，缺字见 missing_chars。说明见 manifests/v0921_texiao_supplement/README.md。",
+  "primary_manifest": "manifests/v0921_texiao_supplement/fonts_all_315.json",
+  "missing_chars": "manifests/v0921_texiao_supplement/MISSING_CHARS.md",
+  "stems": "manifests/v0921_texiao_supplement/stems_all_315.txt",
+  "font_dir_hint": "texiao_fonts/live/",
+  "source_export": "reports/texiao_fonts_screen/picks_pass2_export.json",
+  "counts": {
+    "all": 315,
+    "ok_full_selected_target": 300,
+    "incomplete_documented": 15
+  },
+  "target_total": 295,
+  "target_buckets": {
+    "ascii_digits": 10,
+    "ascii_letters": 52,
+    "latin_ext_letters": 27,
+    "hiragana": 83,
+    "katakana": 86,
+    "bopomofo": 37
+  },
+  "script_to_buckets": {
+    "latin": [
+      "ascii_digits",
+      "ascii_letters"
+    ],
+    "latin_ext": [
+      "latin_ext_letters"
+    ],
+    "hiragana": [
+      "hiragana"
+    ],
+    "katakana": [
+      "katakana"
+    ],
+    "zhuyin": [
+      "bopomofo"
+    ]
+  },
+  "download": "manifests/v0921_texiao_supplement/DOWNLOAD.md",
+  "title": "v0921 特效字体补充（315 正式；缺字写明）",
+  "readme": "manifests/v0921_texiao_supplement/README.md",
+  "important": {
+    "official_n": 315,
+    "incomplete_documented_n": 15,
+    "primary_manifest": "manifests/v0921_texiao_supplement/fonts_all_315.json",
+    "skip_missing_chars_when_training": true,
+    "preview_probes_are_not_full_295": true,
+    "ttf_not_in_git": true
+  }
+}
