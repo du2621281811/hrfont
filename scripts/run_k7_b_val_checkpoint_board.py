@@ -15,6 +15,12 @@ TORCHRUN = "/root/miniforge3/envs/boogu/bin/torchrun"
 CUDA = "0,1,2,3,4,5,6,7"
 MANIFEST = ROOT / "experiments/K/K_VAL192.json"
 EXPECTED = 192
+FINAL_MANIFESTS = {
+    "train": ROOT / "experiments/K/K_TRAIN_K5FIXED.json",
+    "val": ROOT / "experiments/K/K_VAL192.json",
+    "test": ROOT / "experiments/K/K_TEST.json",
+}
+FINAL_ROOT = ROOT / "data/v3_v2_plus_v0921_20260922/inference_final/K7-B"
 STEPS = [2000, 5000, 10000, 17000, 18000, 20000]
 ARM = "K7-B"
 CHECKPOINT_ROOT = (
@@ -43,6 +49,60 @@ def complete(out):
         return False
 
 
+def run_final_protocol(queue):
+    checkpoint = CHECKPOINT_ROOT / "global_step_20000"
+    if not (checkpoint / "ema.pth").is_file():
+        raise SystemExit(f"missing final checkpoint: {checkpoint}")
+    queue["status"] = "running_final_train_val_test_inference"
+    queue["final_inference"] = {}
+    write_status(queue)
+    for split, manifest in FINAL_MANIFESTS.items():
+        out = FINAL_ROOT / split
+        done = out / "DONE.json"
+        metrics = out / "metrics.json"
+        if done.is_file() and metrics.is_file():
+            queue["final_inference"][split] = "already_complete"
+            write_status(queue)
+            continue
+        out.mkdir(parents=True, exist_ok=True)
+        log = REPORT / f"K7-B_final_{split}.log"
+        command = [
+            TORCHRUN,
+            "--standalone",
+            "--nproc_per_node=8",
+            "experiments/K6/implementation/r3/scripts/eval_k6_protocol.py",
+            "--arm",
+            ARM,
+            "--checkpoint",
+            str(checkpoint),
+            "--manifest",
+            str(manifest),
+            "--out",
+            str(out),
+            "--step",
+            "20000",
+        ]
+        env = dict(
+            os.environ,
+            CUDA_VISIBLE_DEVICES=CUDA,
+            PYTHONUNBUFFERED="1",
+            OMP_NUM_THREADS="1",
+        )
+        queue["final_inference"][split] = "running"
+        write_status(queue)
+        with log.open("w") as stream:
+            result = subprocess.run(
+                command, cwd=CODE, env=env, stdout=stream, stderr=subprocess.STDOUT
+            )
+        if result.returncode != 0 or not (done.is_file() and metrics.is_file()):
+            queue["status"] = "failed_final_inference"
+            queue["final_inference"][split] = "failed"
+            write_status(queue)
+            raise SystemExit(f"final {split} inference failed; see {log}")
+        queue["final_inference"][split] = "completed"
+        write_status(queue)
+
+
 def wait_for_training(queue):
     while not (TRAIN_RUN / "DONE.json").is_file():
         heartbeat = TRAIN_RUN / "heartbeat.json"
@@ -68,6 +128,7 @@ def main():
     }
     write_status(queue)
     wait_for_training(queue)
+    run_final_protocol(queue)
     queue["status"] = "running_inference"
     write_status(queue)
     for step in STEPS:
