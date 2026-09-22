@@ -87,6 +87,7 @@ def run_final_protocol(queue):
             CUDA_VISIBLE_DEVICES=CUDA,
             PYTHONUNBUFFERED="1",
             OMP_NUM_THREADS="1",
+            PYTHONPATH=f"{CODE}:{CODE / 'scripts'}",
         )
         queue["final_inference"][split] = "running"
         write_status(queue)
@@ -182,6 +183,7 @@ def main():
                 CUDA_VISIBLE_DEVICES=CUDA,
                 PYTHONUNBUFFERED="1",
                 OMP_NUM_THREADS="1",
+                PYTHONPATH=f"{CODE}:{CODE / 'scripts'}",
             )
             with log.open("w") as stream:
                 result = subprocess.run(command, cwd=CODE, env=env, stdout=stream, stderr=subprocess.STDOUT)
