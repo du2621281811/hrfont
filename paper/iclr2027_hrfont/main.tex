@@ -191,7 +191,7 @@ The bank consists of training fonts: an episode excludes its own font, and at te
 
 The references determine which realization is appropriate.
 Reference characters exist in the bank as well, so we compare the glyphs of the family with the same characters set in other fonts using the style encoder's descriptors, which gives a distribution $\alpha_j\propto\exp(s_j/\tau)$ over candidate fonts, normalized over the top-$K$ eligible ones and used as a prior.
-This prior is fixed per episode: it carries no information about the requested character or the current denoising state.
+The prior is fixed per episode and depends only on the reference characters.
 
 The structural offset is therefore resolved during generation.
 Every structural module re-estimates the weights from the current hidden state, the neutral content, the reference summary, and the denoising time, with the prior as the base of the logits:
@@ -201,18 +201,16 @@ Every structural module re-estimates the weights from the current hidden state, 
  \label{eq:crp}
 \end{equation}
 The weights are nonnegative and normalized, so one generation combines many realizations jointly, and the combined offset drives the deformable structural interaction with the neutral content.
-Fixing the weights to the prior recovers a static combination over the same candidates and the same interface, which we report as a baseline.
 
 CRP reads the same candidates through a second coordinate.
-The nine global tokens are pooled from a $3\times3$ map, which expresses the overall weight and proportion of the family but not the stroke-level evidence that separates designs at the resolution we generate.
-Reading the candidates through intermediate maps of the style encoder brings that evidence to the resolution of the target grid, with its own routing and offset prediction.
+The nine global tokens are pooled from a $3\times3$ map and summarize the overall weight and proportion of the family.
+The stroke-level evidence that separates designs at the resolution we generate comes from intermediate maps of the style encoder, where reading the candidates brings it to the resolution of the target grid with its own routing and offset prediction.
 The two readings share the retrieved neighborhood and the prior, and their offsets are combined by a learned per-module scalar, which forms the structural offset that CRP provides.
 
 \subsection{Target-Character Appearance Completion}
 TC predicts a target-aligned appearance representation from the target content and the source-script references, covering how local properties such as contour treatment, stroke endings, texture, and decoration should appear on the requested target character.
 It reads each reference at two scales and keeps the observations separate, so that every location of the target character can attend to the evidence it needs: the neutral content queries and learned positional slots attend to the reference evidence, and the resulting representation produces both the tokens used for synthesis and a supervised readout.
 The readout is spatial, so supervision corresponds to where the design should appear, and at every up-path attention stage the generator reads the appearance representation on top of the global reference features.
-The readout and the synthesis tokens come from the same representation, so the condition that is supervised is the condition that is used.
 Dimensions, attention settings, and initialization are listed in Appendix~\ref{app:repro}.
 
 \subsection{Training and Inference}
@@ -240,7 +238,7 @@ The current clean training mapping retains 56,429 target pairs.
 The stratified evaluation panel spans 47 characters covering Latin, diacritics, kana, and phonetic symbols; validity filtering retains 704 test pairs.
 
 Reference-budget evaluation uses nested sets of 1, 2, 4, and 8 characters.
-All methods in a comparison receive the same ordered reference set, and Delta retrieval uses that episode's references.
+All methods in a comparison receive the same ordered reference set, and CRP retrieval uses that episode's references.
 The main reference manifest and checkpoint selection are finalized on validation data.
 The appendix records reference characters, bank eligibility, sampler, and provenance.
 
@@ -286,7 +284,7 @@ CRP (fixed weights) & -- & -- & -- & --\\
 
 \subsection{Contribution studies}
 \paragraph{Glyph variation prior.}
-We compare routed combination with fixed weights over the same candidates.
+We compare routed combination with the retrieval prior used as fixed weights.
 This comparison preserves bank access, anchor-relative features, and the appearance interface.
 A same-bank absolute-feature control tests anchor-relative conditioning, while a shared-schedule structural-source comparison establishes the benefit of bank-supported variations.
 
@@ -309,7 +307,7 @@ Inference-time condition removal provides a separate sensitivity analysis of the
 \toprule
 Question & Matched comparison & Result\\
 \midrule
-Structural source & Bank-supported Delta versus reference-derived structure & --\\
+Structural source & Bank-supported CRP versus reference-derived structure & --\\
 Residual interface & Anchor-relative versus absolute bank features & --\\
 Routed combination & Routed versus fixed weights, same candidates & --\\
 Appearance supervision & Spatial teacher versus generation loss only & --\\
@@ -386,8 +384,8 @@ Setting & Value\\
 Image resolution & $96\times96$ RGB, Protocol A\\
 Font split & 228 / 16 / 16\\
 Valid training target pairs & 56,429\\
-Delta retrieval & top-10, temperature 0.07\\
-Delta router & width 32; location/module/time-conditioned weights\\
+CRP retrieval & top-10, temperature 0.07\\
+CRP router & width 32; location/module/time-conditioned weights\\
 TC local evidence & $24^2+12^2=720$ tokens per reference\\
 TC memory & 144 target queries, width 256, four attention heads\\
 TC output / teacher & $144\times1024$ / $144\times128$\\
@@ -413,7 +411,7 @@ VGG inputs use ImageNet normalization; the teacher is adaptively pooled to $12\t
 Joint stages load the same parent checkpoint and create a new optimizer and scheduler.
 The local encoder is a trainable copy of the first three global-style encoder blocks.
 Reference attention uses normalized 64-dimensional query/key heads with FP32 logits and softmax.
-Delta uses 32-dimensional routing features, with $1\times1$ hidden/content projections and a $3\times3$ candidate projection.
+CRP uses 32-dimensional routing features, with $1\times1$ hidden/content projections and a $3\times3$ candidate projection.
 Its time embedding maps $[t/1000,(t/1000)^2]$ through a two-layer MLP; the routing strength starts at 0.1.
 EMA decay rises to a maximum of 0.999, and the completion coefficient and local attention contribution ramp over 1,000 updates.
 
