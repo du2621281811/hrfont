@@ -27,27 +27,46 @@ We also formulate a cross-script completion benchmark that evaluates character i
 \end{abstract}
 
 \section{Introduction}
-A designer extending a Chinese typeface to Latin or kana needs more than a recognizable outline.
-The new glyphs should belong to the same family: weight, contrast, terminals, and decorative treatment should feel coherent across scripts.
-A few Chinese examples provide evidence of that visual language, but they leave its realization in the target characters open.
-The design of a Latin \emph{g}, for example, requires choices that are not directly visible in a Chinese reference glyph.
-Cross-script font completion therefore calls for both a vocabulary of target-character variations and a model of how the observed appearance applies to each character.
+\label{sec:intro}
 
-Few-shot generators learn to synthesize glyphs from content and reference images.
-FontDiffuser uses conditional diffusion and multi-scale content aggregation~\citep{yang2023fontdiffuser};
-FSFont learns fine-grained correspondence between content and reference features~\citep{tang2022fsfont}.
-Font-bank methods such as CF-Font enrich content representations using corresponding glyphs from basis fonts~\citep{wang2023cffont}.
-These approaches provide useful ingredients for completion.
-The cross-script setting makes a further distinction important: available glyph variations describe possible designs, whereas the reference images specify the family to which the result should belong.
+Extending a typeface across writing systems requires more than transferring its visual style.
+The target glyph must remain recognizable, while its proportions, curvature, stroke organization, terminals, and local details should remain consistent with the observed references.
+Within a single script, this problem benefits from structural regularities shared by its characters.
+Across scripts, the same visual attributes may need to be expressed through very different geometric forms.
+A few Chinese references can reveal stroke weight, contrast, contour treatment, and decorative tendencies, but they do not determine how these attributes should appear in a Latin, kana, or bopomofo glyph.
+Cross-script typeface extension is therefore not simply a matter of transferring the ``style'' of the references to target glyphs; it requires deciding how these style cues should interact with the target character's own structure to form a coherent design.
 
-We develop \method around this distinction.
-The first component, \emph{Dynamic Delta}, represents a requested character through anchor-relative feature changes supported by a font bank.
-The neutral rendering supplies identity, while a learned router combines the available variations at each spatial location and denoising step.
-The second component, \emph{\tc} (TC), predicts a spatial appearance representation for the requested character from its neutral content and the observed references.
-Its online reference reader preserves local evidence before organizing that evidence around the target character.
-Training glyphs provide direct supervision for this prediction.
-Together, these components connect \emph{how the character can vary} with \emph{how the family's appearance should be realized}.
-Figure~\ref{fig:overview} summarizes the model.
+Most few-shot font generators follow a content--style conditioning formulation.
+They improve synthesis through localized style representations, fine-grained content--reference interaction, richer content modeling, and stronger generative backbones
+\citep{park2021lffont,park2021mxfont,tang2022fsfont,wang2023cffont,yang2024fontdiffuser}.
+Cross-script methods extend this formulation with multi-level attention, multilingual features, and patch-level style modeling
+\citep{li2021ftransgan,zhang2022mfnet,zhao2024fcagan,zeng2026rpfont,yan2026daafont}.
+These methods improve the transfer of reference appearance across scripts, while leaving the structural realization of the target glyph implicit.
+The same reference appearance can correspond to different widths, proportions, curves, stroke layouts, and local geometries for different target characters.
+A model may therefore reproduce the overall appearance of the references while assigning it to a target structure that is not well matched to the intended design.
+
+We model this ambiguity through two complementary factors.
+For a fixed character identity, existing typefaces exhibit a range of geometric realizations.
+These variations define an empirical deformation space for the character.
+The source references provide the visual evidence needed to determine which realization is appropriate and how its local details should be rendered.
+This separates the problem into two parts: how the target geometry changes, and how the resulting geometry expresses the observed appearance.
+
+We propose HR-Font, a diffusion-based model built around this decomposition.
+\emph{Character Realization Prior} (CRP) models character-specific geometric variation relative to a fixed neutral realization and produces a style-conditioned structural offset.
+The neutral glyph specifies character identity, while the offset captures font-dependent changes in geometry.
+\emph{Target-Character Appearance Completion} (TC) predicts a target-aligned appearance representation from the target content and source-script references.
+It models how local properties such as contour treatment, stroke endings, texture, and decoration should appear on the requested target character.
+The two conditions are combined with content and global reference features in the diffusion generator.
+
+Because the same reference style may admit multiple plausible realizations in the target script, similarity to a single ground-truth glyph does not fully capture cross-script consistency.
+We therefore report conventional image-quality and character metrics together with an independently trained cross-script style evaluator that measures consistency between source-script references and generated target glyphs.
+
+Our contributions are:
+\begin{itemize}
+    \item We formulate cross-script font generation as a structure--appearance alignment problem and evaluate both character fidelity and cross-script consistency.
+    \item We introduce \emph{Character Realization Prior} (CRP), which models target-character geometry through a style-conditioned deformation relative to a neutral realization.
+    \item We introduce \emph{Target-Character Appearance Completion} (TC), which predicts how source-script appearance is realized on the local structure of a target character.
+\end{itemize}
 
 \begin{figure}[t]
 \centering
@@ -56,39 +75,69 @@ Figure~\ref{fig:overview} summarizes the model.
 \label{fig:overview}
 \end{figure}
 
-This formulation also shapes the evaluation.
-Matching a held-out target image is useful, but a plausible completion can differ from that particular design.
-We therefore assess three outcomes: whether the glyph has the requested identity, whether it expresses the references' visible attributes, and whether it fits the target family across scripts.
-Script-aware curation establishes which font--character pairs provide meaningful supervision, while fixed reference episodes make comparisons reproducible.
-
-\Needspace{11\baselineskip}
-Our contributions are:
-\begin{itemize}
-\item A cross-script font completion formulation and evaluation protocol that distinguish character identity, reference consistency, and family compatibility.
-\item Dynamic Delta, an anchor-relative glyph variation space with spatially and temporally adaptive combination of corresponding training-bank examples.
-\item Target-character appearance completion, an online local-reference reader that learns a target-aligned appearance memory through direct feature supervision.
-\end{itemize}
-
 \section{Related Work}
-\paragraph{Cross-script and few-shot font generation.}
-FTransGAN studies few-shot transfer between languages with multi-level attention~\citep{li2021ftransgan}.
-FontDiffuser generates glyphs by conditional denoising and uses multi-scale content aggregation and style contrastive learning~\citep{yang2023fontdiffuser}.
-FSFont uses content queries to aggregate fine-grained local reference styles~\citep{tang2022fsfont}.
-\method builds on conditional generation and local reference evidence, and introduces a supervised intermediate prediction: the appearance of the requested target glyph.
-This prediction connects reference observations to the target character before the generator renders the image.
+\label{sec:related}
 
-\paragraph{Font-bank content representations.}
-CF-Font projects content features into a space spanned by corresponding glyphs from basis fonts~\citep{wang2023cffont}.
-Dynamic Delta shares the use of same-character bank evidence.
-Its interface expresses that evidence as a residual from a fixed neutral anchor and consumes the residual through the structural conditioning path, alongside separately supplied neutral content.
-The shared anchor keeps the content input stable while a denoising-conditioned router adapts the mixture of residuals.
-Our evaluation tests this interface under shared bank access and training budgets.
+\subsection{Few-Shot Font Generation}
 
-\paragraph{Appearance transfer and completion.}
-Feature statistics provide appearance representations in neural style transfer~\citep{huang2017adain}, while local attention retrieves features from observed glyphs~\citep{tang2022fsfont}.
-TC organizes such observations into a target-aligned spatial memory.
-Its distinctive learning objective predicts the feature map of a different character in the same family.
-This supervision shapes both reference extraction and target-conditioned aggregation, and the resulting memory enters the generator through an additional reference-attention readout.
+Few-shot font generation (FFG) aims to synthesize a complete typeface from a small number of reference glyphs.
+A common approach is to separate character content from typeface style and improve the representation of either factor.
+LF-Font models style with localized component-wise representations, while MX-Font uses multiple localized experts to capture reusable local style patterns
+\citep{park2021lffont,park2021mxfont}.
+FSFont further models fine-grained spatial correspondence between target content and reference glyphs, allowing local reference features to be aggregated according to the target character
+\citep{tang2022fsfont}.
+These methods establish the importance of localized representations for preserving detailed font appearance.
+
+Another line of work focuses on content representation and generative modeling.
+CF-Font enriches content features using corresponding glyphs from multiple basis fonts
+\citep{wang2023cffont}.
+FontDiffuser formulates font synthesis as conditional diffusion and combines multi-scale content aggregation with style contrastive learning
+\citep{yang2024fontdiffuser}.
+Recent approaches further explore global-aware autoregressive generation and explicit glyph spatial modeling
+\citep{cai2026garfont,su2026glyphspatialnet}.
+These methods improve content fidelity, structural quality, and local detail in few-shot generation.
+HR-Font considers the related but different setting in which the structural regularities of the reference script do not directly determine the realization of a target-script character.
+
+\subsection{Cross-Script Font Generation}
+
+Cross-script font generation transfers typeface characteristics between writing systems with different character structures.
+FTransGAN explicitly studies few-shot transfer between languages and uses multi-level attention to capture global and local reference information
+\citep{li2021ftransgan}.
+MF-Net extends multilingual font generation to previously unseen styles and languages using separate content and style encoders together with language-aware structural connections
+\citep{zhang2022mfnet}.
+FCAGAN improves cross-lingual style extraction through full-domain convolutional attention and multi-level feature modeling
+\citep{zhao2024fcagan},
+while DAA-Font combines dual-branch encoding with multi-level axial attention to model style and structural information across scripts
+\citep{yan2026daafont}.
+RPFont further improves cross-lingual transfer through patch-level style contrastive learning and relative-position-aware modeling
+\citep{zeng2026rpfont}.
+These methods primarily strengthen the representation and transfer of reference appearance across writing systems.
+
+HR-Font additionally models the realization of the target character itself.
+For a fixed character identity, typefaces can differ substantially in proportion, curvature, stroke organization, and local geometry.
+Our Character Realization Prior (CRP) represents these font-dependent geometric variations relative to a neutral realization and provides them as a target-specific structural condition.
+This separates the variation of target geometry from the appearance information inferred from the source-script references.
+
+\subsection{Font Evaluation and Style Representation}
+
+Font generation is commonly evaluated using complementary measures of reconstruction quality, perceptual similarity, distributional quality, and character recognizability.
+SSIM measures structural image similarity
+\citep{wang2004ssim},
+LPIPS evaluates perceptual similarity in learned feature spaces
+\citep{zhang2018lpips},
+and FID compares the distributions of real and generated images
+\citep{heusel2017fid}.
+Font-generation studies have also used content-aware and style-aware classifiers to separately assess character correctness and style preservation
+\citep{park2021lffont}.
+These measures characterize different aspects of generation quality, but most compare images within a common script or against a particular target realization.
+
+Learned font-style representations provide another way to measure typeface similarity.
+Hassan et al.\ learn a font-style embedding space with metric learning, placing glyphs with similar font styles closer in the representation space
+\citep{hassan2024fontstylespace}.
+Relatedly, RPFont uses patch-level contrastive learning to learn stylistic representations that transfer across languages
+\citep{zeng2026rpfont}.
+These works show that font appearance can be compared in a learned representation space rather than only through image-level similarity.
+For cross-script evaluation, we train an independent evaluator that learns a shared typeface representation across scripts and measures the consistency between source-script references and generated target glyphs.
 
 \section{Cross-Script Font Completion}
 \label{sec:task}
