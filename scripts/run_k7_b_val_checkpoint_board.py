@@ -12,6 +12,7 @@ REPORT = ROOT / "reports/k7_b_val_checkpoint_20260922"
 INFERENCE = ROOT / "data/v3_v2_plus_v0921_20260922/inference_checkpoint_board/K7-B"
 PYTHON = "/root/miniforge3/envs/boogu/bin/python"
 TORCHRUN = "/root/miniforge3/envs/boogu/bin/torchrun"
+EVAL = ROOT / "scripts/eval_k7_protocol.py"
 CUDA = "0,1,2,3,4,5,6,7"
 MANIFEST = ROOT / "experiments/K/K_VAL192.json"
 EXPECTED = 192
@@ -70,7 +71,7 @@ def run_final_protocol(queue):
             TORCHRUN,
             "--standalone",
             "--nproc_per_node=8",
-            "experiments/K6/implementation/r3/scripts/eval_k6_protocol.py",
+            str(EVAL),
             "--arm",
             ARM,
             "--checkpoint",
@@ -166,7 +167,7 @@ def main():
                 TORCHRUN,
                 "--standalone",
                 "--nproc_per_node=8",
-                "experiments/K6/implementation/r3/scripts/eval_k6_protocol.py",
+                str(EVAL),
                 "--arm",
                 ARM,
                 "--checkpoint",
