@@ -13,6 +13,7 @@ INFERENCE = ROOT / "data/v3_v2_plus_v0921_20260922/inference_checkpoint_board/K7
 PYTHON = "/root/miniforge3/envs/boogu/bin/python"
 TORCHRUN = "/root/miniforge3/envs/boogu/bin/torchrun"
 EVAL = ROOT / "scripts/eval_k7_protocol.py"
+RUNTIME_SCRIPTS = CODE / "experiments/K6/implementation/r3/scripts"
 CUDA = "0,1,2,3,4,5,6,7"
 MANIFEST = ROOT / "experiments/K/K_VAL192.json"
 EXPECTED = 192
@@ -88,7 +89,7 @@ def run_final_protocol(queue):
             CUDA_VISIBLE_DEVICES=CUDA,
             PYTHONUNBUFFERED="1",
             OMP_NUM_THREADS="1",
-            PYTHONPATH=f"{CODE}:{CODE / 'scripts'}",
+            PYTHONPATH=f"{RUNTIME_SCRIPTS}:{CODE}:{CODE / 'scripts'}",
         )
         queue["final_inference"][split] = "running"
         write_status(queue)
@@ -184,7 +185,7 @@ def main():
                 CUDA_VISIBLE_DEVICES=CUDA,
                 PYTHONUNBUFFERED="1",
                 OMP_NUM_THREADS="1",
-                PYTHONPATH=f"{CODE}:{CODE / 'scripts'}",
+                PYTHONPATH=f"{RUNTIME_SCRIPTS}:{CODE}:{CODE / 'scripts'}",
             )
             with log.open("w") as stream:
                 result = subprocess.run(command, cwd=CODE, env=env, stdout=stream, stderr=subprocess.STDOUT)
