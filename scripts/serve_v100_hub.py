@@ -39,6 +39,7 @@ K4APROTOCOL_SOURCE = Path("/root/data1/hrfont_dataset_v2_20260917/v2")
 K4AHOLLOW = ROOT / "reports/k4_a_hollow_compare_20260918"
 K5PROTOCOL = ROOT / "reports/k0_k1_k5_protocol_20260920"
 K5STEPS = ROOT / "reports/k5_step_training_20260920"
+K7BVAL = ROOT / "reports/k7_b_val_checkpoint_20260922"
 K5DEFAULT = Path("/root/data1/hrfont_default_inference_20260917")
 K5EVAL = Path("/root/data1/hrfont_k5_20260919/evaluation")
 KSTAGES = {
@@ -83,6 +84,7 @@ a{color:#9cf} .warn{color:#fd6} .ok{color:#7d7} code{color:#c8a24b}
 <li><a href="/k4_a_hollow/"><b>K4-A 空心字</b> · 训练集跨 checkpoint · 0k–20k</a></li>
 <li><a href="/k5_protocol/"><b>K0 / K1 / K5-A / K5-B</b> · 固定协议逐图对比</a></li>
 <li><a href="/k5_steps/"><b>K5-A / K5-B 逐 step</b> · 训练 telemetry、donor guard、checkpoint</a></li>
+<li><a href="/k7_b_val/"><b>K7-B VAL per-checkpoint</b> · F 系列风格 · 2k–20k</a></li>
 <li><a href="/h/"><b>H v0915</b> · H3/H0/H4… fixed-val 对照</a></li>
 <li><a href="/g_shot/"><b>G v0913</b> one/few-shot · vs dirty F2/F2-RL</a></li>
 <li><a href="/f2vec_shot_board.html">F2 / F2-RL / F2-VEC 对照</a></li>
@@ -122,6 +124,7 @@ class HubHandler(SimpleHTTPRequestHandler):
                     "/k4_a_hollow/", "/k4_a_hollow/index.html",
                     "/k5_protocol/", "/k5_protocol/index.html",
                     "/k5_steps/", "/k5_steps/index.html",
+                    "/k7_b_val/", "/k7_b_val/index.html",
                     "/h/", "/h/index.html",
                     "/i/", "/i/index.html"}:
             self.send_header("Cache-Control", "no-store")
@@ -223,6 +226,11 @@ class HubHandler(SimpleHTTPRequestHandler):
         if request_path in {"/k5_steps", "/k5_steps/"}:
             self.send_response(302)
             self.send_header("Location", "/k5_steps/index.html")
+            self.end_headers()
+            return
+        if request_path in {"/k7_b_val", "/k7_b_val/"}:
+            self.send_response(302)
+            self.send_header("Location", "/k7_b_val/index.html")
             self.end_headers()
             return
         super().do_GET()
@@ -327,6 +335,9 @@ class HubHandler(SimpleHTTPRequestHandler):
         if request_path == "/k5_steps" or request_path.startswith("/k5_steps/"):
             rel = request_path[len("/k5_steps") :].lstrip("/")
             return str(_safe(K5STEPS, rel or "index.html"))
+        if request_path == "/k7_b_val" or request_path.startswith("/k7_b_val/"):
+            rel = request_path[len("/k7_b_val") :].lstrip("/")
+            return str(_safe(K7BVAL, rel or "index.html"))
         for route, base in KSTAGES.items():
             if request_path == f"/{route}" or request_path.startswith(f"/{route}/"):
                 rel = request_path[len(route) + 2 :].lstrip("/")
