@@ -1,48 +1,54 @@
-# Experiments 写作方案 v2（按 PI 决策修订）
+# Experiments 写作方案 v3（含对照组与人评展示）
 
-日期：2026-09-22（v2，取代同日 v1）
-依据：PI 5 项决策 + 执行机权威配置（`runs/K6-B-RSI-NOOFFSETLOSS-R1-V2-K0-S3407-EXT20K-DATA2/config.json`、`runs/K7-B-V3-K0-S3407-20K-R2/config.json`、`data/v3_v2_plus_v0921_20260922/v0921_spec.json`）；评测器归属与防御性写作判据按 `references/paper-method-audit.md` §7b/§7c。
-目标读者：PI。**本文只给方案与结构；main.tex 未改。**
+日期：2026-09-23（v3，取代 2026-09-22 的 v2）
+依据：PI 决策（K6-B 参数 / V3 数据 / 外部复现已有 / 人评后补 / 砍过细实验，2026-09-22）；对照组四层与「防御性写作判据 = 句子主语」（2026-09-23）；评测器归属与防御性判据参照 `references/paper-method-audit.md` §7b/§7c。
+目标读者：PI。**本文只给方案与结构；完整 LaTeX 见 `EXPERIMENTS_DRAFT_LATEX_20260923.md`；main.tex 未改。**
 
-## 0. 本轮决策与影响
+## 0. 决策与影响
 
 | PI 决策 | 落地 |
 |---|---|
 | ① 训练参数以 K6-B 为主 | §3 按 K6-B run 的 config 权威值写（旧的「10,000 updates」说法作废） |
-| ② 数据写 V3，只讲不泄露 | §3：V3 = v2 + v0921（315 字体、41,663 pairs，train-only、**不进 bank**）；泄露只写一句设定，不写辩护段 |
+| ② 数据写 V3，只讲不泄露 | §3：V3 = v2 + v0921（315 字体、41,663 pairs，train-only、**不进 bank**）；泄露只写一句设定 |
 | ③ 外部复现结果已有、效果低于我们 | §4 主表外部行按已有复现结果填（数字来源待指路） |
-| ④ 人评结果后到 | 结构先写；风格列留占位，人评只写协议不写结果 |
-| ⑤ 砍掉过细实验 | §5 清单：主文消融压到 3 行；去掉逐层/逐 token/初始化/精度类消融、donor 审计、第二坐标消融、逐字体分解表与逐基线细节枚举 |
+| ④ 人评结果后到 | §4／§6：结构先写，三处落点定好，数值留占位 |
+| ⑤ 砍掉过细实验 | §7 清单：主文对照压到 4 行；逐层/逐 token/初始化/精度类消融、donor 审计、第二坐标消融、逐字体分解表下沉或删除 |
+| ⑥ 主实验之外需其他对照组 | §2 对照四层：外部方法／条件消融／设计替代／设置与指标对照 |
+| ⑦ 人评如何展示 | §6：主表一列 + 人评小节与独立表 + 附录协议；人评同时充当评测器的校验 |
+| ⑧ 防御性写作判据修正 | §5：以**指标/任务**为主语的度量有效性研究（去相关、人评一致性、正负对照）计入评测贡献；以**我方成绩**为主语的解释才禁止 |
 
 ---
 
-## 1. 节结构（5 小节，主文约 2.5 页）
+## 1. 节结构（7 小节，主文约 2.5–3 页）
 
 | 小节 | 功能 | 篇幅 |
 |---|---|---|
-| 5.1 Setup and protocol | 数据 V3、协议 A、参考预算、训练配置、评测轴与统计口径、GT 定位 | ~0.8 页 |
-| 5.2 Cross-script consistency evaluator | 构造一句 + 验证门一句 + 用途边界一句（结果占位） | ~0.3 页 |
-| 5.3 Main comparison | 主表（外部方法 + 我们的方法），每行四项指标 | ~0.6 页 |
-| 5.4 Contribution studies | 3 行消融，单变量 | ~0.4 页 |
-| 5.5 Reference budgets and qualitative analysis | 1/2/4/8 参考预算曲线 + 三档定性 | ~0.4 页 |
+| 5.1 Setup and protocol | 数据 V3、协议 A、参考预算、训练配置、评测轴与统计口径 | ~0.8 页 |
+| 5.2 Cross-script consistency evaluator | 构造一句 + 验证门一句 + 用途一句（结果占位） | ~0.3 页 |
+| 5.3 Main comparison | 主表：外部方法 + CRP (fixed weights) + ours | ~0.6 页 |
+| 5.4 Control studies | 4 行对照（2 removal + 2 substitution） | ~0.4 页 |
+| 5.5 What the metrics measure | point vs set 指标轴：去相关 + 人评一致性 + 正负对照 | ~0.4 页 |
+| 5.6 Human evaluation | 人评小节 + 独立表（均分、胜率、n、p、α） | ~0.3 页 |
+| 5.7 Reference budgets and qualitative analysis | 1/2/4/8 预算曲线（含外部方法同预算）+ 三档定性 | ~0.4 页 |
 
-## 2. 论证主线（主张 → 证据 → 落点）
+## 2. 对照四层（主实验之外）
 
-| 主张 | 证据 | 落点 |
-|---|---|---|
-| 结构变化与外观表达可分开处理；identity 与 cross-script consistency 是两个可分开测的轴 | 双轴主表（identity 自动指标 + 风格相容性）；像素指标只作诊断 | 主表 |
-| CRP：库实例化形变空间，参考判定实现，路由在生成中确定结构偏移 | ① 结构条件对照 ② 组合方式对照 | 消融表 |
-| TC：从目标内容与源参考预测 target-aligned appearance representation | ③ 外观条件对照 | 消融表 |
-| 跨书写系统场景下优于既有方法 | 主表外部行（已有复现结果）+ 参考预算曲线 | 主表、5.5 |
+| 层 | 回答什么问题 | 对照形态 | 落点 |
+|---|---|---|---|
+| ① 外部方法（主实验） | 我们比已有方法好吗 | FontDiffuser / FTransGAN / CF-Font / FSFont + CRP (fixed weights) | 主表 |
+| ② 条件消融（必要性） | 结构条件、外观条件各自是否必要 | 去掉 structural offset；去掉 appearance condition | 对照表 Removal 块 |
+| ③ 设计替代（形式选择） | 为什么是学习路由而非固定权重；为什么是相对中性的偏移而非直接寄 donor 图 | routed vs fixed prior weights；neutral-referenced offset vs direct donor rendering | 对照表 Substitution 块 |
+| ④ 设置与指标对照 | 优势是否只靠更多参考；分数是否真的量到任务 | 预算图含外部方法同预算对比；point vs set 指标轴（含人评一致性） | 5.7 图、5.5 表 |
 
-互补性不再单独设行：①与③各自去掉后与完整模型的对比即给出互补证据。
+互补性不单独设行：②的两行各自去掉一个条件后与完整模型的对比即给出互补证据。
+其余候选对照（单 donor 结构、第二坐标、donor swap、同库同字绝对聚合）按 §7 进附录。
 
 ## 3. 数据与训练配置（权威值）
 
 **数据（V3）**
 - v2 主体：260 字体 = 228 train / 16 val / 16 test；295 目标字符、338 中文参考；协议 A（96×96 原生、逐字体统一字号、无 resize）。
-- 补充集 v0921：315 字体、41,663 训练 pairs，`role = train-only`；bank 冻结在 v2 的 donor 列表（`bank_font_source = frozen V2 donor_train_by_cp only`）。
-- 泄露只写一句设定：「补充集只进训练；检索 bank 保持冻结在 v2 的 donor 列表，补充字体不会成为推理期的候选。」
+- 补充集 v0921：315 字体、41,663 训练 pairs，`role = train-only`；bank 冻结在 v2 的 donor 列表。
+- 泄露只写一句设定：补充集只用于训练，且不加入检索 bank（bank 保持冻结在 v2 donor 列表）。
 
 **训练（K6-B run 权威配置）**
 
@@ -53,117 +59,61 @@
 | 并行 | 8 GPU × micro-batch 8 × accum 1 = global batch 64 |
 | 步数 | 20,000 updates |
 | 日程 | warmup 500 / 平台至 5,000 / cosine 衰减至 10% |
-| lr | 峰值 2e-5（denoiser 与结构模块）、1e-4（reader 与 Es 支路读出头）；AdamW betas (.9,.999)、wd .01、eps 1e-8 |
+| lr | 峰值 2e-5（denoiser 与结构模块）、1e-4（reader 与 Es 支路读出头）；AdamW betas (.9,.999)、wd .01 |
 | 精度 / EMA | fp16（logits 与 loss 走 FP32）；EMA `min(.999, 1-1/(u+1))` |
 | seed / 采样 | 3407；attempt-keyed 全局采样 |
 | 损失 | perceptual .01；外观项 .01（ramp `β=.8·min(u/1000,1)`）；细节项 .05；offset 0 |
 | 条件 dropout | joint CFG .02；source drop .05 |
 
-## 4. 表格
+## 4. 表格（四张）
 
 **主表**：`Method | Identity ↑ | Style pref. ↑ | Family ↑ | LPIPS ↓`
-行：外部方法（已有复现结果，效果低于我们）／CRP（fixed weights）／ours。
-外部方法一行一句交代参考预算与适配方式；训练数据等细节进附录，不在主文逐方法枚举。
-像素指标（L1/SSIM/LPIPS）按数字照报，caption 与正文均不加"diagnostic"之类价值标注，也不写任何为结果辩护或质疑指标有效性的句子。
+行：外部方法（已有复现结果，效果低于我们）／CRP (fixed weights)／ours。
+外部方法一行一句交代参考预算与适配方式；训练数据等细节进附录。
+像素指标按数字照报，caption 与正文均不加"diagnostic"类价值标注，也不写为结果辩护的句子。
 
-**消融表（3 行）**
+**对照表（4 行）**：Removal = 去掉结构偏移／去掉外观条件；Substitution = routed vs fixed prior weights／neutral-referenced offset vs direct donor rendering。列：`Study | Control | Identity | Family`。行名即基线定义；正文不为对照逐行声明"保留了哪些条件"。
 
-| Question | Matched comparison |
-|---|---|
-| 结构条件 | 完整模型 vs 去掉结构偏移 |
-| 组合方式 | routed vs 固定先验权重 |
-| 外观条件 | 完整模型 vs 去掉外观条件 |
+**指标表（5.5）**：`Measure | Conditioned on (point/set) | Agreement with pixel measures | Agreement with human ratings`。含 L1/SSIM/LPIPS、风格特征距离、笔触与骨架相似度、compatibility score、recognition accuracy。
 
-行名即基线定义；正文不为对照逐行声明"保留了哪些条件"。
+**人评表（5.6）**：`Comparison | Style pref. mean | Win rate (%) | n | p (Holm)`，正文另报 Krippendorff's α；附录给抽样规则与逐维度分布。
 
-**参考预算**：1/2/4/8 曲线（图），可复用 `reports/g_v0913_shot_k1248` 的协议产物。
+## 5. 防御性写作判据（修正版）
 
-## 5. 不做 / 下沉附录（避免过细的防御性实验）
+- **允许**：以指标或任务为主语的度量陈述——某度量与任务量纲的关系、度量间的排序一致性、与人评的一致性、正负对照下各度量的响应。这类内容归评测贡献（5.2／5.5），与我们的成绩无关，reviewer 读作评测有效性研究。
+- **禁止**：以我方成绩为主语的解释——"我们的方法在 L1 上更低是因为…"、trades pixel fidelity for style、"该指标不适配本任务"的辩护段、为我们的像素数字专设的解释性对照。
+- **必要的设定陈述只写一次**（补充集 train-only、bank 冻结），不替读者补结论（不写"因此不会有泄露"），不写 `the same X, the same Y, the same Z` 排比式受控条件清单。
+- 数字照报，不藏（不从表里删像素列），也不解释。
+
+## 6. 人评展示（三处落点）
+
+1. **主表一列**：`Style pref.` 放人评均分（5 点，mean ± CI），跨行可比；正文另给 ours vs 每行的成对胜率。
+2. **人评小节 + 独立表**：成对胜率、n、Holm 校正 p、评委间一致性 α；同时把人评作为评测器的校验（人评 vs 评测器一致性 ρ 放在 5.5），一份数据两个用途。
+3. **附录**：完整协议（界面、抽样规则、评委构成、每图 3 评）、两维度分布、逐 script 分解。
+- 正文两句话：人评是 cross-script consistency 的主要证据；消融臂只用自动轴评估（成本所限）。
+
+## 7. 不做 / 下沉附录
 
 **不进主文**
 - 逐 token / 逐层 / 初始化方式 / 精度细节类消融。
-- donor swap 敏感性审计（机制探针，非论文必需）。
-- 第二坐标（Es 中间层读取）独立消融。
-- 「同库同字绝对聚合」对照（bank 守卫；放附录，不进主文）。
-- 逐字体 / 逐字符分解表（主文一句说明按 script 分层趋势一致）。
-- 每个基线的训练数据、预训练、跨语系适配细节枚举。
-- **为解释我方像素数字而设的对抗性装置**：像素指标与人评的一致性排序分析、同族字重兄弟的距离锚点、"指标不适配本任务"的重述段。「像素评估不适配本任务」这一前提属 intro / related work 的任务设定（main.tex:61、:132 已写），实验节不重述。
+- donor swap 敏感性审计；第二坐标（Es 中间层读取）独立消融。
+- 单 donor 结构对照、逐字体 / 逐字符分解表、每个基线的训练细节枚举。
+- 「同库同字绝对聚合」对照（bank 守卫；放附录）。
+- **以我方成绩为主语**的像素解释（判据见 §5）；「像素评估不适配本任务」的前提属 intro / related work 的任务设定（main.tex:61、:132 已写），实验节不重述。
 
-**下沉附录**：完整训练超参表、评测器细节与门结果、参考预算逐档数字、定性面板字样清单、F0 初始化臂的说明。
-
-## 6. 评测器与人评（结果留空）
-
-- 评测器：一句构造（共享跨书写系统表征 + 语境条件监督 + 温度校准的家族相容性分数）+ 一句验证门 + 一句用途边界（GT 作正对照；不作"越像 GT 越好"的质量尺）。
-- 人评：只写协议要点（5 点量表、主维度风格相容性、次维度补全合理性、不展示 GT/方法/分数、每图 3 份有效评分）。**结果占位，不写推断。**
-- 统计：逐图配对（同参考集、同采样器、同噪声、同 seed）；sign / Wilcoxon + Holm；报 CI。
-
-## 7. LaTeX 骨架（可直接 splice，数字待填）
-
-```latex
-\section{Experiments}
-\label{sec:experiments}
-
-\subsection{Setup and protocol}
-The corpus combines 260 typefaces, split into 228 training, 16 validation, and 16 test fonts, with a supplement of 315 typefaces used for training only.
-The supplement never enters the retrieval bank, which stays frozen on the donor list of the main corpus, so no supplement typeface can appear as a candidate at inference.
-Target characters and Chinese reference characters follow the partition of the main corpus.
-Protocol A renders RGB glyphs at $96\times96$ with a shared font size per font and neutral Noto Sans CJK Regular content.
-Evaluation uses nested reference sets of 1, 2, 4, and 8 characters drawn from the same ordered manifest for every method.
-
-\paragraph{Training.}
-% K6-B 配方：F0@10k 初始化；8 GPU $\times$ micro-batch 8 = global 64；20,000 updates；
-% warmup 500 / flat to 5,000 / cosine to 10\%；lr 2e-5（denoiser 与结构模块）、1e-4（reader）；
-% perceptual .01、appearance .01（ramped）、detail .05、offset 0；fp16；seed 3407；EMA。
-% 逐项数值与实现细节见附录 \ref{app:repro}。
-
-\subsection{Cross-script consistency evaluator}
-% 一句构造 + 一句验证门 + 一句用途边界；结果占位。
-
-\subsection{Main comparison}
-\begin{table}[t]
-\centering\small
-\caption{Main comparison. Identity is character recognition accuracy, style preference follows the human protocol, and family compatibility is the evaluator score.}
-\label{tab:main}
-\begin{tabular}{lrrrr}
-\toprule
-Method & Identity $\uparrow$ & Style pref.\ $\uparrow$ & Family $\uparrow$ & LPIPS $\downarrow$\\
-\midrule
-% 外部方法（已有复现结果）
-% CRP (fixed weights)
-% ours
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Contribution studies}
-\begin{table}[t]
-\centering\small
-\caption{Contribution studies. Each row changes one variable.}
-\label{tab:ablations}
-\begin{tabular}{llr}
-\toprule
-Question & Matched comparison & Result\\
-\midrule
-Structural condition & full model vs no structural offset & \\
-Combination & routed vs fixed prior weights & \\
-Appearance condition & full model vs no appearance condition & \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Reference budgets and qualitative analysis}
-% 1/2/4/8 曲线 + 三档定性面板
-```
+**下沉附录**：完整训练超参表、评测器细节与门结果、参考预算逐档数字、定性面板字样清单、人评协议全文、F0 初始化臂说明。
 
 ## 8. 待确认（需你拍板）
 
 | # | 事项 | 推荐 |
 |---|---|---|
-| D-E1 | 主表用哪条 run 的权重：K6-B（v2 数据、20k 已完成）还是 K7-B（V3 数据、同配方、仍在跑） | 数据段写 V3 → 用 K7-B 权重力求一致；若必须用 K6-B，则数据段需写 v2 |
-| D-E2 | 外部复现结果的数字在哪里（本地仓与执行机 `reports/` 均未找到外部基线复现产物） | 你指路后接入主表 |
-| D-E3 | F0 初始化臂差异（K6-B 用 `G0b-F0-V0913`、K7-B 用 `F0-CLEAN-V0913`）写正文还是附录 | 附录一句 |
-| D-E4 | 是否同意消融压到 3 行、其余下沉附录 | 按 §5 执行 |
-| D-E5 | 「同库同字绝对聚合」对照是否放附录 | 放附录，不进主文 |
+| D-E1 | 主表用哪条 run 的权重：K6-B（v2 数据）还是 K7-B（V3 数据） | 按 PI 指示先不管（参数按 K6-B、数据写 V3）；出表时再定 |
+| D-E2 | 外部复现结果的数字来源 | 你指路后接入主表 |
+| D-E3 | F0 初始化臂差异写正文还是附录 | 附录一句 |
+| D-E4 | 对照压到 4 行（§2 的②③），其余下沉附录 | 按 §7 执行 |
+| D-E5 | 人评抽样规则与 n（决定胜率列分母口径） | 你定 |
+| D-E6 | 5.5 的「正负对照」是否保留在主文（weight siblings / 异族同像素距离） | 保留（是指标特殊性最直接的证据，零训练） |
 
 ## 9. 未核实项
-主表各行数字（K6-B `DONE.json` 的 `inference_complete=false`，需另跑固定协议推理）、人评采集状态、评测器门结果、K7-B 训练完成度。
+
+主表各行数字（K6-B `DONE.json` 的 `inference_complete=false`，需另跑固定协议推理）、人评采集状态、评测器门结果、K7-B 训练完成度、5.5 各项 ρ 与正负对照所需的变体/外部字体池产物。
