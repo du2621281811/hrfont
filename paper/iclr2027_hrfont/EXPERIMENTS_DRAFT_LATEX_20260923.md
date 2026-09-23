@@ -22,7 +22,7 @@ Comparisons are paired per item over shared references, sampler, and noise, and 
 The model starts from an RSI-free checkpoint trained for 10k updates and runs for 20{,}000 updates on eight GPUs with a global batch of 64.
 The schedule warms up over 500 updates, holds a plateau until 5{,}000, and decays cosine to 10\% of the peak rate; the denoiser and the structural modules use a peak rate of $2\times10^{-5}$ and the reader and the routing read-outs $10^{-4}$, with AdamW, $\beta=(.9,.999)$, weight decay $.01$, and FP16 arithmetic.
 Model weights are averaged with an EMA factor of $\min(.999,1-1/(u+1))$.
-The objective keeps the backbone perceptual term at $0.01$, an appearance term at $0.01$ ramped by $\beta=.8\min(u/1000,1)$, and a detail term at $0.05$; condition dropout uses a joint rate of $0.02$ and a source drop of $0.05$.
+The objective keeps the backbone perceptual term at $0.01$, an appearance term at $0.01$ and a detail term at $0.05$, both ramped by $\min(u/1000,1)$; dropping the structural condition zeroes its offset.
 Resolved settings appear in Appendix~\ref{app:repro}.
 
 \subsection{Cross-script consistency evaluator}

@@ -179,15 +179,14 @@ The two conditions are combined with the content and global reference features i
 Figure~\ref{fig:overview} summarizes the model.
 
 \subsection{Character Realization Prior}
-For a fixed character identity, typefaces differ substantially in proportion, curvature, stroke organization, and local geometry, so one reference appearance can correspond to several plausible realizations.
-CRP anchors on the requested character, reads how each bank font renders it, and takes the difference with respect to one fixed neutral realization:
+CRP anchors on the requested character, reads how each bank font renders it through the content and style encoders, and takes the difference with respect to one fixed neutral realization:
 \begin{equation}
- d^{\mathrm{ec}}_{j,c}=E_c^{\rho}(B_{j,c})-E_c^{\rho}(x_c^0),\qquad
- d^{\mathrm{es}}_{j,c}=E_s^{\rho}(x_{f_j,c})-E_s^{\rho}(x_c^0).
+ d^{\mathrm{ec}}_{j,c}=E_c(B_{j,c})-E_c(x_c^0),\qquad
+ d^{\mathrm{es}}_{j,c}=E_s(x_{f_j,c})-E_s(x_c^0).
  \label{eq:delta}
 \end{equation}
 Subtracting the neutral realization removes the structure the generator already receives as content and leaves the geometric change that a design introduces, so the bank supplies the directions of the deformation space of the requested character.
-The bank consists of training fonts: an episode excludes its own font, and at test time the target family is absent from it, so the reference set is the only target-family evidence the model receives.
+The bank consists of training fonts: an episode excludes its own font, and at test time the target family is absent from it.
 
 The references determine which realization is appropriate.
 Reference characters exist in the bank as well, so we compare the glyphs of the family with the same characters set in other fonts using the style encoder's descriptors, which gives a distribution $\alpha_j\propto\exp(s_j/\tau)$ over candidate fonts, normalized over the top-$K$ eligible ones and used as a prior.
@@ -200,7 +199,7 @@ Every structural module re-estimates the weights from the current hidden state, 
  \Delta_{\ell,t,p}=\Delta^{\mathrm{ec}}_{\ell,t,p}+\tanh(g_\ell)\,\Delta^{\mathrm{es}}_{\ell,t,p}.
  \label{eq:crp}
 \end{equation}
-The weights are nonnegative and normalized, so one generation combines many realizations jointly, and the combined offset drives the deformable structural interaction with the neutral content.
+The weights are nonnegative and normalized, so one generation combines many realizations jointly; each branch maps its combined offset into the corresponding level of the denoiser, where it is added to the up-path features.
 
 CRP reads the same candidates through a second coordinate.
 The nine global tokens are pooled from a $3\times3$ map and summarize the overall weight and proportion of the family.
@@ -214,18 +213,18 @@ The readout is spatial, so supervision corresponds to where the design should ap
 Dimensions, attention settings, and initialization are listed in Appendix~\ref{app:repro}.
 
 \subsection{Training and Inference}
-Training updates the local reader, the routing of CRP, and the denoiser, while the content, style, and VGG encoders stay frozen.
+Training updates the denoiser, the reader, and the structural modules, while the content, style, and VGG encoders stay frozen.
 The objective adds two terms to the backbone recipe,
 \begin{equation}
  \mathcal L=\mathcal L_{\mathrm{diff}}
       +0.01\mathcal L_{\mathrm{perc}}
-      +r(u)\bigl(0.01\mathcal L_{\mathrm{comp}}+0.05\mathcal L_{\mathrm{detail}}\bigr),
+      +r(u)\bigl(0.01\mathcal L_{\mathrm{comp}}+0.05\mathcal L_{\mathrm{detail}}\bigr),\qquad r(u)=\min(u/1000,1),
  \label{eq:objective}
 \end{equation}
 where the appearance term supervises the TC readout against a teacher pooled from the target image at the same spatial resolution, and the detail term weights the regions that deviate from the neutral realization by the ink a design adds and removes (Appendix~\ref{app:repro}).
 
 Each episode draws one to eight references from the target family and one target character from the same font; candidate fonts exclude that font and its explicit weight variants.
-Condition dropout follows the backbone protocol, and dropping the structural condition zeroes its offset.
+Dropping the structural condition zeroes its offset.
 At inference the appearance representation is computed once for each content--reference pair and reused across denoising steps, while the routing weights of CRP are re-estimated at every module and step.
 
 \section{Experiments}
@@ -246,7 +245,7 @@ The appendix records reference characters, bank eligibility, sampler, and proven
 The current joint experiments use eight V100 GPUs, eight samples per device, FP16 arithmetic, and gradient clipping at 1.0.
 The effective main-task batch size is 64.
 The denoiser and inherited structural modules use a peak learning rate of $2\times10^{-5}$; the local reader and router use $10^{-4}$.
-Joint training runs for 10,000 successful updates, with 500 warmup updates, a plateau through update 5,000, and cosine decay to 10\% of the peak rate.
+Joint training runs for 20,000 successful updates, with 500 warmup updates, a plateau through update 5,000, and cosine decay to 10\% of the peak rate by update 10,000, held for the remaining updates.
 The auxiliary experiment adds 32 Chinese examples per update and starts independently from the same parent weights.
 EMA weights are evaluated every 2,000 updates.
 Complete resolved settings appear in Appendix~\ref{app:repro}.
@@ -393,11 +392,12 @@ Reference injection & additive up-path attention; gain initialized at 0.01\\
 Optimizer & AdamW, $(0.9,0.999)$, $\epsilon=10^{-8}$, weight decay 0.01\\
 Joint batch / precision & $8\times8=64$ / FP16\\
 Joint learning rates & inherited $2\times10^{-5}$; new $10^{-4}$\\
-Schedule & 500 warmup; plateau to 5k; cosine decay to 10k\\
+Updates & 20,000\\
+Schedule & 500 warmup; plateau to 5k; cosine to 10\% at 10k, held to 20k\\
 Gradient clipping & 1.0\\
-Loss coefficients & perceptual 0.01; raw offset 0.25; completion 0.01\\
+Loss coefficients & perceptual 0.01; completion 0.01; detail 0.05; offset 0\\
 Auxiliary Chinese study & batch 32; weight 0.5; shared main batch 64\\
-Reference / source dropout & 0.10 / 0.25\\
+Joint CFG / structural dropout & 0.02 / 0.05\\
 Parent checkpoint hashes & --\\
 Mapping and cache hashes & --\\
 Training GPU hours / peak memory & --\\
@@ -414,6 +414,9 @@ Reference attention uses normalized 64-dimensional query/key heads with FP32 log
 CRP uses 32-dimensional routing features, with $1\times1$ hidden/content projections and a $3\times3$ candidate projection.
 Its time embedding maps $[t/1000,(t/1000)^2]$ through a two-layer MLP; the routing strength starts at 0.1.
 EMA decay rises to a maximum of 0.999, and the completion coefficient and local attention contribution ramp over 1,000 updates.
+The structural offset is read at two levels of each encoder ($64\times48\times48$ and $128\times24\times24$) and is zero at the other levels.
+The style-coordinate branch applies a bias-free $1\times1$ projection initialized to identity, and a per-module gate initialized at zero scales its contribution.
+The detail term weights each sample by $\sqrt{\bar\alpha_t}$ and applies to samples whose condition is not dropped, and episodes draw one to eight references uniformly at random.
 
 \paragraph{Run correspondence.}
 The I0 reference is the 10,000-update G0b V0913 checkpoint.
