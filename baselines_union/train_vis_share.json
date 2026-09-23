@@ -1,0 +1,5509 @@
+{
+  "title": "训练集风格出图清单（给合作者同步）",
+  "dataset": "v0922_union",
+  "not_official_score": "只出图，不进测试拉丁 2794 / 测试全集 7088，也不进 val 选 ckpt。",
+  "eval_px": 96,
+  "pred_filename": "{stem}+{cp}.png",
+  "gt": "data/v0922_union/png/train/TargetImage/{stem}/{stem}+{cp}.png",
+  "content": "data/v0922_union/png/train/ContentImage/{cp}.png",
+  "style_ref_order": "永和书风骨韵天地",
+  "style_ref_note": "按这个顺序取字体里实际有的 StyleImage。FontDiffuser 只取第 1 张（1-shot）。",
+  "chars": [
+    {
+      "ch": "0",
+      "cp": "u0030",
+      "group": "digit",
+      "why": "闭口圆"
+    },
+    {
+      "ch": "2",
+      "cp": "u0032",
+      "group": "digit",
+      "why": "开曲线"
+    },
+    {
+      "ch": "4",
+      "cp": "u0034",
+      "group": "digit",
+      "why": "开/闭 4"
+    },
+    {
+      "ch": "8",
+      "cp": "u0038",
+      "group": "digit",
+      "why": "双封闭字怀"
+    },
+    {
+      "ch": "9",
+      "cp": "u0039",
+      "group": "digit",
+      "why": "字怀+尾巴"
+    },
+    {
+      "ch": "B",
+      "cp": "u0042",
+      "group": "latin_upper",
+      "why": "双字怀"
+    },
+    {
+      "ch": "F",
+      "cp": "u0046",
+      "group": "latin_upper",
+      "why": "横笔、无字怀"
+    },
+    {
+      "ch": "M",
+      "cp": "u004D",
+      "group": "latin_upper",
+      "why": "宽字、斜笔"
+    },
+    {
+      "ch": "P",
+      "cp": "u0050",
+      "group": "latin_upper",
+      "why": "单字怀；和 p/b 对照"
+    },
+    {
+      "ch": "Q",
+      "cp": "u0051",
+      "group": "latin_upper",
+      "why": "大写尾巴"
+    },
+    {
+      "ch": "S",
+      "cp": "u0053",
+      "group": "latin_upper",
+      "why": "双弯；和 s 对照"
+    },
+    {
+      "ch": "a",
+      "cp": "u0061",
+      "group": "latin_lower",
+      "why": "双层 vs 单层 a"
+    },
+    {
+      "ch": "b",
+      "cp": "u0062",
+      "group": "latin_lower",
+      "why": "升部+字怀；和 p/q 对照"
+    },
+    {
+      "ch": "e",
+      "cp": "u0065",
+      "group": "latin_lower",
+      "why": "字眼、横中线"
+    },
+    {
+      "ch": "f",
+      "cp": "u0066",
+      "group": "latin_lower",
+      "why": "升部+横；和 F 对照"
+    },
+    {
+      "ch": "g",
+      "cp": "u0067",
+      "group": "latin_hard",
+      "why": "双层 g / 开尾 g"
+    },
+    {
+      "ch": "m",
+      "cp": "u006D",
+      "group": "latin_lower",
+      "why": "双拱；和 M 对照"
+    },
+    {
+      "ch": "p",
+      "cp": "u0070",
+      "group": "latin_lower",
+      "why": "降部+字怀"
+    },
+    {
+      "ch": "q",
+      "cp": "u0071",
+      "group": "latin_lower",
+      "why": "降部另一侧；和 p/b 对照"
+    },
+    {
+      "ch": "s",
+      "cp": "u0073",
+      "group": "latin_lower",
+      "why": "双弯；和 S 对照"
+    },
+    {
+      "ch": "é",
+      "cp": "u00E9",
+      "group": "latin_ext",
+      "why": "锐音"
+    },
+    {
+      "ch": "ě",
+      "cp": "u011B",
+      "group": "latin_ext",
+      "why": "倒折音"
+    },
+    {
+      "ch": "あ",
+      "cp": "u3042",
+      "group": "hiragana",
+      "why": "平假名常见字"
+    },
+    {
+      "ch": "ん",
+      "cp": "u3093",
+      "group": "hiragana",
+      "why": "钩笔"
+    },
+    {
+      "ch": "ア",
+      "cp": "u30A2",
+      "group": "katakana",
+      "why": "片假名常见字"
+    },
+    {
+      "ch": "ン",
+      "cp": "u30F3",
+      "group": "katakana",
+      "why": "ン/ソ 方向"
+    },
+    {
+      "ch": "ㄅ",
+      "cp": "u3105",
+      "group": "bopomofo",
+      "why": "注音声母"
+    },
+    {
+      "ch": "ㄆ",
+      "cp": "u3106",
+      "group": "bopomofo",
+      "why": "和 ㄅ 成对"
+    },
+    {
+      "ch": "ㄚ",
+      "cp": "u311A",
+      "group": "bopomofo",
+      "why": "注音韵母"
+    }
+  ],
+  "n_fonts": 34,
+  "n_fd_images_with_gt": 777,
+  "priority": "fontdiffuser",
+  "fontdiffuser": {
+    "ckpt": "/root/projects/hrfont/baselines_union/runs/fontdiffuser/ft_union_s1/global_step_25000/unet.pth",
+    "note": "正式表仍用 val 拉丁选出的 25k。这次训练集出图也用这颗，不改分数。",
+    "eval_shot": 1,
+    "sample": "CFG 7.5 · DPM-Solver++ 20 · 96px",
+    "out": "baselines_union/runs/fontdiffuser/vis_split/train/pred/"
+  },
+  "later_methods": [
+    "mfnet",
+    "fcagan",
+    "gasnext",
+    "ftransgan",
+    "garfont",
+    "fontdiffuser_p2"
+  ],
+  "skip": {
+    "mxfont": "没有 ckpt，不测"
+  },
+  "fonts": [
+    {
+      "stem": "UN2011170",
+      "display_name": "Aa可爱POP空心体",
+      "why": "空心 · Aa可爱POP空心体 · 轮廓最清楚",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012815",
+      "display_name": "妙笔创中镂空圆",
+      "why": "镂空圆 · 妙笔创中镂空圆",
+      "split": "train",
+      "n_target": 62,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2021493",
+      "display_name": "Aa像素山海",
+      "why": "像素 · Aa像素山海",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "FZBITMAPFENGJW",
+      "display_name": "方正点阵冯简体",
+      "why": "点阵 · 方正点阵冯简体（0917）",
+      "split": "train",
+      "n_target": 268,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ]
+    },
+    {
+      "stem": "UN2000043",
+      "display_name": "Aa纸胶带 常规",
+      "why": "纹理 · Aa纸胶带 常规",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2000652",
+      "display_name": "字魂192号-萌趣蜡笔体",
+      "why": "蜡笔 · 字魂192号-萌趣蜡笔体",
+      "split": "train",
+      "n_target": 81,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2021252",
+      "display_name": "Aa全息黑体",
+      "why": "特效 · Aa全息黑体",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012245",
+      "display_name": "妙笔正酷真影体",
+      "why": "阴影 · 妙笔正酷真影体",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2013302",
+      "display_name": "妙笔墨之手书",
+      "why": "笔墨 · 妙笔墨之手书",
+      "split": "train",
+      "n_target": 295,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ],
+      "vis_missing_no_gt": []
+    },
+    {
+      "stem": "UN2012000",
+      "display_name": "Aa新华墨竹体",
+      "why": "笔墨 · Aa新华墨竹体",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012520",
+      "display_name": "妙笔缥缈毛笔隶书",
+      "why": "笔墨 · 妙笔缥缈毛笔隶书",
+      "split": "train",
+      "n_target": 295,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ],
+      "vis_missing_no_gt": []
+    },
+    {
+      "stem": "FZZJ-ZDFCSJW",
+      "display_name": "方正字迹-周东芬草书 简",
+      "why": "笔墨 · 方正字迹-周东芬草书 简（0917）",
+      "split": "train",
+      "n_target": 295,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ],
+      "vis_missing_no_gt": []
+    },
+    {
+      "stem": "UN2011987",
+      "display_name": "Aa奇幻马戏团",
+      "why": "特效 · Aa奇幻马戏团",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012008",
+      "display_name": "Aa不凡星爵",
+      "why": "特效 · Aa不凡星爵",
+      "split": "train",
+      "n_target": 73,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2011193",
+      "display_name": "Aa波点",
+      "why": "纹理 · Aa波点",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012031",
+      "display_name": "Aa方块黑",
+      "why": "像素 · Aa方块黑",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2011977",
+      "display_name": "Aa幻夜伯爵简体",
+      "why": "特效 · Aa幻夜伯爵简体",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2011164",
+      "display_name": "Aa漫反射",
+      "why": "特效 · Aa漫反射",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012021",
+      "display_name": "Aa烈焰隶书",
+      "why": "特效 · Aa烈焰隶书",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2014248",
+      "display_name": "妙笔冰川体",
+      "why": "特效 · 妙笔冰川体",
+      "split": "train",
+      "n_target": 295,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ],
+      "vis_missing_no_gt": []
+    },
+    {
+      "stem": "UN2012623",
+      "display_name": "妙笔凝宋波纹体",
+      "why": "纹理 · 妙笔凝宋波纹体",
+      "split": "train",
+      "n_target": 62,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012858",
+      "display_name": "妙笔雪云波荡体",
+      "why": "纹理 · 妙笔雪云波荡体",
+      "split": "train",
+      "n_target": 81,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2017964",
+      "display_name": "字小魂彩虹积木体",
+      "why": "像素 · 字小魂彩虹积木体",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2017924",
+      "display_name": "字魂烟花体",
+      "why": "特效 · 字魂烟花体",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "FZMengHHXJW-EB",
+      "display_name": "方正梦幻火星体 简 ExtraBold",
+      "why": "特效 · 方正梦幻火星体 简 ExtraBold",
+      "split": "train",
+      "n_target": 295,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ],
+      "vis_missing_no_gt": []
+    },
+    {
+      "stem": "UN2012179",
+      "display_name": "Aa剑豪体",
+      "why": "特效 · Aa剑豪体",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012168",
+      "display_name": "Aa新怪谈",
+      "why": "特效 · Aa新怪谈",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012164",
+      "display_name": "Aa狂派手书",
+      "why": "手书 · Aa狂派手书",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2011969",
+      "display_name": "Aa霸道楷",
+      "why": "特效 · Aa霸道楷",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2012072",
+      "display_name": "Aa镁宋",
+      "why": "特效 · Aa镁宋",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2010925",
+      "display_name": "Aa马克体",
+      "why": "特效 · Aa马克体",
+      "split": "train",
+      "n_target": 89,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2000060",
+      "display_name": "Aa魔幻天使 常规",
+      "why": "特效 · Aa魔幻天使 常规",
+      "split": "train",
+      "n_target": 62,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2013640",
+      "display_name": "妙笔乐佳手书",
+      "why": "手书 · 妙笔乐佳手书",
+      "split": "train",
+      "n_target": 62,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    },
+    {
+      "stem": "UN2027489",
+      "display_name": "字魂天狼体(商用需授权)",
+      "why": "特效 · 字魂天狼体（商用需授权）",
+      "split": "train",
+      "n_target": 62,
+      "vis_present": [
+        {
+          "ch": "0",
+          "cp": "u0030",
+          "group": "digit"
+        },
+        {
+          "ch": "2",
+          "cp": "u0032",
+          "group": "digit"
+        },
+        {
+          "ch": "4",
+          "cp": "u0034",
+          "group": "digit"
+        },
+        {
+          "ch": "8",
+          "cp": "u0038",
+          "group": "digit"
+        },
+        {
+          "ch": "9",
+          "cp": "u0039",
+          "group": "digit"
+        },
+        {
+          "ch": "B",
+          "cp": "u0042",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "F",
+          "cp": "u0046",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "M",
+          "cp": "u004D",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "P",
+          "cp": "u0050",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "Q",
+          "cp": "u0051",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "S",
+          "cp": "u0053",
+          "group": "latin_upper"
+        },
+        {
+          "ch": "a",
+          "cp": "u0061",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "b",
+          "cp": "u0062",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "e",
+          "cp": "u0065",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "f",
+          "cp": "u0066",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "g",
+          "cp": "u0067",
+          "group": "latin_hard"
+        },
+        {
+          "ch": "m",
+          "cp": "u006D",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "p",
+          "cp": "u0070",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "q",
+          "cp": "u0071",
+          "group": "latin_lower"
+        },
+        {
+          "ch": "s",
+          "cp": "u0073",
+          "group": "latin_lower"
+        }
+      ],
+      "vis_missing_no_gt": [
+        {
+          "ch": "é",
+          "cp": "u00E9",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "ě",
+          "cp": "u011B",
+          "group": "latin_ext"
+        },
+        {
+          "ch": "あ",
+          "cp": "u3042",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ん",
+          "cp": "u3093",
+          "group": "hiragana"
+        },
+        {
+          "ch": "ア",
+          "cp": "u30A2",
+          "group": "katakana"
+        },
+        {
+          "ch": "ン",
+          "cp": "u30F3",
+          "group": "katakana"
+        },
+        {
+          "ch": "ㄅ",
+          "cp": "u3105",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄆ",
+          "cp": "u3106",
+          "group": "bopomofo"
+        },
+        {
+          "ch": "ㄚ",
+          "cp": "u311A",
+          "group": "bopomofo"
+        }
+      ]
+    }
+  ]
+}

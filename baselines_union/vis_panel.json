@@ -1,0 +1,111 @@
+{
+  "note": "Qualitative vis only. Official scores stay test_latin/test_all. Probe/eval47 has 47 chars; s/m/f/P/S/F are outside that 47 so 0913 test_old/mid have no pred (0917 west + val latin do).",
+  "probe_fonts": {
+    "old": [
+      {"stem": "FZBuGTJW", "why": "test · 0913 黑体 · all_scripts"},
+      {"stem": "FZChuangHJW_DB", "why": "test · 0913 创艺 · 无注音"},
+      {"stem": "FZCuanBZBKSJW", "why": "test · 0913 篆/展示 · all_scripts"}
+    ],
+    "west": [
+      {"stem": "FZBaiZHXTJW", "why": "test · 0917 手写魂心体"},
+      {"stem": "FZCYJW", "why": "test · 0917 彩云装饰 · 无假名/注音"},
+      {"stem": "FZDouNTJW", "why": "test · 0917 斗牛粗展示 · 无注音"}
+    ]
+  },
+  "chars": [
+    {"ch": "0", "cp": "u0030", "group": "digit", "why": "闭口圆"},
+    {"ch": "2", "cp": "u0032", "group": "digit", "why": "开曲线"},
+    {"ch": "4", "cp": "u0034", "group": "digit", "why": "开/闭 4"},
+    {"ch": "8", "cp": "u0038", "group": "digit", "why": "双封闭字怀"},
+    {"ch": "9", "cp": "u0039", "group": "digit", "why": "字怀+尾巴"},
+    {"ch": "B", "cp": "u0042", "group": "latin_upper", "why": "双字怀"},
+    {"ch": "F", "cp": "u0046", "group": "latin_upper", "why": "横笔、无字怀"},
+    {"ch": "M", "cp": "u004D", "group": "latin_upper", "why": "宽字、斜笔"},
+    {"ch": "P", "cp": "u0050", "group": "latin_upper", "why": "单字怀；和 p/b 对照"},
+    {"ch": "Q", "cp": "u0051", "group": "latin_upper", "why": "大写尾巴"},
+    {"ch": "S", "cp": "u0053", "group": "latin_upper", "why": "双弯；和 s 对照"},
+    {"ch": "a", "cp": "u0061", "group": "latin_lower", "why": "双层 vs 单层 a"},
+    {"ch": "b", "cp": "u0062", "group": "latin_lower", "why": "升部+字怀；和 p/q 对照"},
+    {"ch": "e", "cp": "u0065", "group": "latin_lower", "why": "字眼、横中线"},
+    {"ch": "f", "cp": "u0066", "group": "latin_lower", "why": "升部+横；和 F 对照"},
+    {"ch": "g", "cp": "u0067", "group": "latin_hard", "why": "双层 g / 开尾 g"},
+    {"ch": "m", "cp": "u006D", "group": "latin_lower", "why": "双拱；和 M 对照"},
+    {"ch": "p", "cp": "u0070", "group": "latin_lower", "why": "降部+字怀"},
+    {"ch": "q", "cp": "u0071", "group": "latin_lower", "why": "降部另一侧；和 p/b 对照"},
+    {"ch": "s", "cp": "u0073", "group": "latin_lower", "why": "双弯；和 S 对照"},
+    {"ch": "é", "cp": "u00E9", "group": "latin_ext", "why": "锐音"},
+    {"ch": "ě", "cp": "u011B", "group": "latin_ext", "why": "倒折音"},
+    {"ch": "あ", "cp": "u3042", "group": "hiragana", "why": "平假名常见字"},
+    {"ch": "ん", "cp": "u3093", "group": "hiragana", "why": "钩笔"},
+    {"ch": "ア", "cp": "u30A2", "group": "katakana", "why": "片假名常见字"},
+    {"ch": "ン", "cp": "u30F3", "group": "katakana", "why": "ン/ソ 方向"},
+    {"ch": "ㄅ", "cp": "u3105", "group": "bopomofo", "why": "注音声母"},
+    {"ch": "ㄆ", "cp": "u3106", "group": "bopomofo", "why": "和 ㄅ 成对"},
+    {"ch": "ㄚ", "cp": "u311A", "group": "bopomofo", "why": "注音韵母"}
+  ],
+  "mid_chars": ["0", "2", "4", "9", "B", "M", "Q", "a", "b", "e", "g", "p", "q", "ě", "あ", "ん", "ア", "ン", "ㄅ", "ㄆ"],
+  "official_extra": {
+    "old": [
+      {"stem": "FZFeiHHJW-H", "why": "test · 飞虹黑"},
+      {"stem": "FZLingFKSJW-B", "why": "test · 展示/装饰"},
+      {"stem": "FZMaWDBSJW", "why": "test · 写意/毛笔"}
+    ],
+    "west": [
+      {"stem": "FZZJ-HLYHXWJW", "why": "test · 行魏"},
+      {"stem": "FZZJ-MJZCFU", "why": "test · 章草"},
+      {"stem": "ee347e17", "why": "test · 空心手迹"}
+    ]
+  },
+  "train_fonts": [
+    {"stem": "UN2011170", "why": "空心 · Aa可爱POP空心体 · 轮廓最清楚"},
+    {"stem": "UN2012815", "why": "镂空圆 · 妙笔创中镂空圆"},
+    {"stem": "UN2021493", "why": "像素 · Aa像素山海"},
+    {"stem": "FZBITMAPFENGJW", "why": "点阵 · 方正点阵冯简体（0917）"},
+    {"stem": "UN2000043", "why": "纹理 · Aa纸胶带 常规"},
+    {"stem": "UN2000652", "why": "蜡笔 · 字魂192号-萌趣蜡笔体"},
+    {"stem": "UN2021252", "why": "特效 · Aa全息黑体"},
+    {"stem": "UN2012245", "why": "阴影 · 妙笔正酷真影体"},
+    {"stem": "UN2013302", "why": "笔墨 · 妙笔墨之手书"},
+    {"stem": "UN2012000", "why": "笔墨 · Aa新华墨竹体"},
+    {"stem": "UN2012520", "why": "笔墨 · 妙笔缥缈毛笔隶书"},
+    {"stem": "FZZJ-ZDFCSJW", "why": "笔墨 · 方正字迹-周东芬草书 简（0917）"},
+    {"stem": "UN2011987", "why": "特效 · Aa奇幻马戏团"},
+    {"stem": "UN2012008", "why": "特效 · Aa不凡星爵"},
+    {"stem": "UN2011193", "why": "纹理 · Aa波点"},
+    {"stem": "UN2012031", "why": "像素 · Aa方块黑"},
+    {"stem": "UN2011977", "why": "特效 · Aa幻夜伯爵简体"},
+    {"stem": "UN2011164", "why": "特效 · Aa漫反射"},
+    {"stem": "UN2012021", "why": "特效 · Aa烈焰隶书"},
+    {"stem": "UN2014248", "why": "特效 · 妙笔冰川体"},
+    {"stem": "UN2012623", "why": "纹理 · 妙笔凝宋波纹体"},
+    {"stem": "UN2012858", "why": "纹理 · 妙笔雪云波荡体"},
+    {"stem": "UN2017964", "why": "像素 · 字小魂彩虹积木体"},
+    {"stem": "UN2017924", "why": "特效 · 字魂烟花体"},
+    {"stem": "FZMengHHXJW-EB", "why": "特效 · 方正梦幻火星体 简 ExtraBold"},
+    {"stem": "UN2012179", "why": "特效 · Aa剑豪体"},
+    {"stem": "UN2012168", "why": "特效 · Aa新怪谈"},
+    {"stem": "UN2012164", "why": "手书 · Aa狂派手书"},
+    {"stem": "UN2011969", "why": "特效 · Aa霸道楷"},
+    {"stem": "UN2012072", "why": "特效 · Aa镁宋"},
+    {"stem": "UN2010925", "why": "特效 · Aa马克体"},
+    {"stem": "UN2000060", "why": "特效 · Aa魔幻天使 常规"},
+    {"stem": "UN2013640", "why": "手书 · 妙笔乐佳手书"},
+    {"stem": "UN2027489", "why": "特效 · 字魂天狼体（商用需授权）"}
+  ],
+  "extra_style_fonts": [
+    {"stem": "UN2012432", "why": "holdout · 雅黑空心"},
+    {"stem": "UN2012839", "why": "holdout · 果冻空心"},
+    {"stem": "UN2027143", "why": "holdout · 幻梦像素"},
+    {"stem": "UN2025916", "why": "holdout · 像素江户-本"},
+    {"stem": "UN2017895", "why": "holdout · 迷彩"},
+    {"stem": "UN2017820", "why": "holdout · 印章"},
+    {"stem": "UN2021231", "why": "holdout · 机甲黑"},
+    {"stem": "UN2018501", "why": "holdout · 霓虹"}
+  ],
+  "fd_val_fonts": [
+    {"stem": "FZFWZhuZiHeiB", "why": "val · 黑体"},
+    {"stem": "FZSongKBXKJW-EB", "why": "val · 宋/楷"},
+    {"stem": "FZHuangTJXSJW", "why": "val · 行书"},
+    {"stem": "FZShouHCGTJW", "why": "val · 手绘草稿"}
+  ]
+}
