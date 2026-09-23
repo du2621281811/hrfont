@@ -167,52 +167,66 @@ The released protocol records pair validity, donor eligibility, and the referenc
 
 \subsection{Overview}
 Extending a typeface to a new script is asymmetric.
-The target glyph is built from strokes that the source script does not share, so its geometric realization cannot be read off the Chinese references; the visual character of the family, in turn, is visible only in those references.
-We separate the problem accordingly into how the target geometry changes and how that geometry expresses the observed appearance.
+The target glyph is built from strokes the source script does not share, so the references do not determine its geometry; the visual character of the family, in turn, is visible only in those references.
+Training gives one rendering of one realization of the target character, and that rendering does not determine either property the task depends on: which realization the family would choose for this character, and how the family draws local detail on it.
+Agreement with that rendering is therefore one of several valid outcomes rather than a specification of the design.
 
-The \emph{Character Realization Prior} (CRP) addresses the first part.
-For a fixed character identity, existing typefaces realize that character in many ways, and CRP represents this empirical deformation space with the renderings stored in the bank.
-The references then supply the evidence that determines which realization is appropriate and how its local details should be drawn, which yields a style-conditioned structural offset.
-\emph{Target-Character Appearance Completion} (TC) addresses the second part, predicting a target-aligned appearance representation from the target content and the source-script references.
-
+We supply both properties as conditions.
+The \emph{Character Realization Prior} (CRP) supplies the space of realizations: the training fonts show how the requested character deforms across designs, and the references select within that space, which yields a style-conditioned structural offset.
+\emph{Target-Character Appearance Completion} (TC) supplies the local appearance, predicting how contour treatment, stroke endings, texture, and decoration are drawn on the requested character from the target content and the source-script references.
 The two conditions are combined with the content and global reference features in the diffusion generator: the denoiser receives the neutral content, the structural offset, the global reference tokens, and the appearance representation.
 Figure~\ref{fig:overview} summarizes the model.
-
 \subsection{Character Realization Prior}
-CRP anchors on the requested character, reads how each bank font renders it through the content and style encoders, and takes the difference with respect to one fixed neutral realization:
+For a requested character $c$, CRP reads how each candidate family $f_j$ renders it and takes the difference with respect to the neutral realization $x_c^0$ through both encoders:
 \begin{equation}
- d^{\mathrm{ec}}_{j,c}=E_c(B_{j,c})-E_c(x_c^0),\qquad
+ d^{\mathrm{ec}}_{j,c}=E_c(x_{f_j,c})-E_c(x_c^0),\qquad
  d^{\mathrm{es}}_{j,c}=E_s(x_{f_j,c})-E_s(x_c^0).
  \label{eq:delta}
 \end{equation}
-Subtracting the neutral realization removes the structure the generator already receives as content and leaves the geometric change that a design introduces, so the bank supplies the directions of the deformation space of the requested character.
-The bank consists of training fonts: an episode excludes its own font, and at test time the target family is absent from it.
+The neutral realization carries the character; each difference carries how one design changes it, so the candidates span the directions along which the character can be realized.
 
 The references determine which realization is appropriate.
-Reference characters exist in the bank as well, so we compare the glyphs of the family with the same characters set in other fonts using the style encoder's descriptors, which gives a distribution $\alpha_j\propto\exp(s_j/\tau)$ over candidate fonts, normalized over the top-$K$ eligible ones and used as a prior.
+Reference characters also occur in the candidate families, so we compare every reference with the same character set in each candidate, using the style encoder's pooled descriptor $g$:
+\begin{equation}
+ s_j=\frac{1}{n}\sum_{c'\in\Rset_f}\cos\!\bigl(g(f_*,c'),\,g(f_j,c')\bigr),\qquad
+ \alpha_j\propto\exp(s_j/\tau)\ \ \text{over the top-}K\ \text{candidates},
+ \label{eq:prior}
+\end{equation}
+where $f_*$ is the target family.
 The prior is fixed per episode and depends only on the reference characters.
 
-The structural offset is therefore resolved during generation.
+The structural offset is resolved during generation.
 Every structural module re-estimates the weights from the current hidden state, the neutral content, the reference summary, and the denoising time, with the prior as the base of the logits:
 \begin{equation}
  w^{b}_{j,\ell,t,p}=\operatorname{softmax}_{j}\!\left[\log\alpha_j+\gamma^{b}_\ell\cos(q^{b}_{\ell,t,p},\Pi^{b}_\ell(d^{b}_{j,c})_p)\right],\qquad
  \Delta_{\ell,t,p}=\Delta^{\mathrm{ec}}_{\ell,t,p}+\tanh(g_\ell)\,\Delta^{\mathrm{es}}_{\ell,t,p}.
  \label{eq:crp}
 \end{equation}
-The weights are nonnegative and normalized, so one generation combines many realizations jointly; each branch maps its combined offset into the corresponding level of the denoiser, where it is added to the up-path features.
+The weights are nonnegative and normalized, so one generation combines many realizations jointly, and the combination is re-decided at every location, module, and step.
+Each branch maps its combined offset into the corresponding level of the denoiser, where it is added to the up-path features (Eq.~\ref{eq:inject}).
 
 CRP reads the same candidates through a second coordinate.
-The nine global tokens are pooled from a $3\times3$ map and summarize the overall weight and proportion of the family.
-The stroke-level evidence that separates designs at the resolution we generate comes from intermediate maps of the style encoder, where reading the candidates brings it to the resolution of the target grid with its own routing and offset prediction.
-The two readings share the retrieved neighborhood and the prior, and their offsets are combined by a learned per-module scalar, which forms the structural offset that CRP provides.
-
+The global summary of a family is pooled from a $3\times3$ map and carries its overall weight and proportion; the stroke-level evidence that separates designs at the resolution we generate lives in intermediate maps of the style encoder, which is read with its own routing and offset prediction.
+The two readings share the candidate neighborhood and the prior, and their offsets are combined by a learned per-module scalar, which forms the structural offset that CRP provides.
 \subsection{Target-Character Appearance Completion}
 TC predicts a target-aligned appearance representation from the target content and the source-script references, covering how local properties such as contour treatment, stroke endings, texture, and decoration should appear on the requested target character.
-It reads each reference at two scales and keeps the observations separate, so that every location of the target character can attend to the evidence it needs: the neutral content queries and learned positional slots attend to the reference evidence, and the resulting representation produces both the tokens used for synthesis and a supervised readout.
-The readout is spatial, so supervision corresponds to where the design should appear, and at every up-path attention stage the generator reads the appearance representation on top of the global reference features.
+Its reader reads each reference at two scales and keeps the observations separate, so that every location of the target character can attend to the evidence it needs:
+\begin{equation}
+ Z=\operatorname{Attn}\bigl(Q(x_c^0)+\Pi_{\mathrm{slot}},\,[K(S^{1});K(S^{2})],\,[V(S^{1});V(S^{2})]\bigr),\qquad
+ M=\phi(Z),\ \ T=\eta(Z),
+ \label{eq:tc}
+\end{equation}
+where $S^{1,2}$ are the tokens read from every reference at the two scales, $\Pi_{\mathrm{slot}}$ learned positional slots, $M$ the spatial appearance map, and $T$ the tokens the denoiser consumes.
+The map is supervised at the position where the design should appear, and at every up-path attention stage the generator reads the appearance representation on top of the global reference features.
 Dimensions, attention settings, and initialization are listed in Appendix~\ref{app:repro}.
-
 \subsection{Training and Inference}
+The two conditions enter the denoiser as additive terms on the up-path features,
+\begin{equation}
+ \tilde h_\ell=h_\ell+\mathrm{Off}_\ell\bigl(h_\ell,\Delta_\ell\bigr)+\lambda_\ell\,r(u)\,A_\ell,
+ \label{eq:inject}
+\end{equation}
+where $h_\ell$ is the feature at module $\ell$, $\mathrm{Off}_\ell$ maps the structural offset into that level, $A_\ell$ is the appearance term supplied by the reader, and $\lambda_\ell$ a learned per-module scale.
+The structural offset and the routing are therefore learned through the generative objective.
 Training updates the denoiser, the reader, and the structural modules, while the content, style, and VGG encoders stay frozen.
 The objective adds two terms to the backbone recipe,
 \begin{equation}
@@ -221,9 +235,9 @@ The objective adds two terms to the backbone recipe,
       +r(u)\bigl(0.01\mathcal L_{\mathrm{comp}}+0.05\mathcal L_{\mathrm{detail}}\bigr),\qquad r(u)=\min(u/1000,1),
  \label{eq:objective}
 \end{equation}
-where the appearance term supervises the TC readout against a teacher pooled from the target image at the same spatial resolution, and the detail term weights the regions that deviate from the neutral realization by the ink a design adds and removes (Appendix~\ref{app:repro}).
+where the appearance term supervises the predicted appearance map $M$ against the statistics of the target rendering at the same spatial resolution, and the detail term weights the regions that deviate from the neutral realization by the ink a design adds and removes (Appendix~\ref{app:repro}).
 
-Each episode draws one to eight references from the target family and one target character from the same font; candidate fonts exclude that font and its explicit weight variants.
+Each episode draws one to eight references from the target family and one target character from the same font; candidate families exclude that font and its explicit weight variants.
 Dropping the structural condition zeroes its offset.
 At inference the appearance representation is computed once for each content--reference pair and reused across denoising steps, while the routing weights of CRP are re-estimated at every module and step.
 
