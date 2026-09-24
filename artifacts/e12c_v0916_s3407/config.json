@@ -1,0 +1,17 @@
+{
+  "manifest_sha256": "8ea1a56df5adc0ba6f66137a6398417b43c9762c088fe8ca46f7dee7c2262ec4",
+  "pretrained_sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+  "preprocessing": "native96 RGB [0,1], ImageNet mean/std; no resize/crop/augmentation",
+  "code_sha256": {
+    "train_e12c.py": "46b6227af72aa6a2f78dac17041f169a1f804300124d3018cf99d2f86aa5cfd7",
+    "e12c_model.py": "79a866528913bc7111220df3e71b598b9ce65d68a54c48a94f00e3d07c45df12",
+    "e12c_data.py": "56c01b87739c8974233e3c2408d805c128637c2d01d5b45c627f35604440709c",
+    "e12c_metrics.py": "35343f242eb1b3ace20878fbd1d138fce593ce028e21f6979f62fd76a65d9b3c"
+  },
+  "A_steps": 2000,
+  "B_steps": 1000,
+  "smoke": false,
+  "main_eval_excluded": true,
+  "known_family_fonts": 0,
+  "unknown_family_fonts": 223
+}
