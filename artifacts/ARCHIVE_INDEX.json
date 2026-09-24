@@ -1,0 +1,22 @@
+{
+  "created_at": 1790222974.0152242,
+  "checkpoint_step": 32000,
+  "protocol": "V3 VAL 0913(16 fonts)+0917(16 fonts), fixed 8-shot",
+  "outputs": {
+    "0913": {
+      "images": 4123,
+      "directory": "/root/projects/hrfont/reports/k7_b_32k_8shot_v3_val32_20260924/full_0913"
+    },
+    "0917": {
+      "images": 3208,
+      "directory": "/root/projects/hrfont/reports/k7_b_32k_8shot_v3_val32_20260924/full_0917"
+    }
+  },
+  "archive": {
+    "filename": "k7_b_v3_val32_8shot_32k.tar.zst",
+    "bytes": 74241105,
+    "sha256": "110c5a620c7da1ae90ecabf87312d2bad0e14f8f57e8c1102f1e477c8d6f859e"
+  },
+  "source_worktree": "/root/projects/hrfont",
+  "training_and_other_inference_untouched": true
+}
