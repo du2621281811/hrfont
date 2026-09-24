@@ -1,0 +1,129 @@
+{
+  "created_at": 1790215362.628303,
+  "source_repository": "/root/projects/hrfont",
+  "source_head": "2952d0efe091f900a11599ebdd14645f9f6c74cf",
+  "required_outputs": [
+    {
+      "label": "extra32:shot_8_original",
+      "output": "/root/projects/hrfont/reports/k7_b_extra32_20260923/full_32k",
+      "expected": 6559,
+      "images": 6559,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 6559
+    },
+    {
+      "label": "extra32:shot_1",
+      "output": "/root/projects/hrfont/reports/k7_b_extra32_20260923/multishot/shot_1/full_32k",
+      "expected": 6559,
+      "images": 6559,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 6559
+    },
+    {
+      "label": "extra32:shot_2",
+      "output": "/root/projects/hrfont/reports/k7_b_extra32_20260923/multishot/shot_2/full_32k",
+      "expected": 6559,
+      "images": 6559,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 6559
+    },
+    {
+      "label": "extra32:shot_4",
+      "output": "/root/projects/hrfont/reports/k7_b_extra32_20260923/multishot/shot_4/full_32k",
+      "expected": 6559,
+      "images": 6559,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 6559
+    },
+    {
+      "label": "extra32:shot_8_alt",
+      "output": "/root/projects/hrfont/reports/k7_b_extra32_20260923/multishot/shot_8_alt/full_32k",
+      "expected": 6559,
+      "images": 6559,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 6559
+    },
+    {
+      "label": "plus17:shot_8_original",
+      "output": "/root/projects/hrfont/reports/k7_b_extra_plus17_20260923/full_32k",
+      "expected": 3046,
+      "images": 3046,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 3046
+    },
+    {
+      "label": "plus17:shot_1",
+      "output": "/root/projects/hrfont/reports/k7_b_extra_plus17_20260923/multishot/shot_1/full_32k",
+      "expected": 3046,
+      "images": 3046,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 3046
+    },
+    {
+      "label": "plus17:shot_2",
+      "output": "/root/projects/hrfont/reports/k7_b_extra_plus17_20260923/multishot/shot_2/full_32k",
+      "expected": 3046,
+      "images": 3046,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 3046
+    },
+    {
+      "label": "plus17:shot_4",
+      "output": "/root/projects/hrfont/reports/k7_b_extra_plus17_20260923/multishot/shot_4/full_32k",
+      "expected": 3046,
+      "images": 3046,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 3046
+    },
+    {
+      "label": "plus17:shot_8_alt",
+      "output": "/root/projects/hrfont/reports/k7_b_extra_plus17_20260923/multishot/shot_8_alt/full_32k",
+      "expected": 3046,
+      "images": 3046,
+      "done": true,
+      "valid": true,
+      "done_status": "completed",
+      "done_images": 3046
+    }
+  ],
+  "included_report_directories": [
+    "reports/k7_b_50k_20260923",
+    "reports/k7_b_ablation_20k_20260923",
+    "reports/k7_b_extra32_20260923",
+    "reports/k7_b_extra_plus17_20260923",
+    "reports/k7_b_hollow_generalization_20260923",
+    "reports/k7_b_hollow_live_20260923",
+    "reports/k7_b_train_share_20260923",
+    "reports/k7_b_unique_8shot_20260923",
+    "reports/k7_live_images_20260923"
+  ],
+  "policy": {
+    "prediction_images": "all regular image files under the selected K7-B reports",
+    "dataset_symlink_forest": "excluded; original data remains outside the report archive",
+    "training_checkpoints": "excluded",
+    "source_worktree": "read-only after all required DONE.json checks pass"
+  },
+  "archive": {
+    "filename": "k7_b_inference_results.tar.zst",
+    "bytes": 486914541,
+    "sha256": "34eddc028918f9b1c749d86ff9f2370ad60f0a8bc9922eeee1a824bd6d76dea4"
+  }
+}
