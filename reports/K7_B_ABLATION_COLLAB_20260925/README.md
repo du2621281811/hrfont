@@ -1,33 +1,32 @@
-# K7-B 消融结果图像（协作者快照）
+# K7-B 消融结果图像（协作者版）
 
-本目录提供已完成结果的可视化与原始预测图，便于逐字对照检查。它是 **2026-09-25 17:44 CST 的阶段性快照**，不是最终完整队列；当时后处理推理队列为 20/28 阶段完成，未完成阶段（包括 CRP 路由对照）没有纳入本包。
+本分支提供可视化看板和已完成推理的生成图，供合作者按字体、字符逐例检查。图像大包由 Git LFS 管理；克隆后请先执行 `git lfs pull`。
 
 ## 快速查看
 
-1. 用 Git LFS 克隆本分支：`codex/k7b-ablation-results-20260925`。等待 LFS 文件下载完成。
-2. 解开 `supplemental-board.tar` 和 `completed-test-val-predictions.tar`。
-3. 在浏览器打开 `board/supplemental.html`。Safari 若直接打开本地文件没有加载表格数据，请在 `board/` 目录运行 `python3 -m http.server 8000`，再访问 `http://127.0.0.1:8000/supplemental.html`。
-4. 补充测试看板支持按字体/字符筛选，逐行并排查看 GT、K7-B、A1、A2、A3。另一个归档按模型和数据 split 保存已完成 VAL/TEST 的生成 PNG。
+1. 克隆分支 `codex/k7b-ablation-results-20260925`，安装 Git LFS 并执行 `git lfs pull`。
+2. 将下方列出的三个 `.tar` 归档都解压到同一个仓库根目录；FZ49 归档会把新文件叠加到 `board/`，不要单独移动其中的图片。
+3. 打开 `board/supplemental.html` 浏览 A1/A2/A3 补充测试对照；打开 `board/crp_fz49.html` 浏览 CRP 路由策略对照。若 Safari 直接打开本地文件无法载入数据，在 `board/` 目录启动 `python3 -m http.server 8000`，再访问 `http://127.0.0.1:8000/`。
 
-## 快照内容与边界
+## 文件内容
 
-| 文件 | 内容 |
+| 归档 | 内容 |
 |---|---|
-| `supplemental-board.tar` | 可筛选补充测试看板及依赖资源；Extra32 6,559 行、Plus17 3,046 行，逐行对齐 GT、K7-B、A1、A2、A3。 |
-| `completed-test-val-predictions.tar` | DONE 确认完成的 14 组 8-shot VAL/TEST 预测 PNG，按 `模型/split/` 放置。每组图片数已与 DONE 记录核对。 |
+| `supplemental-board.tar` | Extra32 6,559 行、Plus17 3,046 行的 A1/A2/A3 补充测试图像看板及其资源。 |
+| `completed-test-val-predictions.tar` | 14 组已完成的 8-shot VAL/TEST 预测 PNG，共 50,345 张，按模型和 split 放置。 |
+| `crp-fz49-routing-comparison.tar` | FZ49 两种 CRP 路由策略的 19,210 张预测图，以及 `board/crp_fz49.html` 和对应逐例 JSON。与前两个归档解压到一起后，看板可复用其中的 GT 和 K7-B 基线图。 |
 
-已归档的 14 组共 **50,345 张**：A1、A2、A3 各自的 `val_0913`（4,123）、`val_0917`（3,208）、`test_0913`（3,880）、`test_0917`（3,208）；K7-B 的 `test_0913`（3,880）、`test_0917`（3,208）。单独预测图归档只含生成结果 PNG，不含 GT、评测指标、日志或模型权重；不要将它误读为逐行 GT 对照看板。
+FZ49 路由包覆盖 Extra32（6,559 个样本）与 Plus17（3,046 个样本）。看板每行一个样本，并排显示 GT、K7-B learned Top-K 基线、`uniform_topk` 和 `top1`；支持按数据集、字体筛选。逐项文件核验：两数据集共 9,605 行，GT、基线及两种策略均齐全，无缺图。
 
-## 实验身份与比较条件
+## 实验协议与解释边界
 
-- K7-B：32k checkpoint；A1/A2/A3：各自 20k checkpoint。
-- A1：Delta on / TC off；A2：Delta off / TC on；A3：Delta off / TC off。
-- 统一推理协议：8-shot、固定参考组、seed 3407、CFG 1.0、DPM++ 20 steps / order 2。
-- `0913`、`0917` 分别表示对应版本的 V3 验证/测试数据池；Extra32、Plus17 是独立补充观察池，不与 V3 VAL/TEST 混称。
-- 图像用于视觉审阅；本包不声称队列全部完成，也不替代完整指标表、质量判断或因果结论。尚未完成的模型/数据组合应保持缺失，不以计划值填补。
+- 路由对照是**推理期干预分析**，没有重新训练模型；checkpoint、bank 与每个目标/字族排除规则保持不变。
+- 使用 K7-B EMA 32k checkpoint；8-shot，seed 3407，CFG 1.0，20 steps，order 2。
+- `uniform_topk` 对相同的 learned Top-K 候选等权融合；`top1` 只使用排序最高的候选；K7-B 列为已完成的 learned Top-K 基线。
+- 前两个归档是 2026-09-25 17:44 CST 的 20/28 阶段快照，不含当时尚未完成的路由对照；第三个归档是随后完成的 FZ49 路由补充，四个路由/数据集条件均已完成。
+- Extra32 和 Plus17 是补充观察池，不应与 V3 VAL/TEST 混称。图像供视觉审阅，不单独构成指标结论或因果结论。
+- 本分支只包含图像、看板及说明；不包含训练数据、checkpoint、推理缓存或活动队列文件。
 
-## 文件与版本
+## 分支
 
-- 图像归档采用 Git LFS。克隆时需安装 Git LFS 并执行 `git lfs pull`（若未自动下载）。
-- 仓库分支：`codex/k7b-ablation-results-20260925`。
-- 此快照只包含图像、看板及本说明；不含训练数据、checkpoint、推理缓存或活动队列文件。
+`codex/k7b-ablation-results-20260925`
