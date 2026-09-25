@@ -1,8 +1,8 @@
 {
   "created_utc": "2026-09-25T14:14:56.605727+00:00",
   "test_set": "V4",
-  "source_csv": "fz49_all_methods_per_sample_metrics.csv (local input; not bundled)",
-  "source_sha256": "eaea5d8738debfd26667c779be3c45abe38c61649c61b558d6d2736a8e5e76e5",
+  "source_csv": "v4_per_sample_metrics.csv.gz (complete V4 method panel)",
+  "source_sha256": "0fe5c0afe639fed4d212a7bdf36480352fa4fe6814026e191856f3bb5a562240",
   "methods": [
     "K7-B",
     "A1",
@@ -12,6 +12,7 @@
     "ftransgan",
     "garfont",
     "fontdiffuser_p2",
+    "fontdiffuser_release",
     "shot_1",
     "shot_2",
     "shot_4",
@@ -21,7 +22,7 @@
     "K7-B-delta-off",
     "K7-B-donor-random"
   ],
-  "n_methods": 16,
+  "n_methods": 17,
   "v4_samples_per_method": 8638,
   "v4_unique_fonts": 47,
   "v4_samples_by_script": {
@@ -139,7 +140,9 @@
         "n_absdiff_gt_1e-6": 0,
         "mean_absdiff": 0.0
       }
-    }
+    },
+    "n_methods_with_prior_l1": 16,
+    "new_method_rows_scored": 8638
   },
   "aggregation": "mean per font, then equal-weight mean across fonts",
   "ranking": "competition rank (ties share minimum rank); L1/LPIPS/DINO distance lower is better, SSIM/RSC-8 higher is better",
@@ -322,6 +325,58 @@
       "K7-B-CRP-uniform_topk": 0,
       "K7-B-delta-off": 0,
       "K7-B-donor-random": 0
+    }
+  },
+  "total_method_sample_rows": 146846,
+  "updated_utc": "2026-09-25T15:28:26.724860+00:00",
+  "method_sample_rows": {
+    "K7-B": 8638,
+    "A1": 8638,
+    "A2": 8638,
+    "A3": 8638,
+    "fcagan": 8638,
+    "ftransgan": 8638,
+    "garfont": 8638,
+    "fontdiffuser_p2": 8638,
+    "fontdiffuser_release": 8638,
+    "shot_1": 8638,
+    "shot_2": 8638,
+    "shot_4": 8638,
+    "shot_8_alt": 8638,
+    "K7-B-CRP-top1": 8638,
+    "K7-B-CRP-uniform_topk": 8638,
+    "K7-B-delta-off": 8638,
+    "K7-B-donor-random": 8638
+  },
+  "fontdiffuser_release": {
+    "supplement_branch": "data/v0921-texiao-supplement",
+    "supplement_commit": "b7078a875e0bb28df206d864890233ae4452cfb1",
+    "supplement_pngs_verified": 400,
+    "supplement_v4_predictions_used": 378,
+    "regular_release_v4_predictions_used": 8260,
+    "samples": 8638,
+    "fonts": 47,
+    "characters": 284,
+    "script_counts": {
+      "latin": 3542,
+      "kana": 4726,
+      "bopomofo": 370
+    },
+    "metric_protocols": {
+      "l1": "PIL grayscale, native 96x96, float32 /255, mean absolute pixel difference",
+      "ssim": "PIL grayscale, native 96x96, scikit-image structural_similarity, data_range=1, win_size=7",
+      "lpips": "LPIPS 0.1 AlexNet, native RGB 96x96, input range [-1,1]",
+      "dino_distance": "facebook/dinov2-small CLS, revision ed25f3a31f01632728cabb09d1542f84ab7b0056, 1-cosine(prediction,target), native 96x96 processor input",
+      "rsc8": "Frozen E12-c R1 ResNet18 raw cosine to L2-normalized mean of eight fixed reference embeddings",
+      "aggregation": "Within-font sample mean, then equal-weight average over fonts"
+    },
+    "weights": {
+      "e12_encoder_sha256": "b2c8eb69c5c76eca21a149afe95c4a49fe21e3363825138b1515c4812c452aab",
+      "e12_model_lock_sha256": "99504d172ae116c0f804b862fc2a404381bc445807bfad50f92a5d2225862b70",
+      "lpips_linear_weights_sha256": "df73285e35b22355a2df87cdb6b70b343713b667eddbda73e1977e0c860835c0",
+      "lpips_alexnet_weights_sha256": "7be5be791159472b1fbf3c69796f7cb30dca7ad8466c2df70058c37116cdee02",
+      "dino_model_sha256": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1",
+      "dino_processor_sha256": "14e780d86fa1861f8751f868d7f45425b5feb55c38ca26f152ca5097ab30f828"
     }
   }
 }
