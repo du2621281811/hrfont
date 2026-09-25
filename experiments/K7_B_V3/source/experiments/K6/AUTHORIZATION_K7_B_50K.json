@@ -1,0 +1,22 @@
+{
+  "status": "AUTHORIZED_CONTINUATION_AFTER_K7_B_20K",
+  "arm": "K7-B",
+  "authorized_at": "2026-09-23T01:22:00+08:00",
+  "order": ["K7-B"],
+  "initialization": "Resume only from verified K7-B global step 20000 state; original K0 parent lineage unchanged",
+  "k0_parent_unet_sha256": "0901209aecdf7a0f2d8cc496f697bac8a05109712d23ab0d48299f52d37ab0a6",
+  "architecture": "K6-B / K5-B dual Ec-plus-Es RSI branch",
+  "objective": "endpoint generation supervision only; RSI retained; RSI-specific offset loss weight 0.0",
+  "data": "V3 = frozen V2 train plus v0921 train-only supplement",
+  "bank": "frozen V2 donor_train_by_cp only; v0921 fonts excluded",
+  "continuation": {
+    "from_step": 20000,
+    "to_step": 50000,
+    "source_run": "K7-B-V3-K0-S3407-20K-R2",
+    "source_checkpoint": "state_step_20000"
+  },
+  "K7-B": {
+    "authorized": true,
+    "successful_updates": 50000
+  }
+}

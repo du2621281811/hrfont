@@ -1,0 +1,32 @@
+{
+  "approved": true,
+  "successful_updates": 20000,
+  "order": [
+    "K4-A",
+    "K4-C",
+    "K4-B"
+  ],
+  "seed": 3407,
+  "global_batch": 64,
+  "k1_parent_ema_sha256": "ab2bea2ddbd799a2fcac28ac73c20fd0a5206abe4e35b6e951b19e0f78784632",
+  "user_instruction": "按照修订后的字重排除规则，K4-A → K4-C → K4-B 各训练到 20000 步；A 从现有完整状态继续。",
+  "reference_plan_sha256": "8657cd8509f4e624172a868172451482d6f5d6c926032db6053ec5cc5405668b",
+  "final_inference": "K0 1shot; K1 K3 K4-C K4-B K4-A 1/2/4/8shot, v2 all val/test",
+  "k0_parent_unet_sha256": "0901209aecdf7a0f2d8cc496f697bac8a05109712d23ab0d48299f52d37ab0a6",
+  "revision": "weight-only-attention-fp32-20k-20260918",
+  "restart_from": "K4-A continues the complete 7630-step state, including optimizer/scaler/RNG/EMA. K4-C/B independently initialize from their original K0 parent.",
+  "previous_execution_commit": "9163e02f9d5ebe4668bc4b0bc11c3b9a4465265c",
+  "historical_parent_boundary": "K4-A still uses the user-approved original K1 EMA. Family filtering fixes this new phase, not historical K1 training. K4-B/C start from K0 without Delta.",
+  "weight_groups_sha256": "1e4c6dc9a671bd4cbab6f47b76386eb0569b50d205ab5a119acb32473acb7556",
+  "budget_extension": {
+    "previous_updates": 10000,
+    "approved": true,
+    "A_anchor": {
+      "step": 7630,
+      "factor": 0.5132842247943291
+    },
+    "checkpoint": "/root/data1/hrfont_k4_weight_20260918/checkpoints/K4-A-K1FT-0917-WEIGHT-S3407/state_step_7630",
+    "C_B_schedule": "warmup500/flat10000/cosine10pct20000",
+    "B_checkpoint_root": "/root/data2/hrfont_k4_20k_20260918/checkpoints"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "group_p": {
+    "latin": 0.5,
+    "kana": 0.38,
+    "bopomofo": 0.12
+  },
+  "pair_weight": {
+    "latin": 2.9391018104867154e-05,
+    "kana": 1.8207954000958313e-05,
+    "bopomofo": 7.207207207207208e-05
+  },
+  "note": "Compatibility weights only; no new training has been started. Use per-codepoint donors for incomplete/script-selective fonts."
+}

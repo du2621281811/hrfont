@@ -1,0 +1,13 @@
+{
+  "arm": "K7-B",
+  "from_step": 32000,
+  "to_step": 50000,
+  "source_run": "/root/projects/hrfont/runs/K7-B-V3-K0-S3407-20K-R2",
+  "source_state": "/root/projects/hrfont/runs/K7-B-V3-K0-S3407-50K-R1/last_state",
+  "continuation_run": "/root/projects/hrfont/runs/K7-B-V3-K0-S3407-50K-R1",
+  "checkpoint_root": "/root/projects/hrfont/data/v3_v2_plus_v0921_20260922/checkpoint_store/K7-B-V3-K0-S3407-50K-R1",
+  "trainer_sha256": "4e278516f586f6e7c0b8c4cf6746bbbad772c711472c2615c1d918300db14d2e",
+  "overlay_sha256": "6e40866e8008774747b4b34f8949883320010dbc3c96afedb9ee9624a8b390e8",
+  "authorization_sha256": "8e10a5b03a05528b9a891f68c2e7574eca5342381c6617ecb8dadd2ca575cf46",
+  "disk_free_at_prepare": 3992334336
+}

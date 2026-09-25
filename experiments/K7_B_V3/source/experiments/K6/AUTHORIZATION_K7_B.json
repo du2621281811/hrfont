@@ -1,0 +1,16 @@
+{
+  "status": "AUTHORIZED_AFTER_DATA_AND_RUNTIME_PREFLIGHT",
+  "arm": "K7-B",
+  "authorized_at": "2026-09-22T00:00:00+08:00",
+  "order": ["K7-B"],
+  "initialization": "Independent K0 parent F0-CLEAN-V0913-A-S3407/global_step_10000; never K6-A or K6-B checkpoint",
+  "k0_parent_unet_sha256": "0901209aecdf7a0f2d8cc496f697bac8a05109712d23ab0d48299f52d37ab0a6",
+  "architecture": "K6-B / K5-B dual Ec-plus-Es RSI branch",
+  "objective": "endpoint generation supervision only; RSI retained; RSI-specific offset loss weight 0.0",
+  "data": "V3 = frozen V2 train plus v0921 train-only supplement",
+  "bank": "frozen V2 donor_train_by_cp only; v0921 fonts excluded",
+  "K7-B": {
+    "authorized": true,
+    "successful_updates": 20000
+  }
+}
