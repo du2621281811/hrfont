@@ -166,80 +166,232 @@ The released protocol records pair validity, donor eligibility, and the referenc
 \label{sec:method}
 
 \subsection{Overview}
-Extending a typeface to a new script is asymmetric.
-The target glyph is built from strokes the source script does not share, so the references do not determine its geometry; the visual character of the family, in turn, is visible only in those references.
-Training gives one rendering of one realization of the target character, and that rendering does not determine either property the task depends on: which realization the family would choose for this character, and how the family draws local detail on it.
-Agreement with that rendering is therefore one of several valid outcomes rather than a specification of the design.
+\label{sec:method-overview}
 
-We supply both properties as conditions.
-The \emph{Character Realization Prior} (CRP) supplies the space of realizations: the training fonts show how the requested character deforms across designs, and the references select within that space, which yields a style-conditioned structural offset.
-\emph{Target-Character Appearance Completion} (TC) supplies the local appearance, predicting how contour treatment, stroke endings, texture, and decoration are drawn on the requested character from the target content and the source-script references.
-The two conditions are combined with the content and global reference features in the diffusion generator: the denoiser receives the neutral content, the structural offset, the global reference tokens, and the appearance representation.
+Cross-script typeface extension requires a target-character realization whose structure and local details are consistent with the reference family.
+Chinese references reveal stroke treatment and decoration, while the neutral target provides one possible geometry.
+We construct two target-character conditions.
+The \emph{Character Realization Prior} (CRP) uses reference similarity to select candidate training families, then routes feature differences between their target-character renderings and the neutral glyph.
+Two parallel branches convert these differences into structural offsets.
+\emph{Target-Character Appearance Completion} (TC) predicts target-aligned local features from the references and supplies appearance tokens to the denoiser.
+
+We use a FontDiffuser-based denoiser~\citep{yang2024fontdiffuser}, retaining its multi-scale content aggregation (MCA) and global-style conditioning.
+A frozen content encoder $E_c$ provides target-content features, and a frozen style encoder $E_s$ provides global reference tokens $G$ and descriptors for candidate selection.
+TC uses a separate trainable local encoder.
+CRP modifies skip features through spatial offsets, while TC conditions decoder cross-attention.
 Figure~\ref{fig:overview} summarizes the model.
+
+
 \subsection{Character Realization Prior}
-For a requested character $c$, CRP reads how each candidate family $f_j$ renders it and takes the difference with respect to the neutral realization $x_c^0$ through both encoders:
-\begin{equation}
- d^{\mathrm{ec}}_{j,c}=E_c(x_{f_j,c})-E_c(x_c^0),\qquad
- d^{\mathrm{es}}_{j,c}=E_s(x_{f_j,c})-E_s(x_c^0).
- \label{eq:delta}
-\end{equation}
-The neutral realization carries the character; each difference carries how one design changes it, so the candidates span the directions along which the character can be realized.
+\label{sec:crp}
 
-The references determine which realization is appropriate.
-Reference characters also occur in the candidate families, so we compare every reference with the same character set in each candidate, using the style encoder's pooled descriptor $g$:
+\paragraph{Reference-guided candidates.}
+We compare the observed references with renderings of the same Chinese characters in a fixed pool of training families.
+An admissible family contains the requested target character and all observed reference characters.
+The episode font and its explicit weight variants are excluded before selection.
+Using the pooled descriptor $g$ from $E_s$, we compute
 \begin{equation}
- s_j=\frac{1}{n}\sum_{c'\in\Rset_f}\cos\!\bigl(g(f_*,c'),\,g(f_j,c')\bigr),\qquad
- \alpha_j\propto\exp(s_j/\tau)\ \ \text{over the top-}K\ \text{candidates},
- \label{eq:prior}
+\begin{aligned}
+s_j
+&=
+\frac{1}{n}
+\sum_{i=1}^{n}
+\cos\!\left(
+    g(r_i),
+    g(x_{f_j,a_i})
+\right),\\
+\alpha_j
+&=
+\frac{\exp(s_j/\tau)}
+     {\sum_{k\in\mathcal J}\exp(s_k/\tau)},
+\qquad j\in\mathcal J.
+\end{aligned}
+\label{eq:prior}
 \end{equation}
-where $f_*$ is the target family.
-The prior is fixed per episode and depends only on the reference characters.
+Here $\mathcal J=\mathcal J(c,\mathcal R_f)$ contains up to $K$ highest-scoring admissible families.
+Each selected family provides a rendering $x_{f_j,c}$ of the requested target character.
+The candidate set and prior $\alpha$ remain fixed throughout denoising.
 
-The structural offset is resolved during generation.
-Every structural module re-estimates the weights from the current hidden state, the neutral content, the reference summary, and the denoising time, with the prior as the base of the logits:
+\paragraph{Parallel feature differences.}
+The two branches represent each candidate relative to the neutral target using spatial features from the frozen encoders:
 \begin{equation}
- w^{b}_{j,\ell,t,p}=\operatorname{softmax}_{j}\!\left[\log\alpha_j+\gamma^{b}_\ell\cos(q^{b}_{\ell,t,p},\Pi^{b}_\ell(d^{b}_{j,c})_p)\right],\qquad
- \Delta_{\ell,t,p}=\Delta^{\mathrm{ec}}_{\ell,t,p}+\tanh(g_\ell)\,\Delta^{\mathrm{es}}_{\ell,t,p}.
- \label{eq:crp}
+\begin{aligned}
+d^{\mathrm{ec},s}_{j,c}
+&=
+E_c^s(x_{f_j,c})-E_c^s(x_c^0),\\
+d^{\mathrm{es},s}_{j,c}
+&=
+E_s^s(x_{f_j,c})-E_s^s(x_c^0).
+\end{aligned}
+\label{eq:delta}
 \end{equation}
-The weights are nonnegative and normalized, so one generation combines many realizations jointly, and the combination is re-decided at every location, module, and step.
-Each branch maps its combined offset into the corresponding level of the denoiser, where it is added to the up-path features (Eq.~\ref{eq:inject}).
+Here $s$ indexes the feature level.
+At each structural module, the $E_s$ difference passes through a bias-free $1\times1$ adapter.
+The branches share the candidates and prior weights, with separate routers and offset predictors.
 
-CRP reads the same candidates through a second coordinate.
-The global summary of a family is pooled from a $3\times3$ map and carries its overall weight and proportion; the stroke-level evidence that separates designs at the resolution we generate lives in intermediate maps of the style encoder, which is read with its own routing and offset prediction.
-The two readings share the candidate neighborhood and the prior, and their offsets are combined by a learned per-module scalar, which forms the structural offset that CRP provides.
+\paragraph{Routing and structural offsets.}
+Let $U_{\ell,t}$ be the skip feature at structural module $\ell$ and denoising step $t$.
+Each branch forms a query $q^b_{\ell,t,p}$ at position $p$ from this feature, the neutral-content feature, the global reference summary, and the timestep.
+Write $\bar d^b_{j,\ell}$ for the candidate difference at the matching feature level, including the adapter in the $E_s$ branch.
+For $b\in\{\mathrm{ec},\mathrm{es}\}$,
+\begin{equation}
+\begin{aligned}
+w^b_{j,\ell,t,p}
+&=
+\operatorname{softmax}_{j\in\mathcal J}\!\left[
+    \log\alpha_j
+    +\gamma^b_\ell
+    \cos\!\left(
+        q^b_{\ell,t,p},
+        K^b_\ell(\bar d^b_{j,\ell})_p
+    \right)
+\right],\\
+D^b_{\ell,t,p}
+&=
+\sum_{j\in\mathcal J}
+w^b_{j,\ell,t,p}\bar d^b_{j,\ell,p},\\
+\Delta^b_{\ell,t}
+&=
+F^b_\ell(U_{\ell,t},D^b_{\ell,t}),\\
+\Delta_{\ell,t}
+&=
+\Delta^{\mathrm{ec}}_{\ell,t}
++\tanh(\zeta_\ell)\Delta^{\mathrm{es}}_{\ell,t}.
+\end{aligned}
+\label{eq:crp}
+\end{equation}
+$K^b_\ell$ is a key projection, $F^b_\ell$ is an offset predictor, and $\gamma^b_\ell$ and $\zeta_\ell$ are learned scalars.
+Routing adapts the candidate mixture to each location and denoising state.
+The branches predict offsets independently before the tanh-weighted sum.
+
+The fused offset controls the residual skip update:
+\begin{equation}
+\widetilde U_{\ell,t}
+=
+U_{\ell,t}
++
+P_\ell\!\left[
+    \operatorname{DCN}_\ell(U_{\ell,t},\Delta_{\ell,t})
+    -U_{\ell,t}
+\right].
+\label{eq:skip}
+\end{equation}
+$P_\ell$ is a zero-initialized $1\times1$ projection.
+The updated skip is concatenated with the decoder feature before the corresponding residual block.
+
+
 \subsection{Target-Character Appearance Completion}
-TC predicts a target-aligned appearance representation from the target content and the source-script references, covering how local properties such as contour treatment, stroke endings, texture, and decoration should appear on the requested target character.
-Its reader reads each reference at two scales and keeps the observations separate, so that every location of the target character can attend to the evidence it needs:
-\begin{equation}
- Z=\operatorname{Attn}\bigl(Q(x_c^0)+\Pi_{\mathrm{slot}},\,[K(S^{1});K(S^{2})],\,[V(S^{1});V(S^{2})]\bigr),\qquad
- M=\phi(Z),\ \ T=\eta(Z),
- \label{eq:tc}
-\end{equation}
-where $S^{1,2}$ are the tokens read from every reference at the two scales, $\Pi_{\mathrm{slot}}$ learned positional slots, $M$ the spatial appearance map, and $T$ the tokens the denoiser consumes.
-The map is supervised at the position where the design should appear, and at every up-path attention stage the generator reads the appearance representation on top of the global reference features.
-Dimensions, attention settings, and initialization are listed in Appendix~\ref{app:repro}.
-\subsection{Training and Inference}
-The two conditions enter the denoiser as additive terms on the up-path features,
-\begin{equation}
- \tilde h_\ell=h_\ell+\mathrm{Off}_\ell\bigl(h_\ell,\Delta_\ell\bigr)+\lambda_\ell\,r(u)\,A_\ell,
- \label{eq:inject}
-\end{equation}
-where $h_\ell$ is the feature at module $\ell$, $\mathrm{Off}_\ell$ maps the structural offset into that level, $A_\ell$ is the appearance term supplied by the reader, and $\lambda_\ell$ a learned per-module scale.
-The structural offset and the routing are therefore learned through the generative objective.
-Training updates the denoiser, the reader, and the structural modules, while the content, style, and VGG encoders stay frozen.
-The objective adds two terms to the backbone recipe,
-\begin{equation}
- \mathcal L=\mathcal L_{\mathrm{diff}}
-      +0.01\mathcal L_{\mathrm{perc}}
-      +r(u)\bigl(0.01\mathcal L_{\mathrm{comp}}+0.05\mathcal L_{\mathrm{detail}}\bigr),\qquad r(u)=\min(u/1000,1),
- \label{eq:objective}
-\end{equation}
-where the appearance term supervises the predicted appearance map $M$ against the statistics of the target rendering at the same spatial resolution, and the detail term weights the regions that deviate from the neutral realization by the ink a design adds and removes (Appendix~\ref{app:repro}).
+\label{sec:tc}
 
-Each episode draws one to eight references from the target family and one target character from the same font; candidate families exclude that font and its explicit weight variants.
-Dropping the structural condition zeroes its offset.
-At inference the appearance representation is computed once for each content--reference pair and reused across denoising steps, while the routing weights of CRP are re-estimated at every module and step.
+TC predicts local appearance features at target-character positions from the neutral content and Chinese references.
+A shared representation produces a spatial feature prediction supervised by the paired target and a separate token representation for the denoiser.
+
+A shared trainable encoder $E_{\mathrm{loc}}$ extracts a shallow and a deeper feature map from each reference independently.
+The shallow map is projected to the deeper map's channel width before both are flattened and concatenated into a token sequence $S_i$.
+Target-content queries jointly read the reference sequences:
+\begin{equation}
+\begin{aligned}
+\mathcal S
+&=
+[S_1;\ldots;S_n],
+&
+Q_c
+&=
+\mathcal Q(C_c)+\Pi_{\mathrm{slot}},\\
+Z_0
+&=
+\operatorname{Attn}\!\left(
+    Q_c,
+    \mathcal K(\mathcal S),
+    \mathcal V(\mathcal S)
+\right),\\
+Z
+&=
+Z_0+\operatorname{FFN}(\operatorname{LN}(Z_0)),
+&
+M
+&=
+\phi(Z),\quad T=\eta(Z).
+\end{aligned}
+\label{eq:tc}
+\end{equation}
+$C_c$ contains flattened target-content features from $E_c(x_c^0)$, $\Pi_{\mathrm{slot}}$ contains learned target-position vectors, and $\mathcal Q$, $\mathcal K$, and $\mathcal V$ are affine projections.
+Attention uses head-wise query/key normalization.
+For each query and head, its softmax spans all valid tokens across references, scales, and spatial positions.
+Independent affine projections $\phi$ and $\eta$ produce the spatial prediction $M$ and denoiser tokens $T$.
+
+We supervise $M$ with spatial VGG features~\citep{Simonyan15} of the paired target $y=x_{f,c}$:
+\begin{equation}
+\begin{aligned}
+M^*
+&=
+\operatorname{sg}\!\left[
+    \mathcal N\!\left(
+        \operatorname{Pool}(V_2(y))
+    \right)
+\right],\\
+\mathcal L_{\mathrm{comp}}
+&=
+\operatorname{SmoothL1}(M,M^*).
+\end{aligned}
+\label{eq:completion}
+\end{equation}
+$V_2$ denotes the frozen VGG feature stage used for local supervision.
+Pooling matches the target-query grid and flattens it into rows, $\mathcal N$ applies fixed channel-wise normalization, and $\operatorname{sg}$ stops gradients through the target features.
+
+\paragraph{Decoder conditioning.}
+At each decoder cross-attention module, global tokens $G$ and local tokens $T$ are read with shared attention parameters and separate softmax normalizations.
+For an active reference condition,
+\begin{equation}
+\begin{aligned}
+A^G_{\ell,t}
+&=
+\operatorname{CA}_\ell(H_{\ell,t},G),
+&
+A^T_{\ell,t}
+&=
+\operatorname{CA}_\ell(H_{\ell,t},T),\\
+\widetilde A_{\ell,t}
+&=
+A^G_{\ell,t}
++\beta_0r(u)\kappa_{\ell,t}A^T_{\ell,t},
+\end{aligned}
+\label{eq:inject}
+\end{equation}
+where $H_{\ell,t}$ is the current attention input.
+The factor $\kappa_{\ell,t}$ is the detached, clipped global-to-local ratio of the outputs' root-mean-square (RMS) magnitudes.
+$\beta_0$ is a fixed coefficient, and $r(u)$ ramps the local contribution over training updates $u$.
+
+
+\subsection{Training and Inference}
+\label{sec:training-inference}
+
+\paragraph{Optimization.}
+Starting from a pretrained denoiser, we jointly train it with both structural branches and the local reader.
+The encoders $E_c$, $E_s$, and VGG remain frozen.
+Each episode pairs one to eight Chinese references with a target glyph from the same family.
+The objective is
+\begin{equation}
+\mathcal L
+=
+\mathcal L_{\mathrm{diff}}
++0.01\mathcal L_{\mathrm{perc}}
++r(u)\!\left(
+    0.01\mathcal L_{\mathrm{comp}}
+    +0.05\mathcal L_{\mathrm{detail}}
+\right).
+\label{eq:objective}
+\end{equation}
+$\mathcal L_{\mathrm{diff}}$ is the mean squared error of the predicted noise.
+The perceptual loss compares VGG features of the paired target and the clean image reconstructed from the noise prediction.
+The detail loss combines errors in target-defined regions, regions where the design adds or removes ink relative to the neutral rendering, and local high-frequency structure.
+Architecture settings, calibration and ramp definitions, condition-dropout rules, and exact loss definitions appear in Appendix~\ref{app:k7b_impl}.
+
+\paragraph{Inference.}
+The candidate set, prior, and TC tokens are computed once per content-reference pair and reused throughout sampling.
+CRP routing, decoder attention, and RMS calibration are recomputed at each denoising step.
+The ramp is set to one at inference.
+The denoiser predicts noise, and diffusion sampling produces the final glyph.
 
 \section{Experiments}
 \label{sec:experiments}
