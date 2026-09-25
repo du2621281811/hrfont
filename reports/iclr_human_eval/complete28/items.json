@@ -1,0 +1,3272 @@
+{
+  "protocol": "ICLR-HUMAN-RANK-V1",
+  "seed": 3407,
+  "baselines": [
+    "fcagan",
+    "ftransgan",
+    "garfont",
+    "fontdiffuser"
+  ],
+  "prompt": "请按照与上方参考字体设计风格的一致程度，从高到低排列以下候选。重点判断它们是否像属于同一套字体，而不是单纯判断哪个更美观。",
+  "practice_note": "正式题要给 6 张从高到低排全，不再揭晓。每题先读上面 8 个参考字。先比粗细和比例，再看有没有多余的装饰，再看转角、收笔和纹理。更整齐、更端正、更好看不能单独加分。字母不必模仿汉字的笔画结构。",
+  "formal_n": 30,
+  "practice": [
+    {
+      "sample_id": "practice-weight",
+      "font": "FZHuoYYJW-R",
+      "target_char": "H",
+      "target_cp": "u0048",
+      "split": "extra",
+      "kind": "practice",
+      "demo": true,
+      "layout": "choose",
+      "is_attention_check": false,
+      "title": "粗细和比例",
+      "focus": "选出和上面参考字最像同一套的一张。先比笔画粗细和字宽，不要选更粗或更整齐的。",
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/practice-weight/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/practice-weight/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/practice-weight/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/practice-weight/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/practice-weight/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/practice-weight/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/practice-weight/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/practice-weight/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "practice-weight:0",
+          "correct": true,
+          "why": "细而均匀，和参考同一套",
+          "src": "assets/cand/practice-weight/0.png"
+        },
+        {
+          "candidate_id": "practice-weight:1",
+          "correct": false,
+          "why": "更整齐，但明显更粗",
+          "src": "assets/cand/practice-weight/1.png"
+        },
+        {
+          "candidate_id": "practice-weight:2",
+          "correct": false,
+          "why": "过粗，字面也更满",
+          "src": "assets/cand/practice-weight/2.png"
+        },
+        {
+          "candidate_id": "practice-weight:3",
+          "correct": false,
+          "why": "粗细不匀，是毛笔",
+          "src": "assets/cand/practice-weight/3.png"
+        },
+        {
+          "candidate_id": "practice-weight:4",
+          "correct": false,
+          "why": "横细竖粗，不是一样细",
+          "src": "assets/cand/practice-weight/4.png"
+        },
+        {
+          "candidate_id": "practice-weight:5",
+          "correct": false,
+          "why": "像素块，粗细和转角都不同",
+          "src": "assets/cand/practice-weight/5.png"
+        }
+      ]
+    },
+    {
+      "sample_id": "practice-hollow",
+      "font": "FZXZZBJW",
+      "target_char": "H",
+      "target_cp": "u0048",
+      "split": "extra",
+      "kind": "practice",
+      "demo": true,
+      "layout": "choose",
+      "is_attention_check": false,
+      "title": "实心还是装饰",
+      "focus": "选出和上面参考字最像同一套的一张。先看是不是实心。参考没有的空心、描边、花边都不要选。",
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/practice-hollow/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/practice-hollow/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/practice-hollow/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/practice-hollow/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/practice-hollow/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/practice-hollow/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/practice-hollow/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/practice-hollow/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "practice-hollow:0",
+          "correct": true,
+          "why": "实心，没有描边，和参考同一套",
+          "src": "assets/cand/practice-hollow/0.png"
+        },
+        {
+          "candidate_id": "practice-hollow:1",
+          "correct": false,
+          "why": "空心，参考里没有",
+          "src": "assets/cand/practice-hollow/1.png"
+        },
+        {
+          "candidate_id": "practice-hollow:2",
+          "correct": false,
+          "why": "描边花边，参考里没有",
+          "src": "assets/cand/practice-hollow/2.png"
+        },
+        {
+          "candidate_id": "practice-hollow:3",
+          "correct": false,
+          "why": "双线装饰，参考里没有",
+          "src": "assets/cand/practice-hollow/3.png"
+        },
+        {
+          "candidate_id": "practice-hollow:4",
+          "correct": false,
+          "why": "虽然实心，但是毛笔，粗细和收笔都不同",
+          "src": "assets/cand/practice-hollow/4.png"
+        },
+        {
+          "candidate_id": "practice-hollow:5",
+          "correct": false,
+          "why": "像素，不是这套黑体",
+          "src": "assets/cand/practice-hollow/5.png"
+        }
+      ]
+    },
+    {
+      "sample_id": "practice-terminal",
+      "font": "FZZJ-GJXKJW",
+      "target_char": "H",
+      "target_cp": "u0048",
+      "split": "extra",
+      "kind": "practice",
+      "demo": true,
+      "layout": "choose",
+      "is_attention_check": false,
+      "title": "转角和收笔",
+      "focus": "选出和上面参考字最像同一套的一张。看转角是圆是直，收笔是尖、是衬线还是齐头。更端正不能加分。",
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/practice-terminal/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/practice-terminal/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/practice-terminal/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/practice-terminal/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/practice-terminal/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/practice-terminal/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/practice-terminal/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/practice-terminal/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "practice-terminal:0",
+          "correct": true,
+          "why": "圆转，收笔带尖，和参考同一套",
+          "src": "assets/cand/practice-terminal/0.png"
+        },
+        {
+          "candidate_id": "practice-terminal:1",
+          "correct": false,
+          "why": "更端正，但收笔是衬线",
+          "src": "assets/cand/practice-terminal/1.png"
+        },
+        {
+          "candidate_id": "practice-terminal:2",
+          "correct": false,
+          "why": "转角和收笔都是圆头",
+          "src": "assets/cand/practice-terminal/2.png"
+        },
+        {
+          "candidate_id": "practice-terminal:3",
+          "correct": false,
+          "why": "转角是直线，收笔是齐头",
+          "src": "assets/cand/practice-terminal/3.png"
+        },
+        {
+          "candidate_id": "practice-terminal:4",
+          "correct": false,
+          "why": "收笔是阶梯，不是尖笔",
+          "src": "assets/cand/practice-terminal/4.png"
+        },
+        {
+          "candidate_id": "practice-terminal:5",
+          "correct": false,
+          "why": "细而均匀，没有毛笔的尖收笔",
+          "src": "assets/cand/practice-terminal/5.png"
+        }
+      ]
+    }
+  ],
+  "attention": [
+    {
+      "sample_id": "attn-1",
+      "font": "fzsj_2813607",
+      "target_char": "Q",
+      "target_cp": "u0051",
+      "split": "extra",
+      "kind": "attention",
+      "is_attention_check": true,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/attn-1/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/attn-1/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/attn-1/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/attn-1/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/attn-1/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/attn-1/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/attn-1/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/attn-1/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "attn-1:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/attn-1/gt.png"
+        },
+        {
+          "candidate_id": "attn-1:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/attn-1/hrfont.png"
+        },
+        {
+          "candidate_id": "attn-1:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/attn-1/fcagan.png"
+        },
+        {
+          "candidate_id": "attn-1:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/attn-1/ftransgan.png"
+        },
+        {
+          "candidate_id": "attn-1:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/attn-1/garfont.png"
+        },
+        {
+          "candidate_id": "attn-1:attn_mismatch",
+          "hidden_method": "attn_mismatch",
+          "src": "assets/cand/attn-1/attn_mismatch.png"
+        }
+      ],
+      "trap_method": "attn_mismatch"
+    },
+    {
+      "sample_id": "attn-2",
+      "font": "FZZH-ZYXSJW",
+      "target_char": "v",
+      "target_cp": "u0076",
+      "split": "extra",
+      "kind": "attention",
+      "is_attention_check": true,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/attn-2/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/attn-2/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/attn-2/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/attn-2/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/attn-2/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/attn-2/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/attn-2/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/attn-2/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "attn-2:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/attn-2/gt.png"
+        },
+        {
+          "candidate_id": "attn-2:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/attn-2/hrfont.png"
+        },
+        {
+          "candidate_id": "attn-2:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/attn-2/fcagan.png"
+        },
+        {
+          "candidate_id": "attn-2:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/attn-2/ftransgan.png"
+        },
+        {
+          "candidate_id": "attn-2:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/attn-2/garfont.png"
+        },
+        {
+          "candidate_id": "attn-2:attn_mismatch",
+          "hidden_method": "attn_mismatch",
+          "src": "assets/cand/attn-2/attn_mismatch.png"
+        }
+      ],
+      "trap_method": "attn_mismatch"
+    }
+  ],
+  "formal": [
+    {
+      "sample_id": "extra:FZZJ-XFSXTJ+u004D",
+      "font": "FZZJ-XFSXTJ",
+      "target_char": "M",
+      "target_cp": "u004D",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZZJ-XFSXTJ+u004D/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZZJ-XFSXTJ+u004D/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZZJ-XFSXTJ+u004D/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZZJ-XFSXTJ+u004D/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZZJ-XFSXTJ+u004D/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZZJ-XFSXTJ+u004D/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZZJ-XFSXTJ+u004D/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZZJ-XFSXTJ+u004D/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZZJ-XFSXTJ+u004D:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZZJ-XFSXTJ+u004D/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-XFSXTJ+u004D:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZZJ-XFSXTJ+u004D/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-XFSXTJ+u004D:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZZJ-XFSXTJ+u004D/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-XFSXTJ+u004D:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZZJ-XFSXTJ+u004D/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-XFSXTJ+u004D:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZZJ-XFSXTJ+u004D/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-XFSXTJ+u004D:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZZJ-XFSXTJ+u004D/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZZJ-DZDTJW+u0052",
+      "font": "FZZJ-DZDTJW",
+      "target_char": "R",
+      "target_cp": "u0052",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZZJ-DZDTJW+u0052/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZZJ-DZDTJW+u0052/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZZJ-DZDTJW+u0052/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZZJ-DZDTJW+u0052/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZZJ-DZDTJW+u0052/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZZJ-DZDTJW+u0052/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZZJ-DZDTJW+u0052/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZZJ-DZDTJW+u0052/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZZJ-DZDTJW+u0052:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZZJ-DZDTJW+u0052/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-DZDTJW+u0052:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZZJ-DZDTJW+u0052/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-DZDTJW+u0052:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZZJ-DZDTJW+u0052/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-DZDTJW+u0052:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZZJ-DZDTJW+u0052/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-DZDTJW+u0052:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZZJ-DZDTJW+u0052/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-DZDTJW+u0052:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZZJ-DZDTJW+u0052/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZDiHTJ+u0053",
+      "font": "FZDiHTJ",
+      "target_char": "S",
+      "target_cp": "u0053",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZDiHTJ+u0053/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZDiHTJ+u0053/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZDiHTJ+u0053/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZDiHTJ+u0053/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZDiHTJ+u0053/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZDiHTJ+u0053/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZDiHTJ+u0053/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZDiHTJ+u0053/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZDiHTJ+u0053:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZDiHTJ+u0053/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u0053:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZDiHTJ+u0053/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u0053:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZDiHTJ+u0053/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u0053:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZDiHTJ+u0053/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u0053:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZDiHTJ+u0053/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u0053:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZDiHTJ+u0053/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZCuanBZBKSJF+u0062",
+      "font": "FZCuanBZBKSJF",
+      "target_char": "b",
+      "target_cp": "u0062",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u0062/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u0062/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u0062/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u0062/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u0062/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u0062/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u0062/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u0062/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u0062:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u0062/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u0062:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u0062/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u0062:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u0062/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u0062:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u0062/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u0062:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u0062/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u0062:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u0062/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZDiHTJ+u00E0",
+      "font": "FZDiHTJ",
+      "target_char": "à",
+      "target_cp": "u00E0",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZDiHTJ+u00E0/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZDiHTJ+u00E0/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZDiHTJ+u00E0/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZDiHTJ+u00E0/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZDiHTJ+u00E0/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZDiHTJ+u00E0/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZDiHTJ+u00E0/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZDiHTJ+u00E0/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZDiHTJ+u00E0:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZDiHTJ+u00E0/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u00E0:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZDiHTJ+u00E0/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u00E0:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZDiHTJ+u00E0/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u00E0:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZDiHTJ+u00E0/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u00E0:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZDiHTJ+u00E0/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZDiHTJ+u00E0:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZDiHTJ+u00E0/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZFeiYTJW_Xian+u0065",
+      "font": "FZFeiYTJW_Xian",
+      "target_char": "e",
+      "target_cp": "u0065",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZFeiYTJW_Xian+u0065/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZFeiYTJW_Xian+u0065/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZFeiYTJW_Xian+u0065/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZFeiYTJW_Xian+u0065/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZFeiYTJW_Xian+u0065/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZFeiYTJW_Xian+u0065/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZFeiYTJW_Xian+u0065/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZFeiYTJW_Xian+u0065/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZFeiYTJW_Xian+u0065:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZFeiYTJW_Xian+u0065/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZFeiYTJW_Xian+u0065:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZFeiYTJW_Xian+u0065/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZFeiYTJW_Xian+u0065:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZFeiYTJW_Xian+u0065/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZFeiYTJW_Xian+u0065:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZFeiYTJW_Xian+u0065/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZFeiYTJW_Xian+u0065:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZFeiYTJW_Xian+u0065/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZFeiYTJW_Xian+u0065:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZFeiYTJW_Xian+u0065/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZFengRSTJW-DB+u006D",
+      "font": "FZFengRSTJW-DB",
+      "target_char": "m",
+      "target_cp": "u006D",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u006D/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u006D/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u006D/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u006D/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u006D/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u006D/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u006D/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u006D/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u006D:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u006D/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u006D:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u006D/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u006D:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u006D/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u006D:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u006D/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u006D:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u006D/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u006D:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u006D/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZFengRSTJW-DB+u0052",
+      "font": "FZFengRSTJW-DB",
+      "target_char": "R",
+      "target_cp": "u0052",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u0052/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u0052/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u0052/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u0052/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u0052/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u0052/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u0052/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZFengRSTJW-DB+u0052/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u0052:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u0052/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u0052:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u0052/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u0052:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u0052/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u0052:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u0052/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u0052:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u0052/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZFengRSTJW-DB+u0052:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZFengRSTJW-DB+u0052/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZFXKTJF+u0050",
+      "font": "FZFXKTJF",
+      "target_char": "P",
+      "target_cp": "u0050",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZFXKTJF+u0050/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZFXKTJF+u0050/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZFXKTJF+u0050/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZFXKTJF+u0050/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZFXKTJF+u0050/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZFXKTJF+u0050/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZFXKTJF+u0050/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZFXKTJF+u0050/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZFXKTJF+u0050:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZFXKTJF+u0050/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZFXKTJF+u0050:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZFXKTJF+u0050/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZFXKTJF+u0050:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZFXKTJF+u0050/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZFXKTJF+u0050:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZFXKTJF+u0050/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZFXKTJF+u0050:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZFXKTJF+u0050/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZFXKTJF+u0050:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZFXKTJF+u0050/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZHanBTJW_Cu+u0057",
+      "font": "FZHanBTJW_Cu",
+      "target_char": "W",
+      "target_cp": "u0057",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0057/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0057/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0057/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0057/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0057/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0057/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0057/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0057/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0057:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0057/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0057:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0057/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0057:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0057/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0057:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0057/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0057:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0057/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0057:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0057/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZHanBTJW_Cu+u01CE",
+      "font": "FZHanBTJW_Cu",
+      "target_char": "ǎ",
+      "target_cp": "u01CE",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u01CE/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u01CE/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u01CE/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u01CE/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u01CE/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u01CE/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u01CE/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u01CE/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u01CE:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u01CE/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u01CE:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u01CE/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u01CE:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u01CE/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u01CE:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u01CE/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u01CE:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u01CE/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u01CE:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u01CE/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZHanBTJW_Cu+u0064",
+      "font": "FZHanBTJW_Cu",
+      "target_char": "d",
+      "target_cp": "u0064",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0064/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0064/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0064/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0064/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0064/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0064/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0064/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZHanBTJW_Cu+u0064/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0064:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0064/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0064:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0064/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0064:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0064/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0064:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0064/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0064:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0064/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZHanBTJW_Cu+u0064:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZHanBTJW_Cu+u0064/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZJCXS+u0036",
+      "font": "FZJCXS",
+      "target_char": "6",
+      "target_cp": "u0036",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZJCXS+u0036/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZJCXS+u0036/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZJCXS+u0036/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZJCXS+u0036/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZJCXS+u0036/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZJCXS+u0036/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZJCXS+u0036/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZJCXS+u0036/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZJCXS+u0036:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZJCXS+u0036/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZJCXS+u0036:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZJCXS+u0036/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZJCXS+u0036:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZJCXS+u0036/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZJCXS+u0036:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZJCXS+u0036/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZJCXS+u0036:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZJCXS+u0036/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZJCXS+u0036:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZJCXS+u0036/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZJiHXTJW_Xi+u0042",
+      "font": "FZJiHXTJW_Xi",
+      "target_char": "B",
+      "target_cp": "u0042",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0042/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0042/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0042/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0042/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0042/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0042/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0042/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0042/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0042:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0042/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0042:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0042/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0042:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0042/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0042:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0042/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0042:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0042/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0042:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0042/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZJiHXTJW_Xi+u0051",
+      "font": "FZJiHXTJW_Xi",
+      "target_char": "Q",
+      "target_cp": "u0051",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0051/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0051/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0051/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0051/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0051/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0051/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0051/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZJiHXTJW_Xi+u0051/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0051:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0051/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0051:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0051/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0051:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0051/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0051:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0051/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0051:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0051/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZJiHXTJW_Xi+u0051:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZJiHXTJW_Xi+u0051/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZMingZTJW-DB+u0056",
+      "font": "FZMingZTJW-DB",
+      "target_char": "V",
+      "target_cp": "u0056",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0056/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0056/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0056/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0056/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0056/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0056/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0056/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0056/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0056:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0056/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0056:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0056/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0056:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0056/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0056:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0056/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0056:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0056/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0056:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0056/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZMingZTJW-DB+u0052",
+      "font": "FZMingZTJW-DB",
+      "target_char": "R",
+      "target_cp": "u0052",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0052/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0052/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0052/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0052/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0052/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0052/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0052/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZMingZTJW-DB+u0052/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0052:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0052/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0052:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0052/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0052:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0052/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0052:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0052/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0052:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0052/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZMingZTJW-DB+u0052:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZMingZTJW-DB+u0052/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZQianWTJW_Xi+u0057",
+      "font": "FZQianWTJW_Xi",
+      "target_char": "W",
+      "target_cp": "u0057",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZQianWTJW_Xi+u0057/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZQianWTJW_Xi+u0057/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZQianWTJW_Xi+u0057/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZQianWTJW_Xi+u0057/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZQianWTJW_Xi+u0057/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZQianWTJW_Xi+u0057/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZQianWTJW_Xi+u0057/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZQianWTJW_Xi+u0057/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZQianWTJW_Xi+u0057:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZQianWTJW_Xi+u0057/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZQianWTJW_Xi+u0057:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZQianWTJW_Xi+u0057/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZQianWTJW_Xi+u0057:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZQianWTJW_Xi+u0057/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZQianWTJW_Xi+u0057:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZQianWTJW_Xi+u0057/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZQianWTJW_Xi+u0057:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZQianWTJW_Xi+u0057/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZQianWTJW_Xi+u0057:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZQianWTJW_Xi+u0057/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZVDLGTMCJW-M+u004B",
+      "font": "FZVDLGTMCJW-M",
+      "target_char": "K",
+      "target_cp": "u004B",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZVDLGTMCJW-M+u004B/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZVDLGTMCJW-M+u004B/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZVDLGTMCJW-M+u004B/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZVDLGTMCJW-M+u004B/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZVDLGTMCJW-M+u004B/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZVDLGTMCJW-M+u004B/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZVDLGTMCJW-M+u004B/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZVDLGTMCJW-M+u004B/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZVDLGTMCJW-M+u004B:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZVDLGTMCJW-M+u004B/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLGTMCJW-M+u004B:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZVDLGTMCJW-M+u004B/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLGTMCJW-M+u004B:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZVDLGTMCJW-M+u004B/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLGTMCJW-M+u004B:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZVDLGTMCJW-M+u004B/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLGTMCJW-M+u004B:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZVDLGTMCJW-M+u004B/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLGTMCJW-M+u004B:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZVDLGTMCJW-M+u004B/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZVDLJingQSJ-R+u0071",
+      "font": "FZVDLJingQSJ-R",
+      "target_char": "q",
+      "target_cp": "u0071",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZVDLJingQSJ-R+u0071/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZVDLJingQSJ-R+u0071/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZVDLJingQSJ-R+u0071/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZVDLJingQSJ-R+u0071/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZVDLJingQSJ-R+u0071/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZVDLJingQSJ-R+u0071/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZVDLJingQSJ-R+u0071/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZVDLJingQSJ-R+u0071/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZVDLJingQSJ-R+u0071:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZVDLJingQSJ-R+u0071/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLJingQSJ-R+u0071:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZVDLJingQSJ-R+u0071/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLJingQSJ-R+u0071:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZVDLJingQSJ-R+u0071/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLJingQSJ-R+u0071:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZVDLJingQSJ-R+u0071/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLJingQSJ-R+u0071:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZVDLJingQSJ-R+u0071/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZVDLJingQSJ-R+u0071:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZVDLJingQSJ-R+u0071/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZXIANGSU12+u00E8",
+      "font": "FZXIANGSU12",
+      "target_char": "è",
+      "target_cp": "u00E8",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZXIANGSU12+u00E8/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZXIANGSU12+u00E8/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZXIANGSU12+u00E8/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZXIANGSU12+u00E8/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZXIANGSU12+u00E8/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZXIANGSU12+u00E8/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZXIANGSU12+u00E8/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZXIANGSU12+u00E8/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZXIANGSU12+u00E8:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZXIANGSU12+u00E8/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU12+u00E8:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZXIANGSU12+u00E8/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU12+u00E8:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZXIANGSU12+u00E8/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU12+u00E8:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZXIANGSU12+u00E8/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU12+u00E8:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZXIANGSU12+u00E8/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU12+u00E8:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZXIANGSU12+u00E8/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZXIANGSU24+u0070",
+      "font": "FZXIANGSU24",
+      "target_char": "p",
+      "target_cp": "u0070",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZXIANGSU24+u0070/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZXIANGSU24+u0070/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZXIANGSU24+u0070/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZXIANGSU24+u0070/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZXIANGSU24+u0070/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZXIANGSU24+u0070/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZXIANGSU24+u0070/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZXIANGSU24+u0070/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZXIANGSU24+u0070:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZXIANGSU24+u0070/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU24+u0070:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZXIANGSU24+u0070/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU24+u0070:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZXIANGSU24+u0070/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU24+u0070:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZXIANGSU24+u0070/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU24+u0070:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZXIANGSU24+u0070/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZXIANGSU24+u0070:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZXIANGSU24+u0070/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZYaZTJ_Xi+u0052",
+      "font": "FZYaZTJ_Xi",
+      "target_char": "R",
+      "target_cp": "u0052",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZYaZTJ_Xi+u0052/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZYaZTJ_Xi+u0052/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZYaZTJ_Xi+u0052/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZYaZTJ_Xi+u0052/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZYaZTJ_Xi+u0052/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZYaZTJ_Xi+u0052/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZYaZTJ_Xi+u0052/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZYaZTJ_Xi+u0052/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZYaZTJ_Xi+u0052:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZYaZTJ_Xi+u0052/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZYaZTJ_Xi+u0052:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZYaZTJ_Xi+u0052/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZYaZTJ_Xi+u0052:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZYaZTJ_Xi+u0052/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZYaZTJ_Xi+u0052:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZYaZTJ_Xi+u0052/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZYaZTJ_Xi+u0052:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZYaZTJ_Xi+u0052/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZYaZTJ_Xi+u0052:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZYaZTJ_Xi+u0052/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZZJ-BGSHJW+u0036",
+      "font": "FZZJ-BGSHJW",
+      "target_char": "6",
+      "target_cp": "u0036",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZZJ-BGSHJW+u0036/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZZJ-BGSHJW+u0036/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZZJ-BGSHJW+u0036/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZZJ-BGSHJW+u0036/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZZJ-BGSHJW+u0036/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZZJ-BGSHJW+u0036/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZZJ-BGSHJW+u0036/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZZJ-BGSHJW+u0036/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZZJ-BGSHJW+u0036:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZZJ-BGSHJW+u0036/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-BGSHJW+u0036:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZZJ-BGSHJW+u0036/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-BGSHJW+u0036:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZZJ-BGSHJW+u0036/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-BGSHJW+u0036:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZZJ-BGSHJW+u0036/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-BGSHJW+u0036:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZZJ-BGSHJW+u0036/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZZJ-BGSHJW+u0036:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZZJ-BGSHJW+u0036/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZChaoLTJW_Xian+u0050",
+      "font": "FZChaoLTJW_Xian",
+      "target_char": "P",
+      "target_cp": "u0050",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u0050/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u0050/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u0050/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u0050/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u0050/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u0050/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u0050/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u0050/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u0050:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u0050/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u0050:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u0050/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u0050:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u0050/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u0050:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u0050/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u0050:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u0050/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u0050:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u0050/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZCuanBZBKSJF+u006B",
+      "font": "FZCuanBZBKSJF",
+      "target_char": "k",
+      "target_cp": "u006B",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u006B/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u006B/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u006B/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u006B/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u006B/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u006B/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u006B/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZCuanBZBKSJF+u006B/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u006B:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u006B/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u006B:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u006B/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u006B:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u006B/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u006B:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u006B/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u006B:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u006B/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZCuanBZBKSJF+u006B:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZCuanBZBKSJF+u006B/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZChaoLTJW_Xian+u00E0",
+      "font": "FZChaoLTJW_Xian",
+      "target_char": "à",
+      "target_cp": "u00E0",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u00E0/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u00E0/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u00E0/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u00E0/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u00E0/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u00E0/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u00E0/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZChaoLTJW_Xian+u00E0/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u00E0:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u00E0/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u00E0:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u00E0/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u00E0:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u00E0/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u00E0:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u00E0/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u00E0:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u00E0/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZChaoLTJW_Xian+u00E0:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZChaoLTJW_Xian+u00E0/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZBaiZJHTJW-R+u0038",
+      "font": "FZBaiZJHTJW-R",
+      "target_char": "8",
+      "target_cp": "u0038",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZBaiZJHTJW-R+u0038/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZBaiZJHTJW-R+u0038/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZBaiZJHTJW-R+u0038/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZBaiZJHTJW-R+u0038/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZBaiZJHTJW-R+u0038/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZBaiZJHTJW-R+u0038/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZBaiZJHTJW-R+u0038/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZBaiZJHTJW-R+u0038/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZBaiZJHTJW-R+u0038:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZBaiZJHTJW-R+u0038/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZBaiZJHTJW-R+u0038:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZBaiZJHTJW-R+u0038/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZBaiZJHTJW-R+u0038:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZBaiZJHTJW-R+u0038/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZBaiZJHTJW-R+u0038:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZBaiZJHTJW-R+u0038/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZBaiZJHTJW-R+u0038:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZBaiZJHTJW-R+u0038/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZBaiZJHTJW-R+u0038:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZBaiZJHTJW-R+u0038/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZLangYJW-M+u0064",
+      "font": "FZLangYJW-M",
+      "target_char": "d",
+      "target_cp": "u0064",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZLangYJW-M+u0064/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZLangYJW-M+u0064/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZLangYJW-M+u0064/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZLangYJW-M+u0064/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZLangYJW-M+u0064/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZLangYJW-M+u0064/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZLangYJW-M+u0064/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZLangYJW-M+u0064/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZLangYJW-M+u0064:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZLangYJW-M+u0064/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZLangYJW-M+u0064:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZLangYJW-M+u0064/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZLangYJW-M+u0064:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZLangYJW-M+u0064/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZLangYJW-M+u0064:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZLangYJW-M+u0064/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZLangYJW-M+u0064:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZLangYJW-M+u0064/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZLangYJW-M+u0064:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZLangYJW-M+u0064/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    },
+    {
+      "sample_id": "extra:FZNianLLHTJW+u004E",
+      "font": "FZNianLLHTJW",
+      "target_char": "N",
+      "target_cp": "u004E",
+      "split": "extra",
+      "kind": "formal",
+      "is_attention_check": false,
+      "refs": [
+        {
+          "i": 1,
+          "char": "永",
+          "cp": "u6C38",
+          "src": "assets/refs/extra:FZNianLLHTJW+u004E/1.png"
+        },
+        {
+          "i": 2,
+          "char": "和",
+          "cp": "u548C",
+          "src": "assets/refs/extra:FZNianLLHTJW+u004E/2.png"
+        },
+        {
+          "i": 3,
+          "char": "书",
+          "cp": "u4E66",
+          "src": "assets/refs/extra:FZNianLLHTJW+u004E/3.png"
+        },
+        {
+          "i": 4,
+          "char": "风",
+          "cp": "u98CE",
+          "src": "assets/refs/extra:FZNianLLHTJW+u004E/4.png"
+        },
+        {
+          "i": 5,
+          "char": "骨",
+          "cp": "u9AA8",
+          "src": "assets/refs/extra:FZNianLLHTJW+u004E/5.png"
+        },
+        {
+          "i": 6,
+          "char": "韵",
+          "cp": "u97F5",
+          "src": "assets/refs/extra:FZNianLLHTJW+u004E/6.png"
+        },
+        {
+          "i": 7,
+          "char": "天",
+          "cp": "u5929",
+          "src": "assets/refs/extra:FZNianLLHTJW+u004E/7.png"
+        },
+        {
+          "i": 8,
+          "char": "地",
+          "cp": "u5730",
+          "src": "assets/refs/extra:FZNianLLHTJW+u004E/8.png"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "extra:FZNianLLHTJW+u004E:gt",
+          "hidden_method": "gt",
+          "src": "assets/cand/extra:FZNianLLHTJW+u004E/gt.png"
+        },
+        {
+          "candidate_id": "extra:FZNianLLHTJW+u004E:hrfont",
+          "hidden_method": "hrfont",
+          "src": "assets/cand/extra:FZNianLLHTJW+u004E/hrfont.png"
+        },
+        {
+          "candidate_id": "extra:FZNianLLHTJW+u004E:fcagan",
+          "hidden_method": "fcagan",
+          "src": "assets/cand/extra:FZNianLLHTJW+u004E/fcagan.png"
+        },
+        {
+          "candidate_id": "extra:FZNianLLHTJW+u004E:ftransgan",
+          "hidden_method": "ftransgan",
+          "src": "assets/cand/extra:FZNianLLHTJW+u004E/ftransgan.png"
+        },
+        {
+          "candidate_id": "extra:FZNianLLHTJW+u004E:garfont",
+          "hidden_method": "garfont",
+          "src": "assets/cand/extra:FZNianLLHTJW+u004E/garfont.png"
+        },
+        {
+          "candidate_id": "extra:FZNianLLHTJW+u004E:fontdiffuser",
+          "hidden_method": "fontdiffuser",
+          "src": "assets/cand/extra:FZNianLLHTJW+u004E/fontdiffuser.png"
+        }
+      ],
+      "trap_method": null
+    }
+  ],
+  "qc": {
+    "formal_per_annotator": 30,
+    "attention_per_annotator": 2,
+    "min_raters": 3,
+    "drop_if": "every attention check ranks attn_mismatch in the top 2"
+  }
+}
