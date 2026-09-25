@@ -1,0 +1,47 @@
+{
+  "created_from": "Verified local mirror of V100 FZ49 results and questionnaire release",
+  "questionnaire": {
+    "commit": "5b052510e3b20d9f1d630f42f620bb8593779d56",
+    "items_sha256": "3af0890b29f01cf77a458c8ffc284b059e32130b182df46cf0251df0fa2298c3",
+    "responses_sha256": "7666a552368bd08faf9aed0de697bc39b2f4ffbcb438c07a9341bedf910170b0",
+    "official_analyzer_sha256": "da278f91d102275959d43575359eb22770680df7adc71a61ed88f3bdd7d56eff"
+  },
+  "base_metric_source": {
+    "methods": [
+      "K7-B",
+      "fcagan",
+      "ftransgan",
+      "garfont"
+    ],
+    "samples_per_method": 9605,
+    "combined_table_sha256": "eaea5d8738debfd26667c779be3c45abe38c61649c61b558d6d2736a8e5e76e5",
+    "source_input_sha256": {
+      "baseline_csv_sha256": "11c9e392a43820c45d920e32206460dba54cfdd47d0c55ea907583ba802379ad",
+      "v100_csv_sha256": "bda705ae50c2f4ea99e15d99215eb005b687211eb372c2faaa3278a6e3547e77"
+    }
+  },
+  "fontdiffuser": {
+    "method": "FD45k release",
+    "release_id": "fz-test-extra-preds-20260925",
+    "release_archive_sha256": "56a74dba9574efa5b274e3db96fb95eddc8de96ef22d7f357b42ec0a37569ad3",
+    "supplement_commit": "b7078a875e0bb28df206d864890233ae4452cfb1",
+    "supplement_sha_manifest_sha256": "0338a3a615262898af0547a9c66a805ce5acc7bc9f12430bd4903fe92268d2e9",
+    "existing_v4_metric_rows_used": 23,
+    "additional_v4_excluded_survey_rows_scored": 7,
+    "survey_source_coverage": {
+      "regular_release_pngs": 29,
+      "supplement_pngs": 1
+    }
+  },
+  "scoring": {
+    "l1": "PIL grayscale, native 96x96, float32 /255, mean absolute pixel difference",
+    "ssim": "PIL grayscale, native 96x96, scikit-image structural_similarity, data_range=1, win_size=7",
+    "lpips": "LPIPS 0.1 AlexNet, native RGB 96x96, input range [-1,1]",
+    "dino_distance": "facebook/dinov2-small CLS, revision ed25f3a31f01632728cabb09d1542f84ab7b0056, 1-cosine(prediction,target), native 96x96 processor input",
+    "rsc8": "Frozen E12-c R1 ResNet18 raw cosine to L2-normalized mean of eight fixed reference embeddings",
+    "aggregation": "Within-font sample mean, then equal-weight average over fonts"
+  },
+  "fd45k_full_metric_table_sha256": "82701801be379511bcfd28908321504fc076e7c99ef52d4f47e64650b552cd5e",
+  "target_alignment": "All metric scores use the shared K7-B target; RSC-8 is target-independent.",
+  "pii": "Only anonymized aggregate and item-level mean ranks are included; raw responses and annotator identifiers are excluded."
+}

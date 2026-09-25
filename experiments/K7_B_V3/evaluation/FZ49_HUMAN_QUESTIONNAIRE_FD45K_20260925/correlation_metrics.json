@@ -1,0 +1,61 @@
+{
+  "protocol": "ICLR-HUMAN-RANK-V1 metric_tau (Kendall tau-b)",
+  "n_samples": 30,
+  "n_generated_methods_per_sample": 5,
+  "n_method_sample_pairs": 150,
+  "human_values": "Per-sample, per-method mean rank across 28 valid raters; lower rank is better.",
+  "automatic_values": "Per-sample, per-method values; no mean aggregation over samples or methods before tau.",
+  "bootstrap": "1,000 sample-level bootstrap replicates with replacement; seed=3407; percentile 95% CI.",
+  "candidate_mapping": {
+    "hrfont": "K7-B",
+    "fcagan": "fcagan",
+    "ftransgan": "ftransgan",
+    "garfont": "garfont",
+    "fontdiffuser": "fontdiffuser_45k"
+  },
+  "fontdiffuser_source": "FontDiffuser 45K (fontdiffuser_45k) only; 23 existing V4 score rows plus 7 newly scored V4-excluded samples. The separate FontDiffuser P2 row is not used.",
+  "metric_direction": {
+    "l1": "lower_is_better",
+    "ssim": "higher_is_better",
+    "lpips": "lower_is_better",
+    "dino_distance": "lower_is_better",
+    "rsc8": "higher_is_better"
+  },
+  "results": {
+    "l1": {
+      "tau_b": -0.023363640182336203,
+      "ci95": [
+        -0.10053925262651761,
+        0.04957313022369264
+      ]
+    },
+    "ssim": {
+      "tau_b": -0.016174827818540446,
+      "ci95": [
+        -0.09215669757279592,
+        0.05715920338384033
+      ]
+    },
+    "lpips": {
+      "tau_b": 0.2458573828418148,
+      "ci95": [
+        0.15917632433495918,
+        0.35556020392964205
+      ]
+    },
+    "dino_distance": {
+      "tau_b": 0.28054340249712933,
+      "ci95": [
+        0.1992459868459058,
+        0.3702158521833062
+      ]
+    },
+    "rsc8": {
+      "tau_b": 0.28054340249712933,
+      "ci95": [
+        0.1844032915977228,
+        0.3838023875619979
+      ]
+    }
+  }
+}
