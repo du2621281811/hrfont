@@ -1,0 +1,20 @@
+{
+  "method": "shot_1",
+  "sample_name": "FZBaiZJHTJW-R+u0030.png",
+  "unchanged_shared_target_sample": true,
+  "source": {
+    "ssim": 0.679078560025671,
+    "lpips": 0.1287049502134323,
+    "dino_distance": 0.23694169521331787
+  },
+  "local_recompute": {
+    "ssim": 0.679078560025671,
+    "lpips": 0.1287049651145935,
+    "dino_distance": 0.23694181442260742
+  },
+  "absolute_difference": {
+    "ssim": 0.0,
+    "lpips": 1.4901161193847656e-08,
+    "dino_distance": 1.1920928955078125e-07
+  }
+}

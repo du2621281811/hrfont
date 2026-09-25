@@ -1,0 +1,352 @@
+{
+  "created_utc": "2026-09-25T14:14:56.605727+00:00",
+  "test_set": "V4",
+  "source_csv": "fz49_all_methods_per_sample_metrics.csv (local input; not bundled)",
+  "source_sha256": "eaea5d8738debfd26667c779be3c45abe38c61649c61b558d6d2736a8e5e76e5",
+  "methods": [
+    "K7-B",
+    "A1",
+    "A2",
+    "A3",
+    "fcagan",
+    "ftransgan",
+    "garfont",
+    "fontdiffuser_p2",
+    "shot_1",
+    "shot_2",
+    "shot_4",
+    "shot_8_alt",
+    "K7-B-CRP-top1",
+    "K7-B-CRP-uniform_topk",
+    "K7-B-delta-off",
+    "K7-B-donor-random"
+  ],
+  "n_methods": 16,
+  "source_samples_per_method": 9605,
+  "v4_samples_per_method": 8638,
+  "source_unique_fonts": 49,
+  "v4_unique_fonts": 47,
+  "excluded_font_rules": [
+    "FZVDLGTMCJW-M",
+    "FZXIANGSU12"
+  ],
+  "excluded_character_rules": [
+    "1",
+    "T",
+    "X",
+    "a",
+    "d",
+    "k",
+    "u",
+    "y",
+    "à",
+    "ǔ",
+    "ǜ"
+  ],
+  "filter_semantics": "exclude if font is banned OR (font is not banned AND Unicode character is banned); equivalently the union of whole-font and per-character exclusions",
+  "excluded_samples": 967,
+  "excluded_reason_counts": {
+    "character_in_remaining_fonts": 502,
+    "whole_font": 465
+  },
+  "v4_samples_by_script": {
+    "latin": 3542,
+    "kana": 4726,
+    "bopomofo": 370
+  },
+  "v4_fonts_by_script": {
+    "latin": 47,
+    "kana": 30,
+    "bopomofo": 10
+  },
+  "v4_unique_characters": 284,
+  "l1_protocol": "PIL convert('L'), float32 / 255, 96x96, mean absolute pixel difference",
+  "l1_formula_matches_existing_v100_verification": true,
+  "l1_recomputation": {
+    "n_predictions": 153680,
+    "max_absdiff_all": 0.0671360082924366,
+    "mean_absdiff_all": 5.4330549151711805e-05,
+    "n_absdiff_gt_1e-6": 1624,
+    "by_method": {
+      "K7-B": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "A1": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "A2": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "A3": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "fcagan": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "ftransgan": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "garfont": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "fontdiffuser_p2": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "shot_1": {
+        "n": 9605,
+        "max_absdiff": 0.059500522911548615,
+        "mean_absdiff": 0.0002561520878177084,
+        "n_absdiff_gt_1e-6": 384
+      },
+      "shot_2": {
+        "n": 9605,
+        "max_absdiff": 0.020805664360523224,
+        "mean_absdiff": 0.00016157539742710317,
+        "n_absdiff_gt_1e-6": 384
+      },
+      "shot_4": {
+        "n": 9605,
+        "max_absdiff": 0.024295330047607422,
+        "mean_absdiff": 0.0001641634361065036,
+        "n_absdiff_gt_1e-6": 384
+      },
+      "shot_8_alt": {
+        "n": 9605,
+        "max_absdiff": 0.0671360082924366,
+        "mean_absdiff": 0.00028739786507607376,
+        "n_absdiff_gt_1e-6": 472
+      },
+      "K7-B-CRP-top1": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "K7-B-CRP-uniform_topk": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "K7-B-delta-off": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      },
+      "K7-B-donor-random": {
+        "n": 9605,
+        "max_absdiff": 0.0,
+        "mean_absdiff": 0.0,
+        "n_absdiff_gt_1e-6": 0
+      }
+    }
+  },
+  "aggregation": "mean per font, then equal-weight mean across fonts",
+  "ranking": "competition rank (ties share minimum rank); L1/LPIPS/DINO distance lower is better, SSIM/RSC-8 higher is better",
+  "metric_caveat": "L1 was recomputed for every method against the shared K7-B target. For V100-verified shot target snapshot differences, SSIM and LPIPS were recomputed against the shared target; DINO distance was recomputed where its shot_1-derived GT feature differed from K7-B. Other values retain the existing scoring pipeline; RSC-8 is target-independent.",
+  "target_alignment": {
+    "verification": "Read-only SHA-256 comparison on V100 between each shot metrics.json target path and matched K7-B metrics.json target path.",
+    "source_target_hash_mismatch_counts": {
+      "shot_1": {
+        "extra32": {
+          "FZMingZTJW-DB": 295
+        },
+        "plus17": {
+          "FZJCXS": 89
+        }
+      },
+      "shot_2": {
+        "extra32": {
+          "FZMingZTJW-DB": 295
+        },
+        "plus17": {
+          "FZJCXS": 89
+        }
+      },
+      "shot_4": {
+        "extra32": {
+          "FZMingZTJW-DB": 295
+        },
+        "plus17": {
+          "FZJCXS": 89
+        }
+      },
+      "shot_8_alt": {
+        "extra32": {
+          "FZMingZTJW-DB": 295,
+          "FZBangSXJW": 89
+        },
+        "plus17": {
+          "FZJCXS": 89
+        }
+      }
+    },
+    "dino_source_target_hash_mismatch_counts": {
+      "extra32": [
+        "FZMingZTJW-DB"
+      ],
+      "plus17": [
+        "FZJCXS"
+      ]
+    },
+    "by_method": {
+      "shot_1": {
+        "source_target_mismatch_rows": 384,
+        "v4_rows_l1": 8638,
+        "v4_rows_ssim_lpips": 362,
+        "v4_rows_dino": 362
+      },
+      "shot_2": {
+        "source_target_mismatch_rows": 384,
+        "v4_rows_l1": 8638,
+        "v4_rows_ssim_lpips": 362,
+        "v4_rows_dino": 362
+      },
+      "shot_4": {
+        "source_target_mismatch_rows": 384,
+        "v4_rows_l1": 8638,
+        "v4_rows_ssim_lpips": 362,
+        "v4_rows_dino": 362
+      },
+      "shot_8_alt": {
+        "source_target_mismatch_rows": 473,
+        "v4_rows_l1": 8638,
+        "v4_rows_ssim_lpips": 440,
+        "v4_rows_dino": 362
+      }
+    },
+    "v4_rows_with_target_dependent_rescore": 1526,
+    "v4_metric_rows_recomputed": {
+      "l1": 138208,
+      "ssim": 1526,
+      "lpips": 1526,
+      "dino_distance": 1448
+    },
+    "parity_validation": "See v4_metric_recompute_parity.json; source-vs-local scoring checks run on a target-matched shot sample.",
+    "l1_input_diff_gt_1e-6_all_methods": {
+      "K7-B": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "A1": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "A2": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "A3": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "fcagan": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "ftransgan": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "garfont": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "fontdiffuser_p2": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "shot_1": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 384,
+        "max_absdiff": 0.059500522911548615
+      },
+      "shot_2": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 384,
+        "max_absdiff": 0.020805664360523224
+      },
+      "shot_4": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 384,
+        "max_absdiff": 0.024295330047607422
+      },
+      "shot_8_alt": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 472,
+        "max_absdiff": 0.0671360082924366
+      },
+      "K7-B-CRP-top1": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "K7-B-CRP-uniform_topk": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "K7-B-delta-off": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      },
+      "K7-B-donor-random": {
+        "n": 9605,
+        "n_absdiff_gt_1e-6": 0,
+        "max_absdiff": 0.0
+      }
+    },
+    "v4_l1_input_diff_gt_1e-6_by_method": {
+      "K7-B": 0,
+      "A1": 0,
+      "A2": 0,
+      "A3": 0,
+      "fcagan": 0,
+      "ftransgan": 0,
+      "garfont": 0,
+      "fontdiffuser_p2": 0,
+      "shot_1": 362,
+      "shot_2": 362,
+      "shot_4": 362,
+      "shot_8_alt": 440,
+      "K7-B-CRP-top1": 0,
+      "K7-B-CRP-uniform_topk": 0,
+      "K7-B-delta-off": 0,
+      "K7-B-donor-random": 0
+    }
+  }
+}

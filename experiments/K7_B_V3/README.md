@@ -53,3 +53,7 @@ The original bytes of these two historical files were not found in the inspected
 4. Treat `ops/` as operational provenance, **not** a ready-to-run recipe. Obtain historical two-file source and external tensors before restarting or claiming exact reproduction.
 
 No script in this handoff launches training when merely imported or when the integrity audit is run.
+
+## FZ49 V4 evaluation
+
+The reviewed V4 FZ49 metrics, sample filter, target-alignment audit, per-sample tables, rankings, and provenance are in [`evaluation/FZ49_V4_20260925/`](evaluation/FZ49_V4_20260925/README.md). This is a metrics/provenance package only; prediction images and model/data assets remain external.
