@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>K7-B · V3 visual review</title>
+<style>
+:root{--paper:#f2f3f1;--ink:#202a30;--muted:#667278;--line:#d5dad7;--card:#fff;--accent:#b36d28;--accent-pale:#fbf1e5;--blue:#305465;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.45 var(--sans)}header{padding:26px clamp(18px,4vw,56px) 22px;background:#e7ebe8;border-bottom:1px solid var(--line)}.eyebrow{margin:0 0 9px;color:var(--blue);font:600 11px/1.2 var(--mono);letter-spacing:.13em;text-transform:uppercase}h1{margin:0;font-size:clamp(24px,3vw,38px);font-weight:650;letter-spacing:-.04em}header p{max-width:780px;margin:8px 0 0;color:#536067}.stats{display:flex;gap:26px;flex-wrap:wrap;margin-top:19px}.stat{display:flex;gap:8px;align-items:baseline}.stat b{font:600 18px/1 var(--mono);color:var(--blue)}.stat span{font-size:12px;color:var(--muted)}
+main{max-width:1700px;margin:auto;padding:22px clamp(14px,3vw,42px) 70px}.filters{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:repeat(5,minmax(120px,1fr)) auto;gap:10px;padding:12px;margin:0 0 16px;background:rgba(242,243,241,.96);border:1px solid var(--line);box-shadow:0 4px 14px #202a3010;backdrop-filter:blur(10px)}label.control{display:grid;gap:4px;color:var(--muted);font:600 10px/1.2 var(--mono);letter-spacing:.05em;text-transform:uppercase}input,select,button{font:inherit;color:var(--ink)}input,select{width:100%;height:36px;padding:0 9px;border:1px solid #cbd1ce;background:#fff;border-radius:2px;outline:none}input:focus,select:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.actions{display:flex;align-items:end;gap:7px}button{min-height:36px;padding:0 11px;border:1px solid #b7c0bc;background:white;border-radius:2px;cursor:pointer;font-weight:600}button:hover{border-color:var(--accent);color:#834b16}.primary{border-color:var(--accent);background:var(--accent);color:white}.primary:hover{background:#99591f;color:white}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 2px 13px;color:var(--muted);font-size:12px}.toolbar strong{color:var(--ink);font-family:var(--mono)}.pager{display:flex;align-items:center;gap:8px}.pager button{min-height:30px;padding:0 9px}.grid{display:grid;gap:10px}.sample{overflow:hidden;border:1px solid var(--line);background:var(--card)}.sample.selected{border-color:var(--accent);box-shadow:inset 3px 0 var(--accent);background:linear-gradient(90deg,var(--accent-pale),#fff 32px)}.sample-head{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid #e5e8e6}.sample-head input{width:16px;height:16px;accent-color:var(--accent)}.glyph{display:grid;place-items:center;min-width:31px;height:31px;background:#eff2f0;color:var(--blue);font-size:20px;font-family:"Noto Serif CJK SC","Songti SC",serif}.sample-title{min-width:0;flex:1}.sample-title strong{font-weight:650}.sample-title small{display:block;overflow:hidden;color:var(--muted);font:11px/1.45 var(--mono);text-overflow:ellipsis;white-space:nowrap}.domain{padding:3px 6px;border:1px solid var(--line);color:var(--muted);font:10px var(--mono);text-transform:uppercase}.models{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#e5e8e6}.model{min-width:0;padding:9px;background:white}.model-name{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;color:var(--blue);font:650 11px var(--mono)}.model-name a{color:var(--muted);text-decoration:none;font:10px var(--mono)}.model-name a:hover{color:var(--accent);text-decoration:underline}.preview{display:grid;place-items:center;min-height:150px;background:#f4f5f4;border:1px solid #ecefed}.preview img{display:block;width:min(100%,180px);height:auto;image-rendering:auto}.preview .missing{color:#9b433d;font-size:12px}.empty{padding:52px 16px;text-align:center;color:var(--muted);border:1px dashed #b8c1bd}.footer{display:flex;justify-content:center;gap:9px;align-items:center;padding:22px}.footer button{min-width:100px}.hint{color:var(--muted);font-size:11px}
+@media(max-width:900px){.filters{grid-template-columns:repeat(3,minmax(110px,1fr))}.actions{grid-column:span 3}.preview{min-height:110px}.preview img{width:min(100%,145px)}}@media(max-width:560px){header{padding:20px 16px}.filters{position:static;grid-template-columns:repeat(2,minmax(0,1fr))}.actions{grid-column:span 2;flex-wrap:wrap}.models{grid-template-columns:repeat(2,minmax(0,1fr))}.preview{min-height:130px}.toolbar{align-items:flex-start;flex-direction:column}.domain{display:none}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <p class="eyebrow">HRFont / V3 · visual review</p>
+  <h1>Same glyph. Four predictions.</h1>
+  <p>Filter the V3 validation or test set, then compare the four model outputs for the same font and character. Mark samples to export a shortlist.</p>
+  <div class="stats"><div class="stat"><b id="statSamples">—</b><span>target samples</span></div><div class="stat"><b>4</b><span>models per sample</span></div><div class="stat"><b id="statImages">—</b><span>prediction images</span></div></div>
+</header>
+<main>
+  <section class="filters" aria-label="Sample filters">
+    <label class="control">Split<select id="split"><option value="">VAL + TEST</option><option>VAL</option><option>TEST</option></select></label>
+    <label class="control">Batch<select id="batch"><option value="">0913 + 0917</option><option>0913</option><option>0917</option></select></label>
+    <label class="control">Script<select id="script"><option value="">All scripts</option></select></label>
+    <label class="control">Font<input id="font" type="search" placeholder="Search font name"></label>
+    <label class="control">Character / code point<input id="character" type="search" placeholder="Glyph or U+XXXX"></label>
+    <div class="actions"><button id="clear">Clear filters</button><button id="exportCsv" class="primary">Export CSV</button><button id="exportJson">Export JSON</button></div>
+  </section>
+  <div class="toolbar"><div><strong id="resultCount">—</strong> samples · <strong id="selectedCount">0</strong> selected <span class="hint">(selection is kept while filtering)</span></div><div class="pager"><button id="prev">← Previous</button><span id="pageLabel">—</span><button id="next">Next →</button></div></div>
+  <section id="grid" class="grid" aria-live="polite"></section>
+  <div class="footer"><button id="prevBottom">← Previous</button><span id="pageLabelBottom" class="hint">—</span><button id="nextBottom">Next →</button></div>
+</main>
+<script>
+const DATA = __SAMPLE_DATA__;
+const MODELS = ["K7-B","A1","A2","A3"];
+const PAGE_SIZE = 24;
+const STORAGE_KEY = "k7b-v3-visual-review-selection-20260926";
+const $ = id => document.getElementById(id);
+let page = 1;
+let selected = new Set();
+try { selected = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]")); } catch (_) {}
+
+const keyOf = r => [r.split,r.batch,r.font,r.codepoint].join("|");
+const esc = v => String(v ?? "").replace(/[&<>\"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const scripts = [...new Set(DATA.map(r => r.script).filter(Boolean))].sort();
+for (const s of scripts) { const o=document.createElement("option");o.value=s;o.textContent=s;$('script').append(o); }
+$('statSamples').textContent = DATA.length.toLocaleString();
+$('statImages').textContent = (DATA.length*4).toLocaleString();
+
+function filtered(){
+  const split=$('split').value,batch=$('batch').value,script=$('script').value;
+  const font=$('font').value.trim().toLowerCase(), query=$('character').value.trim().toLowerCase();
+  return DATA.filter(r => (!split||r.split===split)&&(!batch||r.batch===batch)&&(!script||r.script===script)&&(!font||r.font.toLowerCase().includes(font))&&(!query||r.character.toLowerCase().includes(query)||r.codepoint.toLowerCase().includes(query)||('u+'+r.codepoint.slice(1)).toLowerCase().includes(query)));
+}
+function saveSelection(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...selected]));}catch(_){} $('selectedCount').textContent=selected.size.toLocaleString();}
+function sampleCard(r){
+  const k=keyOf(r), chosen=selected.has(k);
+  const panels=MODELS.map(m=>`<article class="model"><div class="model-name"><span>${esc(m)}</span><a href="${esc(r.paths[m])}" target="_blank" rel="noopener">Open full size ↗</a></div><a class="preview" href="${esc(r.paths[m])}" target="_blank" rel="noopener" aria-label="Open ${esc(m)} full-size prediction"><img loading="lazy" src="${esc(r.paths[m])}" alt="${esc(m)} prediction for ${esc(r.font)} ${esc(r.character)}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'missing',textContent:'Image not found'}))"></a></article>`).join("");
+  return `<article class="sample${chosen?' selected':''}"><div class="sample-head"><input type="checkbox" data-key="${esc(k)}" aria-label="Select ${esc(r.font)} ${esc(r.character)}" ${chosen?'checked':''}><span class="glyph">${esc(r.character)}</span><div class="sample-title"><strong>${esc(r.font)}</strong><small>${esc(r.codepoint)} · ${esc(r.split)} / ${esc(r.batch)}</small></div><span class="domain">${esc(r.script||'—')}</span></div><div class="models">${panels}</div></article>`;
+}
+function render(){
+  const rows=filtered(), pages=Math.max(1,Math.ceil(rows.length/PAGE_SIZE));page=Math.min(page,pages);
+  const start=(page-1)*PAGE_SIZE, visible=rows.slice(start,start+PAGE_SIZE);
+  $('resultCount').textContent=rows.length.toLocaleString();$('pageLabel').textContent=`${page} / ${pages}`;$('pageLabelBottom').textContent=`Page ${page} of ${pages}`;
+  $('grid').innerHTML=visible.length?visible.map(sampleCard).join(""):'<div class="empty">No samples match these filters. Clear one or more filters to continue.</div>';
+  $('grid').querySelectorAll('input[type=checkbox]').forEach(box=>box.addEventListener('change',()=>{if(box.checked)selected.add(box.dataset.key);else selected.delete(box.dataset.key);saveSelection();box.closest('.sample').classList.toggle('selected',box.checked);}));
+  for(const id of ['prev','prevBottom'])$(id).disabled=page<=1;
+  for(const id of ['next','nextBottom'])$(id).disabled=page>=pages;
+}
+function move(delta){page=Math.max(1,page+delta);render();window.scrollTo({top:document.querySelector('.filters').offsetTop-10,behavior:'smooth'});}
+for(const id of ['split','batch','script'])$(id).addEventListener('change',()=>{page=1;render();});
+for(const id of ['font','character'])$(id).addEventListener('input',()=>{page=1;render();});
+for(const id of ['prev','prevBottom'])$(id).addEventListener('click',()=>move(-1));
+for(const id of ['next','nextBottom'])$(id).addEventListener('click',()=>move(1));
+$('clear').addEventListener('click',()=>{$('split').value='';$('batch').value='';$('script').value='';$('font').value='';$('character').value='';page=1;render();});
+function selectedRows(){const wanted=new Set(selected);return DATA.filter(r=>wanted.has(keyOf(r)));}
+function download(name,type,content){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function csvCell(v){return '"'+String(v??'').replace(/"/g,'""')+'"';}
+$('exportCsv').addEventListener('click',()=>{const rows=selectedRows(),cols=['split','batch','font','codepoint','character','script',...MODELS.map(m=>'image_'+m)];const lines=[cols.map(csvCell).join(','),...rows.map(r=>[r.split,r.batch,r.font,r.codepoint,r.character,r.script,...MODELS.map(m=>r.paths[m])].map(csvCell).join(','))];download('k7b-v3-selected-samples.csv','text/csv;charset=utf-8','\ufeff'+lines.join('\n'));});
+$('exportJson').addEventListener('click',()=>download('k7b-v3-selected-samples.json','application/json',JSON.stringify(selectedRows(),null,2)));
+saveSelection();render();
+</script>
+</body>
+</html>
