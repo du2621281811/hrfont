@@ -1,0 +1,21 @@
+{
+  "source_host": "sitonholy",
+  "source_root": "/root/projects/hrfont_k7_v3_20260922",
+  "observed_date": "2026-09-26",
+  "method_reference_sha256": "adab5377e56a2ef145b0a7733e89be17a534705e90148095b776e693b79bc6b4",
+  "base_identity_manifest": "experiments/K7_B_V3/source/K7_CODE_IDENTITY.json",
+  "overrides": [
+    {
+      "path": "experiments/K6/implementation/r3/scripts/k5_runtime.py",
+      "file": "experiments/K7_B_V3/source_overlays/sitonholy_method_20260926/experiments/K6/implementation/r3/scripts/k5_runtime.py",
+      "sha256": "5814b485022cb1c3a488ddbaaa9e18064cd97ca8e947271972f94f62afb2c3f6",
+      "base_snapshot_sha256": "bf283144e97da1f3a42895935752504c51450d1fef385e03a6a486b1c6abd9df",
+      "frozen_32k_config_sha256": "ef268d67e7e420209beee63178ccefd2ce345baf16a7f901fc9b1cf07fc6968a",
+      "delta": [
+        "Use process-specific temporary filenames when writing rank-sharded cache files.",
+        "Allow evaluation split and per-font reference selection for cache preparation."
+      ]
+    }
+  ],
+  "provenance_note": "Current Method-aligned source view; not an exact recovery of all frozen 32k training-time source bytes."
+}

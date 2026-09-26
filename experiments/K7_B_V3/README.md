@@ -1,6 +1,6 @@
 # K7-B V3: collaborator handoff / 协作交接
 
-This is a **source-and-provenance snapshot**, copied from the V100 K7-B working tree on 2026-09-25. It is not a checkpoint release or a claim that a fresh machine can reproduce the training run bit-for-bit. Start with `python3 experiments/K7_B_V3/verify_package.py`; it is read-only and needs no GPU.
+This is a **source-and-provenance snapshot**, copied from the V100 K7-B working tree and checked through SSH host alias `sitonholy`. It is not a checkpoint release or a claim that a fresh machine can reproduce the training run bit-for-bit. Start with `python3 experiments/K7_B_V3/verify_package.py`; it is read-only and needs no GPU.
 
 ## What is here
 
@@ -18,7 +18,9 @@ The snapshot does **not** include image datasets, encoder/model weights, feature
 
 ## Architecture and training path
 
-The model inherits FontDiffuser's U-Net, Ec/Es conditioning, and MCA-style encoder/middle fusion. K7-B's additional paths are **TC/local appearance memory** and **CRP/structural candidate routing**; do not label inherited MCA as a K7-B invention. The authoritative implementations are `source/experiments/K6/implementation/r3/scripts/hrfont_i.py` (`LocalMemory`, `SetOffset`, `IModel`), `k5_runtime.py` (base dual-encoder construction), `k_components.py` (extra losses and detail distances), `train_k6.py` (training orchestration), and `k4_runtime.py` (dataset/bank selection).
+For the current paper Method, see [`METHOD_IMPLEMENTATION_MAP_20260926.md`](METHOD_IMPLEMENTATION_MAP_20260926.md). It traces the executable K7-B composition rather than treating a single similarly named module as the whole method. A one-file overlay records the current `k5_runtime.py` from `sitonholy`; the original 438-file snapshot remains unchanged.
+
+The model inherits FontDiffuser's U-Net, Ec/Es conditioning, and MCA-style encoder/middle fusion. K7-B's additional paths are **TC/local appearance memory** and **CRP/structural candidate routing**; do not label inherited MCA as a K7-B invention. The canonical imported implementations are `source/scripts/hrfont_i.py` (`LocalMemory`, `SetOffset`, `IModel`), `source/scripts/hrfont_k.py` (`KModel` and RMS-calibrated local attention), `source/experiments/K6/implementation/r3/scripts/k5_runtime.py` (`DualOffset`/K5-B), `k_components.py` (extra losses and detail distances), `train_k6.py` (training orchestration), and `k4_runtime.py` (candidate selection/data conditions). The current `sitonholy` K5 runtime is preserved as the one-file overlay linked above.
 
 TC: shallow and deeper reference-encoder maps produce 24²+12² = 720 tokens **per valid reference image**. The frozen target-content feature supplies a 12×12 query, augmented with 144 learned position slots. Four-head attention reads all valid reference tokens into 144 local 256-D vectors; an MLP residual refines them. Separate linear projections yield `T` (144×1024 local U-Net cross-attention tokens) and `M` (144×128 appearance readout). Right/up-block cross-attention adds a gated local-attention output to the inherited global-style attention output (numeric sum, not concatenation). `M` is supervised by detached, normalized, 12×12 pooled second-block VGG16 features of the target glyph. These 128 dimensions come from that VGG feature stage, not the U-Net.
 
